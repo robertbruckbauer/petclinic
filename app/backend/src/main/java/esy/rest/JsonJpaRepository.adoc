@@ -1,0 +1,52 @@
+:projectDir: ../../../../../../..
+:imagesDir: images
+:icons: font
+:term: JsonJpaRepository
+= {term}
+
+Eine {term}-Klasse kapselt den Zugriff auf die Datenbank mit JPA.
+Die Operationen für das Repository werden durch Spring Data JPA dynamisch erzeugt.
+
+== Eigenschaften
+
+Keine
+
+== Operationen
+
+=== findAll
+
+[source,java,options="nowrap"]
+----
+Iterable<T> findAll();
+Iterable<T> findAll(Sort sort);
+Page<T> findAll(Pageable pageable);
+----
+
+Die Operation liefert eine Liste von Datensätzen.
+
+=== findById
+
+[source,java,options="nowrap"]
+----
+Optional<T> findById(UUID id);
+----
+
+Die Operation liefert genau einen Datensatz zur angegebenen `UUID` oder nichts.
+
+=== save
+
+[source,java,options="nowrap"]
+----
+<S extends T> S save(S entity);
+----
+
+Die Operation speichert einen Datensatz.
+
+=== delete
+
+[source,java,options="nowrap"]
+----
+void delete(T entity);
+----
+
+Die Operation löscht einen Datensatz.

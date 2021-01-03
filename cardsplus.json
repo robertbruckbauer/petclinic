@@ -1,31 +1,44 @@
 {
     "wiki" : {
         "serverURI": "https://cardsplus.atlassian.net/wiki/rest/api",
-        "domain": "bootscs",
-        "space": "BOOTSCS"
+        "domain": "petclinic",
+        "space": "PETCLINIC"
     },
     "allLink": {
         ".*": "HEAD"
     },
     "allAdocElement": [
         {
-            "filename": "doc/service.adoc",
+            "filename": "doc/EsySpec.adoc",
+            "style": "spec"
+        },
+        {
+            "filename": "glob:doc/Esy*Api.adoc",
+            "style": "service",
             "leveloffset": 1
         }
     ],
     "allJavaElement": [
         {
             "module": "app/backend-api",
-            "directory": "src/main/java/esy/api",
-            "style": "entity"
+            "directory": "src/main/java",
+            "allFilename" : [{
+                "style": "entity"
+            }]
         },
         {
             "module": "app/backend",
-            "directory": "src/main/java/esy/app",
-            "style": "tagged"
+            "directory": "src/main/java",
+            "allFilename" : [{
+                "style": "tagged"
+            }]
         }
     ],
     "allPageStyler": [
+        {
+            "name": "spec",
+            "titleStrategy": "TITLE"
+        },
         {
             "name": "service",
             "titleStrategy": "SCOPE",
@@ -33,12 +46,12 @@
         },   
         {
             "name": "entity",
-            "titleStrategy": "SCOPE",
+            "titleStrategy": "PATH",
             "script": "@cards/entity.ctml"
         },
         {
             "name": "tagged",
-            "titleStrategy": "SCOPE",
+            "titleStrategy": "PATH",
             "script": "@cards/tagged.ctml"
         } 
     ]

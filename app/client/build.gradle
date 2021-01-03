@@ -1,0 +1,58 @@
+plugins {
+    id 'base'
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+ext.NPM = Os.isFamily(Os.FAMILY_WINDOWS) ? "npm.cmd" : "npm";
+
+task npmInstall {
+    doLast {
+        exec {
+            commandLine NPM, 'install'
+        }
+    }
+}
+
+task npmUpgrade {
+    doLast {
+        exec {
+            commandLine NPM, 'upgrade'
+        }
+    }
+}
+
+task npmBuild {
+    build.dependsOn it
+    doLast {
+        exec {
+            commandLine NPM, 'install'
+        }
+        exec {
+            commandLine NPM, 'run', 'test'
+        }
+        exec {
+            commandLine NPM, 'run', 'build'
+        }
+    }
+}
+
+task dockerRun {
+    doLast {
+        def IMAGE = rootProject.name + '/' + project.name;
+        exec {
+            executable 'docker'
+            args 'build', '.', '-t', IMAGE
+        }
+        exec {
+            executable 'docker'
+            args 'run', '-d', '--rm', '-p', '5000:5000', IMAGE
+        }
+    }
+}
+
+task versionCheck() {
+    build.dependsOn it
+    assert new File("${projectDir}/package.json")
+        .text
+        .contains('"version": "' + VERSION + '"')
+}

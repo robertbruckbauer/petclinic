@@ -1,0 +1,29 @@
+:projectDir: ../../../../../../..
+:icons: font
+:term: JsonMapper
+= {term}
+
+Die {term}-Klasse ist die zentrale Stelle für die Konfiguration von Jackson für die Verwendung zum Lesen und Schreiben von JSON-Strukturen.
+
+[source,java,options="nowrap"]
+----
+include::JsonMapper.java[tags=configure,indent=0]
+----
+<1> Das `Jdk8Module` sorgt dafür, dass Datentypen wie `Optional` korrekt serialisiert werden.
+
+<2> Das `Jdk8Module` sorgt dafür, dass temporale Datentypen wie `LocalDate` korrekt serialisiert werden.
+
+<3> Mit dem Wert `false` wird sichergestellt, dass bei PATCH-Operationen die Liste aus der JSON-Struktur mit der Liste aus der Datenbank zusammengeführt wird.
+Das Verhalten bei Listen ist dadurch konsistent mit dem Verhalten bei Werten.
+Siehe auch Annotation `@JsonMerge`.
+
+<4> Mit dem Wert `true` werden temporale Datentypen mit Zeitzone serialisiert.
+
+<5> Mit dem Wert `false` werden temporale Datentypen mit einem formatierten Text serialisiert.
+
+<6> Mit dem Wert `false` wird die Serialisierung robust gemacht.
+Unbekannte Eigenschaften werden ignoriert.
+
+Die Methode initialisiert Jackson.
+Sie wird in der EndpointConfiguration-Klasse verwendet, um das Verhalten im Spring-Framework einheitlich zu definieren.
+Sie wird in JsonJpaValue-, JsonJpaPart- und JsonJpaRef-Klassen für die Implementierung der Operationen `parseJson` und `writeJson` verwendet.

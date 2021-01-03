@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management'
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation project(':app:backend')
+    // https://spring.io/projects/spring-data
+    runtimeOnly('org.hsqldb:hsqldb')
+}
+dependencies {
+    // https://projectlombok.org
+    compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+}
+dependencies {
+    // https://projectlombok.org
+    testImplementation('org.projectlombok:lombok')
+    // https://spring.io/projects/spring-boot
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    // https://junit.org/junit5
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    // https://site.mockito.org/
+    testImplementation('org.mockito:mockito-junit-jupiter')
+}
+
+processResources {
+    with copySpec {
+        from("${rootDir}")
+        include 'VERSION'
+    }
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
+    manifest {
+        attributes 'Specification-Title': project.name
+        attributes 'Specification-Version': VERSION
+        attributes 'Implementation-Title': project.name
+        attributes 'Implementation-Version': project.version
+    }
+}
+
+bootBuildImage {
+    enabled = false
+}
+
+task dockerRun {
+    doLast {
+        def IMAGE = rootProject.name + '/' + project.name;
+        exec {
+            executable 'docker'
+            args 'build', '.', '-t', IMAGE
+        }
+        exec {
+            executable 'docker'
+            args 'run', '-d', '--rm', '-p', '8080:8080', IMAGE
+        }
+    }
+}
+
+task versionCheck() {
+    build.dependsOn it
+}

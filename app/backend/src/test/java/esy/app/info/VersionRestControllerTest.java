@@ -82,7 +82,7 @@ class VersionRestControllerTest {
                 .andExpect(content()
                         .contentType("text/asciidoc;charset=UTF-8"))
                 .andExpect(content()
-                        .string(equalTo("= Version\n\n2.1\n")));
+                        .string(equalTo("2.1\n")));
     }
 
     @Test

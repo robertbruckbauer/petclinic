@@ -1,0 +1,78 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+h1,
+.h1 {
+  @apply text-5xl font-light;
+  letter-spacing: -1.5px;
+}
+
+h2,
+.h2 {
+  @apply text-4xl font-light;
+  letter-spacing: -0.5px;
+}
+
+h3,
+.h3 {
+  @apply text-3xl font-normal;
+  letter-spacing: 0px;
+}
+
+h4,
+.h4 {
+  @apply text-2xl font-normal;
+  letter-spacing: 0.25px;
+}
+
+h5,
+.h5 {
+  @apply text-xl font-normal;
+  letter-spacing: 0px;
+}
+
+h6,
+.h6 {
+  @apply text-base font-medium;
+  letter-spacing: 0.15px;
+}
+
+hr {
+  @apply border-t border-gray-400 border-solid;
+}
+
+.a {
+  @apply underline text-blue-600;
+}
+
+button:focus {
+  outline: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input::placeholder { 
+  text-align: left;
+}
+
+input[type=number] {
+  text-align: right;
+}
+
+/* no spinner for numeric input */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+textarea:focus {
+  outline: none;
+}

@@ -1,0 +1,48 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="robert">
+        <comment>Visit</comment>
+        <createTable tableName="visit">
+            <column name="version" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="pet_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+            <column name="vet_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                constraintName="uk_visit"
+                tableName="visit"
+                columnNames="date,pet_id"
+        />
+        <addForeignKeyConstraint
+                constraintName="fk_visit_pet_id"
+                baseTableName="visit"
+                baseColumnNames="pet_id"
+                referencedTableName="pet"
+                referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint
+                constraintName="fk_visit_vet_id"
+                baseTableName="visit"
+                baseColumnNames="vet_id"
+                referencedTableName="vet"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>

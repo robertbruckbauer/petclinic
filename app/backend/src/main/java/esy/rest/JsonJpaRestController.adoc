@@ -1,0 +1,252 @@
+:projectDir: ../../../../../../..
+:imagesDir: images
+:icons: font
+:term: JsonJpaRestController
+= {term}
+
+Eine {term}-Klasse realisiert die Logik für die REST-Schnittstelle.
+Die Operationen für die REST-Schnittstellen werden durch Spring Data REST dynamisch erzeugt.
+Zum Lesen und Schreiben von Daten werden die von Spring Data JPA erzeugen Repositorys verwenden.
+Der Umfang des REST-API für eine Resource wird allein durch ein Repository bestimmt.
+
+Eine _Collection Resource_ repräsentierte eine Liste von Elementen.
+Sie wird mit `GET` abgefragt.
+Mit `POST` wird eine neue _Item Resource_ erstellt.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#repository-resources.collection-resource[Spring Data REST Reference Guide]
+im Abschnitt _Collection Resource_ für mehr Informationen.
+
+Eine _Item Resource_ repräsentiert genau ein Element.
+Sie wird mit `GET` abgefragt.
+Mit `PUT` und `PATCH` kann eine _Item Resource_ geändert werden.
+Mit `DELETE` wird eine _Item Resource_ gelöscht.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#repository-resources.item-resource[Spring Data REST Reference Guide]
+im Abschnitt _Item Resource_ für mehr Informationen.
+
+Eine _Association Resource_ repräsentiert eine Beziehung zu einer anderen _Item Resource_.
+Sie wird mit `GET` abgefragt.
+Mit `PUT` wird eine neue _Item Resource_ hinzugefügt.
+Mit `DELETE` wird eine bestehende _Item Resource_ entfernt.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#repository-resources.association-resource[Spring Data REST Reference Guide]
+im Abschnitt _Association Resource_ für mehr Informationen.
+
+Eine _Search Resource_ gibt alle Abfragemethoden zurück, die von einem Repository bereitgestellt werden. 
+Sie kann nur mit `GET` abgefragt werden.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#repository-resources.search-resource[Spring Data REST Reference Guide]
+im Abschnitt _Search Resource_ für mehr Informationen.
+
+Eine _Query Method Resource_ führt eine Abfragemethode aus.
+Sie kann nur mit `GET` abgefragt werden.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#repository-resources.query-method-resource[Spring Data REST Reference Guide]
+im Abschnitt _Query Method Resource_ für mehr Informationen.
+
+Versionierung ist ein Mechanismus, um die Integrität der Daten in der Datenbank sicherzustellen.
+Die Version aus dem JPA-Datenmodell wird in einen ETag-Header übersetzt.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#conditional.etag[Spring Data REST Reference Guide]
+im Abschnitt _Headers_ für mehr Informationen.
+
+_Paging_ ist ein Mechanismus, der eine große Collection-Ressource in Teilen (engl. pages) zurückgibt.
+Die einzelnen Teilmengen werden navigierbar miteinander verknüpft.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#paging-and-sorting[Spring Data REST Reference Guide]
+im Abschnitt _Paging_ für mehr Informationen.
+
+_Sorting_ bedeutet, dass die Reihenfolge innerhalb einer Collection-Ressource durch ein bestimmtes Ordnungskriterium bestimmt wird.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#paging-and-sorting[Spring Data REST Reference Guide]
+im Abschnitt _Sorting_ für mehr Informationen.
+
+Mit einer _Projection_ kann eine Ansicht (engl. view) auf eine Ressource gelegt werden.
+Ein _Excerpt_ ist eine _Projection_, die automatisch auf eine _Collection Resource_ angewendet wird.
+
+TIP: Siehe
+https://docs.spring.io/spring-data/rest/docs/current/reference/html/#projections-excerpts[Spring Data REST Reference Guide]
+im Abschnitt _Projections_ für mehr Informationen.
+
+Alle schreibenden Operationen laufen in einer Transaktion ab.
+Flexiblen Callback-Methoden validieren und vervollständigen eingehende Datensätzen.
+Sie schränken den Wertebereich von Attributen ein.
+Sie prüfen Abhängigkeiten von Attributen innerhalb des Datensatzes oder mit Datensätzen in anderen Tabellen.
+Mit einer Exception kann ein Speichervorgang abgebrochen werden.
+Ziel ist es, Datensätze nicht zu speichern, die durch falsche Eingaben des Nutzers oder durch fehlerhafte Programmierung im Client die Integrität der Daten gefährden. 
+
+== Eigenschaften
+
+=== eventPublisher
+
+Die Singleton-Instanz eines `ApplicationEventPublisher` wird dazu verwendet, alle Veränderungen in der Datenbank als Nachricht für andere Komponenten in diesem Server-Prozess bereitzustellen.
+
+=== transactionTemplate
+
+Die Instanz eines `TransactionTemplate` wird dazu verwendet, die eingehenden Daten zu validieren, sie ggfs. zu vervollständigen oder sie zu ergänzen, bevor sie in die Datenbank geschrieben werden.
+
+== Operationen
+
+=== beforeCreateTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=beforeCreateTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *vor* dem Speichern eines neuen Datensatzes ausgeführt.
+Die Methode kann den eingehenden Datensatz verändern.
+
+.Beispiel aus ProjektRestController
+[source,java,options="nowrap"]
+----
+protected Optional<TransactionCallback<Void>> beforeCreateTransaction(@NonNull final V value) {
+    return Optional.of(status -> { <1>
+        final ProjektSeq seq = projektSeqRepository.save(ProjektSeq.fromProjekt(value));
+        value.setCode(seq.getSeqId()); <2>
+        return null; <3>
+    });
+}
+----
+<1> Hier wird eine Callback-Methode als Funktion definiert.
+
+<2> Hier wird ein zuvor erzeugter eindeutiger Code im Datensatz gespeichert.
+
+<3> Hier wird *immer* `null` zurückgegeben.
+Die Callback-Methode erwartet nämlich ein `Void`.
+
+=== afterCreateTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=afterCreateTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *nach* dem Speichern eines neuen Datensatzes ausgeführt.
+
+=== beforeSaveTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=beforeSaveTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *vor* dem Speichern eines bereits existierenden Datensatzes ausgeführt.
+Die Methode kann den eingehenden Datensatz verändern.
+
+.Beispiel aus ProjektRestController
+[source,java,options="nowrap"]
+----
+protected Optional<TransactionCallback<Void>> beforeSaveTransaction(@NonNull final Projekt value) {
+    return Optional.of(status -> {
+        projektSeqRepository.findByRefId(value.getId())
+                .filter(seq -> seq.getSeqId().equals(value.getCode())) <1>
+                .orElseThrow(() -> new IllegalArgumentException("code invalid")); <2>
+        return null; <3>
+    });
+}
+----
+<1> Hier wird geprüft, ob der Code aus dem Datensatz in einer zweiten Tabelle existiert.
+
+<2> Hier wird das Speichern mit einer `IllegalArgumentException` abgebrochen, weil der Code nicht existiert.
+Damit wird die Integrität der Daten abgesichert.
+
+<3> Hier wird *immer* `null` zurückgegeben.
+Die Callback-Methode erwartet nämlich ein `Void`.
+
+=== afterSaveTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=afterSaveTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *nach* dem Speichern eines bereits existierenden Datensatzes ausgeführt.
+
+=== beforeDeleteTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=beforeDeleteTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *vor* dem Löschen eines Datensatzes ausgeführt.
+
+=== afterDeleteTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=afterDeleteTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *nach* dem Löschen Datensatzes ausgeführt.
+
+=== beforeLinkSaveTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=beforeLinkSaveTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *vor* dem Speichern einer Relation in diesem Datensatz ausgeführt.
+Die Methode kann den eingehenden Datensatz verändern.
+
+=== afterLinkSaveTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=afterLinkSaveTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *nach* dem Speichern einer Relation in diesem Datensatz ausgeführt.
+
+=== beforeLinkDeleteTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=beforeLinkDeleteTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *vor* dem Löschen einer Relation in diesem Datensatz ausgeführt.
+
+.Beispiel aus ProjektRestController
+[source,java,options="nowrap"]
+----
+protected Optional<TransactionCallback<Void>> beforeLinkDeleteTransaction(final Projekt value, final Object rel) {
+    if (value.getBesitzer() == null) { <1>
+        throw new DataIntegrityViolationException("besitzer is null");
+    }
+    return Optional.empty(); <2>
+}
+----
+<1> Hier wird das Löschen mit einer `IllegalArgumentException` abgebrochen, wenn das Projekt noch einen Besitzer hat.
+Damit wird die Integrität der Daten abgesichert.
+
+<2> Keine Callback-Methode.
+
+=== afterLinkDeleteTransaction
+
+[source,java,options="nowrap"]
+----
+include::JsonJpaRestControllerBase.java[tags=afterLinkDeleteTransaction, indent=0]
+----
+
+Die Operation gibt in einer konkreten Implementierung eine Callback-Methode für ein `TransactionTemplate` zurück.
+Die Callback-Methode wird *nach* dem Löschen einer Relation in diesem Datensatz ausgeführt.

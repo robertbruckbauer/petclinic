@@ -1,1 +1,191 @@
-= BOOTSCS
+:icons: font
+:experimental: true
+= Self-Contained System mit Spring-Boot und Svelte-UI
+
+== Projekte
+
+=== app/backend-api
+
+Datenmodell für das Backend.
+
+https://projectlombok.org/
+
+https://github.com/FasterXML/jackson-docs
+
+=== app/backend
+
+REST-API für das Backend.
+
+https://spring.io/projects/spring-framework
+
+https://spring.io/projects/spring-restdocs
+
+https://spring.io/projects/spring-data-jpa
+
+https://spring.io/projects/spring-data-rest
+
+https://docs.liquibase.com/home.html
+
+=== app/server
+
+Spring-Boot-Server der Anwendung mit einer HSQL-Datenbank.
+
+https://spring.io/projects/spring-boot
+
+http://hsqldb.org
+
+=== app/client
+
+Svelte-Client der Anwendung.
+
+https://svelte.dev
+
+https://tailwindcss.com
+
+https://visionmedia.github.io/page.js
+
+https://vitejs.dev
+
+=== app/deploy
+
+Deployment der Anwendung in einem Kubernetes-Cluster.
+
+https://kubernetes.io
+
+https://docs.docker.com/desktop/kubernetes
+
+https://github.com/kubernetes/kubectl
+
+https://github.com/kubernetes/ingress-nginx
+
+https://github.com/kubernetes/dashboard
+
+https://helm.sh
+
+== Häufig gestellte Fragen
+
+[[_f1]]
+=== Code bauen und testen
+
+[source, gradle]
+----
+./gradlew clean build
+----
+
+[[_f2]]
+=== Code formatieren
+
+[source, gradle]
+----
+./gradlew spotlessApply
+----
+
+[[_f3]]
+=== Spring-Boot-Server lokal starten
+
+[source, gradle]
+----
+./gradlew app:server:bootRun
+----
+
+Der Befehl startet den Server als Java-Anwendung.
+Die Anwendung wird im Browser mit `localhost:8080` aufgerufen.
+
+Mit der Umgebungsvariable `LOGGING_LEVEL_ORG_HIBERNATE_TYPE` kann die Ausgabe von Typinformationen gesteuert werden.
+Mit dem Wert `TRACE` werden bspw. die aktuellen Parameter von Statements ausgegeben.
+
+Mit der Umgebungsvariable `LOGGING_LEVEL_ORG_HIBERNATE_STAT` kann die Ausgabe von Statistiken gesteuert werden.
+Mit dem Wert `DEBUG` werden bspw. die Kennzahlen von Statements ausgegeben.
+
+[source, gradle]
+----
+./gradlew app:server:dockerRun
+----
+
+Der Befehl startet den Server als Docker-Container.
+Die Anwendung wird im Browser mit `localhost:8080` aufgerufen.
+
+[[_f5]]
+=== Svelte-Client lokal starten
+
+[source, npm]
+----
+npm run dev
+----
+
+Der Befehl startet den Client als Node-Anwendung.
+Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
+
+[source, gradle]
+----
+./gradlew app:client:dockerRun
+----
+
+Der Befehl startet den Client als Docker-Container.
+Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
+
+[[_f6]]
+=== Dokumentation lokal bauen
+
+[source, gradle]
+----
+./gradlew asciidoctor
+----
+
+Die Dokumentation befindet sich im `pages`-Ordner.
+
+=== Kubernetes-Cluster lokal einrichten
+
+Docker-Desktop richtet auf `localhost` einen Kubernetes-Cluster ein.
+
+=== Kubernetes-Ingress lokal einrichten
+
+[source, gradle]
+----
+./gradlew deployIngress
+----
+
+Der Ingress-Service wird installiert und gestartet.
+
+=== Kubernetes-Dashboard lokal einrichten
+
+[source, gradle]
+----
+./gradlew deployDashboard
+----
+
+Das Dashboard wird installiert und gestartet.
+Beim ersten Aufruf muss ein Token eingegeben werden.
+Das Token ist zeitlich befristet.
+Ein gültiges Token wird mit mit dem Aufruf von
+
+[source, gradle]
+----
+./gradlew createDashboardToken
+----
+
+erstellt.
+
+[source, kubectl]
+----
+kubectl proxy
+----
+
+Der Befehl startet den Proxy auf dem lokalen Host.
+Das Dashboard wird im Browser mit der zuvor angezeigte URL aufgerufen.
+
+=== Kubernetes-Deployment lokal ausführen
+
+[source, kubectl]
+----
+./gradlew deploy
+----
+
+Die Anwendung wird im Browser mit `localhost` aufgerufen.
+
+=== Kubernetes-Deployment lokal entfernen
+
+[source, kubectl]
+----
+./gradlew undeploy
+----

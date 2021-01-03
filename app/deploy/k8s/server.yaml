@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: petclinic/server
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kube
+          ports:
+            - containerPort: 8080
+              name: http-port
+          resources:
+            requests:
+              cpu: 100m
+              memory: 655Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          readinessProbe:
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            failureThreshold: 10
+            httpGet:
+              port: http-port
+              path: /actuator/health/readiness
+          livenessProbe:
+            initialDelaySeconds: 120
+            httpGet:
+              port: http-port
+              path: /actuator/health/liveness
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    component: server
+  ports:
+    - port: 8080
+      name: http-port
+      targetPort: http-port

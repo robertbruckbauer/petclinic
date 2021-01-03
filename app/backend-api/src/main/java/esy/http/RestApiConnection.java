@@ -6,10 +6,13 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -64,13 +67,32 @@ public class RestApiConnection {
         }
     }
 
+    public RestApiResult post(@NonNull final String requestJson) throws IOException {
+        return doWithJson("POST", requestJson);
+    }
 
     public RestApiResult put(@NonNull final String requestJson) throws IOException {
         return doWithJson("PUT", requestJson);
     }
 
-    public RestApiResult post(@NonNull final String requestJson) throws IOException {
-        return doWithJson("POST", requestJson);
+    public RestApiResult put(@NonNull final URI... allUri) throws IOException {
+        try {
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "text/uri-list");
+            connection.setConnectTimeout(1000);
+            connection.setDoOutput(true);
+            try (final OutputStream os = connection.getOutputStream()) {
+                final byte[] pathBytes = Stream.of(allUri)
+                        .map(URI::getPath)
+                        .collect(Collectors.joining("\n"))
+                        .getBytes(UTF_8);
+                os.write(pathBytes, 0, pathBytes.length);
+            }
+            connection.connect();
+            return new RestApiResult(connection);
+        } finally {
+            connection.disconnect();
+        }
     }
 
     public RestApiResult delete() throws IOException {

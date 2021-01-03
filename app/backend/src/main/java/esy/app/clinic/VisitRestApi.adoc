@@ -1,0 +1,190 @@
+:restdocDir: ../../../../../../build/generated-snippets
+= Visit-API
+
+REST-API für die Verwaltung von _Visit_-Objekten.
+
+== `POST /api/visit`
+
+Die Operation speichert ein neues _Visit_-Objekt.
+
+****
+
+.CURL
+include::{restdocDir}/post-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/post-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocDir}/post-api-visit/response-body.adoc[]
+
+****
+
+Die Operation meldet `Created` bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn die Daten bereits existieren, nicht vollständig oder gültig sind.
+
+== `PUT /api/visit/{id}`
+
+Die Operation aktualisiert ein existierendes _Visit_-Objekt oder erzeugt ein Neues.
+
+****
+
+.CURL
+include::{restdocDir}/put-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/put-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocDir}/put-api-visit/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.
+
+Die Operation meldet `Created` bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.
+
+== `PATCH /api/visit/{id}`
+
+Die Operation aktualisiert ein existierendes _Visit_-Objekt.
+
+****
+
+.CURL
+include::{restdocDir}/patch-api-visit-date/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/patch-api-visit-date/http-request.adoc[]
+
+.Response
+include::{restdocDir}/patch-api-visit-date/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.
+
+== `GET /api/visit`
+
+Die Operation gibt alle gespeicherten _Visit_-Objekte zurück.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-visit/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+== `GET /api/visit/search/findAllByOwner`
+
+Die Operation gibt alle gespeicherten _Visit_-Objekte zurück.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-visit-by-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-visit-by-owner/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-visit-by-owner/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+== `GET /api/visit/search/findAllByPet`
+
+Die Operation gibt alle gespeicherten _Visit_-Objekte zurück.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-visit-by-pet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-visit-by-pet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-visit-by-pet/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+== `GET /api/visit/search/findAllByVet`
+
+Die Operation gibt alle gespeicherten _Visit_-Objekte zurück.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-visit-by-vet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-visit-by-vet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-visit-by-vet/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+== `GET /api/visit/{id}`
+
+Die Operation zeigt ein gespeichertes _Visit_-Objekt an.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-visit-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-visit-by-id/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-visit-by-id/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+Die Operation meldet `Not found` bzw. den Code 404, wenn die Daten nicht existieren.
+
+== `DELETE /api/visit/{id}`
+
+Die Operation löscht ein gespeichertes _Visit_-Objekt.
+
+****
+
+.CURL
+include::{restdocDir}/delete-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/delete-api-visit/http-request.adoc[]
+
+****
+
+Die Operation meldet `No Content` bzw. den Code 204, wenn die Daten gelöscht wurden.
+
+Die Operation meldet `Not found` bzw. den Code 404, wenn die Daten nicht existieren.

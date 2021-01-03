@@ -1,0 +1,81 @@
+:projectDir: ..
+:backendApi: {projectDir}/app/backend-api/src/main/java
+:backendDir: {projectDir}/app/backend/src/main/java
+:icons: font
+= EsySpec
+
+== Datenmodell
+
+=== Grundlagen
+
+Datenmodellierung spielt eine wichtige Rolle.
+Sie ist Grundlage für die REST-Schnittstelle.
+Sie bestimmt ganz maßgeblich die Qualität und Robustheit der Schnittstelle.
+Es ist daher essenziell für den Erfolg, dass das Domänenmodell sehr gut getestet ist.
+_Domain Driven Design_ (im folgenden kurz mit DDD bezeichnet) ist das Konzept, mit dem das Domänenmodell entwickelt wird.
+Es ist Ausdruck der gemeinsamen Sprache in dieser Domäne.
+
+NOTE: Siehe
+https://thedomaindrivendesign.io/developing-the-ubiquitous-language
+für mehr Informationen über die gemeinsame Sprache.
+
+Durch das stra­tegische Design ent­wickelt sich ein tief­grei­fen­des Ver­ständ­nis der Kon­text­gren­zen (engl. boun­ded con­text) im Pro­dukt.
+Jede Domäne mani­fes­tiert sich in der Struk­tur der Soft­ware.
+Die gra­fische Visu­ali­sierung deckt kri­tische Pfade oder un­beab­sich­tigte Rück­kopplun­gen auf.
+Zu kom­plexe Ab­hängig­keiten wer­den dadurch sicht­bar.
+
+NOTE: Siehe
+https://thedomaindrivendesign.io/what-is-strategic-design
+für mehr Informationen über strategisches Design.
+
+Inner­halb der Kon­text­gren­zen ent­ste­hen im tak­tischen Design und durch die Reali­sierung Schritt für Schritt weitere Ele­mente des DDD:
+Value, Entity, Aggregate, Event, Service, Repository oder Module. 
+Damit ergibt sich die Möglich­keit der Ver­knüpfung der Ele­mente des DDD unter­einan­der und mit den Fach­begriffen aus dem Glos­sar.
+
+NOTE: Siehe
+https://thedomaindrivendesign.io/what-is-tactical-design
+für mehr Informationen über taktisches Design.
+
+=== Implementierung
+
+include::{backendApi}/esy/json/JsonMapper.adoc[leveloffset=+2]
+
+== Server
+
+=== Grundlagen
+
+_Self Contained Systems_ (im Folgenden kurz SCS) ist ein Architektur- und Organisationskonzept.
+Es passt sehr gut zur Datenmodellierung mit _Domain Driven Design_ (im Folgenden kurz DDD).
+
+TIP: Siehe
+https://scs-architecture.org
+für mehr Informationen.
+
+Die Datenhaltung in einem SCS wird durch eine Datenbank realisiert werden.
+Diese Datenbank wird ausschließlich von dem SCS genutzt.
+Es gibt keinen Zugriff von anderen Systemen auf diese Datenbank.
+
+Die Datenverarbeitung in einem SCS ist Aufgabe eines Spring-Boot-Servers.
+Der Server liest Daten über Schnittstellen ein, verarbeitet sie und stellt sie an einer internen REST-Schnittstelle für die Präsentation im Client zur Verfügung.
+Die Daten, für die das SCS die Hoheit besitzt, werden an einer externen Schnittstelle für andere SCS bereitgestellt.
+
+=== Implementierung
+
+include::{backendDir}/esy/rest/JsonJpaRepository.adoc[leveloffset=+2]
+
+include::{backendDir}/esy/rest/JsonJpaRestController.adoc[leveloffset=+2]
+
+== Client
+
+=== Grundlagen
+
+_Self Contained Systems_ (im Folgenden kurz SCS) ist ein Architektur- und Organisationskonzept.
+Es passt sehr gut zur Datenmodellierung mit _Domain Driven Design_ (im Folgenden kurz DDD).
+
+TIP: Siehe
+https://scs-architecture.org
+für mehr Informationen.
+
+Die Präsentation der Daten in einem SCS ist Aufgabe eines Svelte-Clients.
+Der Client liest die Daten aus der internen REST-Schnittstelle des Servers und präsentiert sie in einer Single-Page-Anwendung im Web-Browser.
+Nutzer können Daten, für die das SCS die Hoheit besitzt, bearbeiten und speichern.

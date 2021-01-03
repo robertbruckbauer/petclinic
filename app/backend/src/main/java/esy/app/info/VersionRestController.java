@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,18 +45,32 @@ public class VersionRestController {
         response.sendError(HttpStatus.BAD_REQUEST.value(), cause.getMessage());
     }
 
-    @GetMapping(value = "/version")
-    public Version version() {
-        return repository.find();
+    @GetMapping(
+            value = "/version",
+            produces = "application/json"
+    )
+    public ResponseEntity<Version> json() {
+        final Version version = repository.find();
+        return ResponseEntity.ok().body(version);
     }
 
-    @GetMapping(value = "/version.adoc", produces = "text/asciidoc")
-    public String versionAdoc() {
-        return "= Version\n\n" + repository.find() + "\n";
+    @GetMapping(
+            value = {"/version", "version.adoc"},
+            produces = "text/asciidoc;charset=UTF-8"
+    )
+    public ResponseEntity<String> adoc() {
+        final Version version = repository.find();
+        final String adoc = version + "\n";
+        return ResponseEntity.ok().body(adoc);
     }
 
-    @GetMapping(value = "/version.html", produces = "text/html")
-    public String versionHtml() {
-        return "<span id=\"version\">" + repository.find() + "</span><br/>\n";
+    @GetMapping(
+            value = {"/version", "version.html"},
+            produces = "text/html;charset=UTF-8"
+    )
+    public ResponseEntity<String> html() {
+        final Version version = repository.find();
+        final String html = "<span id=\"version\">" + version + "</span><br/>\n";
+        return ResponseEntity.ok().body(html);
     }
 }

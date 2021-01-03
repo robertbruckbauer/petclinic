@@ -1,7 +1,19 @@
-/*
- * https://docs.gradle.org/5.4.1/userguide/multi_project_builds.html
- */
-rootProject.name = 'bootscs'
+pluginManagement {
+    plugins {
+        id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+        id 'org.springframework.boot' version '2.6.3' 
+    }
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        maven {
+            url "https://dl.bintray.com/gradle/gradle-plugins"
+        }
+    }
+}
+rootProject.name = 'petclinic'
 include 'app:backend-api'
 include 'app:backend'
-include 'app:backend-hsql'
+include 'app:server'
+include 'app:client'
+include 'app:deploy'

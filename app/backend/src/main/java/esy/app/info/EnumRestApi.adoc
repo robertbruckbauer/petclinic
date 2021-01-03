@@ -1,0 +1,70 @@
+:restdocDir: ../../../../../../build/generated-snippets
+= Enum-API
+
+REST-API für die Verwaltung von konfigurierbaren Aufzählungen mit  _Enum_-Objekten.
+
+== `POST /api/enum/{art}`
+
+Die Operation erstellt ein _Enum_-Objekt für eine Art von Aufzählung.
+
+****
+
+.CURL
+include::{restdocDir}/post-api-enum/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/post-api-enum/http-request.adoc[]
+
+.Response
+include::{restdocDir}/post-api-enum/response-body.adoc[]
+
+****
+
+Die Operation meldet `Created` bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn das Objekt schon existiert.
+
+== `PUT /api/enum/{art}/{code}`
+
+Die Operation aktualisiert ein _Enum_-Objekt für eine Art von Aufzählung.
+
+****
+
+.CURL
+include::{restdocDir}/put-api-enum/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/put-api-enum/http-request.adoc[]
+
+.Response
+include::{restdocDir}/put-api-enum/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn das Objekt bereit existiert.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+== `GET /api/enum/{art}`
+
+Die Operation liefert alle gespeicherten _Enum_-Objekte einer Art von Aufzählung.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-enum/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-enum/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-enum/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+Das Ergebnis kann auch leer sein.
