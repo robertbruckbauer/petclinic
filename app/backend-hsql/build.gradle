@@ -1,0 +1,63 @@
+/*
+ * https://guides.gradle.org/creating-new-gradle-builds/
+ * https://guides.gradle.org/building-spring-boot-2-projects-with-gradle/
+ */
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.4.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR9"
+    }
+}
+
+dependencies {
+    implementation project(':app:backend')
+    // https://spring.io/projects/spring-data
+    runtimeOnly('org.hsqldb:hsqldb')
+}
+dependencies {
+    // https://projectlombok.org
+    compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+}
+dependencies {
+    // https://projectlombok.org
+    testImplementation('org.projectlombok:lombok')
+    // https://spring.io/projects/spring-boot
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit' // by both name and group
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // https://junit.org/junit5
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    // https://site.mockito.org/
+    testImplementation('org.mockito:mockito-junit-jupiter')
+    // https://www.testcontainers.org
+    testImplementation('org.testcontainers:junit-jupiter:1.14.3')
+}
+
+processResources {
+    from("${rootDir}/VERSION")
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
+    manifest {
+        attributes 'Implementation-Title': project.name
+        attributes 'Implementation-Version': project.version
+    }
+}
+
+bootBuildImage {
+    enabled = System.getenv().containsKey('CI_REGISTRY_IMAGE')
+    imageName = java.util.Optional.ofNullable(System.getenv("IMAGE_NAME"))
+            .orElse(System.getenv("CI_REGISTRY_IMAGE") + "/" + project.name + ":latest")
+}

@@ -1,0 +1,25 @@
+:restdocDir: ../../../../../../build/generated-snippets
+= VersionRestApi
+
+REST-API für die Abfrage des _Version_-Objektes.
+
+== `GET /version`
+
+Die Operation lädt die aktuelle Version der Anwendung aus der `VERSION`-Datei im _Classpath_.
+
+****
+
+.CURL
+include::{restdocDir}/get-version/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-version/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-version/response-body.adoc[]
+
+****
+
+Die Operation meldet `No Content` bzw. den Code 204, wenn die Daten nicht zulässig sind.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.

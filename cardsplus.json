@@ -1,0 +1,45 @@
+{
+    "wiki" : {
+        "serverURI": "https://cardsplus.atlassian.net/wiki/rest/api",
+        "domain": "bootscs",
+        "space": "BOOTSCS"
+    },
+    "allLink": {
+        ".*": "HEAD"
+    },
+    "allAdocElement": [
+        {
+            "filename": "doc/service.adoc",
+            "leveloffset": 1
+        }
+    ],
+    "allJavaElement": [
+        {
+            "module": "app/backend-api",
+            "directory": "src/main/java/esy/api",
+            "style": "entity"
+        },
+        {
+            "module": "app/backend",
+            "directory": "src/main/java/esy/app",
+            "style": "tagged"
+        }
+    ],
+    "allPageStyler": [
+        {
+            "name": "service",
+            "titleStrategy": "SCOPE",
+            "script": "@cards/service.ctml"
+        },   
+        {
+            "name": "entity",
+            "titleStrategy": "SCOPE",
+            "script": "@cards/entity.ctml"
+        },
+        {
+            "name": "tagged",
+            "titleStrategy": "SCOPE",
+            "script": "@cards/tagged.ctml"
+        } 
+    ]
+}

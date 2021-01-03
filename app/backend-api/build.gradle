@@ -1,0 +1,60 @@
+/*
+ * https://guides.gradle.org/creating-new-gradle-builds/
+ * https://guides.gradle.org/building-spring-boot-2-projects-with-gradle/
+ */
+plugins {
+    id 'java-library'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.4.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR9"
+    }
+}
+
+dependencies {
+    // https://spring.io/projects/spring-framework
+    implementation('org.springframework:spring-core')
+    // https://projects.eclipse.org/projects/ee4j.jpa
+    api('jakarta.persistence:jakarta.persistence-api')
+    // https://projects.eclipse.org/projects/ee4j.jta
+    api('jakarta.transaction:jakarta.transaction-api')
+    // https://github.com/FasterXML/jackson-docs
+    api('com.fasterxml.jackson.core:jackson-databind')
+    implementation('com.fasterxml.jackson.datatype:jackson-datatype-jdk8')
+}
+dependencies {
+    // https://projectlombok.org
+    compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+}
+dependencies {
+    // https://projectlombok.org
+    testImplementation('org.projectlombok:lombok')
+    // https://junit.org/junit5
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    // https://site.mockito.org/
+    testImplementation('org.mockito:mockito-junit-jupiter')
+}
+
+jar {
+    enabled = true
+    manifest {
+        attributes 'Implementation-Title': project.name
+        attributes 'Implementation-Version': project.version
+    }
+}
+
+bootJar {
+    enabled = false
+}
+
+bootRun {
+    enabled = false
+}
+
+bootBuildImage {
+    enabled = false
+}

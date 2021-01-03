@@ -1,0 +1,73 @@
+/*
+ * https://guides.gradle.org/creating-new-gradle-builds/
+ * https://guides.gradle.org/building-spring-boot-2-projects-with-gradle/
+ */
+plugins {
+    id 'java-library'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.4.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR9"
+    }
+}
+
+dependencies {
+    api project(':app:backend-api')
+    // https://spring.io/projects/spring-boot
+    api('org.springframework.boot:spring-boot-starter')
+    api('org.springframework.boot:spring-boot-starter-web')
+    api('org.springframework.boot:spring-boot-starter-actuator')
+    api('io.micrometer:micrometer-registry-prometheus')
+    // https://spring.io/projects/spring-data
+    api('org.springframework.boot:spring-boot-starter-data-rest')
+    api('org.springframework.boot:spring-boot-starter-data-jpa')
+    api('org.springframework.data:spring-data-rest-hal-explorer')
+    api('org.liquibase:liquibase-core')
+    runtimeOnly('org.hsqldb:hsqldb')
+}
+dependencies {
+    // https://projectlombok.org
+    compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+}
+dependencies {
+    // https://projectlombok.org
+    testImplementation('org.projectlombok:lombok')
+    // https://spring.io/projects/spring-boot
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit' // by both name and group
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // https://spring.io/projects/spring-restdocs
+    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+    // https://junit.org/junit5
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    // https://site.mockito.org/
+    testImplementation('org.mockito:mockito-junit-jupiter')
+    // https://www.testcontainers.org
+    testImplementation('org.testcontainers:junit-jupiter:1.14.3')
+}
+
+
+jar {
+    enabled = true
+    manifest {
+        attributes 'Implementation-Title': project.name
+        attributes 'Implementation-Version': project.version
+    }
+}
+
+bootJar {
+    enabled = false
+}
+
+bootRun {
+    enabled = false
+}
+
+bootBuildImage {
+    enabled = false
+}

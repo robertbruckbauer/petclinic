@@ -1,0 +1,99 @@
+/*
+ * https://guides.gradle.org/creating-new-gradle-builds/
+ */
+
+plugins {
+    id 'base'
+    id 'idea'
+    id 'com.diffplug.spotless' version '5.8.2'
+    id 'com.palantir.git-version' version '0.12.3'
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+spotless {
+    encoding 'UTF-8'
+    java {
+        target fileTree(projectDir) {
+            include '**/src/main/java/**/*.java'
+            exclude '**/build/**'
+        }
+        indentWithSpaces(4)
+        removeUnusedImports()
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    new File("${rootDir}/README.adoc").withReader('utf-8') { description = it.readLine().minus('= ') }
+    group = 'esy.app'
+    version = gitVersion()
+    plugins.withType(JavaPlugin) {
+        compileJava.options.encoding = 'UTF-8'
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    tasks.withType(Test) {
+        useJUnitPlatform {
+            excludeEngines 'junit-vintage'
+        }
+        systemProperty "file.encoding", "UTF-8"
+        testLogging {
+            events "passed", "skipped", "failed"
+            exceptionFormat "full"
+            showExceptions true
+            showCauses true
+            showStackTraces true
+            showStandardStreams false
+        }
+    }
+}
+
+subprojects {
+    task cardsplusClasspath()  {
+        assemble.dependsOn it
+        doLast {
+            File plusFile = new File("${rootDir}/build/classpaths/"+project.name)
+            if (project.hasProperty('sourceSets')) {
+                plusFile.getParentFile().mkdirs()
+                plusFile.delete()
+                plusFile.withWriterAppend { 
+                    out -> sourceSets.main.output.each {
+                        out.println '{rootDir}'+it.path-rootDir.path
+                    }
+                }
+                plusFile.withWriterAppend { 
+                    out -> sourceSets.main.compileClasspath.each {
+                        if (it.path.startsWith(rootDir.path)) {
+                            out.println '{rootDir}'+it.path-rootDir.path
+                        } else {
+                            out.println '{homeDir}'+it.path-project.gradle.gradleUserHomeDir.path
+                        }
+                    }
+                }
+                println plusFile.name + " created."
+            } else {
+                println plusFile.name + " skipped."
+            }
+        }
+    }
+}
+
+ext.VERSION = new File("VERSION").text
+task versionCheck() {
+    build.dependsOn it
+    doLast {
+        assert new File("VERSION.md").text
+            .startsWith("# Version " + VERSION)
+    }
+}
