@@ -20,69 +20,70 @@ import java.util.List;
 import static org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
 
 @Configuration
+@ComponentScan(basePackages = {&quot;esy.app&quot;, &quot;scs.app&quot;})
 @PropertySource(
         ignoreResourceNotFound = false,
         value = &quot;classpath:endpoint.properties&quot;)
-<span class="fc" id="L26">public class EndpointConfiguration {</span>
+<span class="fc" id="L27">public class EndpointConfiguration {</span>
 
     /**
      * CORS configuration for all REST API requests.
      * Same values must apply to Spring Security,
      * Spring Web AND Spring Data.
      */
-<span class="fc" id="L33">    static final CorsConfiguration CORS = new CorsConfiguration();</span>
+<span class="fc" id="L34">    static final CorsConfiguration CORS = new CorsConfiguration();</span>
 
     static {
         // tag::cors[]
-<span class="fc" id="L37">        CORS.setAllowCredentials(true);</span>
-<span class="fc" id="L38">        CORS.addAllowedHeader(HttpHeaders.ACCEPT);</span>
-<span class="fc" id="L39">        CORS.addAllowedHeader(HttpHeaders.AUTHORIZATION);</span>
-<span class="fc" id="L40">        CORS.addAllowedHeader(HttpHeaders.CONTENT_TYPE);</span>
-<span class="fc" id="L41">        CORS.addAllowedHeader(HttpHeaders.CONTENT_LENGTH);</span>
-<span class="fc" id="L42">        CORS.addAllowedMethod(HttpMethod.GET.name());</span>
-<span class="fc" id="L43">        CORS.addAllowedMethod(HttpMethod.POST.name());</span>
-<span class="fc" id="L44">        CORS.addAllowedMethod(HttpMethod.PUT.name());</span>
-<span class="fc" id="L45">        CORS.addAllowedMethod(HttpMethod.PATCH.name());</span>
-<span class="fc" id="L46">        CORS.addAllowedMethod(HttpMethod.DELETE.name());</span>
-<span class="fc" id="L47">        CORS.setAllowedOriginPatterns(List.of(</span>
+<span class="fc" id="L38">        CORS.setAllowCredentials(true);</span>
+<span class="fc" id="L39">        CORS.addAllowedHeader(HttpHeaders.ACCEPT);</span>
+<span class="fc" id="L40">        CORS.addAllowedHeader(HttpHeaders.AUTHORIZATION);</span>
+<span class="fc" id="L41">        CORS.addAllowedHeader(HttpHeaders.CONTENT_TYPE);</span>
+<span class="fc" id="L42">        CORS.addAllowedHeader(HttpHeaders.CONTENT_LENGTH);</span>
+<span class="fc" id="L43">        CORS.addAllowedMethod(HttpMethod.GET.name());</span>
+<span class="fc" id="L44">        CORS.addAllowedMethod(HttpMethod.POST.name());</span>
+<span class="fc" id="L45">        CORS.addAllowedMethod(HttpMethod.PUT.name());</span>
+<span class="fc" id="L46">        CORS.addAllowedMethod(HttpMethod.PATCH.name());</span>
+<span class="fc" id="L47">        CORS.addAllowedMethod(HttpMethod.DELETE.name());</span>
+<span class="fc" id="L48">        CORS.setAllowedOriginPatterns(List.of(</span>
                 &quot;http://localhost:*&quot;,
                 &quot;http://localhost&quot;,
                 &quot;https://localhost&quot;));
-<span class="fc" id="L51">        CORS.setMaxAge(3600L);</span>
+<span class="fc" id="L52">        CORS.setMaxAge(3600L);</span>
         // end::cors[]
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L54">    }</span>
 
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">    void applyCorsConfiguration(@NonNull final CorsRegistry registry) {</span>
-<span class="fc" id="L56">        registry.addMapping(&quot;/**&quot;)</span>
-<span class="fc" id="L57">                .allowCredentials(CORS.getAllowCredentials())</span>
-<span class="fc" id="L58">                .allowedHeaders(CORS.getAllowedHeaders().toArray(String[]::new))</span>
-<span class="fc" id="L59">                .allowedMethods(CORS.getAllowedMethods().toArray(String[]::new))</span>
-<span class="fc" id="L60">                .allowedOriginPatterns(CORS.getAllowedOriginPatterns().toArray(String[]::new))</span>
-<span class="fc" id="L61">                .maxAge(CORS.getMaxAge());</span>
-<span class="fc" id="L62">    }</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">    void applyCorsConfiguration(@NonNull final CorsRegistry registry) {</span>
+<span class="fc" id="L57">        registry.addMapping(&quot;/**&quot;)</span>
+<span class="fc" id="L58">                .allowCredentials(CORS.getAllowCredentials())</span>
+<span class="fc" id="L59">                .allowedHeaders(CORS.getAllowedHeaders().toArray(String[]::new))</span>
+<span class="fc" id="L60">                .allowedMethods(CORS.getAllowedMethods().toArray(String[]::new))</span>
+<span class="fc" id="L61">                .allowedOriginPatterns(CORS.getAllowedOriginPatterns().toArray(String[]::new))</span>
+<span class="fc" id="L62">                .maxAge(CORS.getMaxAge());</span>
+<span class="fc" id="L63">    }</span>
 
-<span class="pc bpc" id="L64" title="2 of 4 branches missed.">    void applyJsonConfiguration(@NonNull final String packageName, @NonNull final RepositoryRestConfiguration configuration) {</span>
-<span class="fc" id="L65">        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);</span>
-<span class="fc" id="L66">        provider.addIncludeFilter(new AssignableTypeFilter(JsonJpaValueBase.class));</span>
-<span class="fc" id="L67">        provider.findCandidateComponents(packageName.replace(&quot;.&quot;, &quot;/&quot;)).stream()</span>
-<span class="fc" id="L68">                .map(bean -&gt; {</span>
+<span class="pc bpc" id="L65" title="2 of 4 branches missed.">    void applyJsonConfiguration(@NonNull final String packageName, @NonNull final RepositoryRestConfiguration configuration) {</span>
+<span class="fc" id="L66">        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);</span>
+<span class="fc" id="L67">        provider.addIncludeFilter(new AssignableTypeFilter(JsonJpaValueBase.class));</span>
+<span class="fc" id="L68">        provider.findCandidateComponents(packageName.replace(&quot;.&quot;, &quot;/&quot;)).stream()</span>
+<span class="fc" id="L69">                .map(bean -&gt; {</span>
                     try {
-<span class="fc" id="L70">                        return Class.forName(bean.getBeanClassName());</span>
-<span class="nc" id="L71">                    } catch (final ClassNotFoundException e) {</span>
-<span class="nc" id="L72">                        return JsonJpaValueBase.class;</span>
+<span class="fc" id="L71">                        return Class.forName(bean.getBeanClassName());</span>
+<span class="nc" id="L72">                    } catch (final ClassNotFoundException e) {</span>
+<span class="nc" id="L73">                        return JsonJpaValueBase.class;</span>
                     }
                 })
-<span class="fc" id="L75">                .forEach(configuration::exposeIdsFor);</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L76">                .forEach(configuration::exposeIdsFor);</span>
+<span class="fc" id="L77">    }</span>
 
     @Bean
     public WebMvcConfigurer webMvcConfigurer() {
-<span class="fc" id="L80">        return new WebMvcConfigurer() {</span>
+<span class="fc" id="L81">        return new WebMvcConfigurer() {</span>
 
             @Override
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">            public void addCorsMappings(@NonNull final CorsRegistry registry) {</span>
-<span class="fc" id="L84">                applyCorsConfiguration(registry);</span>
-<span class="fc" id="L85">            }</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            public void addCorsMappings(@NonNull final CorsRegistry registry) {</span>
+<span class="fc" id="L85">                applyCorsConfiguration(registry);</span>
+<span class="fc" id="L86">            }</span>
         };
     }
 
@@ -92,27 +93,28 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
      */
     @Bean
     public RepositoryRestConfigurer repositoryRestConfigurer() {
-<span class="fc" id="L95">        return new RepositoryRestConfigurer() {</span>
+<span class="fc" id="L96">        return new RepositoryRestConfigurer() {</span>
 
             @Override
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, final CorsRegistry registry) {</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, final CorsRegistry registry) {</span>
                 // apply defaults
-<span class="fc" id="L100">                configuration.setBasePath(&quot;/api&quot;);</span>
-<span class="fc" id="L101">                configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);</span>
+<span class="fc" id="L101">                configuration.setBasePath(&quot;/api&quot;);</span>
+<span class="fc" id="L102">                configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);</span>
                 // create JSON with content (not _embedded)
-<span class="fc" id="L103">                configuration.setDefaultMediaType(MediaType.APPLICATION_JSON);</span>
-<span class="fc" id="L104">                configuration.useHalAsDefaultJsonMediaType(false);</span>
+<span class="fc" id="L104">                configuration.setDefaultMediaType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L105">                configuration.useHalAsDefaultJsonMediaType(false);</span>
                 // expose id for value objects
-<span class="fc" id="L106">                applyJsonConfiguration(&quot;esy.api&quot;, configuration);</span>
+<span class="fc" id="L107">                applyJsonConfiguration(&quot;esy.api&quot;, configuration);</span>
+<span class="fc" id="L108">                applyJsonConfiguration(&quot;scs.api&quot;, configuration);</span>
                 // apply CORS settings
-<span class="fc" id="L108">                applyCorsConfiguration(registry);</span>
-<span class="fc" id="L109">            }</span>
+<span class="fc" id="L110">                applyCorsConfiguration(registry);</span>
+<span class="fc" id="L111">            }</span>
 
             @Override
-<span class="pc bpc" id="L112" title="1 of 2 branches missed.">            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {</span>
                 // apply defaults
-<span class="fc" id="L114">                JsonMapper.configure(mapper);</span>
-<span class="fc" id="L115">            }</span>
+<span class="fc" id="L116">                JsonMapper.configure(mapper);</span>
+<span class="fc" id="L117">            }</span>
         };
     }
 }

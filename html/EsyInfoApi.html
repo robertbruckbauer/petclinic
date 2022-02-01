@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Robert Bruckbauer</span><br>
 <span id="email" class="email"><a href="mailto:bruckbauer@gmx.at">bruckbauer@gmx.at</a></span><br>
 <span id="revnumber">version 2.4.1,</span>
-<span id="revdate">2022/01/31</span>
+<span id="revdate">2022/02/01</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1018,10 +1018,7 @@ Sie wird nur beim Start der Anwendung gelesen.</p>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="text"># Konfiguration für HTTP
 server.port=8080
-server.compression.enabled=true
-server.compression.mime-types=application/json,application/hal+json
 # Konfiguration für REST
-management.health.binders.enabled=true
 management.endpoint.health.probes.enabled=true
 management.endpoints.web.exposure.include=health</code></pre>
 </div>
@@ -1040,8 +1037,8 @@ spring.liquibase.enabled=true
 spring.liquibase.change-log=classpath:liquibase/changelog-master.xml
 # Konfiguration für die Datanbank
 spring.datasource.url=jdbc:hsqldb:mem:db
-spring.datasource.username=sa
-spring.datasource.password=sa
+spring.datasource.username=SA
+spring.datasource.password=
 # https://www.baeldung.com/spring-open-session-in-view
 spring.jpa.open-in-view=false
 spring.jpa.show-sql=true
@@ -1056,7 +1053,7 @@ spring.jpa.properties.hibernate.generate_statistics=true</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 2.4.1<br>
-Last updated 2022-01-31 15:55:48 UTC
+Last updated 2022-02-01 07:51:30 UTC
 </div>
 </div>
 <style>
