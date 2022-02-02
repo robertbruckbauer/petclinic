@@ -24,8 +24,8 @@ import java.util.List;
 <span class="fc bfc" id="L24" title="All 2 branches covered.">        if (model.getContent().size() != 1) {</span>
 <span class="fc" id="L25">            return model;</span>
         }
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">        if (!model.getContent().iterator().next().getClass().getCanonicalName().contains(&quot;EmptyCollectionEmbeddedWrapper&quot;)) {</span>
-<span class="nc" id="L28">            return model;</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (!model.getContent().iterator().next().getClass().getCanonicalName().contains(&quot;EmptyCollectionEmbeddedWrapper&quot;)) {</span>
+<span class="fc" id="L28">            return model;</span>
         }
 <span class="fc" id="L30">        return CollectionModel.of(List.of()).add(model.getLinks());</span>
     }
