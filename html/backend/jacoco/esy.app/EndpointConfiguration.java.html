@@ -105,16 +105,15 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
 <span class="fc" id="L105">                configuration.useHalAsDefaultJsonMediaType(false);</span>
                 // expose id for value objects
 <span class="fc" id="L107">                applyJsonConfiguration(&quot;esy.api&quot;, configuration);</span>
-<span class="fc" id="L108">                applyJsonConfiguration(&quot;scs.api&quot;, configuration);</span>
                 // apply CORS settings
-<span class="fc" id="L110">                applyCorsConfiguration(registry);</span>
-<span class="fc" id="L111">            }</span>
+<span class="fc" id="L109">                applyCorsConfiguration(registry);</span>
+<span class="fc" id="L110">            }</span>
 
             @Override
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {</span>
                 // apply defaults
-<span class="fc" id="L116">                JsonMapper.configure(mapper);</span>
-<span class="fc" id="L117">            }</span>
+<span class="fc" id="L115">                JsonMapper.configure(mapper);</span>
+<span class="fc" id="L116">            }</span>
         };
     }
 }
