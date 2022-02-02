@@ -73,27 +73,27 @@ public abstract class JsonJpaRestControllerBase&lt;V extends JsonJpaValueBase&lt
 
     @HandleBeforeLinkSave
     public final void beforeLinkSave(@NonNull final V value, final Object rel) {
-<span class="fc" id="L76">        log.info(&quot;RECEIVED [{}]; linking with [{}] ...&quot;, value, rel);</span>
-<span class="fc" id="L77">        beforeLinkSaveTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);</span>
-<span class="fc" id="L78">        log.info(&quot;ACCEPTED [{}]&quot;, value);</span>
-<span class="fc" id="L79">    }</span>
+<span class="nc" id="L76">        log.info(&quot;RECEIVED [{}]; linking with [{}] ...&quot;, value, rel);</span>
+<span class="nc" id="L77">        beforeLinkSaveTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L78">        log.info(&quot;ACCEPTED [{}]&quot;, value);</span>
+<span class="nc" id="L79">    }</span>
 
     // tag::beforeLinkSaveTransaction[]
     protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; beforeLinkSaveTransaction(@NonNull final V value, final Object rel) {
-<span class="fc" id="L83">        return Optional.empty();</span>
+<span class="nc" id="L83">        return Optional.empty();</span>
     }
     // end::beforeLinkSaveTransaction[]
 
     @HandleAfterLinkSave
     public final void afterLinkSave(@NonNull final V value, final Object rel) {
-<span class="fc" id="L89">        afterLinkSaveTransaction(value, rel).ifPresent(transactionTemplate::execute);</span>
-<span class="fc" id="L90">        eventPublisher.publishEvent(value);</span>
-<span class="fc" id="L91">        log.info(&quot;UPDATED [{}]&quot;, value);</span>
-<span class="fc" id="L92">    }</span>
+<span class="nc" id="L89">        afterLinkSaveTransaction(value, rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L90">        eventPublisher.publishEvent(value);</span>
+<span class="nc" id="L91">        log.info(&quot;UPDATED [{}]&quot;, value);</span>
+<span class="nc" id="L92">    }</span>
 
     // tag::afterLinkSaveTransaction[]
     protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; afterLinkSaveTransaction(@NonNull final V value, final Object rel) {
-<span class="fc" id="L96">        return Optional.empty();</span>
+<span class="nc" id="L96">        return Optional.empty();</span>
     }
     // end::afterLinkSaveTransaction[]
 
@@ -125,27 +125,27 @@ public abstract class JsonJpaRestControllerBase&lt;V extends JsonJpaValueBase&lt
 
     @HandleBeforeLinkDelete
     public final void beforeLinkDelete(@NonNull final V value, final Object rel) {
-<span class="fc" id="L128">        log.info(&quot;RECEIVED [{}]; unlinking [{}] ...&quot;, value, rel);</span>
-<span class="fc" id="L129">        beforeLinkDeleteTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);</span>
-<span class="fc" id="L130">        log.info(&quot;ACCEPTED [{}]&quot;, value);</span>
-<span class="fc" id="L131">    }</span>
+<span class="nc" id="L128">        log.info(&quot;RECEIVED [{}]; unlinking [{}] ...&quot;, value, rel);</span>
+<span class="nc" id="L129">        beforeLinkDeleteTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L130">        log.info(&quot;ACCEPTED [{}]&quot;, value);</span>
+<span class="nc" id="L131">    }</span>
 
     // tag::beforeLinkDeleteTransaction[]
     protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; beforeLinkDeleteTransaction(@NonNull final V value, final Object rel) {
-<span class="fc" id="L135">        return Optional.empty();</span>
+<span class="nc" id="L135">        return Optional.empty();</span>
     }
     // end::beforeLinkDeleteTransaction[]
 
     @HandleAfterLinkDelete
     public final void afterLinkDelete(@NonNull final V value, final Object rel) {
-<span class="fc" id="L141">        afterLinkDeleteTransaction(value, rel).ifPresent(transactionTemplate::execute);</span>
-<span class="fc" id="L142">        eventPublisher.publishEvent(value);</span>
-<span class="fc" id="L143">        log.info(&quot;DELETED [{}]&quot;, value);</span>
-<span class="fc" id="L144">    }</span>
+<span class="nc" id="L141">        afterLinkDeleteTransaction(value, rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L142">        eventPublisher.publishEvent(value);</span>
+<span class="nc" id="L143">        log.info(&quot;DELETED [{}]&quot;, value);</span>
+<span class="nc" id="L144">    }</span>
 
     // tag::afterLinkDeleteTransaction[]
     protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; afterLinkDeleteTransaction(@NonNull final V value, final Object rel) {
-<span class="fc" id="L148">        return Optional.empty();</span>
+<span class="nc" id="L148">        return Optional.empty();</span>
     }
     // end::afterLinkDeleteTransaction[]
 }

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Robert Bruckbauer">
-<title>EsyTeamApi</title>
+<title>EsyClinicApi</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>EsyTeamApi</h1>
+<h1>EsyClinicApi</h1>
 <div class="details">
 <span id="author" class="author">Robert Bruckbauer</span><br>
 <span id="email" class="email"><a href="mailto:bruckbauer@gmx.at">bruckbauer@gmx.at</a></span><br>
@@ -453,14 +453,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#überblick">Überblick</a></li>
 <li><a href="#modell">Modell</a></li>
 <li><a href="#anwendung">Anwendung</a></li>
-<li><a href="#nutzer-api">Nutzer-API</a>
+<li><a href="#vet-api">Vet-API</a>
 <ul class="sectlevel2">
-<li><a href="#post-apinutzer"><code>POST /api/nutzer</code></a></li>
-<li><a href="#put-apinutzerid"><code>PUT /api/nutzer/{id}</code></a></li>
-<li><a href="#get-apinutzer"><code>GET /api/nutzer</code></a></li>
-<li><a href="#get-apinutzerid"><code>GET /api/nutzer/{id}</code></a></li>
-<li><a href="#get-apinutzersearchfindbymail"><code>GET /api/nutzer/search/findByMail</code></a></li>
-<li><a href="#delete-apinutzerid"><code>DELETE /api/nutzer/{id}</code></a></li>
+<li><a href="#post-apivet"><code>POST /api/vet</code></a></li>
+<li><a href="#put-apivetid"><code>PUT /api/vet/{id}</code></a></li>
+<li><a href="#patch-apivetid"><code>PATCH /api/vet/{id}</code></a></li>
+<li><a href="#get-apivet"><code>GET /api/vet</code></a></li>
+<li><a href="#get-apivetid"><code>GET /api/vet/{id}</code></a></li>
+<li><a href="#get-apivetsearchfindbyname"><code>GET /api/vet/search/findByName</code></a></li>
+<li><a href="#delete-apivetid"><code>DELETE /api/vet/{id}</code></a></li>
+</ul>
+</li>
+<li><a href="#visit-api">Visit-API</a>
+<ul class="sectlevel2">
+<li><a href="#post-apivisit"><code>POST /api/visit</code></a></li>
+<li><a href="#put-apivisitid"><code>PUT /api/visit/{id}</code></a></li>
+<li><a href="#patch-apivisitid"><code>PATCH /api/visit/{id}</code></a></li>
+<li><a href="#get-apivisit"><code>GET /api/visit</code></a></li>
+<li><a href="#get-apivisitid"><code>GET /api/visit/{id}</code></a></li>
+<li><a href="#delete-apivisitid"><code>DELETE /api/visit/{id}</code></a></li>
 </ul>
 </li>
 <li><a href="#konfiguration">Konfiguration</a>
@@ -477,7 +488,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="überblick"><a class="anchor" href="#überblick"></a>Überblick</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Der Dienst ist Teil eines <em>Self Contained Systems</em>.</p>
+<p>Mit dem API werden Tierärzte (engl. vet) und Termine (engl. visits) in einer Tierklinik verwaltet.</p>
+</div>
+<div class="paragraph">
+<p>Das API ist Teil eines <em>Self Contained Systems</em>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -558,7 +572,7 @@ Aufgrund der Entscheidung, Deutsch als Domänensprache festzulegen, werden konse
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/Team.png" alt="Team" width="270" height="100">
+<img src="images/Plan.png" alt="Plan" width="344" height="189">
 </div>
 </div>
 <div class="paragraph">
@@ -641,46 +655,40 @@ für mehr Informationen.
 </div>
 </div>
 <div class="sect1">
-<h2 id="nutzer-api"><a class="anchor" href="#nutzer-api"></a>Nutzer-API</h2>
+<h2 id="vet-api"><a class="anchor" href="#vet-api"></a>Vet-API</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>REST-API für die Verwaltung von <em>Nutzer</em>-Objekten.</p>
+<p>REST-API für die Verwaltung von <em>Vet</em>-Objekten.</p>
 </div>
 <div class="sect2">
-<h3 id="post-apinutzer"><a class="anchor" href="#post-apinutzer"></a><code>POST /api/nutzer</code></h3>
+<h3 id="post-apivet"><a class="anchor" href="#post-apivet"></a><code>POST /api/vet</code></h3>
 <div class="paragraph">
-<p>Die Operation speichert ein neues <em>Nutzer</em>-Objekt.</p>
+<p>Die Operation speichert ein neues <em>Vet</em>-Objekt.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="listingblock">
 <div class="title">CURL</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/nutzer'</span> <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/vet'</span> <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
     <span class="nt">-d</span> <span class="s1">'{
-  "mail" : "Mia.Musterfrau@a.de",
-  "name" : "Mia Musterfrau",
-  "aktiv" : "true",
-  "allSprache" : [ "EN" ]
+  "name" : "Max Mustermann"
 }'</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">POST</span> <span class="nn">/api/nutzer</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">POST</span> <span class="nn">/api/vet</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">112</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">31</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
 
 <span class="p">{</span><span class="w">
-  </span><span class="nl">"mail"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Mia.Musterfrau@a.de"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Mia Musterfrau"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"aktiv"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"allSprache"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"EN"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Max Mustermann"</span><span class="w">
 </span><span class="p">}</span></code></pre>
 </div>
 </div>
@@ -688,19 +696,16 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "9585c29f-4daf-4aa5-b909-9ba5430118c9",
-  "mail" : "Mia.Musterfrau@a.de",
-  "name" : "Mia Musterfrau",
-  "aktiv" : true,
-  "allSprache" : [ "EN" ],
-  "version" : 1,
+  "id" : "2d2f5fc7-2535-4ac7-ae7e-a8a9ec95a39d",
+  "name" : "Max Mustermann",
+  "version" : 0,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/nutzer/9585c29f-4daf-4aa5-b909-9ba5430118c9"
+    "href" : "http://localhost:8080/api/vet/2d2f5fc7-2535-4ac7-ae7e-a8a9ec95a39d"
   }, {
-    "rel" : "nutzerValue",
-    "href" : "http://localhost:8080/api/nutzer/9585c29f-4daf-4aa5-b909-9ba5430118c9"
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/vet/2d2f5fc7-2535-4ac7-ae7e-a8a9ec95a39d"
   } ]
 }</code></pre>
 </div>
@@ -718,40 +723,34 @@ für mehr Informationen.
 </div>
 </div>
 <div class="sect2">
-<h3 id="put-apinutzerid"><a class="anchor" href="#put-apinutzerid"></a><code>PUT /api/nutzer/{id}</code></h3>
+<h3 id="put-apivetid"><a class="anchor" href="#put-apivetid"></a><code>PUT /api/vet/{id}</code></h3>
 <div class="paragraph">
-<p>Die Operation aktualisiert ein existierendes <em>Nutzer</em>-Objekt oder erzeugt ein Neues.</p>
+<p>Die Operation aktualisiert ein existierendes <em>Vet</em>-Objekt oder erzeugt ein Neues.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="listingblock">
 <div class="title">CURL</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a'</span> <span class="nt">-i</span> <span class="nt">-X</span> PUT <span class="se">\</span>
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> PUT <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
     <span class="nt">-d</span> <span class="s1">'{
-  "mail" : "Max.Mustermann@a.de",
-  "name" : "Max Mustermann",
-  "aktiv" : "true",
-  "allSprache" : [ "DE", "EN" ]
+  "name" : "Bea Musterfrau"
 }'</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">PUT</span> <span class="nn">/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">PUT</span> <span class="nn">/api/vet/a1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">118</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">31</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
 
 <span class="p">{</span><span class="w">
-  </span><span class="nl">"mail"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Max.Mustermann@a.de"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Max Mustermann"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"aktiv"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"allSprache"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w"> </span><span class="s2">"EN"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Bea Musterfrau"</span><span class="w">
 </span><span class="p">}</span></code></pre>
 </div>
 </div>
@@ -759,19 +758,16 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "a1111111-6ee8-4335-b12a-ef84794bd27a",
-  "mail" : "Max.Mustermann@a.de",
-  "name" : "Max Mustermann",
-  "aktiv" : true,
-  "allSprache" : [ "DE", "EN" ],
-  "version" : 1,
+  "id" : "a1111111-1111-beef-dead-beefdeadbeef",
+  "name" : "Bea Musterfrau",
+  "version" : 0,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a"
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
   }, {
-    "rel" : "nutzerValue",
-    "href" : "http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a"
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
   } ]
 }</code></pre>
 </div>
@@ -789,23 +785,82 @@ für mehr Informationen.
 </div>
 </div>
 <div class="sect2">
-<h3 id="get-apinutzer"><a class="anchor" href="#get-apinutzer"></a><code>GET /api/nutzer</code></h3>
+<h3 id="patch-apivetid"><a class="anchor" href="#patch-apivetid"></a><code>PATCH /api/vet/{id}</code></h3>
 <div class="paragraph">
-<p>Die Operation gibt alle gespeicherten <em>Nutzer</em>-Objekte zurück.</p>
+<p>Die Operation aktualisiert ein existierendes <em>Vet</em>-Objekt.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="listingblock">
 <div class="title">CURL</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/nutzer'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> PATCH <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Content-Type: application/merge-patch+json'</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'{
+  "name" : "Bea Musterfrau"
+}'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">PATCH</span> <span class="nn">/api/vet/a1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/merge-patch+json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">31</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
+
+{
+  "name" : "Bea Musterfrau"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "id" : "a1111111-1111-beef-dead-beefdeadbeef",
+  "name" : "Bea Musterfrau",
+  "version" : 2,
+  "content" : [ ],
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-apivet"><a class="anchor" href="#get-apivet"></a><code>GET /api/vet</code></h3>
+<div class="paragraph">
+<p>Die Operation gibt alle gespeicherten <em>Vet</em>-Objekte zurück.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/vet/search/findAllByOrderByNameAsc'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/nutzer</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/vet/search/findAllByOrderByNameAsc</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
 </div>
@@ -816,51 +871,556 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/nutzer"
-  }, {
-    "rel" : "profile",
-    "href" : "http://localhost:8080/api/profile/nutzer"
-  }, {
-    "rel" : "search",
-    "href" : "http://localhost:8080/api/nutzer/search"
+    "href" : "http://localhost:8080/api/vet/search/findAllByOrderByNameAsc"
   } ],
   "content" : [ {
-    "id" : "9585c29f-4daf-4aa5-b909-9ba5430118c9",
-    "mail" : "Mia.Musterfrau@a.de",
-    "name" : "Mia Musterfrau",
-    "aktiv" : true,
-    "allSprache" : [ "EN" ],
-    "version" : 1,
+    "id" : "a1111111-1111-beef-dead-beefdeadbeef",
+    "name" : "Bea Musterfrau",
+    "version" : 2,
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/nutzer/9585c29f-4daf-4aa5-b909-9ba5430118c9"
+      "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
     }, {
-      "rel" : "nutzerValue",
-      "href" : "http://localhost:8080/api/nutzer/9585c29f-4daf-4aa5-b909-9ba5430118c9"
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
     } ]
   }, {
-    "id" : "c264f017-cac5-41ea-825a-78bcb3aa0e4a",
-    "mail" : "Bea.Musterfrau@a.de",
-    "name" : "Bea Musterfrau",
-    "aktiv" : true,
-    "allSprache" : [ ],
+    "id" : "2d2f5fc7-2535-4ac7-ae7e-a8a9ec95a39d",
+    "name" : "Max Mustermann",
     "version" : 0,
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/nutzer/c264f017-cac5-41ea-825a-78bcb3aa0e4a"
+      "href" : "http://localhost:8080/api/vet/2d2f5fc7-2535-4ac7-ae7e-a8a9ec95a39d"
     }, {
-      "rel" : "nutzerValue",
-      "href" : "http://localhost:8080/api/nutzer/c264f017-cac5-41ea-825a-78bcb3aa0e4a"
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/vet/2d2f5fc7-2535-4ac7-ae7e-a8a9ec95a39d"
     } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn die Daten geladen wurden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-apivetid"><a class="anchor" href="#get-apivetid"></a><code>GET /api/vet/{id}</code></h3>
+<div class="paragraph">
+<p>Die Operation zeigt ein gespeichertes <em>Vet</em>-Objekt an.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/vet/a1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "id" : "a1111111-1111-beef-dead-beefdeadbeef",
+  "name" : "Bea Musterfrau",
+  "version" : 2,
+  "content" : [ ],
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn die Daten geladen wurden.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Not found</code> bzw. den Code 404, wenn die Daten nicht existieren.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-apivetsearchfindbyname"><a class="anchor" href="#get-apivetsearchfindbyname"></a><code>GET /api/vet/search/findByName</code></h3>
+<div class="paragraph">
+<p>Die Operation sucht ein gespeichertes <em>Vet</em>-Objekt mit dem angegebenen endeutigen Namen.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/vet/search/findByName?name=Bea+Musterfrau'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/vet/search/findByName?name=Bea+Musterfrau</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "id" : "a1111111-1111-beef-dead-beefdeadbeef",
+  "name" : "Bea Musterfrau",
+  "version" : 2,
+  "content" : [ ],
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn die Daten geladen wurden.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Not found</code> bzw. den Code 404, wenn die Daten nicht existieren.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="delete-apivetid"><a class="anchor" href="#delete-apivetid"></a><code>DELETE /api/vet/{id}</code></h3>
+<div class="paragraph">
+<p>Die Operation löscht ein gespeichertes <em>Vet</em>-Objekt.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> DELETE</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">DELETE</span> <span class="nn">/api/vet/a1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>No Content</code> bzw. den Code 204, wenn die Daten gelöscht wurden.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Not found</code> bzw. den Code 404, wenn die Daten nicht existieren.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="visit-api"><a class="anchor" href="#visit-api"></a>Visit-API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>REST-API für die Verwaltung von <em>Visit</em>-Objekten.</p>
+</div>
+<div class="sect2">
+<h3 id="post-apivisit"><a class="anchor" href="#post-apivisit"></a><code>POST /api/visit</code></h3>
+<div class="paragraph">
+<p>Die Operation speichert ein neues <em>Visit</em>-Objekt.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit'</span> <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'{
+  "pet" : "/api/pet/c1111111-1111-beef-dead-beefdeadbeef",
+  "vet" : "/api/vet/d1111111-1111-beef-dead-beefdeadbeef",
+  "date" : "2021-04-22",
+  "text" : "Lorem ipsum."
+}'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">POST</span> <span class="nn">/api/visit</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">172</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
+
+<span class="p">{</span><span class="w">
+  </span><span class="nl">"pet"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"/api/pet/c1111111-1111-beef-dead-beefdeadbeef"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"vet"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"/api/vet/d1111111-1111-beef-dead-beefdeadbeef"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"date"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-04-22"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"text"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Lorem ipsum."</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "id" : "3c863f24-ffbb-40ed-9549-b0d75957010f",
+  "date" : "2021-04-22",
+  "text" : "Lorem ipsum.",
+  "vetItem" : {
+    "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+    "text" : "Alex Fleming"
+  },
+  "petItem" : {
+    "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+    "text" : "Odi"
+  },
+  "version" : 0,
+  "content" : [ ],
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f"
+  }, {
+    "rel" : "visit",
+    "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f"
+  }, {
+    "rel" : "pet",
+    "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f/pet"
+  }, {
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f/vet"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Created</code> bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="put-apivisitid"><a class="anchor" href="#put-apivisitid"></a><code>PUT /api/visit/{id}</code></h3>
+<div class="paragraph">
+<p>Die Operation aktualisiert ein existierendes <em>Visit</em>-Objekt oder erzeugt ein Neues.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> PUT <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'{
+  "pet" : "/api/pet/c1111111-1111-beef-dead-beefdeadbeef",
+  "vet" : "/api/vet/d1111111-1111-beef-dead-beefdeadbeef",
+  "date" : "2021-04-23",
+  "text" : "Lorem ipsum."
+}'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">PUT</span> <span class="nn">/api/visit/e1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">172</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
+
+<span class="p">{</span><span class="w">
+  </span><span class="nl">"pet"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"/api/pet/c1111111-1111-beef-dead-beefdeadbeef"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"vet"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"/api/vet/d1111111-1111-beef-dead-beefdeadbeef"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"date"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-04-23"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"text"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Lorem ipsum."</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "id" : "e1111111-1111-beef-dead-beefdeadbeef",
+  "date" : "2021-04-23",
+  "text" : "Lorem ipsum.",
+  "vetItem" : {
+    "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+    "text" : "Alex Fleming"
+  },
+  "petItem" : {
+    "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+    "text" : "Odi"
+  },
+  "version" : 0,
+  "content" : [ ],
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "visit",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "pet",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet"
+  }, {
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Created</code> bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="patch-apivisitid"><a class="anchor" href="#patch-apivisitid"></a><code>PATCH /api/visit/{id}</code></h3>
+<div class="paragraph">
+<p>Die Operation aktualisiert ein existierendes <em>Visit</em>-Objekt.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> PATCH <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Content-Type: application/merge-patch+json'</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'{
+  "date" : "2021-04-24"
+}'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">PATCH</span> <span class="nn">/api/visit/e1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/merge-patch+json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">27</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
+
+{
+  "date" : "2021-04-24"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "id" : "e1111111-1111-beef-dead-beefdeadbeef",
+  "date" : "2021-04-24",
+  "text" : "Lorem ipsum.",
+  "vetItem" : {
+    "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+    "text" : "Alex Fleming"
+  },
+  "petItem" : {
+    "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+    "text" : "Odi"
+  },
+  "version" : 1,
+  "content" : [ ],
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "visit",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "pet",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet"
+  }, {
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.</p>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-apivisit"><a class="anchor" href="#get-apivisit"></a><code>GET /api/visit</code></h3>
+<div class="paragraph">
+<p>Die Operation gibt alle gespeicherten <em>Visit</em>-Objekte zurück.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/search/findAllByOrderByDateDesc'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/visit/search/findAllByOrderByDateDesc</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/visit/search/findAllByOrderByDateDesc"
   } ],
-  "page" : {
-    "size" : 20,
-    "totalElements" : 2,
-    "totalPages" : 1,
-    "number" : 0
-  }
+  "content" : [ {
+    "id" : "e1111111-1111-beef-dead-beefdeadbeef",
+    "date" : "2021-04-24",
+    "text" : "At vero eos",
+    "vetItem" : {
+      "value" : "d2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Phillip Dick"
+    },
+    "petItem" : {
+      "value" : "c2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Tom"
+    },
+    "version" : 4,
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
+    } ]
+  }, {
+    "id" : "3c863f24-ffbb-40ed-9549-b0d75957010f",
+    "date" : "2021-04-22",
+    "text" : "Lorem ipsum.",
+    "vetItem" : {
+      "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Alex Fleming"
+    },
+    "petItem" : {
+      "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Odi"
+    },
+    "version" : 0,
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/3c863f24-ffbb-40ed-9549-b0d75957010f/vet"
+    } ]
+  }, {
+    "id" : "f676107a-4f6a-45ae-8c76-ab0f928200b3",
+    "date" : "2021-04-22",
+    "text" : "Lorem ipsum.",
+    "vetItem" : {
+      "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Alex Fleming"
+    },
+    "petItem" : {
+      "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Odi"
+    },
+    "version" : 0,
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/f676107a-4f6a-45ae-8c76-ab0f928200b3"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/f676107a-4f6a-45ae-8c76-ab0f928200b3"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/f676107a-4f6a-45ae-8c76-ab0f928200b3/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/f676107a-4f6a-45ae-8c76-ab0f928200b3/vet"
+    } ]
+  }, {
+    "id" : "9210fc9f-bfd7-4c6a-9ce8-eccc6f687fb7",
+    "date" : "2021-04-21",
+    "text" : "Lorem ipsum.",
+    "vetItem" : {
+      "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Alex Fleming"
+    },
+    "petItem" : {
+      "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Odi"
+    },
+    "version" : 0,
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/9210fc9f-bfd7-4c6a-9ce8-eccc6f687fb7"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/9210fc9f-bfd7-4c6a-9ce8-eccc6f687fb7"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/9210fc9f-bfd7-4c6a-9ce8-eccc6f687fb7/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/9210fc9f-bfd7-4c6a-9ce8-eccc6f687fb7/vet"
+    } ]
+  } ]
 }</code></pre>
 </div>
 </div>
@@ -871,23 +1431,23 @@ für mehr Informationen.
 </div>
 </div>
 <div class="sect2">
-<h3 id="get-apinutzerid"><a class="anchor" href="#get-apinutzerid"></a><code>GET /api/nutzer/{id}</code></h3>
+<h3 id="get-apivisitid"><a class="anchor" href="#get-apivisitid"></a><code>GET /api/visit/{id}</code></h3>
 <div class="paragraph">
-<p>Die Operation zeigt ein gespeichertes <em>Nutzer</em>-Objekt an.</p>
+<p>Die Operation zeigt ein gespeichertes <em>Visit</em>-Objekt an.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="listingblock">
 <div class="title">CURL</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/visit/e1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
 </div>
@@ -896,19 +1456,31 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "a1111111-6ee8-4335-b12a-ef84794bd27a",
-  "mail" : "Max.Mustermann@a.de",
-  "name" : "Max Mustermann",
-  "aktiv" : false,
-  "allSprache" : [ ],
-  "version" : 8,
+  "id" : "e1111111-1111-beef-dead-beefdeadbeef",
+  "date" : "2021-04-24",
+  "text" : "At vero eos",
+  "vetItem" : {
+    "value" : "d2222222-2222-beef-dead-beefdeadbeef",
+    "text" : "Phillip Dick"
+  },
+  "petItem" : {
+    "value" : "c2222222-2222-beef-dead-beefdeadbeef",
+    "text" : "Tom"
+  },
+  "version" : 4,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a"
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
   }, {
-    "rel" : "nutzerValue",
-    "href" : "http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a"
+    "rel" : "visit",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+  }, {
+    "rel" : "pet",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet"
+  }, {
+    "rel" : "vet",
+    "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
   } ]
 }</code></pre>
 </div>
@@ -923,76 +1495,22 @@ für mehr Informationen.
 </div>
 </div>
 <div class="sect2">
-<h3 id="get-apinutzersearchfindbymail"><a class="anchor" href="#get-apinutzersearchfindbymail"></a><code>GET /api/nutzer/search/findByMail</code></h3>
+<h3 id="delete-apivisitid"><a class="anchor" href="#delete-apivisitid"></a><code>DELETE /api/visit/{id}</code></h3>
 <div class="paragraph">
-<p>Die Operation sucht ein gespeichertes <em>Nutzer</em>-Objekt mit der angegebenen endeutigen E-Mail-Adresse.</p>
+<p>Die Operation löscht ein gespeichertes <em>Visit</em>-Objekt.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="listingblock">
 <div class="title">CURL</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/nutzer/search/findByMail?mail=Max.Mustermann%40a.de'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
-    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> DELETE</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Request</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/nutzer/search/findByMail?mail=Max.Mustermann%40a.de</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Response</div>
-<div class="content">
-<pre class="rouge highlight nowrap"><code>{
-  "id" : "a1111111-6ee8-4335-b12a-ef84794bd27a",
-  "mail" : "Max.Mustermann@a.de",
-  "name" : "Max Mustermann",
-  "aktiv" : false,
-  "allSprache" : [ ],
-  "version" : 8,
-  "content" : [ ],
-  "links" : [ {
-    "rel" : "self",
-    "href" : "http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a"
-  }, {
-    "rel" : "nutzerValue",
-    "href" : "http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a"
-  } ]
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn die Daten geladen wurden.</p>
-</div>
-<div class="paragraph">
-<p>Die Operation meldet <code>Not found</code> bzw. den Code 404, wenn die Daten nicht existieren.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="delete-apinutzerid"><a class="anchor" href="#delete-apinutzerid"></a><code>DELETE /api/nutzer/{id}</code></h3>
-<div class="paragraph">
-<p>Die Operation löscht ein gespeichertes <em>Nutzer</em>-Objekt.</p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="listingblock">
-<div class="title">CURL</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a'</span> <span class="nt">-i</span> <span class="nt">-X</span> DELETE <span class="se">\</span>
-    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">DELETE</span> <span class="nn">/api/nutzer/a1111111-6ee8-4335-b12a-ef84794bd27a</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">DELETE</span> <span class="nn">/api/visit/e1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
 </div>
 </div>
@@ -1055,7 +1573,7 @@ spring.jpa.properties.hibernate.generate_statistics=true</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 2.4.1<br>
-Last updated 2022-02-02 16:42:21 UTC
+Last updated 2022-02-02 18:10:48 UTC
 </div>
 </div>
 <style>
