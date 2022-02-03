@@ -675,7 +675,9 @@ für mehr Informationen.
     <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
     <span class="nt">-d</span> <span class="s1">'{
-  "name" : "Max Mustermann"
+  "name" : "Max Mustermann",
+  "address" : "Bergweg 1, 5400 Hallein",
+  "contact" : "+43 6452 4456"
 }'</span></code></pre>
 </div>
 </div>
@@ -685,11 +687,13 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">POST</span> <span class="nn">/api/owner</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">31</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">103</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
 
 <span class="p">{</span><span class="w">
-  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Max Mustermann"</span><span class="w">
+  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Max Mustermann"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"address"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Bergweg 1, 5400 Hallein"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contact"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"+43 6452 4456"</span><span class="w">
 </span><span class="p">}</span></code></pre>
 </div>
 </div>
@@ -697,20 +701,22 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "1ca35b28-b9f3-44d9-9400-381349e7e0aa",
+  "id" : "eda20edc-c488-47c4-bfb9-37cba548fd31",
   "name" : "Max Mustermann",
+  "address" : "Bergweg 1, 5400 Hallein",
+  "contact" : "+43 6452 4456",
   "allPetItem" : [ ],
   "version" : 0,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/owner/1ca35b28-b9f3-44d9-9400-381349e7e0aa"
+    "href" : "http://localhost:8080/api/owner/eda20edc-c488-47c4-bfb9-37cba548fd31"
   }, {
     "rel" : "owner",
-    "href" : "http://localhost:8080/api/owner/1ca35b28-b9f3-44d9-9400-381349e7e0aa"
+    "href" : "http://localhost:8080/api/owner/eda20edc-c488-47c4-bfb9-37cba548fd31"
   }, {
     "rel" : "allPet",
-    "href" : "http://localhost:8080/api/owner/1ca35b28-b9f3-44d9-9400-381349e7e0aa/allPet"
+    "href" : "http://localhost:8080/api/owner/eda20edc-c488-47c4-bfb9-37cba548fd31/allPet"
   } ]
 }</code></pre>
 </div>
@@ -741,7 +747,9 @@ für mehr Informationen.
     <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
     <span class="nt">-d</span> <span class="s1">'{
-  "name" : "Bea Musterfrau"
+  "name" : "Bea Musterfrau",
+  "address" : "Bergweg 1, 5400 Hallein",
+  "contact" : "+43 6452 4456"
 }'</span></code></pre>
 </div>
 </div>
@@ -751,11 +759,13 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">PUT</span> <span class="nn">/api/owner/a1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">31</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">103</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
 
 <span class="p">{</span><span class="w">
-  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Bea Musterfrau"</span><span class="w">
+  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Bea Musterfrau"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"address"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Bergweg 1, 5400 Hallein"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"contact"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"+43 6452 4456"</span><span class="w">
 </span><span class="p">}</span></code></pre>
 </div>
 </div>
@@ -765,6 +775,8 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Bea Musterfrau",
+  "address" : "Bergweg 1, 5400 Hallein",
+  "contact" : "+43 6452 4456",
   "allPetItem" : [ ],
   "version" : 0,
   "content" : [ ],
@@ -831,6 +843,8 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Bea Musterfrau",
+  "address" : "Bergweg 1, 5400 Hallein",
+  "contact" : "+43 6452 4456",
   "allPetItem" : [ ],
   "version" : 2,
   "content" : [ ],
@@ -889,8 +903,10 @@ für mehr Informationen.
   "content" : [ {
     "id" : "a1111111-1111-beef-dead-beefdeadbeef",
     "name" : "Bea Musterfrau",
+    "address" : "Bergweg 1, 5400 Hallein",
+    "contact" : "+43 6452 4456",
     "allPetItem" : [ ],
-    "version" : 2,
+    "version" : 6,
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
@@ -903,20 +919,22 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/owner/a1111111-1111-beef-dead-beefdeadbeef/allPet"
     } ]
   }, {
-    "id" : "1ca35b28-b9f3-44d9-9400-381349e7e0aa",
+    "id" : "eda20edc-c488-47c4-bfb9-37cba548fd31",
     "name" : "Max Mustermann",
+    "address" : "Bergweg 1, 5400 Hallein",
+    "contact" : "+43 6452 4456",
     "allPetItem" : [ ],
     "version" : 0,
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/owner/1ca35b28-b9f3-44d9-9400-381349e7e0aa"
+      "href" : "http://localhost:8080/api/owner/eda20edc-c488-47c4-bfb9-37cba548fd31"
     }, {
       "rel" : "owner",
-      "href" : "http://localhost:8080/api/owner/1ca35b28-b9f3-44d9-9400-381349e7e0aa"
+      "href" : "http://localhost:8080/api/owner/eda20edc-c488-47c4-bfb9-37cba548fd31"
     }, {
       "rel" : "allPet",
-      "href" : "http://localhost:8080/api/owner/1ca35b28-b9f3-44d9-9400-381349e7e0aa/allPet"
+      "href" : "http://localhost:8080/api/owner/eda20edc-c488-47c4-bfb9-37cba548fd31/allPet"
     } ]
   } ]
 }</code></pre>
@@ -956,8 +974,10 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Bea Musterfrau",
+  "address" : "Bergweg 1, 5400 Hallein",
+  "contact" : "+43 6452 4456",
   "allPetItem" : [ ],
-  "version" : 2,
+  "version" : 6,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
@@ -1009,8 +1029,10 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Bea Musterfrau",
+  "address" : "Bergweg 1, 5400 Hallein",
+  "contact" : "+43 6452 4456",
   "allPetItem" : [ ],
-  "version" : 2,
+  "version" : 6,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
@@ -1113,7 +1135,7 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2",
+  "id" : "2418cefb-533f-44c5-b482-3bf4023e288a",
   "name" : "Roger",
   "born" : "2021-04-22",
   "species" : "Rat",
@@ -1125,13 +1147,13 @@ für mehr Informationen.
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/pet/8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2"
+    "href" : "http://localhost:8080/api/pet/2418cefb-533f-44c5-b482-3bf4023e288a"
   }, {
     "rel" : "pet",
-    "href" : "http://localhost:8080/api/pet/8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2"
+    "href" : "http://localhost:8080/api/pet/2418cefb-533f-44c5-b482-3bf4023e288a"
   }, {
     "rel" : "owner",
-    "href" : "http://localhost:8080/api/pet/8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2/owner"
+    "href" : "http://localhost:8080/api/pet/2418cefb-533f-44c5-b482-3bf4023e288a/owner"
   } ]
 }</code></pre>
 </div>
@@ -1345,7 +1367,7 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/pet/a1111111-1111-beef-dead-beefdeadbeef/owner"
     } ]
   }, {
-    "id" : "8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2",
+    "id" : "2418cefb-533f-44c5-b482-3bf4023e288a",
     "name" : "Roger",
     "born" : "2021-04-22",
     "species" : "Rat",
@@ -1357,13 +1379,13 @@ für mehr Informationen.
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/pet/8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2"
+      "href" : "http://localhost:8080/api/pet/2418cefb-533f-44c5-b482-3bf4023e288a"
     }, {
       "rel" : "pet",
-      "href" : "http://localhost:8080/api/pet/8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2"
+      "href" : "http://localhost:8080/api/pet/2418cefb-533f-44c5-b482-3bf4023e288a"
     }, {
       "rel" : "owner",
-      "href" : "http://localhost:8080/api/pet/8720fe9a-a84a-4ffc-b5b5-812b76e9e8b2/owner"
+      "href" : "http://localhost:8080/api/pet/2418cefb-533f-44c5-b482-3bf4023e288a/owner"
     } ]
   } ]
 }</code></pre>
@@ -1570,7 +1592,7 @@ spring.jpa.properties.hibernate.generate_statistics=true</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 2.4.1<br>
-Last updated 2022-02-03 15:12:42 UTC
+Last updated 2022-02-03 15:58:11 UTC
 </div>
 </div>
 <style>
