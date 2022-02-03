@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Robert Bruckbauer</span><br>
 <span id="email" class="email"><a href="mailto:bruckbauer@gmx.at">bruckbauer@gmx.at</a></span><br>
 <span id="revnumber">version 2.4.1,</span>
-<span id="revdate">2022/02/02</span>
+<span id="revdate">2022/02/03</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -697,20 +697,20 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "8e7735ed-e916-4d5f-b4ff-dffa646d1529",
+  "id" : "b147f843-0764-4aeb-8ab7-0e3ba4c740c5",
   "name" : "Max Mustermann",
   "allPetItem" : [ ],
   "version" : 0,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/owner/8e7735ed-e916-4d5f-b4ff-dffa646d1529"
+    "href" : "http://localhost:8080/api/owner/b147f843-0764-4aeb-8ab7-0e3ba4c740c5"
   }, {
     "rel" : "owner",
-    "href" : "http://localhost:8080/api/owner/8e7735ed-e916-4d5f-b4ff-dffa646d1529"
+    "href" : "http://localhost:8080/api/owner/b147f843-0764-4aeb-8ab7-0e3ba4c740c5"
   }, {
     "rel" : "allPet",
-    "href" : "http://localhost:8080/api/owner/8e7735ed-e916-4d5f-b4ff-dffa646d1529/allPet"
+    "href" : "http://localhost:8080/api/owner/b147f843-0764-4aeb-8ab7-0e3ba4c740c5/allPet"
   } ]
 }</code></pre>
 </div>
@@ -903,20 +903,20 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/owner/a1111111-1111-beef-dead-beefdeadbeef/allPet"
     } ]
   }, {
-    "id" : "8e7735ed-e916-4d5f-b4ff-dffa646d1529",
+    "id" : "b147f843-0764-4aeb-8ab7-0e3ba4c740c5",
     "name" : "Max Mustermann",
     "allPetItem" : [ ],
     "version" : 0,
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/owner/8e7735ed-e916-4d5f-b4ff-dffa646d1529"
+      "href" : "http://localhost:8080/api/owner/b147f843-0764-4aeb-8ab7-0e3ba4c740c5"
     }, {
       "rel" : "owner",
-      "href" : "http://localhost:8080/api/owner/8e7735ed-e916-4d5f-b4ff-dffa646d1529"
+      "href" : "http://localhost:8080/api/owner/b147f843-0764-4aeb-8ab7-0e3ba4c740c5"
     }, {
       "rel" : "allPet",
-      "href" : "http://localhost:8080/api/owner/8e7735ed-e916-4d5f-b4ff-dffa646d1529/allPet"
+      "href" : "http://localhost:8080/api/owner/b147f843-0764-4aeb-8ab7-0e3ba4c740c5/allPet"
     } ]
   } ]
 }</code></pre>
@@ -1086,7 +1086,9 @@ für mehr Informationen.
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
     <span class="nt">-d</span> <span class="s1">'{
   "owner" : "/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
-  "name" : "Roger"
+  "name" : "Roger",
+  "born" : "2021-04-22",
+  "species" : "Rat"
 }'</span></code></pre>
 </div>
 </div>
@@ -1096,12 +1098,14 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">POST</span> <span class="nn">/api/pet</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">85</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">131</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
 
 <span class="p">{</span><span class="w">
   </span><span class="nl">"owner"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"/api/owner/b1111111-1111-beef-dead-beefdeadbeef"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Roger"</span><span class="w">
+  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Roger"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"born"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-04-22"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"species"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Rat"</span><span class="w">
 </span><span class="p">}</span></code></pre>
 </div>
 </div>
@@ -1109,8 +1113,10 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "e48313c0-b64a-4f65-a177-0d31499cd4cc",
+  "id" : "2b471c4c-7456-4d65-bc70-955ee2db554e",
   "name" : "Roger",
+  "born" : "2021-04-22",
+  "species" : "Rat",
   "version" : 0,
   "ownerItem" : {
     "value" : "b1111111-1111-beef-dead-beefdeadbeef",
@@ -1119,13 +1125,13 @@ für mehr Informationen.
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/pet/e48313c0-b64a-4f65-a177-0d31499cd4cc"
+    "href" : "http://localhost:8080/api/pet/2b471c4c-7456-4d65-bc70-955ee2db554e"
   }, {
     "rel" : "pet",
-    "href" : "http://localhost:8080/api/pet/e48313c0-b64a-4f65-a177-0d31499cd4cc"
+    "href" : "http://localhost:8080/api/pet/2b471c4c-7456-4d65-bc70-955ee2db554e"
   }, {
     "rel" : "owner",
-    "href" : "http://localhost:8080/api/pet/e48313c0-b64a-4f65-a177-0d31499cd4cc/owner"
+    "href" : "http://localhost:8080/api/pet/2b471c4c-7456-4d65-bc70-955ee2db554e/owner"
   } ]
 }</code></pre>
 </div>
@@ -1157,7 +1163,9 @@ für mehr Informationen.
     <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span> <span class="se">\</span>
     <span class="nt">-d</span> <span class="s1">'{
   "owner" : "/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
-  "name" : "Anita"
+  "name" : "Anita",
+  "born" : "2021-04-27",
+  "species" : "Rat"
 }'</span></code></pre>
 </div>
 </div>
@@ -1167,12 +1175,14 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">PUT</span> <span class="nn">/api/pet/a1111111-1111-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">85</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">131</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span>
 
 <span class="p">{</span><span class="w">
   </span><span class="nl">"owner"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"/api/owner/b1111111-1111-beef-dead-beefdeadbeef"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Anita"</span><span class="w">
+  </span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Anita"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"born"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-04-27"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"species"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Rat"</span><span class="w">
 </span><span class="p">}</span></code></pre>
 </div>
 </div>
@@ -1182,6 +1192,8 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Anita",
+  "born" : "2021-04-27",
+  "species" : "Rat",
   "version" : 0,
   "ownerItem" : {
     "value" : "b1111111-1111-beef-dead-beefdeadbeef",
@@ -1251,6 +1263,8 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Anita",
+  "born" : "2021-04-27",
+  "species" : "Rat",
   "version" : 2,
   "ownerItem" : {
     "value" : "b1111111-1111-beef-dead-beefdeadbeef",
@@ -1312,7 +1326,9 @@ für mehr Informationen.
   "content" : [ {
     "id" : "a1111111-1111-beef-dead-beefdeadbeef",
     "name" : "Anita",
-    "version" : 3,
+    "born" : "2021-04-27",
+    "species" : "Rat",
+    "version" : 7,
     "ownerItem" : {
       "value" : "b2222222-2222-beef-dead-beefdeadbeef",
       "text" : "Emma Milner"
@@ -1329,8 +1345,10 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/pet/a1111111-1111-beef-dead-beefdeadbeef/owner"
     } ]
   }, {
-    "id" : "e48313c0-b64a-4f65-a177-0d31499cd4cc",
+    "id" : "2b471c4c-7456-4d65-bc70-955ee2db554e",
     "name" : "Roger",
+    "born" : "2021-04-22",
+    "species" : "Rat",
     "version" : 0,
     "ownerItem" : {
       "value" : "b1111111-1111-beef-dead-beefdeadbeef",
@@ -1339,13 +1357,13 @@ für mehr Informationen.
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/pet/e48313c0-b64a-4f65-a177-0d31499cd4cc"
+      "href" : "http://localhost:8080/api/pet/2b471c4c-7456-4d65-bc70-955ee2db554e"
     }, {
       "rel" : "pet",
-      "href" : "http://localhost:8080/api/pet/e48313c0-b64a-4f65-a177-0d31499cd4cc"
+      "href" : "http://localhost:8080/api/pet/2b471c4c-7456-4d65-bc70-955ee2db554e"
     }, {
       "rel" : "owner",
-      "href" : "http://localhost:8080/api/pet/e48313c0-b64a-4f65-a177-0d31499cd4cc/owner"
+      "href" : "http://localhost:8080/api/pet/2b471c4c-7456-4d65-bc70-955ee2db554e/owner"
     } ]
   } ]
 }</code></pre>
@@ -1385,7 +1403,9 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Anita",
-  "version" : 3,
+  "born" : "2021-04-27",
+  "species" : "Rat",
+  "version" : 7,
   "ownerItem" : {
     "value" : "b2222222-2222-beef-dead-beefdeadbeef",
     "text" : "Emma Milner"
@@ -1441,7 +1461,9 @@ für mehr Informationen.
 <pre class="rouge highlight nowrap"><code>{
   "id" : "a1111111-1111-beef-dead-beefdeadbeef",
   "name" : "Anita",
-  "version" : 3,
+  "born" : "2021-04-27",
+  "species" : "Rat",
+  "version" : 7,
   "ownerItem" : {
     "value" : "b2222222-2222-beef-dead-beefdeadbeef",
     "text" : "Emma Milner"
@@ -1548,7 +1570,7 @@ spring.jpa.properties.hibernate.generate_statistics=true</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 2.4.1<br>
-Last updated 2022-02-02 20:43:06 UTC
+Last updated 2022-02-03 14:20:44 UTC
 </div>
 </div>
 <style>

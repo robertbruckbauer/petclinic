@@ -15,42 +15,36 @@ import java.util.UUID;
 <span class="pc bpc" id="L15" title="11 of 22 branches missed.">@EqualsAndHashCode</span>
 public class OwnerItem implements JsonJpaItem&lt;UUID&gt; {
 
-    /**
-     * Eindeutige UUID des Projekts.
-     */
     @Transient
-<span class="fc" id="L22">    @Getter</span>
+<span class="fc" id="L19">    @Getter</span>
     @JsonProperty
     private final UUID value;
 
-    /**
-     * Eindeutiger Name des Projekts.
-     */
     @Column(name = &quot;text&quot;)
-<span class="fc" id="L30">    @Getter</span>
+<span class="fc" id="L24">    @Getter</span>
     @JsonProperty
     private final String text;
 
-<span class="fc" id="L34">    private OwnerItem() {</span>
-<span class="fc" id="L35">        this.value = null;</span>
-<span class="fc" id="L36">        this.text = &quot;&quot;;</span>
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L28">    private OwnerItem() {</span>
+<span class="fc" id="L29">        this.value = null;</span>
+<span class="fc" id="L30">        this.text = &quot;&quot;;</span>
+<span class="fc" id="L31">    }</span>
 
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">    private OwnerItem(@NonNull final Owner value) {</span>
-<span class="fc" id="L40">        this.value = value.getId();</span>
-<span class="fc" id="L41">        this.text = value.getName();</span>
-<span class="fc" id="L42">    }</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">    private OwnerItem(@NonNull final Owner value) {</span>
+<span class="fc" id="L34">        this.value = value.getId();</span>
+<span class="fc" id="L35">        this.text = value.getName();</span>
+<span class="fc" id="L36">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L46">        return text;</span>
+<span class="fc" id="L40">        return text;</span>
     }
 
     public static OwnerItem fromValue(final Owner value) {
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (value != null) {</span>
-<span class="fc" id="L51">            return new OwnerItem(value);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (value != null) {</span>
+<span class="fc" id="L45">            return new OwnerItem(value);</span>
         } else {
-<span class="fc" id="L53">            return new OwnerItem();</span>
+<span class="fc" id="L47">            return new OwnerItem();</span>
         }
     }
 }

@@ -1,92 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Vet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.api.clinic</a> &gt; <span class="el_source">Vet.java</span></div><h1>Vet.java</h1><pre class="source lang-java linenums">package esy.api.clinic;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import esy.json.JsonJpaValueBase;
+import esy.json.JsonJpaEntity;
 import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = &quot;vet&quot;, uniqueConstraints = {
         @UniqueConstraint(columnNames = {&quot;id&quot;}),
         @UniqueConstraint(columnNames = {&quot;name&quot;})
 })
-public final class Vet extends JsonJpaValueBase&lt;Vet&gt; {
+public final class Vet extends JsonJpaEntity&lt;Vet&gt; {
 
     @Column(name = &quot;name&quot;)
-<span class="fc" id="L27">    @Getter</span>
+<span class="fc" id="L22">    @Getter</span>
     @JsonProperty
     private String name;
 
-    Vet() {
-<span class="fc" id="L32">        super();</span>
-<span class="fc" id="L33">        this.name = &quot;&quot;;</span>
-<span class="fc" id="L34">    }</span>
+    @ElementCollection(
+            fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = &quot;vet_skill&quot;,
+            joinColumns = @JoinColumn(name = &quot;id&quot;))
+    @Column(name = &quot;skill&quot;)
+    @OrderBy
+<span class="fc" id="L33">    @Getter</span>
+    @JsonProperty
+    private SortedSet&lt;String&gt; allSkill;
 
-<span class="pc bpc" id="L36" title="2 of 4 branches missed.">    Vet(@NonNull final Long version, @NonNull final UUID id) {</span>
-<span class="fc" id="L37">        super(version, id);</span>
-<span class="fc" id="L38">        this.name = &quot;&quot;;</span>
-<span class="fc" id="L39">    }</span>
+    Vet() {
+<span class="fc" id="L38">        super();</span>
+<span class="fc" id="L39">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L40">        this.allSkill = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L41">    }</span>
+
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">    Vet(@NonNull final Long version, @NonNull final UUID id) {</span>
+<span class="fc" id="L44">        super(version, id);</span>
+<span class="fc" id="L45">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L46">        this.allSkill = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L47">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L43">        return super.toString() + &quot;,name='&quot; + name + &quot;'&quot;;</span>
+<span class="fc" id="L51">        return super.toString() + &quot;,name='&quot; + name + &quot;'&quot;;</span>
     }
 
     @Override
     public boolean isEqual(final Vet that) {
-<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (this == that) {</span>
-<span class="fc" id="L49">            return true;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (this == that) {</span>
+<span class="fc" id="L57">            return true;</span>
         }
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (that == null) {</span>
-<span class="fc" id="L52">            return false;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (that == null) {</span>
+<span class="fc" id="L60">            return false;</span>
         }
-<span class="fc" id="L54">        return this.name.equals(that.name);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        return this.name.equals(that.name)&amp;&amp;</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                this.allSkill.equals(that.allSkill);</span>
     }
 
     @Override
     public Vet verify() {
         // Check if name is valid
-<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (name.isBlank()) {</span>
-<span class="fc" id="L61">            throw new IllegalArgumentException(&quot;name is blank&quot;);</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (name.isBlank()) {</span>
+<span class="nc" id="L70">            throw new IllegalArgumentException(&quot;name is blank&quot;);</span>
         }
-<span class="fc" id="L63">        return this;</span>
+<span class="fc" id="L72">        return this;</span>
     }
 
     @Override
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">    public Vet withId(@NonNull final UUID id) {</span>
-<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
-<span class="fc" id="L69">            return this;</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">    public Vet withId(@NonNull final UUID id) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
+<span class="fc" id="L78">            return this;</span>
         }
-<span class="fc" id="L71">        final Vet value = new Vet(getVersion(), id);</span>
-<span class="fc" id="L72">        value.name = this.name;</span>
-<span class="fc" id="L73">        return value;</span>
+<span class="fc" id="L80">        final Vet value = new Vet(getVersion(), id);</span>
+<span class="fc" id="L81">        value.name = this.name;</span>
+<span class="fc" id="L82">        value.allSkill = this.allSkill;</span>
+<span class="fc" id="L83">        return value;</span>
     }
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="fc" id="L78">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L79">        allExtra.put(&quot;version&quot;, getVersion());</span>
-<span class="fc" id="L80">        return allExtra;</span>
+<span class="fc" id="L88">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L89">        allExtra.put(&quot;version&quot;, getVersion());</span>
+<span class="fc" id="L90">        return allExtra;</span>
+    }
+
+    @JsonIgnore
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">    public Vet addAllSkill(@NonNull final String... text) {</span>
+<span class="fc" id="L95">        this.allSkill.addAll(List.of(text));</span>
+<span class="fc" id="L96">        return this;</span>
+    }
+
+    @JsonIgnore
+<span class="pc bpc" id="L100" title="2 of 4 branches missed.">    public Vet addAllSkill(@NonNull final String text, @NonNull final String regex) {</span>
+<span class="fc" id="L101">        this.allSkill.addAll(List.of(text.split(regex)));</span>
+<span class="fc" id="L102">        return this;</span>
     }
 
     @Override
     public String writeJson() {
-<span class="fc" id="L85">        return new JsonMapper().writeJson(this);</span>
+<span class="fc" id="L107">        return new JsonMapper().writeJson(this);</span>
     }
 
-<span class="pc bpc" id="L88" title="1 of 2 branches missed.">    public static Vet parseJson(@NonNull final String json) {</span>
-<span class="fc" id="L89">        return new JsonMapper().parseJson(json, Vet.class);</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">    public static Vet parseJson(@NonNull final String json) {</span>
+<span class="fc" id="L111">        return new JsonMapper().parseJson(json, Vet.class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

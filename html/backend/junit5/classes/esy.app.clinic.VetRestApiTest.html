@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">15</div>
+<div class="counter">16</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.496s</div>
+<div class="counter">0.583s</div>
 <p>duration</p>
 </div>
 </td>
@@ -87,85 +87,91 @@
 <tr>
 <td class="success">deleteApiVet()</td>
 <td class="success">deleteApiVet()</td>
-<td class="success">0.055s</td>
+<td class="success">0.056s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteApiVetNotFound()</td>
 <td class="success">deleteApiVetNotFound()</td>
+<td class="success">0.027s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getApiVet()</td>
+<td class="success">getApiVet()</td>
+<td class="success">0.049s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getApiVetById()</td>
+<td class="success">getApiVetById()</td>
+<td class="success">0.025s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getApiVetByIdNotFound()</td>
+<td class="success">getApiVetByIdNotFound()</td>
+<td class="success">0.021s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getApiVetByName()</td>
+<td class="success">getApiVetByName()</td>
 <td class="success">0.031s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">getApiVet()</td>
-<td class="success">getApiVet()</td>
-<td class="success">0.026s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getApiVetById()</td>
-<td class="success">getApiVetById()</td>
-<td class="success">0.024s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getApiVetByIdNotFound()</td>
-<td class="success">getApiVetByIdNotFound()</td>
-<td class="success">0.032s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getApiVetByName()</td>
-<td class="success">getApiVetByName()</td>
-<td class="success">0.030s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
 <td class="success">getApiVetByNameNotFound()</td>
 <td class="success">getApiVetByNameNotFound()</td>
-<td class="success">0.048s</td>
+<td class="success">0.039s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getApiVetItem()</td>
 <td class="success">getApiVetItem()</td>
-<td class="success">0.034s</td>
+<td class="success">0.041s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getApiVetNoElement()</td>
 <td class="success">getApiVetNoElement()</td>
-<td class="success">0.022s</td>
+<td class="success">0.025s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[1] name=Mia Musterfrau</td>
 <td class="success">patchApiVetName(String)[1]</td>
-<td class="success">0.031s</td>
+<td class="success">0.044s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] name=Bea Musterfrau</td>
 <td class="success">patchApiVetName(String)[2]</td>
-<td class="success">0.026s</td>
+<td class="success">0.039s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">patchApiVetSkill()</td>
+<td class="success">patchApiVetSkill()</td>
+<td class="success">0.043s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">postApiVet()</td>
 <td class="success">postApiVet()</td>
-<td class="success">0.027s</td>
+<td class="success">0.031s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">postApiVetConflict()</td>
 <td class="success">postApiVetConflict()</td>
-<td class="success">0.044s</td>
+<td class="success">0.042s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">putApiVet()</td>
 <td class="success">putApiVet()</td>
-<td class="success">0.046s</td>
+<td class="success">0.050s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -173,28 +179,28 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2022-02-02 20:43:55.345  INFO 1786 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [esy.app.clinic.VetRestApiTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2022-02-02 20:43:55.347  INFO 1786 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-2022-02-02 20:43:55.347  INFO 1786 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@23a0f687, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@2ab6bac6, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@117e1d92, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5cad8998, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@781d5844, org.springframework.test.context.support.DirtiesContextTestExecutionListener@6762ad0b, org.springframework.test.context.transaction.TransactionalTestExecutionListener@691aef8, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@364016fb, org.springframework.test.context.event.EventPublishingTestExecutionListener@248da70f, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@56754c60, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@5d98ce38, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@6bd9fcbe, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@22a58b15, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@5e4fd56d, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@453d2992]
-2022-02-02 20:43:55.363  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.363  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.364  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre>2022-02-03 14:21:33.912  INFO 1761 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [esy.app.clinic.VetRestApiTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-02-03 14:21:33.914  INFO 1761 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-02-03 14:21:33.915  INFO 1761 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3089208f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@3878421a, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@65200fc9, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7ef83b3f, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@78ce137, org.springframework.test.context.support.DirtiesContextTestExecutionListener@7d1e0b4e, org.springframework.test.context.transaction.TransactionalTestExecutionListener@18a51d63, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@273bec8b, org.springframework.test.context.event.EventPublishingTestExecutionListener@475e3402, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@4a9713dc, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@7a6951e8, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@2cea59a, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@34067fe5, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@46fd834a, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@76ab6c6c]
+2022-02-03 14:21:33.921  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:33.921  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:33.923  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         count(*) as col_0_0_ 
     from
         vet vet0_
-2022-02-02 20:43:55.370  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    43900 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:33.927  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    41000 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    336503 nanoseconds spent preparing 1 JDBC statements;
-    78901 nanoseconds spent executing 1 JDBC statements;
+    776406 nanoseconds spent preparing 1 JDBC statements;
+    155701 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    4300 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    5200 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -203,17 +209,17 @@ Hibernate:
         vet0_.name as name3_3_ 
     from
         vet vet0_ limit ?
-2022-02-02 20:43:55.377  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    32401 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:33.934  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    29200 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    256702 nanoseconds spent preparing 1 JDBC statements;
-    81901 nanoseconds spent executing 1 JDBC statements;
+    266402 nanoseconds spent preparing 1 JDBC statements;
+    58800 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    5300 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    4200 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 
 MockHttpServletRequest:
@@ -264,9 +270,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.386  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.386  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.386  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2022-02-03 14:21:33.946  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:33.946  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:33.947  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_,
@@ -276,11 +282,11 @@ Hibernate:
         vet vet0_ 
     where
         vet0_.name=?
-2022-02-02 20:43:55.389  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    29900 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:33.950  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    34400 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    371203 nanoseconds spent preparing 1 JDBC statements;
-    108401 nanoseconds spent executing 1 JDBC statements;
+    383302 nanoseconds spent preparing 1 JDBC statements;
+    80500 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -288,8 +294,8 @@ Hibernate:
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2022-02-02 20:43:55.394  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:3d09203f-79f5-4a59-9cef-e0b00a0fba8b,name='Max Mustermann']; creating ...
-2022-02-02 20:43:55.394  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:3d09203f-79f5-4a59-9cef-e0b00a0fba8b,name='Max Mustermann']
+2022-02-03 14:21:33.956  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:7b650f0f-6501-4e67-bd74-a5e0c09ff345,name='Max Mustermann']; creating ...
+2022-02-03 14:21:33.956  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:7b650f0f-6501-4e67-bd74-a5e0c09ff345,name='Max Mustermann']
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
@@ -306,17 +312,17 @@ Hibernate:
         (version, name, id) 
     values
         (?, ?, ?)
-2022-02-02 20:43:55.399  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:3d09203f-79f5-4a59-9cef-e0b00a0fba8b,name='Max Mustermann']
-2022-02-02 20:43:55.404  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27200 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:33.962  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:7b650f0f-6501-4e67-bd74-a5e0c09ff345,name='Max Mustermann']
+2022-02-03 14:21:33.969  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    28900 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    549604 nanoseconds spent preparing 2 JDBC statements;
-    144101 nanoseconds spent executing 2 JDBC statements;
+    528904 nanoseconds spent preparing 2 JDBC statements;
+    124201 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    747105 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    834206 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 
@@ -350,27 +356,28 @@ FlashMap:
 MockHttpServletResponse:
            Status = 201
     Error message = null
-          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/vet/3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;, Content-Type:&quot;application/json&quot;]
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/vet/7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;id&quot; : &quot;3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;,
+  &quot;id&quot; : &quot;7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;,
   &quot;name&quot; : &quot;Max Mustermann&quot;,
+  &quot;allSkill&quot; : [ ],
   &quot;version&quot; : 0,
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
     &quot;rel&quot; : &quot;self&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/vet/3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/vet/7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;
   }, {
     &quot;rel&quot; : &quot;vet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/vet/3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/vet/7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;
   } ]
 }
     Forwarded URL = null
-   Redirected URL = http://localhost:8080/api/vet/3d09203f-79f5-4a59-9cef-e0b00a0fba8b
+   Redirected URL = http://localhost:8080/api/vet/7b650f0f-6501-4e67-bd74-a5e0c09ff345
           Cookies = []
-2022-02-02 20:43:55.413  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.413  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.413  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2022-02-03 14:21:33.980  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:33.980  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:33.981  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_,
@@ -380,11 +387,21 @@ Hibernate:
         vet vet0_ 
     where
         vet0_.name=?
-2022-02-02 20:43:55.415  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    29000 nanoseconds spent acquiring 1 JDBC connections;
+Hibernate: 
+    select
+        allskill0_.id as id1_4_0_,
+        allskill0_.skill as skill2_4_0_ 
+    from
+        vet_skill allskill0_ 
+    where
+        allskill0_.id=? 
+    order by
+        allskill0_.skill asc
+2022-02-03 14:21:33.984  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    31400 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    335303 nanoseconds spent preparing 1 JDBC statements;
-    114201 nanoseconds spent executing 1 JDBC statements;
+    620104 nanoseconds spent preparing 2 JDBC statements;
+    230501 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -392,8 +409,8 @@ Hibernate:
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2022-02-02 20:43:55.418  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:542314d5-1428-4493-8762-4cf4dd8330b6,name='Max Mustermann']; creating ...
-2022-02-02 20:43:55.418  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:542314d5-1428-4493-8762-4cf4dd8330b6,name='Max Mustermann']
+2022-02-03 14:21:33.987  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:b657774e-b1ae-4740-85a4-ebb17e62f4c6,name='Max Mustermann']; creating ...
+2022-02-03 14:21:33.988  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:b657774e-b1ae-4740-85a4-ebb17e62f4c6,name='Max Mustermann']
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
@@ -410,10 +427,10 @@ Hibernate:
         (version, name, id) 
     values
         (?, ?, ?)
-2022-02-02 20:43:55.424  WARN 1786 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2022-02-02 20:43:55.424 ERROR 1786 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation; UK_VET table: VET
-2022-02-02 20:43:55.429  INFO 1786 --- [    Test worker] o.h.e.j.b.internal.AbstractBatchImpl     : HHH000010: On release of batch it still contained JDBC statements
-2022-02-02 20:43:55.434 ERROR 1786 --- [    Test worker] esy.app.EndpointControllerAdvice         : org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [UK_VET]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+2022-02-03 14:21:33.992  WARN 1761 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2022-02-03 14:21:33.992 ERROR 1761 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation; UK_VET table: VET
+2022-02-03 14:21:33.993  INFO 1761 --- [    Test worker] o.h.e.j.b.internal.AbstractBatchImpl     : HHH000010: On release of batch it still contained JDBC statements
+2022-02-03 14:21:33.997 ERROR 1761 --- [    Test worker] esy.app.EndpointControllerAdvice         : org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [UK_VET]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
 
 org.hsqldb.HsqlException: integrity constraint violation: unique constraint or index violation; UK_VET table: VET
 	at org.hsqldb.error.Error.error(Unknown Source) ~[hsqldb-2.5.2.jar:2.5.2]
@@ -467,7 +484,7 @@ org.hsqldb.HsqlException: integrity constraint violation: unique constraint or i
 	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97) ~[spring-aop-5.3.14.jar:5.3.14]
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.14.jar:5.3.14]
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215) ~[spring-aop-5.3.14.jar:5.3.14]
-	at com.sun.proxy.$Proxy180.save(Unknown Source) ~[na:na]
+	at com.sun.proxy.$Proxy183.save(Unknown Source) ~[na:na]
 	at org.springframework.data.repository.support.CrudRepositoryInvoker.invokeSave(CrudRepositoryInvoker.java:101) ~[spring-data-commons-2.6.0.jar:2.6.0]
 	at org.springframework.data.rest.core.support.UnwrappingRepositoryInvokerFactory$UnwrappingRepositoryInvoker.invokeSave(UnwrappingRepositoryInvokerFactory.java:181) ~[spring-data-rest-core-3.6.0.jar:3.6.0]
 	at org.springframework.data.rest.webmvc.RepositoryEntityController.createAndReturn(RepositoryEntityController.java:474) ~[spring-data-rest-webmvc-3.6.0.jar:3.6.0]
@@ -578,16 +595,16 @@ org.hsqldb.HsqlException: integrity constraint violation: unique constraint or i
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
 
-2022-02-02 20:43:55.446  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    26900 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:33.999  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    28100 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    4666532 nanoseconds spent preparing 2 JDBC statements;
-    490203 nanoseconds spent executing 2 JDBC statements;
+    414303 nanoseconds spent preparing 2 JDBC statements;
+    728606 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    9953470 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    2588518 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 
@@ -627,23 +644,30 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.460  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.460  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.461  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.024  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.024  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.027  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.466  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    42400 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.033  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    43000 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    472403 nanoseconds spent preparing 1 JDBC statements;
-    136201 nanoseconds spent executing 1 JDBC statements;
+    474904 nanoseconds spent preparing 1 JDBC statements;
+    90401 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -655,13 +679,20 @@ Hibernate:
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.475  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; creating ...
-2022-02-02 20:43:55.475  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.040  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; creating ...
+2022-02-03 14:21:34.040  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
@@ -678,17 +709,17 @@ Hibernate:
         (version, name, id) 
     values
         (?, ?, ?)
-2022-02-02 20:43:55.481  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
-2022-02-02 20:43:55.484  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    32300 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.051  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+2022-02-03 14:21:34.053  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    27901 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    776005 nanoseconds spent preparing 3 JDBC statements;
-    330003 nanoseconds spent executing 3 JDBC statements;
+    881607 nanoseconds spent preparing 3 JDBC statements;
+    207002 nanoseconds spent executing 3 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1267909 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    8578058 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 
@@ -727,6 +758,7 @@ MockHttpServletResponse:
              Body = {
   &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;name&quot; : &quot;Bea Musterfrau&quot;,
+  &quot;allSkill&quot; : [ ],
   &quot;version&quot; : 0,
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
@@ -740,23 +772,30 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef
           Cookies = []
-2022-02-02 20:43:55.513  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.513  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.514  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.074  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.075  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.075  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.521  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    47100 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.088  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    46101 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    400903 nanoseconds spent preparing 1 JDBC statements;
-    169101 nanoseconds spent executing 1 JDBC statements;
+    577304 nanoseconds spent preparing 1 JDBC statements;
+    135901 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -768,13 +807,20 @@ Hibernate:
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.528  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Mia Musterfrau']; updating ...
-2022-02-02 20:43:55.528  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Mia Musterfrau']
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.102  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Mia Musterfrau']; updating ...
+2022-02-03 14:21:34.102  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:a1111111-1111-beef-dead-beefdeadbeef,name='Mia Musterfrau']
 Hibernate: 
     update
         vet 
@@ -784,17 +830,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2022-02-02 20:43:55.531  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:a1111111-1111-beef-dead-beefdeadbeef,name='Mia Musterfrau']
-2022-02-02 20:43:55.532  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    30701 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.105  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:a1111111-1111-beef-dead-beefdeadbeef,name='Mia Musterfrau']
+2022-02-03 14:21:34.107  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    37401 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    565904 nanoseconds spent preparing 2 JDBC statements;
-    340403 nanoseconds spent executing 2 JDBC statements;
+    757205 nanoseconds spent preparing 2 JDBC statements;
+    255402 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1563111 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    1593210 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 
@@ -833,6 +879,7 @@ MockHttpServletResponse:
              Body = {
   &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;name&quot; : &quot;Mia Musterfrau&quot;,
+  &quot;allSkill&quot; : [ ],
   &quot;version&quot; : 1,
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
@@ -846,23 +893,30 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.545  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.545  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.546  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.124  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.124  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.125  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.548  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    68700 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.129  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    40800 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    307402 nanoseconds spent preparing 1 JDBC statements;
-    92900 nanoseconds spent executing 1 JDBC statements;
+    434003 nanoseconds spent preparing 1 JDBC statements;
+    113101 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -874,13 +928,20 @@ Hibernate:
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.556  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; updating ...
-2022-02-02 20:43:55.556  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.139  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; updating ...
+2022-02-03 14:21:34.140  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
 Hibernate: 
     update
         vet 
@@ -890,17 +951,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2022-02-02 20:43:55.559  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
-2022-02-02 20:43:55.560  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    26500 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.141  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+2022-02-03 14:21:34.150  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    31100 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    505203 nanoseconds spent preparing 2 JDBC statements;
-    242902 nanoseconds spent executing 2 JDBC statements;
+    610303 nanoseconds spent preparing 2 JDBC statements;
+    231002 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1381510 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    914506 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 
@@ -939,6 +1000,7 @@ MockHttpServletResponse:
              Body = {
   &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;name&quot; : &quot;Bea Musterfrau&quot;,
+  &quot;allSkill&quot; : [ ],
   &quot;version&quot; : 2,
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
@@ -952,25 +1014,160 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.572  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.572  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.573  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2022-02-03 14:21:34.162  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.162  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.165  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
 Hibernate: 
     select
-        count(*) as col_0_0_ 
+        vet0_.id as id1_3_0_,
+        vet0_.version as version2_3_0_,
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
-        vet vet0_
-2022-02-02 20:43:55.575  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    26100 nanoseconds spent acquiring 1 JDBC connections;
+        vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
+    where
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.171  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    33300 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    240802 nanoseconds spent preparing 1 JDBC statements;
-    167001 nanoseconds spent executing 1 JDBC statements;
+    805005 nanoseconds spent preparing 1 JDBC statements;
+    97201 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    5200 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+Hibernate: 
+    select
+        vet0_.id as id1_3_0_,
+        vet0_.version as version2_3_0_,
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
+    from
+        vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
+    where
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.183  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; updating ...
+2022-02-03 14:21:34.183  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+Hibernate: 
+    update
+        vet 
+    set
+        version=?,
+        name=? 
+    where
+        id=? 
+        and version=?
+Hibernate: 
+    insert 
+    into
+        vet_skill
+        (id, skill) 
+    values
+        (?, ?)
+Hibernate: 
+    insert 
+    into
+        vet_skill
+        (id, skill) 
+    values
+        (?, ?)
+2022-02-03 14:21:34.189  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+2022-02-03 14:21:34.194  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    29000 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    3022019 nanoseconds spent preparing 4 JDBC statements;
+    1880513 nanoseconds spent executing 4 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    5469336 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 2 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = PATCH
+      Request URI = /api/vet/a1111111-1111-beef-dead-beefdeadbeef
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/merge-patch+json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;23&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = org.springframework.data.rest.webmvc.RepositoryEntityController
+           Method = org.springframework.data.rest.webmvc.RepositoryEntityController#patchItemResource(RootResourceInformation, PersistentEntityResource, Serializable, PersistentEntityResourceAssembler, ETag, String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;3&quot;&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {
+  &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
+  &quot;name&quot; : &quot;Bea Musterfrau&quot;,
+  &quot;allSkill&quot; : [ &quot;A&quot;, &quot;Z&quot; ],
+  &quot;version&quot; : 3,
+  &quot;content&quot; : [ ],
+  &quot;links&quot; : [ {
+    &quot;rel&quot; : &quot;self&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef&quot;
+  }, {
+    &quot;rel&quot; : &quot;vet&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef&quot;
+  } ]
+}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2022-02-03 14:21:34.205  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.205  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.206  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        count(*) as col_0_0_ 
+    from
+        vet vet0_
+2022-02-03 14:21:34.209  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    35800 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    298402 nanoseconds spent preparing 1 JDBC statements;
+    64301 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    4800 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -981,11 +1178,31 @@ Hibernate:
         vet vet0_ 
     order by
         vet0_.name asc
-2022-02-02 20:43:55.586  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    54400 nanoseconds spent acquiring 1 JDBC connections;
+Hibernate: 
+    select
+        allskill0_.id as id1_4_0_,
+        allskill0_.skill as skill2_4_0_ 
+    from
+        vet_skill allskill0_ 
+    where
+        allskill0_.id=? 
+    order by
+        allskill0_.skill asc
+Hibernate: 
+    select
+        allskill0_.id as id1_4_0_,
+        allskill0_.skill as skill2_4_0_ 
+    from
+        vet_skill allskill0_ 
+    where
+        allskill0_.id=? 
+    order by
+        allskill0_.skill asc
+2022-02-03 14:21:34.236  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    35400 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    347202 nanoseconds spent preparing 1 JDBC statements;
-    157601 nanoseconds spent executing 1 JDBC statements;
+    2132014 nanoseconds spent preparing 3 JDBC statements;
+    1064008 nanoseconds spent executing 3 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1034,7 +1251,8 @@ MockHttpServletResponse:
   &quot;content&quot; : [ {
     &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
     &quot;name&quot; : &quot;Bea Musterfrau&quot;,
-    &quot;version&quot; : 2,
+    &quot;allSkill&quot; : [ &quot;A&quot;, &quot;Z&quot; ],
+    &quot;version&quot; : 3,
     &quot;content&quot; : [ ],
     &quot;links&quot; : [ {
       &quot;rel&quot; : &quot;self&quot;,
@@ -1044,41 +1262,42 @@ MockHttpServletResponse:
       &quot;href&quot; : &quot;http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef&quot;
     } ]
   }, {
-    &quot;id&quot; : &quot;3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;,
+    &quot;id&quot; : &quot;7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;,
     &quot;name&quot; : &quot;Max Mustermann&quot;,
+    &quot;allSkill&quot; : [ ],
     &quot;version&quot; : 0,
     &quot;content&quot; : [ ],
     &quot;links&quot; : [ {
       &quot;rel&quot; : &quot;self&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/vet/3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/vet/7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;
     }, {
       &quot;rel&quot; : &quot;vet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/vet/3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/vet/7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;
     } ]
   } ]
 }
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.603  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.604  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.605  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.259  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.259  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.259  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 Hibernate: 
     select
         count(*) as col_0_0_ 
     from
         vet vet0_
-2022-02-02 20:43:55.607  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    48901 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.272  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38301 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    382602 nanoseconds spent preparing 1 JDBC statements;
-    78900 nanoseconds spent executing 1 JDBC statements;
+    1941413 nanoseconds spent preparing 1 JDBC statements;
+    248802 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    6300 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    5100 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -1089,11 +1308,31 @@ Hibernate:
         vet vet0_ 
     order by
         vet0_.name asc
-2022-02-02 20:43:55.611  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    31500 nanoseconds spent acquiring 1 JDBC connections;
+Hibernate: 
+    select
+        allskill0_.id as id1_4_0_,
+        allskill0_.skill as skill2_4_0_ 
+    from
+        vet_skill allskill0_ 
+    where
+        allskill0_.id=? 
+    order by
+        allskill0_.skill asc
+Hibernate: 
+    select
+        allskill0_.id as id1_4_0_,
+        allskill0_.skill as skill2_4_0_ 
+    from
+        vet_skill allskill0_ 
+    where
+        allskill0_.id=? 
+    order by
+        allskill0_.skill asc
+2022-02-03 14:21:34.280  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    32400 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    322402 nanoseconds spent preparing 1 JDBC statements;
-    108201 nanoseconds spent executing 1 JDBC statements;
+    2592917 nanoseconds spent preparing 3 JDBC statements;
+    481004 nanoseconds spent executing 3 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1140,30 +1379,37 @@ MockHttpServletResponse:
     &quot;value&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
     &quot;text&quot; : &quot;Bea Musterfrau&quot;
   }, {
-    &quot;value&quot; : &quot;3d09203f-79f5-4a59-9cef-e0b00a0fba8b&quot;,
+    &quot;value&quot; : &quot;7b650f0f-6501-4e67-bd74-a5e0c09ff345&quot;,
     &quot;text&quot; : &quot;Max Mustermann&quot;
   } ]
 }
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.638  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.638  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.639  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.297  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.297  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.298  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.643  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    49400 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.302  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    33700 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    470404 nanoseconds spent preparing 1 JDBC statements;
-    185602 nanoseconds spent executing 1 JDBC statements;
+    374202 nanoseconds spent preparing 1 JDBC statements;
+    99400 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1175,16 +1421,23 @@ Hibernate:
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.650  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    30700 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.309  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    28000 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    339002 nanoseconds spent preparing 1 JDBC statements;
-    127601 nanoseconds spent executing 1 JDBC statements;
+    402403 nanoseconds spent preparing 1 JDBC statements;
+    90301 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1223,12 +1476,13 @@ FlashMap:
 MockHttpServletResponse:
            Status = 200
     Error message = null
-          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;2&quot;&quot;, Content-Type:&quot;application/json&quot;]
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;3&quot;&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
   &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;name&quot; : &quot;Bea Musterfrau&quot;,
-  &quot;version&quot; : 2,
+  &quot;allSkill&quot; : [ &quot;A&quot;, &quot;Z&quot; ],
+  &quot;version&quot; : 3,
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
     &quot;rel&quot; : &quot;self&quot;,
@@ -1241,23 +1495,30 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.663  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.663  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.666  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.322  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.322  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.323  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.668  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    35601 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.326  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    27201 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    454103 nanoseconds spent preparing 1 JDBC statements;
-    88401 nanoseconds spent executing 1 JDBC statements;
+    349102 nanoseconds spent preparing 1 JDBC statements;
+    79300 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1269,16 +1530,23 @@ Hibernate:
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.675  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27900 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.331  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    28400 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    293002 nanoseconds spent preparing 1 JDBC statements;
-    92001 nanoseconds spent executing 1 JDBC statements;
+    366803 nanoseconds spent preparing 1 JDBC statements;
+    65401 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1323,9 +1591,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.696  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.697  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.697  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2022-02-03 14:21:34.345  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.345  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.346  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_,
@@ -1335,11 +1603,21 @@ Hibernate:
         vet vet0_ 
     where
         vet0_.name=?
-2022-02-02 20:43:55.708  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    44800 nanoseconds spent acquiring 1 JDBC connections;
+Hibernate: 
+    select
+        allskill0_.id as id1_4_0_,
+        allskill0_.skill as skill2_4_0_ 
+    from
+        vet_skill allskill0_ 
+    where
+        allskill0_.id=? 
+    order by
+        allskill0_.skill asc
+2022-02-03 14:21:34.354  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    36400 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    4650432 nanoseconds spent preparing 1 JDBC statements;
-    182801 nanoseconds spent executing 1 JDBC statements;
+    630204 nanoseconds spent preparing 2 JDBC statements;
+    192001 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1378,12 +1656,13 @@ FlashMap:
 MockHttpServletResponse:
            Status = 200
     Error message = null
-          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;2&quot;&quot;, Content-Type:&quot;application/json&quot;]
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;3&quot;&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
   &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;name&quot; : &quot;Bea Musterfrau&quot;,
-  &quot;version&quot; : 2,
+  &quot;allSkill&quot; : [ &quot;A&quot;, &quot;Z&quot; ],
+  &quot;version&quot; : 3,
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
     &quot;rel&quot; : &quot;self&quot;,
@@ -1396,9 +1675,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.735  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.735  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.736  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.376  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.376  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.377  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_,
@@ -1408,11 +1687,11 @@ Hibernate:
         vet vet0_ 
     where
         vet0_.name=?
-2022-02-02 20:43:55.738  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    47300 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.384  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    34700 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    564204 nanoseconds spent preparing 1 JDBC statements;
-    120301 nanoseconds spent executing 1 JDBC statements;
+    344302 nanoseconds spent preparing 1 JDBC statements;
+    111701 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1429,11 +1708,11 @@ Hibernate:
         vet vet0_ 
     where
         vet0_.name=?
-2022-02-02 20:43:55.750  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    34800 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.399  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    35100 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    7057549 nanoseconds spent preparing 1 JDBC statements;
-    114400 nanoseconds spent executing 1 JDBC statements;
+    882206 nanoseconds spent preparing 1 JDBC statements;
+    94000 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1478,23 +1757,30 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.794  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.794  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.796  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2022-02-03 14:21:34.419  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.419  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.420  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.804  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    61900 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.437  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    34700 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1418010 nanoseconds spent preparing 1 JDBC statements;
-    145501 nanoseconds spent executing 1 JDBC statements;
+    8452956 nanoseconds spent preparing 1 JDBC statements;
+    117301 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1506,13 +1792,26 @@ Hibernate:
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.816  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; deleting ...
-2022-02-02 20:43:55.821  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.441  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; deleting ...
+2022-02-03 14:21:34.441  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+Hibernate: 
+    delete 
+    from
+        vet_skill 
+    where
+        id=?
 Hibernate: 
     delete 
     from
@@ -1520,17 +1819,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2022-02-02 20:43:55.825  INFO 1786 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
-2022-02-02 20:43:55.826  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    41001 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.454  INFO 1761 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : DELETED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+2022-02-03 14:21:34.455  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    31600 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    794405 nanoseconds spent preparing 2 JDBC statements;
-    284002 nanoseconds spent executing 2 JDBC statements;
+    970807 nanoseconds spent preparing 3 JDBC statements;
+    725004 nanoseconds spent executing 3 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1049508 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    2244815 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 
@@ -1570,23 +1869,30 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.845  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.845  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.846  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-02-03 14:21:34.476  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.476  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.476  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 Hibernate: 
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.852  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    47000 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.483  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    33101 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    485503 nanoseconds spent preparing 1 JDBC statements;
-    183901 nanoseconds spent executing 1 JDBC statements;
+    356202 nanoseconds spent preparing 1 JDBC statements;
+    64800 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1598,16 +1904,23 @@ Hibernate:
     select
         vet0_.id as id1_3_0_,
         vet0_.version as version2_3_0_,
-        vet0_.name as name3_3_0_ 
+        vet0_.name as name3_3_0_,
+        allskill1_.id as id1_4_1_,
+        allskill1_.skill as skill2_4_1_ 
     from
         vet vet0_ 
+    left outer join
+        vet_skill allskill1_ 
+            on vet0_.id=allskill1_.id 
     where
-        vet0_.id=?
-2022-02-02 20:43:55.864  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    34100 nanoseconds spent acquiring 1 JDBC connections;
+        vet0_.id=? 
+    order by
+        allskill1_.skill asc
+2022-02-03 14:21:34.491  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    31100 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    840706 nanoseconds spent preparing 1 JDBC statements;
-    104401 nanoseconds spent executing 1 JDBC statements;
+    337302 nanoseconds spent preparing 1 JDBC statements;
+    61900 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1652,15 +1965,10 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2022-02-02 20:43:55.873  INFO 1786 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@1f8cb968 testClass = VetRestApiTest, testInstance = esy.app.clinic.VetRestApiTest@14a8b97c, testMethod = cleanup@VetRestApiTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@24190c5d testClass = VetRestApiTest, locations = '{}', classes = '{class esy.app.EndpointConfiguration}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@304744a1, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa09d, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@3e01796a, [ImportsContextCustomizer@38717c17 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@5310e451, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@40738846, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@2c1a8529, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@73971965], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@6e318579]; rollback [false]
-2022-02-02 20:43:55.878  INFO 1786 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-02-02 20:43:55.878  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-02-02 20:43:55.879  INFO 1786 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-Hibernate: 
-    select
-        count(*) as col_0_0_ 
-    from
-        vet vet0_
+2022-02-03 14:21:34.505  INFO 1761 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@2cd81a91 testClass = VetRestApiTest, testInstance = esy.app.clinic.VetRestApiTest@3bf2b8a7, testMethod = cleanup@VetRestApiTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@f6ad89a testClass = VetRestApiTest, locations = '{}', classes = '{class esy.app.EndpointConfiguration}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@3dc55719, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa09d, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@3cad24ae, [ImportsContextCustomizer@5084d64c key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@6d31f14, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@56299b0e, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@62054faf, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe533ff], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@398c013d]; rollback [false]
+2022-02-03 14:21:34.508  INFO 1761 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-02-03 14:21:34.508  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-02-03 14:21:34.509  INFO 1761 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         vet0_.id as id1_3_,
@@ -1669,25 +1977,35 @@ Hibernate:
     from
         vet vet0_
 Hibernate: 
+    select
+        allskill0_.id as id1_4_0_,
+        allskill0_.skill as skill2_4_0_ 
+    from
+        vet_skill allskill0_ 
+    where
+        allskill0_.id=? 
+    order by
+        allskill0_.skill asc
+Hibernate: 
     delete 
     from
         vet 
     where
         id=? 
         and version=?
-2022-02-02 20:43:55.889  INFO 1786 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    33401 nanoseconds spent acquiring 1 JDBC connections;
+2022-02-03 14:21:34.519  INFO 1761 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    51100 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1276408 nanoseconds spent preparing 3 JDBC statements;
-    337802 nanoseconds spent executing 3 JDBC statements;
+    1500710 nanoseconds spent preparing 3 JDBC statements;
+    223300 nanoseconds spent executing 3 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    2003714 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    16600 nanoseconds spent executing 2 partial-flushes (flushing a total of 0 entities and 0 collections)
+    2056714 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    7300 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2022-02-02 20:43:55.891  INFO 1786 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Committed transaction for test: [DefaultTestContext@1f8cb968 testClass = VetRestApiTest, testInstance = esy.app.clinic.VetRestApiTest@14a8b97c, testMethod = cleanup@VetRestApiTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@24190c5d testClass = VetRestApiTest, locations = '{}', classes = '{class esy.app.EndpointConfiguration}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@304744a1, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa09d, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@3e01796a, [ImportsContextCustomizer@38717c17 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@5310e451, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@40738846, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@2c1a8529, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@73971965], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+2022-02-03 14:21:34.521  INFO 1761 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Committed transaction for test: [DefaultTestContext@2cd81a91 testClass = VetRestApiTest, testInstance = esy.app.clinic.VetRestApiTest@3bf2b8a7, testMethod = cleanup@VetRestApiTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@f6ad89a testClass = VetRestApiTest, locations = '{}', classes = '{class esy.app.EndpointConfiguration}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@3dc55719, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa09d, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@3cad24ae, [ImportsContextCustomizer@5084d64c key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@6d31f14, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@56299b0e, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@62054faf, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe533ff], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
 </pre>
 </span>
 </div>
@@ -1699,7 +2017,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.3.3</a> at Feb 2, 2022, 8:44:04 PM</p>
+<a href="http://www.gradle.org">Gradle 7.3.3</a> at Feb 3, 2022, 2:21:42 PM</p>
 </div>
 </div>
 </body>

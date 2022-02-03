@@ -2,7 +2,7 @@
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import esy.json.JsonJpaValueBase;
+import esy.json.JsonJpaEntity;
 import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,22 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * Value-Objekt für eine Aufzählung
- */
 @Entity
 @Table(name = &quot;enum&quot;, uniqueConstraints = {
         @UniqueConstraint(columnNames = {&quot;id&quot;}),
         @UniqueConstraint(columnNames = {&quot;art&quot;, &quot;code&quot;}),
         @UniqueConstraint(columnNames = {&quot;art&quot;, &quot;name&quot;})
 })
-public final class EnumValue extends JsonJpaValueBase&lt;EnumValue&gt; {
+public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
 
     /**
      * Art der Aufzählung (Diskriminitor)
      */
     @Column(name = &quot;art&quot;)
-<span class="fc" id="L33">    @Getter</span>
+<span class="fc" id="L30">    @Getter</span>
     @JsonProperty
     private String art;
 
@@ -38,7 +35,7 @@ public final class EnumValue extends JsonJpaValueBase&lt;EnumValue&gt; {
      * Code eines Wertes.
      */
     @Column(name = &quot;code&quot;)
-<span class="fc" id="L41">    @Getter</span>
+<span class="fc" id="L38">    @Getter</span>
     @JsonProperty
     private Long code;
 
@@ -46,7 +43,7 @@ public final class EnumValue extends JsonJpaValueBase&lt;EnumValue&gt; {
      * Name eines Wertes (Kurzbezeichnung, Kürzel, Abkürzung)
      */
     @Column(name = &quot;name&quot;)
-<span class="fc" id="L49">    @Getter</span>
+<span class="fc" id="L46">    @Getter</span>
     @JsonProperty
     private String name;
 
@@ -54,7 +51,7 @@ public final class EnumValue extends JsonJpaValueBase&lt;EnumValue&gt; {
      * Text eines Wertes (Langbezeichnung, Beschreibung)
      */
     @Column(name = &quot;text&quot;)
-<span class="fc" id="L57">    @Getter</span>
+<span class="fc" id="L54">    @Getter</span>
     @JsonProperty
     private String text;
 
@@ -64,103 +61,103 @@ public final class EnumValue extends JsonJpaValueBase&lt;EnumValue&gt; {
      * {@link #verify()} ist nicht erfolgreich.
      */
     EnumValue() {
-<span class="fc" id="L67">        super();</span>
-<span class="fc" id="L68">        this.art = &quot;&quot;;</span>
-<span class="fc" id="L69">        this.code = 0L;</span>
-<span class="fc" id="L70">        this.name = &quot;&quot;;</span>
-<span class="fc" id="L71">        this.text = &quot;&quot;;</span>
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L64">        super();</span>
+<span class="fc" id="L65">        this.art = &quot;&quot;;</span>
+<span class="fc" id="L66">        this.code = 0L;</span>
+<span class="fc" id="L67">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L68">        this.text = &quot;&quot;;</span>
+<span class="fc" id="L69">    }</span>
 
     /**
      * Erzeugt eine Instanz mit Standardwerten. Die
      * Instanz ist nicht gültig, d.h. der Aufruf von
      * {@link #verify()} ist nicht erfolgreich.
      */
-<span class="pc bpc" id="L79" title="2 of 4 branches missed.">    EnumValue(@NonNull final Long version, @NonNull final UUID id) {</span>
-<span class="fc" id="L80">        super(version, id);</span>
-<span class="fc" id="L81">        this.art = &quot;&quot;;</span>
-<span class="fc" id="L82">        this.code = 0L;</span>
-<span class="fc" id="L83">        this.name = &quot;&quot;;</span>
-<span class="fc" id="L84">        this.text = &quot;&quot;;</span>
-<span class="fc" id="L85">    }</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">    EnumValue(@NonNull final Long version, @NonNull final UUID id) {</span>
+<span class="fc" id="L77">        super(version, id);</span>
+<span class="fc" id="L78">        this.art = &quot;&quot;;</span>
+<span class="fc" id="L79">        this.code = 0L;</span>
+<span class="fc" id="L80">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L81">        this.text = &quot;&quot;;</span>
+<span class="fc" id="L82">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L89">        return super.toString() + &quot;,art='&quot; + art + &quot;'&quot; + &quot;,text='&quot; + text + &quot;'&quot;;</span>
+<span class="fc" id="L86">        return super.toString() + &quot;,art='&quot; + art + &quot;'&quot; + &quot;,text='&quot; + text + &quot;'&quot;;</span>
     }
 
     @Override
     public boolean isEqual(final EnumValue that) {
-<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (this == that) {</span>
-<span class="fc" id="L95">            return true;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (this == that) {</span>
+<span class="fc" id="L92">            return true;</span>
         }
-<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (that == null) {</span>
-<span class="fc" id="L98">            return false;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (that == null) {</span>
+<span class="fc" id="L95">            return false;</span>
         }
-<span class="pc bpc" id="L100" title="2 of 4 branches missed.">        return this.art.equals(that.art) &amp;&amp;</span>
+<span class="pc bpc" id="L97" title="2 of 4 branches missed.">        return this.art.equals(that.art) &amp;&amp;</span>
                 this.code == that.code &amp;&amp;
-<span class="fc bfc" id="L102" title="All 2 branches covered.">                this.name.equals(that.name) &amp;&amp;</span>
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">                this.text.equals(that.text);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">                this.name.equals(that.name) &amp;&amp;</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                this.text.equals(that.text);</span>
     }
 
     @Override
     public EnumValue verify() {
-<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (name.isBlank()) {</span>
-<span class="fc" id="L109">            throw new IllegalArgumentException(&quot;name is blank&quot;);</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (name.isBlank()) {</span>
+<span class="fc" id="L106">            throw new IllegalArgumentException(&quot;name is blank&quot;);</span>
         }
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (text.isBlank()) {</span>
-<span class="nc" id="L112">            throw new IllegalArgumentException(&quot;text is blank&quot;);</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if (text.isBlank()) {</span>
+<span class="nc" id="L109">            throw new IllegalArgumentException(&quot;text is blank&quot;);</span>
         }
-<span class="fc" id="L114">        return this;</span>
+<span class="fc" id="L111">        return this;</span>
     }
 
     @Override
-<span class="pc bpc" id="L118" title="1 of 2 branches missed.">    public EnumValue withId(@NonNull final UUID id) {</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (getId().equals(id)) {</span>
-<span class="fc" id="L120">            return this;</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    public EnumValue withId(@NonNull final UUID id) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (getId().equals(id)) {</span>
+<span class="fc" id="L117">            return this;</span>
         }
-<span class="fc" id="L122">        final EnumValue value = new EnumValue(getVersion(), id);</span>
-<span class="fc" id="L123">        value.art = this.art;</span>
-<span class="fc" id="L124">        value.code = this.code;</span>
-<span class="fc" id="L125">        value.name = this.name;</span>
-<span class="fc" id="L126">        value.text = this.text;</span>
-<span class="fc" id="L127">        return value;</span>
+<span class="fc" id="L119">        final EnumValue value = new EnumValue(getVersion(), id);</span>
+<span class="fc" id="L120">        value.art = this.art;</span>
+<span class="fc" id="L121">        value.code = this.code;</span>
+<span class="fc" id="L122">        value.name = this.name;</span>
+<span class="fc" id="L123">        value.text = this.text;</span>
+<span class="fc" id="L124">        return value;</span>
     }
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="fc" id="L132">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L133">        allExtra.put(&quot;version&quot;, getVersion());</span>
-<span class="fc" id="L134">        return allExtra;</span>
+<span class="fc" id="L129">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L130">        allExtra.put(&quot;version&quot;, getVersion());</span>
+<span class="fc" id="L131">        return allExtra;</span>
     }
 
-<span class="pc bpc" id="L137" title="1 of 2 branches missed.">    public EnumValue setArt(@NonNull final String art) {</span>
-<span class="fc" id="L138">        this.art = art;</span>
-<span class="fc" id="L139">        return this;</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">    public EnumValue setArt(@NonNull final String art) {</span>
+<span class="fc" id="L135">        this.art = art;</span>
+<span class="fc" id="L136">        return this;</span>
     }
 
-<span class="fc bfc" id="L142" title="All 2 branches covered.">    public EnumValue setCode(@NonNull final Long code) {</span>
-<span class="fc" id="L143">        this.code = code;</span>
-<span class="fc" id="L144">        return this;</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">    public EnumValue setCode(@NonNull final Long code) {</span>
+<span class="fc" id="L140">        this.code = code;</span>
+<span class="fc" id="L141">        return this;</span>
     }
 
-<span class="fc bfc" id="L147" title="All 2 branches covered.">    public EnumValue setName(@NonNull final String name) {</span>
-<span class="fc" id="L148">        this.name = name;</span>
-<span class="fc" id="L149">        return this;</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">    public EnumValue setName(@NonNull final String name) {</span>
+<span class="fc" id="L145">        this.name = name;</span>
+<span class="fc" id="L146">        return this;</span>
     }
 
-<span class="fc bfc" id="L152" title="All 2 branches covered.">    public EnumValue setText(@NonNull final String text) {</span>
-<span class="fc" id="L153">        this.text = text;</span>
-<span class="fc" id="L154">        return this;</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">    public EnumValue setText(@NonNull final String text) {</span>
+<span class="fc" id="L150">        this.text = text;</span>
+<span class="fc" id="L151">        return this;</span>
     }
 
     @Override
     public String writeJson() {
-<span class="fc" id="L159">        return new JsonMapper().writeJson(this);</span>
+<span class="fc" id="L156">        return new JsonMapper().writeJson(this);</span>
     }
 
-<span class="pc bpc" id="L162" title="1 of 2 branches missed.">    public static EnumValue parseJson(@NonNull final String json) {</span>
-<span class="fc" id="L163">        return new JsonMapper().parseJson(json, EnumValue.class);</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">    public static EnumValue parseJson(@NonNull final String json) {</span>
+<span class="fc" id="L160">        return new JsonMapper().parseJson(json, EnumValue.class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
