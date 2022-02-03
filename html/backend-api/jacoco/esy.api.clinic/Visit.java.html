@@ -19,17 +19,18 @@ import java.util.UUID;
 
 @Entity
 @Table(name = &quot;visit&quot;, uniqueConstraints = {
-        @UniqueConstraint(columnNames = {&quot;id&quot;})
+        @UniqueConstraint(columnNames = {&quot;id&quot;}),
+        @UniqueConstraint(columnNames = {&quot;date&quot;,&quot;pet_id&quot;})
 })
 public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
 
     @Column(name = &quot;date&quot;)
-<span class="nc" id="L27">    @Getter</span>
+<span class="nc" id="L28">    @Getter</span>
     @JsonProperty
     private LocalDate date;
 
     @Column(name = &quot;text&quot;)
-<span class="nc" id="L32">    @Getter</span>
+<span class="nc" id="L33">    @Getter</span>
     @JsonProperty
     private String text;
 
@@ -37,7 +38,7 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
             fetch = FetchType.EAGER,
             optional = true)
     @JoinColumn(name = &quot;pet_id&quot;, referencedColumnName = &quot;id&quot;)
-<span class="nc" id="L40">    @Getter</span>
+<span class="nc" id="L41">    @Getter</span>
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Pet pet;
 
@@ -45,95 +46,95 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
             fetch = FetchType.EAGER,
             optional = true)
     @JoinColumn(name = &quot;vet_id&quot;, referencedColumnName = &quot;id&quot;)
-<span class="nc" id="L48">    @Getter</span>
+<span class="nc" id="L49">    @Getter</span>
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Vet vet;
 
     Visit() {
-<span class="nc" id="L53">        super();</span>
-<span class="nc" id="L54">        this.date = LocalDate.of(2000, 1, 1);</span>
-<span class="nc" id="L55">        this.text = &quot;&quot;;</span>
-<span class="nc" id="L56">        this.pet = null;</span>
-<span class="nc" id="L57">        this.vet = null;</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L54">        super();</span>
+<span class="nc" id="L55">        this.date = LocalDate.of(2000, 1, 1);</span>
+<span class="nc" id="L56">        this.text = &quot;&quot;;</span>
+<span class="nc" id="L57">        this.pet = null;</span>
+<span class="nc" id="L58">        this.vet = null;</span>
+<span class="nc" id="L59">    }</span>
 
-<span class="nc bnc" id="L60" title="All 4 branches missed.">    Visit(@NonNull final Long version, @NonNull final UUID id) {</span>
-<span class="nc" id="L61">        super(version, id);</span>
-<span class="nc" id="L62">        this.date = LocalDate.of(2000, 1, 1);</span>
-<span class="nc" id="L63">        this.text = &quot;&quot;;</span>
-<span class="nc" id="L64">        this.pet = null;</span>
-<span class="nc" id="L65">        this.vet = null;</span>
-<span class="nc" id="L66">    }</span>
+<span class="nc bnc" id="L61" title="All 4 branches missed.">    Visit(@NonNull final Long version, @NonNull final UUID id) {</span>
+<span class="nc" id="L62">        super(version, id);</span>
+<span class="nc" id="L63">        this.date = LocalDate.of(2000, 1, 1);</span>
+<span class="nc" id="L64">        this.text = &quot;&quot;;</span>
+<span class="nc" id="L65">        this.pet = null;</span>
+<span class="nc" id="L66">        this.vet = null;</span>
+<span class="nc" id="L67">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L70">        return super.toString() + &quot;,date='&quot; + date + &quot;'&quot;;</span>
+<span class="nc" id="L71">        return super.toString() + &quot;,date='&quot; + date + &quot;'&quot;;</span>
     }
 
     @Override
     public boolean isEqual(final Visit that) {
-<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (this == that) {</span>
-<span class="nc" id="L76">            return true;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (this == that) {</span>
+<span class="nc" id="L77">            return true;</span>
         }
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (that == null) {</span>
-<span class="nc" id="L79">            return false;</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (that == null) {</span>
+<span class="nc" id="L80">            return false;</span>
         }
-<span class="nc bnc" id="L81" title="All 2 branches missed.">        return this.date.equals(that.date) &amp;&amp;</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">                this.text.equals(that.text) &amp;&amp;</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">                Objects.equals(this.pet, that.pet) &amp;&amp;</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">                Objects.equals(this.vet, that.vet);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        return this.date.equals(that.date) &amp;&amp;</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                this.text.equals(that.text) &amp;&amp;</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                Objects.equals(this.pet, that.pet) &amp;&amp;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                Objects.equals(this.vet, that.vet);</span>
     }
 
     @Override
     public Visit verify() {
         // Check if text is valid
-<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (text.isBlank()) {</span>
-<span class="nc" id="L91">            throw new IllegalArgumentException(&quot;text is blank&quot;);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (text.isBlank()) {</span>
+<span class="nc" id="L92">            throw new IllegalArgumentException(&quot;text is blank&quot;);</span>
         }
-<span class="nc" id="L93">        return this;</span>
+<span class="nc" id="L94">        return this;</span>
     }
 
     @Override
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    public Visit withId(@NonNull final UUID id) {</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (Objects.equals(getId(), id)) {</span>
-<span class="nc" id="L99">            return this;</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    public Visit withId(@NonNull final UUID id) {</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (Objects.equals(getId(), id)) {</span>
+<span class="nc" id="L100">            return this;</span>
         }
-<span class="nc" id="L101">        final Visit value = new Visit(getVersion(), id);</span>
-<span class="nc" id="L102">        value.date = this.date;</span>
-<span class="nc" id="L103">        value.text = this.text;</span>
-<span class="nc" id="L104">        value.pet = this.pet;</span>
-<span class="nc" id="L105">        value.vet = this.vet;</span>
-<span class="nc" id="L106">        return value;</span>
+<span class="nc" id="L102">        final Visit value = new Visit(getVersion(), id);</span>
+<span class="nc" id="L103">        value.date = this.date;</span>
+<span class="nc" id="L104">        value.text = this.text;</span>
+<span class="nc" id="L105">        value.pet = this.pet;</span>
+<span class="nc" id="L106">        value.vet = this.vet;</span>
+<span class="nc" id="L107">        return value;</span>
     }
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="nc" id="L111">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L112">        allExtra.put(&quot;version&quot;, getVersion());</span>
-<span class="nc" id="L113">        allExtra.put(&quot;petItem&quot;, PetItem.fromValue(pet));</span>
-<span class="nc" id="L114">        allExtra.put(&quot;vetItem&quot;, VetItem.fromValue(vet));</span>
-<span class="nc" id="L115">        return allExtra;</span>
+<span class="nc" id="L112">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L113">        allExtra.put(&quot;version&quot;, getVersion());</span>
+<span class="nc" id="L114">        allExtra.put(&quot;petItem&quot;, PetItem.fromValue(pet));</span>
+<span class="nc" id="L115">        allExtra.put(&quot;vetItem&quot;, VetItem.fromValue(vet));</span>
+<span class="nc" id="L116">        return allExtra;</span>
     }
 
     @JsonIgnore
-<span class="nc bnc" id="L119" title="All 2 branches missed.">    public Visit setPet(@NonNull final Pet pet) {</span>
-<span class="nc" id="L120">        this.pet = pet;</span>
-<span class="nc" id="L121">        return this;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">    public Visit setPet(@NonNull final Pet pet) {</span>
+<span class="nc" id="L121">        this.pet = pet;</span>
+<span class="nc" id="L122">        return this;</span>
     }
 
     @JsonIgnore
-<span class="nc bnc" id="L125" title="All 2 branches missed.">    public Visit setVet(@NonNull final Vet vet) {</span>
-<span class="nc" id="L126">        this.vet = vet;</span>
-<span class="nc" id="L127">        return this;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">    public Visit setVet(@NonNull final Vet vet) {</span>
+<span class="nc" id="L127">        this.vet = vet;</span>
+<span class="nc" id="L128">        return this;</span>
     }
 
     @Override
     public String writeJson() {
-<span class="nc" id="L132">        return new JsonMapper().writeJson(this);</span>
+<span class="nc" id="L133">        return new JsonMapper().writeJson(this);</span>
     }
 
-<span class="nc bnc" id="L135" title="All 2 branches missed.">    public static Visit parseJson(@NonNull final String json) {</span>
-<span class="nc" id="L136">        return new JsonMapper().parseJson(json, Visit.class);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    public static Visit parseJson(@NonNull final String json) {</span>
+<span class="nc" id="L137">        return new JsonMapper().parseJson(json, Visit.class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
