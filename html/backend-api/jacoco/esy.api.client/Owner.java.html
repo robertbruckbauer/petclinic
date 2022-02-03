@@ -106,17 +106,17 @@ public final class Owner extends JsonJpaEntity&lt;Owner&gt; {
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="fc" id="L109">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L110">        allExtra.put(&quot;version&quot;, getVersion());</span>
-<span class="fc" id="L111">        allExtra.put(&quot;allPetItem&quot;, allPet.stream()</span>
-<span class="fc" id="L112">                .map(PetItem::fromValue)</span>
-<span class="fc" id="L113">                .collect(Collectors.toSet()));</span>
-<span class="fc" id="L114">        return allExtra;</span>
+<span class="nc" id="L109">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L110">        allExtra.put(&quot;version&quot;, getVersion());</span>
+<span class="nc" id="L111">        allExtra.put(&quot;allPetItem&quot;, allPet.stream()</span>
+<span class="nc" id="L112">                .map(PetItem::fromValue)</span>
+<span class="nc" id="L113">                .collect(Collectors.toSet()));</span>
+<span class="nc" id="L114">        return allExtra;</span>
     }
 
     @Override
     public String writeJson() {
-<span class="fc" id="L119">        return new JsonMapper().writeJson(this);</span>
+<span class="nc" id="L119">        return new JsonMapper().writeJson(this);</span>
     }
 
 <span class="pc bpc" id="L122" title="1 of 2 branches missed.">    public static Owner parseJson(@NonNull final String json) {</span>
