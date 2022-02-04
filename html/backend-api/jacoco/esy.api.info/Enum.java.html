@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnumValue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.api.info</a> &gt; <span class="el_source">EnumValue.java</span></div><h1>EnumValue.java</h1><pre class="source lang-java linenums">package esy.api.info;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Enum.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.api.info</a> &gt; <span class="el_source">Enum.java</span></div><h1>Enum.java</h1><pre class="source lang-java linenums">package esy.api.info;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +21,7 @@ import java.util.UUID;
         @UniqueConstraint(columnNames = {&quot;art&quot;, &quot;code&quot;}),
         @UniqueConstraint(columnNames = {&quot;art&quot;, &quot;name&quot;})
 })
-public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
+public final class Enum extends JsonJpaEntity&lt;Enum&gt; {
 
     /**
      * Art der Aufzählung (Diskriminitor)
@@ -60,7 +60,7 @@ public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
      * Instanz ist nicht gültig, d.h. der Aufruf von
      * {@link #verify()} ist nicht erfolgreich.
      */
-    EnumValue() {
+    Enum() {
 <span class="fc" id="L64">        super();</span>
 <span class="fc" id="L65">        this.art = &quot;&quot;;</span>
 <span class="fc" id="L66">        this.code = 0L;</span>
@@ -73,7 +73,7 @@ public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
      * Instanz ist nicht gültig, d.h. der Aufruf von
      * {@link #verify()} ist nicht erfolgreich.
      */
-<span class="pc bpc" id="L76" title="2 of 4 branches missed.">    EnumValue(@NonNull final Long version, @NonNull final UUID id) {</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">    Enum(@NonNull final Long version, @NonNull final UUID id) {</span>
 <span class="fc" id="L77">        super(version, id);</span>
 <span class="fc" id="L78">        this.art = &quot;&quot;;</span>
 <span class="fc" id="L79">        this.code = 0L;</span>
@@ -87,7 +87,7 @@ public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
     }
 
     @Override
-    public boolean isEqual(final EnumValue that) {
+    public boolean isEqual(final Enum that) {
 <span class="fc bfc" id="L91" title="All 2 branches covered.">        if (this == that) {</span>
 <span class="fc" id="L92">            return true;</span>
         }
@@ -101,7 +101,7 @@ public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
     }
 
     @Override
-    public EnumValue verify() {
+    public Enum verify() {
 <span class="fc bfc" id="L105" title="All 2 branches covered.">        if (name.isBlank()) {</span>
 <span class="fc" id="L106">            throw new IllegalArgumentException(&quot;name is blank&quot;);</span>
         }
@@ -112,11 +112,11 @@ public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
     }
 
     @Override
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    public EnumValue withId(@NonNull final UUID id) {</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    public Enum withId(@NonNull final UUID id) {</span>
 <span class="fc bfc" id="L116" title="All 2 branches covered.">        if (getId().equals(id)) {</span>
 <span class="fc" id="L117">            return this;</span>
         }
-<span class="fc" id="L119">        final EnumValue value = new EnumValue(getVersion(), id);</span>
+<span class="fc" id="L119">        final Enum value = new Enum(getVersion(), id);</span>
 <span class="fc" id="L120">        value.art = this.art;</span>
 <span class="fc" id="L121">        value.code = this.code;</span>
 <span class="fc" id="L122">        value.name = this.name;</span>
@@ -131,22 +131,22 @@ public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
 <span class="fc" id="L131">        return allExtra;</span>
     }
 
-<span class="pc bpc" id="L134" title="1 of 2 branches missed.">    public EnumValue setArt(@NonNull final String art) {</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">    public Enum setArt(@NonNull final String art) {</span>
 <span class="fc" id="L135">        this.art = art;</span>
 <span class="fc" id="L136">        return this;</span>
     }
 
-<span class="fc bfc" id="L139" title="All 2 branches covered.">    public EnumValue setCode(@NonNull final Long code) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">    public Enum setCode(@NonNull final Long code) {</span>
 <span class="fc" id="L140">        this.code = code;</span>
 <span class="fc" id="L141">        return this;</span>
     }
 
-<span class="fc bfc" id="L144" title="All 2 branches covered.">    public EnumValue setName(@NonNull final String name) {</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">    public Enum setName(@NonNull final String name) {</span>
 <span class="fc" id="L145">        this.name = name;</span>
 <span class="fc" id="L146">        return this;</span>
     }
 
-<span class="fc bfc" id="L149" title="All 2 branches covered.">    public EnumValue setText(@NonNull final String text) {</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">    public Enum setText(@NonNull final String text) {</span>
 <span class="fc" id="L150">        this.text = text;</span>
 <span class="fc" id="L151">        return this;</span>
     }
@@ -156,8 +156,8 @@ public final class EnumValue extends JsonJpaEntity&lt;EnumValue&gt; {
 <span class="fc" id="L156">        return new JsonMapper().writeJson(this);</span>
     }
 
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">    public static EnumValue parseJson(@NonNull final String json) {</span>
-<span class="fc" id="L160">        return new JsonMapper().parseJson(json, EnumValue.class);</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">    public static Enum parseJson(@NonNull final String json) {</span>
+<span class="fc" id="L160">        return new JsonMapper().parseJson(json, Enum.class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

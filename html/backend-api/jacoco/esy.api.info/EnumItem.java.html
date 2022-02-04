@@ -34,7 +34,7 @@ public class EnumItem implements JsonJpaItem&lt;String&gt;  {
 <span class="fc" id="L34">        this.code = 0L;</span>
 <span class="fc" id="L35">    }</span>
 
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">    public EnumItem(@NonNull final EnumValue value) {</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">    public EnumItem(@NonNull final Enum value) {</span>
 <span class="fc" id="L38">        this.name = value.getName();</span>
 <span class="fc" id="L39">        this.text = value.getText();</span>
 <span class="fc" id="L40">        this.code = value.getCode();</span>
@@ -51,7 +51,7 @@ public class EnumItem implements JsonJpaItem&lt;String&gt;  {
 <span class="fc" id="L51">        return text;</span>
     }
 
-    public static EnumItem fromValue(final EnumValue value) {
+    public static EnumItem fromValue(final Enum value) {
 <span class="fc bfc" id="L55" title="All 2 branches covered.">        if (value != null) {</span>
 <span class="fc" id="L56">            return new EnumItem(value);</span>
         } else {
