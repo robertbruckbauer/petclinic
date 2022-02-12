@@ -47,5 +47,13 @@ public class OwnerItem implements JsonJpaItem&lt;UUID&gt; {
 <span class="fc" id="L47">            return new OwnerItem();</span>
         }
     }
+
+    public static OwnerItem fromValue(final Pet value) {
+<span class="nc bnc" id="L52" title="All 4 branches missed.">        if (value != null &amp;&amp; value.getOwner() != null) {</span>
+<span class="nc" id="L53">            return new OwnerItem(value.getOwner());</span>
+        } else {
+<span class="nc" id="L55">            return new OwnerItem();</span>
+        }
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
