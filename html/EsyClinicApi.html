@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Robert Bruckbauer</span><br>
 <span id="email" class="email"><a href="mailto:bruckbauer@gmx.at">bruckbauer@gmx.at</a></span><br>
 <span id="revnumber">version 2.4.1,</span>
-<span id="revdate">2022/02/12</span>
+<span id="revdate">2022/02/15</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -470,6 +470,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#put-apivisitid"><code>PUT /api/visit/{id}</code></a></li>
 <li><a href="#patch-apivisitid"><code>PATCH /api/visit/{id}</code></a></li>
 <li><a href="#get-apivisit"><code>GET /api/visit</code></a></li>
+<li><a href="#get-apivisitsearchfindallbyowner"><code>GET /api/visit/search/findAllByOwner</code></a></li>
+<li><a href="#get-apivisitsearchfindallbypet"><code>GET /api/visit/search/findAllByPet</code></a></li>
+<li><a href="#get-apivisitsearchfindallbyvet"><code>GET /api/visit/search/findAllByVet</code></a></li>
 <li><a href="#get-apivisitid"><code>GET /api/visit/{id}</code></a></li>
 <li><a href="#delete-apivisitid"><code>DELETE /api/visit/{id}</code></a></li>
 </ul>
@@ -696,17 +699,17 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "282c3923-7776-4796-a71e-9f85593d3bed",
+  "id" : "9e94f355-0f45-4475-bd3c-00463a199289",
   "name" : "Max Mustermann",
   "allSkill" : [ ],
   "version" : 0,
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/vet/282c3923-7776-4796-a71e-9f85593d3bed"
+    "href" : "http://localhost:8080/api/vet/9e94f355-0f45-4475-bd3c-00463a199289"
   }, {
     "rel" : "vet",
-    "href" : "http://localhost:8080/api/vet/282c3923-7776-4796-a71e-9f85593d3bed"
+    "href" : "http://localhost:8080/api/vet/9e94f355-0f45-4475-bd3c-00463a199289"
   } ]
 }</code></pre>
 </div>
@@ -720,7 +723,7 @@ für mehr Informationen.
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
 <div class="paragraph">
-<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren.</p>
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren, nicht vollständig oder gültig sind.</p>
 </div>
 </div>
 <div class="sect2">
@@ -785,6 +788,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="patch-apivetid"><a class="anchor" href="#patch-apivetid"></a><code>PATCH /api/vet/{id}</code></h3>
@@ -845,6 +851,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="get-apivet"><a class="anchor" href="#get-apivet"></a><code>GET /api/vet</code></h3>
@@ -890,17 +899,17 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/vet/a1111111-1111-beef-dead-beefdeadbeef"
     } ]
   }, {
-    "id" : "282c3923-7776-4796-a71e-9f85593d3bed",
+    "id" : "9e94f355-0f45-4475-bd3c-00463a199289",
     "name" : "Max Mustermann",
     "allSkill" : [ ],
     "version" : 0,
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/vet/282c3923-7776-4796-a71e-9f85593d3bed"
+      "href" : "http://localhost:8080/api/vet/9e94f355-0f45-4475-bd3c-00463a199289"
     }, {
       "rel" : "vet",
-      "href" : "http://localhost:8080/api/vet/282c3923-7776-4796-a71e-9f85593d3bed"
+      "href" : "http://localhost:8080/api/vet/9e94f355-0f45-4475-bd3c-00463a199289"
     } ]
   } ]
 }</code></pre>
@@ -1091,7 +1100,7 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "407102f5-89d2-4404-9683-92c19014c3f1",
+  "id" : "8c566750-6c5d-48fc-a68e-9b97004bac94",
   "date" : "2021-04-22",
   "text" : "Lorem ipsum.",
   "vetItem" : {
@@ -1110,16 +1119,16 @@ für mehr Informationen.
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1"
+    "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94"
   }, {
     "rel" : "visit",
-    "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1"
+    "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94"
   }, {
     "rel" : "pet",
-    "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1/pet"
+    "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94/pet"
   }, {
     "rel" : "vet",
-    "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1/vet"
+    "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94/vet"
   } ]
 }</code></pre>
 </div>
@@ -1133,7 +1142,7 @@ für mehr Informationen.
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
 <div class="paragraph">
-<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren.</p>
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren, nicht vollständig oder gültig sind.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1222,6 +1231,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="patch-apivisitid"><a class="anchor" href="#patch-apivisitid"></a><code>PATCH /api/visit/{id}</code></h3>
@@ -1300,6 +1312,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="get-apivisit"><a class="anchor" href="#get-apivisit"></a><code>GET /api/visit</code></h3>
@@ -1363,7 +1378,7 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
     } ]
   }, {
-    "id" : "407102f5-89d2-4404-9683-92c19014c3f1",
+    "id" : "8c566750-6c5d-48fc-a68e-9b97004bac94",
     "date" : "2021-04-22",
     "text" : "Lorem ipsum.",
     "vetItem" : {
@@ -1382,19 +1397,19 @@ für mehr Informationen.
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1"
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94"
     }, {
       "rel" : "visit",
-      "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1"
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94"
     }, {
       "rel" : "pet",
-      "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1/pet"
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94/pet"
     }, {
       "rel" : "vet",
-      "href" : "http://localhost:8080/api/visit/407102f5-89d2-4404-9683-92c19014c3f1/vet"
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94/vet"
     } ]
   }, {
-    "id" : "09e741e9-d767-4649-89e8-d62690473f18",
+    "id" : "80e48f5d-184e-4d06-88ff-a3b7b31704b1",
     "date" : "2021-04-21",
     "text" : "Lorem ipsum.",
     "vetItem" : {
@@ -1413,19 +1428,19 @@ für mehr Informationen.
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/visit/09e741e9-d767-4649-89e8-d62690473f18"
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1"
     }, {
       "rel" : "visit",
-      "href" : "http://localhost:8080/api/visit/09e741e9-d767-4649-89e8-d62690473f18"
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1"
     }, {
       "rel" : "pet",
-      "href" : "http://localhost:8080/api/visit/09e741e9-d767-4649-89e8-d62690473f18/pet"
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1/pet"
     }, {
       "rel" : "vet",
-      "href" : "http://localhost:8080/api/visit/09e741e9-d767-4649-89e8-d62690473f18/vet"
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1/vet"
     } ]
   }, {
-    "id" : "6b3f0f49-8204-4e02-ad09-8bfc8416fdd8",
+    "id" : "746b313d-c438-4771-a075-89ed808d561f",
     "date" : "2021-04-20",
     "text" : "Lorem ipsum.",
     "vetItem" : {
@@ -1444,16 +1459,322 @@ für mehr Informationen.
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/visit/6b3f0f49-8204-4e02-ad09-8bfc8416fdd8"
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f"
     }, {
       "rel" : "visit",
-      "href" : "http://localhost:8080/api/visit/6b3f0f49-8204-4e02-ad09-8bfc8416fdd8"
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f"
     }, {
       "rel" : "pet",
-      "href" : "http://localhost:8080/api/visit/6b3f0f49-8204-4e02-ad09-8bfc8416fdd8/pet"
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f/pet"
     }, {
       "rel" : "vet",
-      "href" : "http://localhost:8080/api/visit/6b3f0f49-8204-4e02-ad09-8bfc8416fdd8/vet"
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f/vet"
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn die Daten geladen wurden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-apivisitsearchfindallbyowner"><a class="anchor" href="#get-apivisitsearchfindallbyowner"></a><code>GET /api/visit/search/findAllByOwner</code></h3>
+<div class="paragraph">
+<p>Die Operation gibt alle gespeicherten <em>Visit</em>-Objekte zurück.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/search/findAllByOwner?ownerId=b2222222-2222-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/visit/search/findAllByOwner?ownerId=b2222222-2222-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/visit/search/findAllByOwner?ownerId=b2222222-2222-beef-dead-beefdeadbeef"
+  } ],
+  "content" : [ {
+    "id" : "e1111111-1111-beef-dead-beefdeadbeef",
+    "date" : "2021-04-24",
+    "text" : "At vero eos",
+    "vetItem" : {
+      "value" : "d2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Phillip Dick"
+    },
+    "petItem" : {
+      "value" : "c2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Cat 'Tom'"
+    },
+    "version" : 4,
+    "ownerItem" : {
+      "value" : "b2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Emma Milner"
+    },
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
+    } ]
+  }, {
+    "id" : "8c566750-6c5d-48fc-a68e-9b97004bac94",
+    "date" : "2021-04-22",
+    "text" : "Lorem ipsum.",
+    "vetItem" : {
+      "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Alex Fleming"
+    },
+    "petItem" : {
+      "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Dog 'Odi'"
+    },
+    "version" : 0,
+    "ownerItem" : {
+      "value" : "b2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Emma Milner"
+    },
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/8c566750-6c5d-48fc-a68e-9b97004bac94/vet"
+    } ]
+  }, {
+    "id" : "80e48f5d-184e-4d06-88ff-a3b7b31704b1",
+    "date" : "2021-04-21",
+    "text" : "Lorem ipsum.",
+    "vetItem" : {
+      "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Alex Fleming"
+    },
+    "petItem" : {
+      "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Dog 'Odi'"
+    },
+    "version" : 0,
+    "ownerItem" : {
+      "value" : "b2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Emma Milner"
+    },
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/80e48f5d-184e-4d06-88ff-a3b7b31704b1/vet"
+    } ]
+  }, {
+    "id" : "746b313d-c438-4771-a075-89ed808d561f",
+    "date" : "2021-04-20",
+    "text" : "Lorem ipsum.",
+    "vetItem" : {
+      "value" : "d1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Alex Fleming"
+    },
+    "petItem" : {
+      "value" : "c1111111-1111-beef-dead-beefdeadbeef",
+      "text" : "Dog 'Odi'"
+    },
+    "version" : 0,
+    "ownerItem" : {
+      "value" : "b2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Emma Milner"
+    },
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/746b313d-c438-4771-a075-89ed808d561f/vet"
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn die Daten geladen wurden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-apivisitsearchfindallbypet"><a class="anchor" href="#get-apivisitsearchfindallbypet"></a><code>GET /api/visit/search/findAllByPet</code></h3>
+<div class="paragraph">
+<p>Die Operation gibt alle gespeicherten <em>Visit</em>-Objekte zurück.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/search/findAllByPet?petId=c2222222-2222-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/visit/search/findAllByPet?petId=c2222222-2222-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/visit/search/findAllByPet?petId=c2222222-2222-beef-dead-beefdeadbeef"
+  } ],
+  "content" : [ {
+    "id" : "e1111111-1111-beef-dead-beefdeadbeef",
+    "date" : "2021-04-24",
+    "text" : "At vero eos",
+    "vetItem" : {
+      "value" : "d2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Phillip Dick"
+    },
+    "petItem" : {
+      "value" : "c2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Cat 'Tom'"
+    },
+    "version" : 4,
+    "ownerItem" : {
+      "value" : "b2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Emma Milner"
+    },
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Ok</code> bzw. den Code 200, wenn die Daten geladen wurden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="get-apivisitsearchfindallbyvet"><a class="anchor" href="#get-apivisitsearchfindallbyvet"></a><code>GET /api/visit/search/findAllByVet</code></h3>
+<div class="paragraph">
+<p>Die Operation gibt alle gespeicherten <em>Visit</em>-Objekte zurück.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="listingblock">
+<div class="title">CURL</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>curl <span class="s1">'http://localhost:8080/api/visit/search/findAllByVet?vetId=d2222222-2222-beef-dead-beefdeadbeef'</span> <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Accept: application/json'</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="http"><span class="nf">GET</span> <span class="nn">/api/visit/search/findAllByVet?vetId=d2222222-2222-beef-dead-beefdeadbeef</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8080</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code>{
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080/api/visit/search/findAllByVet?vetId=d2222222-2222-beef-dead-beefdeadbeef"
+  } ],
+  "content" : [ {
+    "id" : "e1111111-1111-beef-dead-beefdeadbeef",
+    "date" : "2021-04-24",
+    "text" : "At vero eos",
+    "vetItem" : {
+      "value" : "d2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Phillip Dick"
+    },
+    "petItem" : {
+      "value" : "c2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Cat 'Tom'"
+    },
+    "version" : 4,
+    "ownerItem" : {
+      "value" : "b2222222-2222-beef-dead-beefdeadbeef",
+      "text" : "Emma Milner"
+    },
+    "content" : [ ],
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "visit",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef"
+    }, {
+      "rel" : "pet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet"
+    }, {
+      "rel" : "vet",
+      "href" : "http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet"
     } ]
   } ]
 }</code></pre>
@@ -1612,7 +1933,7 @@ spring.jpa.properties.hibernate.generate_statistics=true</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 2.4.1<br>
-Last updated 2022-02-12 16:40:44 UTC
+Last updated 2022-02-15 16:11:41 UTC
 </div>
 </div>
 <style>

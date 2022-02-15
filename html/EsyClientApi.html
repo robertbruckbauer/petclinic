@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Robert Bruckbauer</span><br>
 <span id="email" class="email"><a href="mailto:bruckbauer@gmx.at">bruckbauer@gmx.at</a></span><br>
 <span id="revnumber">version 2.4.1,</span>
-<span id="revdate">2022/02/12</span>
+<span id="revdate">2022/02/15</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -701,7 +701,7 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae",
+  "id" : "e7cc48a3-5860-4246-87d2-f92cb8a209e6",
   "name" : "Max Mustermann",
   "address" : "Bergweg 1, 5400 Hallein",
   "contact" : "+43 6452 4456",
@@ -710,13 +710,13 @@ für mehr Informationen.
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/owner/dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae"
+    "href" : "http://localhost:8080/api/owner/e7cc48a3-5860-4246-87d2-f92cb8a209e6"
   }, {
     "rel" : "owner",
-    "href" : "http://localhost:8080/api/owner/dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae"
+    "href" : "http://localhost:8080/api/owner/e7cc48a3-5860-4246-87d2-f92cb8a209e6"
   }, {
     "rel" : "allPet",
-    "href" : "http://localhost:8080/api/owner/dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae/allPet"
+    "href" : "http://localhost:8080/api/owner/e7cc48a3-5860-4246-87d2-f92cb8a209e6/allPet"
   } ]
 }</code></pre>
 </div>
@@ -730,7 +730,7 @@ für mehr Informationen.
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
 <div class="paragraph">
-<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren.</p>
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren, nicht vollständig oder gültig sind.</p>
 </div>
 </div>
 <div class="sect2">
@@ -804,6 +804,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="patch-apiownerid"><a class="anchor" href="#patch-apiownerid"></a><code>PATCH /api/owner/{id}</code></h3>
@@ -869,6 +872,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="get-apiowner"><a class="anchor" href="#get-apiowner"></a><code>GET /api/owner</code></h3>
@@ -919,7 +925,7 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/owner/a1111111-1111-beef-dead-beefdeadbeef/allPet"
     } ]
   }, {
-    "id" : "dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae",
+    "id" : "e7cc48a3-5860-4246-87d2-f92cb8a209e6",
     "name" : "Max Mustermann",
     "address" : "Bergweg 1, 5400 Hallein",
     "contact" : "+43 6452 4456",
@@ -928,13 +934,13 @@ für mehr Informationen.
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/owner/dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae"
+      "href" : "http://localhost:8080/api/owner/e7cc48a3-5860-4246-87d2-f92cb8a209e6"
     }, {
       "rel" : "owner",
-      "href" : "http://localhost:8080/api/owner/dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae"
+      "href" : "http://localhost:8080/api/owner/e7cc48a3-5860-4246-87d2-f92cb8a209e6"
     }, {
       "rel" : "allPet",
-      "href" : "http://localhost:8080/api/owner/dc58e7b4-5ac9-4b9c-ae9d-4799f5cad7ae/allPet"
+      "href" : "http://localhost:8080/api/owner/e7cc48a3-5860-4246-87d2-f92cb8a209e6/allPet"
     } ]
   } ]
 }</code></pre>
@@ -1135,7 +1141,7 @@ für mehr Informationen.
 <div class="title">Response</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code>{
-  "id" : "551d0bd4-468d-4571-9dfc-86407990b6f5",
+  "id" : "df9d5c4c-d7f7-42b1-b81a-9027acb229df",
   "name" : "Roger",
   "born" : "2021-04-22",
   "species" : "Rat",
@@ -1147,13 +1153,13 @@ für mehr Informationen.
   "content" : [ ],
   "links" : [ {
     "rel" : "self",
-    "href" : "http://localhost:8080/api/pet/551d0bd4-468d-4571-9dfc-86407990b6f5"
+    "href" : "http://localhost:8080/api/pet/df9d5c4c-d7f7-42b1-b81a-9027acb229df"
   }, {
     "rel" : "pet",
-    "href" : "http://localhost:8080/api/pet/551d0bd4-468d-4571-9dfc-86407990b6f5"
+    "href" : "http://localhost:8080/api/pet/df9d5c4c-d7f7-42b1-b81a-9027acb229df"
   }, {
     "rel" : "owner",
-    "href" : "http://localhost:8080/api/pet/551d0bd4-468d-4571-9dfc-86407990b6f5/owner"
+    "href" : "http://localhost:8080/api/pet/df9d5c4c-d7f7-42b1-b81a-9027acb229df/owner"
   } ]
 }</code></pre>
 </div>
@@ -1167,7 +1173,7 @@ für mehr Informationen.
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
 <div class="paragraph">
-<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren.</p>
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten bereits existieren, nicht vollständig oder gültig sind.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1246,6 +1252,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="patch-apipetid"><a class="anchor" href="#patch-apipetid"></a><code>PATCH /api/pet/{id}</code></h3>
@@ -1314,6 +1323,9 @@ für mehr Informationen.
 <div class="paragraph">
 <p>Die Operation meldet <code>Bad Request</code> bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.</p>
 </div>
+<div class="paragraph">
+<p>Die Operation meldet <code>Conflict</code> bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="get-apipet"><a class="anchor" href="#get-apipet"></a><code>GET /api/pet</code></h3>
@@ -1367,7 +1379,7 @@ für mehr Informationen.
       "href" : "http://localhost:8080/api/pet/a1111111-1111-beef-dead-beefdeadbeef/owner"
     } ]
   }, {
-    "id" : "551d0bd4-468d-4571-9dfc-86407990b6f5",
+    "id" : "df9d5c4c-d7f7-42b1-b81a-9027acb229df",
     "name" : "Roger",
     "born" : "2021-04-22",
     "species" : "Rat",
@@ -1379,13 +1391,13 @@ für mehr Informationen.
     "content" : [ ],
     "links" : [ {
       "rel" : "self",
-      "href" : "http://localhost:8080/api/pet/551d0bd4-468d-4571-9dfc-86407990b6f5"
+      "href" : "http://localhost:8080/api/pet/df9d5c4c-d7f7-42b1-b81a-9027acb229df"
     }, {
       "rel" : "pet",
-      "href" : "http://localhost:8080/api/pet/551d0bd4-468d-4571-9dfc-86407990b6f5"
+      "href" : "http://localhost:8080/api/pet/df9d5c4c-d7f7-42b1-b81a-9027acb229df"
     }, {
       "rel" : "owner",
-      "href" : "http://localhost:8080/api/pet/551d0bd4-468d-4571-9dfc-86407990b6f5/owner"
+      "href" : "http://localhost:8080/api/pet/df9d5c4c-d7f7-42b1-b81a-9027acb229df/owner"
     } ]
   } ]
 }</code></pre>
@@ -1592,7 +1604,7 @@ spring.jpa.properties.hibernate.generate_statistics=true</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 2.4.1<br>
-Last updated 2022-02-12 16:40:44 UTC
+Last updated 2022-02-15 16:11:41 UTC
 </div>
 </div>
 <style>
