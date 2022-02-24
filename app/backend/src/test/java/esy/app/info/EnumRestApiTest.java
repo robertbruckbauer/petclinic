@@ -1,5 +1,6 @@
 package esy.app.info;
 
+import esy.app.EndpointConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Tag("slow")
 @SpringBootTest
-@AutoConfigureMockMvc
+@ContextConfiguration(classes = EndpointConfiguration.class)
+@AutoConfigureMockMvc(addFilters = false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
 class EnumRestApiTest {

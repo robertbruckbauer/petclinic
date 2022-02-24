@@ -1,7 +1,7 @@
 package esy.app.info;
 
-import esy.api.info.EnumItem;
 import esy.api.info.Enum;
+import esy.api.info.EnumItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.data.rest.webmvc.BasePathAwareController;

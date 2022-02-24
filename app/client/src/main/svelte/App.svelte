@@ -9,14 +9,14 @@
 	import AppHome from './AppHome.svelte';
     import AppLogo from './AppLogo.svelte'
 	import AppMenu from './AppMenu.svelte'
-	import Aufgabe from './pages/Aufgabe.svelte';
 	import Enum from './pages/Enum.svelte';
-	import Nutzer from './pages/Nutzer.svelte';
-	import NutzerViewer from './pages/NutzerViewer.svelte';
-	import Projekt from './pages/Projekt.svelte';
-	import Galerie from './pages/Galerie.svelte';
-	import Uhrzeit from './pages/Uhrzeit.svelte';
-	import Rechner from './pages/Rechner.svelte';
+	import Owner from './pages/Owner.svelte';
+	import OwnerViewer from './pages/OwnerViewer.svelte';
+	import Pet from './pages/Pet.svelte';
+	import PetViewer from './pages/PetViewer.svelte';
+	import Vet from './pages/Vet.svelte';
+	import VetViewer from './pages/VetViewer.svelte';
+	import Visit from './pages/Visit.svelte';
 	let menuVisible = false;
 </script>
 
@@ -34,25 +34,19 @@
 		<Toast />
 		<Menu bind:show={menuVisible}>
 			<div class="flex flex-col p-2 text-gray-600 gap-1">
-				<span class="text-lg text-gray-900 capitalize">Anwendung</span>
+				<span class="text-lg text-gray-900 capitalize">Client</span>
 				<div class="flex flex-col p-4 text-gray-600 gap-1">
-					<a on:click={() => menuVisible = false} href="/nutzer">Nutzer</a>
-					<a on:click={() => menuVisible = false} href="/projekt">Projekt</a>
-					<a on:click={() => menuVisible = false} href="/aufgabe">Aufgabe</a>
+					<a on:click={() => menuVisible = false} href="/owner">Owner</a>
+					<a on:click={() => menuVisible = false} href="/pet">Pet</a>
 				</div>
 			</div>
 			<div class="flex flex-col p-2 text-gray-600 gap-1">
-				<span class="text-lg text-gray-900">Aufzählungen</span>
+				<span class="text-lg text-gray-900 capitalize">Clinic</span>
 				<div class="flex flex-col p-4 text-gray-600 gap-1">
-					<a on:click={() => menuVisible = false} href="/enum/sprache">Sprache</a>
-				</div>
-			</div>
-			<div class="flex flex-col p-2 text-gray-600 gap-1">
-				<span class="text-lg text-gray-900">Experimente</span>
-				<div class="flex flex-col p-4 text-gray-600 gap-1">
-					<a on:click={() => menuVisible = false} href="/galerie">Galerie</a>
-					<a on:click={() => menuVisible = false} href="/uhrzeit">Uhrzeit</a>
-					<a on:click={() => menuVisible = false} href="/rechner">Rechner</a>
+					<a on:click={() => menuVisible = false} href="/visit">Visit</a>
+					<a on:click={() => menuVisible = false} href="/vet">Vet</a>
+					<a on:click={() => menuVisible = false} href="/enum/skill">Skill</a>
+					<a on:click={() => menuVisible = false} href="/enum/species">Species</a>
 				</div>
 			</div>
 		</Menu>
@@ -63,22 +57,24 @@
 				component="{AppHome}" />
 			<Route path="/help" 
 				component="{AppHelp}" />
-			<Route path="/nutzer" 
-				component="{Nutzer}" />
-			<Route path="/nutzer/:id"
-				component="{NutzerViewer}" />
-			<Route path="/projekt" 
-				component="{Projekt}" />
-			<Route path="/aufgabe" 
-				component="{Aufgabe}" />
-			<Route path="/enum/sprache" 
-				component="{Enum}" art="sprache" />
-			<Route path="/galerie" 
-				component="{Galerie}" />
-			<Route path="/uhrzeit" 
-				component="{Uhrzeit}" />
-			<Route path="/rechner" 
-				component="{Rechner}" />
+			<Route path="/owner" 
+				component="{Owner}" />
+			<Route path="/owner/:id"
+				component="{OwnerViewer}" />
+			<Route path="/pet"
+				component="{Pet}" />
+			<Route path="/pet/:id"
+				component="{PetViewer}" />
+			<Route path="/visit" 
+				component="{Visit}" />
+			<Route path="/vet" 
+				component="{Vet}" />
+			<Route path="/vet/:id"
+				component="{VetViewer}" />
+			<Route path="/enum/skill" 
+				component="{Enum}" art="skill" />
+			<Route path="/enum/species" 
+				component="{Enum}" art="species" />
 			<RouteNotFound>
 				<h1>Ups!</h1>
 			</RouteNotFound>

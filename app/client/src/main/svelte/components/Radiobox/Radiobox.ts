@@ -17,7 +17,7 @@ declare const _RadioboxProps: {
     /** 
      * Array of Items.
      */
-    allItem?: ({ value: string, text: string } | string)[];
+    allItem?: ({value:string, text: string}|string)[];
 
     /**
      * Title for tooltip

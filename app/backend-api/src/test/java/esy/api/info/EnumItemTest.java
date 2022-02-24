@@ -9,12 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class EnumItemTest {
 
     Enum createWithName(final String name) {
-        return Enum.parseJson("{" +
+        final String json = "{" +
                 "\"art\": \"QUELLE\"," +
                 "\"name\": \"" + name + "\"," +
                 "\"code\": \"2\"," +
                 "\"text\": \"A " + name + "\"" +
-                "}");
+                "}";
+        return Enum.parseJson(json);
     }
 
     @Test

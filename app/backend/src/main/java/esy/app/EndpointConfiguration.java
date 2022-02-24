@@ -20,6 +20,7 @@ import java.util.List;
 import static org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
 
 @Configuration
+@ComponentScan(basePackages = {"esy.app"})
 @PropertySource(
         ignoreResourceNotFound = false,
         value = "classpath:endpoint.properties")

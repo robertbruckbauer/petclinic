@@ -67,7 +67,6 @@
   class="mt-2 mb-6 relative"
 >
   <div class="flex flex-col pb-2 px-4 pt-2 absolute left-0 top-0 pointer-events-none">
-    {#if label}
     <span
       {title}
       class="text-xs"
@@ -76,7 +75,6 @@
     >
       {label}
     </span>
-    {/if}
     <div class="w-full h-6 overflow-hidden space-x-1">
       {#each allItemProcessed as item}
       {#if allValueProcessed.findIndex(e => e === item.value) !== -1}
@@ -94,8 +92,7 @@
     {...props}
     {title}
     {disabled}
-    class="disabled:opacity-50 w-full pb-2 px-4 text-black bg-gray-100 text-transparent"
-    class:pt-6={label}
+    class="disabled:opacity-50 w-full pb-2 px-4 pt-6 text-black bg-gray-100 text-transparent"
     class:border-0={!focused}
     aria-label={label}
     value=null
@@ -120,12 +117,10 @@
     </option>
     {/each}  
   </select>
-  {#if label}
   <div class="w-full bg-gray-600 absolute left-0 bottom-0">
     <div 
       class="mx-auto w-0" 
       style="height: 1px; transition: width 0.2s ease 0s;"
     />
   </div>
-  {/if}
 </div>

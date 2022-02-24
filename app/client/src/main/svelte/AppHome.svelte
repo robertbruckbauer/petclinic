@@ -24,6 +24,12 @@
 <h1>Info</h1>
 <div class="flex flex-col ml-2 mr-2 space-y-2">
 	<fieldset class="p-4 border-2 space-y-2">
+		<legend class="text-xs">APP-Logo</legend>
+		<div class="text-2xl">
+			<img src="/pets.png" alt="Pets">
+		</div>	
+	</fieldset>
+	<fieldset class="p-4 border-2 space-y-2">
 		<legend class="text-xs">APP-Version</legend>
 		<div class="text-2xl">
 			{#if versionHtml}

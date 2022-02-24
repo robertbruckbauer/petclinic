@@ -15,12 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class EnumTest {
 
     Enum createWithName(final String name) {
-        return Enum.parseJson("{" +
+        final String json = "{" +
                 "\"art\": \"QUELLE\"," +
                 "\"name\": \"" + name + "\"," +
                 "\"code\": \"2\"," +
                 "\"text\": \"A " + name + "\"" +
-                "}");
+                "}";
+        return Enum.parseJson(json);
     }
 
     @Test
@@ -32,15 +33,18 @@ public class EnumTest {
         assertTrue(value.isEqual(value));
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
-        // Gleiches Objekt
-        final Enum clone = createWithName(name);
-        assertNotSame(clone, value);
+        // Gleiche UUID
+        final Enum clone = Enum.parseJson(value.writeJson());
         assertTrue(clone.isEqual(value));
-        assertNotEquals(clone.hashCode(), value.hashCode());
-        assertNotEquals(clone.toString(), value.toString());
-        // Anderes Objekt
+        assertEquals(clone.hashCode(), value.hashCode());
+        assertEquals(clone.toString(), value.toString());
+        // Gleicher Text
+        assertNotEquals(createWithName(name), value);
+        assertTrue(value.isEqual(createWithName(name)));
+        assertNotEquals(createWithName(name).hashCode(), value.hashCode());
+        assertNotEquals(createWithName(name).toString(), value.toString());
+        // Anderer Text
         final Enum other = createWithName("ARIJ");
-        assertNotSame(other, value);
         assertNotEquals(other, value);
         assertFalse(value.isEqual(other));
         assertNotEquals(other.hashCode(), value.hashCode());
@@ -61,6 +65,30 @@ public class EnumTest {
         final Enum value2 = value0.withId(UUID.randomUUID());
         assertNotSame(value0, value2);
         assertTrue(value0.isEqual(value2));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "\"version\": \"1\"",
+            "\"created\": \"2019-04-22\"",
+            "\"garbage\": \"value\""
+    })
+    void jsonGarbage(final String line) {
+        final String name = "JIRA";
+        final String json = "{" +
+                "\"art\": \"QUELLE\"," +
+                "\"name\": \"" + name + "\"," +
+                "\"code\": \"2\"," +
+                "\"text\": \"A " + name + "\"," +
+                line +
+                "}";
+        final Enum value = Enum.parseJson(json);
+        assertDoesNotThrow(value::verify);
+        assertNotNull(value.getId());
+        assertEquals("QUELLE", value.getArt());
+        assertEquals(2L, value.getCode());
+        assertEquals(name, value.getName());
+        assertEquals("A " + name, value.getText());
     }
 
     @Test

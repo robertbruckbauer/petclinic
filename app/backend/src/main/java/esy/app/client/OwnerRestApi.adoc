@@ -1,0 +1,154 @@
+:restdocDir: ../../../../../../build/generated-snippets
+= Owner-API
+
+REST-API für die Verwaltung von _Owner_-Objekten.
+
+== `POST /api/owner`
+
+Die Operation speichert ein neues _Owner_-Objekt.
+
+****
+
+.CURL
+include::{restdocDir}/post-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/post-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocDir}/post-api-owner/response-body.adoc[]
+
+****
+
+Die Operation meldet `Created` bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn die Daten bereits existieren, nicht vollständig oder gültig sind.
+
+== `PUT /api/owner/{id}`
+
+Die Operation aktualisiert ein existierendes _Owner_-Objekt oder erzeugt ein Neues.
+
+****
+
+.CURL
+include::{restdocDir}/put-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/put-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocDir}/put-api-owner/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.
+
+Die Operation meldet `Created` bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.
+
+== `PATCH /api/owner/{id}`
+
+Die Operation aktualisiert ein existierendes _Owner_-Objekt.
+
+****
+
+.CURL
+include::{restdocDir}/patch-api-owner-name/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/patch-api-owner-name/http-request.adoc[]
+
+.Response
+include::{restdocDir}/patch-api-owner-name/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+
+Die Operation meldet `Conflict` bzw. den Code 409, wenn die Daten nicht vollständig oder gültig sind.
+
+== `GET /api/owner`
+
+Die Operation gibt alle gespeicherten _Owner_-Objekte zurück.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-owner/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+== `GET /api/owner/{id}`
+
+Die Operation zeigt ein gespeichertes _Owner_-Objekt an.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-owner-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-owner-by-id/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-owner-by-id/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+Die Operation meldet `Not found` bzw. den Code 404, wenn die Daten nicht existieren.
+
+== `GET /api/owner/search/findByName`
+
+Die Operation sucht ein gespeichertes _Owner_-Objekt mit dem angegebenen endeutigen Namen.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-owner-by-name/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-owner-by-name/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-owner-by-name/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
+
+Die Operation meldet `Not found` bzw. den Code 404, wenn die Daten nicht existieren.
+
+== `DELETE /api/owner/{id}`
+
+Die Operation löscht ein gespeichertes _Owner_-Objekt.
+
+****
+
+.CURL
+include::{restdocDir}/delete-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/delete-api-owner/http-request.adoc[]
+
+****
+
+Die Operation meldet `No Content` bzw. den Code 204, wenn die Daten gelöscht wurden.
+
+Die Operation meldet `Not found` bzw. den Code 404, wenn die Daten nicht existieren.

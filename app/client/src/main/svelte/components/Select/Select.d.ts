@@ -15,10 +15,10 @@ declare const _SelectProps: {
    */
   disabled?: boolean;
 
-  /** 
-   * Input label
-   */
-  label?: string;
+    /** 
+     * Array of Items.
+     */
+    allItem?: ({value:string, text: string}|string)[];
 
   /** 
    * Nullable value.

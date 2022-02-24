@@ -81,14 +81,9 @@ subprojects {
     }
 }
 
-ext.HTMLTOOL_IMAGE = 'registry.gitlab.emundo.eu/erd/cardsplus/integration/cardsplus-toolkit:v2.22'
+ext.HTMLTOOL_IMAGE = 'registry.gitlab.emundo.eu/erd/cardsplus/integration/cardsplus-toolkit:v2.23'
 task cardsplusBuild {
     dependsOn build
-    onlyIf {
-        System.env['HTMLTOOL_WIKI_USER'] != null
-        System.env['HTMLTOOL_WIKI_URI'] != null
-        System.env['HTMLTOOL_JIRA_URI'] != null
-    }
     doLast {
         exec {
             commandLine 'docker', 'run', \

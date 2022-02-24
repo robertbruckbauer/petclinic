@@ -26,7 +26,7 @@
 	}
 	$: itemEditorDisabled = itemEditorCreate || itemEditorUpdate;
 
-    onMount(async () => {
+  onMount(async () => {
 		reloadAllItem()
 	});
 
@@ -76,9 +76,9 @@
 		</h4>
 		<TextField 
 			bind:value={filterPrefix}
+			disabled={itemEditorDisabled}
 			label="Filter"
-			placeholder="Bitte Filterkriterien eingeben"
-			disabled={itemEditorDisabled}/>
+			placeholder="Insert a criteria"/>
 		<h4 title="Liste der Werte, ggfs. gefiltert, jedes Element editierbar">
 			Aktuelle Werte <small>({allItemFiltered.length})</small>
 		</h4>
