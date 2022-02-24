@@ -6,11 +6,8 @@ plugins {
     id 'base'
     id 'eclipse'
     id 'idea'
-    id 'com.diffplug.spotless' version '6.3.0'
-    id 'com.palantir.git-version' version '0.12.3'
-    id 'org.asciidoctor.jvm.convert' version '3.3.2'
-    id 'org.asciidoctor.jvm.pdf' version '3.3.2'
-    id 'org.asciidoctor.jvm.gems' version '3.3.2'
+    id 'com.diffplug.spotless'
+    id 'com.palantir.git-version'
 }
 
 eclipse {
@@ -31,159 +28,59 @@ spotless {
     encoding 'UTF-8'
     java {
         target fileTree(projectDir) {
-            include '**/src/main/java/esy/**/*.java'
+            include '**/src/main/java/**/*.java'
             exclude '**/build/**'
             exclude '.gradle'
             exclude '.github'
         }
-        indentWithSpaces(4)
+        leadingTabsToSpaces(4)
         removeUnusedImports()
     }
 }
 
-repositories {
-    mavenCentral()
-    ruby.gems()
-}
-
-dependencies {
-    asciidoctorGems 'rubygems:rouge:3.28.0'
-}
-
 allprojects {
+    new File("${rootDir}/README.adoc").withReader('utf-8') { description = it.readLine().minus('= ') }
+    group = 'esy'
+    version = gitVersion()
     repositories {
+        if (project.hasProperty("defaultMavenRepository")) {
+            maven {
+                url "$defaultMavenRepository"
+            }
+        }
         mavenCentral()
     }
 }
 
 subprojects {
-    new File("${rootDir}/README.adoc").withReader('utf-8') { description = it.readLine().minus('= ') }
-    group = 'esy.app'
-    version = gitVersion()
-    plugins.withType(JavaPlugin) {
+    plugins.withType(JavaPlugin).configureEach {
         compileJava.options.encoding = 'UTF-8'
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        java.sourceCompatibility = JavaVersion.VERSION_21
+        java.targetCompatibility = JavaVersion.VERSION_21
     }
-    tasks.withType(Test) {
-        useJUnitPlatform {
-            excludeEngines 'junit-vintage'
-        }
-        systemProperty "file.encoding", "UTF-8"
-        testLogging {
-            events "passed", "skipped", "failed"
-            exceptionFormat "full"
-            showExceptions true
-            showCauses true
-            showStackTraces true
-            showStandardStreams false
-        }
-    }
-}
-
-ext.HTMLTOOL_IMAGE = 'registry.gitlab.emundo.eu/erd/cardsplus/integration/cardsplus-toolkit:v2.23'
-task cardsplusBuild {
-    dependsOn build
-    doLast {
-        exec {
-            commandLine 'docker', 'run', \
-                '--rm', \
-                '-v', "${project.gradle.gradleUserHomeDir}:/gradle", \
-                '-v', "${buildDir}:/out", \
-                '-v', "${rootDir}:/mnt", \
-                '-w', "/mnt", \
-                '-e', "HTMLTOOL_WIKI_URI", \
-                '-e', "HTMLTOOL_WIKI_USER", \
-                '-e', "HTMLTOOL_JIRA_URI", \
-                "${HTMLTOOL_IMAGE}", \
-                "plus", \
-                "--publish", \
-                "--message="+version 
-        }
-    }
-}
-task cardsplusUpload {
-    mustRunAfter cardsplusBuild
-    onlyIf {
-        System.env['HTMLTOOL_WIKI_USER'] != null
-        System.env['HTMLTOOL_WIKI_URI'] != null
-        System.env['HTMLTOOL_JIRA_URI'] != null
-        file('build/plus/cardsplus-upload.sh').exists()
-    }
-    doLast {
-        exec {
-            commandLine 'docker', 'run', \
-                '--rm', \
-                '-v', "${project.gradle.gradleUserHomeDir}:/gradle", \
-                '-v', "${buildDir}:/out", \
-                '-v', "${rootDir}:/mnt", \
-                '-w', "/mnt", \
-                '-e', "HTMLTOOL_WIKI_URI", \
-                '-e', "HTMLTOOL_WIKI_USER", \
-                '-e', "HTMLTOOL_JIRA_URI", \
-                "${HTMLTOOL_IMAGE}", \
-                "curl"
+    tasks.withType(Test).tap {
+        configureEach {
+            useJUnitPlatform {
+                excludeEngines 'junit-vintage'
+            }
+            systemProperty "file.encoding", "UTF-8"
+            testLogging {
+                events "passed", "skipped", "failed"
+                exceptionFormat "full"
+                showExceptions true
+                showCauses true
+                showStackTraces true
+                showStandardStreams false
+            }
         }
     }
 }
 
 ext.VERSION = new File("${rootDir}/VERSION").text
-task versionCheck() {
+tasks.register('versionCheck') {
     build.dependsOn it
+    println versionDetails()
     assert new File("${rootDir}/VERSION.md")
-        .text
-        .startsWith("# Version " + VERSION)
-}
-
-asciidoctorj {
-  requires 'rouge'
-  modules {
-    diagram { 
-      version '2.2.1'
-    }
-    pdf { 
-      version '1.6.2'
-    }
-  }
-  logLevel 'INFO'
-  options doctype: 'book'
-  attributes 'source-highlighter': 'rouge'
-  attributes 'sectlink': true
-  attributes 'sectanchors': true
-  attributes 'numbered': false
-  attributes 'idprefix': ''
-  attributes 'idseparator': '-'
-  attributes 'author': 'Robert Bruckbauer'
-  attributes 'email':  'bruckbauer@gmx.at'
-  attributes 'website': 'https://cardsplus.info'
-  attributes 'revnumber': version
-  attributes 'revdate': new Date().format('yyyy/MM/dd')
-  attributes 'revyear': new Date().format('yyyy')
-  attributes 'revremark': description
-}
-
-asciidoctor {
-  dependsOn asciidoctorGemsPrepare
-  baseDirFollowsSourceDir()
-  attributes 'toc': 'left'
-  attributes 'toclevels': '5'  
-  attributes 'imagesdir': 'images'
-  sourceDir file('doc')
-  sources {
-    include '*.adoc'
-  }
-  resources {
-    from('doc') {
-      include '**/*.jpg'
-      include '**/*.png'
-      include '**/*.svg'
-    }
-    into './images'
-  }
-  outputDir file('pages/html')
-  outputs.upToDateWhen { false }
-}
-
-clean {
-    delete "pages/html"
+            .text
+            .startsWith("# Version " + VERSION)
 }

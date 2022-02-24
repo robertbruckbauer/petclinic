@@ -1,6 +1,7 @@
 package esy.api.clinic;
 
 import esy.api.client.Owner;
+import esy.api.client.Pet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VetTest {
+class VetTest {
 
 	Vet createWithName(final String name) {
 		return Vet.parseJson("{" +
@@ -76,8 +77,7 @@ public class VetTest {
 			"{\"name\": \"\\t\"}"
 	})
 	void jsonConstraints(final String json) {
-		final Owner value = Owner.parseJson(json);
-		assertThrows(IllegalArgumentException.class, value::verify);
+		assertThrows(IllegalArgumentException.class, () -> Vet.parseJson(json).verify());
 	}
 
 

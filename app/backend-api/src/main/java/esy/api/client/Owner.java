@@ -7,7 +7,7 @@ import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
 

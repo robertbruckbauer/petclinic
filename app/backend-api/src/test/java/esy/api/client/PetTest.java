@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PetTest {
+class PetTest {
 
 	Pet createWithName(final String name) {
 		return Pet.parseJson("{" +
@@ -86,7 +86,6 @@ public class PetTest {
 			"{\"species\":\"\\n\", \"name\":\"Tom\"}"
 	})
 	void jsonConstraints(final String json) {
-		final Pet value = Pet.parseJson(json);
-		assertThrows(IllegalArgumentException.class, value::verify);
+		assertThrows(IllegalArgumentException.class, () -> Pet.parseJson(json).verify());
 	}
 }

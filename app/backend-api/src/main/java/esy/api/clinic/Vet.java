@@ -8,7 +8,7 @@ import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
@@ -29,7 +29,6 @@ public final class Vet extends JsonJpaEntity<Vet> {
             name = "vet_skill",
             joinColumns = @JoinColumn(name = "id"))
     @Column(name = "skill")
-    @OrderBy
     @Getter
     @JsonProperty
     private SortedSet<String> allSkill;

@@ -6,7 +6,7 @@
 
 === app/backend-api
 
-Datenmodell für das Backend.
+Datenmodell für den Spring-Boot-Server der Anwendung.
 
 https://projectlombok.org/
 
@@ -14,7 +14,7 @@ https://github.com/FasterXML/jackson-docs
 
 === app/backend
 
-REST-API für das Backend.
+REST-API für den Spring-Boot-Server der Anwendung.
 
 https://spring.io/projects/spring-framework
 
@@ -36,7 +36,7 @@ http://hsqldb.org
 
 === app/client
 
-Svelte-Client der Anwendung.
+Browser-basierter Svelte-Client der Anwendung.
 
 https://svelte.dev
 
@@ -48,23 +48,14 @@ https://vitejs.dev
 
 === app/deploy
 
-Deployment der Anwendung in einem Kubernetes-Cluster.
+Lokales Deployment der Anwendung.
 
-https://kubernetes.io
+https://www.docker.com/
 
-https://docs.docker.com/desktop/kubernetes
-
-https://github.com/kubernetes/kubectl
-
-https://github.com/kubernetes/ingress-nginx
-
-https://github.com/kubernetes/dashboard
-
-https://helm.sh
+https://rancherdesktop.io/
 
 == Häufig gestellte Fragen
 
-[[_f1]]
 === Code bauen und testen
 
 [source, gradle]
@@ -72,7 +63,16 @@ https://helm.sh
 ./gradlew clean build
 ----
 
-[[_f2]]
+[source, npm]
+----
+npm install --prefix app/client
+----
+
+[source, gradle]
+----
+./gradlew buildImage
+----
+
 === Code formatieren
 
 [source, gradle]
@@ -80,7 +80,11 @@ https://helm.sh
 ./gradlew spotlessApply
 ----
 
-[[_f3]]
+[source, npm]
+----
+npm run prettierCheck --prefix app/client
+----
+
 === Spring-Boot-Server lokal starten
 
 [source, gradle]
@@ -102,15 +106,14 @@ Mit dem Wert `DEBUG` werden bspw. die Kennzahlen von Statements ausgegeben.
 ./gradlew app:server:dockerRun
 ----
 
-Der Befehl startet den Server als Docker-Container.
+Der Befehl startet den Server als Container.
 Die Anwendung wird im Browser mit `localhost:8080` aufgerufen.
 
-[[_f5]]
 === Svelte-Client lokal starten
 
 [source, npm]
 ----
-npm run dev
+npm run dev --prefix app/client
 ----
 
 Der Befehl startet den Client als Node-Anwendung.
@@ -121,71 +124,22 @@ Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
 ./gradlew app:client:dockerRun
 ----
 
-Der Befehl startet den Client als Docker-Container.
+Der Befehl startet den Client als Container.
 Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
 
-[[_f6]]
-=== Dokumentation lokal bauen
+=== Anwendung lokal starten
 
 [source, gradle]
 ----
-./gradlew asciidoctor
+./gradlew composeup
 ----
 
-Die Dokumentation befindet sich im `pages`-Ordner.
-
-=== Kubernetes-Cluster lokal einrichten
-
-Docker-Desktop richtet auf `localhost` einen Kubernetes-Cluster ein.
-
-=== Kubernetes-Ingress lokal einrichten
+Der Befehlt startet Client und Server lokal.
+Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
 
 [source, gradle]
 ----
-./gradlew deployIngress
+./gradlew composedown
 ----
 
-Der Ingress-Service wird installiert und gestartet.
-
-=== Kubernetes-Dashboard lokal einrichten
-
-[source, gradle]
-----
-./gradlew deployDashboard
-----
-
-Das Dashboard wird installiert und gestartet.
-Beim ersten Aufruf muss ein Token eingegeben werden.
-Das Token ist zeitlich befristet.
-Ein gültiges Token wird mit mit dem Aufruf von
-
-[source, gradle]
-----
-./gradlew createDashboardToken
-----
-
-erstellt.
-
-[source, kubectl]
-----
-kubectl proxy
-----
-
-Der Befehl startet den Proxy auf dem lokalen Host.
-Das Dashboard wird im Browser mit der zuvor angezeigte URL aufgerufen.
-
-=== Kubernetes-Deployment lokal ausführen
-
-[source, kubectl]
-----
-./gradlew deploy
-----
-
-Die Anwendung wird im Browser mit `localhost` aufgerufen.
-
-=== Kubernetes-Deployment lokal entfernen
-
-[source, kubectl]
-----
-./gradlew undeploy
-----
+Der Befehlt stoppt Client und Server.

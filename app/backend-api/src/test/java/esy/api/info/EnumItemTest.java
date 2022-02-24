@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("fast")
-public class EnumItemTest {
+class EnumItemTest {
 
     Enum createWithName(final String name) {
         final String json = "{" +
@@ -21,8 +21,7 @@ public class EnumItemTest {
     @Test
     void equalsHashcodeToString() {
         final String name = "JIRA";
-        final Enum value = createWithName(name);
-        final EnumItem item0 = EnumItem.fromValue(value);
+        final EnumItem value = EnumItem.fromValue(createWithName(name));
         // Identisches Objekt
         assertEquals(value, value);
         assertEquals(value.hashCode(), value.hashCode());

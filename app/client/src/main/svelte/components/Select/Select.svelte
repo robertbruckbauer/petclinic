@@ -1,102 +1,125 @@
 <script>
+  import { createEventDispatcher, tick } from "svelte";
+  const dispatch = createEventDispatcher();
   import filterProps from "../filterProps.js";
-  const props = filterProps([
-    'disabled',
-    'label',
-    'value',
-    'title'
-  ], $$props);
-  export let allItem = [];
+  const props = filterProps(
+    [
+      "allItem",
+      "disabled",
+      "label",
+      "nullable",
+      "title",
+      "value",
+      "valueGetter",
+    ],
+    $$props
+  );
+  export let allItem;
   export let disabled = false;
-  export let label;
+  export let label = undefined;
   export let nullable = false;
-  export let value;
-  export let valueItem = undefined;
-  export let valueNull = '';
   export let title = undefined;
-  let focused;
-  
-  $: valueProcessed = processValue(value);
-  function processValue(e) {
-    if (typeof e !== "object") {
-      return e;
-    } else {
-      return e ? JSON.stringify(e) : null;
-    }
+  export let value;
+  export let valueGetter = undefined;
+
+  let _focused;
+  let _element;
+  export function focus() {
+    _element.focus();
   }
 
-  $: allItemProcessed = allItem.map(processItem);
-  function processItem(e) {
-    if (typeof e !== "object") {
+  $: _primitive =
+    allItem.slice(0, 1).findIndex((e) => typeof e !== "object") !== -1;
+
+  $: _allItemIndexed = allItem.map((e, i) => itemMapper(e, i));
+  function itemMapper(e, i) {
+    if (_primitive) {
       return {
-        value: e, 
-        text: e 
+        value: e,
+        text: e,
       };
     } else {
       return {
-        value: processValue(e.value),
-        text: e.text
+        value: i,
+        text: e.text,
+      };
+    }
+  }
+
+  $: _itemSelected = itemSelected(value);
+  function itemSelected(v) {
+    if (_primitive) {
+      return v;
+    } else {
+      if (typeof valueGetter === "function") {
+        return allItem.findIndex((e) => valueGetter(e) === v);
+      } else {
+        return allItem.findIndex((e) => itemString(e) === itemString(v));
       }
     }
   }
-
-  function onChange({ target }) {
-    valueItem = allItem[target.selectedIndex-1];
-    if (typeof valueItem !== "object") {
-      value = valueItem;
+  function itemString(item) {
+    if (typeof item?.value !== "object") {
+      return item?.value;
     } else {
-      value = valueItem.value;
+      return item?.value ? JSON.stringify(item.value) : null;
     }
+  }
+
+  async function onChange({ target }) {
+    if (_primitive) {
+      value = target.value || null;
+    } else {
+      const item = target.value ? allItem[target.value] : {};
+      if (typeof valueGetter === "function") {
+        value = valueGetter(item);
+      } else {
+        value = item;
+      }
+    }
+    await tick();
+    await dispatch("change", value);
   }
 </script>
 
-<div
-  class="mt-2 mb-6 relative"
->
-  {#if label}  
-  <span
-    {title}
-    class="pb-2 px-4 pt-2 text-xs absolute left-0 top-0"
-    class:text-gray-600={!focused}
-    class:text-primary-500={focused}
-  >
-    {label}
-  </span>
+<div class="mt-1 relative">
+  {#if label}
+    <span
+      {title}
+      class="px-4 pt-2 text-xs absolute left-0 top-0"
+      class:text-label-600={!_focused}
+      class:text-primary-500={_focused}
+    >
+      {label}
+    </span>
   {/if}
   <select
+    bind:this={_element}
     {...props}
     {title}
     {disabled}
-    class="disabled:opacity-50 w-full pb-2 px-4 text-black bg-gray-100"
+    class="disabled:opacity-50 w-full px-4 text-black bg-gray-100"
     class:pt-6={label}
-    class:border-0={!focused}
+    class:border-0={!_focused}
+    class:border-b={label}
     aria-label={label}
-    value={valueProcessed}
+    value={_itemSelected}
     on:change={onChange}
-    on:change
     on:input
     on:keydown
     on:keypress
     on:keyup
     on:click
-    on:focus={() => focused = true}
+    on:focus={() => (_focused = true)}
     on:focus
-    on:blur={() => focused = false}
+    on:blur={() => (_focused = false)}
     on:blur
   >
-    <option disabled={!nullable} value={null}>{valueNull}</option>
-    {#each allItemProcessed as item}
-    <option value={item.value}>
-      {item.text}
-    </option>
-    {/each}  
+    {#if nullable}
+      <option value={null}>&nbsp;</option>
+    {/if}
+    {#each _allItemIndexed as item}
+      <option value={item.value}>{item.text}</option>
+    {/each}
   </select>
-  {#if label}
-  <div class="w-full bg-gray-600 absolute left-0 bottom-0">
-    <div 
-      class="mx-auto w-0" 
-      style="height: 1px; transition: width 0.2s ease 0s;"
-    />
-  </div>
-  {/if}
 </div>

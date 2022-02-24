@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("fast")
-public class VetItemTest {
+class VetItemTest {
 
     Vet createWithName(final String name) {
         return Vet.parseJson("{" +

@@ -10,8 +10,8 @@ import esy.http.RestApiResult;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 import java.net.URLEncoder;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class ServerRunnerTest {
 
-	@LocalServerPort
+	@Value(value = "${local.server.port}")
 	private int port;
 
 	String toBackendUrl(final String path) {
@@ -151,7 +151,7 @@ public class ServerRunnerTest {
 				toBackendUrl("/api/owner/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
-				equalTo(HttpStatus.NO_CONTENT.value()));
+				equalTo(HttpStatus.OK.value()));
 
 		final RestApiResult result4b = RestApiConnection.with(
 				toBackendUrl("/api/owner/" + value1.getId()))
@@ -247,7 +247,7 @@ public class ServerRunnerTest {
 						toBackendUrl("/api/pet/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
-				equalTo(HttpStatus.NO_CONTENT.value()));
+				equalTo(HttpStatus.OK.value()));
 
 		final RestApiResult result4b = RestApiConnection.with(
 						toBackendUrl("/api/pet/" + value1.getId()))
@@ -323,7 +323,7 @@ public class ServerRunnerTest {
 						toBackendUrl("/api/vet/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
-				equalTo(HttpStatus.NO_CONTENT.value()));
+				equalTo(HttpStatus.OK.value()));
 
 		final RestApiResult result4b = RestApiConnection.with(
 						toBackendUrl("/api/vet/" + value1.getId()))
@@ -391,7 +391,7 @@ public class ServerRunnerTest {
 						toBackendUrl("/api/visit/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
-				equalTo(HttpStatus.NO_CONTENT.value()));
+				equalTo(HttpStatus.OK.value()));
 
 		final RestApiResult result4b = RestApiConnection.with(
 						toBackendUrl("/api/visit/" + value1.getId()))

@@ -6,17 +6,13 @@ plugins {
 
 dependencies {
     implementation project(':app:backend')
+    // https://projectlombok.org
+    implementation('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
     // https://spring.io/projects/spring-data
     runtimeOnly('org.hsqldb:hsqldb')
 }
 dependencies {
-    // https://projectlombok.org
-    compileOnly('org.projectlombok:lombok')
-    annotationProcessor('org.projectlombok:lombok')
-}
-dependencies {
-    // https://projectlombok.org
-    testImplementation('org.projectlombok:lombok')
     // https://spring.io/projects/spring-boot
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     // https://junit.org/junit5
@@ -46,24 +42,47 @@ bootJar {
     }
 }
 
+import java.util.Optional;
+ext.SERVER_IMAGE = Optional.ofNullable(System.getenv("SERVER_IMAGE"))
+            .orElse(rootProject.name + "/" + project.name)
+ext.SERVER_TAG = Optional.ofNullable(System.getenv("SERVER_TAG"))
+            .orElse('latest')
+
 bootBuildImage {
-    enabled = false
+    group = 'build'
+    enabled = true
+    imageName = SERVER_IMAGE + ":" + SERVER_TAG
+    tags = [SERVER_IMAGE + ":" + VERSION]
+    environment = [
+        "BP_JVM_VERSION":"21.*",
+        "BP_SPRING_CLOUD_BINDINGS_DISABLED":"true"
+    ]
 }
 
-task dockerRun {
+tasks.register('buildImage') {
+    group = 'build'
+    enabled = true
+    mustRunAfter 'build'
+    dependsOn 'bootBuildImage'
+}
+
+// https://docs.docker.com/reference/cli/docker/build/
+// https://docs.docker.com/reference/cli/docker/container/run/
+tasks.register('dockerRun') {
     doLast {
-        def IMAGE = rootProject.name + '/' + project.name;
         exec {
+            workingDir "${projectDir}"
             executable 'docker'
-            args 'build', '.', '-t', IMAGE
+            args 'build', '.', '-t', SERVER_IMAGE
         }
         exec {
+            workingDir "${projectDir}"
             executable 'docker'
-            args 'run', '-d', '--rm', '-p', '8080:8080', IMAGE
+            args 'run', '-d', '--rm', '-p', '8080:8080', SERVER_IMAGE
         }
     }
 }
 
-task versionCheck() {
+tasks.register('versionCheck') {
     build.dependsOn it
 }

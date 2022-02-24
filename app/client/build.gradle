@@ -1,58 +1,83 @@
 plugins {
     id 'base'
+    id 'com.github.node-gradle.node'
 }
 
-import org.apache.tools.ant.taskdefs.condition.Os
-ext.NPM = Os.isFamily(Os.FAMILY_WINDOWS) ? "npm.cmd" : "npm";
-
-task npmInstall {
-    doLast {
-        exec {
-            commandLine NPM, 'install'
-        }
-    }
+clean {
+    delete ".vite"
 }
 
-task npmUpgrade {
-    doLast {
-        exec {
-            commandLine NPM, 'upgrade'
-        }
-    }
-}
-
-task npmBuild {
+tasks.register('npmBuild', NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
     build.dependsOn it
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'build']
+}
+
+tasks.register('npmTest', NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmBuild'
+    check.dependsOn it
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'test']
+}
+
+import java.util.Optional;
+ext.CLIENT_IMAGE = Optional.ofNullable(System.getenv("CLIENT_IMAGE"))
+            .orElse(rootProject.name + "/" + project.name)
+ext.CLIENT_TAG = Optional.ofNullable(System.getenv("CLIENT_TAG"))
+            .orElse('latest')
+
+// https://docs.docker.com/reference/cli/docker/build/
+// https://docs.docker.com/reference/cli/docker/image/tag/
+tasks.register('buildImage') {
+    group = 'build'
+    mustRunAfter 'build'
+    enabled = true
     doLast {
+        String image1 = CLIENT_IMAGE + ":" + CLIENT_TAG;
+        String image2 = CLIENT_IMAGE + ":" + VERSION;
         exec {
-            commandLine NPM, 'install'
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'build', '.', '-t', image1
         }
-        exec {
-            commandLine NPM, 'run', 'test'
-        }
-        exec {
-            commandLine NPM, 'run', 'build'
+        if (image1 != image2) {
+            exec {
+                workingDir "${projectDir}"
+                executable 'docker'
+                args 'tag', image1, image2
+            }
+            println 'Built image to docker daemon as ' + image1 + ", " + image2
+        } else {
+            println 'Built image to docker daemon as ' + image1
         }
     }
 }
 
-task dockerRun {
+// https://docs.docker.com/reference/cli/docker/build/
+// https://docs.docker.com/reference/cli/docker/container/run/
+tasks.register('dockerRun') {
     doLast {
-        def IMAGE = rootProject.name + '/' + project.name;
         exec {
+            workingDir "${projectDir}"
             executable 'docker'
-            args 'build', '.', '-t', IMAGE
+            args 'build', '.', '-t', CLIENT_IMAGE
         }
         exec {
+            workingDir "${projectDir}"
             executable 'docker'
-            args 'run', '-d', '--rm', '-p', '5000:5000', IMAGE
+            args 'run', '-d', '--rm', '-p', '5000:5000', CLIENT_IMAGE
         }
     }
 }
 
-task versionCheck() {
+tasks.register('versionCheck') {
     build.dependsOn it
     assert new File("${projectDir}/package.json")
-        .text
-        .contains('"version": "' + VERSION + '"')
+            .text
+            .contains('"version": "' + VERSION + '"')
 }

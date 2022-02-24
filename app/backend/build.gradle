@@ -8,6 +8,9 @@ plugins {
 
 dependencies {
     api project(':app:backend-api')
+    // https://projectlombok.org
+    implementation('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
     // https://spring.io/projects/spring-boot
     api('org.springframework.boot:spring-boot-starter')
     api('org.springframework.boot:spring-boot-starter-web')
@@ -21,13 +24,6 @@ dependencies {
     runtimeOnly('org.hsqldb:hsqldb')
 }
 dependencies {
-    // https://projectlombok.org
-    compileOnly('org.projectlombok:lombok')
-    annotationProcessor('org.projectlombok:lombok')
-}
-dependencies {
-    // https://projectlombok.org
-    testImplementation('org.projectlombok:lombok')
     // https://spring.io/projects/spring-boot
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     // https://spring.io/projects/spring-restdocs
@@ -39,19 +35,25 @@ dependencies {
 }
 
 test {
+    filter {
+        failOnNoMatchingTests false
+    }
     reports {
-        html.enabled true
+        html.required = true
         html.destination = file("${rootDir}/pages/html/" + project.name + "/junit5")
+    }
+    jacoco {
+        enabled = true
     }
 }
 
 jacocoTestReport {
-    dependsOn test
+    mustRunAfter test
     reports {
-        xml.enabled false
-        csv.enabled false
-        html.enabled true
+        csv.required = false
+        html.required = true
         html.destination file("${rootDir}/pages/html/" + project.name + "/jacoco")
+        xml.required = true
     }
 }
 

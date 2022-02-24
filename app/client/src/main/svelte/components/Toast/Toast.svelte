@@ -1,6 +1,6 @@
 <script>
-  import { fade, fly } from "svelte/transition";
-  import { flip } from "svelte/animate";
+  import { fade } from "svelte/transition";
+  import { fly } from "svelte/transition";
   import { toast } from "./stores.js";
   import ToastItem from "./ToastItem.svelte";
   export let options = {};
@@ -11,7 +11,7 @@
 
 <ul class="_toastContainer">
   {#each allItem as item (item.id)}
-    <li in:fly={{ x: 256 }} out:fade animate:flip={{ duration: 200 }}>
+    <li in:fly={{ x: 256 }} out:fade>
       <ToastItem {item} />
     </li>
   {/each}

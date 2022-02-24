@@ -10,7 +10,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("fast")
-public class VisitTest {
+class VisitTest {
 
     Visit createWithName(final String name) {
         return Visit.parseJson("{" +

@@ -1,7 +1,7 @@
 package esy.rest;
 
 import esy.json.JsonJpaEntity;
-import io.micrometer.core.lang.NonNull;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
