@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Robert Bruckbauer</span><br>
 <span id="email" class="email"><a href="mailto:bruckbauer@gmx.at">bruckbauer@gmx.at</a></span><br>
 <span id="revnumber">version 2.4.1,</span>
-<span id="revdate">2022/02/23</span>
+<span id="revdate">2022/02/24</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -951,7 +951,7 @@ Die Callback-Methode wird <strong>vor</strong> dem Speichern eines neuen Datensa
 Die Methode kann den eingehenden Datensatz verändern.</p>
 </div>
 <div class="listingblock">
-<div class="title">Beispiel aus ProjektValueRestController</div>
+<div class="title">Beispiel aus ProjektRestController</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">protected</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">TransactionCallback</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;&gt;</span> <span class="nf">beforeCreateTransaction</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="kd">final</span> <span class="no">V</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">status</span> <span class="o">-&gt;</span> <span class="o">{</span> <i class="conum" data-value="1"></i><b>(1)</b>
@@ -1009,9 +1009,9 @@ Die Callback-Methode wird <strong>vor</strong> dem Speichern eines bereits exist
 Die Methode kann den eingehenden Datensatz verändern.</p>
 </div>
 <div class="listingblock">
-<div class="title">Beispiel aus ProjektValueRestController</div>
+<div class="title">Beispiel aus ProjektRestController</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">protected</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">TransactionCallback</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;&gt;</span> <span class="nf">beforeSaveTransaction</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="kd">final</span> <span class="nc">ProjektValue</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">protected</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">TransactionCallback</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;&gt;</span> <span class="nf">beforeSaveTransaction</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="kd">final</span> <span class="nc">Projekt</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">status</span> <span class="o">-&gt;</span> <span class="o">{</span>
         <span class="n">projektSeqRepository</span><span class="o">.</span><span class="na">findByRefId</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">getId</span><span class="o">())</span>
                 <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">seq</span> <span class="o">-&gt;</span> <span class="n">seq</span><span class="o">.</span><span class="na">getSeqId</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">getCode</span><span class="o">()))</span> <i class="conum" data-value="1"></i><b>(1)</b>
@@ -1125,9 +1125,9 @@ Die Callback-Methode wird <strong>nach</strong> dem Speichern einer Relation in 
 Die Callback-Methode wird <strong>vor</strong> dem Löschen einer Relation in diesem Datensatz ausgeführt.</p>
 </div>
 <div class="listingblock">
-<div class="title">Beispiel aus ProjektValueRestController</div>
+<div class="title">Beispiel aus ProjektRestController</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">protected</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">TransactionCallback</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;&gt;</span> <span class="nf">beforeLinkDeleteTransaction</span><span class="o">(</span><span class="kd">final</span> <span class="nc">ProjektValue</span> <span class="n">value</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">Object</span> <span class="n">rel</span><span class="o">)</span> <span class="o">{</span>
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="kd">protected</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">TransactionCallback</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;&gt;</span> <span class="nf">beforeLinkDeleteTransaction</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Projekt</span> <span class="n">value</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">Object</span> <span class="n">rel</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">getBesitzer</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> <i class="conum" data-value="1"></i><b>(1)</b>
         <span class="k">throw</span> <span class="k">new</span> <span class="nf">DataIntegrityViolationException</span><span class="o">(</span><span class="s">"besitzer is null"</span><span class="o">);</span>
     <span class="o">}</span>
@@ -1202,7 +1202,7 @@ Nutzer können Daten, für die das SCS die Hoheit besitzt, bearbeiten und speich
 <div id="footer">
 <div id="footer-text">
 Version 2.4.1<br>
-Last updated 2022-02-23 14:17:08 UTC
+Last updated 2022-02-24 16:52:42 UTC
 </div>
 </div>
 <style>
