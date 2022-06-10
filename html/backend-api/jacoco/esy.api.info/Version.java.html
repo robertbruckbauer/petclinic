@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Version.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.api.info</a> &gt; <span class="el_source">Version.java</span></div><h1>Version.java</h1><pre class="source lang-java linenums">package esy.api.info;
 
+import esy.api.CardsplusEntity;
 import lombok.Data;
 
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-<span class="pc bpc" id="L9" title="2 of 10 branches missed.">@Data</span>
+/**
+ * Version nach SemVer.
+ */
+@CardsplusEntity
+<span class="pc bpc" id="L14" title="2 of 10 branches missed.">@Data</span>
 public class Version {
 
-<span class="fc" id="L12">    private final int major;</span>
-<span class="fc" id="L13">    private final int minor;</span>
+<span class="fc" id="L17">    private final int major;</span>
+<span class="fc" id="L18">    private final int minor;</span>
 
-<span class="fc" id="L15">    public Version(final int major, final int minor) {</span>
-<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (major &lt; 0) {</span>
-<span class="fc" id="L17">            throw new IllegalArgumentException(&quot;major is negative&quot;);</span>
+<span class="fc" id="L20">    public Version(final int major, final int minor) {</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (major &lt; 0) {</span>
+<span class="fc" id="L22">            throw new IllegalArgumentException(&quot;major is negative&quot;);</span>
         }
-<span class="fc" id="L19">        this.major = major;</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (minor &lt; 0) {</span>
-<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;minor is negative&quot;);</span>
+<span class="fc" id="L24">        this.major = major;</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (minor &lt; 0) {</span>
+<span class="fc" id="L26">            throw new IllegalArgumentException(&quot;minor is negative&quot;);</span>
         }
-<span class="fc" id="L23">        this.minor = minor;</span>
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L28">        this.minor = minor;</span>
+<span class="fc" id="L29">    }</span>
 
     public Version() {
-<span class="fc" id="L27">        this(0, 0);</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L32">        this(0, 0);</span>
+<span class="fc" id="L33">    }</span>
 
     public Version(final int major) {
-<span class="fc" id="L31">        this(major, 0);</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L36">        this(major, 0);</span>
+<span class="fc" id="L37">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L36">        return major + &quot;.&quot; + minor;</span>
+<span class="fc" id="L41">        return major + &quot;.&quot; + minor;</span>
     }
 
     /**
@@ -45,16 +50,16 @@ public class Version {
      * @throws InputMismatchException if some data is not valid
      */
     public static Version fromString(final Scanner scanner) {
-<span class="fc" id="L48">        scanner.useDelimiter(&quot;\\.&quot;);</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (!scanner.hasNext()) {</span>
-<span class="fc" id="L50">            throw new NoSuchElementException(&quot;major not set&quot;);</span>
+<span class="fc" id="L53">        scanner.useDelimiter(&quot;\\.&quot;);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (!scanner.hasNext()) {</span>
+<span class="fc" id="L55">            throw new NoSuchElementException(&quot;major not set&quot;);</span>
         }
-<span class="fc" id="L52">        final int major = scanner.nextInt();</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (!scanner.hasNext()) {</span>
-<span class="fc" id="L54">            throw new NoSuchElementException(&quot;minor not set&quot;);</span>
+<span class="fc" id="L57">        final int major = scanner.nextInt();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (!scanner.hasNext()) {</span>
+<span class="fc" id="L59">            throw new NoSuchElementException(&quot;minor not set&quot;);</span>
         }
-<span class="fc" id="L56">        final int minor = scanner.nextInt();</span>
-<span class="fc" id="L57">        return new Version(major, minor);</span>
+<span class="fc" id="L61">        final int minor = scanner.nextInt();</span>
+<span class="fc" id="L62">        return new Version(major, minor);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
