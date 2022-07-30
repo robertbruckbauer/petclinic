@@ -12,7 +12,7 @@ task composeUp {
         dockerBuild(CLIENT_IMAGE, 'latest', 'client');
         exec {
             executable 'docker-compose'
-            args '-p', 'demoscs', '-f', 'compose.yml', 'up', '--detach', '--no-build'
+            args '-p', 'petclinic', '-f', 'compose.yml', 'up', '--detach', '--no-build'
         }
     }
 }
@@ -21,7 +21,7 @@ task composeStop {
     doLast {
         exec {
             executable 'docker-compose'
-            args '-p', 'demoscs', '-f', 'compose.yml', 'stop'
+            args '-p', 'petclinic', '-f', 'compose.yml', 'stop'
         }
     }
 }
@@ -30,7 +30,7 @@ task composeDown {
     doLast {
         exec {
             executable 'docker-compose'
-            args '-p', 'demoscs', '-f', 'compose.yml', 'down'
+            args '-p', 'petclinic', '-f', 'compose.yml', 'down'
         }
     }
 }

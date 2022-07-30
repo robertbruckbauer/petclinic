@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   server:
-    image: demoscs/server
+    image: petclinic/server
     hostname: server
     ports:
       - "8080:8080"
@@ -12,7 +12,7 @@ services:
       SPRING_DATASOURCE_USERNAME: SA
       SPRING_DATASOURCE_PASSWORD:
   client:
-    image: demoscs/client
+    image: petclinic/client
     hostname: client
     ports:
       - "5000:5000"
