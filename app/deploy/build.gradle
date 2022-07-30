@@ -1,6 +1,39 @@
 plugins {
     id 'base'
 }
+
+ext.SERVER_IMAGE = rootProject.name + "/server"                   
+ext.CLIENT_IMAGE = rootProject.name + "/client"    
+
+task composeUp {
+    doLast { 
+        println '\nDeploying with latest'
+        dockerBuild(SERVER_IMAGE, 'latest', 'server');
+        dockerBuild(CLIENT_IMAGE, 'latest', 'client');
+        exec {
+            executable 'docker-compose'
+            args '-p', 'demoscs', '-f', 'compose.yml', 'up', '--detach', '--no-build'
+        }
+    }
+}
+
+task composeStop {
+    doLast {
+        exec {
+            executable 'docker-compose'
+            args '-p', 'demoscs', '-f', 'compose.yml', 'stop'
+        }
+    }
+}
+
+task composeDown {
+    doLast {
+        exec {
+            executable 'docker-compose'
+            args '-p', 'demoscs', '-f', 'compose.yml', 'down'
+        }
+    }
+}
             
 task deployIngress {
     doLast {
@@ -55,10 +88,7 @@ task createDashboardToken {
         println '\n' + new String(userToken.toString().decodeBase64());
         println '\nhttp://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/'
      }
-}
-
-ext.SERVER_IMAGE = rootProject.name + "/server"                   
-ext.CLIENT_IMAGE = rootProject.name + "/client"                   
+}               
 
 task deploy {
     doLast {    
