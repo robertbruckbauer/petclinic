@@ -6,22 +6,22 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
 import java.util.UUID;
 
 @Embeddable
-<span class="pc bpc" id="L15" title="13 of 22 branches missed.">@EqualsAndHashCode</span>
+@EqualsAndHashCode
 public class VetItem implements JsonJpaItem&lt;UUID&gt; {
 
     @Transient
-<span class="fc" id="L19">    @Getter</span>
+    @Getter
     @JsonProperty
     private final UUID value;
 
     @Column(name = &quot;text&quot;)
-<span class="fc" id="L24">    @Getter</span>
+    @Getter
     @JsonProperty
     private final String text;
 
@@ -48,4 +48,4 @@ public class VetItem implements JsonJpaItem&lt;UUID&gt; {
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

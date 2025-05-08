@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonJpaEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.json</a> &gt; <span class="el_source">JsonJpaEntity.java</span></div><h1>JsonJpaEntity.java</h1><pre class="source lang-java linenums">package esy.json;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = &quot;id&quot;)
-public abstract class JsonJpaEntity&lt;SELF extends JsonJpaEntity&lt;?&gt;&gt; implements JsonWithId&lt;SELF&gt; {
+public abstract class JsonJpaEntity&lt;E extends JsonJpaEntity&lt;?&gt;&gt; implements JsonWithId&lt;E&gt; {
 
     /**
      * Aktuelle Version der Daten.
      */
     @Version
     @Column(name = &quot;version&quot;)
-<span class="fc" id="L23">    @Getter</span>
+    @Getter
     @JsonProperty
     private final Long version;
 
@@ -29,7 +26,7 @@ public abstract class JsonJpaEntity&lt;SELF extends JsonJpaEntity&lt;?&gt;&gt; i
      */
     @Id
     @Column(name = &quot;id&quot;)
-<span class="fc" id="L32">    @Getter</span>
+    @Getter
     @JsonProperty
     private final UUID id;
 
@@ -38,20 +35,20 @@ public abstract class JsonJpaEntity&lt;SELF extends JsonJpaEntity&lt;?&gt;&gt; i
      * dauerhaft gespeichert wurden. Das bedeutet, dass ein
      * gültiger primärer Schlüssel existiert.
      */
-<span class="fc" id="L41">    @Transient</span>
+<span class="fc" id="L38">    @Transient</span>
     @JsonIgnore
     private boolean persisted = false;
 
-<span class="fc" id="L45">    protected JsonJpaEntity() {</span>
-<span class="fc" id="L46">        this.version = 0L;</span>
-<span class="fc" id="L47">        this.id = UUID.randomUUID();</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L42">    protected JsonJpaEntity() {</span>
+<span class="fc" id="L43">        this.version = 0L;</span>
+<span class="fc" id="L44">        this.id = UUID.randomUUID();</span>
+<span class="fc" id="L45">    }</span>
 
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">    protected JsonJpaEntity(@NonNull final Long version,</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">                            @NonNull final UUID id) {</span>
-<span class="fc" id="L52">        this.version = version;</span>
-<span class="fc" id="L53">        this.id = id;</span>
-<span class="fc" id="L54">    }</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">    protected JsonJpaEntity(@NonNull final Long version,</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">                            @NonNull final UUID id) {</span>
+<span class="fc" id="L49">        this.version = version;</span>
+<span class="fc" id="L50">        this.id = id;</span>
+<span class="fc" id="L51">    }</span>
 
     /**
      * Prüft die Eigenschaften dieser Instanz und wirft eine
@@ -60,71 +57,71 @@ public abstract class JsonJpaEntity&lt;SELF extends JsonJpaEntity&lt;?&gt;&gt; i
      *
      * @return diese Instanz
      */
-    public abstract SELF verify();
+    public abstract E verify();
 
     @Override
     public final int hashCode() {
-<span class="fc" id="L67">        return Objects.hash(</span>
+<span class="fc" id="L64">        return Objects.hash(</span>
                 this.version,
                 this.id);
     }
 
     @Override
     public final boolean equals(final Object any) {
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (this == any) {</span>
-<span class="fc" id="L75">            return true;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (this == any) {</span>
+<span class="fc" id="L72">            return true;</span>
         }
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (any == null) {</span>
-<span class="fc" id="L78">            return false;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (any == null) {</span>
+<span class="fc" id="L75">            return false;</span>
         }
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (!getClass().equals(any.getClass())) {</span>
-<span class="nc" id="L81">            return false;</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (!getClass().equals(any.getClass())) {</span>
+<span class="nc" id="L78">            return false;</span>
         }
-<span class="fc" id="L83">        final SELF that = (SELF) any;</span>
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        return Objects.equals(this.version, that.getVersion()) &amp;&amp;</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">                Objects.equals(this.id, that.getId()) &amp;&amp;</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">                this.isEqual(that);</span>
+<span class="fc" id="L80">        final E that = (E) any;</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        return Objects.equals(this.version, that.getVersion()) &amp;&amp;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                Objects.equals(this.id, that.getId()) &amp;&amp;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                this.isEqual(that);</span>
     }
 
     /**
      * Liefert {@code TRUE}, wenn alle Eigenschaften dieser
      * Instanz und einer anderen Instanz gleich sind.
      *
-     * Wichtig: Bitte wegen dem Einsatz von O/R-Mappern die
-     * Methoden {@link Object#equals(Object)} und und
+     * Wichtig: Bitte wegen des Einsatzes von O/R-Mappern
+     * {@link Object#equals(Object)} und
      * {@link Object#hashCode()} nicht implementieren.
      *
      * @param that Vergleichsobjekt
      * @return {@code TRUE} bei gleichen Eigenschaften, sonst {@code FALSE}
      */
-    public abstract boolean isEqual(final SELF that);
+    public abstract boolean isEqual(final E that);
 
     /**
      * Erzeugt einen lesbaren Text für dieses Objekt mit einer
-     * komma-separierten Liste der eindeutigen Attributen dieser
+     * komma-separierten Liste eindeutiger Attribute dieser
      * Instanz.
      *
      * @return Komma-separierte Liste
      */
     @Override
     public String toString() {
-<span class="fc" id="L111">        return &quot;version:&quot; + version + &quot;,id:&quot; + id;</span>
+<span class="fc" id="L108">        return &quot;version:&quot; + version + &quot;,id:&quot; + id;</span>
     }
 
     @PrePersist
     @PostLoad
     private void setPersisted() {
-<span class="nc" id="L117">        persisted = true;</span>
-<span class="nc" id="L118">    }</span>
+<span class="nc" id="L114">        persisted = true;</span>
+<span class="nc" id="L115">    }</span>
 
     @JsonIgnore
     public final boolean isPersisted() {
-<span class="nc" id="L122">        return persisted;</span>
+<span class="nc" id="L119">        return persisted;</span>
     }
 
     @JsonIgnore
     public final boolean isNew() {
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        return version == 0L;</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        return version == 0L;</span>
     }
 
     /**
@@ -135,4 +132,4 @@ public abstract class JsonJpaEntity&lt;SELF extends JsonJpaEntity&lt;?&gt;&gt; i
      */
     public abstract String writeJson();
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

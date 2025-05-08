@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.json</a> &gt; <span class="el_source">JsonMapper.java</span></div><h1>JsonMapper.java</h1><pre class="source lang-java linenums">package esy.json;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,22 +11,22 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.NonNull;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-<span class="fc" id="L17">public class JsonMapper {</span>
+<span class="fc" id="L18">public class JsonMapper {</span>
 
     // tag::configure[]
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">    public static ObjectMapper configure(@NonNull final ObjectMapper mapper) {</span>
-<span class="fc" id="L21">        return mapper</span>
-<span class="fc" id="L22">                .registerModule(new Jdk8Module()) // &lt;1&gt;</span>
-<span class="fc" id="L23">                .registerModule(new JavaTimeModule()) // &lt;2&gt;</span>
-<span class="fc" id="L24">                .setDefaultMergeable(false) // &lt;3&gt;</span>
-<span class="fc" id="L25">                .configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, true) // &lt;4&gt;</span>
-<span class="fc" id="L26">                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) // &lt;5&gt;</span>
-<span class="fc" id="L27">                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // &lt;6&gt;</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">    public static ObjectMapper configure(@NonNull final ObjectMapper mapper) {</span>
+<span class="fc" id="L22">        return mapper</span>
+<span class="fc" id="L23">                .registerModule(new Jdk8Module()) // &lt;1&gt;</span>
+<span class="fc" id="L24">                .registerModule(new JavaTimeModule()) // &lt;2&gt;</span>
+<span class="fc" id="L25">                .setDefaultMergeable(false) // &lt;3&gt;</span>
+<span class="fc" id="L26">                .setSerializationInclusion(JsonInclude.Include.NON_NULL) // &lt;4&gt;</span>
+<span class="fc" id="L27">                .configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, true) // &lt;5&gt;</span>
+<span class="fc" id="L28">                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) // &lt;6&gt;</span>
+<span class="fc" id="L29">                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // &lt;7&gt;</span>
     }
     // end::configure[]
 
@@ -34,12 +36,12 @@ import java.util.stream.Stream;
      * @param value Value-Objekt
      * @return JSON
      */
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">    public &lt;T&gt; String writeJson(@NonNull final T value) {</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">    public &lt;T&gt; String writeJson(@NonNull final T value) {</span>
         try {
-<span class="fc" id="L39">            var mapper = configure(new ObjectMapper());</span>
-<span class="fc" id="L40">            return mapper.writeValueAsString(value);</span>
-<span class="nc" id="L41">        } catch (final JsonProcessingException e) {</span>
-<span class="nc" id="L42">            throw new IllegalArgumentException(e.toString(), e);</span>
+<span class="fc" id="L41">            final var mapper = configure(new ObjectMapper());</span>
+<span class="fc" id="L42">            return mapper.writeValueAsString(value);</span>
+<span class="nc" id="L43">        } catch (final JsonProcessingException e) {</span>
+<span class="nc" id="L44">            throw new IllegalArgumentException(e.toString(), e);</span>
         }
     }
 
@@ -49,12 +51,15 @@ import java.util.stream.Stream;
      * @param json JSON
      * @return {@link JsonNode}
      */
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">    public JsonNode parseJsonNode(@NonNull final String json) {</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">    public JsonNode parseJsonNode(@NonNull final String json) {</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (json.isBlank()) {</span>
+<span class="nc" id="L56">            throw new IllegalArgumentException(&quot;json structure is blank&quot;);</span>
+        }
         try {
-<span class="fc" id="L54">            var mapper = configure(new ObjectMapper());</span>
-<span class="fc" id="L55">            return mapper.readTree(json);</span>
-<span class="nc" id="L56">        } catch (final JsonProcessingException e) {</span>
-<span class="nc" id="L57">            throw new IllegalArgumentException(e.toString(), e);</span>
+<span class="fc" id="L59">            final var mapper = configure(new ObjectMapper());</span>
+<span class="fc" id="L60">            return mapper.readTree(json);</span>
+<span class="nc" id="L61">        } catch (final JsonProcessingException e) {</span>
+<span class="nc" id="L62">            throw new IllegalArgumentException(e.toString(), e);</span>
         }
     }
 
@@ -64,12 +69,16 @@ import java.util.stream.Stream;
      * @param json JSON
      * @return {@link Map}
      */
-<span class="nc bnc" id="L67" title="All 2 branches missed.">    public Map&lt;String, Object&gt; parseJson(@NonNull final String json) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    public Map&lt;String, Object&gt; parseJsonMap(@NonNull final String json) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (json.isBlank()) {</span>
+<span class="nc" id="L74">            throw new IllegalArgumentException(&quot;json structure is blank&quot;);</span>
+        }
         try {
-<span class="nc" id="L69">            var mapper = configure(new ObjectMapper());</span>
-<span class="nc" id="L70">            return mapper.readValue(json, Map.class);</span>
-<span class="nc" id="L71">        } catch (final JsonProcessingException e) {</span>
-<span class="nc" id="L72">            throw new IllegalArgumentException(e.toString(), e);</span>
+<span class="nc" id="L77">            final var mapper = configure(new ObjectMapper());</span>
+<span class="nc" id="L78">            final var typeRef = new TypeReference&lt;Map&lt;String, Object&gt;&gt;() {};</span>
+<span class="nc" id="L79">            return mapper.readValue(json, typeRef);</span>
+<span class="nc" id="L80">        } catch (final JsonProcessingException e) {</span>
+<span class="nc" id="L81">            throw new IllegalArgumentException(e.toString(), e);</span>
         }
     }
 
@@ -81,35 +90,16 @@ import java.util.stream.Stream;
      * @return Value-Objekt
      */
     @SafeVarargs
-<span class="pc bpc" id="L84" title="3 of 6 branches missed.">    public final &lt;T&gt; T parseJson(@NonNull final String json, @NonNull final Class&lt;T&gt; type, @NonNull final Consumer&lt;T&gt;... patcher) {</span>
+<span class="pc bpc" id="L93" title="3 of 6 branches missed.">    public final &lt;T&gt; T parseJson(@NonNull final String json, @NonNull final Class&lt;T&gt; type, @NonNull final Consumer&lt;T&gt;... patcher) {</span>
         try {
-<span class="fc" id="L86">            var mapper = configure(new ObjectMapper());</span>
-<span class="fc" id="L87">            var value = mapper.readValue(json, type);</span>
-<span class="pc" id="L88">            Stream.of(patcher).forEach(p -&gt; p.accept(value));</span>
-<span class="fc" id="L89">            return value;</span>
-<span class="nc" id="L90">        } catch (final JsonProcessingException e) {</span>
-<span class="nc" id="L91">            throw new IllegalArgumentException(e.toString(), e);</span>
+<span class="fc" id="L95">            final var mapper = configure(new ObjectMapper());</span>
+<span class="fc" id="L96">            final var value = mapper.readValue(json, type);</span>
+<span class="pc" id="L97">            Stream.of(patcher).forEach(p -&gt; p.accept(value));</span>
+<span class="fc" id="L98">            return value;</span>
+<span class="nc" id="L99">        } catch (final JsonProcessingException e) {</span>
+<span class="nc" id="L100">            throw new IllegalArgumentException(e.toString(), e);</span>
         }
     }
 
-    /**
-     * Erzeugt eine Liste von Value-Objekten aus einer Liste von JSON-Strukturen.
-     *
-     * @param json JSON
-     * @param type Value-Klasse
-     * @return Value-Objekte
-     */
-    @SafeVarargs
-<span class="nc bnc" id="L103" title="All 6 branches missed.">    public final &lt;T&gt; List&lt;T&gt; parseJsonContent(@NonNull final String json, @NonNull final Class&lt;T&gt; type, @NonNull final Consumer&lt;T&gt;... patcher) {</span>
-        try {
-<span class="nc" id="L105">            var mapper = configure(new ObjectMapper());</span>
-<span class="nc" id="L106">            var mappedType = mapper.getTypeFactory().constructParametricType(JsonJpaCollectionModel.class, type);</span>
-<span class="nc" id="L107">            var allValue = ((JsonJpaCollectionModel&lt;T&gt;)mapper.readValue(json, mappedType)).getContent();</span>
-<span class="nc" id="L108">            Stream.of(patcher).forEach(p -&gt; allValue.forEach(value -&gt; p.accept(value)));</span>
-<span class="nc" id="L109">            return allValue;</span>
-<span class="nc" id="L110">        } catch (final JsonProcessingException e) {</span>
-<span class="nc" id="L111">            throw new IllegalArgumentException(e.toString(), e);</span>
-        }
-    }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

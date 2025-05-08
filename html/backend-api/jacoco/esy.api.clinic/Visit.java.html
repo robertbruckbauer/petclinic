@@ -11,7 +11,7 @@ import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +26,12 @@ import java.util.UUID;
 public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
 
     @Column(name = &quot;date&quot;)
-<span class="fc" id="L29">    @Getter</span>
+    @Getter
     @JsonProperty
     private LocalDate date;
 
     @Column(name = &quot;text&quot;)
-<span class="fc" id="L34">    @Getter</span>
+    @Getter
     @JsonProperty
     private String text;
 
@@ -39,7 +39,7 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
             fetch = FetchType.EAGER,
             optional = true)
     @JoinColumn(name = &quot;pet_id&quot;, referencedColumnName = &quot;id&quot;)
-<span class="nc" id="L42">    @Getter</span>
+    @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Pet pet;
 
@@ -47,7 +47,7 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
             fetch = FetchType.EAGER,
             optional = true)
     @JoinColumn(name = &quot;vet_id&quot;, referencedColumnName = &quot;id&quot;)
-<span class="nc" id="L50">    @Getter</span>
+    @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Vet vet;
 
@@ -135,4 +135,4 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
 <span class="fc" id="L135">        return new JsonMapper().parseJson(json, Visit.class);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

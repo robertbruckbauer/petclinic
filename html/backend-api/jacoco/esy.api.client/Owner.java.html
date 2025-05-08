@@ -7,7 +7,7 @@ import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,17 +19,17 @@ import java.util.stream.Collectors;
 public final class Owner extends JsonJpaEntity&lt;Owner&gt; {
 
     @Column(name = &quot;name&quot;)
-<span class="fc" id="L22">    @Getter</span>
+    @Getter
     @JsonProperty
     private String name;
 
     @Column(name = &quot;address&quot;)
-<span class="fc" id="L27">    @Getter</span>
+    @Getter
     @JsonProperty
     private String address;
 
     @Column(name = &quot;contact&quot;)
-<span class="fc" id="L32">    @Getter</span>
+    @Getter
     @JsonProperty
     private String contact;
 
@@ -39,7 +39,7 @@ public final class Owner extends JsonJpaEntity&lt;Owner&gt; {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-<span class="nc" id="L42">    @Getter</span>
+    @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set&lt;Pet&gt; allPet;
 
@@ -123,4 +123,4 @@ public final class Owner extends JsonJpaEntity&lt;Owner&gt; {
 <span class="fc" id="L123">        return new JsonMapper().parseJson(json, Owner.class);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

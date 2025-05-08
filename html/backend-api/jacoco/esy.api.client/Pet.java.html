@@ -8,7 +8,7 @@ import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,17 +23,17 @@ import java.util.UUID;
 public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
 
     @Column(name = &quot;name&quot;)
-<span class="fc" id="L26">    @Getter</span>
+    @Getter
     @JsonProperty
     private String name;
 
     @Column(name = &quot;born&quot;)
-<span class="fc" id="L31">    @Getter</span>
+    @Getter
     @JsonProperty
     private LocalDate born;
 
     @Column(name = &quot;species&quot;)
-<span class="fc" id="L36">    @Getter</span>
+    @Getter
     @JsonProperty
     private String species;
 
@@ -42,7 +42,7 @@ public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
             optional = false
     )
     @JoinColumn(name = &quot;owner_id&quot;, referencedColumnName = &quot;id&quot;)
-<span class="nc" id="L45">    @Getter</span>
+    @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Owner owner;
 
@@ -130,4 +130,4 @@ public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
 <span class="fc" id="L130">        return new JsonMapper().parseJson(json, Pet.class);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
