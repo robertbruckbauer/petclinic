@@ -28,6 +28,21 @@ jobs:
         gradle spotlessCheck build --parallel
         gradle jacocoTestReport
 
+    # https://github.com/actions/setup-node
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    
+    - name: Build Node
+      run: |
+        for dir in app/*
+        do
+          if [ -f "$dir/package.json" ]
+          then
+            (cd $dir && npm install && npm run prettierCheck && npm run build)
+          fi
+        done
+
     # https://github.com/peaceiris/actions-gh-pages
     - name: Update pages
       uses: peaceiris/actions-gh-pages@v4

@@ -1,15 +1,12 @@
 <script>
-	export let open = false
+  export let open = false;
 </script>
 
-<svg height=30>
-	<a xlink:href="/home" on:click={() => open = false}>
-		<text x=0 y=20>Petclinic</text>
-	 </a>
-</svg>
-
-<style>
-	text {
-		fill: currentColor
-	}
-</style>
+<a
+  class="text-title-500 hover:text-title-700 cursor-pointer mr-4 border-none focus:outline-none"
+  class:open
+  href="/home"
+  on:click={() => (open = false)}
+>
+  <span>Petclinic</span>
+</a>

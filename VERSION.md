@@ -1,6 +1,8 @@
 # Version 0.6.0
 
 * Upgrade auf `spring boot` Version 3.4.5.
+* Upgrade auf `svelte` Version 5.28.2.
+* Upgrade auf `vite` Version 6.3.4.
 * Deployment mit `docker compose`.
 
 # Version 0.5.0

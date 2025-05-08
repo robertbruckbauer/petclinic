@@ -3,6 +3,10 @@ plugins {
     id 'com.github.node-gradle.node'
 }
 
+clean {
+    delete ".vite"
+}
+
 tasks.register('npmBuild', NpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }

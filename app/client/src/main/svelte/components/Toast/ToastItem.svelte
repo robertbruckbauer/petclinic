@@ -1,5 +1,4 @@
 <script>
-  import { onDestroy } from "svelte";
   import { tweened } from "svelte/motion";
   import { linear } from "svelte/easing";
   import { toast } from "./stores.js";
@@ -8,10 +7,17 @@
     duration: item.duration,
     easing: linear,
   });
-  const close = () => toast.pop(item.id);
+  const onKey = (e) => {
+    if (e.key === "Escape") {
+      toast.pop(item.id);
+    }
+  };
+  const onClose = () => {
+    toast.pop(item.id);
+  };
   const autoclose = () => {
     if ($progress === 1 || $progress === 0) {
-      close();
+      toast.pop(item.id);
     }
   };
   let next = item.initial;
@@ -44,15 +50,11 @@
     }
     return props;
   };
-  onDestroy(() => {
-    if (typeof item.onpop === "function") {
-      item.onpop(item.id);
-    }
-  });
 </script>
 
 <div
   class="_toastItem bg-error-800 text-white z-30"
+  role="alert"
   on:mouseenter={pause}
   on:mouseleave={resume}
 >
@@ -64,11 +66,17 @@
     {/if}
   </div>
   {#if item.dismissable}
-    <div class="_toastBtn" role="button" tabindex="-1" on:click={close}>
-      ✕
+    <div
+      class="_toastBtn"
+      role="button"
+      tabindex="-1"
+      on:click={onClose}
+      on:keydown={onKey}
+    >
+      <span>✕</span>
     </div>
   {/if}
-  <progress class="_toastBar bg-transparent" value={$progress} />
+  <progress class="_toastBar bg-transparent" value={$progress}>&nbsp;</progress>
 </div>
 
 <style>
@@ -117,9 +125,9 @@
     pointer-events: none;
   }
   ._toastBar::-webkit-progress-value {
-    background: rgba(33, 150, 243, 0.75)
+    background: rgba(33, 150, 243, 0.75);
   }
   ._toastBar::-moz-progress-bar {
-    background: rgba(33, 150, 243, 0.75)
+    background: rgba(33, 150, 243, 0.75);
   }
 </style>
