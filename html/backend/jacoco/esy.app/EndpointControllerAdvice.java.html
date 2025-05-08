@@ -1,101 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EndpointControllerAdvice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">esy.app</a> &gt; <span class="el_source">EndpointControllerAdvice.java</span></div><h1>EndpointControllerAdvice.java</h1><pre class="source lang-java linenums">package esy.app;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.ConcurrencyFailureException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.http.HttpStatus;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.data.rest.webmvc.support.ETagDoesntMatchException;
+import org.springframework.http.*;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PessimisticLockException;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Objects;
+import java.io.FileNotFoundException;
+import java.io.UncheckedIOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.NoSuchFileException;
+import java.util.MissingResourceException;
+import java.util.NoSuchElementException;
 
+<span class="fc" id="L40">@Slf4j</span>
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @RestController
-<span class="fc" id="L29">@Slf4j</span>
-<span class="fc" id="L30">public class EndpointControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {</span>
+<span class="fc" id="L44">public class EndpointControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {</span>
 
-    @ExceptionHandler({
-            DataRetrievalFailureException.class,
-            ResourceAccessException.class
-    })
-    public void handleNotFound(final Exception cause, final HttpServletResponse response) throws IOException {
-<span class="fc" id="L37">        log.error(cause.toString(), getRootCause(cause));</span>
-<span class="fc" id="L38">        log.trace(cause.toString(), cause);</span>
-<span class="fc" id="L39">        response.sendError(HttpStatus.NOT_FOUND.value(), cause.getMessage());</span>
-<span class="fc" id="L40">    }</span>
-
-    @ExceptionHandler({
-            DataIntegrityViolationException.class,
-            ConcurrencyFailureException.class
-    })
-    public void handleConflict(final Exception cause, final HttpServletResponse response) throws IOException {
-<span class="fc" id="L47">        log.error(cause.toString(), getRootCause(cause));</span>
-<span class="fc" id="L48">        log.trace(cause.toString(), cause);</span>
-<span class="fc" id="L49">        response.sendError(HttpStatus.CONFLICT.value(), cause.getMessage());</span>
-<span class="fc" id="L50">    }</span>
-
-    @ExceptionHandler({
-            DataAccessException.class,
-            IllegalArgumentException.class,
-            IllegalStateException.class
-    })
-    public void handleBadRequest(final Exception cause, final HttpServletResponse response) throws IOException {
-<span class="nc" id="L58">        log.error(cause.toString(), getRootCause(cause));</span>
-<span class="nc" id="L59">        log.trace(cause.toString(), cause);</span>
-<span class="nc" id="L60">        response.sendError(HttpStatus.BAD_REQUEST.value(), cause.getMessage());</span>
-<span class="nc" id="L61">    }</span>
-
-    @ExceptionHandler({
-            NullPointerException.class,
-            UnsupportedOperationException.class,
-            BadSqlGrammarException.class
-    })
-    public void handleError(final Exception cause, final HttpServletResponse response) throws IOException {
-<span class="nc" id="L69">        log.error(cause.toString(), getRootCause(cause));</span>
-<span class="nc" id="L70">        log.trace(cause.toString(), cause);</span>
-<span class="nc" id="L71">        response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), cause.getMessage());</span>
-<span class="nc" id="L72">    }</span>
-
-    @RequestMapping(&quot;${server.error.path:/error}&quot;)
-    public void error(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-<span class="nc" id="L76">        final Object cause = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (cause instanceof Exception) {</span>
-<span class="nc" id="L78">            throw (Exception) cause;</span>
-        }
-<span class="nc" id="L80">        final Object uri = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);</span>
-<span class="nc" id="L81">        final int status = getStatus(request);</span>
-<span class="nc" id="L82">        final String error = uri + &quot; failed with code &quot; + status;</span>
-<span class="nc" id="L83">        log.error(error);</span>
-<span class="nc" id="L84">        response.sendError(status, error);</span>
-<span class="nc" id="L85">    }</span>
-
-    private int getStatus(final HttpServletRequest request) {
-<span class="nc" id="L88">        final Integer status = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        return status != null ? status : HttpStatus.INTERNAL_SERVER_ERROR.value();</span>
+    /**
+     * @see org.springframework.data.rest.webmvc.RepositoryRestExceptionHandler
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public void handleAndThrow(final WebRequest request, final ResourceNotFoundException cause) {
+        // Do NOT handle here
+<span class="fc" id="L52">        throw cause;</span>
     }
 
-    private Throwable getRootCause(final Throwable cause) {
-<span class="fc" id="L93">        Objects.requireNonNull(cause);</span>
-<span class="fc" id="L94">        Throwable rootCause = cause;</span>
-<span class="pc bpc" id="L95" title="1 of 4 branches missed.">        while (rootCause.getCause() != null &amp;&amp; rootCause.getCause() != rootCause) {</span>
-<span class="fc" id="L96">            rootCause = rootCause.getCause();</span>
+    @ExceptionHandler(ETagDoesntMatchException.class)
+    public ResponseEntity&lt;Object&gt; handlePreconditionFailed(final WebRequest request, final ETagDoesntMatchException cause) {
+<span class="nc" id="L57">        final var status = HttpStatus.PRECONDITION_FAILED;</span>
+<span class="nc" id="L58">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
+<span class="nc" id="L59">        error.setDetail(String.format(&quot;%s is outdated. Please reload content.&quot;, cause.getBean()));</span>
+<span class="nc" id="L60">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+    }
+
+    @ExceptionHandler(RestClientResponseException.class)
+    public ResponseEntity&lt;Object&gt; handleRestClientResponse(final WebRequest request, final RestClientResponseException cause) {
+<span class="nc" id="L65">        final var status = cause.getStatusCode();</span>
+<span class="nc" id="L66">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
+<span class="nc" id="L67">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity&lt;Object&gt; handle(final WebRequest request, final Exception cause) {
+<span class="fc" id="L72">        final var status = resolveStatus(cause);</span>
+<span class="fc" id="L73">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
+<span class="fc" id="L74">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+    }
+
+    protected HttpStatus resolveStatus(final Exception cause) {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (cause instanceof DataRetrievalFailureException) {</span>
+<span class="fc" id="L79">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc" id="L98">        return rootCause;</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if (cause instanceof EntityNotFoundException) {</span>
+<span class="nc" id="L82">            return HttpStatus.NOT_FOUND;</span>
+        }
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (cause instanceof ResourceAccessException) {</span>
+<span class="nc" id="L85">            return HttpStatus.NOT_FOUND;</span>
+        }
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (cause instanceof MissingResourceException) {</span>
+<span class="nc" id="L88">            return HttpStatus.NOT_FOUND;</span>
+        }
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (cause instanceof NoSuchElementException) {</span>
+<span class="nc" id="L91">            return HttpStatus.NOT_FOUND;</span>
+        }
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (cause instanceof NoSuchFileException) {</span>
+<span class="nc" id="L94">            return HttpStatus.NOT_FOUND;</span>
+        }
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (cause instanceof FileNotFoundException) {</span>
+<span class="nc" id="L97">            return HttpStatus.NOT_FOUND;</span>
+        }
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (cause instanceof UncheckedIOException) {</span>
+<span class="nc" id="L100">            return resolveStatus(((UncheckedIOException) cause).getCause());</span>
+        }
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (cause instanceof DataIntegrityViolationException) {</span>
+<span class="fc" id="L103">            return HttpStatus.CONFLICT;</span>
+        }
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if (cause instanceof ConcurrencyFailureException) {</span>
+<span class="nc" id="L106">            return HttpStatus.CONFLICT;</span>
+        }
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (cause instanceof EntityExistsException) {</span>
+<span class="nc" id="L109">            return HttpStatus.CONFLICT;</span>
+        }
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (cause instanceof OptimisticLockException) {</span>
+<span class="nc" id="L112">            return HttpStatus.CONFLICT;</span>
+        }
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (cause instanceof PessimisticLockException) {</span>
+<span class="nc" id="L115">            return HttpStatus.CONFLICT;</span>
+        }
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (cause instanceof InvalidDataAccessApiUsageException) {</span>
+<span class="nc" id="L118">            return HttpStatus.BAD_REQUEST;</span>
+        }
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (cause instanceof IllegalArgumentException) {</span>
+<span class="nc" id="L121">            return HttpStatus.BAD_REQUEST;</span>
+        }
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (cause instanceof IllegalStateException) {</span>
+<span class="nc" id="L124">            return HttpStatus.BAD_REQUEST;</span>
+        }
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (cause instanceof BadSqlGrammarException) {</span>
+<span class="nc" id="L127">            return HttpStatus.NOT_IMPLEMENTED;</span>
+        }
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (cause instanceof UnsupportedEncodingException) {</span>
+<span class="nc" id="L130">            return HttpStatus.NOT_IMPLEMENTED;</span>
+        }
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (cause instanceof UnsupportedOperationException) {</span>
+<span class="nc" id="L133">            return HttpStatus.NOT_IMPLEMENTED;</span>
+        }
+<span class="nc" id="L135">        return HttpStatus.INTERNAL_SERVER_ERROR;</span>
+    }
+
+    /**
+     * @see org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController
+     */
+    @RequestMapping(&quot;${server.error.path:/error}&quot;)
+    public ResponseEntity&lt;Object&gt; error(final WebRequest request, final HttpServletResponse response) {
+<span class="nc" id="L143">        final var error = new ResponseStatusException(resolveStatus(response), resolveCause(request));</span>
+<span class="nc" id="L144">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+    }
+
+    protected String resolveCause(final WebRequest request) {
+<span class="nc" id="L148">        final var cause = request.getAttribute(RequestDispatcher.ERROR_MESSAGE, RequestAttributes.SCOPE_REQUEST);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        return cause != null ? cause.toString() : null;</span>
+    }
+
+    protected HttpStatus resolveStatus(final HttpServletResponse response) {
+<span class="nc" id="L153">        final var statusCode = response.getStatus();</span>
+        try {
+<span class="nc" id="L155">            return HttpStatus.valueOf(statusCode);</span>
+        }
+<span class="nc" id="L157">        catch (Exception e) {</span>
+<span class="nc" id="L158">            return HttpStatus.INTERNAL_SERVER_ERROR;</span>
+        }
+    }
+
+    @Override
+    @NonNull
+<span class="pc bpc" id="L164" title="3 of 6 branches missed.">    protected ResponseEntity&lt;Object&gt; createResponseEntity(final Object body, @NonNull final HttpHeaders headers, @NonNull final HttpStatusCode statusCode, @NonNull final WebRequest request) {</span>
+<span class="fc" id="L165">        return ResponseEntity</span>
+<span class="fc" id="L166">                .status(statusCode)</span>
+<span class="fc" id="L167">                .headers(headers)</span>
+<span class="fc" id="L168">                .cacheControl(CacheControl.noStore())</span>
+<span class="fc" id="L169">                .contentType(MediaType.APPLICATION_JSON)</span>
+<span class="fc" id="L170">                .body(body);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
