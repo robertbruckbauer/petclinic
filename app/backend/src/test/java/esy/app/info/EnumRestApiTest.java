@@ -95,8 +95,6 @@ class EnumRestApiTest {
                         .contentType("application/json"))
                 .andExpect(header()
                         .exists("Vary"))
-                .andExpect(header()
-                        .exists("Vary"))
                 .andExpect(jsonPath("$.value")
                         .value(name))
                 .andExpect(jsonPath("$.code")

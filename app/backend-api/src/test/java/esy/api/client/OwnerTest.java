@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class OwnerTest {
+class OwnerTest {
 
 	Owner createWithName(final String name) {
 		return Owner.parseJson("{" +
@@ -78,7 +78,6 @@ public class OwnerTest {
 			"{\"name\": \"\\t\"}"
 	})
 	void jsonConstraints(final String json) {
-		final Owner value = Owner.parseJson(json);
-		assertThrows(IllegalArgumentException.class, value::verify);
+		assertThrows(IllegalArgumentException.class, () -> Owner.parseJson(json).verify());
 	}
 }

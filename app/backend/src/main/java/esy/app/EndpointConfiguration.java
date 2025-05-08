@@ -11,11 +11,13 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
 
@@ -24,6 +26,7 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
 @PropertySource(
         ignoreResourceNotFound = false,
         value = "classpath:endpoint.properties")
+@EnableTransactionManagement
 public class EndpointConfiguration {
 
     /**
@@ -54,18 +57,23 @@ public class EndpointConfiguration {
     }
 
     void applyCorsConfiguration(@NonNull final CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowCredentials(CORS.getAllowCredentials())
-                .allowedHeaders(CORS.getAllowedHeaders().toArray(String[]::new))
-                .allowedMethods(CORS.getAllowedMethods().toArray(String[]::new))
-                .allowedOriginPatterns(CORS.getAllowedOriginPatterns().toArray(String[]::new))
-                .maxAge(CORS.getMaxAge());
+        final var registration = registry.addMapping("/**");
+        Optional.ofNullable(CORS.getAllowCredentials())
+                .ifPresent(registration::allowCredentials);
+        Optional.ofNullable(CORS.getAllowedHeaders())
+                .ifPresent(e -> registration.allowedHeaders(e.toArray(String[]::new)));
+        Optional.ofNullable(CORS.getAllowedMethods())
+                .ifPresent(e -> registration.allowedMethods(e.toArray(String[]::new)));
+        Optional.ofNullable(CORS.getAllowedOriginPatterns())
+                .ifPresent(e -> registration.allowedOriginPatterns(e.toArray(String[]::new)));
+        Optional.ofNullable(CORS.getMaxAge())
+                .ifPresent(registration::maxAge);
     }
 
-    void applyJsonConfiguration(@NonNull final String packageName, @NonNull final RepositoryRestConfiguration configuration) {
+    void applyJsonConfiguration(@NonNull final RepositoryRestConfiguration configuration) {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AssignableTypeFilter(JsonJpaEntity.class));
-        provider.findCandidateComponents(packageName.replace(".", "/")).stream()
+        provider.findCandidateComponents("esy/api").stream()
                 .map(bean -> {
                     try {
                         return Class.forName(bean.getBeanClassName());
@@ -87,10 +95,6 @@ public class EndpointConfiguration {
         };
     }
 
-    /**
-     * {@see <a href="https://spring.io/projects/spring-data-rest" />}
-     * {@see <a href="https://stackoverflow.com/questions/44295231/how-to-set-default-value-of-exported-as-false-in-rest-resource-spring-data-rest" />}
-     */
     @Bean
     public RepositoryRestConfigurer repositoryRestConfigurer() {
         return new RepositoryRestConfigurer() {
@@ -104,7 +108,7 @@ public class EndpointConfiguration {
                 configuration.setDefaultMediaType(MediaType.APPLICATION_JSON);
                 configuration.useHalAsDefaultJsonMediaType(false);
                 // expose id for value objects
-                applyJsonConfiguration("esy.api", configuration);
+                applyJsonConfiguration(configuration);
                 // apply CORS settings
                 applyCorsConfiguration(registry);
             }

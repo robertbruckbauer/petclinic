@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("fast")
-public class OwnerItemTest {
+class OwnerItemTest {
 
     Owner createWithName(final String name) {
         return Owner.parseJson("{" +

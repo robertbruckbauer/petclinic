@@ -11,7 +11,7 @@ import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;

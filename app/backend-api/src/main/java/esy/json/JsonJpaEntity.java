@@ -1,19 +1,16 @@
 package esy.json;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public abstract class JsonJpaEntity<SELF extends JsonJpaEntity<?>> implements JsonWithId<SELF> {
+public abstract class JsonJpaEntity<E extends JsonJpaEntity<?>> implements JsonWithId<E> {
 
     /**
      * Aktuelle Version der Daten.
@@ -60,7 +57,7 @@ public abstract class JsonJpaEntity<SELF extends JsonJpaEntity<?>> implements Js
      *
      * @return diese Instanz
      */
-    public abstract SELF verify();
+    public abstract E verify();
 
     @Override
     public final int hashCode() {
@@ -80,7 +77,7 @@ public abstract class JsonJpaEntity<SELF extends JsonJpaEntity<?>> implements Js
         if (!getClass().equals(any.getClass())) {
             return false;
         }
-        final SELF that = (SELF) any;
+        final E that = (E) any;
         return Objects.equals(this.version, that.getVersion()) &&
                 Objects.equals(this.id, that.getId()) &&
                 this.isEqual(that);
@@ -90,18 +87,18 @@ public abstract class JsonJpaEntity<SELF extends JsonJpaEntity<?>> implements Js
      * Liefert {@code TRUE}, wenn alle Eigenschaften dieser
      * Instanz und einer anderen Instanz gleich sind.
      *
-     * Wichtig: Bitte wegen dem Einsatz von O/R-Mappern die
-     * Methoden {@link Object#equals(Object)} und und
+     * Wichtig: Bitte wegen des Einsatzes von O/R-Mappern
+     * {@link Object#equals(Object)} und
      * {@link Object#hashCode()} nicht implementieren.
      *
      * @param that Vergleichsobjekt
      * @return {@code TRUE} bei gleichen Eigenschaften, sonst {@code FALSE}
      */
-    public abstract boolean isEqual(final SELF that);
+    public abstract boolean isEqual(final E that);
 
     /**
      * Erzeugt einen lesbaren Text für dieses Objekt mit einer
-     * komma-separierten Liste der eindeutigen Attributen dieser
+     * komma-separierten Liste eindeutiger Attribute dieser
      * Instanz.
      *
      * @return Komma-separierte Liste

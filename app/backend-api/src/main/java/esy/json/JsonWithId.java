@@ -7,7 +7,7 @@ import java.util.UUID;
 public interface JsonWithId<S> {
 
     /**
-     * Erzeugt eine neues Instanz mit neuer UUID. Alle
+     * Erzeugt eine neue Instanz mit neuer UUID. Alle
      * anderen Eigenschaften bleiben identisch. Das
      * gilt vor allem für alle Arten von Collections,
      * d.h. keine neuen Collections mit den gleichen

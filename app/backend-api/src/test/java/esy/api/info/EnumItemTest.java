@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("fast")
-public class EnumItemTest {
+class EnumItemTest {
 
     Enum createWithName(final String name) {
         final String json = "{" +

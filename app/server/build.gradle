@@ -6,17 +6,13 @@ plugins {
 
 dependencies {
     implementation project(':app:backend')
+    // https://projectlombok.org
+    implementation('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
     // https://spring.io/projects/spring-data
     runtimeOnly('org.hsqldb:hsqldb')
 }
 dependencies {
-    // https://projectlombok.org
-    compileOnly('org.projectlombok:lombok')
-    annotationProcessor('org.projectlombok:lombok')
-}
-dependencies {
-    // https://projectlombok.org
-    testImplementation('org.projectlombok:lombok')
     // https://spring.io/projects/spring-boot
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     // https://junit.org/junit5
@@ -50,7 +46,7 @@ bootBuildImage {
     enabled = false
 }
 
-task dockerRun {
+tasks.register('dockerRun') {
     doLast {
         def IMAGE = rootProject.name + '/' + project.name;
         exec {
@@ -64,6 +60,6 @@ task dockerRun {
     }
 }
 
-task versionCheck() {
+tasks.register('versionCheck') {
     build.dependsOn it
 }

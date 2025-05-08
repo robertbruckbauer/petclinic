@@ -3,10 +3,10 @@ plugins {
 }
 
 ext.SERVER_IMAGE = rootProject.name + "/server"                   
-ext.CLIENT_IMAGE = rootProject.name + "/client"    
+ext.CLIENT_IMAGE = rootProject.name + "/client"
 
-task composeUp {
-    doLast { 
+tasks.register('composeUp') {
+    doLast {
         println '\nDeploying with latest'
         dockerBuild(SERVER_IMAGE, 'latest', 'server');
         dockerBuild(CLIENT_IMAGE, 'latest', 'client');
@@ -17,7 +17,7 @@ task composeUp {
     }
 }
 
-task composeStop {
+tasks.register('composeStop') {
     doLast {
         exec {
             executable 'docker-compose'
@@ -26,7 +26,7 @@ task composeStop {
     }
 }
 
-task composeDown {
+tasks.register('composeDown') {
     doLast {
         exec {
             executable 'docker-compose'
@@ -34,8 +34,8 @@ task composeDown {
         }
     }
 }
-            
-task deployIngress {
+
+tasks.register('deployIngress') {
     doLast {
         exec {
             executable 'helm'
@@ -50,27 +50,27 @@ task deployIngress {
     }
 }
 
-task undeployIngress {
+tasks.register('undeployIngress') {
     doLast {
         helmUninstall('ingress-nginx');
-     }
+    }
 }
 
-task deployDashboard {
+tasks.register('deployDashboard') {
     assert new File("${projectDir}/ui/dashboard.yaml").exists()
     doLast {
         kubectlApply('https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml');
         kubectlApply('ui/dashboard.yaml');
-     }
+    }
 }
 
-task undeployDashboard {
+tasks.register('undeployDashboard') {
     doLast {
         kubectlDelete('https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml');
-     }
+    }
 }
 
-task createDashboardToken {
+tasks.register('createDashboardToken') {
     assert new File("${projectDir}/ui/dashboard.yaml").exists()
     doLast {
         def userName = new ByteArrayOutputStream();
@@ -87,11 +87,11 @@ task createDashboardToken {
         }
         println '\n' + new String(userToken.toString().decodeBase64());
         println '\nhttp://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/'
-     }
-}               
+    }
+}
 
-task deploy {
-    doLast {    
+tasks.register('deploy') {
+    doLast {
         println '\nDeploying with latest'
         dockerBuild(SERVER_IMAGE, 'latest', 'server');
         dockerBuild(CLIENT_IMAGE, 'latest', 'client');
@@ -99,13 +99,13 @@ task deploy {
     }
 }
 
-task undeploy {
+tasks.register('undeploy') {
     doLast {
         kubectlDelete('k8s')
-     }
+    }
 }
 
-task deployStatus {
+tasks.register('deployStatus') {
     doLast {
         kubectlDescribeIngress();
         kubectlDescribeService('server')
@@ -113,7 +113,7 @@ task deployStatus {
     }
 }
 
-task updateServer {
+tasks.register('updateServer') {
     doLast {
         def SHA = versionDetails().gitHash
         println '\nDeploying with ' + SHA
@@ -122,13 +122,13 @@ task updateServer {
     }
 }
 
-task deleteServer {
+tasks.register('deleteServer') {
     doLast {
         kubectlDelete('k8s/server.yaml')
-     }
+    }
 }
 
-task updateClient {
+tasks.register('updateClient') {
     doLast {
         def SHA = versionDetails().gitHash
         println '\nDeploying with ' + SHA
@@ -137,10 +137,10 @@ task updateClient {
     }
 }
 
-task deleteClient {
+tasks.register('deleteClient') {
     doLast {
         kubectlDelete('k8s/client.yaml')
-     }
+    }
 }
 
 def dockerBuild(String image, String tag, String name) {

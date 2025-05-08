@@ -2,16 +2,17 @@ package esy.api.info;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import esy.api.CardsplusEntity;
 import esy.json.JsonJpaEntity;
 import esy.json.JsonMapper;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,7 +20,6 @@ import java.util.UUID;
 /**
  * Pflegbare Aufzählung.
  */
-@CardsplusEntity
 @Entity
 @Table(name = "enum", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"id"}),
@@ -34,6 +34,7 @@ public final class Enum extends JsonJpaEntity<Enum> {
     @Column(name = "art")
     @Getter
     @JsonProperty
+    @NotEmpty
     private String art;
 
     /**
@@ -42,6 +43,7 @@ public final class Enum extends JsonJpaEntity<Enum> {
     @Column(name = "code")
     @Getter
     @JsonProperty
+    @PositiveOrZero
     private Long code;
 
     /**
@@ -50,6 +52,7 @@ public final class Enum extends JsonJpaEntity<Enum> {
     @Column(name = "name")
     @Getter
     @JsonProperty
+    @NotEmpty
     private String name;
 
     /**
@@ -58,6 +61,7 @@ public final class Enum extends JsonJpaEntity<Enum> {
     @Column(name = "text")
     @Getter
     @JsonProperty
+    @NotEmpty
     private String text;
 
     /**

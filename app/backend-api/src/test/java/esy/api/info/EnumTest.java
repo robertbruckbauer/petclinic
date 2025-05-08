@@ -1,6 +1,7 @@
 package esy.api.info;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import esy.api.client.Pet;
 import esy.json.JsonMapper;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("fast")
-public class EnumTest {
+class EnumTest {
 
     Enum createWithName(final String name) {
         final String json = "{" +
@@ -114,12 +115,7 @@ public class EnumTest {
             "{\"text\": \" \"}"
     })
     void jsonConstraints(final String json) {
-        final Enum value = Enum.parseJson(json);
-        assertThrows(IllegalArgumentException.class, value::verify);
-        assertTrue(value.getArt().isBlank());
-        assertEquals(0L, value.getCode());
-        assertTrue(value.getName().isBlank());
-        assertTrue(value.getText().isBlank());
+        assertThrows(IllegalArgumentException.class, () -> Enum.parseJson(json).verify());
     }
 
     @Test

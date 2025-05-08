@@ -1,39 +1,24 @@
 plugins {
     id 'base'
+    id 'com.github.node-gradle.node'
 }
 
-import org.apache.tools.ant.taskdefs.condition.Os
-ext.NPM = Os.isFamily(Os.FAMILY_WINDOWS) ? "npm.cmd" : "npm";
-
-task npmInstall {
-    doLast {
-        exec {
-            commandLine NPM, 'install'
-        }
-    }
+task npmBuild(type: NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf {System.env['CI'] == null}
+    mustRunAfter 'npmInstall'
+    build.dependsOn it    
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'build']
 }
 
-task npmUpgrade {
-    doLast {
-        exec {
-            commandLine NPM, 'upgrade'
-        }
-    }
-}
-
-task npmBuild {
-    build.dependsOn it
-    doLast {
-        exec {
-            commandLine NPM, 'install'
-        }
-        exec {
-            commandLine NPM, 'run', 'test'
-        }
-        exec {
-            commandLine NPM, 'run', 'build'
-        }
-    }
+task npmTest(type: NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf {System.env['CI'] == null}
+    mustRunAfter 'npmBuild'
+    check.dependsOn it    
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'test']
 }
 
 task dockerRun {
