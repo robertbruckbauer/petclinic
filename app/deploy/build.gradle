@@ -2,26 +2,30 @@ plugins {
     id 'base'
 }
 
-ext.SERVER_IMAGE = rootProject.name + "/server"                   
-ext.CLIENT_IMAGE = rootProject.name + "/client"
+ext.SERVER_NAME = "server"
+ext.SERVER_IMAGE = rootProject.name + "/server"
+ext.CLIENT_NAME = "server"                  
+ext.CLIENT_IMAGE = rootProject.name + "/server"
 
 tasks.register('composeUp') {
+    dependsOn ':app:client:buildImage'
+    dependsOn ':app:server:buildImage'
     doLast {
         println '\nDeploying with latest'
-        dockerBuild(SERVER_IMAGE, 'latest', 'server');
-        dockerBuild(CLIENT_IMAGE, 'latest', 'client');
         exec {
-            executable 'docker-compose'
-            args '-p', 'petclinic', '-f', 'compose.yml', 'up', '--detach', '--no-build'
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'up', '--detach', '--no-build'
         }
     }
 }
 
 tasks.register('composeStop') {
     doLast {
-        exec {
-            executable 'docker-compose'
-            args '-p', 'petclinic', '-f', 'compose.yml', 'stop'
+        exec {            
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'stop'
         }
     }
 }
@@ -29,188 +33,9 @@ tasks.register('composeStop') {
 tasks.register('composeDown') {
     doLast {
         exec {
-            executable 'docker-compose'
-            args '-p', 'petclinic', '-f', 'compose.yml', 'down'
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'down'
         }
-    }
-}
-
-tasks.register('deployIngress') {
-    doLast {
-        exec {
-            executable 'helm'
-            args 'repo', 'add', 'ingress-nginx', 'https://kubernetes.github.io/ingress-nginx'
-        }
-        exec {
-            executable 'helm'
-            args 'repo', 'update'
-        }
-        helmInstall('ingress-nginx', 'ingress-nginx/ingress-nginx');
-        kubectlDescribeIngress();
-    }
-}
-
-tasks.register('undeployIngress') {
-    doLast {
-        helmUninstall('ingress-nginx');
-    }
-}
-
-tasks.register('deployDashboard') {
-    assert new File("${projectDir}/ui/dashboard.yaml").exists()
-    doLast {
-        kubectlApply('https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml');
-        kubectlApply('ui/dashboard.yaml');
-    }
-}
-
-tasks.register('undeployDashboard') {
-    doLast {
-        kubectlDelete('https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml');
-    }
-}
-
-tasks.register('createDashboardToken') {
-    assert new File("${projectDir}/ui/dashboard.yaml").exists()
-    doLast {
-        def userName = new ByteArrayOutputStream();
-        exec {
-            executable 'kubectl'
-            args '-n', 'kubernetes-dashboard', 'get', 'sa/cluster-admin-user', '-o', 'jsonpath="{.secrets[0].name}"'
-            standardOutput = userName
-        }
-        def userToken = new ByteArrayOutputStream();
-        exec {
-            executable 'kubectl'
-            args '-n', 'kubernetes-dashboard', 'get', 'secret', userName, '-o', 'jsonpath="{.data.token}"'
-            standardOutput = userToken
-        }
-        println '\n' + new String(userToken.toString().decodeBase64());
-        println '\nhttp://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/'
-    }
-}
-
-tasks.register('deploy') {
-    doLast {
-        println '\nDeploying with latest'
-        dockerBuild(SERVER_IMAGE, 'latest', 'server');
-        dockerBuild(CLIENT_IMAGE, 'latest', 'client');
-        kubectlApply('k8s')
-    }
-}
-
-tasks.register('undeploy') {
-    doLast {
-        kubectlDelete('k8s')
-    }
-}
-
-tasks.register('deployStatus') {
-    doLast {
-        kubectlDescribeIngress();
-        kubectlDescribeService('server')
-        kubectlDescribeService('client')
-    }
-}
-
-tasks.register('updateServer') {
-    doLast {
-        def SHA = versionDetails().gitHash
-        println '\nDeploying with ' + SHA
-        dockerBuild(SERVER_IMAGE, SHA, 'server');
-        kubectlImage(SERVER_IMAGE, SHA, 'server')
-    }
-}
-
-tasks.register('deleteServer') {
-    doLast {
-        kubectlDelete('k8s/server.yaml')
-    }
-}
-
-tasks.register('updateClient') {
-    doLast {
-        def SHA = versionDetails().gitHash
-        println '\nDeploying with ' + SHA
-        dockerBuild(CLIENT_IMAGE, SHA, 'client');
-        kubectlImage(CLIENT_IMAGE, SHA, 'client')
-    }
-}
-
-tasks.register('deleteClient') {
-    doLast {
-        kubectlDelete('k8s/client.yaml')
-    }
-}
-
-def dockerBuild(String image, String tag, String name) {
-    println "\nBuilding docker image '" + image + ":" + tag + "' ..."
-    exec {
-        workingDir "${projectDir}/../" + name 
-        executable 'docker'
-        args 'build', '.', \
-            '-t', image + ':latest', \
-            '-t', image + ':' + tag
-    }
-}
-
-def kubectlApply(String path) {
-    println "\nApplying kubernetes objects from '" + path + "' ..."
-    exec {
-        executable 'kubectl'
-        args 'apply', '-f', path
-    }
-}
-
-def kubectlImage(String image, String tag, String name) {
-    println "\nApplying docker image '" + image + ":" + tag + "' ..."
-    exec {
-        workingDir "${projectDir}/k8s"
-        executable 'kubectl'
-        args 'set', 'image', 'deployments/' + name + '-deployment', name + '=' + image + ':' + tag
-    }
-}
-
-def kubectlDescribeIngress() {
-    println "\n"
-    exec {
-        ignoreExitValue true
-        executable 'kubectl'
-        args 'describe', 'service', 'ingress-nginx-controller'
-    }
-}
-
-def kubectlDescribeService(String name) {
-    println "\n"
-    exec {
-        ignoreExitValue true
-        executable 'kubectl'
-        args 'describe', 'service', name + '-cluster-ip'
-    }
-}
-
-def kubectlDelete(String path) {
-    println "\nDeleting kubernetes objects from '" + path + "' ..."
-    exec {
-        ignoreExitValue true
-        executable 'kubectl'
-        args 'delete', '-f', path
-    }
-}
-
-def helmInstall(String name, String chart) {
-    println "\nCreating kubernetes objects from '" + name + "' ..."
-    exec {
-        executable 'helm'
-        args 'install', name, chart
-    }
-}
-
-def helmUninstall(String name) {
-    println "\nDeleting kubernetes objects from '" + name + "' ..."
-    exec {
-        ignoreExitValue true
-        executable 'helm'
-        args 'uninstall', name
     }
 }

@@ -1,18 +1,19 @@
-version: '2.1'
 services:
-  server:
-    image: petclinic/server
-    hostname: server
-    ports:
-      - "8080:8080"
-    environment:
-      SERVER_PORT: 8080
-      SPRING_JPA_PROPERTIES_HIBERNATE_METADATA_BUILDER_CONTRIBUTOR: esy.db.HyperSQLMetadataBuilderContributor
-      SPRING_DATASOURCE_URL: jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1
-      SPRING_DATASOURCE_USERNAME: SA
-      SPRING_DATASOURCE_PASSWORD:
   client:
-    image: petclinic/client
     hostname: client
+    image: ${COMPOSE_PROJECT_NAME}/client
     ports:
-      - "5000:5000"
+      - 5000:5000
+  server:
+    hostname: server
+    image: ${COMPOSE_PROJECT_NAME}/server
+    ports:
+      - 5005:5005
+      - 8080:8080
+    environment:
+      - _JAVA_OPTIONS=-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1
+      - SPRING_DATASOURCE_USERNAME=SA
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_PROFILES_ACTIVE=dev

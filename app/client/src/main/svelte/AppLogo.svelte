@@ -4,7 +4,7 @@
 
 <svg height=30>
 	<a xlink:href="/home" on:click={() => open = false}>
-		<text x=0 y=20>e.sy</text>
+		<text x=0 y=20>Petclinic</text>
 	 </a>
 </svg>
 
