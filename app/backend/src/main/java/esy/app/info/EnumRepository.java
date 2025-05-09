@@ -1,15 +1,25 @@
 package esy.app.info;
 
 import esy.api.info.Enum;
+import esy.api.info.QEnum;
 import esy.rest.JsonJpaRepository;
+import esy.rest.QuerydslRepository;
+import lombok.NonNull;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource(path = "enum", collectionResourceRel = "allEnum")
-public interface EnumRepository extends JsonJpaRepository<Enum> {
+public interface EnumRepository extends JsonJpaRepository<Enum>, QuerydslRepository<Enum, QEnum> {
+
+    @Override
+    default void customize(@NonNull final QuerydslBindings bindings, @NonNull final QEnum root) {
+        bindings.bind(root.code).all(this::longEqBetweenInBinding);
+        bindings.bind(String.class).first(this::stringContainsOrLikeIgnoreCaseBinding);
+    }
 
     /**
      * Returns all persisted values of given discriminator.

@@ -1,5 +1,6 @@
 package esy.app.client;
 
+import esy.api.client.QOwner;
 import esy.app.EndpointConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -76,8 +77,8 @@ class OwnerRestApiTest {
     @Test
     @Order(20)
     void postApiOwner() throws Exception {
-        final String name = "Max Mustermann";
-        assertFalse(ownerRepository.findByName(name).isPresent());
+        final var name = "Max Mustermann";
+        assertFalse(ownerRepository.findOne(QOwner.owner.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/owner")
                         .content("{" +
                                 "\"name\":\"" + name + "\"," +
@@ -108,8 +109,8 @@ class OwnerRestApiTest {
     @Test
     @Order(21)
     void postApiOwnerConflict() throws Exception {
-        final String name = "Max Mustermann";
-        assertTrue(ownerRepository.findByName(name).isPresent());
+        final var name = "Max Mustermann";
+        assertTrue(ownerRepository.findOne(QOwner.owner.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/owner")
                         .content("{" +
                                 "\"name\":\"" + name + "\"," +
@@ -126,9 +127,9 @@ class OwnerRestApiTest {
     @Test
     @Order(30)
     void putApiOwner() throws Exception {
-        final String name = "Bea Musterfrau";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var name = "Bea Musterfrau";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/owner/" + uuid)
                         .content("{" +
                                 "\"name\":\"" + name + "\"," +
@@ -147,7 +148,7 @@ class OwnerRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"0\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name))
                 .andExpect(jsonPath("$.address")
@@ -163,8 +164,8 @@ class OwnerRestApiTest {
     })
     @Order(31)
     void patchApiOwnerName(final String name) throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/owner/" + uuid)
                         .content("{" +
                                 "\"name\": \"" + name + "\"" +
@@ -181,7 +182,7 @@ class OwnerRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name));
     }
@@ -193,8 +194,8 @@ class OwnerRestApiTest {
     })
     @Order(32)
     void patchApiOwnerAddress(final String address) throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/owner/" + uuid)
                         .content("{" +
                                 "\"address\": \"" + address + "\"" +
@@ -211,7 +212,7 @@ class OwnerRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.address")
                         .value(address));
     }
@@ -223,8 +224,8 @@ class OwnerRestApiTest {
     })
     @Order(33)
     void patchApiOwnerContact(final String contact) throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/owner/" + uuid)
                         .content("{" +
                                 "\"contact\": \"" + contact + "\"" +
@@ -241,7 +242,7 @@ class OwnerRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.contact")
                         .value(contact));
     }
@@ -250,7 +251,8 @@ class OwnerRestApiTest {
     @Order(40)
     void getApiOwner() throws Exception {
         assertEquals(2, ownerRepository.count());
-        mockMvc.perform(get("/api/owner/search/findAllByOrderByNameAsc")
+        mockMvc.perform(get("/api/owner")
+                        .queryParam("sort", "date", "desc")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -295,9 +297,9 @@ class OwnerRestApiTest {
     @Test
     @Order(42)
     void getApiOwnerById() throws Exception {
-        final String name = "Bea Musterfrau";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var name = "Bea Musterfrau";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/owner/" + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -310,7 +312,7 @@ class OwnerRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"6\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name))
                 .andExpect(jsonPath("$.address")
@@ -320,47 +322,9 @@ class OwnerRestApiTest {
     @Test
     @Order(43)
     void getApiOwnerByIdNotFound() throws Exception {
-        final String uuid = "a1111111-ffff-beef-dead-beefdeadbeef";
-        assertFalse(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
+        assertFalse(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/owner/" + uuid)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isNotFound());
-    }
-
-    @Test
-    @Order(44)
-    void getApiOwnerByName() throws Exception {
-        final String name = "Bea Musterfrau";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        mockMvc.perform(get("/api/owner/search/findByName")
-                        .param("name", name)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isOk())
-                .andExpect(content()
-                        .contentType("application/json"))
-                .andExpect(header()
-                        .exists("Vary"))
-                .andExpect(header()
-                        .string("ETag", "\"6\""))
-                .andExpect(jsonPath("$.id")
-                        .value(uuid))
-                .andExpect(jsonPath("$.name")
-                        .value(name))
-                .andExpect(jsonPath("$.address")
-                        .isNotEmpty());
-    }
-
-    @Test
-    @Order(45)
-    void getApiOwnerByNameNotFound() throws Exception {
-        final String name = "Mia Musterfrau";
-        assertFalse(ownerRepository.findByName(name).isPresent());
-        mockMvc.perform(get("/api/owner/search/findByName")
-                        .param("name", name)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -370,8 +334,8 @@ class OwnerRestApiTest {
     @Test
     @Order(50)
     void deleteApiOwner() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/owner/" + uuid))
                 .andDo(print())
                 .andExpect(status()
@@ -381,8 +345,8 @@ class OwnerRestApiTest {
     @Test
     @Order(51)
     void deleteApiOwnerNotFound() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/owner/" + uuid))
                 .andDo(print())
                 .andExpect(status()

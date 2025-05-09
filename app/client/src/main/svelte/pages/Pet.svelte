@@ -38,7 +38,7 @@
   onMount(async () => {
     try {
       allOwnerItem = await loadAllValue(
-        "/api/owner/search/findAllByOrderByNameAsc"
+        "/api/owner?sort=name,asc"
       );
       allOwnerItem = allOwnerItem.map(ownerToOwnerItem);
       console.log(["onMount", allOwnerItem]);
@@ -59,7 +59,7 @@
   function reloadAllPet() {
     console.log(petOwnerId);
     if (petOwnerId) {
-      loadAllValue("/api/pet/search/findAllByOwner?ownerId=" + petOwnerId)
+      loadAllValue("/api/pet?owner.id=" + petOwnerId)
         .then((json) => {
           console.log(["reloadAllPet", json]);
           $storedOwner.id = petOwnerId;

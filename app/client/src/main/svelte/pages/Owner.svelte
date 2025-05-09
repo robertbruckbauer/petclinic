@@ -91,7 +91,7 @@
   }
 
   function reloadAllOwner() {
-    loadAllValue("/api/owner/search/findAllByOrderByNameAsc")
+    loadAllValue("/api/owner?sort=name,asc")
       .then((json) => {
         console.log(["reloadAllOwner", json]);
         allOwner = json;
@@ -105,7 +105,7 @@
   function reloadAllVisit() {
     allVisit = [];
     if (!ownerId) return;
-    loadAllValue("/api/visit/search/findAllByOwner?ownerId=" + ownerId)
+    loadAllValue("/api/visit?owner.id=" + ownerId)
       .then((json) => {
         console.log(["reloadAllVisit", json]);
         allVisit = json;

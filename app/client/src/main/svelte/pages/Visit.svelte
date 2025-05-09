@@ -57,7 +57,7 @@
   }
 
   function reloadAllVisit() {
-    loadAllValue("/api/visit/search/findAllByOrderByDateDesc")
+    loadAllValue("/api/visit?sort=date,desc")
       .then((json) => {
         console.log(["reloadAllVisit", json]);
         allVisit = json;

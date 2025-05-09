@@ -1,30 +1,19 @@
 package esy.app.client;
 
 import esy.api.client.Owner;
+import esy.api.client.QOwner;
 import esy.rest.JsonJpaRepository;
-import org.springframework.data.repository.query.Param;
+import esy.rest.QuerydslRepository;
+import lombok.NonNull;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.List;
-import java.util.Optional;
 
 @RepositoryRestResource(path = "owner", collectionResourceRel = "allOwner")
-public interface OwnerRepository extends JsonJpaRepository<Owner> {
+public interface OwnerRepository extends JsonJpaRepository<Owner>, QuerydslRepository<Owner, QOwner> {
 
-    /**
-     * Returns all persisted entities.
-     * Orders by {@code name} column.
-     *
-     * @return persisted entities
-     */
-    List<Owner> findAllByOrderByNameAsc();
-
-    /**
-     * Returns a persisted entity with given unique name
-     * or nothing, if no value exists.
-     *
-     * @param name unique name
-     * @return persisted entity or nothing
-     */
-    Optional<Owner> findByName(@Param("name") String name);
+    @Override
+    default void customize(@NonNull final QuerydslBindings bindings, @NonNull final QOwner root) {
+        bindings.bind(String.class).first(this::stringContainsOrLikeIgnoreCaseBinding);
+    }
 }

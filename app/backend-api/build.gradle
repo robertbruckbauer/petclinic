@@ -12,6 +12,10 @@ dependencies {
     annotationProcessor('org.projectlombok:lombok')
     // https://spring.io/projects/spring-framework
     implementation('org.springframework:spring-core')
+    // http://querydsl.com/
+    api("com.querydsl:querydsl-core")
+    api("com.querydsl:querydsl-jpa::jakarta")
+    annotationProcessor("com.querydsl:querydsl-apt::jakarta")
     // https://projects.eclipse.org/projects/ee4j.jpa
     api('jakarta.persistence:jakarta.persistence-api')
     annotationProcessor("jakarta.persistence:jakarta.persistence-api")
