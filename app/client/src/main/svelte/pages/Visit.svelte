@@ -74,6 +74,7 @@
   <div class="flex-grow">
     <Select
       bind:value={filterPrefix}
+      valueGetter={(v) => v?.value}
       allItem={allSpeciesEnum}
       disabled={visitEditorDisabled}
       nullable="true"
