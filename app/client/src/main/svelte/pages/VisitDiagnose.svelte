@@ -5,9 +5,11 @@
   import { updatePatch } from "../utils/rest.js";
   import { removeValue } from "../utils/rest.js";
   import Button from "../components/Button";
+  import Select from "../components/Select";
   import TextArea from "../components/TextArea";
 
   export let visible = false;
+  export let allVetItem;
   export let visit = undefined;
   export let date = null;
 
@@ -46,7 +48,7 @@
     console.log(["onChangeVisit", newVisit]);
   }
 
-  $: disabled = !newVisit.date || !newVisit.petItem || !newVisit.vetItem;
+  $: disabled = !newVisit.text || !newVisit.vetItem.value;
 
   const dispatch = createEventDispatcher();
   function onCreateVisit() {
@@ -80,6 +82,7 @@
   function onRemoveVisit() {
     const text = newVisit.petItem.text;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
+    newVisit.vet = "/api/vet/" + newVisit.vetItem.value;
     if (!confirm("Really delete visit for '" + hint + "'?")) return;
     removeValue("/api/visit" + "/" + newVisit.id)
       .then(() => {
@@ -105,6 +108,14 @@
         required
         label="Diagnosis"
         placeholder="Insert diagnosis"
+      />
+    </div>
+    <div class="full">
+      <Select
+        bind:value={newVisit.vetItem}
+        allItem={allVetItem}
+        label="Vet"
+        placeholder="Choose vet"
       />
     </div>
   </form>

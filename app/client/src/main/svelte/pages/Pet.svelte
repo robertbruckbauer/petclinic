@@ -6,6 +6,7 @@
   import Icon from "../components/Icon";
   import Select from "../components/Select";
   import PetEditor from "./PetEditor.svelte";
+  import VisitTermin from "./VisitTermin.svelte";
 
   let allPet = [];
   let petOwnerId = null;
@@ -23,6 +24,12 @@
   function petEditorUpdateClicked(pet) {
     petId = pet.id;
     petEditorUpdate = true;
+  }
+
+  let visitEditorCreate = false;
+  function visitEditorCreateClicked(pet) {
+    petId = pet.id;
+    visitEditorCreate = true;
   }
 
   let allOwnerItem = [];
@@ -97,6 +104,7 @@
         <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-1/4">
           <span class="text-gray-600">Born</span>
         </th>
+        <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
         <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
           <Icon
             on:click={() => petEditorCreateClicked()}
@@ -130,12 +138,19 @@
             <span>{pet.species}</span>
           </td>
           <td class="px-2 py-3 text-left">
-            <div class="text-sm underline text-blue-600">
-              <a href={"/pet/" + pet.id}>{pet.name}</a>
-            </div>
+            <span>{pet.name}</span>
           </td>
           <td class="px-2 py-3 text-left">
             <span>{pet.born}</span>
+          </td>
+          <td class="px-2 py-3">
+            <Icon
+              on:click={() => visitEditorCreateClicked(pet)}
+              title="Add a new visit"
+              disabled={petEditorDisabled}
+              name="event"
+              outlined
+            />
           </td>
           <td class="px-2 py-3">
             <Icon
@@ -146,6 +161,17 @@
             />
           </td>
         </tr>
+        {#if visitEditorCreate && petId === pet.id}
+          <tr>
+            <td class="px-4" colspan="6">
+              <VisitTermin
+                bind:visible={visitEditorCreate}
+                on:create={(e) => reloadAllPet()}
+                {pet}
+              />
+            </td>
+          </tr>
+        {/if}
         {#if petEditorUpdate && petId === pet.id}
           <tr>
             <td class="px-4" colspan="4">

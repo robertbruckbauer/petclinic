@@ -6,7 +6,6 @@
   import TextField from "../components/TextField";
   import OwnerEditor from "./OwnerEditor.svelte";
   import PetEditor from "./PetEditor.svelte";
-  import VisitEditor from "./VisitEditor.svelte";
   import VisitViewer from "./VisitViewer.svelte";
 
   let allOwner = [];
@@ -19,10 +18,7 @@
   let ownerEditorCreate = false;
   let ownerEditorUpdate = false;
   $: ownerEditorDisabled =
-    ownerEditorCreate ||
-    ownerEditorUpdate ||
-    petEditorCreate ||
-    visitEditorCreate;
+    ownerEditorCreate || ownerEditorUpdate || petEditorCreate;
   function ownerEditorCreateClicked() {
     ownerEditorCreate = true;
     visitViewerCreate = false;
@@ -41,13 +37,6 @@
   }
 
   let allVisit = [];
-
-  let visitEditorCreate = false;
-  function visitEditorCreateClicked(owner) {
-    ownerId = owner.id;
-    visitEditorCreate = true;
-    visitViewerCreate = false;
-  }
 
   let visitViewerCreate = false;
   function visitViewerCreateClicked(owner) {
@@ -137,7 +126,6 @@
           </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
             <Icon
               on:click={() => ownerEditorCreateClicked()}
@@ -193,15 +181,6 @@
             </td>
             <td class="px-2 py-3">
               <Icon
-                on:click={() => visitEditorCreateClicked(owner)}
-                title="Add a new visit"
-                disabled={ownerEditorDisabled}
-                name="event"
-                outlined
-              />
-            </td>
-            <td class="px-2 py-3">
-              <Icon
                 on:click={() => petEditorCreateClicked(owner)}
                 title="Add a new pet"
                 disabled={ownerEditorDisabled}
@@ -223,16 +202,6 @@
             <tr>
               <td class="px-4" colspan="6">
                 <VisitViewer {allVisit} />
-              </td>
-            </tr>
-          {/if}
-          {#if visitEditorCreate && ownerId === owner.id}
-            <tr>
-              <td class="px-4" colspan="6">
-                <VisitEditor
-                  bind:visible={visitEditorCreate}
-                  on:create={(e) => reloadAllOwner()}
-                />
               </td>
             </tr>
           {/if}

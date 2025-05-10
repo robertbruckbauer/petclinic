@@ -5,7 +5,7 @@
   import { mapify } from "../utils/list.js";
   import Icon from "../components/Icon";
   import Select from "../components/Select";
-  import VisitEditor from "./VisitEditor.svelte";
+  import VisitDiagnose from "./VisitDiagnose.svelte";
 
   let allVisit = [];
   let visitId = undefined;
@@ -20,10 +20,21 @@
     visitEditorUpdate = true;
   }
 
+  let allVetItem = [];
+  function vetToVetItem(vet) {
+    return {
+      value: vet.id,
+      text: vet.name,
+    };
+  }
+
   let allSpeciesEnum = [];
 
   onMount(async () => {
     try {
+      allVetItem = await loadAllValue("/api/vet?sort=name,asc");
+      allVetItem = allVetItem.map(vetToVetItem);
+      console.log(["onMount", allVetItem]);
       allSpeciesEnum = await loadAllValue("/api/enum/species");
       allSpeciesEnum = allSpeciesEnum.map((e) => ({
         value: e.value,
@@ -77,7 +88,7 @@
       valueGetter={(v) => v?.value}
       allItem={allSpeciesEnum}
       disabled={visitEditorDisabled}
-      nullable="true"
+      nullable
       label="Filter"
       placeholder="Choose species"
     />
@@ -129,12 +140,13 @@
             {#if visitEditorUpdate && visitId === visit.id}
               <tr>
                 <td class="px-4" colspan="4">
-                  <VisitEditor
+                  <VisitDiagnose
                     bind:visible={visitEditorUpdate}
                     on:update={(e) => reloadAllVisit()}
                     on:remove={(e) => reloadAllVisit()}
                     {date}
                     {visit}
+                    {allVetItem}
                   />
                 </td><td> </td></tr
               >
