@@ -129,6 +129,7 @@
               <VetEditor
                 bind:visible={vetEditorCreate}
                 on:create={(e) => reloadAllVet()}
+                {allSkillEnum}
               />
             </td><td> </td></tr
           >
