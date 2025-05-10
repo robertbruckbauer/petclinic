@@ -2,6 +2,7 @@
 
 import esy.api.client.Owner;
 import esy.api.client.OwnerItem;
+import esy.api.client.QOwner;
 import esy.rest.JsonJpaRestControllerBase;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +26,21 @@ public class OwnerRestController extends JsonJpaRestControllerBase&lt;Owner&gt; 
 
     @Autowired
     public OwnerRestController(
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">            @NonNull final ApplicationEventPublisher eventPublisher,</span>
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            @NonNull final TransactionTemplate transactionTemplate,</span>
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">            @NonNull final OwnerRepository ownerRepository) {</span>
-<span class="fc" id="L31">        super(eventPublisher, transactionTemplate);</span>
-<span class="fc" id="L32">        this.ownerRepository = ownerRepository;</span>
-<span class="fc" id="L33">    }</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            @NonNull final ApplicationEventPublisher eventPublisher,</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">            @NonNull final TransactionTemplate transactionTemplate,</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">            @NonNull final OwnerRepository ownerRepository) {</span>
+<span class="fc" id="L32">        super(eventPublisher, transactionTemplate);</span>
+<span class="fc" id="L33">        this.ownerRepository = ownerRepository;</span>
+<span class="fc" id="L34">    }</span>
 
     @GetMapping(&quot;/owner/search/findAllItem&quot;)
     public ResponseEntity&lt;CollectionModel&lt;OwnerItem&gt;&gt; findAllItem() {
-<span class="fc" id="L37">        final List&lt;OwnerItem&gt; allItem = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (final Owner value : ownerRepository.findAllByOrderByNameAsc()) {</span>
-<span class="fc" id="L39">            allItem.add(OwnerItem.fromValue(value));</span>
-<span class="fc" id="L40">        }</span>
-<span class="fc" id="L41">        return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allItem));</span>
+<span class="fc" id="L38">        final List&lt;OwnerItem&gt; allItem = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L39">        final var orderBy = QOwner.owner.name.asc();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (final Owner value : ownerRepository.findAll(orderBy)) {</span>
+<span class="fc" id="L41">            allItem.add(OwnerItem.fromValue(value));</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">        return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allItem));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

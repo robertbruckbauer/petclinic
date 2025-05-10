@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuerydslRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">esy.rest</a> &gt; <span class="el_source">QuerydslRepository.java</span></div><h1>QuerydslRepository.java</h1><pre class="source lang-java linenums">package esy.rest;
+
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.DatePath;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
+import esy.json.JsonJpaEntity;
+import lombok.NonNull;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Optional;
+
+public interface QuerydslRepository&lt;V extends JsonJpaEntity&lt;V&gt;, T extends EntityPath&lt;?&gt;&gt; extends QuerydslPredicateExecutor&lt;V&gt;, QuerydslBinderCustomizer&lt;T&gt; {
+
+    /**
+     * Returns a {@link Predicate} for a {@link LocalDate}.
+     * Uses {@link DatePath#eq(Object)} for a single value.
+     * Uses {@link DatePath#between(Comparable, Comparable)} for a value range.
+     */
+<span class="nc bnc" id="L25" title="All 4 branches missed.">    default Optional&lt;Predicate&gt; localDateEqBetweenInBinding(@NonNull final DatePath&lt;LocalDate&gt; path, @NonNull final Collection&lt;? extends LocalDate&gt; allValue) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (allValue.size() == 1) {</span>
+<span class="nc" id="L27">            var it = allValue.iterator();</span>
+<span class="nc" id="L28">            return Optional.of(path.eq(it.next()));</span>
+        }
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (allValue.size() == 2) {</span>
+<span class="nc" id="L31">            var it = allValue.iterator();</span>
+<span class="nc" id="L32">            return Optional.of(path.between(it.next(), it.next()));</span>
+        }
+<span class="nc" id="L34">        return Optional.of(path.in(allValue));</span>
+    }
+
+    /**
+     * Returns a {@link Predicate} for a {@link Long} value.
+     * Uses {@link NumberPath#eq(Object)} for a single value.
+     * Uses {@link NumberPath#between(Number, Number)} for a value range.
+     */
+<span class="nc bnc" id="L42" title="All 4 branches missed.">    default Optional&lt;Predicate&gt; longEqBetweenInBinding(@NonNull final NumberPath&lt;Long&gt; path, @NonNull final Collection&lt;? extends Long&gt; allValue) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (allValue.size() == 1) {</span>
+<span class="nc" id="L44">            var it = allValue.iterator();</span>
+<span class="nc" id="L45">            return Optional.of(path.eq(it.next()));</span>
+        }
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (allValue.size() == 2) {</span>
+<span class="nc" id="L48">            var it = allValue.iterator();</span>
+<span class="nc" id="L49">            return Optional.of(path.between(it.next(), it.next()));</span>
+        }
+<span class="nc" id="L51">        return Optional.of(path.in(allValue));</span>
+    }
+
+    /**
+     * Returns a {@link BooleanExpression} for a {@link String} value.
+     * Uses {@link StringPath#likeIgnoreCase(String)} for a value having a character {@code %}.
+     * Uses {@link StringPath#containsIgnoreCase(String)} otherwise.
+     */
+<span class="nc bnc" id="L59" title="All 4 branches missed.">    default BooleanExpression stringContainsOrLikeIgnoreCaseBinding(@NonNull final StringPath path, @NonNull final String value) {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (value.contains(&quot;%&quot;)) {</span>
+<span class="nc" id="L61">            return path.likeIgnoreCase(value);</span>
+        } else {
+<span class="nc" id="L63">            return path.containsIgnoreCase(value);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnumRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">esy.app.info</a> &gt; <span class="el_source">EnumRepository.java</span></div><h1>EnumRepository.java</h1><pre class="source lang-java linenums">package esy.app.info;
+
+import esy.api.info.Enum;
+import esy.api.info.QEnum;
+import esy.rest.JsonJpaRepository;
+import esy.rest.QuerydslRepository;
+import lombok.NonNull;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
+import java.util.Optional;
+
+@RepositoryRestResource(path = &quot;enum&quot;, collectionResourceRel = &quot;allEnum&quot;)
+public interface EnumRepository extends JsonJpaRepository&lt;Enum&gt;, QuerydslRepository&lt;Enum, QEnum&gt; {
+
+    @Override
+<span class="nc bnc" id="L19" title="All 4 branches missed.">    default void customize(@NonNull final QuerydslBindings bindings, @NonNull final QEnum root) {</span>
+<span class="nc" id="L20">        bindings.bind(root.code).all(this::longEqBetweenInBinding);</span>
+<span class="nc" id="L21">        bindings.bind(String.class).first(this::stringContainsOrLikeIgnoreCaseBinding);</span>
+<span class="nc" id="L22">    }</span>
+
+    /**
+     * Returns all persisted values of given discriminator.
+     *
+     * @param art discriminator
+     * @return persisted values
+     */
+    @Query(&quot;SELECT e FROM Enum e &quot; +
+            &quot;WHERE e.art = ?1 &quot; +
+            &quot;ORDER BY e.art ASC, e.code&quot;)
+    List&lt;Enum&gt; findAll(String art);
+
+    /**
+     * Returns all persisted values of given discriminator
+     * for a given unique code.
+     * Orders by {@code name} column.
+     *
+     * @param art discriminator
+     * @param code unique code
+     * @return persisted values
+     */
+    @Query(&quot;SELECT e FROM Enum e &quot; +
+            &quot;WHERE e.art = ?1 &quot; +
+            &quot;AND e.code = ?2 &quot; +
+            &quot;ORDER BY e.art ASC, e.code&quot;)
+    Optional&lt;Enum&gt; findByCode(String art, Long code);
+
+    /**
+     * Returns all persisted values of given discriminator
+     * for a given unique name.
+     * Orders by {@code name} column.
+     *
+     * @param art discriminator
+     * @param name unique name
+     * @return persisted values
+     */
+    @Query(&quot;SELECT e FROM Enum e &quot; +
+            &quot;WHERE e.art = ?1 &quot; +
+            &quot;AND e.name = ?2 &quot; +
+            &quot;ORDER BY e.art ASC, e.code&quot;)
+    Optional&lt;Enum&gt; findByName(String art, String name);
+
+    /**
+     * Returns the number of persisted values of given discriminator.
+     *
+     * @param art discriminator
+     * @return the number of values
+     */
+    @Query(&quot;SELECT COUNT(e) FROM Enum e &quot; +
+            &quot;WHERE e.art = ?1&quot;)
+    long count(String art);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
