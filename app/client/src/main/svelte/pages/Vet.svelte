@@ -81,7 +81,7 @@
   function reloadAllVisit() {
     allVisit = [];
     if (!vetId) return;
-    loadAllValue("/api/visit?vet.id=" + vetId)
+    loadAllValue("/api/visit?sort=date,desc&vet.id=" + vetId)
       .then((json) => {
         console.log(["reloadAllVisit", json]);
         allVisit = json;

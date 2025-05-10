@@ -37,9 +37,7 @@
 
   onMount(async () => {
     try {
-      allOwnerItem = await loadAllValue(
-        "/api/owner?sort=name,asc"
-      );
+      allOwnerItem = await loadAllValue("/api/owner?sort=name,asc");
       allOwnerItem = allOwnerItem.map(ownerToOwnerItem);
       console.log(["onMount", allOwnerItem]);
       allSpeciesEnum = await loadAllValue("/api/enum/species");

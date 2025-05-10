@@ -1,6 +1,5 @@
 package esy.app.clinic;
 
-import esy.api.clinic.QVet;
 import esy.app.EndpointConfiguration;
 import esy.app.client.OwnerRepository;
 import esy.app.client.PetRepository;
@@ -424,11 +423,34 @@ class VisitRestApiTest {
     }
 
     @Test
+    @Order(43)
+    void getApiVisitByOwnerEmpty() throws Exception {
+        final var uuid = UUID.fromString("b3333333-3333-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("pet.owner.id", uuid.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0]")
+                        .doesNotExist());
+    }
+
+    @Test
     @Order(44)
     void getApiVisitByPet() throws Exception {
         final var uuid = UUID.fromString("c2222222-2222-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
                         .queryParam("pet.id", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -447,11 +469,34 @@ class VisitRestApiTest {
     }
 
     @Test
+    @Order(44)
+    void getApiVisitByPetEmpty() throws Exception {
+        final var uuid = UUID.fromString("c3333333-3333-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("pet.id", uuid.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0]")
+                        .doesNotExist());
+    }
+
+    @Test
     @Order(45)
     void getApiVisitByVet() throws Exception {
         final var uuid = UUID.fromString("d2222222-2222-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
                         .queryParam("vet.id", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -466,6 +511,28 @@ class VisitRestApiTest {
                 .andExpect(jsonPath("$.content[0].date")
                         .value("2021-04-24"))
                 .andExpect(jsonPath("$.content[1]")
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(45)
+    void getApiVisitByVetEmpty() throws Exception {
+        final var uuid = UUID.fromString("d3333333-3333-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("vet.id", uuid.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0]")
                         .doesNotExist());
     }
 

@@ -105,7 +105,7 @@
   function reloadAllVisit() {
     allVisit = [];
     if (!ownerId) return;
-    loadAllValue("/api/visit?owner.id=" + ownerId)
+    loadAllValue("/api/visit?sort=date,desc&pet.owner.id=" + ownerId)
       .then((json) => {
         console.log(["reloadAllVisit", json]);
         allVisit = json;
@@ -223,8 +223,8 @@
             <tr>
               <td class="px-4" colspan="6">
                 <VisitViewer {allVisit} />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
           {#if visitEditorCreate && ownerId === owner.id}
             <tr>
@@ -232,11 +232,9 @@
                 <VisitEditor
                   bind:visible={visitEditorCreate}
                   on:create={(e) => reloadAllOwner()}
-                  allPetItem={owner.allPetItem}
-                  {allVetItem}
                 />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
           {#if petEditorCreate && ownerId === owner.id}
             <tr>
@@ -247,8 +245,8 @@
                   {allSpeciesEnum}
                   ownerId={owner.id}
                 />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
           {#if ownerEditorUpdate && ownerId === owner.id}
             <tr>
@@ -259,8 +257,8 @@
                   on:remove={(e) => reloadAllOwner()}
                   {owner}
                 />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
         {:else}
           <tr>
