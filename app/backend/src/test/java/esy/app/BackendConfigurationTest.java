@@ -1,11 +1,8 @@
 package esy.app;
 
-import esy.app.info.VersionRepository;
-import esy.app.info.VersionRestController;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -19,13 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Tag("slow")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class BackendConfigurationTest {
-
-	/**
-	 * {@see <a href="https://spring.io/guides/gs/multi-module/"/>}
-	 */
-	@SpringBootApplication
-	static class BackendConfigurationApp {
-	}
 
 	@Autowired
 	private ConfigurableApplicationContext context;
@@ -41,10 +31,8 @@ public class BackendConfigurationTest {
 		assertNotNull(context);
 		assertNotNull(publisher);
 		assertNotNull(resourceLoader);
-		assertNotNull(context.getBean(DatabaseConfiguration.class));
-		assertNotNull(context.getBean(EndpointConfiguration.class));
-		assertBeanExists(context.getBean(VersionRepository.class));
-		assertBeanExists(context.getBean(VersionRestController.class));
+		assertNotNull(context.getBean(BackendConfiguration.class));
+		assertNotNull(context.getBean(CollectionModelProcessor.class));
 	}
 
 	private <T> void assertBeanExists(final T bean) {

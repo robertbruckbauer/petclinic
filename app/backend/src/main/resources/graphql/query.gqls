@@ -1,0 +1,14 @@
+type Query {
+    allEnum(art: String): [Enum]
+    allOwner: [Owner]
+    ownerById(id: ID): Owner
+    ownerByName(name: String): Owner
+    allPet: [Pet]
+    petById(id: ID): Pet
+    allVet: [Vet]
+    vetById(id: ID): Vet
+    vetByName(name: String): Vet
+    allVisit: [Visit]
+    allVisitByPetId(id: ID): [Visit]
+    allVisitByVetId(id: ID): [Visit]
+}

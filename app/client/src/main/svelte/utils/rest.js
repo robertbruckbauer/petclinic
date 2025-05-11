@@ -4,7 +4,11 @@ const BACKEND_URL =
   window.location.host.replace(":5000", ":8080");
 
 export function apiExplorerUrl() {
-  return BACKEND_URL + "/api";
+  return BACKEND_URL + "/api/explorer";
+}
+
+export function apiGraphiqlUrl() {
+  return BACKEND_URL + "/api/graphiql";
 }
 
 export async function loadAllValue(restUrl) {

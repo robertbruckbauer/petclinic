@@ -1,6 +1,10 @@
+# Version 0.8.0
+
+* Integration von GraphQL.
+
 # Version 0.7.0
 
-* Integration von `querydsl`.
+* Integration von QueryDSL.
 
 # Version 0.6.0
 
