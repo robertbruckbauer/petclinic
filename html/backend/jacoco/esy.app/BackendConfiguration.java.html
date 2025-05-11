@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BackendConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">esy.app</a> &gt; <span class="el_source">BackendConfiguration.java</span></div><h1>BackendConfiguration.java</h1><pre class="source lang-java linenums">package esy.app;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import esy.json.JsonJpaEntity;
+import esy.json.JsonMapper;
+import lombok.NonNull;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.*;
+import org.springframework.core.type.filter.AssignableTypeFilter;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
+
+@Configuration
+@ComponentScan(basePackages = {&quot;esy.app&quot;})
+@EntityScan(basePackages = {&quot;esy.api&quot;})
+@PropertySource(
+        ignoreResourceNotFound = false,
+        value = &quot;classpath:endpoint.properties&quot;)
+@PropertySource(
+        ignoreResourceNotFound = false,
+        value = &quot;classpath:database.properties&quot;)
+@EnableTransactionManagement
+<span class="fc" id="L35">public class BackendConfiguration {</span>
+
+    /**
+     * CORS configuration for all REST API requests.
+     * Same values must apply to Spring Security,
+     * Spring Web AND Spring Data.
+     */
+<span class="fc" id="L42">    static final CorsConfiguration CORS = new CorsConfiguration();</span>
+
+    static {
+        // tag::cors[]
+<span class="fc" id="L46">        CORS.setAllowCredentials(true);</span>
+<span class="fc" id="L47">        CORS.addAllowedHeader(HttpHeaders.ACCEPT);</span>
+<span class="fc" id="L48">        CORS.addAllowedHeader(HttpHeaders.AUTHORIZATION);</span>
+<span class="fc" id="L49">        CORS.addAllowedHeader(HttpHeaders.CONTENT_TYPE);</span>
+<span class="fc" id="L50">        CORS.addAllowedHeader(HttpHeaders.CONTENT_LENGTH);</span>
+<span class="fc" id="L51">        CORS.addAllowedMethod(HttpMethod.GET.name());</span>
+<span class="fc" id="L52">        CORS.addAllowedMethod(HttpMethod.POST.name());</span>
+<span class="fc" id="L53">        CORS.addAllowedMethod(HttpMethod.PUT.name());</span>
+<span class="fc" id="L54">        CORS.addAllowedMethod(HttpMethod.PATCH.name());</span>
+<span class="fc" id="L55">        CORS.addAllowedMethod(HttpMethod.DELETE.name());</span>
+<span class="fc" id="L56">        CORS.setAllowedOriginPatterns(List.of(</span>
+                &quot;http://localhost:*&quot;,
+                &quot;http://localhost&quot;,
+                &quot;https://localhost&quot;));
+<span class="fc" id="L60">        CORS.setMaxAge(3600L);</span>
+        // end::cors[]
+<span class="fc" id="L62">    }</span>
+
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">    void applyCorsConfiguration(@NonNull final CorsRegistry registry) {</span>
+<span class="fc" id="L65">        final var registration = registry.addMapping(&quot;/**&quot;);</span>
+<span class="fc" id="L66">        Optional.ofNullable(CORS.getAllowCredentials())</span>
+<span class="fc" id="L67">                .ifPresent(registration::allowCredentials);</span>
+<span class="fc" id="L68">        Optional.ofNullable(CORS.getAllowedHeaders())</span>
+<span class="fc" id="L69">                .ifPresent(e -&gt; registration.allowedHeaders(e.toArray(String[]::new)));</span>
+<span class="fc" id="L70">        Optional.ofNullable(CORS.getAllowedMethods())</span>
+<span class="fc" id="L71">                .ifPresent(e -&gt; registration.allowedMethods(e.toArray(String[]::new)));</span>
+<span class="fc" id="L72">        Optional.ofNullable(CORS.getAllowedOriginPatterns())</span>
+<span class="fc" id="L73">                .ifPresent(e -&gt; registration.allowedOriginPatterns(e.toArray(String[]::new)));</span>
+<span class="fc" id="L74">        Optional.ofNullable(CORS.getMaxAge())</span>
+<span class="fc" id="L75">                .ifPresent(registration::maxAge);</span>
+<span class="fc" id="L76">    }</span>
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">    void applyJsonConfiguration(@NonNull final RepositoryRestConfiguration configuration) {</span>
+<span class="fc" id="L79">        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);</span>
+<span class="fc" id="L80">        provider.addIncludeFilter(new AssignableTypeFilter(JsonJpaEntity.class));</span>
+<span class="fc" id="L81">        provider.findCandidateComponents(&quot;esy/api&quot;).stream()</span>
+<span class="fc" id="L82">                .map(bean -&gt; {</span>
+                    try {
+<span class="fc" id="L84">                        return Class.forName(bean.getBeanClassName());</span>
+<span class="nc" id="L85">                    } catch (final ClassNotFoundException e) {</span>
+<span class="nc" id="L86">                        return JsonJpaEntity.class;</span>
+                    }
+                })
+<span class="fc" id="L89">                .forEach(configuration::exposeIdsFor);</span>
+<span class="fc" id="L90">    }</span>
+
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+<span class="fc" id="L94">        return new WebMvcConfigurer() {</span>
+
+            @Override
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">            public void addCorsMappings(@NonNull final CorsRegistry registry) {</span>
+<span class="fc" id="L98">                applyCorsConfiguration(registry);</span>
+<span class="fc" id="L99">            }</span>
+        };
+    }
+
+    @Bean
+    public RepositoryRestConfigurer repositoryRestConfigurer() {
+<span class="fc" id="L105">        return new RepositoryRestConfigurer() {</span>
+
+            @Override
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, final CorsRegistry registry) {</span>
+                // apply defaults
+<span class="fc" id="L110">                configuration.setBasePath(&quot;/api&quot;);</span>
+<span class="fc" id="L111">                configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);</span>
+                // create JSON with content (not _embedded)
+<span class="fc" id="L113">                configuration.setDefaultMediaType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L114">                configuration.useHalAsDefaultJsonMediaType(false);</span>
+                // expose id for value objects
+<span class="fc" id="L116">                applyJsonConfiguration(configuration);</span>
+                // apply CORS settings
+<span class="fc" id="L118">                applyCorsConfiguration(registry);</span>
+<span class="fc" id="L119">            }</span>
+
+            @Override
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {</span>
+                // apply defaults
+<span class="fc" id="L124">                JsonMapper.configure(mapper);</span>
+<span class="fc" id="L125">            }</span>
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
