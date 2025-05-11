@@ -45,7 +45,6 @@ import java.util.NoSuchElementException;
 @RestController
 public class EsyBackendControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {
 
-
     /**
      * @see org.springframework.data.rest.webmvc.RepositoryRestExceptionHandler
      */
