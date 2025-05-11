@@ -1,5 +1,7 @@
 # Version 0.8.0
 
+* Konsolidierung der Liquibase-Skripte.
+
 # Version 0.7.0
 
 * Integration von QueryDSL.
