@@ -2,6 +2,7 @@ package esy.app.client;
 
 import esy.api.client.Owner;
 import esy.api.client.OwnerItem;
+import esy.api.client.QOwner;
 import esy.rest.JsonJpaRestControllerBase;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,8 @@ public class OwnerRestController extends JsonJpaRestControllerBase<Owner> {
     @GetMapping("/owner/search/findAllItem")
     public ResponseEntity<CollectionModel<OwnerItem>> findAllItem() {
         final List<OwnerItem> allItem = new ArrayList<>();
-        for (final Owner value : ownerRepository.findAllByOrderByNameAsc()) {
+        final var orderBy = QOwner.owner.name.asc();
+        for (final Owner value : ownerRepository.findAll(orderBy)) {
             allItem.add(OwnerItem.fromValue(value));
         }
         return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allItem));

@@ -1,5 +1,6 @@
 package esy.app.clinic;
 
+import esy.api.clinic.QVet;
 import esy.api.clinic.Vet;
 import esy.api.clinic.VetItem;
 import esy.rest.JsonJpaRestControllerBase;
@@ -35,7 +36,8 @@ public class VetRestController extends JsonJpaRestControllerBase<Vet> {
     @GetMapping("/vet/search/findAllItem")
     public ResponseEntity<CollectionModel<VetItem>> findAllItem() {
         final List<VetItem> allItem = new ArrayList<>();
-        for (final Vet value : vetRepository.findAllByOrderByNameAsc()) {
+        final var orderBy = QVet.vet.name.asc();
+        for (final Vet value : vetRepository.findAll(orderBy)) {
             allItem.add(VetItem.fromValue(value));
         }
         return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allItem));

@@ -142,10 +142,10 @@ class VisitRestApiTest {
     @Test
     @Order(30)
     void putApiVisit() throws Exception {
-        final String text = "Lorem ipsum";
-        final String date = "2021-04-23";
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var text = "Lorem ipsum";
+        final var date = "2021-04-23";
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/visit/" + uuid)
                         .content("{" +
                                 "\"pet\":\"/api/pet/c1111111-1111-beef-dead-beefdeadbeef\"," +
@@ -165,7 +165,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"0\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.petItem.value")
                         .value("c1111111-1111-beef-dead-beefdeadbeef"))
                 .andExpect(jsonPath("$.petItem.text")
@@ -183,9 +183,9 @@ class VisitRestApiTest {
     @Test
     @Order(31)
     void patchApiVisitDate() throws Exception {
-        final String date = "2021-04-24";
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var date = "2021-04-24";
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
                         .content("{" +
                                 "\"date\":\"" + date + "\"" +
@@ -202,7 +202,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"1\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.date")
                         .value(date));
     }
@@ -210,9 +210,9 @@ class VisitRestApiTest {
     @Test
     @Order(32)
     void patchApiVisitText() throws Exception {
-        final String text = "At vero eos";
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var text = "At vero eos";
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
                         .content("{" +
                                 "\"text\":\"" + text + "\"" +
@@ -229,7 +229,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"2\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.text")
                         .value(text));
     }
@@ -237,8 +237,8 @@ class VisitRestApiTest {
     @Test
     @Order(33)
     void patchApiVisitPet() throws Exception {
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
                         .content("{" +
                                 "\"pet\":\"/api/pet/c2222222-2222-beef-dead-beefdeadbeef\"" +
@@ -255,7 +255,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"3\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.petItem.value")
                         .value("c2222222-2222-beef-dead-beefdeadbeef"))
                 .andExpect(jsonPath("$.petItem.text")
@@ -267,8 +267,8 @@ class VisitRestApiTest {
     @Test
     @Order(34)
     void getApiVisitPet() throws Exception {
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit/" + uuid + "/pet")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -285,8 +285,8 @@ class VisitRestApiTest {
     @Test
     @Order(35)
     void patchApiVisitVet() throws Exception {
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
                         .content("{" +
                                 "\"vet\":\"/api/vet/d2222222-2222-beef-dead-beefdeadbeef\"" +
@@ -303,7 +303,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"4\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.petItem.value")
                         .value("c2222222-2222-beef-dead-beefdeadbeef"))
                 .andExpect(jsonPath("$.petItem.text")
@@ -315,8 +315,8 @@ class VisitRestApiTest {
     @Test
     @Order(36)
     void getApiVisitVet() throws Exception {
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit/" + uuid + "/vet")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -334,7 +334,8 @@ class VisitRestApiTest {
     @Order(40)
     void getApiVisit() throws Exception {
         assertEquals(4, visitRepository.count());
-        mockMvc.perform(get("/api/visit/search/findAllByOrderByDateDesc")
+        mockMvc.perform(get("/api/visit")
+                        .param("sort", "date,desc")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -360,8 +361,8 @@ class VisitRestApiTest {
     @Test
     @Order(41)
     void getApiVisitById() throws Exception {
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit/" + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -374,7 +375,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"4\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.date")
                         .value("2021-04-24"));
     }
@@ -382,8 +383,8 @@ class VisitRestApiTest {
     @Test
     @Order(42)
     void getApiVisitByIdNotFound() throws Exception {
-        final String uuid = "deadbeef-dead-beef-dead-beefdeadbeef";
-        assertFalse(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-2222-beef-dead-beefdeadbeef");
+        assertFalse(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit/" + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -394,9 +395,11 @@ class VisitRestApiTest {
     @Test
     @Order(43)
     void getApiVisitByOwner() throws Exception {
-        final String uuid = "b2222222-2222-beef-dead-beefdeadbeef";
-        assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
-        mockMvc.perform(get("/api/visit/search/findAllByOwner?ownerId=" + uuid)
+        final var uuid = UUID.fromString("b2222222-2222-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("owner.id", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -420,11 +423,81 @@ class VisitRestApiTest {
     }
 
     @Test
+    @Order(43)
+    void getApiVisitByOwnerEmpty() throws Exception {
+        final var uuid = UUID.fromString("b3333333-3333-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("pet.owner.id", uuid.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0]")
+                        .doesNotExist());
+    }
+
+    @Test
     @Order(44)
     void getApiVisitByPet() throws Exception {
-        final String uuid = "c2222222-2222-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
-        mockMvc.perform(get("/api/visit/search/findAllByPet?petId=" + uuid)
+        final var uuid = UUID.fromString("c2222222-2222-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("pet.id", uuid.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0].date")
+                        .value("2021-04-24"))
+                .andExpect(jsonPath("$.content[1]")
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(44)
+    void getApiVisitByPetEmpty() throws Exception {
+        final var uuid = UUID.fromString("c3333333-3333-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("pet.id", uuid.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0]")
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(45)
+    void getApiVisitByVet() throws Exception {
+        final var uuid = UUID.fromString("d2222222-2222-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("vet.id", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -443,10 +516,12 @@ class VisitRestApiTest {
 
     @Test
     @Order(45)
-    void getApiVisitByVet() throws Exception {
-        final String uuid = "d2222222-2222-beef-dead-beefdeadbeef";
-        assertTrue(vetRepository.findById(UUID.fromString(uuid)).isPresent());
-        mockMvc.perform(get("/api/visit/search/findAllByVet?vetId=" + uuid)
+    void getApiVisitByVetEmpty() throws Exception {
+        final var uuid = UUID.fromString("d3333333-3333-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit")
+                        .queryParam("sort", "date,desc")
+                        .queryParam("vet.id", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -457,17 +532,15 @@ class VisitRestApiTest {
                         .exists("Vary"))
                 .andExpect(jsonPath("$.content")
                         .isArray())
-                .andExpect(jsonPath("$.content[0].date")
-                        .value("2021-04-24"))
-                .andExpect(jsonPath("$.content[1]")
+                .andExpect(jsonPath("$.content[0]")
                         .doesNotExist());
     }
 
     @Test
     @Order(50)
     void deleteApiVisit() throws Exception {
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/visit/" + uuid))
                 .andDo(print())
                 .andExpect(status()
@@ -477,8 +550,8 @@ class VisitRestApiTest {
     @Test
     @Order(51)
     void deleteApiVisitNotFound() throws Exception {
-        final String uuid = "e1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(visitRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/visit/" + uuid))
                 .andDo(print())
                 .andExpect(status()

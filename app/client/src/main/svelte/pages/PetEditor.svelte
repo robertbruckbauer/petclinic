@@ -88,6 +88,7 @@
     <div class="w-full lg:w-1/4">
       <Select
         bind:value={newPet.species}
+        valueGetter={(v) => v?.value}
         allItem={allSpeciesEnum}
         label="Species"
         placeholder="Choose species"

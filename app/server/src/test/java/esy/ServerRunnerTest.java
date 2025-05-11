@@ -130,20 +130,24 @@ public class ServerRunnerTest {
 		assertTrue(value2.isEqual(result3a.toObject(Owner.class)));
 
 		final RestApiResult result3b = RestApiConnection.with(
-				toBackendUrl("/api/owner/search/findByName?name=" + URLEncoder.encode("Max " + name, UTF_8)))
+				toBackendUrl("/api/owner?name=" + URLEncoder.encode("Max " + name, UTF_8)))
 				.get();
 		assertThat(result3b.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		assertTrue(value2.isEqual(result3b.toObject(Owner.class)));
+		final List<Owner> allValue3b = result3b.toCollection(Owner.class);
+		assertEquals(1, allValue3b.size());
+		assertEquals(1, allValue3b.stream()
+				.filter(e -> e.getId().equals(value1.getId()))
+				.count());
 
 		final RestApiResult result3c = RestApiConnection.with(
-				toBackendUrl("/api/owner/search/findAllByOrderByNameAsc"))
+				toBackendUrl("/api/owner?sort=name,asc"))
 				.get();
 		assertThat(result3c.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Owner> allValue2a = result3c.toCollection(Owner.class);
-		assertEquals(5, allValue2a.size());
-		assertEquals(1, allValue2a.stream()
+		final List<Owner> allValue3c = result3c.toCollection(Owner.class);
+		assertEquals(5, allValue3c.size());
+		assertEquals(1, allValue3c.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
@@ -164,8 +168,8 @@ public class ServerRunnerTest {
 	@Order(20)
 	void apiPet() throws Exception {
 		final Owner owner = RestApiConnection.with(
-						toBackendUrl("/api/owner/search/findByName?name=" + URLEncoder.encode("Thomas Mann", UTF_8)))
-				.get().toObject(Owner.class);
+						toBackendUrl("/api/owner?name=" + URLEncoder.encode("Thomas Mann", UTF_8)))
+				.get().toCollection(Owner.class).getFirst();
 		assertNotNull(owner);
 
 		final RestApiResult result1a = RestApiConnection.with(
@@ -226,20 +230,24 @@ public class ServerRunnerTest {
 		assertTrue(value2.isEqual(result3a.toObject(Pet.class)));
 
 		final RestApiResult result3b = RestApiConnection.with(
-						toBackendUrl("/api/pet/search/findByName?name=" + URLEncoder.encode("Max", UTF_8)))
+						toBackendUrl("/api/pet?name=" + URLEncoder.encode("Max", UTF_8)))
 				.get();
 		assertThat(result3b.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		assertTrue(value2.isEqual(result3b.toObject(Pet.class)));
+		final List<Pet> allValue3b = result3b.toCollection(Pet.class);
+		assertEquals(1, allValue3b.size());
+		assertEquals(1, allValue3b.stream()
+				.filter(e -> e.getId().equals(value1.getId()))
+				.count());
 
 		final RestApiResult result3c = RestApiConnection.with(
-						toBackendUrl("/api/pet/search/findAllByOrderByNameAsc"))
+						toBackendUrl("/api/pet?sort,asc"))
 				.get();
 		assertThat(result3c.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Pet> allValue2a = result3c.toCollection(Pet.class);
-		assertEquals(4, allValue2a.size());
-		assertEquals(1, allValue2a.stream()
+		final List<Pet> allValue3c = result3c.toCollection(Pet.class);
+		assertEquals(4, allValue3c.size());
+		assertEquals(1, allValue3c.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
@@ -302,20 +310,24 @@ public class ServerRunnerTest {
 		assertTrue(value2.isEqual(result3a.toObject(Vet.class)));
 
 		final RestApiResult result3b = RestApiConnection.with(
-						toBackendUrl("/api/vet/search/findByName?name=" + URLEncoder.encode("Max " + name, UTF_8)))
+						toBackendUrl("/api/vet?name=" + URLEncoder.encode("Max " + name, UTF_8)))
 				.get();
 		assertThat(result3b.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		assertTrue(value2.isEqual(result3b.toObject(Vet.class)));
+		final List<Vet> allValue3b = result3b.toCollection(Vet.class);
+		assertEquals(1, allValue3b.size());
+		assertEquals(1, allValue3b.stream()
+				.filter(e -> e.getId().equals(value1.getId()))
+				.count());
 
 		final RestApiResult result3c = RestApiConnection.with(
-						toBackendUrl("/api/vet/search/findAllByOrderByNameAsc"))
+						toBackendUrl("/api/vet?sort=name,asc"))
 				.get();
 		assertThat(result3c.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Vet> allValue2a = result3c.toCollection(Vet.class);
-		assertEquals(6, allValue2a.size());
-		assertEquals(1, allValue2a.stream()
+		final List<Vet> allValue3c = result3c.toCollection(Vet.class);
+		assertEquals(6, allValue3c.size());
+		assertEquals(1, allValue3c.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
@@ -336,12 +348,12 @@ public class ServerRunnerTest {
 	@Order(40)
 	void apiVisit() throws Exception {
 		final Pet pet = RestApiConnection.with(
-						toBackendUrl("/api/pet/search/findByName?name=" + URLEncoder.encode("Tom", UTF_8)))
-				.get().toObject(Pet.class);
+						toBackendUrl("/api/pet?name=" + URLEncoder.encode("Tom", UTF_8)))
+				.get().toCollection(Pet.class).getFirst();
 		assertNotNull(pet);
 		final Vet vet = RestApiConnection.with(
-						toBackendUrl("/api/vet/search/findByName?name=" + URLEncoder.encode("John Cleese", UTF_8)))
-				.get().toObject(Vet.class);
+						toBackendUrl("/api/vet?name=" + URLEncoder.encode("John Cleese", UTF_8)))
+				.get().toCollection(Vet.class).getFirst();
 		assertNotNull(vet);
 
 		final RestApiResult result1a = RestApiConnection.with(

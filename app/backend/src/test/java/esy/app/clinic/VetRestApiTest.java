@@ -1,5 +1,7 @@
 package esy.app.clinic;
 
+import esy.api.client.QOwner;
+import esy.api.clinic.QVet;
 import esy.app.EndpointConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -76,8 +78,8 @@ class VetRestApiTest {
     @Test
     @Order(20)
     void postApiVet() throws Exception {
-        final String name = "Max Mustermann";
-        assertFalse(vetRepository.findByName(name).isPresent());
+        final var name = "Max Mustermann";
+        assertFalse(vetRepository.findOne(QVet.vet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/vet")
                         .content("{" +
                                 "\"name\":\"" + name + "\"" +
@@ -102,8 +104,8 @@ class VetRestApiTest {
     @Test
     @Order(21)
     void postApiVetConflict() throws Exception {
-        final String name = "Max Mustermann";
-        assertTrue(vetRepository.findByName(name).isPresent());
+        final var name = "Max Mustermann";
+        assertTrue(vetRepository.findOne(QVet.vet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/vet")
                         .content("{" +
                                 "\"name\":\"" + name + "\"" +
@@ -118,9 +120,9 @@ class VetRestApiTest {
     @Test
     @Order(30)
     void putApiVet() throws Exception {
-        final String name = "Bea Musterfrau";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(vetRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var name = "Bea Musterfrau";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/vet/" + uuid)
                         .content("{" +
                                 "\"name\":\"" + name + "\"" +
@@ -137,7 +139,7 @@ class VetRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"0\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name));
     }
@@ -149,8 +151,8 @@ class VetRestApiTest {
     })
     @Order(31)
     void patchApiVetName(final String name) throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(vetRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/vet/" + uuid)
                         .content("{" +
                                 "\"name\": \"" + name + "\"" +
@@ -167,7 +169,7 @@ class VetRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name));
     }
@@ -175,8 +177,8 @@ class VetRestApiTest {
     @Test
     @Order(32)
     void patchApiVetSkill() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(vetRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/vet/" + uuid)
                         .content("{" +
                                 "\"allSkill\": [\"Z\",\"A\"]" +
@@ -193,7 +195,7 @@ class VetRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.allSkill")
                         .isArray());
     }
@@ -202,7 +204,8 @@ class VetRestApiTest {
     @Order(40)
     void getApiVet() throws Exception {
         assertEquals(2, vetRepository.count());
-        mockMvc.perform(get("/api/vet/search/findAllByOrderByNameAsc")
+        mockMvc.perform(get("/api/vet")
+                        .queryParam("sort", "name", "asc")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -247,9 +250,9 @@ class VetRestApiTest {
     @Test
     @Order(42)
     void getApiVetById() throws Exception {
-        final String name = "Bea Musterfrau";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(vetRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var name = "Bea Musterfrau";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/vet/" + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -262,7 +265,7 @@ class VetRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"3\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name))
                 .andExpect(jsonPath("$.allSkill[0]")
@@ -276,51 +279,9 @@ class VetRestApiTest {
     @Test
     @Order(43)
     void getApiVetByIdNotFound() throws Exception {
-        final String uuid = "a1111111-ffff-beef-dead-beefdeadbeef";
-        assertFalse(vetRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
+        assertFalse(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/vet/" + uuid)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isNotFound());
-    }
-
-    @Test
-    @Order(44)
-    void getApiVetByName() throws Exception {
-        final String name = "Bea Musterfrau";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        mockMvc.perform(get("/api/vet/search/findByName")
-                        .param("name", name)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isOk())
-                .andExpect(content()
-                        .contentType("application/json"))
-                .andExpect(header()
-                        .exists("Vary"))
-                .andExpect(header()
-                        .string("ETag", "\"3\""))
-                .andExpect(jsonPath("$.id")
-                        .value(uuid))
-                .andExpect(jsonPath("$.name")
-                        .value(name))
-                .andExpect(jsonPath("$.allSkill[0]")
-                        .value("A"))
-                .andExpect(jsonPath("$.allSkill[1]")
-                        .value("Z"))
-                .andExpect(jsonPath("$.allSkill[2]")
-                        .doesNotExist());
-    }
-
-    @Test
-    @Order(45)
-    void getApiVetByNameNotFound() throws Exception {
-        final String name = "Mia Musterfrau";
-        assertFalse(vetRepository.findByName(name).isPresent());
-        mockMvc.perform(get("/api/vet/search/findByName")
-                        .param("name", name)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -330,8 +291,8 @@ class VetRestApiTest {
     @Test
     @Order(50)
     void deleteApiVet() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(vetRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/vet/" + uuid))
                 .andDo(print())
                 .andExpect(status()
@@ -341,8 +302,8 @@ class VetRestApiTest {
     @Test
     @Order(51)
     void deleteApiVetNotFound() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(vetRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/vet/" + uuid))
                 .andDo(print())
                 .andExpect(status()

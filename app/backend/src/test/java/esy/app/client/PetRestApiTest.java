@@ -1,5 +1,6 @@
 package esy.app.client;
 
+import esy.api.client.QPet;
 import esy.app.EndpointConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,9 +82,9 @@ class PetRestApiTest {
     @Test
     @Order(20)
     void postApiPet() throws Exception {
-        final String name = "Roger";
-        final String born = "2021-04-22";
-        assertFalse(petRepository.findByName(name).isPresent());
+        final var name = "Roger";
+        final var born = "2021-04-22";
+        assertFalse(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/pet")
                         .content("{" +
                                 "\"owner\": \"/api/owner/b1111111-1111-beef-dead-beefdeadbeef\"," +
@@ -115,9 +116,9 @@ class PetRestApiTest {
     @Test
     @Order(21)
     void postApiPetConflict() throws Exception {
-        final String name = "Roger";
-        final String born = "2021-04-22";
-        assertTrue(petRepository.findByName(name).isPresent());
+        final var name = "Roger";
+        final var born = "2021-04-22";
+        assertTrue(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/pet")
                         .content("{" +
                                 "\"owner\": \"/api/owner/b1111111-1111-beef-dead-beefdeadbeef\"," +
@@ -135,10 +136,10 @@ class PetRestApiTest {
     @Test
     @Order(30)
     void putApiPet() throws Exception {
-        final String name = "Anita";
-        final String born = "2021-04-27";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var name = "Anita";
+        final var born = "2021-04-27";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/pet/" + uuid)
                         .content("{" +
                                 "\"owner\": \"/api/owner/b1111111-1111-beef-dead-beefdeadbeef\"," +
@@ -158,7 +159,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"0\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.ownerItem.value")
                         .value("b1111111-1111-beef-dead-beefdeadbeef"))
                 .andExpect(jsonPath("$.ownerItem.text")
@@ -178,8 +179,8 @@ class PetRestApiTest {
     })
     @Order(31)
     void patchApiPetName(final String name) throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
                         .content("{" +
                                 "\"name\": \"" + name + "\"" +
@@ -196,7 +197,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name));
     }
@@ -208,8 +209,8 @@ class PetRestApiTest {
     })
     @Order(32)
     void patchApiPetBorn(final String born) throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
                         .content("{" +
                                 "\"born\": \"" + born + "\"" +
@@ -226,7 +227,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.born")
                         .value(born));
     }
@@ -237,9 +238,9 @@ class PetRestApiTest {
             "Rat"
     })
     @Order(33)
-    void patchApiPeSpecies(final String species) throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
+    void patchApiPetSpecies(final String species) throws Exception {
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
                         .content("{" +
                                 "\"species\": \"" + species + "\"" +
@@ -256,7 +257,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .exists("ETag"))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.species")
                         .value(species));
     }
@@ -264,8 +265,8 @@ class PetRestApiTest {
     @Test
     @Order(34)
     void patchApiPetOwner() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
                         .content("{" +
                                 "\"owner\": \"/api/owner/b2222222-2222-beef-dead-beefdeadbeef\"" +
@@ -282,7 +283,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"7\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.ownerItem.value")
                         .value("b2222222-2222-beef-dead-beefdeadbeef"))
                 .andExpect(jsonPath("$.ownerItem.text")
@@ -292,8 +293,8 @@ class PetRestApiTest {
     @Test
     @Order(35)
     void getApiPetOwner() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/pet/" + uuid + "/owner")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -311,7 +312,8 @@ class PetRestApiTest {
     @Order(40)
     void getApiPet() throws Exception {
         assertEquals(2, petRepository.count());
-        mockMvc.perform(get("/api/pet/search/findAllByOrderByNameAsc")
+        mockMvc.perform(get("/api/pet")
+                        .param("sort", "name,asc")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -356,9 +358,9 @@ class PetRestApiTest {
     @Test
     @Order(42)
     void getApiPetById() throws Exception {
-        final String name = "Anita";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var name = "Anita";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/pet/" + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -371,7 +373,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .string("ETag", "\"7\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid))
+                        .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
                         .value(name));
     }
@@ -379,45 +381,9 @@ class PetRestApiTest {
     @Test
     @Order(43)
     void getApiPetByIdNotFound() throws Exception {
-        final String uuid = "a1111111-ffff-beef-dead-beefdeadbeef";
-        assertFalse(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
+        assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/pet/" + uuid)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isNotFound());
-    }
-
-    @Test
-    @Order(44)
-    void getApiPetByName() throws Exception {
-        final String name = "Anita";
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        mockMvc.perform(get("/api/pet/search/findByName")
-                        .param("name", name)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isOk())
-                .andExpect(content()
-                        .contentType("application/json"))
-                .andExpect(header()
-                        .exists("Vary"))
-                .andExpect(header()
-                        .string("ETag", "\"7\""))
-                .andExpect(jsonPath("$.id")
-                        .value(uuid))
-                .andExpect(jsonPath("$.name")
-                        .value(name));
-    }
-
-    @Test
-    @Order(45)
-    void getApiPetByNameNotFound() throws Exception {
-        final String name = "Atina";
-        assertFalse(petRepository.findByName(name).isPresent());
-        mockMvc.perform(get("/api/pet/search/findByName")
-                        .param("name", name)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -427,9 +393,10 @@ class PetRestApiTest {
     @Test
     @Order(46)
     void getApiPetByOwner() throws Exception {
-        final String uuid = "b2222222-2222-beef-dead-beefdeadbeef";
+        final var uuid = "b2222222-2222-beef-dead-beefdeadbeef";
         assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
-        mockMvc.perform(get("/api/pet/search/findAllByOwner?ownerId=" + uuid)
+        mockMvc.perform(get("/api/pet")
+                        .queryParam("owner.id", uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -449,8 +416,8 @@ class PetRestApiTest {
     @Test
     @Order(50)
     void deleteApiPet() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertTrue(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/pet/" + uuid))
                 .andDo(print())
                 .andExpect(status()
@@ -460,8 +427,8 @@ class PetRestApiTest {
     @Test
     @Order(51)
     void deleteApiPetNotFound() throws Exception {
-        final String uuid = "a1111111-1111-beef-dead-beefdeadbeef";
-        assertFalse(petRepository.findById(UUID.fromString(uuid)).isPresent());
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/pet/" + uuid))
                 .andDo(print())
                 .andExpect(status()
