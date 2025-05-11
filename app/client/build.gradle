@@ -81,3 +81,17 @@ tasks.register('versionCheck') {
             .text
             .contains('"version": "' + VERSION + '"')
 }
+
+tasks.register('prettierCheck', NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'prettierCheck']
+}
+
+tasks.register('prettierApply', NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'prettierApply']
+}
