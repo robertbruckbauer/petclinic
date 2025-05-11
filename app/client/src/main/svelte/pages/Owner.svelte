@@ -6,7 +6,6 @@
   import TextField from "../components/TextField";
   import OwnerEditor from "./OwnerEditor.svelte";
   import PetEditor from "./PetEditor.svelte";
-  import VisitEditor from "./VisitEditor.svelte";
   import VisitViewer from "./VisitViewer.svelte";
 
   let allOwner = [];
@@ -19,10 +18,7 @@
   let ownerEditorCreate = false;
   let ownerEditorUpdate = false;
   $: ownerEditorDisabled =
-    ownerEditorCreate ||
-    ownerEditorUpdate ||
-    petEditorCreate ||
-    visitEditorCreate;
+    ownerEditorCreate || ownerEditorUpdate || petEditorCreate;
   function ownerEditorCreateClicked() {
     ownerEditorCreate = true;
     visitViewerCreate = false;
@@ -41,13 +37,6 @@
   }
 
   let allVisit = [];
-
-  let visitEditorCreate = false;
-  function visitEditorCreateClicked(owner) {
-    ownerId = owner.id;
-    visitEditorCreate = true;
-    visitViewerCreate = false;
-  }
 
   let visitViewerCreate = false;
   function visitViewerCreateClicked(owner) {
@@ -91,7 +80,7 @@
   }
 
   function reloadAllOwner() {
-    loadAllValue("/api/owner/search/findAllByOrderByNameAsc")
+    loadAllValue("/api/owner?sort=name,asc")
       .then((json) => {
         console.log(["reloadAllOwner", json]);
         allOwner = json;
@@ -105,7 +94,7 @@
   function reloadAllVisit() {
     allVisit = [];
     if (!ownerId) return;
-    loadAllValue("/api/visit/search/findAllByOwner?ownerId=" + ownerId)
+    loadAllValue("/api/visit?sort=date,desc&pet.owner.id=" + ownerId)
       .then((json) => {
         console.log(["reloadAllVisit", json]);
         allVisit = json;
@@ -135,7 +124,6 @@
           <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-full">
             <span class="text-gray-600">Pets</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
@@ -193,15 +181,6 @@
             </td>
             <td class="px-2 py-3">
               <Icon
-                on:click={() => visitEditorCreateClicked(owner)}
-                title="Add a new visit"
-                disabled={ownerEditorDisabled}
-                name="event"
-                outlined
-              />
-            </td>
-            <td class="px-2 py-3">
-              <Icon
                 on:click={() => petEditorCreateClicked(owner)}
                 title="Add a new pet"
                 disabled={ownerEditorDisabled}
@@ -223,20 +202,8 @@
             <tr>
               <td class="px-4" colspan="6">
                 <VisitViewer {allVisit} />
-              </td><td> </td></tr
-            >
-          {/if}
-          {#if visitEditorCreate && ownerId === owner.id}
-            <tr>
-              <td class="px-4" colspan="6">
-                <VisitEditor
-                  bind:visible={visitEditorCreate}
-                  on:create={(e) => reloadAllOwner()}
-                  allPetItem={owner.allPetItem}
-                  {allVetItem}
-                />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
           {#if petEditorCreate && ownerId === owner.id}
             <tr>
@@ -247,8 +214,8 @@
                   {allSpeciesEnum}
                   ownerId={owner.id}
                 />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
           {#if ownerEditorUpdate && ownerId === owner.id}
             <tr>
@@ -259,8 +226,8 @@
                   on:remove={(e) => reloadAllOwner()}
                   {owner}
                 />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
         {:else}
           <tr>

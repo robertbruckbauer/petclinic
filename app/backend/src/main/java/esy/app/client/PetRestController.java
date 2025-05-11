@@ -2,6 +2,7 @@ package esy.app.client;
 
 import esy.api.client.Pet;
 import esy.api.client.PetItem;
+import esy.api.client.QPet;
 import esy.rest.JsonJpaRestControllerBase;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,8 @@ public class PetRestController extends JsonJpaRestControllerBase<Pet> {
     @GetMapping("/pet/search/findAllItem")
     public ResponseEntity<CollectionModel<PetItem>> findAllItem() {
         final List<PetItem> allItem = new ArrayList<>();
-        for (final Pet value : petRepository.findAllByOrderByNameAsc()) {
+        final var orderBy = QPet.pet.name.asc();
+        for (final Pet value : petRepository.findAll(orderBy)) {
             allItem.add(PetItem.fromValue(value));
         }
         return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allItem));

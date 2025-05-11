@@ -67,7 +67,7 @@
   }
 
   function reloadAllVet() {
-    loadAllValue("/api/vet/search/findAllByOrderByNameAsc")
+    loadAllValue("/api/vet?sort=name,asc")
       .then((json) => {
         console.log(["reloadAllVet", json]);
         allVet = json;
@@ -81,7 +81,7 @@
   function reloadAllVisit() {
     allVisit = [];
     if (!vetId) return;
-    loadAllValue("/api/visit/search/findAllByVet?vetId=" + vetId)
+    loadAllValue("/api/visit?sort=date,desc&vet.id=" + vetId)
       .then((json) => {
         console.log(["reloadAllVisit", json]);
         allVisit = json;
@@ -129,6 +129,7 @@
               <VetEditor
                 bind:visible={vetEditorCreate}
                 on:create={(e) => reloadAllVet()}
+                {allSkillEnum}
               />
             </td><td> </td></tr
           >

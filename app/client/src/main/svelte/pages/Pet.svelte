@@ -6,6 +6,7 @@
   import Icon from "../components/Icon";
   import Select from "../components/Select";
   import PetEditor from "./PetEditor.svelte";
+  import VisitTermin from "./VisitTermin.svelte";
 
   let allPet = [];
   let petOwnerId = null;
@@ -25,6 +26,12 @@
     petEditorUpdate = true;
   }
 
+  let visitEditorCreate = false;
+  function visitEditorCreateClicked(pet) {
+    petId = pet.id;
+    visitEditorCreate = true;
+  }
+
   let allOwnerItem = [];
   function ownerToOwnerItem(owner) {
     return {
@@ -37,9 +44,7 @@
 
   onMount(async () => {
     try {
-      allOwnerItem = await loadAllValue(
-        "/api/owner/search/findAllByOrderByNameAsc"
-      );
+      allOwnerItem = await loadAllValue("/api/owner?sort=name,asc");
       allOwnerItem = allOwnerItem.map(ownerToOwnerItem);
       console.log(["onMount", allOwnerItem]);
       allSpeciesEnum = await loadAllValue("/api/enum/species");
@@ -59,7 +64,7 @@
   function reloadAllPet() {
     console.log(petOwnerId);
     if (petOwnerId) {
-      loadAllValue("/api/pet/search/findAllByOwner?ownerId=" + petOwnerId)
+      loadAllValue("/api/pet?owner.id=" + petOwnerId)
         .then((json) => {
           console.log(["reloadAllPet", json]);
           $storedOwner.id = petOwnerId;
@@ -99,6 +104,7 @@
         <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-1/4">
           <span class="text-gray-600">Born</span>
         </th>
+        <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
         <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
           <Icon
             on:click={() => petEditorCreateClicked()}
@@ -141,6 +147,15 @@
           </td>
           <td class="px-2 py-3">
             <Icon
+              on:click={() => visitEditorCreateClicked(pet)}
+              title="Add a new visit"
+              disabled={petEditorDisabled}
+              name="event"
+              outlined
+            />
+          </td>
+          <td class="px-2 py-3">
+            <Icon
               on:click={() => petEditorUpdateClicked(pet)}
               disabled={petEditorDisabled}
               name="edit"
@@ -148,6 +163,17 @@
             />
           </td>
         </tr>
+        {#if visitEditorCreate && petId === pet.id}
+          <tr>
+            <td class="px-4" colspan="6">
+              <VisitTermin
+                bind:visible={visitEditorCreate}
+                on:create={(e) => reloadAllPet()}
+                {pet}
+              />
+            </td>
+          </tr>
+        {/if}
         {#if petEditorUpdate && petId === pet.id}
           <tr>
             <td class="px-4" colspan="4">

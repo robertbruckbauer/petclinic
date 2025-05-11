@@ -1,3 +1,7 @@
+# Version 0.7.0
+
+* Integration von `querydsl`.
+
 # Version 0.6.0
 
 * Upgrade auf `spring boot` Version 3.4.5.
