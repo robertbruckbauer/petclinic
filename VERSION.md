@@ -4,6 +4,8 @@
 * Upgrade auf `svelte` Version 5.28.2.
 * Upgrade auf `vite` Version 6.3.4.
 * Deployment mit `docker compose`.
+* Integration von QueryDSL.
+* Integration von GraphQL.
 
 # Version 0.5.0
 
