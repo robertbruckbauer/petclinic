@@ -1,6 +1,6 @@
 package esy.app.clinic;
 
-import esy.app.EndpointConfiguration;
+import esy.app.BackendConfiguration;
 import esy.app.client.OwnerRepository;
 import esy.app.client.PetRepository;
 import org.junit.jupiter.api.*;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Tag("slow")
 @SpringBootTest
-@ContextConfiguration(classes = EndpointConfiguration.class)
+@ContextConfiguration(classes = BackendConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})

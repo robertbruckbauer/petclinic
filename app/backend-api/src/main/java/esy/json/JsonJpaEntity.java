@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class JsonJpaEntity<E extends JsonJpaEntity<?>> implements JsonWithId<E> {
+public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonWithId<T> {
 
     /**
      * Aktuelle Version der Daten.
@@ -57,7 +57,7 @@ public abstract class JsonJpaEntity<E extends JsonJpaEntity<?>> implements JsonW
      *
      * @return diese Instanz
      */
-    public abstract E verify();
+    public abstract T verify();
 
     @Override
     public final int hashCode() {
@@ -77,10 +77,9 @@ public abstract class JsonJpaEntity<E extends JsonJpaEntity<?>> implements JsonW
         if (!getClass().equals(any.getClass())) {
             return false;
         }
-        final E that = (E) any;
-        return Objects.equals(this.version, that.getVersion()) &&
-                Objects.equals(this.id, that.getId()) &&
-                this.isEqual(that);
+        final var that = (T) any;
+        return Objects.equals(this.getVersion(), that.getVersion()) &&
+                Objects.equals(this.getId(), that.getId());
     }
 
     /**
@@ -94,7 +93,7 @@ public abstract class JsonJpaEntity<E extends JsonJpaEntity<?>> implements JsonW
      * @param that Vergleichsobjekt
      * @return {@code TRUE} bei gleichen Eigenschaften, sonst {@code FALSE}
      */
-    public abstract boolean isEqual(final E that);
+    public abstract boolean isEqual(final T that);
 
     /**
      * Erzeugt einen lesbaren Text für dieses Objekt mit einer

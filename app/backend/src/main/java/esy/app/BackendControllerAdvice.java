@@ -41,7 +41,7 @@ import java.util.NoSuchElementException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @RestController
-public class EndpointControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {
+public class BackendControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {
 
     /**
      * @see org.springframework.data.rest.webmvc.RepositoryRestExceptionHandler
