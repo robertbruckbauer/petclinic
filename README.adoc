@@ -88,8 +88,6 @@ npm install --prefix app/client
 ----
 
 Der Befehl startet den Server als Java-Anwendung.
-Der HAL-Explorer wird im Browser mit `localhost:8080/api/explorer` aufgerufen.
-Der GraphQl-Explorer wird im Browser mir `localhost:8080/api/graphiql` aufgerufen.
 
 Mit der Umgebungsvariable `LOGGING_LEVEL_ORG_HIBERNATE_TYPE` kann die Ausgabe von Typinformationen gesteuert werden.
 Mit dem Wert `TRACE` werden bspw. die aktuellen Parameter von Statements ausgegeben.
@@ -103,8 +101,18 @@ Mit dem Wert `DEBUG` werden bspw. die Kennzahlen von Statements ausgegeben.
 ----
 
 Der Befehl startet den Server als Container.
-Der HAL-Explorer wird im Browser mit `localhost:8080/api/explorer` aufgerufen.
-Der GraphQl-Explorer wird im Browser mir `localhost:8080/api/graphiql` aufgerufen.
+
+.HAL-Explorer
+[listing]
+----
+localhost:8080/api/explorer
+----
+
+.GraphQL-UI
+[listing]
+----
+localhost:8080/api/graphiql
+----
 
 === Svelte-Client lokal starten
 
@@ -114,7 +122,12 @@ npm run dev --prefix app/client
 ----
 
 Der Befehl startet den Client als Node-Anwendung.
-Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
+
+.Homepage
+[listing]
+----
+localhost:5000
+----
 
 [source, gradle]
 ----
