@@ -1,6 +1,7 @@
 # Version 0.8.0
 
 * Integration von GraphQL.
+* Konsolidierung der Liquibase-Skripte.
 
 # Version 0.7.0
 

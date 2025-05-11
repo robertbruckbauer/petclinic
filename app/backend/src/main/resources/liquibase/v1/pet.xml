@@ -4,36 +4,40 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="1" author="robert">
-        <comment>Enum</comment>
-        <createTable tableName="enum">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="pet" /></not>
+        </preConditions>
+        <createTable tableName="pet">
             <column name="version" type="BIGINT" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="art" type="VARCHAR(16)">
+            <column name="name" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="code" type="BIGINT" defaultValue="0">
+            <column name="born" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="VARCHAR(64)">
+            <column name="owner_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="text" type="VARCHAR(512)">
+            <column name="species" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
         <addUniqueConstraint
-                constraintName="uk_enum_name"
-                tableName="enum"
-                columnNames="art, name"
+                constraintName="uk_pet"
+                tableName="pet"
+                columnNames="name,owner_id"
         />
-        <addUniqueConstraint
-                constraintName="uk_enum_code"
-                tableName="enum"
-                columnNames="art, code"
+        <addForeignKeyConstraint
+                constraintName="fk_pet_owner_id"
+                baseTableName="pet"
+                baseColumnNames="owner_id"
+                referencedTableName="owner"
+                referencedColumnNames="id"
         />
     </changeSet>
 </databaseChangeLog>
