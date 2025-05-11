@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwnerGraphqlController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">esy.app.client</a> &gt; <span class="el_source">OwnerGraphqlController.java</span></div><h1>OwnerGraphqlController.java</h1><pre class="source lang-java linenums">package esy.app.client;
+
+import esy.api.client.Owner;
+import esy.api.client.Pet;
+import esy.api.client.QOwner;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Controller
+@RequiredArgsConstructor
+public class OwnerGraphqlController {
+
+    private final OwnerRepository ownerRepository;
+
+    private final PetRepository petRepository;
+
+    @QueryMapping
+    @Transactional
+    public List&lt;Owner&gt; allOwner() {
+<span class="fc" id="L29">        return ownerRepository.findAll();</span>
+    }
+
+    @QueryMapping
+    @Transactional
+<span class="nc bnc" id="L34" title="All 2 branches missed.">    public Optional&lt;Owner&gt; ownerById(@Argument @NonNull final UUID id) {</span>
+<span class="nc" id="L35">        return ownerRepository.findById(id);</span>
+    }
+
+    @QueryMapping
+    @Transactional
+<span class="nc bnc" id="L40" title="All 2 branches missed.">    public Optional&lt;Owner&gt; ownerByName(@Argument @NonNull final String name) {</span>
+<span class="nc" id="L41">        final var query = QOwner.owner.name.eq(name);</span>
+<span class="nc" id="L42">        return ownerRepository.findOne(query);</span>
+    }
+
+    @BatchMapping
+    @Transactional
+<span class="nc bnc" id="L47" title="All 2 branches missed.">    public Mono&lt;Map&lt;Owner, Set&lt;Pet&gt;&gt;&gt; allPet(@NonNull final List&lt;Owner&gt; allOwner) {</span>
+<span class="nc" id="L48">        final var allOwnerId = allOwner</span>
+<span class="nc" id="L49">                .stream()</span>
+<span class="nc" id="L50">                .map(Owner::getId)</span>
+<span class="nc" id="L51">                .collect(Collectors.toSet());</span>
+<span class="nc" id="L52">        final var allPet = petRepository.findAllByOwnerIdIn(allOwnerId);</span>
+<span class="nc" id="L53">        final var allPetByOwner = allPet</span>
+<span class="nc" id="L54">                .stream()</span>
+<span class="nc" id="L55">                .collect(Collectors.groupingBy(Pet::getOwner, Collectors.toSet()));</span>
+<span class="nc" id="L56">        return Mono.just(allPetByOwner);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

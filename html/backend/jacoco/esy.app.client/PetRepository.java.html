@@ -8,12 +8,26 @@ import lombok.NonNull;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 @RepositoryRestResource(path = &quot;pet&quot;, collectionResourceRel = &quot;allPet&quot;)
 public interface PetRepository extends JsonJpaRepository&lt;Pet&gt;, QuerydslRepository&lt;Pet, QPet&gt; {
 
     @Override
-<span class="pc bpc" id="L15" title="2 of 4 branches missed.">    default void customize(@NonNull final QuerydslBindings bindings, @NonNull final QPet root) {</span>
-<span class="fc" id="L16">        bindings.bind(String.class).first(this::stringContainsOrLikeIgnoreCaseBinding);</span>
-<span class="fc" id="L17">    }</span>
+<span class="pc bpc" id="L19" title="2 of 4 branches missed.">    default void customize(@NonNull final QuerydslBindings bindings, @NonNull final QPet root) {</span>
+<span class="fc" id="L20">        bindings.bind(String.class).first(this::stringContainsOrLikeIgnoreCaseBinding);</span>
+<span class="fc" id="L21">    }</span>
+
+    /**
+     * Resolve the graphql query for {@link Pet} entities assigned
+     * to one of the referenced owners.
+     * Avoids the n+1 problem.
+     *
+     * @param allOwnerId referenced owners
+     * @return resolved entities
+     */
+    List&lt;Pet&gt; findAllByOwnerIdIn(@NonNull Set&lt;UUID&gt; allOwnerId);
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
