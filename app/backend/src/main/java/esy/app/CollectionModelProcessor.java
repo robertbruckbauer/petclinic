@@ -17,7 +17,7 @@ import java.util.List;
  * {@see <a href="https://jira.spring.io/browse/DATAREST-1346"/>}
  */
 @Component
-public class EndpointCollectionProcessor implements RepresentationModelProcessor<CollectionModel<Object>> {
+public class CollectionModelProcessor implements RepresentationModelProcessor<CollectionModel<Object>> {
 
     @Override
     public CollectionModel<Object> process(final CollectionModel<Object> model) {

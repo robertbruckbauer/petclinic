@@ -1,8 +1,7 @@
 package esy.app.clinic;
 
-import esy.api.client.QOwner;
 import esy.api.clinic.QVet;
-import esy.app.EndpointConfiguration;
+import esy.app.BackendConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Tag("slow")
 @SpringBootTest
-@ContextConfiguration(classes = EndpointConfiguration.class)
+@ContextConfiguration(classes = BackendConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})

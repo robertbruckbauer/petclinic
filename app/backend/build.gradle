@@ -14,18 +14,25 @@ dependencies {
     // https://spring.io/projects/spring-boot
     api('org.springframework.boot:spring-boot-starter')
     api('org.springframework.boot:spring-boot-starter-web')
+    api('org.springframework.boot:spring-boot-starter-validation')
+    // https://spring.io/projects/spring-graphql
+    api('org.springframework.boot:spring-boot-starter-graphql')
     api('org.springframework.boot:spring-boot-starter-actuator')
     api('io.micrometer:micrometer-registry-prometheus')
     // https://spring.io/projects/spring-data
     api('org.springframework.boot:spring-boot-starter-data-rest')
     api('org.springframework.boot:spring-boot-starter-data-jpa')
     api('org.springframework.data:spring-data-rest-hal-explorer')
+    // https://liquibase.org/
     api('org.liquibase:liquibase-core')
+    // http://hsqldb.org/
     runtimeOnly('org.hsqldb:hsqldb')
 }
 dependencies {
     // https://spring.io/projects/spring-boot
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    // https://spring.io/projects/spring-graphql
+    testImplementation('org.springframework.graphql:spring-graphql-test')
     // https://spring.io/projects/spring-restdocs
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     // https://junit.org/junit5

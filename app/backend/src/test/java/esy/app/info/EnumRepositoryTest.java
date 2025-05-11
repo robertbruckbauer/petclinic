@@ -1,12 +1,12 @@
 package esy.app.info;
 
 import esy.api.info.Enum;
-import esy.app.DatabaseConfiguration;
+import esy.app.BackendConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
@@ -22,9 +22,9 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Tag("fast")
-@DataJpaTest
-@ContextConfiguration(classes = DatabaseConfiguration.class)
+@Tag("slow")
+@SpringBootTest
+@ContextConfiguration(classes = BackendConfiguration.class)
 @Transactional
 @Rollback(false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -113,7 +113,7 @@ public class EnumRepositoryTest {
     @Order(3)
     void findEnum() {
         assertEquals(7, enumRepository.count(ENUM_ART));
-        final Enum value = enumRepository.findAll(ENUM_ART).get(0);
+        final Enum value = enumRepository.findAll(ENUM_ART).getFirst();
         assertEquals(value, enumRepository.findByCode(ENUM_ART, 0L).orElseThrow());
         assertEquals(value, enumRepository.findByName(ENUM_ART, "JIRA").orElseThrow());
         assertTrue(enumRepository.existsById(value.getId()));

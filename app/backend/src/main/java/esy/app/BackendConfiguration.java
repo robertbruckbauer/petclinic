@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import esy.json.JsonJpaEntity;
 import esy.json.JsonMapper;
 import lombok.NonNull;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -23,11 +24,15 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
 
 @Configuration
 @ComponentScan(basePackages = {"esy.app"})
+@EntityScan(basePackages = {"esy.api"})
 @PropertySource(
         ignoreResourceNotFound = false,
         value = "classpath:endpoint.properties")
+@PropertySource(
+        ignoreResourceNotFound = false,
+        value = "classpath:database.properties")
 @EnableTransactionManagement
-public class EndpointConfiguration {
+public class BackendConfiguration {
 
     /**
      * CORS configuration for all REST API requests.
