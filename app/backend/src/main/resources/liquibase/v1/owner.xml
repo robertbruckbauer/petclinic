@@ -4,8 +4,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="1" author="robert">
-        <comment>Pet</comment>
-        <createTable tableName="pet">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="owner" /></not>
+        </preConditions>
+        <createTable tableName="owner">
             <column name="version" type="BIGINT" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
@@ -15,27 +17,17 @@
             <column name="name" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="born" type="DATE">
+            <column name="address" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="owner_id" type="UUID">
-                <constraints nullable="false"/>
-            </column>
-            <column name="species" type="VARCHAR(512)">
+            <column name="contact" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
         <addUniqueConstraint
-                constraintName="uk_pet"
-                tableName="pet"
-                columnNames="name,owner_id"
-        />
-        <addForeignKeyConstraint
-                constraintName="fk_pet_owner_id"
-                baseTableName="pet"
-                baseColumnNames="owner_id"
-                referencedTableName="owner"
-                referencedColumnNames="id"
+                constraintName="uk_owner"
+                tableName="owner"
+                columnNames="name"
         />
     </changeSet>
 </databaseChangeLog>
