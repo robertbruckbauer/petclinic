@@ -1,10 +1,13 @@
 <script>
   import { onMount } from "svelte";
   import { toast } from "./components/Toast";
-  import { apiExplorerUrl } from "./utils/rest.js";
   import { fetchDoc } from "./utils/rest.js";
 
+  import { apiExplorerUrl } from "./utils/rest.js";
   let apiExplorer = apiExplorerUrl();
+
+  import { apiGraphiqlUrl } from "./utils/rest.js";
+  let apiGraphiql = apiGraphiqlUrl();
 
   let versionUrl = "/version";
   let versionHtml = "loading ..";
@@ -44,6 +47,14 @@
     <div class="text-2xl">
       <a class="underline text-blue-600" href={apiExplorer} target="_blank"
         >{apiExplorer}</a
+      >
+    </div>
+  </fieldset>
+  <fieldset class="p-4 border-2 space-y-2">
+    <legend class="text-xs">API-Graphiql</legend>
+    <div class="text-2xl">
+      <a class="underline text-blue-600" href={apiGraphiql} target="_blank"
+        >{apiGraphiql}</a
       >
     </div>
   </fieldset>
