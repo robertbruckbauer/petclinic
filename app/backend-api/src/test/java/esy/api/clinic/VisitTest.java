@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class VisitTest {
 
-    Visit createWithName(final String name) {
+    Visit createWithText(final String text) {
         return Visit.parseJson("{" +
                         "\"date\":\"2021-04-22\"," +
-                        "\"text\":\"Lorem ipsum.\"" +
+                        "\"text\":\"" + text + "\"" +
                         "}")
                 .setPet(Pet.parseJson("{" +
                         "\"id\":\"deadbeef-dead-beef-dead-deadbeefdead\"," +
-                        "\"name\":\"" + name + "\"," +
+                        "\"name\":\"Tom\"," +
                         "\"born\":\"2020-12-24\"," +
                         "\"species\":\"Cat\"" +
                         "}"))
@@ -31,22 +31,22 @@ class VisitTest {
 
     @Test
     void equalsHashcodeToString() {
-        final String name = "Tom";
-        final Visit value = createWithName(name);
+        final String text = "Lorem Ipsum.";
+        final Visit value = createWithText(text);
         // Identisches Objekt
         assertEquals(value, value);
         assertTrue(value.isEqual(value));
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiches Objekt
-        final Visit clone = createWithName(name);
+        final Visit clone = createWithText(text);
         assertNotSame(value, clone);
         assertNotEquals(clone, value);
         assertTrue(value.isEqual(clone));
         assertNotEquals(clone.hashCode(), value.hashCode());
         assertNotEquals(clone.toString(), value.toString());
         // Anderes Objekt
-        final Visit other = createWithName("X" + name);
+        final Visit other = createWithText("Ex " + text);
         assertNotSame(value, other);
         assertNotEquals(other, value);
         assertFalse(value.isEqual(other));
@@ -61,8 +61,8 @@ class VisitTest {
 
     @Test
     void withId() {
-        final String name = "Tom";
-        final Visit value0 = createWithName(name);
+        final String text = "Lorem Ipsum.";
+        final Visit value0 = createWithText(text);
         final Visit value1 = value0.withId(value0.getId());
         assertSame(value0, value1);
         final Visit value2 = value0.withId(UUID.randomUUID());
@@ -72,8 +72,8 @@ class VisitTest {
 
     @Test
     void json() {
-        final String name = "Tom";
-        final Visit value = createWithName(name);
+        final String text = "Lorem Ipsum.";
+        final Visit value = createWithText(text);
         assertDoesNotThrow(value::verify);
         assertNotNull(value.getId());
         assertEquals(2021, value.getDate().getYear());
