@@ -84,3 +84,13 @@ tasks.register('versionCheck') {
             .text
             .startsWith("# Version " + VERSION)
 }
+
+tasks.register('lint') {
+    dependsOn 'spotlessCheck'
+    dependsOn ':app:client:prettierCheck'
+}
+
+tasks.register('format') {
+    dependsOn 'spotlessApply'
+    dependsOn ':app:client:prettierApply'
+}
