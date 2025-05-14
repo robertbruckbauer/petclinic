@@ -30,8 +30,9 @@ public class VisitGraphqlController {
     @Transactional
     public List<Visit> allVisitAt(@Argument @NonNull final LocalDate date) {
         final var query = QVisit.visit.date.eq(date);
+        final var order = QVisit.visit.date.asc();
         final var allVisit = new ArrayList<Visit>();
-        visitRepository.findAll(query).forEach(allVisit::add);
+        visitRepository.findAll(query, order).forEach(allVisit::add);
         return allVisit;
     }
 
@@ -39,8 +40,9 @@ public class VisitGraphqlController {
     @Transactional
     public List<Visit> allVisitByPetId(@Argument("id") @NonNull final UUID petId) {
         final var query = QVisit.visit.pet.id.eq(petId);
+        final var order = QVisit.visit.date.asc();
         final var allVisit = new ArrayList<Visit>();
-        visitRepository.findAll(query).forEach(allVisit::add);
+        visitRepository.findAll(query, order).forEach(allVisit::add);
         return allVisit;
     }
 
@@ -48,8 +50,9 @@ public class VisitGraphqlController {
     @Transactional
     public List<Visit> allVisitByVetId(@Argument("id") @NonNull final UUID vetId) {
         final var query = QVisit.visit.vet.id.eq(vetId);
+        final var order = QVisit.visit.date.asc();
         final var allVisit = new ArrayList<Visit>();
-        visitRepository.findAll(query).forEach(allVisit::add);
+        visitRepository.findAll(query, order).forEach(allVisit::add);
         return allVisit;
     }
 }
