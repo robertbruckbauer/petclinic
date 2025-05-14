@@ -1,3 +1,4 @@
+scalar LocalDate
 type Query {
     allEnum(art: String): [Enum]
     allOwner: [Owner]
@@ -11,4 +12,5 @@ type Query {
     allVisit: [Visit]
     allVisitByPetId(id: ID): [Visit]
     allVisitByVetId(id: ID): [Visit]
+    allVisitAt(date: LocalDate): [Visit]
 }
