@@ -1,11 +1,13 @@
 package esy.app.client;
 
 import esy.api.client.Pet;
+import esy.app.GraphqlConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("fast")
 @GraphQlTest(PetGraphqlController.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import(GraphqlConfiguration.class)
 @ExtendWith({MockitoExtension.class})
 class PetGraphqlTest {
 
@@ -28,7 +30,6 @@ class PetGraphqlTest {
     private PetRepository petRepository;
 
     @Test
-    @Order(1)
     void queryAllPet() {
         final var value = Pet.parseJson("{" +
                 "\"name\":\"Tom\"," +

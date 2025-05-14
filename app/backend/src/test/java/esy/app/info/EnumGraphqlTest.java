@@ -1,11 +1,13 @@
 package esy.app.info;
 
 import esy.api.info.Enum;
+import esy.app.GraphqlConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("fast")
 @GraphQlTest(EnumGraphqlController.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import(GraphqlConfiguration.class)
 @ExtendWith({MockitoExtension.class})
 class EnumGraphqlTest {
 
@@ -28,7 +30,6 @@ class EnumGraphqlTest {
     private EnumRepository enumRepository;
 
     @Test
-    @Order(1)
     void queryAllEnum() {
         final var art = "species";
         final var value1 = Enum.parseJson("{" +
