@@ -1,5 +1,6 @@
 # Version 0.8.0
 
+* Integration von Renovate.
 * Konsolidierung der Liquibase-Skripte.
 
 # Version 0.7.0
