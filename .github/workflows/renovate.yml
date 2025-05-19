@@ -1,0 +1,30 @@
+# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#name
+name: "renovate"
+
+# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#on
+on:
+  # run on every push to the default branch
+  push:
+    branches:
+      - 'main'
+  # run every Monday at 5 AM UTC
+  schedule:
+    - cron: '0 5 * * 1'
+  # run manually
+  workflow_dispatch:
+
+# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobs
+jobs:
+  renovate:
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v4      
+      - uses: renovatebot/github-action@v42.0.3
+        with:
+          configurationFile: .github/renovate-config.js
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_PLATFORM: github
+          RENOVATE_ENDPOINT: ${{ github.api_url }}
+          LOG_LEVEL: 'debug'
