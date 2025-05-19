@@ -28,10 +28,8 @@ module.exports = {
   // https://docs.renovatebot.com/configuration-options/#ignoreprauthor
   // If the access token changes, the old mrs are not recognized
   ignorePrAuthor: true,
-  // https://docs.renovatebot.com/configuration-options/#gitlabignoreapprovals
-  gitLabIgnoreApprovals: true,
   // https://docs.renovatebot.com/modules/manager/
-  enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
+  enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm", "github-actions"],
   packageRules: [
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
