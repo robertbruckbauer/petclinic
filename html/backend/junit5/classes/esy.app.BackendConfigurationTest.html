@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.937s</div>
+<div class="counter">0.818s</div>
 <p>duration</p>
 </div>
 </td>
@@ -82,7 +82,7 @@
 </thead>
 <tr>
 <td class="success">context()</td>
-<td class="success">0.937s</td>
+<td class="success">0.818s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -90,8 +90,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>10:33:20.853 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.app.BackendConfigurationTest]: BackendConfigurationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-10:33:21.176 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.app.BackendTestApplication for test class esy.app.BackendConfigurationTest
+<pre>12:21:54.846 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.app.BackendConfigurationTest]: BackendConfigurationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:21:55.138 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.app.BackendTestApplication for test class esy.app.BackendConfigurationTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -102,70 +102,70 @@
 
  :: Spring Boot ::                (v3.4.5)
 
-2025-05-19T10:33:22.447Z  INFO 2396 --- [    Test worker] esy.app.BackendConfigurationTest         : Starting BackendConfigurationTest using Java 21.0.7 with PID 2396 (started by runner in /home/runner/work/petclinic/petclinic/app/backend)
-2025-05-19T10:33:22.449Z  INFO 2396 --- [    Test worker] esy.app.BackendConfigurationTest         : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-05-19T10:33:24.598Z  INFO 2396 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-19T10:33:24.966Z  INFO 2396 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 350 ms. Found 5 JPA repository interfaces.
-2025-05-19T10:33:26.495Z  INFO 2396 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-05-19T10:33:27.367Z  INFO 2396 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Driver does not support get/set network timeout for connections. (feature not supported)
-2025-05-19T10:33:27.369Z  INFO 2396 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.hsqldb.jdbc.JDBCConnection@3d4d2e29
-2025-05-19T10:33:27.376Z  INFO 2396 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-05-19T10:33:27.491Z  INFO 2396 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
-2025-05-19T10:33:28.708Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Creating database history table with name: PUBLIC.DATABASECHANGELOG
-2025-05-19T10:33:28.959Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2025-05-19T10:33:29.336Z  INFO 2396 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
-2025-05-19T10:33:29.338Z  INFO 2396 --- [    Test worker] liquibase.command                        : Using deploymentId: 7650809337
-2025-05-19T10:33:29.346Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2025-05-19T10:33:29.438Z  INFO 2396 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/enum.xml::1::robert
-2025-05-19T10:33:29.451Z  INFO 2396 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-05-19T10:33:29.505Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Table enum created
-2025-05-19T10:33:29.519Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, name)
-2025-05-19T10:33:29.524Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, code)
-2025-05-19T10:33:29.528Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/enum.xml::1::robert ran successfully in 85ms
-2025-05-19T10:33:29.545Z  INFO 2396 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/owner.xml::1::robert
-2025-05-19T10:33:29.554Z  INFO 2396 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-05-19T10:33:29.569Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Table owner created
-2025-05-19T10:33:29.572Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Unique constraint added to owner(name)
-2025-05-19T10:33:29.572Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/owner.xml::1::robert ran successfully in 26ms
-2025-05-19T10:33:29.587Z  INFO 2396 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::1::robert
-2025-05-19T10:33:29.594Z  INFO 2396 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-05-19T10:33:29.624Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Table pet created
-2025-05-19T10:33:29.630Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Unique constraint added to pet(name,owner_id)
-2025-05-19T10:33:29.639Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to pet (owner_id)
-2025-05-19T10:33:29.640Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::1::robert ran successfully in 53ms
-2025-05-19T10:33:29.651Z  INFO 2396 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet.xml::1::robert
-2025-05-19T10:33:29.661Z  INFO 2396 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-05-19T10:33:29.691Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Table vet created
-2025-05-19T10:33:29.696Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Unique constraint added to vet(name)
-2025-05-19T10:33:29.700Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet.xml::1::robert ran successfully in 43ms
-2025-05-19T10:33:29.707Z  INFO 2396 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_skill.xml::1::robert
-2025-05-19T10:33:29.715Z  INFO 2396 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-05-19T10:33:29.747Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Table vet_skill created
-2025-05-19T10:33:29.752Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_skill (id)
-2025-05-19T10:33:29.753Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_skill.xml::1::robert ran successfully in 42ms
-2025-05-19T10:33:29.763Z  INFO 2396 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::1::robert
-2025-05-19T10:33:29.775Z  INFO 2396 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-05-19T10:33:29.801Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Table visit created
-2025-05-19T10:33:29.806Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Unique constraint added to visit(date,pet_id)
-2025-05-19T10:33:29.811Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (pet_id)
-2025-05-19T10:33:29.813Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (vet_id)
-2025-05-19T10:33:29.816Z  INFO 2396 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::1::robert ran successfully in 53ms
-2025-05-19T10:33:29.830Z  INFO 2396 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
-2025-05-19T10:33:29.830Z  INFO 2396 --- [    Test worker] liquibase.util                           : Run:                          6
-2025-05-19T10:33:29.830Z  INFO 2396 --- [    Test worker] liquibase.util                           : Previously run:               0
-2025-05-19T10:33:29.831Z  INFO 2396 --- [    Test worker] liquibase.util                           : Filtered out:                 0
-2025-05-19T10:33:29.834Z  INFO 2396 --- [    Test worker] liquibase.util                           : -------------------------------
-2025-05-19T10:33:29.834Z  INFO 2396 --- [    Test worker] liquibase.util                           : Total change sets:            6
-2025-05-19T10:33:29.835Z  INFO 2396 --- [    Test worker] liquibase.util                           : Update summary generated
-2025-05-19T10:33:29.838Z  INFO 2396 --- [    Test worker] liquibase.command                        : Update command completed successfully.
-2025-05-19T10:33:29.839Z  INFO 2396 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 6
-2025-05-19T10:33:29.843Z  INFO 2396 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
-2025-05-19T10:33:29.844Z  INFO 2396 --- [    Test worker] liquibase.command                        : Command execution complete
-2025-05-19T10:33:30.181Z  INFO 2396 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-19T10:33:30.278Z  INFO 2396 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
-2025-05-19T10:33:30.336Z  INFO 2396 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-05-19T10:33:30.855Z  INFO 2396 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-19T10:33:30.981Z  INFO 2396 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-05-19T12:21:56.324Z  INFO 2395 --- [    Test worker] esy.app.BackendConfigurationTest         : Starting BackendConfigurationTest using Java 21.0.7 with PID 2395 (started by runner in /home/runner/work/petclinic/petclinic/app/backend)
+2025-05-19T12:21:56.326Z  INFO 2395 --- [    Test worker] esy.app.BackendConfigurationTest         : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-05-19T12:21:58.549Z  INFO 2395 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-19T12:21:59.028Z  INFO 2395 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 461 ms. Found 5 JPA repository interfaces.
+2025-05-19T12:22:00.782Z  INFO 2395 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-19T12:22:01.645Z  INFO 2395 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Driver does not support get/set network timeout for connections. (feature not supported)
+2025-05-19T12:22:01.647Z  INFO 2395 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.hsqldb.jdbc.JDBCConnection@6618b9b0
+2025-05-19T12:22:01.652Z  INFO 2395 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-19T12:22:01.799Z  INFO 2395 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
+2025-05-19T12:22:02.765Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Creating database history table with name: PUBLIC.DATABASECHANGELOG
+2025-05-19T12:22:03.058Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2025-05-19T12:22:03.426Z  INFO 2395 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
+2025-05-19T12:22:03.427Z  INFO 2395 --- [    Test worker] liquibase.command                        : Using deploymentId: 7657323427
+2025-05-19T12:22:03.433Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2025-05-19T12:22:03.524Z  INFO 2395 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/enum.xml::1::robert
+2025-05-19T12:22:03.539Z  INFO 2395 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-05-19T12:22:03.604Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Table enum created
+2025-05-19T12:22:03.612Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, name)
+2025-05-19T12:22:03.615Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, code)
+2025-05-19T12:22:03.619Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/enum.xml::1::robert ran successfully in 93ms
+2025-05-19T12:22:03.632Z  INFO 2395 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/owner.xml::1::robert
+2025-05-19T12:22:03.644Z  INFO 2395 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-05-19T12:22:03.677Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Table owner created
+2025-05-19T12:22:03.682Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Unique constraint added to owner(name)
+2025-05-19T12:22:03.683Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/owner.xml::1::robert ran successfully in 47ms
+2025-05-19T12:22:03.693Z  INFO 2395 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::1::robert
+2025-05-19T12:22:03.702Z  INFO 2395 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-05-19T12:22:03.756Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Table pet created
+2025-05-19T12:22:03.762Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Unique constraint added to pet(name,owner_id)
+2025-05-19T12:22:03.768Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to pet (owner_id)
+2025-05-19T12:22:03.768Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::1::robert ran successfully in 74ms
+2025-05-19T12:22:03.782Z  INFO 2395 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet.xml::1::robert
+2025-05-19T12:22:03.790Z  INFO 2395 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-05-19T12:22:03.818Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Table vet created
+2025-05-19T12:22:03.823Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Unique constraint added to vet(name)
+2025-05-19T12:22:03.823Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet.xml::1::robert ran successfully in 41ms
+2025-05-19T12:22:03.833Z  INFO 2395 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_skill.xml::1::robert
+2025-05-19T12:22:03.842Z  INFO 2395 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-05-19T12:22:03.870Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Table vet_skill created
+2025-05-19T12:22:03.874Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_skill (id)
+2025-05-19T12:22:03.875Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_skill.xml::1::robert ran successfully in 40ms
+2025-05-19T12:22:03.884Z  INFO 2395 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::1::robert
+2025-05-19T12:22:03.890Z  INFO 2395 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-05-19T12:22:03.919Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Table visit created
+2025-05-19T12:22:03.924Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Unique constraint added to visit(date,pet_id)
+2025-05-19T12:22:03.927Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (pet_id)
+2025-05-19T12:22:03.932Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (vet_id)
+2025-05-19T12:22:03.932Z  INFO 2395 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::1::robert ran successfully in 48ms
+2025-05-19T12:22:03.942Z  INFO 2395 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
+2025-05-19T12:22:03.943Z  INFO 2395 --- [    Test worker] liquibase.util                           : Run:                          6
+2025-05-19T12:22:03.945Z  INFO 2395 --- [    Test worker] liquibase.util                           : Previously run:               0
+2025-05-19T12:22:03.948Z  INFO 2395 --- [    Test worker] liquibase.util                           : Filtered out:                 0
+2025-05-19T12:22:03.948Z  INFO 2395 --- [    Test worker] liquibase.util                           : -------------------------------
+2025-05-19T12:22:03.948Z  INFO 2395 --- [    Test worker] liquibase.util                           : Total change sets:            6
+2025-05-19T12:22:03.950Z  INFO 2395 --- [    Test worker] liquibase.util                           : Update summary generated
+2025-05-19T12:22:03.961Z  INFO 2395 --- [    Test worker] liquibase.command                        : Update command completed successfully.
+2025-05-19T12:22:03.964Z  INFO 2395 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 6
+2025-05-19T12:22:03.971Z  INFO 2395 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
+2025-05-19T12:22:03.972Z  INFO 2395 --- [    Test worker] liquibase.command                        : Command execution complete
+2025-05-19T12:22:04.338Z  INFO 2395 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-19T12:22:04.413Z  INFO 2395 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-05-19T12:22:04.490Z  INFO 2395 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-19T12:22:05.034Z  INFO 2395 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-19T12:22:05.179Z  INFO 2395 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 2.7.3
@@ -173,9 +173,9 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-05-19T10:33:33.173Z  INFO 2396 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-19T10:33:33.178Z  INFO 2396 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-19T10:33:33.821Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:07.468Z  INFO 2395 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-19T12:22:07.478Z  INFO 2395 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-19T12:22:08.086Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -188,7 +188,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:33.823Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.089Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -201,7 +201,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.160Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.310Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -214,7 +214,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.209Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.356Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -227,7 +227,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.366Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.482Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -240,7 +240,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.369Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.485Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -253,7 +253,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.375Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.486Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -266,7 +266,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.434Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.552Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -279,7 +279,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.441Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.568Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -292,7 +292,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.785Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.827Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -305,7 +305,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.794Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.838Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -318,7 +318,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.798Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.839Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -331,7 +331,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.893Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.904Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -344,7 +344,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.904Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.920Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -357,7 +357,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.905Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:08.921Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -370,7 +370,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.983Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:09.002Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -383,7 +383,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:34.997Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:09.022Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -396,7 +396,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:35.000Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:09.023Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -409,7 +409,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:35.023Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:09.053Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -422,7 +422,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:35.026Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:09.054Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -435,8 +435,8 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:35.044Z  INFO 2396 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-19T10:33:36.768Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:09.091Z  INFO 2395 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-19T12:22:10.661Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -449,7 +449,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.772Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.664Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -462,7 +462,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.772Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.668Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -475,7 +475,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.853Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.709Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -488,7 +488,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.859Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.711Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -501,7 +501,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.860Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.713Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -514,7 +514,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.933Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.776Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -527,7 +527,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.940Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.778Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -540,7 +540,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.940Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.779Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -553,7 +553,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:36.945Z  INFO 2396 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-05-19T12:22:10.786Z  INFO 2395 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -566,13 +566,13 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-05-19T10:33:38.336Z  INFO 2396 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 6 resource(s) in the GraphQL schema.
-2025-05-19T10:33:38.627Z  INFO 2396 --- [    Test worker] o.s.b.a.g.GraphQlAutoConfiguration       : GraphQL schema inspection:
+2025-05-19T12:22:12.491Z  INFO 2395 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 6 resource(s) in the GraphQL schema.
+2025-05-19T12:22:12.966Z  INFO 2395 --- [    Test worker] o.s.b.a.g.GraphQlAutoConfiguration       : GraphQL schema inspection:
 	Unmapped fields: {}
 	Unmapped registrations: {}
 	Unmapped arguments: {}
 	Skipped types: []
-2025-05-19T10:33:38.794Z  INFO 2396 --- [    Test worker] esy.app.BackendConfigurationTest         : Started BackendConfigurationTest in 17.198 seconds (process running for 21.659)
+2025-05-19T12:22:13.162Z  INFO 2395 --- [    Test worker] esy.app.BackendConfigurationTest         : Started BackendConfigurationTest in 17.646 seconds (process running for 22.039)
 </pre>
 </span>
 </div>
@@ -595,7 +595,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.12</a> at May 19, 2025, 10:33:56 AM</p>
+<a href="http://www.gradle.org">Gradle 8.12</a> at May 19, 2025, 12:22:29 PM</p>
 </div>
 </div>
 </body>
