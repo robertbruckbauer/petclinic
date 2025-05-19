@@ -1,5 +1,6 @@
 # Version 0.8.0
 
+* Integration von Renovate.
 * Integration von GraphQL.
 * Konsolidierung der Liquibase-Skripte.
 
