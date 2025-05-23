@@ -47,7 +47,7 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
      * JSON configuration for all JPA entities.
      */
 <span class="pc bpc" id="L49" title="1 of 2 branches missed.">    void applyJsonConfiguration(@NonNull final RepositoryRestConfiguration configuration) {</span>
-<span class="fc" id="L50">        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);</span>
+<span class="fc" id="L50">        final var provider = new ClassPathScanningCandidateComponentProvider(false);</span>
 <span class="fc" id="L51">        provider.addIncludeFilter(new AssignableTypeFilter(JsonJpaEntity.class));</span>
 <span class="fc" id="L52">        provider.findCandidateComponents(&quot;esy/api&quot;).stream()</span>
 <span class="fc" id="L53">                .map(bean -&gt; {</span>
