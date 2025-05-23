@@ -37,8 +37,12 @@ public class BackendConfiguration {
         final var registration = registry.addMapping("/**");
         registration.allowedHeaders("*");
         registration.allowedMethods("*");
-        registration.allowedOriginPatterns("*");
-        registration.allowCredentials(false);
+        registration.allowedOriginPatterns(
+                "https://*.app.github.dev",
+                "http://localhost:*",
+                "http://127.0.0.1:*"
+        );
+        registration.allowCredentials(true);
         registration.allowPrivateNetwork(true);
         registration.maxAge(3600L);
     }
@@ -47,7 +51,7 @@ public class BackendConfiguration {
      * JSON configuration for all JPA entities.
      */
     void applyJsonConfiguration(@NonNull final RepositoryRestConfiguration configuration) {
-        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        final var provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AssignableTypeFilter(JsonJpaEntity.class));
         provider.findCandidateComponents("esy/api").stream()
                 .map(bean -> {
