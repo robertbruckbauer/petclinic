@@ -45,17 +45,23 @@
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">API-Explorer</legend>
     <div class="text-2xl">
-      <a class="underline text-blue-600" href={apiExplorer} target="_blank"
-        >{apiExplorer}</a
-      >
+      <a
+        class="underline text-blue-600"
+        href="{apiExplorer}/index.html#uri=/api"
+        target="_blank"
+        >{apiExplorer}
+      </a>
     </div>
   </fieldset>
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">API-Graphiql</legend>
     <div class="text-2xl">
-      <a class="underline text-blue-600" href={apiGraphiql} target="_blank"
-        >{apiGraphiql}</a
-      >
+      <a
+        class="underline text-blue-600"
+        href="{apiGraphiql}?path=/api/graphql"
+        target="_blank"
+        >{apiGraphiql}
+      </a>
     </div>
   </fieldset>
 </div>

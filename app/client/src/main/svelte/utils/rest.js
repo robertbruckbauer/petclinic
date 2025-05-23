@@ -1,7 +1,7 @@
 const BACKEND_URL =
   window.location.protocol +
   "//" +
-  window.location.host.replace(":5000", ":8080");
+  window.location.host.replace("5000", "8080");
 
 export function apiExplorerUrl() {
   return BACKEND_URL + "/api/explorer";
