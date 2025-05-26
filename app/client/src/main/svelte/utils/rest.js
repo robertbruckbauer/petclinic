@@ -13,6 +13,7 @@ export function apiGraphiqlUrl() {
 
 export async function loadAllValue(restUrl) {
   return fetch(BACKEND_URL + restUrl, {
+    mode: "cors",
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -33,6 +34,7 @@ export async function loadAllValue(restUrl) {
 
 export async function loadOneValue(restUrl) {
   return fetch(BACKEND_URL + restUrl, {
+    mode: "cors",
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -51,6 +53,7 @@ export async function loadOneValue(restUrl) {
 
 export async function createValue(restUrl, value) {
   return fetch(BACKEND_URL + restUrl, {
+    mode: "cors",
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -71,6 +74,7 @@ export async function createValue(restUrl, value) {
 
 export async function updateValue(restUrl, value) {
   return fetch(BACKEND_URL + restUrl, {
+    mode: "cors",
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -91,6 +95,7 @@ export async function updateValue(restUrl, value) {
 
 export async function updatePatch(restUrl, value) {
   return fetch(BACKEND_URL + restUrl, {
+    mode: "cors",
     method: "PATCH",
     headers: {
       Accept: "application/json",
@@ -111,6 +116,7 @@ export async function updatePatch(restUrl, value) {
 
 export async function updateLink(restUrl, linkUrl) {
   return fetch(BACKEND_URL + restUrl, {
+    mode: "cors",
     method: "PUT",
     headers: {
       "Content-type": "text/uri-list",
@@ -124,6 +130,7 @@ export async function updateLink(restUrl, linkUrl) {
 
 export async function removeValue(restUrl) {
   return fetch(BACKEND_URL + restUrl, {
+    mode: "cors",
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -136,6 +143,7 @@ export async function removeValue(restUrl) {
 
 export async function fetchDoc(adocUrl, accept) {
   return fetch(BACKEND_URL + adocUrl, {
+    mode: "cors",
     method: "GET",
     headers: {
       Accept: accept,
