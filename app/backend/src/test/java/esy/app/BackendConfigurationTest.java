@@ -4,23 +4,20 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
-import java.lang.reflect.Modifier;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("slow")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest
 public class BackendConfigurationTest {
 
 	@Autowired
@@ -38,17 +35,8 @@ public class BackendConfigurationTest {
 		assertNotNull(publisher);
 		assertNotNull(resourceLoader);
 		assertNotNull(context.getBean(BackendConfiguration.class));
+		assertNotNull(context.getBean(GraphqlConfiguration.class));
 		assertNotNull(context.getBean(CollectionModelProcessor.class));
-	}
-
-	private <T> void assertBeanExists(final T bean) {
-		assertNotNull(bean, bean.toString());
-		ReflectionUtils.doWithFields(bean.getClass(), field -> {
-			if (!Modifier.isStatic(field.getModifiers())) {
-				ReflectionUtils.makeAccessible(field);
-				assertNotNull(ReflectionUtils.getField(field, bean), field.toString());
-			}
-		});
 	}
 
 	@Test
