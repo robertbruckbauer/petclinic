@@ -13,4 +13,7 @@ export default defineConfig({
   cacheDir: path.join(__dirname, ".vite"),
   publicDir: path.join(__dirname, "public"),
   root: path.join(__dirname, "src/main/svelte"),
+  server: {
+    port: 5000,
+  }
 });
