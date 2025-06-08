@@ -15,5 +15,6 @@ export default defineConfig({
   root: path.join(__dirname, "src/main/svelte"),
   server: {
     port: 5000,
+    cors: true
   }
 });
