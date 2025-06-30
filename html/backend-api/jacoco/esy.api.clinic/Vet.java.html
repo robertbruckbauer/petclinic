@@ -76,7 +76,7 @@ public final class Vet extends JsonJpaEntity&lt;Vet&gt; {
 <span class="fc bfc" id="L76" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
 <span class="fc" id="L77">            return this;</span>
         }
-<span class="fc" id="L79">        final Vet value = new Vet(getVersion(), id);</span>
+<span class="fc" id="L79">        final var value = new Vet(getVersion(), id);</span>
 <span class="fc" id="L80">        value.name = this.name;</span>
 <span class="fc" id="L81">        value.allSkill = this.allSkill;</span>
 <span class="fc" id="L82">        return value;</span>
@@ -84,7 +84,7 @@ public final class Vet extends JsonJpaEntity&lt;Vet&gt; {
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="nc" id="L87">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L87">        final var allExtra = new HashMap&lt;String, Object&gt;();</span>
 <span class="nc" id="L88">        allExtra.put(&quot;version&quot;, getVersion());</span>
 <span class="nc" id="L89">        return allExtra;</span>
     }

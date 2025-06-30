@@ -77,9 +77,10 @@ public abstract class JsonJpaEntity&lt;T extends JsonJpaEntity&lt;?&gt;&gt; impl
 <span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (!getClass().equals(any.getClass())) {</span>
 <span class="nc" id="L78">            return false;</span>
         }
-<span class="fc" id="L80">        final var that = (T) any;</span>
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        return Objects.equals(this.getVersion(), that.getVersion()) &amp;&amp;</span>
-<span class="fc bfc" id="L82" title="All 2 branches covered.">                Objects.equals(this.getId(), that.getId());</span>
+        @SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L81">        final var that = (T) any;</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        return Objects.equals(this.getVersion(), that.getVersion()) &amp;&amp;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                Objects.equals(this.getId(), that.getId());</span>
     }
 
     /**
@@ -104,23 +105,23 @@ public abstract class JsonJpaEntity&lt;T extends JsonJpaEntity&lt;?&gt;&gt; impl
      */
     @Override
     public String toString() {
-<span class="fc" id="L107">        return &quot;version:&quot; + version + &quot;,id:&quot; + id;</span>
+<span class="fc" id="L108">        return &quot;version:&quot; + version + &quot;,id:&quot; + id;</span>
     }
 
     @PrePersist
     @PostLoad
     private void setPersisted() {
-<span class="nc" id="L113">        persisted = true;</span>
-<span class="nc" id="L114">    }</span>
+<span class="nc" id="L114">        persisted = true;</span>
+<span class="nc" id="L115">    }</span>
 
     @JsonIgnore
     public final boolean isPersisted() {
-<span class="nc" id="L118">        return persisted;</span>
+<span class="nc" id="L119">        return persisted;</span>
     }
 
     @JsonIgnore
     public final boolean isNew() {
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        return version == 0L;</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        return version == 0L;</span>
     }
 
     /**

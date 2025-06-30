@@ -4,7 +4,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -21,107 +20,107 @@ public class RestApiConnection {
 
     private final HttpURLConnection connection;
 
-<span class="nc bnc" id="L24" title="All 2 branches missed.">    public RestApiResult options(@NonNull final String method) throws IOException {</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">    public RestApiResult options(@NonNull final String method) throws IOException {</span>
         try {
-<span class="nc" id="L26">            connection.setRequestMethod(&quot;OPTIONS&quot;);</span>
-<span class="nc" id="L27">            connection.setRequestProperty(&quot;Access-Control-Request-Method&quot;, method);</span>
-<span class="nc" id="L28">            connection.setRequestProperty(&quot;Access-Control-Request-Headers&quot;, &quot;Content-Type&quot;);</span>
-<span class="nc" id="L29">            connection.connect();</span>
-<span class="nc" id="L30">            return new RestApiResult(connection);</span>
+<span class="nc" id="L25">            connection.setRequestMethod(&quot;OPTIONS&quot;);</span>
+<span class="nc" id="L26">            connection.setRequestProperty(&quot;Access-Control-Request-Method&quot;, method);</span>
+<span class="nc" id="L27">            connection.setRequestProperty(&quot;Access-Control-Request-Headers&quot;, &quot;Content-Type&quot;);</span>
+<span class="nc" id="L28">            connection.connect();</span>
+<span class="nc" id="L29">            return new RestApiResult(connection);</span>
         } finally {
-<span class="nc" id="L32">            connection.disconnect();</span>
+<span class="nc" id="L31">            connection.disconnect();</span>
         }
     }
 
-<span class="nc bnc" id="L36" title="All 2 branches missed.">    public RestApiResult get(@NonNull final String accept) throws IOException {</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">    public RestApiResult get(@NonNull final String accept) throws IOException {</span>
         try {
-<span class="nc" id="L38">            connection.setRequestMethod(&quot;GET&quot;);</span>
-<span class="nc" id="L39">            connection.setRequestProperty(&quot;Accept&quot;, accept);</span>
-<span class="nc" id="L40">            connection.connect();</span>
-<span class="nc" id="L41">            return new RestApiResult(connection);</span>
+<span class="nc" id="L37">            connection.setRequestMethod(&quot;GET&quot;);</span>
+<span class="nc" id="L38">            connection.setRequestProperty(&quot;Accept&quot;, accept);</span>
+<span class="nc" id="L39">            connection.connect();</span>
+<span class="nc" id="L40">            return new RestApiResult(connection);</span>
         } finally {
-<span class="nc" id="L43">            connection.disconnect();</span>
+<span class="nc" id="L42">            connection.disconnect();</span>
         }
     }
 
     public RestApiResult get() throws IOException {
-<span class="nc" id="L48">        return get(&quot;application/json;charset=UTF-8&quot;);</span>
+<span class="nc" id="L47">        return get(&quot;application/json;charset=UTF-8&quot;);</span>
     }
 
 
     private RestApiResult doWithJson(final String requestMethod, final String requestJson) throws IOException {
         try {
-<span class="nc" id="L54">            connection.setRequestMethod(requestMethod);</span>
-<span class="nc" id="L55">            connection.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json;charset=UTF-8&quot;);</span>
-<span class="nc" id="L56">            connection.setRequestProperty(&quot;Accept&quot;, &quot;application/json; charset=UTF-8&quot;);</span>
-<span class="nc" id="L57">            connection.setConnectTimeout(1000);</span>
-<span class="nc" id="L58">            connection.setDoOutput(true);</span>
-<span class="nc" id="L59">            try (final OutputStream os = connection.getOutputStream()) {</span>
-<span class="nc" id="L60">                final byte[] jsonBytes = requestJson.getBytes(UTF_8);</span>
-<span class="nc" id="L61">                os.write(jsonBytes, 0, jsonBytes.length);</span>
+<span class="nc" id="L53">            connection.setRequestMethod(requestMethod);</span>
+<span class="nc" id="L54">            connection.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json;charset=UTF-8&quot;);</span>
+<span class="nc" id="L55">            connection.setRequestProperty(&quot;Accept&quot;, &quot;application/json; charset=UTF-8&quot;);</span>
+<span class="nc" id="L56">            connection.setConnectTimeout(1000);</span>
+<span class="nc" id="L57">            connection.setDoOutput(true);</span>
+<span class="nc" id="L58">            try (final var os = connection.getOutputStream()) {</span>
+<span class="nc" id="L59">                final var jsonBytes = requestJson.getBytes(UTF_8);</span>
+<span class="nc" id="L60">                os.write(jsonBytes, 0, jsonBytes.length);</span>
             }
-<span class="nc" id="L63">            connection.connect();</span>
-<span class="nc" id="L64">            return new RestApiResult(connection);</span>
+<span class="nc" id="L62">            connection.connect();</span>
+<span class="nc" id="L63">            return new RestApiResult(connection);</span>
         } finally {
-<span class="nc" id="L66">            connection.disconnect();</span>
+<span class="nc" id="L65">            connection.disconnect();</span>
         }
     }
 
-<span class="nc bnc" id="L70" title="All 2 branches missed.">    public RestApiResult post(@NonNull final String requestJson) throws IOException {</span>
-<span class="nc" id="L71">        return doWithJson(&quot;POST&quot;, requestJson);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    public RestApiResult post(@NonNull final String requestJson) throws IOException {</span>
+<span class="nc" id="L70">        return doWithJson(&quot;POST&quot;, requestJson);</span>
     }
 
-<span class="nc bnc" id="L74" title="All 2 branches missed.">    public RestApiResult put(@NonNull final String requestJson) throws IOException {</span>
-<span class="nc" id="L75">        return doWithJson(&quot;PUT&quot;, requestJson);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    public RestApiResult put(@NonNull final String requestJson) throws IOException {</span>
+<span class="nc" id="L74">        return doWithJson(&quot;PUT&quot;, requestJson);</span>
     }
 
-<span class="nc bnc" id="L78" title="All 2 branches missed.">    public RestApiResult put(@NonNull final URI... allUri) throws IOException {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">    public RestApiResult put(@NonNull final URI... allUri) throws IOException {</span>
         try {
-<span class="nc" id="L80">            connection.setRequestMethod(&quot;PUT&quot;);</span>
-<span class="nc" id="L81">            connection.setRequestProperty(&quot;Content-Type&quot;, &quot;text/uri-list&quot;);</span>
-<span class="nc" id="L82">            connection.setConnectTimeout(1000);</span>
-<span class="nc" id="L83">            connection.setDoOutput(true);</span>
-<span class="nc" id="L84">            try (final OutputStream os = connection.getOutputStream()) {</span>
-<span class="nc" id="L85">                final byte[] pathBytes = Stream.of(allUri)</span>
-<span class="nc" id="L86">                        .map(URI::getPath)</span>
-<span class="nc" id="L87">                        .collect(Collectors.joining(&quot;\n&quot;))</span>
-<span class="nc" id="L88">                        .getBytes(UTF_8);</span>
-<span class="nc" id="L89">                os.write(pathBytes, 0, pathBytes.length);</span>
+<span class="nc" id="L79">            connection.setRequestMethod(&quot;PUT&quot;);</span>
+<span class="nc" id="L80">            connection.setRequestProperty(&quot;Content-Type&quot;, &quot;text/uri-list&quot;);</span>
+<span class="nc" id="L81">            connection.setConnectTimeout(1000);</span>
+<span class="nc" id="L82">            connection.setDoOutput(true);</span>
+<span class="nc" id="L83">            try (final var os = connection.getOutputStream()) {</span>
+<span class="nc" id="L84">                final var pathBytes = Stream.of(allUri)</span>
+<span class="nc" id="L85">                        .map(URI::getPath)</span>
+<span class="nc" id="L86">                        .collect(Collectors.joining(&quot;\n&quot;))</span>
+<span class="nc" id="L87">                        .getBytes(UTF_8);</span>
+<span class="nc" id="L88">                os.write(pathBytes, 0, pathBytes.length);</span>
             }
-<span class="nc" id="L91">            connection.connect();</span>
-<span class="nc" id="L92">            return new RestApiResult(connection);</span>
+<span class="nc" id="L90">            connection.connect();</span>
+<span class="nc" id="L91">            return new RestApiResult(connection);</span>
         } finally {
-<span class="nc" id="L94">            connection.disconnect();</span>
+<span class="nc" id="L93">            connection.disconnect();</span>
         }
     }
 
     public RestApiResult delete() throws IOException {
         try {
-<span class="nc" id="L100">            connection.setRequestMethod(&quot;DELETE&quot;);</span>
-<span class="nc" id="L101">            connection.connect();</span>
-<span class="nc" id="L102">            return new RestApiResult(connection);</span>
+<span class="nc" id="L99">            connection.setRequestMethod(&quot;DELETE&quot;);</span>
+<span class="nc" id="L100">            connection.connect();</span>
+<span class="nc" id="L101">            return new RestApiResult(connection);</span>
         } finally {
-<span class="nc" id="L104">            connection.disconnect();</span>
+<span class="nc" id="L103">            connection.disconnect();</span>
         }
     }
 
     public RestApiConnection timeout(final long time, final TimeUnit timeUnit) {
-<span class="nc" id="L109">        connection.setConnectTimeout((int)timeUnit.toMillis(time));</span>
-<span class="nc" id="L110">        return this;</span>
+<span class="nc" id="L108">        connection.setConnectTimeout((int)timeUnit.toMillis(time));</span>
+<span class="nc" id="L109">        return this;</span>
     }
 
     public RestApiConnection timeout(final Duration duration) {
-<span class="nc" id="L114">        connection.setConnectTimeout((int)duration.toMillis());</span>
-<span class="nc" id="L115">        return this;</span>
+<span class="nc" id="L113">        connection.setConnectTimeout((int)duration.toMillis());</span>
+<span class="nc" id="L114">        return this;</span>
     }
 
     public static RestApiConnection with(final String url) throws IOException {
-<span class="nc" id="L119">        final HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();</span>
-<span class="nc" id="L120">        connection.setConnectTimeout(1000);</span>
-<span class="nc" id="L121">        connection.setRequestProperty(&quot;Origin&quot;, url);</span>
-<span class="nc" id="L122">        final byte[] credential = Base64.getEncoder().encode(&quot;user:password&quot;.getBytes(UTF_8));</span>
-<span class="nc" id="L123">        connection.setRequestProperty(&quot;Authorization&quot;, &quot;Basic &quot; + new String(credential));</span>
-<span class="nc" id="L124">        return new RestApiConnection(connection);</span>
+<span class="nc" id="L118">        final var connection = (HttpURLConnection) new URL(url).openConnection();</span>
+<span class="nc" id="L119">        connection.setConnectTimeout(1000);</span>
+<span class="nc" id="L120">        connection.setRequestProperty(&quot;Origin&quot;, url);</span>
+<span class="nc" id="L121">        final var credential = Base64.getEncoder().encode(&quot;user:password&quot;.getBytes(UTF_8));</span>
+<span class="nc" id="L122">        connection.setRequestProperty(&quot;Authorization&quot;, &quot;Basic &quot; + new String(credential));</span>
+<span class="nc" id="L123">        return new RestApiConnection(connection);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
