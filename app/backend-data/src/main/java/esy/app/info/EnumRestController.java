@@ -21,7 +21,7 @@ public class EnumRestController {
 
     @GetMapping("/enum/{art}")
     public ResponseEntity<CollectionModel<EnumItem>> enumOf(@PathVariable final String art) {
-        var allEnum = enumRepository.findAll(art)
+        final var allEnum = enumRepository.findAll(art)
                 .stream()
                 .map(EnumItem::new)
                 .collect(Collectors.toList());
@@ -30,7 +30,7 @@ public class EnumRestController {
 
     @PostMapping("/enum/{art}")
     public ResponseEntity<EnumItem> createOf(@PathVariable final String art, @RequestBody final EnumItem body) {
-        var value = enumRepository.save(
+        final var value = enumRepository.save(
                 Enum.parseJson("{}")
                         .setArt(art)
                         .setCode(body.getCode())
@@ -41,7 +41,7 @@ public class EnumRestController {
 
     @PutMapping("/enum/{art}/{code}")
     public ResponseEntity<EnumItem> updateOf(@PathVariable final String art, @PathVariable final Long code, @RequestBody final EnumItem body) {
-        var value = enumRepository.save(
+        final var value = enumRepository.save(
                 enumRepository.findByCode(art, code)
                         .orElseThrow(() ->
                                 new DataRetrievalFailureException("Enum(" + art + ", " + code + ") not found"))

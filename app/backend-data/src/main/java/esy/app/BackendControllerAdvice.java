@@ -56,7 +56,7 @@ public class BackendControllerAdvice extends ResponseEntityExceptionHandler impl
     public ResponseEntity<Object> handlePreconditionFailed(final WebRequest request, final ETagDoesntMatchException cause) {
         final var status = HttpStatus.PRECONDITION_FAILED;
         final var error = new ResponseStatusException(status, cause.getMessage(), cause);
-        error.setDetail(String.format("%s is outdated. Please reload content.", cause.getBean()));
+        error.setDetail("%s is outdated. Please reload content.".formatted(cause.getBean()));
         return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);
     }
 

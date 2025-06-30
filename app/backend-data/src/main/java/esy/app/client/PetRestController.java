@@ -16,7 +16,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RepositoryEventHandler
 @BasePathAwareController
@@ -35,9 +34,9 @@ public class PetRestController extends JsonJpaRestControllerBase<Pet> {
 
     @GetMapping("/pet/search/findAllItem")
     public ResponseEntity<CollectionModel<PetItem>> findAllItem() {
-        final List<PetItem> allItem = new ArrayList<>();
+        final var allItem = new ArrayList<PetItem>();
         final var orderBy = QPet.pet.name.asc();
-        for (final Pet value : petRepository.findAll(orderBy)) {
+        for (final var value : petRepository.findAll(orderBy)) {
             allItem.add(PetItem.fromValue(value));
         }
         return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allItem));

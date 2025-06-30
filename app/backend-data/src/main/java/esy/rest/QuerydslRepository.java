@@ -24,11 +24,11 @@ public interface QuerydslRepository<V extends JsonJpaEntity<V>, T extends Entity
      */
     default Optional<Predicate> localDateEqBetweenInBinding(@NonNull final DatePath<LocalDate> path, @NonNull final Collection<? extends LocalDate> allValue) {
         if (allValue.size() == 1) {
-            var it = allValue.iterator();
+            final var it = allValue.iterator();
             return Optional.of(path.eq(it.next()));
         }
         if (allValue.size() == 2) {
-            var it = allValue.iterator();
+            final var it = allValue.iterator();
             return Optional.of(path.between(it.next(), it.next()));
         }
         return Optional.of(path.in(allValue));
@@ -41,11 +41,11 @@ public interface QuerydslRepository<V extends JsonJpaEntity<V>, T extends Entity
      */
     default Optional<Predicate> longEqBetweenInBinding(@NonNull final NumberPath<Long> path, @NonNull final Collection<? extends Long> allValue) {
         if (allValue.size() == 1) {
-            var it = allValue.iterator();
+            final var it = allValue.iterator();
             return Optional.of(path.eq(it.next()));
         }
         if (allValue.size() == 2) {
-            var it = allValue.iterator();
+            final var it = allValue.iterator();
             return Optional.of(path.between(it.next(), it.next()));
         }
         return Optional.of(path.in(allValue));

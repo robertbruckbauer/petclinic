@@ -96,7 +96,7 @@ public final class Owner extends JsonJpaEntity<Owner> {
         if (Objects.equals(getId(), id)) {
             return this;
         }
-        final Owner value = new Owner(getVersion(), id);
+        final var value = new Owner(getVersion(), id);
         value.name = this.name;
         value.address = this.address;
         value.contact = this.contact;
@@ -106,7 +106,7 @@ public final class Owner extends JsonJpaEntity<Owner> {
 
     @JsonAnyGetter
     private Map<String, Object> extraJson() {
-        final Map<String, Object> allExtra = new HashMap<>();
+        final var allExtra = new HashMap<String, Object>();
         allExtra.put("version", getVersion());
         allExtra.put("allPetItem", allPet.stream()
                 .map(PetItem::fromValue)

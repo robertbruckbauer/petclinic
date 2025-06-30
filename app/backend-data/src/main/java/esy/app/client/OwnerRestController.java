@@ -16,7 +16,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RepositoryEventHandler
 @BasePathAwareController
@@ -35,9 +34,9 @@ public class OwnerRestController extends JsonJpaRestControllerBase<Owner> {
 
     @GetMapping("/owner/search/findAllItem")
     public ResponseEntity<CollectionModel<OwnerItem>> findAllItem() {
-        final List<OwnerItem> allItem = new ArrayList<>();
+        final var allItem = new ArrayList<OwnerItem>();
         final var orderBy = QOwner.owner.name.asc();
-        for (final Owner value : ownerRepository.findAll(orderBy)) {
+        for (final var value : ownerRepository.findAll(orderBy)) {
             allItem.add(OwnerItem.fromValue(value));
         }
         return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allItem));

@@ -33,7 +33,7 @@ public class VersionRepository {
      * @throws InputMismatchException if {@code VERSION} file is corrupt
      */
     public Version find() {
-        try (final Scanner scanner = new Scanner(resource.getInputStream())) {
+        try (final var scanner = new Scanner(resource.getInputStream())) {
             return Version.fromString(scanner);
         } catch (IOException e) {
             throw new MissingResourceException(e.getMessage(), "classpath", VERSION_FILE_NAME);

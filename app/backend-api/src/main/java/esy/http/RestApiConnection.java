@@ -4,7 +4,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -56,8 +55,8 @@ public class RestApiConnection {
             connection.setRequestProperty("Accept", "application/json; charset=UTF-8");
             connection.setConnectTimeout(1000);
             connection.setDoOutput(true);
-            try (final OutputStream os = connection.getOutputStream()) {
-                final byte[] jsonBytes = requestJson.getBytes(UTF_8);
+            try (final var os = connection.getOutputStream()) {
+                final var jsonBytes = requestJson.getBytes(UTF_8);
                 os.write(jsonBytes, 0, jsonBytes.length);
             }
             connection.connect();
@@ -81,8 +80,8 @@ public class RestApiConnection {
             connection.setRequestProperty("Content-Type", "text/uri-list");
             connection.setConnectTimeout(1000);
             connection.setDoOutput(true);
-            try (final OutputStream os = connection.getOutputStream()) {
-                final byte[] pathBytes = Stream.of(allUri)
+            try (final var os = connection.getOutputStream()) {
+                final var pathBytes = Stream.of(allUri)
                         .map(URI::getPath)
                         .collect(Collectors.joining("\n"))
                         .getBytes(UTF_8);
@@ -116,10 +115,10 @@ public class RestApiConnection {
     }
 
     public static RestApiConnection with(final String url) throws IOException {
-        final HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        final var connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setConnectTimeout(1000);
         connection.setRequestProperty("Origin", url);
-        final byte[] credential = Base64.getEncoder().encode("user:password".getBytes(UTF_8));
+        final var credential = Base64.getEncoder().encode("user:password".getBytes(UTF_8));
         connection.setRequestProperty("Authorization", "Basic " + new String(credential));
         return new RestApiConnection(connection);
     }

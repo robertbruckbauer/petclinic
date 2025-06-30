@@ -35,7 +35,7 @@ public class VersionRepositoryTest {
     @ValueSource(strings = {"0.0", "0.1", "1.0", "20.2"})
     void find(final String value) throws Exception {
         when(resource.getInputStream()).thenReturn(new ByteArrayInputStream(value.getBytes(UTF_8)));
-        final Version version = versionRepository.find();
+        final var version = versionRepository.find();
         assertNotNull(version);
         assertEquals(value, version.toString());
         verify(resource).getInputStream();

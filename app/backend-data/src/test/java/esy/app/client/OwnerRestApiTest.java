@@ -80,11 +80,13 @@ class OwnerRestApiTest {
         final var name = "Max Mustermann";
         assertFalse(ownerRepository.findOne(QOwner.owner.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/owner")
-                        .content("{" +
-                                "\"name\":\"" + name + "\"," +
-                                "\"address\":\"Bergweg 1, 5400 Hallein\"," +
-                                "\"contact\":\"+43 6452 4456\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s",
+                                    "address":"Bergweg 1, 5400 Hallein",
+                                    "contact":"+43 6452 4456"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -112,11 +114,13 @@ class OwnerRestApiTest {
         final var name = "Max Mustermann";
         assertTrue(ownerRepository.findOne(QOwner.owner.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/owner")
-                        .content("{" +
-                                "\"name\":\"" + name + "\"," +
-                                "\"address\":\"Bergweg 1, 5400 Hallein\"," +
-                                "\"contact\":\"+43 6452 4456\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s",
+                                    "address":"Bergweg 1, 5400 Hallein",
+                                    "contact":"+43 6452 4456"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -131,11 +135,13 @@ class OwnerRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/owner/" + uuid)
-                        .content("{" +
-                                "\"name\":\"" + name + "\"," +
-                                "\"address\":\"Bergweg 1, 5400 Hallein\"," +
-                                "\"contact\":\"+43 6452 4456\"" +
-                               "}")
+                        .content("""
+                                {
+                                    "name":"%s",
+                                    "address":"Bergweg 1, 5400 Hallein",
+                                    "contact":"+43 6452 4456"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -167,9 +173,11 @@ class OwnerRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/owner/" + uuid)
-                        .content("{" +
-                                "\"name\": \"" + name + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -197,9 +205,11 @@ class OwnerRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/owner/" + uuid)
-                        .content("{" +
-                                "\"address\": \"" + address + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "address":"%s"
+                                }
+                                """.formatted(address))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -227,9 +237,11 @@ class OwnerRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/owner/" + uuid)
-                        .content("{" +
-                                "\"contact\": \"" + contact + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "contact":"%s"
+                                }
+                                """.formatted(contact))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

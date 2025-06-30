@@ -9,27 +9,29 @@ import static org.junit.jupiter.api.Assertions.*;
 class VetItemTest {
 
     Vet createWithName(final String name) {
-        return Vet.parseJson("{" +
-                "\"name\":\"" + name + "\"" +
-                "}");
+        return Vet.parseJson("""
+                {
+                    "name":"%s"
+                }
+                """.formatted(name));
     }
 
     @Test
     void equalsHashcodeToString() {
-        final String name = "Tom";
-        final VetItem value = VetItem.fromValue(createWithName(name));
+        final var name = "Tom";
+        final var value = VetItem.fromValue(createWithName(name));
         // Identisches Objekt
         assertEquals(value, value);
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiches Objekt
-        final VetItem clone = VetItem.fromValue(createWithName(name));
+        final var clone = VetItem.fromValue(createWithName(name));
         assertNotSame(value, clone);
         assertNotEquals(clone, value);
         assertNotEquals(clone.hashCode(), value.hashCode());
         assertEquals(clone.toString(), value.toString());
         // Anderes Objekt
-        final VetItem other = VetItem.fromValue(createWithName("X" + name));
+        final var other = VetItem.fromValue(createWithName("X" + name));
         assertNotSame(value, other);
         assertNotEquals(other, value);
         assertNotEquals(other.hashCode(), value.hashCode());
@@ -42,8 +44,7 @@ class VetItemTest {
 
     @Test
     void ofNull() {
-        final Vet value = null;
-        final VetItem item = VetItem.fromValue(value);
+        final var item = VetItem.fromValue(null);
         assertNull(item.getValue());
         assertTrue(item.getText().isEmpty());
         assertFalse(item.isCreate());
@@ -53,9 +54,9 @@ class VetItemTest {
 
     @Test
     void ofValue() {
-        final String name = "Max Mustermann";
-        final Vet value = createWithName(name);
-        final VetItem item = VetItem.fromValue(value);
+        final var name = "Max Mustermann";
+        final var value = createWithName(name);
+        final var item = VetItem.fromValue(value);
         assertEquals(value.getId(), item.getValue());
         assertEquals(value.getName(), item.getText());
         assertFalse(item.isCreate());

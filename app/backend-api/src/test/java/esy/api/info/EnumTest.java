@@ -16,26 +16,27 @@ import static org.junit.jupiter.api.Assertions.*;
 class EnumTest {
 
     Enum createWithName(final String name) {
-        final String json = "{" +
-                "\"art\": \"QUELLE\"," +
-                "\"name\": \"" + name + "\"," +
-                "\"code\": \"2\"," +
-                "\"text\": \"A " + name + "\"" +
-                "}";
-        return Enum.parseJson(json);
+        return Enum.parseJson("""
+                {
+                    "art":"QUELLE",
+                    "name":"%1$s",
+                    "code":"2",
+                    "text":"A %1$s"
+                }
+                """.formatted(name));
     }
 
     @Test
     void equalsHashcodeToString() {
-        final String name = "JIRA";
-        final Enum value = createWithName(name);
+        final var name = "JIRA";
+        final var value = createWithName(name);
         // Identisches Objekt
         assertEquals(value, value);
         assertTrue(value.isEqual(value));
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiche UUID
-        final Enum clone = Enum.parseJson(value.writeJson());
+        final var clone = Enum.parseJson(value.writeJson());
         assertTrue(clone.isEqual(value));
         assertEquals(clone.hashCode(), value.hashCode());
         assertEquals(clone.toString(), value.toString());
@@ -45,7 +46,7 @@ class EnumTest {
         assertNotEquals(createWithName(name).hashCode(), value.hashCode());
         assertNotEquals(createWithName(name).toString(), value.toString());
         // Anderer Text
-        final Enum other = createWithName("ARIJ");
+        final var other = createWithName("ARIJ");
         assertNotEquals(other, value);
         assertFalse(value.isEqual(other));
         assertNotEquals(other.hashCode(), value.hashCode());
@@ -59,11 +60,11 @@ class EnumTest {
 
     @Test
     void withId() {
-        final String name = "JIRA";
-        final Enum value0 = createWithName(name);
-        final Enum value1 = value0.withId(value0.getId());
+        final var name = "JIRA";
+        final var value0 = createWithName(name);
+        final var value1 = value0.withId(value0.getId());
         assertSame(value0, value1);
-        final Enum value2 = value0.withId(UUID.randomUUID());
+        final var value2 = value0.withId(UUID.randomUUID());
         assertNotSame(value0, value2);
         assertTrue(value0.isEqual(value2));
     }
@@ -75,15 +76,15 @@ class EnumTest {
             "\"garbage\": \"value\""
     })
     void jsonGarbage(final String line) {
-        final String name = "JIRA";
-        final String json = "{" +
+        final var name = "JIRA";
+        final var json = "{" +
                 "\"art\": \"QUELLE\"," +
                 "\"name\": \"" + name + "\"," +
                 "\"code\": \"2\"," +
                 "\"text\": \"A " + name + "\"," +
                 line +
                 "}";
-        final Enum value = Enum.parseJson(json);
+        final var value = Enum.parseJson(json);
         assertDoesNotThrow(value::verify);
         assertNotNull(value.getId());
         assertEquals("QUELLE", value.getArt());
@@ -94,8 +95,8 @@ class EnumTest {
 
     @Test
     void json() {
-        final String name = "JIRA";
-        final Enum value = createWithName(name);
+        final var name = "JIRA";
+        final var value = createWithName(name);
         assertDoesNotThrow(value::verify);
         assertNotNull(value.getId());
         assertEquals("QUELLE", value.getArt());
@@ -103,7 +104,7 @@ class EnumTest {
         assertEquals(name, value.getName());
         assertEquals("A " + name, value.getText());
 
-        final JsonNode json = new JsonMapper().parseJsonNode(value.writeJson());
+        final var json = new JsonMapper().parseJsonNode(value.writeJson());
         assertEquals(0, json.at("/version").asLong());
     }
 
@@ -120,8 +121,8 @@ class EnumTest {
 
     @Test
     void jsonArt() {
-        final String name = "JIRA";
-        final Enum value = createWithName(name);
+        final var name = "JIRA";
+        final var value = createWithName(name);
         assertDoesNotThrow(value::verify);
         assertEquals("QUELLE", value.getArt());
 
@@ -138,8 +139,8 @@ class EnumTest {
 
     @Test
     void jsonCode() {
-        final String name = "JIRA";
-        final Enum value = createWithName(name);
+        final var name = "JIRA";
+        final var value = createWithName(name);
         assertDoesNotThrow(value::verify);
         assertEquals(2L, value.getCode());
 
@@ -166,7 +167,7 @@ class EnumTest {
             "Übel"
     })
     void jsonName(final String name) {
-        final Enum value = createWithName(name);
+        final var value = createWithName(name);
         assertDoesNotThrow(value::verify);
         assertEquals(name, value.getName());
 
@@ -183,8 +184,8 @@ class EnumTest {
 
     @Test
     void jsonText() {
-        final String name = "JIRA";
-        final Enum value = createWithName(name);
+        final var name = "JIRA";
+        final var value = createWithName(name);
         assertDoesNotThrow(value::verify);
         assertEquals("A " + name, value.getText());
 

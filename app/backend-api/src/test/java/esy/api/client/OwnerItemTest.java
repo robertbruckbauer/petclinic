@@ -9,29 +9,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class OwnerItemTest {
 
     Owner createWithName(final String name) {
-        return Owner.parseJson("{" +
-                "\"name\":\"" + name + "\"," +
-                "\"address\":\"Bergweg 1, 5400 Hallein\"," +
-                "\"contact\":\"+43 660 5557683\"" +
-                "}");
+        return Owner.parseJson("""
+                {
+                    "name":"%s",
+                    "address":"Bergweg 1, 5400 Hallein",
+                    "contact":"+43 660 5557683"
+                }
+                """.formatted(name));
     }
 
     @Test
     void equalsHashcodeToString() {
-        final String name = "Tom";
-        final OwnerItem value = OwnerItem.fromValue(createWithName(name));
+        final var name = "Tom";
+        final var value = OwnerItem.fromValue(createWithName(name));
         // Identisches Objekt
         assertEquals(value, value);
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiches Objekt
-        final OwnerItem clone = OwnerItem.fromValue(createWithName(name));
+        final var clone = OwnerItem.fromValue(createWithName(name));
         assertNotSame(value, clone);
         assertNotEquals(clone, value);
         assertNotEquals(clone.hashCode(), value.hashCode());
         assertEquals(clone.toString(), value.toString());
         // Anderes Objekt
-        final OwnerItem other = OwnerItem.fromValue(createWithName("X" + name));
+        final var other = OwnerItem.fromValue(createWithName("X" + name));
         assertNotSame(value, other);
         assertNotEquals(other, value);
         assertNotEquals(other.hashCode(), value.hashCode());
@@ -44,8 +46,7 @@ class OwnerItemTest {
 
     @Test
     void ofNull() {
-        final Owner value = null;
-        final OwnerItem item = OwnerItem.fromValue(value);
+        final var item = OwnerItem.fromValue((Owner) null);
         assertNull(item.getValue());
         assertTrue(item.getText().isEmpty());
         assertFalse(item.isCreate());
@@ -55,9 +56,9 @@ class OwnerItemTest {
 
     @Test
     void ofValue() {
-        final String name = "Max Mustermann";
-        final Owner value = createWithName(name);
-        final OwnerItem item = OwnerItem.fromValue(value);
+        final var name = "Max Mustermann";
+        final var value = createWithName(name);
+        final var item = OwnerItem.fromValue(value);
         assertEquals(value.getId(), item.getValue());
         assertEquals(value.getName(), item.getText());
         assertFalse(item.isCreate());
