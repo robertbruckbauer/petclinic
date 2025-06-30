@@ -56,7 +56,7 @@ import java.util.NoSuchElementException;
     public ResponseEntity&lt;Object&gt; handlePreconditionFailed(final WebRequest request, final ETagDoesntMatchException cause) {
 <span class="nc" id="L57">        final var status = HttpStatus.PRECONDITION_FAILED;</span>
 <span class="nc" id="L58">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
-<span class="nc" id="L59">        error.setDetail(String.format(&quot;%s is outdated. Please reload content.&quot;, cause.getBean()));</span>
+<span class="nc" id="L59">        error.setDetail(&quot;%s is outdated. Please reload content.&quot;.formatted(cause.getBean()));</span>
 <span class="nc" id="L60">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
     }
 
