@@ -1,5 +1,6 @@
 package esy.app;
 
+import lombok.NonNull;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,8 @@ import java.util.List;
 public class CollectionModelProcessor implements RepresentationModelProcessor<CollectionModel<Object>> {
 
     @Override
-    public CollectionModel<Object> process(final CollectionModel<Object> model) {
+    @NonNull
+    public CollectionModel<Object> process(@NonNull final CollectionModel<Object> model) {
         if (model.getContent().size() != 1) {
             return model;
         }

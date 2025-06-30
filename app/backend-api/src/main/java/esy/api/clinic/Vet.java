@@ -76,7 +76,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
         if (Objects.equals(getId(), id)) {
             return this;
         }
-        final Vet value = new Vet(getVersion(), id);
+        final var value = new Vet(getVersion(), id);
         value.name = this.name;
         value.allSkill = this.allSkill;
         return value;
@@ -84,7 +84,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
 
     @JsonAnyGetter
     private Map<String, Object> extraJson() {
-        final Map<String, Object> allExtra = new HashMap<>();
+        final var allExtra = new HashMap<String, Object>();
         allExtra.put("version", getVersion());
         return allExtra;
     }

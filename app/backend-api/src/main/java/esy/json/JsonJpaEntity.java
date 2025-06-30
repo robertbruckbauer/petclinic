@@ -77,6 +77,7 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonW
         if (!getClass().equals(any.getClass())) {
             return false;
         }
+        @SuppressWarnings("unchecked")
         final var that = (T) any;
         return Objects.equals(this.getVersion(), that.getVersion()) &&
                 Objects.equals(this.getId(), that.getId());

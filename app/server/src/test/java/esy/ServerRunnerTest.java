@@ -6,7 +6,6 @@ import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
 import esy.api.info.Enum;
 import esy.http.RestApiConnection;
-import esy.http.RestApiResult;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 
 import java.net.URLEncoder;
 import java.time.Month;
-import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -40,7 +38,7 @@ public class ServerRunnerTest {
 	@Test
 	@Order(1)
 	void health() throws Exception {
-		final RestApiResult result = RestApiConnection.with(
+		final var result = RestApiConnection.with(
 				toBackendUrl("/actuator/health")).get();
 		assertThat(result.getCode(),
 				equalTo(HttpStatus.OK.value()));
@@ -51,11 +49,11 @@ public class ServerRunnerTest {
 	@Test
 	@Order(2)
 	void version() throws Exception {
-		final RestApiResult result = RestApiConnection.with(
+		final var result = RestApiConnection.with(
 				toBackendUrl("/version")).get();
 		assertThat(result.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final Map<?,?> allValue = result.toObject(Map.class);
+		final var allValue = result.toObject(Map.class);
 		assertEquals(2, allValue.size());
 		assertTrue(allValue.containsKey("major"));
 		assertTrue(allValue.containsKey("minor"));
@@ -64,7 +62,7 @@ public class ServerRunnerTest {
 	@Test
 	@Order(3)
 	void apiEnumSkill() throws Exception {
-		final RestApiResult result = RestApiConnection.with(
+		final var result = RestApiConnection.with(
 				toBackendUrl("/api/enum/skill")).get();
 		assertThat(result.getCode(),
 				equalTo(HttpStatus.OK.value()));
@@ -74,7 +72,7 @@ public class ServerRunnerTest {
 	@Test
 	@Order(4)
 	void apiEnumSpecies() throws Exception {
-		final RestApiResult result = RestApiConnection.with(
+		final var result = RestApiConnection.with(
 				toBackendUrl("/api/enum/species")).get();
 		assertThat(result.getCode(),
 				equalTo(HttpStatus.OK.value()));
@@ -84,9 +82,9 @@ public class ServerRunnerTest {
 	@Test
 	@Order(10)
 	void apiOwner() throws Exception {
-		final String name = "Mustermann";
+		final var name = "Mustermann";
 
-		final RestApiResult result1a = RestApiConnection.with(
+		final var result1a = RestApiConnection.with(
 				toBackendUrl("/api/owner"))
 				.post("{" +
 						"\"name\":\"Alf " + name + "\"," +
@@ -94,12 +92,12 @@ public class ServerRunnerTest {
 						"}");
 		assertThat(result1a.getCode(),
 				equalTo(HttpStatus.CREATED.value()));
-		final Owner value1 = result1a.toObject(Owner.class);
+		final var value1 = result1a.toObject(Owner.class);
 		assertEquals(0L, value1.getVersion());
 		assertNotNull(value1.getId());
 		assertEquals("Alf " + name, value1.getName());
 
-		final RestApiResult result1b = RestApiConnection.with(
+		final var result1b = RestApiConnection.with(
 				toBackendUrl("/api/owner"))
 				.post("{" +
 						"\"name\":\"Alf " + name + "\"," +
@@ -108,7 +106,7 @@ public class ServerRunnerTest {
 		assertThat(result1b.getCode(),
 				equalTo(HttpStatus.CONFLICT.value()));
 
-		final RestApiResult result2a = RestApiConnection.with(
+		final var result2a = RestApiConnection.with(
 				toBackendUrl("/api/owner/" + value1.getId()))
 				.put("{" +
 						"\"name\":\"Max " + name + "\"," +
@@ -116,48 +114,48 @@ public class ServerRunnerTest {
 						"}");
 		assertThat(result2a.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final Owner value2 = result2a.toObject(Owner.class);
+		final var value2 = result2a.toObject(Owner.class);
 		assertFalse(value1.isEqual(value2));
 		assertEquals(1L, value2.getVersion());
 		assertNotNull(value2.getId());
 		assertEquals("Max " + name, value2.getName());
 
-		final RestApiResult result3a = RestApiConnection.with(
+		final var result3a = RestApiConnection.with(
 				toBackendUrl("/api/owner/" + value2.getId()))
 				.get();
 		assertThat(result3a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 		assertTrue(value2.isEqual(result3a.toObject(Owner.class)));
 
-		final RestApiResult result3b = RestApiConnection.with(
+		final var result3b = RestApiConnection.with(
 				toBackendUrl("/api/owner?name=" + URLEncoder.encode("Max " + name, UTF_8)))
 				.get();
 		assertThat(result3b.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Owner> allValue3b = result3b.toCollection(Owner.class);
+		final var allValue3b = result3b.toCollection(Owner.class);
 		assertEquals(1, allValue3b.size());
 		assertEquals(1, allValue3b.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
-		final RestApiResult result3c = RestApiConnection.with(
+		final var result3c = RestApiConnection.with(
 				toBackendUrl("/api/owner?sort=name,asc"))
 				.get();
 		assertThat(result3c.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Owner> allValue3c = result3c.toCollection(Owner.class);
+		final var allValue3c = result3c.toCollection(Owner.class);
 		assertEquals(5, allValue3c.size());
 		assertEquals(1, allValue3c.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
-		final RestApiResult result4a = RestApiConnection.with(
+		final var result4a = RestApiConnection.with(
 				toBackendUrl("/api/owner/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 
-		final RestApiResult result4b = RestApiConnection.with(
+		final var result4b = RestApiConnection.with(
 				toBackendUrl("/api/owner/" + value1.getId()))
 				.delete();
 		assertThat(result4b.getCode(),
@@ -167,12 +165,12 @@ public class ServerRunnerTest {
 	@Test
 	@Order(20)
 	void apiPet() throws Exception {
-		final Owner owner = RestApiConnection.with(
+		final var owner = RestApiConnection.with(
 						toBackendUrl("/api/owner?name=" + URLEncoder.encode("Thomas Mann", UTF_8)))
 				.get().toCollection(Owner.class).getFirst();
 		assertNotNull(owner);
 
-		final RestApiResult result1a = RestApiConnection.with(
+		final var result1a = RestApiConnection.with(
 						toBackendUrl("/api/pet"))
 				.post("{" +
 						"\"owner\":\"/api/owner/" + owner.getId() + "\"," +
@@ -182,7 +180,7 @@ public class ServerRunnerTest {
 						"}");
 		assertThat(result1a.getCode(),
 				equalTo(HttpStatus.CREATED.value()));
-		final Pet value1 = result1a.toObject(Pet.class);
+		final var value1 = result1a.toObject(Pet.class);
 		assertEquals(0L, value1.getVersion());
 		assertNotNull(value1.getId());
 		assertEquals("Alf", value1.getName());
@@ -191,7 +189,7 @@ public class ServerRunnerTest {
 		assertEquals(22, value1.getBorn().getDayOfMonth());
 		assertEquals("Alien", value1.getSpecies());
 
-		final RestApiResult result1b = RestApiConnection.with(
+		final var result1b = RestApiConnection.with(
 						toBackendUrl("/api/pet"))
 				.post("{" +
 						"\"owner\":\"/api/owner/" + owner.getId() + "\"," +
@@ -202,7 +200,7 @@ public class ServerRunnerTest {
 		assertThat(result1b.getCode(),
 				equalTo(HttpStatus.CONFLICT.value()));
 
-		final RestApiResult result2a = RestApiConnection.with(
+		final var result2a = RestApiConnection.with(
 						toBackendUrl("/api/pet/" + value1.getId()))
 				.put("{" +
 						"\"owner\":\"/api/owner/" + owner.getId() + "\"," +
@@ -212,7 +210,7 @@ public class ServerRunnerTest {
 						"}");
 		assertThat(result2a.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final Pet value2 = result2a.toObject(Pet.class);
+		final var value2 = result2a.toObject(Pet.class);
 		assertFalse(value1.isEqual(value2));
 		assertEquals(1L, value2.getVersion());
 		assertNotNull(value2.getId());
@@ -222,42 +220,42 @@ public class ServerRunnerTest {
 		assertEquals(22, value2.getBorn().getDayOfMonth());
 		assertEquals("Rat", value2.getSpecies());
 
-		final RestApiResult result3a = RestApiConnection.with(
+		final var result3a = RestApiConnection.with(
 						toBackendUrl("/api/pet/" + value2.getId()))
 				.get();
 		assertThat(result3a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 		assertTrue(value2.isEqual(result3a.toObject(Pet.class)));
 
-		final RestApiResult result3b = RestApiConnection.with(
+		final var result3b = RestApiConnection.with(
 						toBackendUrl("/api/pet?name=" + URLEncoder.encode("Max", UTF_8)))
 				.get();
 		assertThat(result3b.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Pet> allValue3b = result3b.toCollection(Pet.class);
+		final var allValue3b = result3b.toCollection(Pet.class);
 		assertEquals(1, allValue3b.size());
 		assertEquals(1, allValue3b.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
-		final RestApiResult result3c = RestApiConnection.with(
+		final var result3c = RestApiConnection.with(
 						toBackendUrl("/api/pet?sort,asc"))
 				.get();
 		assertThat(result3c.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Pet> allValue3c = result3c.toCollection(Pet.class);
+		final var allValue3c = result3c.toCollection(Pet.class);
 		assertEquals(4, allValue3c.size());
 		assertEquals(1, allValue3c.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
-		final RestApiResult result4a = RestApiConnection.with(
+		final var result4a = RestApiConnection.with(
 						toBackendUrl("/api/pet/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 
-		final RestApiResult result4b = RestApiConnection.with(
+		final var result4b = RestApiConnection.with(
 						toBackendUrl("/api/pet/" + value1.getId()))
 				.delete();
 		assertThat(result4b.getCode(),
@@ -267,21 +265,21 @@ public class ServerRunnerTest {
 	@Test
 	@Order(30)
 	void apiVet() throws Exception {
-		final String name = "Mustermann";
+		final var name = "Mustermann";
 
-		final RestApiResult result1a = RestApiConnection.with(
+		final var result1a = RestApiConnection.with(
 						toBackendUrl("/api/vet"))
 				.post("{" +
 						"\"name\":\"Alf " + name + "\"" +
 						"}");
 		assertThat(result1a.getCode(),
 				equalTo(HttpStatus.CREATED.value()));
-		final Vet value1 = result1a.toObject(Vet.class);
+		final var value1 = result1a.toObject(Vet.class);
 		assertEquals(0L, value1.getVersion());
 		assertNotNull(value1.getId());
 		assertEquals("Alf " + name, value1.getName());
 
-		final RestApiResult result1b = RestApiConnection.with(
+		final var result1b = RestApiConnection.with(
 						toBackendUrl("/api/vet"))
 				.post("{" +
 						"\"name\":\"Alf " + name + "\"" +
@@ -289,55 +287,55 @@ public class ServerRunnerTest {
 		assertThat(result1b.getCode(),
 				equalTo(HttpStatus.CONFLICT.value()));
 
-		final RestApiResult result2a = RestApiConnection.with(
+		final var result2a = RestApiConnection.with(
 						toBackendUrl("/api/vet/" + value1.getId()))
 				.put("{" +
 						"\"name\":\"Max " + name + "\"" +
 						"}");
 		assertThat(result2a.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final Vet value2 = result2a.toObject(Vet.class);
+		final var value2 = result2a.toObject(Vet.class);
 		assertFalse(value1.isEqual(value2));
 		assertEquals(1L, value2.getVersion());
 		assertNotNull(value2.getId());
 		assertEquals("Max " + name, value2.getName());
 
-		final RestApiResult result3a = RestApiConnection.with(
+		final var result3a = RestApiConnection.with(
 						toBackendUrl("/api/vet/" + value2.getId()))
 				.get();
 		assertThat(result3a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 		assertTrue(value2.isEqual(result3a.toObject(Vet.class)));
 
-		final RestApiResult result3b = RestApiConnection.with(
+		final var result3b = RestApiConnection.with(
 						toBackendUrl("/api/vet?name=" + URLEncoder.encode("Max " + name, UTF_8)))
 				.get();
 		assertThat(result3b.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Vet> allValue3b = result3b.toCollection(Vet.class);
+		final var allValue3b = result3b.toCollection(Vet.class);
 		assertEquals(1, allValue3b.size());
 		assertEquals(1, allValue3b.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
-		final RestApiResult result3c = RestApiConnection.with(
+		final var result3c = RestApiConnection.with(
 						toBackendUrl("/api/vet?sort=name,asc"))
 				.get();
 		assertThat(result3c.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final List<Vet> allValue3c = result3c.toCollection(Vet.class);
+		final var allValue3c = result3c.toCollection(Vet.class);
 		assertEquals(6, allValue3c.size());
 		assertEquals(1, allValue3c.stream()
 				.filter(e -> e.getId().equals(value1.getId()))
 				.count());
 
-		final RestApiResult result4a = RestApiConnection.with(
+		final var result4a = RestApiConnection.with(
 						toBackendUrl("/api/vet/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 
-		final RestApiResult result4b = RestApiConnection.with(
+		final var result4b = RestApiConnection.with(
 						toBackendUrl("/api/vet/" + value1.getId()))
 				.delete();
 		assertThat(result4b.getCode(),
@@ -347,16 +345,16 @@ public class ServerRunnerTest {
 	@Test
 	@Order(40)
 	void apiVisit() throws Exception {
-		final Pet pet = RestApiConnection.with(
+		final var pet = RestApiConnection.with(
 						toBackendUrl("/api/pet?name=" + URLEncoder.encode("Tom", UTF_8)))
 				.get().toCollection(Pet.class).getFirst();
 		assertNotNull(pet);
-		final Vet vet = RestApiConnection.with(
+		final var vet = RestApiConnection.with(
 						toBackendUrl("/api/vet?name=" + URLEncoder.encode("John Cleese", UTF_8)))
 				.get().toCollection(Vet.class).getFirst();
 		assertNotNull(vet);
 
-		final RestApiResult result1a = RestApiConnection.with(
+		final var result1a = RestApiConnection.with(
 						toBackendUrl("/api/visit"))
 				.post("{" +
 						"\"pet\":\"/api/pet/" + pet.getId() + "\"," +
@@ -366,7 +364,7 @@ public class ServerRunnerTest {
 						"}");
 		assertThat(result1a.getCode(),
 				equalTo(HttpStatus.CREATED.value()));
-		final Visit value1 = result1a.toObject(Visit.class);
+		final var value1 = result1a.toObject(Visit.class);
 		assertEquals(0L, value1.getVersion());
 		assertNotNull(value1.getId());
 		assertEquals(2021, value1.getDate().getYear());
@@ -374,7 +372,7 @@ public class ServerRunnerTest {
 		assertEquals(22, value1.getDate().getDayOfMonth());
 		assertEquals("Lorem ipsum.", value1.getText());
 
-		final RestApiResult result2a = RestApiConnection.with(
+		final var result2a = RestApiConnection.with(
 						toBackendUrl("/api/visit/" + value1.getId()))
 				.put("{" +
 						"\"pet\":\"/api/pet/" + pet.getId() + "\"," +
@@ -384,7 +382,7 @@ public class ServerRunnerTest {
 						"}");
 		assertThat(result2a.getCode(),
 				equalTo(HttpStatus.OK.value()));
-		final Visit value2 = result2a.toObject(Visit.class);
+		final var value2 = result2a.toObject(Visit.class);
 		assertEquals(1L, value2.getVersion());
 		assertNotNull(value2.getId());
 		assertEquals(2021, value2.getDate().getYear());
@@ -392,20 +390,20 @@ public class ServerRunnerTest {
 		assertEquals(23, value2.getDate().getDayOfMonth());
 		assertEquals("Quia atque.", value2.getText());
 
-		final RestApiResult result3a = RestApiConnection.with(
+		final var result3a = RestApiConnection.with(
 						toBackendUrl("/api/visit/" + value2.getId()))
 				.get();
 		assertThat(result3a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 		assertTrue(value2.isEqual(result3a.toObject(Visit.class)));
 
-		final RestApiResult result4a = RestApiConnection.with(
+		final var result4a = RestApiConnection.with(
 						toBackendUrl("/api/visit/" + value1.getId()))
 				.delete();
 		assertThat(result4a.getCode(),
 				equalTo(HttpStatus.OK.value()));
 
-		final RestApiResult result4b = RestApiConnection.with(
+		final var result4b = RestApiConnection.with(
 						toBackendUrl("/api/visit/" + value1.getId()))
 				.delete();
 		assertThat(result4b.getCode(),

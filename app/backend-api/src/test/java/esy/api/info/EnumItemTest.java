@@ -9,30 +9,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class EnumItemTest {
 
     Enum createWithName(final String name) {
-        final String json = "{" +
-                "\"art\": \"QUELLE\"," +
-                "\"name\": \"" + name + "\"," +
-                "\"code\": \"2\"," +
-                "\"text\": \"A " + name + "\"" +
-                "}";
-        return Enum.parseJson(json);
+        return Enum.parseJson("""
+                {
+                    "art":"QUELLE",
+                    "name":"%1$s",
+                    "code":"2",
+                    "text":"A %1$s"
+                }
+                """.formatted(name));
     }
 
     @Test
     void equalsHashcodeToString() {
-        final String name = "JIRA";
-        final EnumItem value = EnumItem.fromValue(createWithName(name));
+        final var name = "JIRA";
+        final var value = EnumItem.fromValue(createWithName(name));
         // Identisches Objekt
         assertEquals(value, value);
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiches Objekt
-        final EnumItem clone = EnumItem.fromValue(createWithName(name));
+        final var clone = EnumItem.fromValue(createWithName(name));
         assertNotSame(clone, value);
         assertEquals(clone.hashCode(), value.hashCode());
         assertEquals(clone.toString(), value.toString());
         // Anderes Objekt
-        final EnumItem other = EnumItem.fromValue(createWithName("ARIJ"));
+        final var other = EnumItem.fromValue(createWithName("ARIJ"));
         assertNotSame(other, value);
         assertNotEquals(other, value);
         assertNotEquals(other.hashCode(), value.hashCode());
@@ -45,7 +46,7 @@ class EnumItemTest {
 
     @Test
     void ofNull() {
-        final EnumItem item = EnumItem.fromValue(null);
+        final var item = EnumItem.fromValue(null);
         assertNull(item.getValue());
         assertNull(item.getName());
         assertEquals("", item.getText());
@@ -57,9 +58,9 @@ class EnumItemTest {
 
     @Test
     void ofValue() {
-        final String name = "JIRA";
-        final Enum value = createWithName(name);
-        final EnumItem item = EnumItem.fromValue(value);
+        final var name = "JIRA";
+        final var value = createWithName(name);
+        final var item = EnumItem.fromValue(value);
         assertEquals(name, item.getValue());
         assertEquals(value.getName(), item.getName());
         assertEquals(value.getText(), item.getText());

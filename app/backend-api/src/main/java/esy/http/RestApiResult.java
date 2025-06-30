@@ -1,7 +1,6 @@
 package esy.http;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import esy.json.JsonMapper;
 import lombok.Getter;
@@ -49,12 +48,12 @@ public class RestApiResult {
     }
 
     private String etag(final HttpURLConnection connection) {
-        final String etag = connection.getHeaderField("ETag");
+        final var etag = connection.getHeaderField("ETag");
         return etag == null ? "" : etag.replace("\"", "");
     }
 
     public <T> T toObject(@NonNull final Class<T> expectedClass) throws IOException {
-        final ObjectMapper mapper = JsonMapper.configure(new ObjectMapper());
+        final var mapper = JsonMapper.configure(new ObjectMapper());
         final T value = mapper.readValue(body, expectedClass);
         // Version comes with the ETag header
         if (!etag.isBlank()) {
@@ -89,8 +88,8 @@ public class RestApiResult {
         if (body.length < "{}".length()) {
             return Collections.emptyList();
         }
-        final ObjectMapper mapper = JsonMapper.configure(new ObjectMapper());
-        final JavaType type = mapper.getTypeFactory().constructParametricType(CollectionModel.class, expectedClass);
+        final var mapper = JsonMapper.configure(new ObjectMapper());
+        final var type = mapper.getTypeFactory().constructParametricType(CollectionModel.class, expectedClass);
         return ((CollectionModel<T>)mapper.readValue(body, type)).getContent();
     }
 

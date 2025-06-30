@@ -86,12 +86,14 @@ class PetRestApiTest {
         final var born = "2021-04-22";
         assertFalse(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/pet")
-                        .content("{" +
-                                "\"owner\": \"/api/owner/b1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"name\":\"" + name + "\"," +
-                                "\"born\":\"" + born + "\"," +
-                                "\"species\":\"Rat\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
+                                    "name":"%s",
+                                    "born":"%s",
+                                    "species":"Rat"
+                                }
+                                """.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -120,12 +122,14 @@ class PetRestApiTest {
         final var born = "2021-04-22";
         assertTrue(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/pet")
-                        .content("{" +
-                                "\"owner\": \"/api/owner/b1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"name\":\"" + name + "\"," +
-                                "\"born\":\"" + born + "\"," +
-                                "\"species\":\"Rat\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
+                                    "name":"%s",
+                                    "born":"%s",
+                                    "species":"Rat"
+                                }
+                                """.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -141,12 +145,14 @@ class PetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/pet/" + uuid)
-                        .content("{" +
-                                "\"owner\": \"/api/owner/b1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"name\":\"" + name + "\"," +
-                                "\"born\":\"" + born + "\"," +
-                                "\"species\":\"Rat\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
+                                    "name":"%s",
+                                    "born":"%s",
+                                    "species":"Rat"
+                                }
+                                """.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -182,9 +188,11 @@ class PetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
-                        .content("{" +
-                                "\"name\": \"" + name + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -212,9 +220,11 @@ class PetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
-                        .content("{" +
-                                "\"born\": \"" + born + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "born":"%s"
+                                }
+                                """.formatted(born))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -242,9 +252,11 @@ class PetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
-                        .content("{" +
-                                "\"species\": \"" + species + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "species":"%s"
+                                }
+                                """.formatted(species))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -268,9 +280,11 @@ class PetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
-                        .content("{" +
-                                "\"owner\": \"/api/owner/b2222222-2222-beef-dead-beefdeadbeef\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "owner":"/api/owner/b2222222-2222-beef-dead-beefdeadbeef"
+                                }
+                                """)
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

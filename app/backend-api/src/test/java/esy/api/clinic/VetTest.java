@@ -14,29 +14,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class VetTest {
 
 	Vet createWithName(final String name) {
-		return Vet.parseJson("{" +
-				"\"name\":\"" + name + "\"" +
-				"}");
+		return Vet.parseJson("""
+                {
+                	"name":"%s"
+				}
+				""".formatted(name));
 	}
 
 	@Test
 	void equalsHashcodeToString() {
-		final String name = "Tom";
-		final Vet value = createWithName(name);
+		final var name = "Tom";
+		final var value = createWithName(name);
 		// Identisches Objekt
 		assertEquals(value, value);
 		assertTrue(value.isEqual(value));
 		assertEquals(value.hashCode(), value.hashCode());
 		assertEquals(value.toString(), value.toString());
 		// Gleiches Objekt
-		final Vet clone = createWithName(name);
+		final var clone = createWithName(name);
 		assertNotSame(value, clone);
 		assertNotEquals(clone, value);
 		assertTrue(value.isEqual(clone));
 		assertNotEquals(clone.hashCode(), value.hashCode());
 		assertNotEquals(clone.toString(), value.toString());
 		// Anderes Objekt
-		final Vet other = createWithName("X" + name);
+		final var other = createWithName("X" + name);
 		assertNotSame(value, other);
 		assertNotEquals(other, value);
 		assertFalse(value.isEqual(other));
@@ -51,19 +53,19 @@ class VetTest {
 
 	@Test
 	void withId() {
-		final String name = "Max Mustermann";
-		final Vet value0 = createWithName(name);
-		final Vet value1 = value0.withId(value0.getId());
+		final var name = "Max Mustermann";
+		final var value0 = createWithName(name);
+		final var value1 = value0.withId(value0.getId());
 		assertSame(value0, value1);
-		final Vet value2 = value0.withId(UUID.randomUUID());
+		final var value2 = value0.withId(UUID.randomUUID());
 		assertNotSame(value0, value2);
 		assertTrue(value0.isEqual(value2));
 	}
 
 	@Test
 	void json() {
-		final String name = "Max Mustermann";
-		final Vet value = createWithName(name);
+		final var name = "Max Mustermann";
+		final var value = createWithName(name);
 		assertDoesNotThrow(value::verify);
 		assertNotNull(value.getId());
 		assertEquals(name, value.getName());
@@ -83,8 +85,8 @@ class VetTest {
 
 	@Test
 	public void jsonSkill() {
-		final String name = "Max Mustermann";
-		final Vet value = createWithName(name);
+		final var name = "Max Mustermann";
+		final var value = createWithName(name);
 		assertDoesNotThrow(value::verify);
 		assertNotNull(value.getId());
 		assertEquals(name, value.getName());

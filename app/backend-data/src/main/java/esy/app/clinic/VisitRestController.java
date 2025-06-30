@@ -2,7 +2,7 @@ package esy.app.clinic;
 
 import esy.api.clinic.Visit;
 import esy.rest.JsonJpaRestControllerBase;
-import io.micrometer.core.lang.NonNull;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;

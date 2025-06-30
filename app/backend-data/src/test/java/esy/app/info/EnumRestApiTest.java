@@ -81,11 +81,13 @@ class EnumRestApiTest {
     @Order(20)
     void postApiEnum(final String code, final String name, final String text) throws Exception {
         mockMvc.perform(post("/api/enum/" + ENUM_ART)
-                        .content("{" +
-                                "\"code\":\"" + code + "\"," +
-                                "\"name\":\"" + name +"\"," +
-                                "\"text\":\"" + text + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "code":"%s",
+                                    "name":"%s",
+                                    "text":"%s"
+                                }
+                                """.formatted(code, name, text))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -109,11 +111,13 @@ class EnumRestApiTest {
     @Order(21)
     void postApiEnumConflict() throws Exception {
         mockMvc.perform(post("/api/enum/" + ENUM_ART)
-                        .content("{" +
-                                "\"code\":\"0\"," +
-                                "\"name\":\"A\"," +
-                                "\"text\":\"Alpha\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "code":"0",
+                                    "name":"A",
+                                    "text":"Alpha"
+                                }
+                                """)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -125,11 +129,13 @@ class EnumRestApiTest {
     @Order(30)
     void putApiEnum() throws Exception {
         mockMvc.perform(put("/api/enum/" + ENUM_ART + "/0")
-                        .content("{" +
-                                "\"code\":\"0\"," +
-                                "\"name\":\"A1\"," +
-                                "\"text\":\"Alpha Eins\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "code":"0",
+                                    "name":"A1",
+                                    "text":"Alpha Eins"
+                                }
+                                """)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -155,11 +161,13 @@ class EnumRestApiTest {
     @Order(31)
     void putApiEnumConflict() throws Exception {
         mockMvc.perform(put("/api/enum/" + ENUM_ART + "/0")
-                        .content("{" +
-                                "\"code\":\"0\"," +
-                                "\"name\":\"B\"," +
-                                "\"text\":\"Alpha\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "code":"0",
+                                    "name":"B",
+                                    "text":"Alpha"
+                                }
+                                """)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -171,11 +179,13 @@ class EnumRestApiTest {
     @Order(32)
     void putApiEnumNotFound() throws Exception {
         mockMvc.perform(put("/api/enum/" + ENUM_ART + "/26")
-                        .content("{" +
-                                "\"code\":\"26\"," +
-                                "\"name\":\"Z\"," +
-                                "\"text\":\"Zeta\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "code":"26",
+                                    "name":"Z",
+                                    "text":"Zeta"
+                                }
+                                """)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

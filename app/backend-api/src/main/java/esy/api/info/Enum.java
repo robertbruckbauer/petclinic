@@ -104,7 +104,7 @@ public final class Enum extends JsonJpaEntity<Enum> {
             return false;
         }
         return this.art.equals(that.art) &&
-                this.code == that.code &&
+                this.code.equals(that.code) &&
                 this.name.equals(that.name) &&
                 this.text.equals(that.text);
     }
@@ -135,7 +135,7 @@ public final class Enum extends JsonJpaEntity<Enum> {
 
     @JsonAnyGetter
     private Map<String, Object> extraJson() {
-        final Map<String, Object> allExtra = new HashMap<>();
+        final var allExtra = new HashMap<String, Object>();
         allExtra.put("version", getVersion());
         return allExtra;
     }

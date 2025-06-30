@@ -67,14 +67,18 @@ class VisitGraphqlTest {
             "2021-04-30"
     })
     void queryAllVisitAt(final String date) {
-        final var value = Visit.parseJson("{" +
-                "\"date\":\"" + date + "\"," +
-                "\"text\":\"Lorem ipsum.\"" +
-                "}");
+        final var value = Visit.parseJson("""
+                {
+                    "date":"%s",
+                    "text":"Lorem ipsum."
+                }
+                """.formatted(date));
         when(visitRepository.findAll(any(BooleanExpression.class), any(OrderSpecifier.class)))
                 .thenReturn(List.of(value));
         final var data = graphQlTester
-                .document("{allVisitAt(date: \"" + date + "\"){text}}")
+                .document("""
+                        {allVisitAt(date: "%s"){text}}
+                        """.formatted(date))
                 .execute();
         assertNotNull(data);
         final var allText = data.path("allVisitAt[*].text")

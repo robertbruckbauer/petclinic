@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class BackendSpecificationTest {
 
     private <T> Path restApiFor(final Class<T> clazz) {
-        return Paths.get(String.format("src/main/java/%sRestApi.adoc",
+        return Paths.get("src/main/java/%sRestApi.adoc".formatted(
                 clazz.getName()
                         .replace("esy.api.", "esy/app/")
                         .replaceAll("\\.", "/")));

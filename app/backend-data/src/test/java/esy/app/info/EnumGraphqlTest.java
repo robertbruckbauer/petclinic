@@ -32,21 +32,26 @@ class EnumGraphqlTest {
     @Test
     void queryAllEnum() {
         final var art = "species";
-        final var value1 = Enum.parseJson("{" +
-                "\"code\": 0," +
-                "\"name\":\"Cat\"," +
-                "\"text\":\"A cat (tax. felis catus) is a domestic species of a small carnivorous mammal.\"" +
-                "}");
-        final var value2 = Enum.parseJson("{" +
-                "\"code\": 1," +
-                "\"name\":\"Dog\"," +
-                "\"text\":\"A dog (tax. canis familiaris) is a domesticated descendant of the wolf.\"" +
-                "}");
+        final var value1 = Enum.parseJson("""
+                {
+                    "code": 0,
+                    "name":"Cat",
+                    "text":"A cat (tax. felis catus) is a domestic species of a small carnivorous mammal."
+                }
+                """);
+        final var value2 = Enum.parseJson("""
+                {
+                    "code": 1,
+                    "name":"Dog",
+                    "text":"A dog (tax. canis familiaris) is a domesticated descendant of the wolf."
+                }
+                """);
         when(enumRepository.findAll(art))
                 .thenReturn(List.of(value1, value2));
-        final var query = String.format("{allEnum(art:\"%s\"){name}}", art);
         final var data = graphQlTester
-                .document(query)
+                .document("""
+                        {allEnum(art:"%s"){name}}
+                        """.formatted(art))
                 .execute();
         assertNotNull(data);
         final var allName = data.path("allEnum[*].name")

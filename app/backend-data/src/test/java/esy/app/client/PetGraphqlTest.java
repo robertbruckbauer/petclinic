@@ -31,15 +31,19 @@ class PetGraphqlTest {
 
     @Test
     void queryAllPet() {
-        final var value = Pet.parseJson("{" +
-                "\"name\":\"Tom\"," +
-                "\"born\":\"2021-04-22\"," +
-                "\"species\":\"Cat\"" +
-                "}");
+        final var value = Pet.parseJson("""
+                {
+                    "name":"Tom",
+                    "born":"2021-04-22",
+                    "species":"Cat"
+                }
+                """);
         when(petRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
-                .document("{allPet{name}}")
+                .document("""
+                        {allPet{name}}
+                        """)
                 .execute();
         assertNotNull(data);
         final var allName = data.path("allPet[*].name")

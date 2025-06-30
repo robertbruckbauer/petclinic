@@ -12,31 +12,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class PetTest {
 
 	Pet createWithName(final String name) {
-		return Pet.parseJson("{" +
-				"\"name\":\"" + name + "\"," +
-				"\"born\":\"2021-04-22\"," +
-				"\"species\":\"Cat\"" +
-				"}");
+		return Pet.parseJson("""
+                {
+                	"name":"%s",
+                	"born":"2021-04-22",
+                	"species":"Cat"
+				}
+				""".formatted(name));
 	}
 
 	@Test
 	void equalsHashcodeToString() {
-		final String name = "Tom";
-		final Pet value = createWithName(name);
+		final var name = "Tom";
+		final var value = createWithName(name);
 		// Identisches Objekt
 		assertEquals(value, value);
 		assertTrue(value.isEqual(value));
 		assertEquals(value.hashCode(), value.hashCode());
 		assertEquals(value.toString(), value.toString());
 		// Gleiches Objekt
-		final Pet clone = createWithName(name);
+		final var clone = createWithName(name);
 		assertNotSame(value, clone);
 		assertNotEquals(clone, value);
 		assertTrue(value.isEqual(clone));
 		assertNotEquals(clone.hashCode(), value.hashCode());
 		assertNotEquals(clone.toString(), value.toString());
 		// Anderes Objekt
-		final Pet other = createWithName("X" + name);
+		final var other = createWithName("X" + name);
 		assertNotSame(value, other);
 		assertNotEquals(other, value);
 		assertFalse(value.isEqual(other));
@@ -51,19 +53,19 @@ class PetTest {
 
 	@Test
 	void withId() {
-		final String name = "Tom";
-		final Pet value0 = createWithName(name);
-		final Pet value1 = value0.withId(value0.getId());
+		final var name = "Tom";
+		final var value0 = createWithName(name);
+		final var value1 = value0.withId(value0.getId());
 		assertSame(value0, value1);
-		final Pet value2 = value0.withId(UUID.randomUUID());
+		final var value2 = value0.withId(UUID.randomUUID());
 		assertNotSame(value0, value2);
 		assertTrue(value0.isEqual(value2));
 	}
 
 	@Test
 	void json() {
-		final String name = "Tom";
-		final Pet value = createWithName(name);
+		final var name = "Tom";
+		final var value = createWithName(name);
 		assertDoesNotThrow(value::verify);
 		assertNotNull(value.getId());
 		assertEquals(name, value.getName());
