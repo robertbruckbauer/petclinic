@@ -11,8 +11,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
 
     private final ApplicationEventPublisher eventPublisher;
@@ -23,7 +23,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void beforeCreate(@NonNull final V value) {
         log.info("RECEIVED [{}]; creating ...", value);
         beforeCreateTransaction(value.verify()).ifPresent(transactionTemplate::execute);
-        log.info("ACCEPTED [{}]", value);
+        logAccepted(value);
     }
 
     // tag::beforeCreateTransaction[]
@@ -36,7 +36,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void afterCreate(@NonNull final V value) {
         afterCreateTransaction(value).ifPresent(transactionTemplate::execute);
         eventPublisher.publishEvent(value);
-        log.info("CREATED [{}]", value);
+        logCreated(value);
     }
 
     // tag::afterCreateTransaction[]
@@ -49,7 +49,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void beforeSave(@NonNull final V value) {
         log.info("RECEIVED [{}]; updating ...", value);
         beforeSaveTransaction(value.verify()).ifPresent(transactionTemplate::execute);
-        log.info("ACCEPTED [{}]", value);
+        logAccepted(value);
     }
 
     // tag::beforeSaveTransaction[]
@@ -62,7 +62,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void afterSave(@NonNull final V value) {
         afterSaveTransaction(value).ifPresent(transactionTemplate::execute);
         eventPublisher.publishEvent(value);
-        log.info("UPDATED [{}]", value);
+        logUpdated(value);
     }
 
     // tag::afterSaveTransaction[]
@@ -75,7 +75,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void beforeLinkSave(@NonNull final V value, final Object rel) {
         log.info("RECEIVED [{}]; linking with [{}] ...", value, rel);
         beforeLinkSaveTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);
-        log.info("ACCEPTED [{}]", value);
+        logAccepted(value);
     }
 
     // tag::beforeLinkSaveTransaction[]
@@ -88,7 +88,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void afterLinkSave(@NonNull final V value, final Object rel) {
         afterLinkSaveTransaction(value, rel).ifPresent(transactionTemplate::execute);
         eventPublisher.publishEvent(value);
-        log.info("UPDATED [{}]", value);
+        logUpdated(value);
     }
 
     // tag::afterLinkSaveTransaction[]
@@ -101,7 +101,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void beforeDelete(@NonNull final V value) {
         log.info("RECEIVED [{}]; deleting ...", value);
         beforeDeleteTransaction(value.verify()).ifPresent(transactionTemplate::execute);
-        log.info("ACCEPTED [{}]", value);
+        logAccepted(value);
     }
 
     // tag::beforeDeleteTransaction[]
@@ -114,7 +114,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void afterDelete(@NonNull final V value) {
         afterDeleteTransaction(value).ifPresent(transactionTemplate::execute);
         eventPublisher.publishEvent(value);
-        log.info("DELETED [{}]", value);
+        logDeleted(value);
     }
 
     // tag::afterDeleteTransaction[]
@@ -127,7 +127,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void beforeLinkDelete(@NonNull final V value, final Object rel) {
         log.info("RECEIVED [{}]; unlinking [{}] ...", value, rel);
         beforeLinkDeleteTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);
-        log.info("ACCEPTED [{}]", value);
+        logAccepted(value);
     }
 
     // tag::beforeLinkDeleteTransaction[]
@@ -140,7 +140,7 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
     public final void afterLinkDelete(@NonNull final V value, final Object rel) {
         afterLinkDeleteTransaction(value, rel).ifPresent(transactionTemplate::execute);
         eventPublisher.publishEvent(value);
-        log.info("DELETED [{}]", value);
+        logDeleted(value);
     }
 
     // tag::afterLinkDeleteTransaction[]
@@ -148,4 +148,20 @@ public abstract class JsonJpaRestControllerBase<V extends JsonJpaEntity<V>> {
         return Optional.empty();
     }
     // end::afterLinkDeleteTransaction[]
+
+    static <T> void logAccepted(@NonNull final T value) {
+        log.info("ACCEPTED [{}]", value);
+    }
+
+    static <T> void logCreated(@NonNull final T value) {
+        log.info("CREATED [{}]", value);
+    }
+
+    static <T> void logUpdated(@NonNull final T value) {
+        log.info("UPDATED [{}]", value);
+    }
+
+    static <T> void logDeleted(@NonNull final T value) {
+        log.info("DELETED [{}]", value);
+    }
 }

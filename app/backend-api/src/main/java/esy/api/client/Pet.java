@@ -99,7 +99,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
         if (Objects.equals(getId(), id)) {
             return this;
         }
-        final Pet value = new Pet(getVersion(), id);
+        final var value = new Pet(getVersion(), id);
         value.name = this.name;
         value.born = this.born;
         value.species = this.species;
@@ -109,7 +109,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
 
     @JsonAnyGetter
     private Map<String, Object> extraJson() {
-        final Map<String, Object> allExtra = new HashMap<>();
+        final var allExtra = new HashMap<String, Object>();
         allExtra.put("version", getVersion());
         allExtra.put("ownerItem", OwnerItem.fromValue(owner));
         return allExtra;

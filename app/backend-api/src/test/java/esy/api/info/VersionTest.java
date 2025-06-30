@@ -22,13 +22,13 @@ class VersionTest {
 
     @Test
     public void withDefaults() {
-        final Version classUnderTest = new Version();
+        final var classUnderTest = new Version();
         assertEquals(classUnderTest, classUnderTest);
-        final Version v0 = new Version();
+        final var v0 = new Version();
         assertEquals(v0, classUnderTest);
         assertEquals(v0.hashCode(), classUnderTest.hashCode());
         assertEquals(v0.toString(), classUnderTest.toString());
-        final Version v1 = new Version(1);
+        final var v1 = new Version(1);
         assertNotEquals(v1, classUnderTest);
         assertNotEquals(v1.hashCode(), classUnderTest.hashCode());
         assertNotEquals(v1.toString(), classUnderTest.toString());
@@ -40,13 +40,13 @@ class VersionTest {
 
     @Test
     public void withMajor() {
-        final Version classUnderTest = new Version(1);
+        final var classUnderTest = new Version(1);
         assertEquals(classUnderTest, classUnderTest);
-        final Version v0 = new Version();
+        final var v0 = new Version();
         assertNotEquals(v0, classUnderTest);
         assertNotEquals(v0.hashCode(), classUnderTest.hashCode());
         assertNotEquals(v0.toString(), classUnderTest.toString());
-        final Version v1 = new Version(1);
+        final var v1 = new Version(1);
         assertEquals(v1, classUnderTest);
         assertEquals(v1.hashCode(), classUnderTest.hashCode());
         assertEquals(v1.toString(), classUnderTest.toString());
@@ -58,17 +58,17 @@ class VersionTest {
 
     @Test
     public void withMinor() {
-        final Version classUnderTest = new Version(2, 1);
+        final var classUnderTest = new Version(2, 1);
         assertEquals(classUnderTest, classUnderTest);
-        final Version v0 = new Version();
+        final var v0 = new Version();
         assertNotEquals(v0, classUnderTest);
         assertNotEquals(v0.hashCode(), classUnderTest.hashCode());
         assertNotEquals(v0.toString(), classUnderTest.toString());
-        final Version v1 = new Version(1);
+        final var v1 = new Version(1);
         assertNotEquals(v1, classUnderTest);
         assertNotEquals(v1.hashCode(), classUnderTest.hashCode());
         assertNotEquals(v1.toString(), classUnderTest.toString());
-        final Version v2 = new Version(2,1);
+        final var v2 = new Version(2,1);
         assertEquals(v2, classUnderTest);
         assertEquals(v2.hashCode(), classUnderTest.hashCode());
         assertEquals(v2.toString(), classUnderTest.toString());

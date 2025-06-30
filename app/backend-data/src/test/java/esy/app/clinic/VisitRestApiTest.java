@@ -97,12 +97,14 @@ class VisitRestApiTest {
     @Order(20)
     void postApiVisit(final String date) throws Exception {
         mockMvc.perform(post("/api/visit")
-                        .content("{" +
-                                "\"pet\":\"/api/pet/c1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"vet\":\"/api/vet/d1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"date\":\"" + date + "\"," +
-                                "\"text\":\"Lorem ipsum.\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "pet":"/api/pet/c1111111-1111-beef-dead-beefdeadbeef",
+                                    "vet":"/api/vet/d1111111-1111-beef-dead-beefdeadbeef",
+                                    "date":"%s",
+                                    "text":"Lorem ipsum."
+                                }
+                                """.formatted(date))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -126,12 +128,14 @@ class VisitRestApiTest {
     @Order(21)
     void postApiVisitConflict() throws Exception {
         mockMvc.perform(post("/api/visit")
-                        .content("{" +
-                                "\"pet\":\"/api/pet/c1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"vet\":\"/api/vet/d1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"date\":\"2021-04-22\"," +
-                                "\"text\":\"Lorem ipsum.\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "pet":"/api/pet/c1111111-1111-beef-dead-beefdeadbeef",
+                                    "vet":"/api/vet/d1111111-1111-beef-dead-beefdeadbeef",
+                                    "date":"2021-04-22",
+                                    "text":"Lorem ipsum."
+                                }
+                                """)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -147,12 +151,14 @@ class VisitRestApiTest {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/visit/" + uuid)
-                        .content("{" +
-                                "\"pet\":\"/api/pet/c1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"vet\":\"/api/vet/d1111111-1111-beef-dead-beefdeadbeef\"," +
-                                "\"date\":\"" + date + "\"," +
-                                "\"text\":\"" + text + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "pet":"/api/pet/c1111111-1111-beef-dead-beefdeadbeef",
+                                    "vet":"/api/vet/d1111111-1111-beef-dead-beefdeadbeef",
+                                    "date":"%s",
+                                    "text":"%s"
+                                }
+                                """.formatted(date, text))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -187,9 +193,11 @@ class VisitRestApiTest {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
-                        .content("{" +
-                                "\"date\":\"" + date + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "date":"%s"
+                                }
+                                """.formatted(date))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -214,9 +222,11 @@ class VisitRestApiTest {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
-                        .content("{" +
-                                "\"text\":\"" + text + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "text":"%s"
+                                }
+                                """.formatted(text))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -240,9 +250,11 @@ class VisitRestApiTest {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
-                        .content("{" +
-                                "\"pet\":\"/api/pet/c2222222-2222-beef-dead-beefdeadbeef\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "pet":"/api/pet/c2222222-2222-beef-dead-beefdeadbeef"
+                                }
+                                """)
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -288,9 +300,11 @@ class VisitRestApiTest {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
-                        .content("{" +
-                                "\"vet\":\"/api/vet/d2222222-2222-beef-dead-beefdeadbeef\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "vet":"/api/vet/d2222222-2222-beef-dead-beefdeadbeef"
+                                }
+                                """)
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

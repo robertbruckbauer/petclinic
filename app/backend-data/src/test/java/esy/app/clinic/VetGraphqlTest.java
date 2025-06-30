@@ -31,13 +31,17 @@ class VetGraphqlTest {
 
     @Test
     void queryAllVet() {
-        final var value = Vet.parseJson("{" +
-                "\"name\":\"Tom\"" +
-                "}");
+        final var value = Vet.parseJson("""
+                {
+                    "name":"Tom"
+                }
+                """);
         when(vetRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
-                .document("{allVet{name}}")
+                .document("""
+                        {allVet{name}}
+                        """)
                 .execute();
         assertNotNull(data);
         final var allName = data.path("allVet[*].name")

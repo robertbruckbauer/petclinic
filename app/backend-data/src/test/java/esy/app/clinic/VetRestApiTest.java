@@ -80,9 +80,11 @@ class VetRestApiTest {
         final var name = "Max Mustermann";
         assertFalse(vetRepository.findOne(QVet.vet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/vet")
-                        .content("{" +
-                                "\"name\":\"" + name + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -106,9 +108,11 @@ class VetRestApiTest {
         final var name = "Max Mustermann";
         assertTrue(vetRepository.findOne(QVet.vet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/vet")
-                        .content("{" +
-                                "\"name\":\"" + name + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -123,9 +127,11 @@ class VetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/vet/" + uuid)
-                        .content("{" +
-                                "\"name\":\"" + name + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -153,9 +159,11 @@ class VetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/vet/" + uuid)
-                        .content("{" +
-                                "\"name\": \"" + name + "\"" +
-                                "}")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -179,9 +187,11 @@ class VetRestApiTest {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/vet/" + uuid)
-                        .content("{" +
-                                "\"allSkill\": [\"Z\",\"A\"]" +
-                                "}")
+                        .content("""
+                                {
+                                    "allSkill":["Z","A"]
+                                }
+                                """)
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

@@ -19,10 +19,12 @@ public class LocalDateScalar {
     static final String SCALAR_NAME = "LocalDate";
     static final String FORMATTER_PATTERN = "yyyy-MM-dd";
     static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(FORMATTER_PATTERN);
+
     public static GraphQLScalarType createLocalDateScalar() {
         return GraphQLScalarType.newScalar()
                 .name(SCALAR_NAME)
-                .description(String.format("Custom scalar for handling %s with format '%s'", SCALAR_NAME, FORMATTER_PATTERN))
+                .description("Custom scalar for handling %s with format '%s'".formatted(
+                        SCALAR_NAME, FORMATTER_PATTERN))
                 .coercing(new Coercing<LocalDate, String>() {
 
                     @Override
@@ -30,10 +32,8 @@ public class LocalDateScalar {
                         if (input instanceof LocalDate date) {
                             return FORMATTER.format(date);
                         }
-                        throw new CoercingParseValueException(String.format(
-                                "Invalid type %s. Expected %s.",
-                                input.getClass().getName(),
-                                SCALAR_NAME));
+                        throw new CoercingParseValueException("Invalid type %s. Expected %s.".formatted(
+                                input.getClass().getName(), SCALAR_NAME));
                     }
 
                     @Override
@@ -42,15 +42,12 @@ public class LocalDateScalar {
                             try {
                                 return LocalDate.parse(dateString, FORMATTER);
                             } catch (DateTimeParseException e) {
-                                final var message = String.format(
-                                        "Invalid input '%s'. Expected '%s'.",
-                                        dateString,
-                                        FORMATTER_PATTERN);
+                                final var message = "Invalid input '%s'. Expected '%s'.".formatted(
+                                        dateString, FORMATTER_PATTERN);
                                 throw new CoercingParseValueException(message, e);
                             }
                         }
-                        final var message = String.format(
-                                "Invalid type %s. Expected String.",
+                        final var message = "Invalid type %s. Expected String.".formatted(
                                 input.getClass().getName());
                         throw new CoercingParseValueException(message);
                     }
@@ -61,15 +58,12 @@ public class LocalDateScalar {
                             try {
                                 return LocalDate.parse(dateString.getValue(), FORMATTER);
                             } catch (DateTimeParseException e) {
-                                final var message = String.format(
-                                        "Invalid input '%s'. Expected '%s'.",
-                                        dateString,
-                                        FORMATTER_PATTERN);
+                                final var message = "Invalid input '%s'. Expected '%s'.".formatted(
+                                        dateString, FORMATTER_PATTERN);
                                 throw new CoercingParseLiteralException(message, e);
                             }
                         }
-                        final var message = String.format(
-                                "Invalid type %s. Expected StringValue.",
+                        final var message = "Invalid type %s. Expected StringValue.".formatted(
                                 input.getClass().getName());
                         throw new CoercingParseValueException(message);
                     }

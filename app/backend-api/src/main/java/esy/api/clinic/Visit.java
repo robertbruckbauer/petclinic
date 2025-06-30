@@ -96,7 +96,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         if (Objects.equals(getId(), id)) {
             return this;
         }
-        final Visit value = new Visit(getVersion(), id);
+        final var value = new Visit(getVersion(), id);
         value.date = this.date;
         value.text = this.text;
         value.pet = this.pet;
@@ -106,7 +106,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
 
     @JsonAnyGetter
     private Map<String, Object> extraJson() {
-        final Map<String, Object> allExtra = new HashMap<>();
+        final var allExtra = new HashMap<String, Object>();
         allExtra.put("version", getVersion());
         allExtra.put("ownerItem", OwnerItem.fromValue(pet));
         allExtra.put("petItem", PetItem.fromValue(pet));

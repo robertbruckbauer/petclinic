@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class ServerRunner {
 
     public static void main(final String[] args) {
-        final SpringApplicationBuilder builder = new SpringApplicationBuilder(ServerRunner.class);
+        final var builder = new SpringApplicationBuilder(ServerRunner.class);
         builder.run(args);
     }
 }

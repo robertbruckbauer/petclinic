@@ -58,12 +58,14 @@ public class EnumRepositoryTest {
     static final String ENUM_ART = "TEST";
 
     Enum createWithName(final String name, final Long code) {
-        final String json = "{" +
-                "\"art\": \"" + ENUM_ART + "\"," +
-                "\"code\": \"" + code + "\","+
-                "\"name\": \"" + name + "\"," +
-                "\"text\": \"A " + name + "\"" +
-                "}";
+        final var json = """
+                {
+                    "art":"%s",
+                    "code":"%d",
+                    "name":"%3$s",
+                    "text":"A %3$s"
+                }
+                """.formatted(ENUM_ART, code, name);
         return Enum.parseJson(json);
     }
 
@@ -79,8 +81,8 @@ public class EnumRepositoryTest {
     })
     @Order(1)
     void saveEnum(final String name) {
-        final Long code = enumRepository.count(ENUM_ART);
-        final Enum value0 = createWithName(name, code);
+        final var code = enumRepository.count(ENUM_ART);
+        final var value0 = createWithName(name, code);
         assertFalse(value0.isPersisted());
         assertEquals(0L, value0.getVersion());
         assertEquals(ENUM_ART, value0.getArt());
@@ -88,7 +90,7 @@ public class EnumRepositoryTest {
         assertEquals(name, value0.getName());
         assertEquals("A " + name, value0.getText());
 
-        final Enum value1 = transactionTemplate.execute(status ->
+        final var value1 = transactionTemplate.execute(status ->
                 enumRepository.save(value0));
         assertNotNull(value1);
         assertTrue(value1.isPersisted());
@@ -113,7 +115,7 @@ public class EnumRepositoryTest {
     @Order(3)
     void findEnum() {
         assertEquals(7, enumRepository.count(ENUM_ART));
-        final Enum value = enumRepository.findAll(ENUM_ART).getFirst();
+        final var value = enumRepository.findAll(ENUM_ART).getFirst();
         assertEquals(value, enumRepository.findByCode(ENUM_ART, 0L).orElseThrow());
         assertEquals(value, enumRepository.findByName(ENUM_ART, "JIRA").orElseThrow());
         assertTrue(enumRepository.existsById(value.getId()));
@@ -123,7 +125,7 @@ public class EnumRepositoryTest {
     @Test
     @Order(4)
     void findEnumNoElement() {
-        final UUID uuid = UUID.randomUUID();
+        final var uuid = UUID.randomUUID();
         assertFalse(enumRepository.existsById(uuid));
         assertFalse(enumRepository.findById(uuid).isPresent());
     }
@@ -132,7 +134,7 @@ public class EnumRepositoryTest {
     @Order(5)
     void findAll() {
         assertEquals(7, enumRepository.count(ENUM_ART));
-        final List<Enum> allValue = enumRepository.findAll(ENUM_ART);
+        final var allValue = enumRepository.findAll(ENUM_ART);
         assertEquals(7, allValue.size());
         assertEquals("JIRA", allValue.get(0).getName());
         assertEquals("JIRA Cloud", allValue.get(1).getName());

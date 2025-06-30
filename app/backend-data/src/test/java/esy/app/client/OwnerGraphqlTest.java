@@ -34,15 +34,19 @@ class OwnerGraphqlTest {
 
     @Test
     void queryAllOwner() {
-        final var value = Owner.parseJson("{" +
-                "\"name\":\"Tom\"," +
-                "\"address\":\"Bergweg 1, 5400 Hallein\"," +
-                "\"contact\":\"+43 660 5557683\"" +
-                "}");
+        final var value = Owner.parseJson("""
+                {
+                    "name":"Tom",
+                    "address":"Bergweg 1, 5400 Hallein",
+                    "contact":"+43 660 5557683"
+                }
+                """);
         when(ownerRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
-                .document("{allOwner{name}}")
+                .document("""
+                        {allOwner{name}}
+                        """)
                 .execute();
         assertNotNull(data);
         final var allName = data.path("allOwner[*].name")
