@@ -1,7 +1,7 @@
 package esy.app.info;
 
 import esy.api.info.Enum;
-import esy.app.GraphqlConfiguration;
+import esy.app.EsyGraphqlConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("fast")
 @GraphQlTest(EnumGraphqlController.class)
-@Import(GraphqlConfiguration.class)
+@Import(EsyGraphqlConfiguration.class)
 @ExtendWith({MockitoExtension.class})
 class EnumGraphqlTest {
 

@@ -54,9 +54,10 @@ public class ServerRunnerTest {
 		assertThat(result.getCode(),
 				equalTo(HttpStatus.OK.value()));
 		final var allValue = result.toObject(Map.class);
-		assertEquals(2, allValue.size());
+		assertEquals(3, allValue.size());
 		assertTrue(allValue.containsKey("major"));
 		assertTrue(allValue.containsKey("minor"));
+		assertTrue(allValue.containsKey("version"));
 	}
 
 	@Test

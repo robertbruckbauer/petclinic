@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@SuppressWarnings("java:S119") // ID is ok
 public interface JsonJpaItem<ID> {
 
     /**

@@ -43,11 +43,6 @@ allprojects {
     group = 'esy'
     version = gitVersion()
     repositories {
-        if (project.hasProperty("defaultMavenRepository")) {
-            maven {
-                url "$defaultMavenRepository"
-            }
-        }
         mavenCentral()
     }
 }

@@ -1,7 +1,7 @@
 package esy.app.info;
 
 import esy.api.info.Enum;
-import esy.app.BackendConfiguration;
+import esy.app.EsyBackendConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -17,14 +17,13 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.persistence.EntityManager;
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("slow")
 @SpringBootTest
-@ContextConfiguration(classes = BackendConfiguration.class)
+@ContextConfiguration(classes = EsyBackendConfiguration.class)
 @Transactional
 @Rollback(false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
