@@ -23,13 +23,15 @@ jobs:
     # https://github.com/gradle/actions
     - uses: gradle/actions/setup-gradle@v4
       with:
-        gradle-version: "8.12"
+        gradle-version: "8.14"
 
     # https://github.com/gradle/gradle
     - name: Build Java
       run: |
+        gradle versionCheck
         gradle clean eclipse
-        gradle spotlessCheck build --parallel
+        gradle spotlessCheck
+        gradle build --parallel
         gradle jacocoTestReport
 
     # https://github.com/actions/setup-node

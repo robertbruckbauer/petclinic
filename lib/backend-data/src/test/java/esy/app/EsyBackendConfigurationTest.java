@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("slow")
 @SpringBootTest
-public class BackendConfigurationTest {
+public class EsyBackendConfigurationTest {
 
 	@Autowired
 	private ConfigurableApplicationContext context;
@@ -34,14 +34,14 @@ public class BackendConfigurationTest {
 		assertNotNull(context);
 		assertNotNull(publisher);
 		assertNotNull(resourceLoader);
-		assertNotNull(context.getBean(BackendConfiguration.class));
-		assertNotNull(context.getBean(GraphqlConfiguration.class));
+		assertNotNull(context.getBean(EsyBackendConfiguration.class));
+		assertNotNull(context.getBean(EsyGraphqlConfiguration.class));
 		assertNotNull(context.getBean(CollectionModelProcessor.class));
 	}
 
 	@Test
 	void corsRegsitry() {
-		final var classUnderTest = new BackendConfiguration();
+		final var classUnderTest = new EsyBackendConfiguration();
 		final var corsRegistry = new CorsRegistry();
 		assertDoesNotThrow(() -> classUnderTest.applyCorsConfiguration(corsRegistry));
 	}

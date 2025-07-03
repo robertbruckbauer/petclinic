@@ -3,8 +3,7 @@ package esy.app.clinic;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import esy.api.clinic.Visit;
-import esy.app.BackendConfiguration;
-import esy.app.GraphqlConfiguration;
+import esy.app.EsyGraphqlConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,7 +25,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("fast")
 @GraphQlTest(VisitGraphqlController.class)
-@Import(GraphqlConfiguration.class)
+@Import(EsyGraphqlConfiguration.class)
 @ExtendWith({MockitoExtension.class})
 class VisitGraphqlTest {
 

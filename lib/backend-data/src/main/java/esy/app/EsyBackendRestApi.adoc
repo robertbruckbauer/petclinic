@@ -1,0 +1,119 @@
+:restdocDir: ../../../../../build/generated-snippets
+= Backend-API
+
+REST-API für allgemeine Operationen der Anwendung, z.B. die Abfrage der Version.
+
+== `GET /`
+
+Die Operation liefert keine Daten und meldet *immer* `Not found` bzw. den Code 404.
+
+== `GET /home`
+
+Die Operation liefert keine Daten und meldet immer `Ok` bzw. den Code 200
+
+== `GET /healthz`
+
+Die Operation liefert keine Daten und meldet *immer* `Ok` bzw. den Code 200.
+
+== `GET /actuator/health`
+
+****
+
+.CURL
+include::{restdocDir}/get-health/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-health/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-health/response-body.adoc[]
+
+****
+
+== `GET /actuator/health/liveness`
+
+Die sogenannte _Liveness Probe_ zeigt an, ob die Anwendung ausgeführt wird.
+
+****
+
+.CURL
+include::{restdocDir}/get-health-liveness/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-health-liveness/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-health-liveness/response-body.adoc[]
+
+****
+
+== `GET /actuator/health/readiness`
+
+Die sogenannte _Readiness Probe_ zeigt an, ob die Anwendung bereit ist, auf Anfragen zu antworten.
+
+****
+
+.CURL
+include::{restdocDir}/get-health-readiness/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-health-readiness/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-health-readiness/response-body.adoc[]
+
+****
+
+== `GET /version`
+
+Die Operation lädt die aktuelle Version der Anwendung aus der `VERSION`-Datei im _Classpath_ und stellt sie als Dokument in verschiedenen Formaten zum Download bereit.
+
+.`JSON`-Dokument
+****
+
+.CURL
+include::{restdocDir}/get-version-json/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-version-json/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-version-json/response-body.adoc[]
+
+****
+
+.`ADOC`-Dokument
+****
+
+.CURL
+include::{restdocDir}/get-version-adoc/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-version-adoc/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-version-adoc/response-body.adoc[]
+
+****
+
+.`HTML`-Dokument
+****
+
+.CURL
+include::{restdocDir}/get-version-html/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-version-html/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-version-html/response-body.adoc[]
+
+****
+
+Die Operation meldet `Ok` bzw. den Code 200, wenn die Version erfolgreich konvertiert und als Dokument zum Download verfügbar ist.
+
+Die Operation meldet `No Content` bzw. den Code 204, wenn die Daten nicht zulässig sind.
+
+Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verfügbar sind.
+
+Die Operation meldet `Not Acceptable` bzw. den Code 406, wenn das geforderte Format nicht erzeugt werden kann.
