@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EsyBackendRoot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-data</a> &gt; <a href="index.source.html" class="el_package">esy</a> &gt; <span class="el_source">EsyBackendRoot.java</span></div><h1>EsyBackendRoot.java</h1><pre class="source lang-java linenums">package esy;
+
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+/**
+ * Die Klasse definiert die &lt;i&gt;base package&lt;/i&gt; der standardisierten
+ * Spring-Boot-Komponenten der Anwendung.
+ * Die Klasse loggt Informationen über Phasen der Initialisierung
+ * der Spring-Boot-Anwendung.
+ */
+@Component
+<span class="nc" id="L19">@Slf4j</span>
+public final class EsyBackendRoot implements InitializingBean, DisposableBean, CommandLineRunner {
+
+    public static final String PACKAGE_NAME = &quot;esy.app&quot;;
+
+    @Autowired
+    private Environment env;
+
+<span class="nc" id="L27">    public EsyBackendRoot() {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (!PACKAGE_NAME.startsWith(getClass().getPackageName())) {</span>
+<span class="nc" id="L29">            throw new IllegalStateException(&quot;expected &quot; + PACKAGE_NAME);</span>
+        }
+<span class="nc" id="L31">    }</span>
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+<span class="nc" id="L35">        log.info(&quot;CREATED [{}].&quot;, getClass().getName());</span>
+<span class="nc" id="L36">    }</span>
+
+    @Override
+    public void destroy() throws Exception {
+<span class="nc" id="L40">        log.info(&quot;DELETED [{}].&quot;, getClass().getName());</span>
+<span class="nc" id="L41">    }</span>
+
+    @Override
+    public void run(final String... args) throws Exception {
+<span class="nc" id="L45">        log.info(&quot;STARTED [{}].&quot;, getClass().getName());</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (final String arg: args) {</span>
+<span class="nc" id="L47">            log.info(arg);</span>
+        }
+        // https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+<span class="nc" id="L50">        logProperty(&quot;server.port&quot;);</span>
+<span class="nc" id="L51">        logProperty(&quot;spring.application.name&quot;);</span>
+<span class="nc" id="L52">        logProperty(&quot;spring.profiles.active&quot;);</span>
+        // database.properties
+<span class="nc" id="L54">        logProperty(&quot;spring.datasource.name&quot;);</span>
+<span class="nc" id="L55">        logProperty(&quot;spring.datasource.url&quot;);</span>
+<span class="nc" id="L56">        logProperty(&quot;spring.datasource.username&quot;);</span>
+<span class="nc" id="L57">        hasProperty(&quot;spring.datasource.password&quot;);</span>
+<span class="nc" id="L58">        logProperty(&quot;spring.jpa.properties.hibernate.show_sql&quot;);</span>
+<span class="nc" id="L59">        logProperty(&quot;spring.jpa.properties.hibernate.format_sql&quot;);</span>
+<span class="nc" id="L60">        logProperty(&quot;spring.jpa.properties.hibernate.generate_statistics&quot;);</span>
+<span class="nc" id="L61">        logProperty(&quot;spring.jpa.properties.hibernate.metadata_builder_contributor&quot;);</span>
+<span class="nc" id="L62">     }</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    private void logProperty(@NonNull final String key) {</span>
+<span class="nc" id="L65">        final String value = env.getProperty(key);</span>
+<span class="nc" id="L66">        log.info(&quot;{}=[{}].&quot;, key, value);</span>
+<span class="nc" id="L67">    }</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    private void hasProperty(@NonNull final String key) {</span>
+<span class="nc" id="L70">        final String value = env.getProperty(key);</span>
+<span class="nc bnc" id="L71" title="All 4 branches missed.">        log.info(&quot;{}=[{}].&quot;, key, value != null &amp;&amp; !value.isBlank());</span>
+<span class="nc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

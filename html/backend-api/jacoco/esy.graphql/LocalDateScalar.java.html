@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocalDateScalar.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.graphql</a> &gt; <span class="el_source">LocalDateScalar.java</span></div><h1>LocalDateScalar.java</h1><pre class="source lang-java linenums">package esy.graphql;
+
 import graphql.GraphQLContext;
 import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
-import graphql.schema.Coercing;
-import graphql.schema.CoercingParseLiteralException;
-import graphql.schema.CoercingParseValueException;
-import graphql.schema.CoercingSerializeException;
-import graphql.schema.GraphQLScalarType;
+import graphql.schema.*;
 import lombok.NonNull;
 
 import java.time.LocalDate;
@@ -15,59 +12,67 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
-<span class="nc" id="L18">public class LocalDateScalar {</span>
+public class LocalDateScalar {
+    private LocalDateScalar() {}
+
     static final String SCALAR_NAME = &quot;LocalDate&quot;;
     static final String FORMATTER_PATTERN = &quot;yyyy-MM-dd&quot;;
-<span class="nc" id="L21">    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(FORMATTER_PATTERN);</span>
-
-    public static GraphQLScalarType createLocalDateScalar() {
-<span class="nc" id="L24">        return GraphQLScalarType.newScalar()</span>
-<span class="nc" id="L25">                .name(SCALAR_NAME)</span>
-<span class="nc" id="L26">                .description(&quot;Custom scalar for handling %s with format '%s'&quot;.formatted(</span>
-                        SCALAR_NAME, FORMATTER_PATTERN))
-<span class="nc" id="L28">                .coercing(new Coercing&lt;LocalDate, String&gt;() {</span>
+<span class="nc" id="L20">    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(FORMATTER_PATTERN);</span>
+    public static GraphQLScalarType createScalarType() {
+<span class="nc" id="L22">        return GraphQLScalarType.newScalar()</span>
+<span class="nc" id="L23">                .name(SCALAR_NAME)</span>
+<span class="nc" id="L24">                .description(String.format(&quot;Custom scalar for handling %s with format '%s'&quot;, SCALAR_NAME, FORMATTER_PATTERN))</span>
+<span class="nc" id="L25">                .coercing(new Coercing&lt;LocalDate, String&gt;() {</span>
 
                     @Override
-<span class="nc bnc" id="L31" title="All 6 branches missed.">                    public String serialize(@NonNull Object input, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingSerializeException {</span>
-<span class="nc bnc" id="L32" title="All 2 branches missed.">                        if (input instanceof LocalDate date) {</span>
-<span class="nc" id="L33">                            return FORMATTER.format(date);</span>
+<span class="nc bnc" id="L28" title="All 6 branches missed.">                    public String serialize(@NonNull Object input, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingSerializeException {</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">                        if (input instanceof LocalDate date) {</span>
+<span class="nc" id="L30">                            return FORMATTER.format(date);</span>
                         }
-<span class="nc" id="L35">                        throw new CoercingParseValueException(&quot;Invalid type %s. Expected %s.&quot;.formatted(</span>
-<span class="nc" id="L36">                                input.getClass().getName(), SCALAR_NAME));</span>
+<span class="nc" id="L32">                        throw new CoercingParseValueException(String.format(</span>
+                                &quot;Invalid type %s. Expected %s.&quot;,
+<span class="nc" id="L34">                                input.getClass().getName(),</span>
+                                SCALAR_NAME));
                     }
 
                     @Override
-<span class="nc bnc" id="L40" title="All 6 branches missed.">                    public LocalDate parseValue(@NonNull Object input, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseValueException {</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">                        if (input instanceof String dateString) {</span>
+<span class="nc bnc" id="L39" title="All 6 branches missed.">                    public LocalDate parseValue(@NonNull Object input, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseValueException {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                        if (input instanceof String dateString) {</span>
                             try {
-<span class="nc" id="L43">                                return LocalDate.parse(dateString, FORMATTER);</span>
-<span class="nc" id="L44">                            } catch (DateTimeParseException e) {</span>
-<span class="nc" id="L45">                                final var message = &quot;Invalid input '%s'. Expected '%s'.&quot;.formatted(</span>
-                                        dateString, FORMATTER_PATTERN);
-<span class="nc" id="L47">                                throw new CoercingParseValueException(message, e);</span>
+<span class="nc" id="L42">                                return LocalDate.parse(dateString, FORMATTER);</span>
+<span class="nc" id="L43">                            } catch (DateTimeParseException e) {</span>
+<span class="nc" id="L44">                                final var message = String.format(</span>
+                                        &quot;Invalid input '%s'. Expected '%s'.&quot;,
+                                        dateString,
+                                        FORMATTER_PATTERN);
+<span class="nc" id="L48">                                throw new CoercingParseValueException(message, e);</span>
                             }
                         }
-<span class="nc" id="L50">                        final var message = &quot;Invalid type %s. Expected String.&quot;.formatted(</span>
-<span class="nc" id="L51">                                input.getClass().getName());</span>
-<span class="nc" id="L52">                        throw new CoercingParseValueException(message);</span>
+<span class="nc" id="L51">                        final var message = String.format(</span>
+                                &quot;Invalid type %s. Expected String.&quot;,
+<span class="nc" id="L53">                                input.getClass().getName());</span>
+<span class="nc" id="L54">                        throw new CoercingParseValueException(message);</span>
                     }
 
                     @Override
-<span class="nc bnc" id="L56" title="All 8 branches missed.">                    public LocalDate parseLiteral(@NonNull Value&lt;?&gt; input, @NonNull CoercedVariables variables, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseLiteralException {</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">                        if (input instanceof StringValue dateString) {</span>
+<span class="nc bnc" id="L58" title="All 8 branches missed.">                    public LocalDate parseLiteral(@NonNull Value&lt;?&gt; input, @NonNull CoercedVariables variables, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseLiteralException {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                        if (input instanceof StringValue dateString) {</span>
                             try {
-<span class="nc" id="L59">                                return LocalDate.parse(dateString.getValue(), FORMATTER);</span>
-<span class="nc" id="L60">                            } catch (DateTimeParseException e) {</span>
-<span class="nc" id="L61">                                final var message = &quot;Invalid input '%s'. Expected '%s'.&quot;.formatted(</span>
-                                        dateString, FORMATTER_PATTERN);
-<span class="nc" id="L63">                                throw new CoercingParseLiteralException(message, e);</span>
+<span class="nc" id="L61">                                return LocalDate.parse(dateString.getValue(), FORMATTER);</span>
+<span class="nc" id="L62">                            } catch (DateTimeParseException e) {</span>
+<span class="nc" id="L63">                                final var message = String.format(</span>
+                                        &quot;Invalid input '%s'. Expected '%s'.&quot;,
+                                        dateString,
+                                        FORMATTER_PATTERN);
+<span class="nc" id="L67">                                throw new CoercingParseLiteralException(message, e);</span>
                             }
                         }
-<span class="nc" id="L66">                        final var message = &quot;Invalid type %s. Expected StringValue.&quot;.formatted(</span>
-<span class="nc" id="L67">                                input.getClass().getName());</span>
-<span class="nc" id="L68">                        throw new CoercingParseValueException(message);</span>
+<span class="nc" id="L70">                        final var message = String.format(</span>
+                                &quot;Invalid type %s. Expected StringValue.&quot;,
+<span class="nc" id="L72">                                input.getClass().getName());</span>
+<span class="nc" id="L73">                        throw new CoercingParseValueException(message);</span>
                     }
-<span class="nc" id="L70">                }).build();</span>
+<span class="nc" id="L75">                }).build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
