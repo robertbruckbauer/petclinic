@@ -100,5 +100,4 @@ public class JsonMapper {
             throw new IllegalArgumentException(e.toString(), e);
         }
     }
-
 }
