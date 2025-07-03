@@ -8,8 +8,8 @@ ext.CLIENT_NAME = "server"
 ext.CLIENT_IMAGE = rootProject.name + "/server"
 
 tasks.register('composeUp') {
-    dependsOn ':app:client:buildImage'
-    dependsOn ':app:server:buildImage'
+    mustRunAfter ':app:client:buildImage'
+    mustRunAfter ':app:server:buildImage'
     doLast {
         println '\nDeploying with latest'
         exec {

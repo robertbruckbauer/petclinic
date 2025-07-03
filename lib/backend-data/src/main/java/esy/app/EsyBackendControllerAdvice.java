@@ -13,6 +13,8 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.data.rest.webmvc.support.ETagDoesntMatchException;
 import org.springframework.http.*;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +43,8 @@ import java.util.NoSuchElementException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @RestController
-public class BackendControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {
+public class EsyBackendControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {
+
 
     /**
      * @see org.springframework.data.rest.webmvc.RepositoryRestExceptionHandler
@@ -56,7 +59,7 @@ public class BackendControllerAdvice extends ResponseEntityExceptionHandler impl
     public ResponseEntity<Object> handlePreconditionFailed(final WebRequest request, final ETagDoesntMatchException cause) {
         final var status = HttpStatus.PRECONDITION_FAILED;
         final var error = new ResponseStatusException(status, cause.getMessage(), cause);
-        error.setDetail("%s is outdated. Please reload content.".formatted(cause.getBean()));
+        error.setDetail(String.format("%s is outdated. Please reload content.", cause.getBean()));
         return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);
     }
 
@@ -74,7 +77,14 @@ public class BackendControllerAdvice extends ResponseEntityExceptionHandler impl
         return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);
     }
 
+    @SuppressWarnings("java:S3776") // allow complexity
     protected HttpStatus resolveStatus(final Exception cause) {
+        if (cause instanceof AuthenticationException) {
+            return HttpStatus.UNAUTHORIZED;
+        }
+        if (cause instanceof AccessDeniedException) {
+            return HttpStatus.FORBIDDEN;
+        }
         if (cause instanceof DataRetrievalFailureException) {
             return HttpStatus.NOT_FOUND;
         }
@@ -162,6 +172,7 @@ public class BackendControllerAdvice extends ResponseEntityExceptionHandler impl
     @Override
     @NonNull
     protected ResponseEntity<Object> createResponseEntity(final Object body, @NonNull final HttpHeaders headers, @NonNull final HttpStatusCode statusCode, @NonNull final WebRequest request) {
+        log.error(request.getDescription(false));
         return ResponseEntity
                 .status(statusCode)
                 .headers(headers)

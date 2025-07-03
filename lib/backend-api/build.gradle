@@ -11,7 +11,9 @@ dependencies {
     implementation('org.projectlombok:lombok')
     annotationProcessor('org.projectlombok:lombok')
     // https://spring.io/projects/spring-framework
-    implementation('org.springframework:spring-core')
+    api('org.springframework:spring-core')
+    // https://spring.io/projects/spring-hateoas
+    api('org.springframework.hateoas:spring-hateoas')
     // http://querydsl.com/
     api("com.querydsl:querydsl-core")
     api("com.querydsl:querydsl-jpa::jakarta")
@@ -33,6 +35,7 @@ dependencies {
 dependencies {
     // https://junit.org/junit5
     testImplementation('org.junit.jupiter:junit-jupiter')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
     // https://site.mockito.org/
     testImplementation('org.mockito:mockito-junit-jupiter')
 }
@@ -80,4 +83,12 @@ bootRun {
 
 bootBuildImage {
     enabled = false
+}
+
+processResources {
+    with copySpec {
+        from("${rootDir}")
+        include 'VERSION'
+        include 'VERSION.md'
+    }
 }

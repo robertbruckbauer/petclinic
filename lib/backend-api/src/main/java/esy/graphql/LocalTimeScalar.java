@@ -7,26 +7,26 @@ import graphql.language.Value;
 import graphql.schema.*;
 import lombok.NonNull;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
-public class LocalDateScalar {
-    private LocalDateScalar() {}
+public class LocalTimeScalar {
+    private LocalTimeScalar() {}
 
-    static final String SCALAR_NAME = "LocalDate";
-    static final String FORMATTER_PATTERN = "yyyy-MM-dd";
+    static final String SCALAR_NAME = "LocalTime";
+    static final String FORMATTER_PATTERN = "HH:mm[:ss]";
     static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(FORMATTER_PATTERN);
     public static GraphQLScalarType createScalarType() {
         return GraphQLScalarType.newScalar()
                 .name(SCALAR_NAME)
                 .description(String.format("Custom scalar for handling %s with format '%s'", SCALAR_NAME, FORMATTER_PATTERN))
-                .coercing(new Coercing<LocalDate, String>() {
+                .coercing(new Coercing<LocalTime, String>() {
 
                     @Override
                     public String serialize(@NonNull Object input, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingSerializeException {
-                        if (input instanceof LocalDate date) {
+                        if (input instanceof LocalTime date) {
                             return FORMATTER.format(date);
                         }
                         throw new CoercingParseValueException(String.format(
@@ -36,10 +36,10 @@ public class LocalDateScalar {
                     }
 
                     @Override
-                    public LocalDate parseValue(@NonNull Object input, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseValueException {
+                    public LocalTime parseValue(@NonNull Object input, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseValueException {
                         if (input instanceof String dateString) {
                             try {
-                                return LocalDate.parse(dateString, FORMATTER);
+                                return LocalTime.parse(dateString, FORMATTER);
                             } catch (DateTimeParseException e) {
                                 final var message = String.format(
                                         "Invalid input '%s'. Expected '%s'.",
@@ -55,10 +55,10 @@ public class LocalDateScalar {
                     }
 
                     @Override
-                    public LocalDate parseLiteral(@NonNull Value<?> input, @NonNull CoercedVariables variables, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseLiteralException {
+                    public LocalTime parseLiteral(@NonNull Value<?> input, @NonNull CoercedVariables variables, @NonNull GraphQLContext context, @NonNull Locale locale) throws CoercingParseLiteralException {
                         if (input instanceof StringValue dateString) {
                             try {
-                                return LocalDate.parse(dateString.getValue(), FORMATTER);
+                                return LocalTime.parse(dateString.getValue(), FORMATTER);
                             } catch (DateTimeParseException e) {
                                 final var message = String.format(
                                         "Invalid input '%s'. Expected '%s'.",
