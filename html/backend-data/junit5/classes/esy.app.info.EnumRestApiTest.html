@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.268s</div>
+<div class="counter">0.316s</div>
 <p>duration</p>
 </div>
 </td>
@@ -81,61 +81,61 @@
 <tr>
 <td class="success">cleanup()</td>
 <td class="success">cleanup()</td>
-<td class="success">0.019s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getApiEnum()</td>
-<td class="success">getApiEnum()</td>
 <td class="success">0.020s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">getApiEnum()</td>
+<td class="success">getApiEnum()</td>
+<td class="success">0.024s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">getApiEnumNoElements()</td>
 <td class="success">getApiEnumNoElements()</td>
-<td class="success">0.023s</td>
+<td class="success">0.022s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[1] code=0, name=A, text=Alpha</td>
 <td class="success">postApiEnum(String, String, String)[1]</td>
-<td class="success">0.055s</td>
+<td class="success">0.053s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] code=1, name=B, text=Beta</td>
 <td class="success">postApiEnum(String, String, String)[2]</td>
-<td class="success">0.023s</td>
+<td class="success">0.026s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[3] code=2, name=C, text=Gamma</td>
 <td class="success">postApiEnum(String, String, String)[3]</td>
-<td class="success">0.021s</td>
+<td class="success">0.025s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">postApiEnumConflict()</td>
 <td class="success">postApiEnumConflict()</td>
-<td class="success">0.021s</td>
+<td class="success">0.034s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">putApiEnum()</td>
 <td class="success">putApiEnum()</td>
-<td class="success">0.023s</td>
+<td class="success">0.060s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">putApiEnumConflict()</td>
 <td class="success">putApiEnumConflict()</td>
-<td class="success">0.045s</td>
+<td class="success">0.032s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">putApiEnumNotFound()</td>
 <td class="success">putApiEnumNotFound()</td>
-<td class="success">0.018s</td>
+<td class="success">0.020s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -143,9 +143,9 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2025-07-03T18:26:55.034Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.034Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.036Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+<pre>2025-07-04T17:43:04.521Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.522Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.523Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         e1_0.id,
@@ -161,11 +161,11 @@ Hibernate:
     order by
         e1_0.art,
         e1_0.code
-2025-07-03T18:26:55.044Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    57346 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.530Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    40997 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    443266 nanoseconds spent preparing 1 JDBC statements;
-    156631 nanoseconds spent executing 1 JDBC statements;
+    461415 nanoseconds spent preparing 1 JDBC statements;
+    170159 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -214,9 +214,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.076Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.076Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.078Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2025-07-04T17:43:04.567Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.568Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.570Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         e1_0.id,
@@ -236,16 +236,16 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-03T18:26:55.109Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    54130 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.594Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    50585 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    2186906 nanoseconds spent preparing 2 JDBC statements;
-    296763 nanoseconds spent executing 1 JDBC statements;
-    1689159 nanoseconds spent executing 1 JDBC batches;
+    2071093 nanoseconds spent preparing 2 JDBC statements;
+    358923 nanoseconds spent executing 1 JDBC statements;
+    227166 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    7143113 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    4469599 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -291,9 +291,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.130Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.130Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.131Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.618Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.619Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.621Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         e1_0.id,
@@ -313,16 +313,16 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-03T18:26:55.141Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    36698 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.629Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    36218 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    692911 nanoseconds spent preparing 2 JDBC statements;
-    103864 nanoseconds spent executing 1 JDBC statements;
-    134581 nanoseconds spent executing 1 JDBC batches;
+    505409 nanoseconds spent preparing 2 JDBC statements;
+    86642 nanoseconds spent executing 1 JDBC statements;
+    148538 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1206289 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    1235476 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -368,9 +368,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.154Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.154Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.155Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.645Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.645Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.647Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         e1_0.id,
@@ -390,16 +390,16 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-03T18:26:55.162Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    35376 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.657Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    35407 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    585442 nanoseconds spent preparing 2 JDBC statements;
-    121606 nanoseconds spent executing 1 JDBC statements;
-    101820 nanoseconds spent executing 1 JDBC batches;
+    488916 nanoseconds spent preparing 2 JDBC statements;
+    94127 nanoseconds spent executing 1 JDBC statements;
+    115487 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1274308 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    1622081 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -445,9 +445,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.176Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.176Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.177Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.673Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.673Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.677Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
 Hibernate: 
     select
         e1_0.id,
@@ -467,23 +467,23 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-03T18:26:55.184Z  INFO 2657 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
-2025-07-03T18:26:55.184Z  WARN 2657 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2025-07-03T18:26:55.184Z ERROR 2657 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
-2025-07-03T18:26:55.185Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    78975 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.690Z  INFO 2672 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
+2025-07-04T17:43:04.690Z  WARN 2672 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2025-07-04T17:43:04.690Z ERROR 2672 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
+2025-07-04T17:43:04.691Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    37871 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    555565 nanoseconds spent preparing 2 JDBC statements;
-    123019 nanoseconds spent executing 1 JDBC statements;
-    301472 nanoseconds spent executing 1 JDBC batches;
+    877795 nanoseconds spent preparing 2 JDBC statements;
+    89628 nanoseconds spent executing 1 JDBC statements;
+    339046 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1781551 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    4667520 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-03T18:26:55.187Z ERROR 2657 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST
+2025-07-04T17:43:04.693Z ERROR 2672 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -521,9 +521,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.198Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.198Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.199Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.707Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.707Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.708Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         e1_0.id,
@@ -540,11 +540,11 @@ Hibernate:
     order by
         e1_0.art,
         e1_0.code
-2025-07-03T18:26:55.207Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    33112 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.720Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    68458 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    473422 nanoseconds spent preparing 1 JDBC statements;
-    162273 nanoseconds spent executing 1 JDBC statements;
+    3609978 nanoseconds spent preparing 1 JDBC statements;
+    205535 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -577,16 +577,16 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-07-03T18:26:55.210Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    15850 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.731Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    27662 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    450040 nanoseconds spent preparing 2 JDBC statements;
-    42449 nanoseconds spent executing 1 JDBC statements;
-    203659 nanoseconds spent executing 1 JDBC batches;
+    604223 nanoseconds spent preparing 2 JDBC statements;
+    50866 nanoseconds spent executing 1 JDBC statements;
+    198142 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1453419 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    4704419 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -632,9 +632,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.222Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.222Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.223Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.770Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.771Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.772Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         e1_0.id,
@@ -651,11 +651,11 @@ Hibernate:
     order by
         e1_0.art,
         e1_0.code
-2025-07-03T18:26:55.244Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    35566 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.781Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    69390 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    16799511 nanoseconds spent preparing 1 JDBC statements;
-    446512 nanoseconds spent executing 1 JDBC statements;
+    1830472 nanoseconds spent preparing 1 JDBC statements;
+    486912 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -688,23 +688,23 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-07-03T18:26:55.251Z  INFO 2657 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
-2025-07-03T18:26:55.251Z  WARN 2657 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2025-07-03T18:26:55.251Z ERROR 2657 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
-2025-07-03T18:26:55.252Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27030 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.787Z  INFO 2672 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
+2025-07-04T17:43:04.787Z  WARN 2672 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2025-07-04T17:43:04.787Z ERROR 2672 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
+2025-07-04T17:43:04.787Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    26078 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1058242 nanoseconds spent preparing 2 JDBC statements;
-    74489 nanoseconds spent executing 1 JDBC statements;
-    506224 nanoseconds spent executing 1 JDBC batches;
+    508984 nanoseconds spent preparing 2 JDBC statements;
+    68599 nanoseconds spent executing 1 JDBC statements;
+    540343 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    2488888 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    3258709 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-03T18:26:55.253Z ERROR 2657 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST/0
+2025-07-04T17:43:04.788Z ERROR 2672 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST/0
 
 MockHttpServletRequest:
       HTTP Method = PUT
@@ -742,9 +742,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.269Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.270Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.271Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.802Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.803Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.805Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         e1_0.id,
@@ -761,11 +761,11 @@ Hibernate:
     order by
         e1_0.art,
         e1_0.code
-2025-07-03T18:26:55.275Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    36519 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.809Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38452 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    500252 nanoseconds spent preparing 1 JDBC statements;
-    106638 nanoseconds spent executing 1 JDBC statements;
+    557616 nanoseconds spent preparing 1 JDBC statements;
+    84428 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -774,7 +774,7 @@ Hibernate:
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-03T18:26:55.276Z ERROR 2657 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST/26
+2025-07-04T17:43:04.810Z ERROR 2672 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST/26
 
 MockHttpServletRequest:
       HTTP Method = PUT
@@ -812,9 +812,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.286Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.286Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.288Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.823Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.823Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.825Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         e1_0.id,
@@ -830,11 +830,11 @@ Hibernate:
     order by
         e1_0.art,
         e1_0.code
-2025-07-03T18:26:55.291Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    33282 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.829Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    78147 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    423469 nanoseconds spent preparing 1 JDBC statements;
-    121005 nanoseconds spent executing 1 JDBC statements;
+    634149 nanoseconds spent preparing 1 JDBC statements;
+    146325 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -898,9 +898,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-03T18:26:55.308Z  INFO 2657 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-03T18:26:55.308Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-03T18:26:55.310Z  INFO 2657 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-04T17:43:04.848Z  INFO 2672 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-04T17:43:04.848Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-04T17:43:04.850Z  INFO 2672 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         count(e1_0.id) 
@@ -954,18 +954,18 @@ Hibernate:
         e1_0.version 
     from
         enum e1_0
-2025-07-03T18:26:55.324Z  INFO 2657 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    37270 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-04T17:43:04.865Z  INFO 2672 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    33282 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    999865 nanoseconds spent preparing 4 JDBC statements;
-    188431 nanoseconds spent executing 3 JDBC statements;
-    206024 nanoseconds spent executing 1 JDBC batches;
+    1373605 nanoseconds spent preparing 4 JDBC statements;
+    187001 nanoseconds spent executing 3 JDBC statements;
+    179707 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    41758 nanoseconds spent executing 3 pre-partial-flushes;
-    1461554 nanoseconds spent executing 3 partial-flushes (flushing a total of 3 entities and 3 collections)
+    45715 nanoseconds spent executing 3 pre-partial-flushes;
+    1491406 nanoseconds spent executing 3 partial-flushes (flushing a total of 3 entities and 3 collections)
 }
 </pre>
 </span>
@@ -978,7 +978,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at Jul 3, 2025, 6:26:55 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at Jul 4, 2025, 5:43:05 PM</p>
 </div>
 </div>
 </body>
