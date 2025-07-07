@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.*;
+import java.util.function.Predicate;
 
 public final class JGit implements AutoCloseable {
 
@@ -104,14 +105,17 @@ public final class JGit implements AutoCloseable {
     /**
      * git log tag1..tag2 --oneline
      */
-    public List<String> listAllLog(@NonNull final String fromRef, @NonNull final String toRef) {
+    public List<String> listAllLog(@NonNull final String fromRef, @NonNull final String toRef, @NonNull final Predicate<String> commitTester) {
         try {
             final var allLog = new ArrayList<String>();
             final var fromId = git.getRepository().resolve(fromRef);
             final var toId = git.getRepository().resolve(toRef);
             final var allRevCommit = git.log().add(fromId).not(toId).call();
             for (final var revCommit : allRevCommit) {
-                allLog.add(revCommit.getShortMessage());
+                final var message = revCommit.getShortMessage();
+                if (commitTester.test(message)) {
+                    allLog.add(message);
+                }
             }
             return allLog;
         } catch (IOException e) {
