@@ -1,18 +1,11 @@
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.Instant;
-import java.util.Optional;
-import java.util.regex.Pattern;
 
 @EqualsAndHashCode
+@ToString
 @Getter
 public final class VersionTag implements Comparable<VersionTag> {
-
-    static final Pattern VERSION_PATTERN = Pattern.compile(
-            "^refs/tags/(\\d+)\\.(\\d+)$"
-    );
 
     private final int major;
 
@@ -20,14 +13,10 @@ public final class VersionTag implements Comparable<VersionTag> {
 
     private final Instant commitAt;
 
-    VersionTag(final int major, final int minor, @NonNull final Instant commitAt) {
-        this.major = major;
-        this.minor = minor;
+    public VersionTag(final int[] version, @NonNull final Instant commitAt) {
+        this.major = version[0];
+        this.minor = version[1];
         this.commitAt = commitAt;
-    }
-
-    public VersionTag increment() {
-        return new VersionTag(major, minor + 1, Instant.now());
     }
 
     @Override
@@ -45,30 +34,11 @@ public final class VersionTag implements Comparable<VersionTag> {
         return 0;
     }
 
-    @Override
-    public String toString() {
+    public String toRef() {
         return "refs/tags/%d.%d".formatted(major, minor);
     }
 
-    static Optional<VersionTag> cleanTag(@NonNull final String tagName, @NonNull final Instant commitAt) {
-        final var matcher = VERSION_PATTERN.matcher(tagName);
-        if (matcher.matches()) {
-            final var major = Integer.parseInt(matcher.group(1));
-            final var minor = Integer.parseInt(matcher.group(2));
-            return Optional.of(new VersionTag(major, minor, commitAt));
-        } else {
-            return Optional.empty();
-        }
-    }
-
-    static Optional<VersionTag> dirtyTag(@NonNull final String tagName) {
-        final var matcher = VERSION_PATTERN.matcher(tagName);
-        if (matcher.matches()) {
-            final var major = Integer.parseInt(matcher.group(1));
-            final var minor = Integer.parseInt(matcher.group(2)) + 1;
-            return Optional.of(new VersionTag(major, minor, Instant.now()));
-        } else {
-            return Optional.empty();
-        }
+    public String toSemVer() {
+        return "%d.%d".formatted(major, minor);
     }
 }

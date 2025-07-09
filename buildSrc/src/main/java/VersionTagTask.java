@@ -7,7 +7,8 @@ public class VersionTagTask extends DefaultTask {
     public void task() {
         final var project = getProject();
         try (final var git = JGit.open(project.getRootDir())) {
-            git.versionTag().ifPresent(System.out::println);
+            final var toTag = git.versionTag();
+            System.out.println(toTag.toSemVer());
         }
     }
 }

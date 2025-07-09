@@ -9,20 +9,31 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.time.Instant;
 import java.util.*;
-import java.util.function.Predicate;
 
 public final class JGit implements AutoCloseable {
 
+    private static final MessageTester messageTester = new MessageTester();
+
+    private static final VersionTester versionTester = new VersionTester();
+
     private final Git git;
 
-    private JGit(@NonNull final Git git) {
+    private final VersionTag localTag;
+
+    private JGit(@NonNull final Git git, @NonNull final VersionTag localTag) {
         this.git = git;
+        this.localTag = localTag;
     }
 
     public static JGit open(@NonNull final File rootDir) {
         try {
-            return new JGit(Git.open(rootDir));
+            final var tagName = "refs/tags/" + Files.readString(rootDir.toPath().resolve("VERSION"));
+            final var localTag = new VersionTag(versionTester.apply(tagName), Instant.now());
+            final var git = Git.open(rootDir);
+            return new JGit(git, localTag);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -36,7 +47,7 @@ public final class JGit implements AutoCloseable {
     /**
      * git describe --tags --abbrev=0
      */
-    public Optional<VersionTag> releaseTag() {
+    public VersionTag releaseTag() {
         try {
             final var tagName = "refs/tags/" + git.describe().setTags(true).setAbbrev(0).call();
             final var tagRef = git.getRepository().findRef(tagName);
@@ -45,7 +56,8 @@ public final class JGit implements AutoCloseable {
             }
             final var tagCommit = parseCommit(tagRef);
             final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
-            return VersionTag.cleanTag(tagName, commitAt);
+            final var semVer = versionTester.apply(tagName);
+            return new VersionTag(semVer, commitAt);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         } catch (GitAPIException e) {
@@ -56,7 +68,7 @@ public final class JGit implements AutoCloseable {
     /**
      * git describe --tags --abbrev=0
      */
-    public Optional<VersionTag> versionTag() {
+    public VersionTag versionTag() {
         try {
             final var tagName = "refs/tags/" + git.describe().setTags(true).setAbbrev(0).call();
             final var tagRef = git.getRepository().findRef(tagName);
@@ -68,10 +80,11 @@ public final class JGit implements AutoCloseable {
             final var toId = tagCommit.getId();
             final var allRevCommit = git.log().add(fromId).not(toId).call();
             if (allRevCommit.iterator().hasNext()) {
-                return VersionTag.dirtyTag(tagName);
+                return localTag;
             } else {
                 final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
-                return VersionTag.cleanTag(tagName, commitAt);
+                final var semVer = versionTester.apply(tagName);
+                return new VersionTag(semVer, commitAt);
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -91,7 +104,7 @@ public final class JGit implements AutoCloseable {
                 final var tagName = tagRef.getName();
                 final var tagCommit = parseCommit(tagRef);
                 final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
-                VersionTag.cleanTag(tagName, commitAt).ifPresent(allTag::add);
+                allTag.add(new VersionTag(versionTester.apply(tagName), commitAt));
             }
             Collections.sort(allTag);
             return allTag;
@@ -105,7 +118,7 @@ public final class JGit implements AutoCloseable {
     /**
      * git log tag1..tag2 --oneline
      */
-    public List<String> listAllLog(@NonNull final String fromRef, @NonNull final String toRef, @NonNull final Predicate<String> commitTester) {
+    public List<String> listAllLog(@NonNull final String fromRef, @NonNull final String toRef) {
         try {
             final var allLog = new ArrayList<String>();
             final var fromId = git.getRepository().resolve(fromRef);
@@ -113,7 +126,7 @@ public final class JGit implements AutoCloseable {
             final var allRevCommit = git.log().add(fromId).not(toId).call();
             for (final var revCommit : allRevCommit) {
                 final var message = revCommit.getShortMessage();
-                if (commitTester.test(message)) {
+                if (messageTester.test(message)) {
                     allLog.add(message);
                 }
             }
