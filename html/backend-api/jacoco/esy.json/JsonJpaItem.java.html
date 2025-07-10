@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@SuppressWarnings(&quot;java:S119&quot;) // ID is ok
 public interface JsonJpaItem&lt;ID&gt; {
 
     /**
@@ -22,7 +21,7 @@ public interface JsonJpaItem&lt;ID&gt; {
      */
     @JsonIgnore
     default boolean isCreate() {
-<span class="pc bpc" id="L25" title="1 of 4 branches missed.">        return getValue() == null &amp;&amp; !getText().isBlank();</span>
+<span class="pc bpc" id="L24" title="1 of 4 branches missed.">        return getValue() == null &amp;&amp; !getText().isBlank();</span>
     }
 
     /**
@@ -30,7 +29,7 @@ public interface JsonJpaItem&lt;ID&gt; {
      */
     @JsonIgnore
     default boolean isUpdate() {
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        return getValue() != null;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        return getValue() != null;</span>
     }
 
     /**
@@ -38,7 +37,7 @@ public interface JsonJpaItem&lt;ID&gt; {
      */
     @JsonIgnore
     default boolean isDelete() {
-<span class="pc bpc" id="L41" title="1 of 4 branches missed.">        return getValue() == null &amp;&amp; getText().isBlank();</span>
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">        return getValue() == null &amp;&amp; getText().isBlank();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

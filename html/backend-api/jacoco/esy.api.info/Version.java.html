@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Version.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.api.info</a> &gt; <span class="el_source">Version.java</span></div><h1>Version.java</h1><pre class="source lang-java linenums">package esy.api.info;
+
+import lombok.Data;
+
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+/**
+ * Version nach SemVer.
+ */
+@Data
+public class Version {
+
+    private final int major;
+    private final int minor;
+
+<span class="fc" id="L18">    public Version(final int major, final int minor) {</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (major &lt; 0) {</span>
+<span class="fc" id="L20">            throw new IllegalArgumentException(&quot;major is negative&quot;);</span>
+        }
+<span class="fc" id="L22">        this.major = major;</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (minor &lt; 0) {</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;minor is negative&quot;);</span>
+        }
+<span class="fc" id="L26">        this.minor = minor;</span>
+<span class="fc" id="L27">    }</span>
+
+    public Version() {
+<span class="fc" id="L30">        this(0, 0);</span>
+<span class="fc" id="L31">    }</span>
+
+    public Version(final int major) {
+<span class="fc" id="L34">        this(major, 0);</span>
+<span class="fc" id="L35">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc" id="L39">        return major + &quot;.&quot; + minor;</span>
+    }
+
+    /**
+     * Creates a version from a version string.
+     *
+     * @param scanner version string scanner
+     * @return version
+     * @throws NoSuchElementException if some data does not exist
+     * @throws InputMismatchException if some data is not valid
+     */
+    public static Version fromString(final Scanner scanner) {
+<span class="fc" id="L51">        scanner.useDelimiter(&quot;\\.&quot;);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (!scanner.hasNext()) {</span>
+<span class="fc" id="L53">            throw new NoSuchElementException(&quot;major not set&quot;);</span>
+        }
+<span class="fc" id="L55">        final int major = scanner.nextInt();</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (!scanner.hasNext()) {</span>
+<span class="fc" id="L57">            throw new NoSuchElementException(&quot;minor not set&quot;);</span>
+        }
+<span class="fc" id="L59">        final int minor = scanner.nextInt();</span>
+<span class="fc" id="L60">        return new Version(major, minor);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
