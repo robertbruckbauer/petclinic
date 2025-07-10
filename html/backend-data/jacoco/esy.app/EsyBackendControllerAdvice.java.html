@@ -45,104 +45,103 @@ import java.util.NoSuchElementException;
 @RestController
 <span class="fc" id="L46">public class EsyBackendControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {</span>
 
-
     /**
      * @see org.springframework.data.rest.webmvc.RepositoryRestExceptionHandler
      */
     @ExceptionHandler(ResourceNotFoundException.class)
     public void handleAndThrow(final WebRequest request, final ResourceNotFoundException cause) {
         // Do NOT handle here
-<span class="fc" id="L55">        throw cause;</span>
+<span class="fc" id="L54">        throw cause;</span>
     }
 
     @ExceptionHandler(ETagDoesntMatchException.class)
     public ResponseEntity&lt;Object&gt; handlePreconditionFailed(final WebRequest request, final ETagDoesntMatchException cause) {
-<span class="fc" id="L60">        final var status = HttpStatus.PRECONDITION_FAILED;</span>
-<span class="fc" id="L61">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
-<span class="fc" id="L62">        error.setDetail(String.format(&quot;%s is outdated. Please reload content.&quot;, cause.getBean()));</span>
-<span class="fc" id="L63">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+<span class="fc" id="L59">        final var status = HttpStatus.PRECONDITION_FAILED;</span>
+<span class="fc" id="L60">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
+<span class="fc" id="L61">        error.setDetail(String.format(&quot;%s is outdated. Please reload content.&quot;, cause.getBean()));</span>
+<span class="fc" id="L62">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
     }
 
     @ExceptionHandler(RestClientResponseException.class)
     public ResponseEntity&lt;Object&gt; handleRestClientResponse(final WebRequest request, final RestClientResponseException cause) {
-<span class="fc" id="L68">        final var status = cause.getStatusCode();</span>
-<span class="fc" id="L69">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
-<span class="fc" id="L70">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+<span class="fc" id="L67">        final var status = cause.getStatusCode();</span>
+<span class="fc" id="L68">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
+<span class="fc" id="L69">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity&lt;Object&gt; handle(final WebRequest request, final Exception cause) {
-<span class="fc" id="L75">        final var status = resolveStatus(cause);</span>
-<span class="fc" id="L76">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
-<span class="fc" id="L77">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+<span class="fc" id="L74">        final var status = resolveStatus(cause);</span>
+<span class="fc" id="L75">        final var error = new ResponseStatusException(status, cause.getMessage(), cause);</span>
+<span class="fc" id="L76">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
     }
 
     @SuppressWarnings(&quot;java:S3776&quot;) // allow complexity
     protected HttpStatus resolveStatus(final Exception cause) {
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (cause instanceof AuthenticationException) {</span>
-<span class="fc" id="L83">            return HttpStatus.UNAUTHORIZED;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (cause instanceof AuthenticationException) {</span>
+<span class="fc" id="L82">            return HttpStatus.UNAUTHORIZED;</span>
         }
-<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (cause instanceof AccessDeniedException) {</span>
-<span class="fc" id="L86">            return HttpStatus.FORBIDDEN;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (cause instanceof AccessDeniedException) {</span>
+<span class="fc" id="L85">            return HttpStatus.FORBIDDEN;</span>
         }
-<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (cause instanceof DataRetrievalFailureException) {</span>
-<span class="fc" id="L89">            return HttpStatus.NOT_FOUND;</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (cause instanceof DataRetrievalFailureException) {</span>
+<span class="fc" id="L88">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (cause instanceof EntityNotFoundException) {</span>
-<span class="fc" id="L92">            return HttpStatus.NOT_FOUND;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (cause instanceof EntityNotFoundException) {</span>
+<span class="fc" id="L91">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (cause instanceof ResourceAccessException) {</span>
-<span class="fc" id="L95">            return HttpStatus.NOT_FOUND;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (cause instanceof ResourceAccessException) {</span>
+<span class="fc" id="L94">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (cause instanceof MissingResourceException) {</span>
-<span class="fc" id="L98">            return HttpStatus.NOT_FOUND;</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (cause instanceof MissingResourceException) {</span>
+<span class="fc" id="L97">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (cause instanceof NoSuchElementException) {</span>
-<span class="fc" id="L101">            return HttpStatus.NOT_FOUND;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (cause instanceof NoSuchElementException) {</span>
+<span class="fc" id="L100">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (cause instanceof NoSuchFileException) {</span>
-<span class="fc" id="L104">            return HttpStatus.NOT_FOUND;</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (cause instanceof NoSuchFileException) {</span>
+<span class="fc" id="L103">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (cause instanceof FileNotFoundException) {</span>
-<span class="fc" id="L107">            return HttpStatus.NOT_FOUND;</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (cause instanceof FileNotFoundException) {</span>
+<span class="fc" id="L106">            return HttpStatus.NOT_FOUND;</span>
         }
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (cause instanceof UncheckedIOException) {</span>
-<span class="fc" id="L110">            return resolveStatus(((UncheckedIOException) cause).getCause());</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (cause instanceof UncheckedIOException) {</span>
+<span class="fc" id="L109">            return resolveStatus(((UncheckedIOException) cause).getCause());</span>
         }
-<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (cause instanceof DataIntegrityViolationException) {</span>
-<span class="fc" id="L113">            return HttpStatus.CONFLICT;</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (cause instanceof DataIntegrityViolationException) {</span>
+<span class="fc" id="L112">            return HttpStatus.CONFLICT;</span>
         }
-<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (cause instanceof ConcurrencyFailureException) {</span>
-<span class="fc" id="L116">            return HttpStatus.CONFLICT;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (cause instanceof ConcurrencyFailureException) {</span>
+<span class="fc" id="L115">            return HttpStatus.CONFLICT;</span>
         }
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (cause instanceof EntityExistsException) {</span>
-<span class="fc" id="L119">            return HttpStatus.CONFLICT;</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (cause instanceof EntityExistsException) {</span>
+<span class="fc" id="L118">            return HttpStatus.CONFLICT;</span>
         }
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (cause instanceof OptimisticLockException) {</span>
-<span class="fc" id="L122">            return HttpStatus.CONFLICT;</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (cause instanceof OptimisticLockException) {</span>
+<span class="fc" id="L121">            return HttpStatus.CONFLICT;</span>
         }
-<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (cause instanceof PessimisticLockException) {</span>
-<span class="fc" id="L125">            return HttpStatus.CONFLICT;</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        if (cause instanceof PessimisticLockException) {</span>
+<span class="fc" id="L124">            return HttpStatus.CONFLICT;</span>
         }
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (cause instanceof InvalidDataAccessApiUsageException) {</span>
-<span class="nc" id="L128">            return HttpStatus.BAD_REQUEST;</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        if (cause instanceof InvalidDataAccessApiUsageException) {</span>
+<span class="nc" id="L127">            return HttpStatus.BAD_REQUEST;</span>
         }
-<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (cause instanceof IllegalArgumentException) {</span>
-<span class="fc" id="L131">            return HttpStatus.BAD_REQUEST;</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (cause instanceof IllegalArgumentException) {</span>
+<span class="fc" id="L130">            return HttpStatus.BAD_REQUEST;</span>
         }
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (cause instanceof IllegalStateException) {</span>
-<span class="fc" id="L134">            return HttpStatus.BAD_REQUEST;</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (cause instanceof IllegalStateException) {</span>
+<span class="fc" id="L133">            return HttpStatus.BAD_REQUEST;</span>
         }
-<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (cause instanceof BadSqlGrammarException) {</span>
-<span class="fc" id="L137">            return HttpStatus.NOT_IMPLEMENTED;</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (cause instanceof BadSqlGrammarException) {</span>
+<span class="fc" id="L136">            return HttpStatus.NOT_IMPLEMENTED;</span>
         }
-<span class="fc bfc" id="L139" title="All 2 branches covered.">        if (cause instanceof UnsupportedEncodingException) {</span>
-<span class="fc" id="L140">            return HttpStatus.NOT_IMPLEMENTED;</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (cause instanceof UnsupportedEncodingException) {</span>
+<span class="fc" id="L139">            return HttpStatus.NOT_IMPLEMENTED;</span>
         }
-<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (cause instanceof UnsupportedOperationException) {</span>
-<span class="fc" id="L143">            return HttpStatus.NOT_IMPLEMENTED;</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (cause instanceof UnsupportedOperationException) {</span>
+<span class="fc" id="L142">            return HttpStatus.NOT_IMPLEMENTED;</span>
         }
-<span class="fc" id="L145">        return HttpStatus.INTERNAL_SERVER_ERROR;</span>
+<span class="fc" id="L144">        return HttpStatus.INTERNAL_SERVER_ERROR;</span>
     }
 
     /**
@@ -150,35 +149,35 @@ import java.util.NoSuchElementException;
      */
     @RequestMapping(&quot;${server.error.path:/error}&quot;)
     public ResponseEntity&lt;Object&gt; error(final WebRequest request, final HttpServletResponse response) {
-<span class="fc" id="L153">        final var error = new ResponseStatusException(resolveStatus(response), resolveCause(request));</span>
-<span class="fc" id="L154">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
+<span class="fc" id="L152">        final var error = new ResponseStatusException(resolveStatus(response), resolveCause(request));</span>
+<span class="fc" id="L153">        return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);</span>
     }
 
     protected String resolveCause(final WebRequest request) {
-<span class="fc" id="L158">        final var cause = request.getAttribute(RequestDispatcher.ERROR_MESSAGE, RequestAttributes.SCOPE_REQUEST);</span>
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        return cause != null ? cause.toString() : null;</span>
+<span class="fc" id="L157">        final var cause = request.getAttribute(RequestDispatcher.ERROR_MESSAGE, RequestAttributes.SCOPE_REQUEST);</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        return cause != null ? cause.toString() : null;</span>
     }
 
     protected HttpStatus resolveStatus(final HttpServletResponse response) {
-<span class="fc" id="L163">        final var statusCode = response.getStatus();</span>
+<span class="fc" id="L162">        final var statusCode = response.getStatus();</span>
         try {
-<span class="fc" id="L165">            return HttpStatus.valueOf(statusCode);</span>
+<span class="fc" id="L164">            return HttpStatus.valueOf(statusCode);</span>
         }
-<span class="nc" id="L167">        catch (Exception e) {</span>
-<span class="nc" id="L168">            return HttpStatus.INTERNAL_SERVER_ERROR;</span>
+<span class="nc" id="L166">        catch (Exception e) {</span>
+<span class="nc" id="L167">            return HttpStatus.INTERNAL_SERVER_ERROR;</span>
         }
     }
 
     @Override
     @NonNull
-<span class="pc bpc" id="L174" title="3 of 6 branches missed.">    protected ResponseEntity&lt;Object&gt; createResponseEntity(final Object body, @NonNull final HttpHeaders headers, @NonNull final HttpStatusCode statusCode, @NonNull final WebRequest request) {</span>
-<span class="fc" id="L175">        log.error(request.getDescription(false));</span>
-<span class="fc" id="L176">        return ResponseEntity</span>
-<span class="fc" id="L177">                .status(statusCode)</span>
-<span class="fc" id="L178">                .headers(headers)</span>
-<span class="fc" id="L179">                .cacheControl(CacheControl.noStore())</span>
-<span class="fc" id="L180">                .contentType(MediaType.APPLICATION_JSON)</span>
-<span class="fc" id="L181">                .body(body);</span>
+<span class="pc bpc" id="L173" title="3 of 6 branches missed.">    protected ResponseEntity&lt;Object&gt; createResponseEntity(final Object body, @NonNull final HttpHeaders headers, @NonNull final HttpStatusCode statusCode, @NonNull final WebRequest request) {</span>
+<span class="fc" id="L174">        log.error(request.getDescription(false));</span>
+<span class="fc" id="L175">        return ResponseEntity</span>
+<span class="fc" id="L176">                .status(statusCode)</span>
+<span class="fc" id="L177">                .headers(headers)</span>
+<span class="fc" id="L178">                .cacheControl(CacheControl.noStore())</span>
+<span class="fc" id="L179">                .contentType(MediaType.APPLICATION_JSON)</span>
+<span class="fc" id="L180">                .body(body);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
