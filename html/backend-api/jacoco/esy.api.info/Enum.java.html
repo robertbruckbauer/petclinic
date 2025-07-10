@@ -103,8 +103,8 @@ public final class Enum extends JsonJpaEntity&lt;Enum&gt; {
 <span class="fc bfc" id="L103" title="All 2 branches covered.">        if (that == null) {</span>
 <span class="fc" id="L104">            return false;</span>
         }
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        return this.art.equals(that.art) &amp;&amp;</span>
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">                this.code.equals(that.code) &amp;&amp;</span>
+<span class="pc bpc" id="L106" title="2 of 4 branches missed.">        return this.art.equals(that.art) &amp;&amp;</span>
+                this.code == that.code &amp;&amp;
 <span class="fc bfc" id="L108" title="All 2 branches covered.">                this.name.equals(that.name) &amp;&amp;</span>
 <span class="pc bpc" id="L109" title="1 of 2 branches missed.">                this.text.equals(that.text);</span>
     }
@@ -135,7 +135,7 @@ public final class Enum extends JsonJpaEntity&lt;Enum&gt; {
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="fc" id="L138">        final var allExtra = new HashMap&lt;String, Object&gt;();</span>
+<span class="fc" id="L138">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
 <span class="fc" id="L139">        allExtra.put(&quot;version&quot;, getVersion());</span>
 <span class="fc" id="L140">        return allExtra;</span>
     }
@@ -169,4 +169,4 @@ public final class Enum extends JsonJpaEntity&lt;Enum&gt; {
 <span class="fc" id="L169">        return new JsonMapper().parseJson(json, Enum.class);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

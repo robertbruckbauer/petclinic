@@ -99,7 +99,7 @@ public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
 <span class="fc bfc" id="L99" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
 <span class="fc" id="L100">            return this;</span>
         }
-<span class="fc" id="L102">        final var value = new Pet(getVersion(), id);</span>
+<span class="fc" id="L102">        final Pet value = new Pet(getVersion(), id);</span>
 <span class="fc" id="L103">        value.name = this.name;</span>
 <span class="fc" id="L104">        value.born = this.born;</span>
 <span class="fc" id="L105">        value.species = this.species;</span>
@@ -109,7 +109,7 @@ public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="nc" id="L112">        final var allExtra = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L112">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L113">        allExtra.put(&quot;version&quot;, getVersion());</span>
 <span class="nc" id="L114">        allExtra.put(&quot;ownerItem&quot;, OwnerItem.fromValue(owner));</span>
 <span class="nc" id="L115">        return allExtra;</span>
@@ -130,4 +130,4 @@ public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
 <span class="fc" id="L130">        return new JsonMapper().parseJson(json, Pet.class);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

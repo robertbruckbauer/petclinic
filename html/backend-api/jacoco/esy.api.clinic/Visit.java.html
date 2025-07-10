@@ -81,8 +81,8 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
 <span class="fc" id="L81">            return false;</span>
         }
 <span class="pc bpc" id="L83" title="1 of 2 branches missed.">        return this.date.equals(that.date) &amp;&amp;</span>
-<span class="fc bfc" id="L84" title="All 2 branches covered.">                this.text.equals(that.text) &amp;&amp;</span>
-<span class="pc bpc" id="L85" title="1 of 2 branches missed.">                Objects.equals(this.pet, that.pet) &amp;&amp;</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                this.text.equals(that.text) &amp;&amp;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                Objects.equals(this.pet, that.pet) &amp;&amp;</span>
 <span class="pc bpc" id="L86" title="1 of 2 branches missed.">                Objects.equals(this.vet, that.vet);</span>
     }
 
@@ -96,7 +96,7 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
 <span class="fc bfc" id="L96" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
 <span class="fc" id="L97">            return this;</span>
         }
-<span class="fc" id="L99">        final var value = new Visit(getVersion(), id);</span>
+<span class="fc" id="L99">        final Visit value = new Visit(getVersion(), id);</span>
 <span class="fc" id="L100">        value.date = this.date;</span>
 <span class="fc" id="L101">        value.text = this.text;</span>
 <span class="fc" id="L102">        value.pet = this.pet;</span>
@@ -106,7 +106,7 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="nc" id="L109">        final var allExtra = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L109">        final Map&lt;String, Object&gt; allExtra = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L110">        allExtra.put(&quot;version&quot;, getVersion());</span>
 <span class="nc" id="L111">        allExtra.put(&quot;ownerItem&quot;, OwnerItem.fromValue(pet));</span>
 <span class="nc" id="L112">        allExtra.put(&quot;petItem&quot;, PetItem.fromValue(pet));</span>
@@ -135,4 +135,4 @@ public final class Visit extends JsonJpaEntity&lt;Visit&gt; {
 <span class="fc" id="L135">        return new JsonMapper().parseJson(json, Visit.class);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
