@@ -1,8 +1,20 @@
 # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#name
 name: build
 
-# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
-on: [push]
+# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#on
+on: 
+  # run on push to the default branch and tags
+  push:
+    branches:
+      - 'master'
+      - 'main'
+    tags:
+      - '[0-9]+.[0-9]+'
+  # run on pull requests
+  pull_request:
+    branches:
+      - 'master'
+      - 'main'
 
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobs
 jobs:
@@ -10,48 +22,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    # https://github.com/actions/checkout
-    - uses: actions/checkout@v4
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    # https://github.com/actions/setup-java
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21'
-        cache: 'gradle'
-    
-    # https://github.com/gradle/actions
-    - uses: gradle/actions/setup-gradle@v4
-      with:
-        gradle-version: "8.14"
+      # https://github.com/actions/setup-java
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "gradle"
 
-    # https://github.com/gradle/gradle
-    - name: Build Java
-      run: |
-        gradle versionCheck
-        gradle clean eclipse
-        gradle spotlessCheck
-        gradle build --parallel
-        gradle jacocoTestReport
+      # https://github.com/gradle/actions
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.14"
 
-    # https://github.com/actions/setup-node
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-    
-    - name: Build Node
-      run: |
-        for dir in app/*
-        do
-          if [ -f "$dir/package.json" ]
-          then
-            (cd $dir && npm install && npm run prettierCheck && npm run build)
-          fi
-        done
+      - name: Build Java
+        run: |
+          gradle versionCheck
+          gradle spotlessCheck
+          gradle build --parallel
+          gradle jacocoTestReport
 
-    # https://github.com/peaceiris/actions-gh-pages
-    - name: Update pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir:  pages
+      # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build Node
+        run: |
+          for dir in app/*
+          do
+            if [ -f "$dir/package.json" ]
+            then
+              (cd $dir && npm install && npm run prettierCheck && npm run build)
+            fi
+          done
+
+      # https://github.com/peaceiris/actions-gh-pages
+      - name: Update pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: pages

@@ -29,4 +29,14 @@ class VersionTagTest {
         assertEquals(List.of(0, 3, 2, 1), allTagSorted.stream().map(VersionTag::getMinor).toList());
     }
 
+    @Test
+    void followsAfter() {
+        final var now = Instant.now();
+        final var tag = new VersionTag(new int[]{1,2}, now);
+        assertTrue(tag.followsAfter(new VersionTag(new int[]{0,2}, now)));
+        assertTrue(tag.followsAfter(new VersionTag(new int[]{1,1}, now)));
+        assertFalse(tag.followsAfter(new VersionTag(new int[]{1,2}, now)));
+        assertFalse(tag.followsAfter(new VersionTag(new int[]{1,3}, now)));
+        assertFalse(tag.followsAfter(new VersionTag(new int[]{2,0}, now)));
+    }
 }

@@ -5,8 +5,7 @@ public class VersionHistoryTask extends DefaultTask {
 
     @TaskAction
     public void task() {
-        final var project = getProject();
-        try (final var git = JGit.open(project.getRootDir())) {
+        try (final var git = JGit.open(getProject().getRootDir())) {
             final var allTag = git.listAllTag();
             for (int i = 1; i < allTag.size(); i++) {
                 final var fromTag = allTag.get(i - 1);

@@ -34,6 +34,16 @@ public final class VersionTag implements Comparable<VersionTag> {
         return 0;
     }
 
+    public boolean followsAfter(@NonNull final VersionTag that) {
+        if (that.major != this.major) {
+            return that.major < this.major;
+        }
+        if (that.minor != this.minor) {
+            return that.minor < this.minor;
+        }
+        return false;
+    }
+
     public String toRef() {
         return "refs/tags/%d.%d".formatted(major, minor);
     }

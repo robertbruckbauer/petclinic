@@ -75,11 +75,8 @@ tasks.register('dockerRun') {
     }
 }
 
-tasks.register('versionCheck') {
+tasks.register('versionCheck', VersionCheckTask.class)  {
     build.dependsOn it
-    assert new File("${projectDir}/package.json")
-            .text
-            .contains('"version": "' + VERSION + '"')
 }
 
 tasks.register('prettierCheck', NpmTask) {
