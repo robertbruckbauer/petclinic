@@ -72,13 +72,9 @@ subprojects {
 }
 
 ext.VERSION = new File("${rootDir}/VERSION").text
-tasks.register('versionCheck') {
-    build.dependsOn it
-    println versionDetails()
-    assert new File("${rootDir}/VERSION.md")
-            .text
-            .startsWith("# Version " + VERSION)
-}
+tasks.register('versionTag', VersionTagTask.class)
+tasks.register('versionHistory', VersionHistoryTask.class)
+tasks.register('versionRelease', VersionReleaseTask.class)
 
 tasks.register('lint') {
     dependsOn 'spotlessCheck'

@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://projectlombok.org
+    implementation('org.projectlombok:lombok:1.18.38')
+    annotationProcessor('org.projectlombok:lombok:1.18.38')
+    // https://projects.eclipse.org/projects/technology.jgit
+    implementation('org.eclipse.jgit:org.eclipse.jgit:7.3.0.202506031305-r')}
+dependencies {
+    // https://junit.org/junit5
+    testImplementation('org.junit.jupiter:junit-jupiter:5.12.2')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+}
+
+test {
+    useJUnitPlatform()
+}
