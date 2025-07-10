@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - EnumRestApiTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>EnumRestApiTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/esy.app.info.html">esy.app.info</a> &gt; EnumRestApiTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">10</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.221s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">cleanup()</td>
+<td class="success">cleanup()</td>
+<td class="success">0.015s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getApiEnum()</td>
+<td class="success">getApiEnum()</td>
+<td class="success">0.017s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getApiEnumNoElements()</td>
+<td class="success">getApiEnumNoElements()</td>
+<td class="success">0.032s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[1] code=0, name=A, text=Alpha</td>
+<td class="success">postApiEnum(String, String, String)[1]</td>
+<td class="success">0.035s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[2] code=1, name=B, text=Beta</td>
+<td class="success">postApiEnum(String, String, String)[2]</td>
+<td class="success">0.027s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[3] code=2, name=C, text=Gamma</td>
+<td class="success">postApiEnum(String, String, String)[3]</td>
+<td class="success">0.021s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">postApiEnumConflict()</td>
+<td class="success">postApiEnumConflict()</td>
+<td class="success">0.019s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">putApiEnum()</td>
+<td class="success">putApiEnum()</td>
+<td class="success">0.022s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">putApiEnumConflict()</td>
+<td class="success">putApiEnumConflict()</td>
+<td class="success">0.017s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">putApiEnumNotFound()</td>
+<td class="success">putApiEnumNotFound()</td>
+<td class="success">0.016s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2025-07-10T17:56:27.431Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.431Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.433Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.art=? 
+    order by
+        e1_0.art,
+        e1_0.code
+2025-07-10T17:56:27.442Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    44903 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    500741 nanoseconds spent preparing 1 JDBC statements;
+    137606 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/enum/TEST
+       Parameters = {}
+          Headers = [Accept:&quot;application/json&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#enumOf(String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {
+  &quot;links&quot; : [ ],
+  &quot;content&quot; : [ ]
+}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.466Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.466Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.467Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.id=?
+Hibernate: 
+    insert 
+    into
+        enum
+        (art, code, name, text, version, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+2025-07-10T17:56:27.484Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    30116 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    579128 nanoseconds spent preparing 2 JDBC statements;
+    62827 nanoseconds spent executing 1 JDBC statements;
+    137175 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    3863678 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/enum/TEST
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;55&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#createOf(String, EnumItem)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {
+  &quot;name&quot; : &quot;A&quot;,
+  &quot;text&quot; : &quot;Alpha&quot;,
+  &quot;code&quot; : 0,
+  &quot;value&quot; : &quot;A&quot;
+}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.501Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.501Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.503Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.id=?
+Hibernate: 
+    insert 
+    into
+        enum
+        (art, code, name, text, version, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+2025-07-10T17:56:27.512Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    34614 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    543671 nanoseconds spent preparing 2 JDBC statements;
+    75721 nanoseconds spent executing 1 JDBC statements;
+    293445 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    1474403 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/enum/TEST
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;54&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#createOf(String, EnumItem)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {
+  &quot;name&quot; : &quot;B&quot;,
+  &quot;text&quot; : &quot;Beta&quot;,
+  &quot;code&quot; : 1,
+  &quot;value&quot; : &quot;B&quot;
+}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.530Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.530Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.531Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.id=?
+Hibernate: 
+    insert 
+    into
+        enum
+        (art, code, name, text, version, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+2025-07-10T17:56:27.538Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    40685 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    576672 nanoseconds spent preparing 2 JDBC statements;
+    96569 nanoseconds spent executing 1 JDBC statements;
+    91410 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    1130253 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/enum/TEST
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;55&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#createOf(String, EnumItem)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {
+  &quot;name&quot; : &quot;C&quot;,
+  &quot;text&quot; : &quot;Gamma&quot;,
+  &quot;code&quot; : 2,
+  &quot;value&quot; : &quot;C&quot;
+}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.551Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.551Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.552Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.id=?
+Hibernate: 
+    insert 
+    into
+        enum
+        (art, code, name, text, version, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+2025-07-10T17:56:27.558Z  INFO 2558 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
+2025-07-10T17:56:27.558Z  WARN 2558 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2025-07-10T17:56:27.558Z ERROR 2558 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
+2025-07-10T17:56:27.559Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    32471 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    531159 nanoseconds spent preparing 2 JDBC statements;
+    65962 nanoseconds spent executing 1 JDBC statements;
+    226732 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    1516481 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2025-07-10T17:56:27.560Z ERROR 2558 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/enum/TEST
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;55&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#createOf(String, EnumItem)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.dao.DataIntegrityViolationException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 409
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Conflict&quot;,&quot;status&quot;:409,&quot;detail&quot;:&quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM] [insert into enum (art,code,name,text,version,id) values (?,?,?,?,?,?)]; SQL [insert into enum (art,code,name,text,version,id) values (?,?,?,?,?,?)]; constraint [UK_ENUM_NAME]&quot;,&quot;instance&quot;:&quot;/api/enum/TEST&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.571Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.571Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.572Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.art=? 
+        and e1_0.code=? 
+    order by
+        e1_0.art,
+        e1_0.code
+2025-07-10T17:56:27.579Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    32150 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    651501 nanoseconds spent preparing 1 JDBC statements;
+    109544 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.id=?
+Hibernate: 
+    update
+        enum 
+    set
+        art=?,
+        code=?,
+        name=?,
+        text=?,
+        version=? 
+    where
+        id=? 
+        and version=?
+2025-07-10T17:56:27.583Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    15939 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    477579 nanoseconds spent preparing 2 JDBC statements;
+    41768 nanoseconds spent executing 1 JDBC statements;
+    174244 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    1520980 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /api/enum/TEST/0
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;61&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#updateOf(String, Long, EnumItem)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {
+  &quot;name&quot; : &quot;A1&quot;,
+  &quot;text&quot; : &quot;Alpha Eins&quot;,
+  &quot;code&quot; : 0,
+  &quot;value&quot; : &quot;A1&quot;
+}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.595Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.595Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.597Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.art=? 
+        and e1_0.code=? 
+    order by
+        e1_0.art,
+        e1_0.code
+2025-07-10T17:56:27.600Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    26429 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    469273 nanoseconds spent preparing 1 JDBC statements;
+    75291 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.id=?
+Hibernate: 
+    update
+        enum 
+    set
+        art=?,
+        code=?,
+        name=?,
+        text=?,
+        version=? 
+    where
+        id=? 
+        and version=?
+2025-07-10T17:56:27.603Z  INFO 2558 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
+2025-07-10T17:56:27.603Z  WARN 2558 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2025-07-10T17:56:27.603Z ERROR 2558 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
+2025-07-10T17:56:27.603Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    12854 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    370660 nanoseconds spent preparing 2 JDBC statements;
+    47038 nanoseconds spent executing 1 JDBC statements;
+    320256 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    1622709 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2025-07-10T17:56:27.604Z ERROR 2558 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST/0
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /api/enum/TEST/0
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;55&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#updateOf(String, Long, EnumItem)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.dao.DataIntegrityViolationException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 409
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Conflict&quot;,&quot;status&quot;:409,&quot;detail&quot;:&quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM] [update enum set art=?,code=?,name=?,text=?,version=? where id=? and version=?]; SQL [update enum set art=?,code=?,name=?,text=?,version=? where id=? and version=?]; constraint [UK_ENUM_NAME]&quot;,&quot;instance&quot;:&quot;/api/enum/TEST/0&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.614Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.614Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.615Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.art=? 
+        and e1_0.code=? 
+    order by
+        e1_0.art,
+        e1_0.code
+2025-07-10T17:56:27.619Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    25087 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    397600 nanoseconds spent preparing 1 JDBC statements;
+    63118 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2025-07-10T17:56:27.620Z ERROR 2558 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/api/enum/TEST/26
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /api/enum/TEST/26
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;55&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#updateOf(String, Long, EnumItem)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.dao.DataRetrievalFailureException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 404
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Not Found&quot;,&quot;status&quot;:404,&quot;detail&quot;:&quot;Enum(TEST, 26) not found&quot;,&quot;instance&quot;:&quot;/api/enum/TEST/26&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.630Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.630Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.631Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.art=? 
+    order by
+        e1_0.art,
+        e1_0.code
+2025-07-10T17:56:27.634Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    48731 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    404783 nanoseconds spent preparing 1 JDBC statements;
+    107760 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/enum/TEST
+       Parameters = {}
+          Headers = [Accept:&quot;application/json&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = esy.app.info.EnumRestController
+           Method = esy.app.info.EnumRestController#enumOf(String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {
+  &quot;links&quot; : [ ],
+  &quot;content&quot; : [ {
+    &quot;name&quot; : &quot;A1&quot;,
+    &quot;text&quot; : &quot;Alpha Eins&quot;,
+    &quot;code&quot; : 0,
+    &quot;value&quot; : &quot;A1&quot;
+  }, {
+    &quot;name&quot; : &quot;B&quot;,
+    &quot;text&quot; : &quot;Beta&quot;,
+    &quot;code&quot; : 1,
+    &quot;value&quot; : &quot;B&quot;
+  }, {
+    &quot;name&quot; : &quot;C&quot;,
+    &quot;text&quot; : &quot;Gamma&quot;,
+    &quot;code&quot; : 2,
+    &quot;value&quot; : &quot;C&quot;
+  } ]
+}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2025-07-10T17:56:27.647Z  INFO 2558 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-10T17:56:27.648Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-10T17:56:27.649Z  INFO 2558 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+Hibernate: 
+    select
+        count(e1_0.id) 
+    from
+        enum e1_0 
+    where
+        e1_0.art=?
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0 
+    where
+        e1_0.art=? 
+    order by
+        e1_0.art,
+        e1_0.code
+Hibernate: 
+    delete 
+    from
+        enum 
+    where
+        id=? 
+        and version=?
+Hibernate: 
+    delete 
+    from
+        enum 
+    where
+        id=? 
+        and version=?
+Hibernate: 
+    delete 
+    from
+        enum 
+    where
+        id=? 
+        and version=?
+Hibernate: 
+    select
+        e1_0.id,
+        e1_0.art,
+        e1_0.code,
+        e1_0.name,
+        e1_0.text,
+        e1_0.version 
+    from
+        enum e1_0
+2025-07-10T17:56:27.660Z  INFO 2558 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    23975 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    877262 nanoseconds spent preparing 4 JDBC statements;
+    195684 nanoseconds spent executing 3 JDBC statements;
+    174214 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    38352 nanoseconds spent executing 3 pre-partial-flushes;
+    1286013 nanoseconds spent executing 3 partial-flushes (flushing a total of 3 entities and 3 collections)
+}
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14</a> at Jul 10, 2025, 5:56:27 PM</p>
+</div>
+</div>
+</body>
+</html>
