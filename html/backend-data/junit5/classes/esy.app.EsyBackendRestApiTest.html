@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.480s</div>
+<div class="counter">0.475s</div>
 <p>duration</p>
 </div>
 </td>
@@ -81,31 +81,31 @@
 <tr>
 <td class="success">getBaseNotFound()</td>
 <td class="success">getBaseNotFound()</td>
-<td class="success">0.025s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getHealth()</td>
 <td class="success">getHealth()</td>
-<td class="success">0.027s</td>
+<td class="success">0.023s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getHealthLiveness()</td>
 <td class="success">getHealthLiveness()</td>
-<td class="success">0.090s</td>
+<td class="success">0.077s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getHealthReadiness()</td>
 <td class="success">getHealthReadiness()</td>
+<td class="success">0.012s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getHealthz()</td>
+<td class="success">getHealthz()</td>
 <td class="success">0.010s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getHealthz()</td>
-<td class="success">getHealthz()</td>
-<td class="success">0.013s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -117,13 +117,13 @@
 <tr>
 <td class="success">[2] path=/actuator/liquibase</td>
 <td class="success">getPageNotFound(String)[2]</td>
-<td class="success">0.014s</td>
+<td class="success">0.017s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[3] path=/actuator/sessions</td>
 <td class="success">getPageNotFound(String)[3]</td>
-<td class="success">0.013s</td>
+<td class="success">0.022s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -135,25 +135,25 @@
 <tr>
 <td class="success">[2] uri=/version.adoc</td>
 <td class="success">getVersionAdoc(String)[2]</td>
-<td class="success">0.014s</td>
+<td class="success">0.015s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[1] uri=/version</td>
 <td class="success">getVersionHtml(String)[1]</td>
-<td class="success">0.197s</td>
+<td class="success">0.187s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] uri=/version.html</td>
 <td class="success">getVersionHtml(String)[2]</td>
-<td class="success">0.013s</td>
+<td class="success">0.030s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getVersionJson()</td>
 <td class="success">getVersionJson()</td>
-<td class="success">0.013s</td>
+<td class="success">0.017s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -167,11 +167,11 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2025-07-11T12:34:07.273Z  INFO 2628 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [esy.app.EsyBackendRestApiTest]: EsyBackendRestApiTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2025-07-11T12:34:07.275Z  INFO 2628 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration esy.app.EsyBackendTestApplication for test class esy.app.EsyBackendRestApiTest
-2025-07-11T12:34:07.306Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.306Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.307Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre>2025-07-11T12:46:50.134Z  INFO 2565 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [esy.app.EsyBackendRestApiTest]: EsyBackendRestApiTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-11T12:46:50.136Z  INFO 2565 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration esy.app.EsyBackendTestApplication for test class esy.app.EsyBackendRestApiTest
+2025-07-11T12:46:50.162Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.162Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.163Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -209,9 +209,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.372Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.372Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.373Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.220Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.220Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.222Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -249,9 +249,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.389Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.389Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.390Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.237Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.237Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.238Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -290,9 +290,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.409Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.410Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.411Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.257Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.257Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.258Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -331,9 +331,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.426Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.427Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.428Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.274Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.274Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.275Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -372,9 +372,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.624Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.624Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.625Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2025-07-11T12:46:50.475Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.476Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.477Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -413,9 +413,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.637Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.637Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.638Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.493Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.493Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.494Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -453,9 +453,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.651Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.651Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.652Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.511Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.511Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.512Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -493,9 +493,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.662Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.662Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.663Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2025-07-11T12:46:50.522Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.522Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.523Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -533,10 +533,10 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.691Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.692Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.693Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2025-07-11T12:34:07.699Z ERROR 2628 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/actuator/mappings
+2025-07-11T12:46:50.548Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.548Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.549Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.555Z ERROR 2565 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/actuator/mappings
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -573,10 +573,10 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.710Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.710Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.711Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2025-07-11T12:34:07.714Z ERROR 2628 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/actuator/liquibase
+2025-07-11T12:46:50.567Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.567Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.568Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.571Z ERROR 2565 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/actuator/liquibase
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -613,10 +613,10 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.724Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.724Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.725Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2025-07-11T12:34:07.727Z ERROR 2628 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/actuator/sessions
+2025-07-11T12:46:50.586Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.587Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.589Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2025-07-11T12:46:50.593Z ERROR 2565 --- [    Test worker] esy.app.EsyBackendControllerAdvice       : uri=/actuator/sessions
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -653,9 +653,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.738Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.738Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.739Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2025-07-11T12:46:50.612Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.612Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.613Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -693,9 +693,9 @@ MockHttpServletResponse:
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
-2025-07-11T12:34:07.766Z  INFO 2628 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-07-11T12:34:07.767Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-07-11T12:34:07.768Z  INFO 2628 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-07-11T12:46:50.624Z  INFO 2565 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-11T12:46:50.624Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-11T12:46:50.625Z  INFO 2565 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -744,7 +744,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at Jul 11, 2025, 12:34:19 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at Jul 11, 2025, 12:47:02 PM</p>
 </div>
 </div>
 </body>
