@@ -19,7 +19,7 @@ public abstract class VersionReleaseTask extends DefaultTask {
 
     @Inject
     public VersionReleaseTask() {
-        final var version = getProject().getLayout().getProjectDirectory().file("VERSION");
+        final var version = getProject().getLayout().getSettingsDirectory().file("VERSION");
         getVersion().convention(version);
     }
 

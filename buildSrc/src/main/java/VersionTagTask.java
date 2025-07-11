@@ -12,7 +12,7 @@ public abstract class VersionTagTask extends DefaultTask {
 
     @Inject
     public VersionTagTask() {
-        final var version = getProject().getLayout().getProjectDirectory().file("VERSION");
+        final var version = getProject().getLayout().getSettingsDirectory().file("VERSION");
         getVersion().convention(version);
     }
 

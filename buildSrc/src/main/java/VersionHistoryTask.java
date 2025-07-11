@@ -19,7 +19,7 @@ public abstract class VersionHistoryTask extends DefaultTask {
 
     @Inject
     public VersionHistoryTask() {
-        final var version = getProject().getLayout().getProjectDirectory().file("VERSION");
+        final var version = getProject().getLayout().getSettingsDirectory().file("VERSION");
         getVersion().convention(version);
     }
 
