@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class VersionTester implements Predicate<String>, Function<String, int[]> {
 
     static final Pattern VERSION_PATTERN = Pattern.compile(
-            "^refs/tags/v?(\\d+)\\.(\\d+).*$"
+            "^v?(\\d+)\\.(\\d+).*$"
     );
 
     @Override

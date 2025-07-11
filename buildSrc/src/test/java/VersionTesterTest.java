@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -10,10 +9,10 @@ class VersionTesterTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "refs/tags/1.2",
-            "refs/tags/1.2.0",
-            "refs/tags/1.2.0-alpha",
-            "refs/tags/v1.2"
+            "1.2",
+            "1.2.0",
+            "1.2.0-alpha",
+            "v1.2"
     })
     void versionOk(final String tagName) {
         final var classUnderTest = new VersionTester();
@@ -24,15 +23,15 @@ class VersionTesterTest {
     @ParameterizedTest
     @ValueSource(strings = {
             "",
-            "1.2",
-            "refs/1.2",
-            "tags/1.2",
-            "ref/tags1.2",
-            "refs/tag/1.2",
-            "refs/tags/1",
-            "refs/tags/1.",
-            "refs/tags/1.a",
-            "refs/tags/x1.2"
+            ".",
+            ".2",
+            "1",
+            "1.",
+            "1.a",
+            "x1.2",
+            "v",
+            "v1",
+            "v1."
     })
     void versionNotOk(final String tagName) {
         final var classUnderTest = new VersionTester();

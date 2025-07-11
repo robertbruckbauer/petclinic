@@ -30,7 +30,7 @@ public final class JGit implements AutoCloseable {
 
     public static JGit open(@NonNull final File rootDir) {
         try {
-            final var tagName = "refs/tags/" + Files.readString(rootDir.toPath().resolve("VERSION"));
+            final var tagName = Files.readString(rootDir.toPath().resolve("VERSION"));
             final var localTag = new VersionTag(versionTester.apply(tagName), Instant.now());
             final var git = Git.open(rootDir);
             return new JGit(git, localTag);
@@ -49,10 +49,13 @@ public final class JGit implements AutoCloseable {
      */
     public VersionTag releaseTag() {
         try {
-            final var tagName = "refs/tags/" + git.describe().setTags(true).setAbbrev(0).call();
-            final var tagRef = git.getRepository().findRef(tagName);
+            final var tagName = git.describe().setTags(true).setAbbrev(0).call();
+            if (tagName == null) {
+                throw new IllegalStateException("tags not available");
+            }
+            final var tagRef = git.getRepository().findRef("refs/tags/" + tagName);
             if (tagRef == null) {
-                throw new NoSuchElementException("'%s' not found".formatted(tagName));
+                throw new NoSuchElementException("tag '%s' not found".formatted(tagName));
             }
             final var tagCommit = parseCommit(tagRef);
             final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
@@ -70,10 +73,13 @@ public final class JGit implements AutoCloseable {
      */
     public VersionTag versionTag() {
         try {
-            final var tagName = "refs/tags/" + git.describe().setTags(true).setAbbrev(0).call();
-            final var tagRef = git.getRepository().findRef(tagName);
+            final var tagName = git.describe().setTags(true).setAbbrev(0).call();
+            if (tagName == null) {
+                throw new IllegalStateException("tags not available");
+            }
+            final var tagRef = git.getRepository().findRef("refs/tags/" + tagName);
             if (tagRef == null) {
-                throw new NoSuchElementException("'%s' not found".formatted(tagName));
+                throw new NoSuchElementException("tag '%s' not found".formatted(tagName));
             }
             final var tagCommit = parseCommit(tagRef);
             final var fromId = git.getRepository().resolve("HEAD");;
@@ -101,7 +107,7 @@ public final class JGit implements AutoCloseable {
             final var allTag = new ArrayList<VersionTag>();
             final var allTagRef = git.tagList().call();
             for (final var tagRef : allTagRef) {
-                final var tagName = tagRef.getName();
+                final var tagName = tagRef.getName().replace("refs/tags/", "");
                 final var tagCommit = parseCommit(tagRef);
                 final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
                 allTag.add(new VersionTag(versionTester.apply(tagName), commitAt));
