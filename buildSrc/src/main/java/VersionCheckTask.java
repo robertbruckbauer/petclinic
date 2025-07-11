@@ -1,8 +1,11 @@
 import lombok.NonNull;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.file.RegularFileProperty;
+import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -11,7 +14,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class VersionCheckTask extends DefaultTask {
+public abstract class VersionCheckTask extends DefaultTask {
 
     static final Pattern JSON_VERSION_PATTERN = Pattern.compile(
             "\"version\"\\s*:\\s*\"(\\d+\\.\\d+\\.\\d+)\"");
@@ -19,12 +22,19 @@ public class VersionCheckTask extends DefaultTask {
     static final Pattern YAML_VERSION_PATTERN = Pattern.compile(
             "version\\s*:\\s*(\\d+\\.\\d+\\.\\d+)");
 
+    @InputFile
+    public abstract RegularFileProperty getVersion();
+
+    @Inject
+    public VersionCheckTask() {
+        final var version = getProject().getLayout().getProjectDirectory().file("VERSION");
+        getVersion().convention(version);
+    }
+
     @TaskAction
     public void task() {
-        try (final var git = JGit.open(getProject().getRootDir())) {
-            final var cleanTag = git.releaseTag();
+        try (final var git = JGit.open(getProject().getRootDir(), getVersion().get().getAsFile())) {
             final var localTag = git.versionTag();
-            checkTag(localTag, cleanTag);
             final var projectDir = getProject().getLayout().getProjectDirectory();
             List.of("package.json", "package-lock.json").forEach(filename ->
                     checkVersion(JSON_VERSION_PATTERN, localTag, projectDir.file(filename).getAsFile()));
@@ -35,14 +45,6 @@ public class VersionCheckTask extends DefaultTask {
 
     private @NotNull Path toFilename(@NotNull final File file) {
         return getProject().getRootDir().toPath().relativize(file.toPath());
-    }
-
-    private void checkTag(@NonNull final VersionTag localTag, @NonNull final VersionTag cleanTag) {
-        if (!localTag.followsAfter(cleanTag)) {
-            throw new IllegalStateException("local tag '%s' does not follow clean tag '%s'".formatted(
-                    localTag.toSemVer(), cleanTag.toSemVer()
-            ));
-        }
     }
 
     private void checkVersion(@NonNull final Pattern pattern, @NonNull final VersionTag localTag, @NonNull final File file) {

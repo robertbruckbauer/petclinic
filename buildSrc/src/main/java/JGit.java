@@ -28,9 +28,9 @@ public final class JGit implements AutoCloseable {
         this.localTag = localTag;
     }
 
-    public static JGit open(@NonNull final File rootDir) {
+    public static JGit open(@NonNull final File rootDir, @NonNull final File version) {
         try {
-            final var tagName = Files.readString(rootDir.toPath().resolve("VERSION"));
+            final var tagName = Files.readString(version.toPath());
             final var localTag = new VersionTag(versionTester.apply(tagName), Instant.now());
             final var git = Git.open(rootDir);
             return new JGit(git, localTag);
