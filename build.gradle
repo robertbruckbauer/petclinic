@@ -72,16 +72,26 @@ subprojects {
 }
 
 ext.VERSION = new File("${rootDir}/VERSION").text
-tasks.register('versionTag', VersionTagTask.class)
-tasks.register('versionHistory', VersionHistoryTask.class)
-tasks.register('versionRelease', VersionReleaseTask.class)
+tasks.register('versionTag', VersionTagTask.class) {
+    group = 'versioning'
+}
+tasks.register('versionHistory', VersionHistoryTask.class) {
+    group = 'documentation'
+    changelog = layout.buildDirectory.file("reports/HISTORY.md")
+}
+tasks.register('versionRelease', VersionReleaseTask.class) {
+    group = 'documentation'
+    changelog = layout.buildDirectory.file("reports/RELEASE.md")
+}
 
 tasks.register('lint') {
+    group 'verification'
     dependsOn 'spotlessCheck'
     dependsOn ':app:client:prettierCheck'
 }
 
 tasks.register('format') {
+    group 'build'
     dependsOn 'spotlessApply'
     dependsOn ':app:client:prettierApply'
 }
