@@ -18,6 +18,18 @@ class VersionTagTest {
     }
 
     @Test
+    void equalTo() {
+        final var t1 = Instant.now();
+        final var t2 = t1.plusMillis(1L);
+        final var v1 = new int[]{0,1};
+        final var v2 = new int[]{0,2};
+        assertEquals(new VersionTag(v1, t1), new VersionTag(v1, t1));
+        assertNotEquals(new VersionTag(v1, t1), new VersionTag(v2, t1));
+        assertEquals(new VersionTag(v1, t1), new VersionTag(v1, t2));
+        assertNotEquals(new VersionTag(v1, t1), new VersionTag(v2, t2));
+    }
+
+    @Test
     void compareTo() {
         final var now = Instant.now();
         final var allTagSorted = new TreeSet<VersionTag>();

@@ -41,5 +41,6 @@ tasks.register('composeDown') {
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
-    build.dependsOn it
+    group 'verification'
+    allFileWithVersion.from("Chart.yaml")
 }

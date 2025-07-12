@@ -11,6 +11,7 @@ public final class VersionTag implements Comparable<VersionTag> {
 
     private final int minor;
 
+    @EqualsAndHashCode.Exclude
     private final Instant commitAt;
 
     public VersionTag(final int[] version, @NonNull final Instant commitAt) {

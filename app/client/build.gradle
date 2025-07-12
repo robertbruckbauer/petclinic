@@ -76,7 +76,8 @@ tasks.register('dockerRun') {
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
-    build.dependsOn it
+    group 'verification'
+    allFileWithVersion.from("package.json", "package-lock.json")
 }
 
 tasks.register('prettierCheck', NpmTask) {
