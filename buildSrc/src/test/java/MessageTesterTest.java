@@ -13,14 +13,16 @@ class MessageTesterTest {
             "build",
             "doc",
             "refactor",
-            "renovate"
+            "renovate",
+            "EGK-21",
+            "egk-21"
     })
     void messageOk(final String typ) {
-        final var classUnderTest = new MessageTester();
-        assertTrue(classUnderTest.test("%s: Lorem ipsum".formatted(typ)));
-        assertTrue(classUnderTest.test("%s(scope): Lorem ipsum".formatted(typ)));
-        assertTrue(classUnderTest.test("%s!: Lorem ipsum".formatted(typ)));
-        assertTrue(classUnderTest.test("%s(scope)!: Lorem ipsum".formatted(typ)));
+        final var messageTester = new MessageTester();
+        assertTrue(messageTester.test("%s: Lorem ipsum".formatted(typ)));
+        assertTrue(messageTester.test("%s(scope): Lorem ipsum".formatted(typ)));
+        assertTrue(messageTester.test("%s!: Lorem ipsum".formatted(typ)));
+        assertTrue(messageTester.test("%s(scope)!: Lorem ipsum".formatted(typ)));
     }
 
     @ParameterizedTest
@@ -29,10 +31,13 @@ class MessageTesterTest {
             "fix me",
             "fix me:",
             "fix()",
-            "fix(me too)"
+            "fix(me too)",
+            "EGK",
+            "EGK-",
+            "EGK-a"
     })
     void messageNotOk(final String message) {
-        final var classUnderTest = new MessageTester();
-        assertFalse(classUnderTest.test(message));
+        final var messageTester = new MessageTester();
+        assertFalse(messageTester.test(message));
     }
 }

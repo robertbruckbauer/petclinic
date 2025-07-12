@@ -12,12 +12,16 @@ class VersionTesterTest {
             "1.2",
             "1.2.0",
             "1.2.0-alpha",
-            "v1.2"
+            "v1.2",
     })
     void versionOk(final String tagName) {
-        final var classUnderTest = new VersionTester();
-        assertTrue(classUnderTest.test(tagName));
-        assertEquals("[1, 2]", Arrays.toString(classUnderTest.apply(tagName)));
+        final var versionTester = new VersionTester();
+        assertTrue(versionTester.test(tagName));
+        final var version = versionTester.apply(tagName);
+        assertNotNull(version.prefix());
+        assertEquals(1, version.major());
+        assertEquals(2, version.minor());
+        assertNotNull(version.patch());
     }
 
     @ParameterizedTest
@@ -34,8 +38,12 @@ class VersionTesterTest {
             "v1."
     })
     void versionNotOk(final String tagName) {
-        final var classUnderTest = new VersionTester();
-        assertFalse(classUnderTest.test(tagName));
-        assertEquals("[0, 0]", Arrays.toString(classUnderTest.apply(tagName)));
+        final var versionTester = new VersionTester();
+        assertFalse(versionTester.test(tagName));
+        final var version = versionTester.apply(tagName);
+        assertEquals("", version.prefix());
+        assertEquals(0, version.major());
+        assertEquals(0, version.minor());
+        assertEquals("", version.patch());
     }
 }

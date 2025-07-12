@@ -3,11 +3,14 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
+import java.nio.file.Path;
 
 public abstract class VersionHistoryTask extends DefaultTask {
 
@@ -27,23 +30,27 @@ public abstract class VersionHistoryTask extends DefaultTask {
     public void task() {
         try (final var git = JGit.open(getProject().getRootDir(), getVersion().get().getAsFile())) {
             final var localTag = git.versionTag();
-            final var file = getChangelog().get().getAsFile();
-            try (final var os = new PrintWriter(file)) {
+            final var outputFile = getChangelog().get().getAsFile();
+            try (final var writer = new PrintWriter(outputFile)) {
                 final var allTag = git.listAllTag();
                 for (int i = 1; i < allTag.size(); i++) {
                     final var fromTag = allTag.get(i - 1);
                     final var toTag = allTag.get(i);
                     final var allLog = git.listAllLog(fromTag.toRef(), toTag.toRef());
-                    if (i > 1) os.println();
-                    os.printf("# Version %s%n%n", fromTag.toSemVer());
-                    allLog.forEach(log -> os.printf("* %s%n", log));
+                    if (i > 1) writer.println();
+                    writer.printf("# Version %s%n%n", fromTag.toSemVer());
+                    allLog.forEach(log -> writer.printf("* %s%n", log));
                 }
             } catch (FileNotFoundException e) {
                 throw new UncheckedIOException(e);
             }
             getLogger().lifecycle("changelog '{}' successfully created for version tag '{}'",
-                    file.getName(),
+                    toFilename(outputFile),
                     localTag.toSemVer());
         }
+    }
+
+    private @NotNull Path toFilename(@NotNull final File file) {
+        return getProject().getRootDir().toPath().relativize(file.toPath());
     }
 }

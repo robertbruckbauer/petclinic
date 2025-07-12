@@ -85,7 +85,7 @@ public final class JGit implements AutoCloseable {
                 final var tagCommit = parseCommit(tagRef);
                 final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
                 final var cleanTag = new VersionTag(versionTester.apply(tagName), commitAt);
-                if (!cleanTag.followsAfter(localTag)) {
+                if (cleanTag.isValid() && !cleanTag.followsAfter(localTag)) {
                     allTag.add(cleanTag);
                 }
             }
