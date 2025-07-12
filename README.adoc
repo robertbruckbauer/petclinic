@@ -44,7 +44,7 @@ https://github.com/FasterXML/jackson-docs
 
 === lib/backend-data
 
-REST-API für für den Backend-Server der Anwendung.
+REST-API für den Backend-Server der Anwendung.
 
 https://spring.io/projects/spring-framework
 
@@ -55,6 +55,56 @@ https://spring.io/projects/spring-data-jpa
 https://spring.io/projects/spring-data-rest
 
 https://docs.liquibase.com/home.html
+
+== Versionierung
+
+Die Versionierung der Anwendung basiert auf
+https://git-scm.com/book/en/v2/Git-Basics-Tagging[_lightweight tags_]
+im Repository und folgt dem Konzept 
+https://semver.org/[_semantic versioning_]
+mit Major und Minor-Nummer.
+Eine Patch-Nummer wird nur für interne Zwecke verwendet.
+
+[source, gradle]
+----
+./gradlew versionTag
+----
+
+Der Befehl zeigt die aktuelle Version der Anwendung.
+
+Die Änderungshistorie basiert auf der
+https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History[_commit history_]
+des Repositories und folgt dem Konzept 
+https://www.conventionalcommits.org/[_conventional commits_]
+für die Beschreibung der Änderungen.
+
+[source, gradle]
+----
+./gradlew versionRelease
+----
+
+Der Befehl zeigt eine Liste der Änderungen am aktuellen Release.
+Die Liste kann auch leer sein.
+
+[source, gradle]
+----
+./gradlew versionHistory
+----
+
+Der Befehl zeigt alle Änderungen der vergangenen Releases gruppiert nach der Version und absteigend sortiert.
+
+Die aktuelle Version mit Major- und Minor-Nummer wird in der Datei `VERSION` eingetragen.
+
+WARNING: Die Datei darf keinen Zeilenumbruch enthalten.
+
+Zusätzlich muss die aktuelle Version in anderen Dateien eingetragen werden, z.B. in `package.json` oder `Chart.yaml`.
+
+[source, gradle]
+----
+./gradlew versionCheck
+----
+
+Der Befehl prüft, ob alle eingetragenen Version mit Major- und Minor-Nummer exakt übereinstimmen.
 
 == Häufig gestellte Fragen
 
