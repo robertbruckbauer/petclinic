@@ -41,9 +41,12 @@ jobs:
         with:
           gradle-version: "8.14"
 
-      - name: Build Java
+      - name: Check Version
         run: |
           gradle versionCheck
+
+      - name: Build Java
+        run: |
           gradle spotlessCheck
           gradle build --parallel
           gradle jacocoTestReport
@@ -57,9 +60,9 @@ jobs:
         run: |
           for dir in app/*
           do
-            if [ -f "$dir/package.json" ]
+            if [ -f "$dir/build.npm.sh" ]
             then
-              (cd $dir && npm ci && npm run prettierCheck && npm run build)
+              (cd $dir && sh -xv ./build.npm.sh)
             fi
           done
 
