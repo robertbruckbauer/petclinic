@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.202s</div>
+<div class="counter">0.247s</div>
 <p>duration</p>
 </div>
 </td>
@@ -81,13 +81,13 @@
 <tr>
 <td class="success">context()</td>
 <td class="success">context()</td>
-<td class="success">0.007s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteAll()</td>
 <td class="success">deleteAll()</td>
-<td class="success">0.012s</td>
+<td class="success">0.020s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -99,7 +99,7 @@
 <tr>
 <td class="success">findEnum()</td>
 <td class="success">findEnum()</td>
-<td class="success">0.029s</td>
+<td class="success">0.027s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -111,19 +111,19 @@
 <tr>
 <td class="success">[1] name=JIRA</td>
 <td class="success">saveEnum(String)[1]</td>
-<td class="success">0.055s</td>
+<td class="success">0.093s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] name=JIRA Cloud</td>
 <td class="success">saveEnum(String)[2]</td>
-<td class="success">0.019s</td>
+<td class="success">0.017s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[3] name=TEST</td>
 <td class="success">saveEnum(String)[3]</td>
-<td class="success">0.011s</td>
+<td class="success">0.009s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -135,13 +135,13 @@
 <tr>
 <td class="success">[5] name=Öl</td>
 <td class="success">saveEnum(String)[5]</td>
-<td class="success">0.009s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[6] name=Übel</td>
 <td class="success">saveEnum(String)[6]</td>
-<td class="success">0.009s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -171,29 +171,29 @@
 
  :: Spring Boot ::                (v3.5.0)
 
-2025-07-12T15:03:58.194Z  INFO 2552 --- [    Test worker] esy.app.info.EnumRepositoryTest          : Starting EnumRepositoryTest using Java 21.0.7 with PID 2552 (started by runner in /home/runner/work/petclinic/petclinic/lib/backend-data)
-2025-07-12T15:03:58.194Z  INFO 2552 --- [    Test worker] esy.app.info.EnumRepositoryTest          : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-07-12T15:03:58.380Z  INFO 2552 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-07-12T15:03:58.391Z  INFO 2552 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 5 JPA repository interfaces.
-2025-07-12T15:03:58.575Z  INFO 2552 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
-2025-07-12T15:03:58.576Z  INFO 2552 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-4 - Driver does not support get/set network timeout for connections. (feature not supported)
-2025-07-12T15:03:58.576Z  INFO 2552 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection org.hsqldb.jdbc.JDBCConnection@316cabb7
-2025-07-12T15:03:58.576Z  INFO 2552 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
-2025-07-12T15:03:58.578Z  INFO 2552 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
-2025-07-12T15:03:58.664Z  INFO 2552 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2025-07-12T15:03:58.740Z  INFO 2552 --- [    Test worker] liquibase.ui                             : Database is up to date, no changesets to execute
-2025-07-12T15:03:58.743Z  INFO 2552 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
-2025-07-12T15:03:58.744Z  INFO 2552 --- [    Test worker] liquibase.util                           : Run:                          0
-2025-07-12T15:03:58.744Z  INFO 2552 --- [    Test worker] liquibase.util                           : Previously run:               6
-2025-07-12T15:03:58.744Z  INFO 2552 --- [    Test worker] liquibase.util                           : Filtered out:                 0
-2025-07-12T15:03:58.744Z  INFO 2552 --- [    Test worker] liquibase.util                           : -------------------------------
-2025-07-12T15:03:58.744Z  INFO 2552 --- [    Test worker] liquibase.util                           : Total change sets:            6
-2025-07-12T15:03:58.744Z  INFO 2552 --- [    Test worker] liquibase.util                           : Update summary generated
-2025-07-12T15:03:58.744Z  INFO 2552 --- [    Test worker] liquibase.command                        : Command execution complete
-2025-07-12T15:03:58.767Z  INFO 2552 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-07-12T15:03:58.769Z  INFO 2552 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-07-12T15:03:58.778Z  INFO 2552 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-07-12T15:03:58.780Z  INFO 2552 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-07-12T15:08:36.570Z  INFO 2607 --- [    Test worker] esy.app.info.EnumRepositoryTest          : Starting EnumRepositoryTest using Java 21.0.7 with PID 2607 (started by runner in /home/runner/work/petclinic/petclinic/lib/backend-data)
+2025-07-12T15:08:36.570Z  INFO 2607 --- [    Test worker] esy.app.info.EnumRepositoryTest          : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-07-12T15:08:36.799Z  INFO 2607 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-12T15:08:36.816Z  INFO 2607 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 5 JPA repository interfaces.
+2025-07-12T15:08:37.011Z  INFO 2607 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-07-12T15:08:37.012Z  INFO 2607 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-4 - Driver does not support get/set network timeout for connections. (feature not supported)
+2025-07-12T15:08:37.012Z  INFO 2607 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection org.hsqldb.jdbc.JDBCConnection@10315f0d
+2025-07-12T15:08:37.012Z  INFO 2607 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-07-12T15:08:37.015Z  INFO 2607 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
+2025-07-12T15:08:37.088Z  INFO 2607 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2025-07-12T15:08:37.168Z  INFO 2607 --- [    Test worker] liquibase.ui                             : Database is up to date, no changesets to execute
+2025-07-12T15:08:37.171Z  INFO 2607 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
+2025-07-12T15:08:37.171Z  INFO 2607 --- [    Test worker] liquibase.util                           : Run:                          0
+2025-07-12T15:08:37.172Z  INFO 2607 --- [    Test worker] liquibase.util                           : Previously run:               6
+2025-07-12T15:08:37.172Z  INFO 2607 --- [    Test worker] liquibase.util                           : Filtered out:                 0
+2025-07-12T15:08:37.172Z  INFO 2607 --- [    Test worker] liquibase.util                           : -------------------------------
+2025-07-12T15:08:37.172Z  INFO 2607 --- [    Test worker] liquibase.util                           : Total change sets:            6
+2025-07-12T15:08:37.172Z  INFO 2607 --- [    Test worker] liquibase.util                           : Update summary generated
+2025-07-12T15:08:37.172Z  INFO 2607 --- [    Test worker] liquibase.command                        : Command execution complete
+2025-07-12T15:08:37.196Z  INFO 2607 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-12T15:08:37.199Z  INFO 2607 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-07-12T15:08:37.210Z  INFO 2607 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-12T15:08:37.211Z  INFO 2607 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
 	Database driver: undefined/unknown
 	Database version: 2.7.3
@@ -201,9 +201,9 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-07-12T15:03:58.852Z  INFO 2552 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-07-12T15:03:58.853Z  INFO 2552 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-07-12T15:03:58.868Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.289Z  INFO 2607 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-12T15:08:37.289Z  INFO 2607 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-12T15:08:37.310Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -216,7 +216,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.878Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.320Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -229,7 +229,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.878Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.321Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -242,7 +242,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.885Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.328Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -255,7 +255,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.885Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.329Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -268,7 +268,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.886Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.330Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -281,7 +281,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.889Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.333Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -294,7 +294,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.889Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.334Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -307,7 +307,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.900Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.346Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -320,7 +320,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.903Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.349Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -333,7 +333,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.903Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.349Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -346,7 +346,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.909Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.365Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -359,7 +359,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.913Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.368Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -372,7 +372,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.913Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.368Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -385,7 +385,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.919Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.374Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -398,7 +398,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.922Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.378Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -411,7 +411,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.922Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.378Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -424,7 +424,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.925Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.381Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -437,7 +437,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.926Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.381Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -450,7 +450,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.930Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.384Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -463,7 +463,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.930Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.385Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -476,7 +476,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.931Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.386Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -489,7 +489,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.933Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.387Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -502,7 +502,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.934Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.388Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -515,7 +515,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.934Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.388Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -528,7 +528,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.937Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.391Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -541,7 +541,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.938Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.392Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -554,7 +554,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.938Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.392Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -567,7 +567,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:58.940Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-07-12T15:08:37.394Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -580,28 +580,28 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-07-12T15:03:59.011Z  WARN 2552 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2025-07-12T15:08:37.430Z  WARN 2607 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 9be4dfdd-9921-4ac8-bc4b-5bd64cc5cd06
+Using generated security password: 65741b99-e4fc-4750-8711-2c8423a33dfd
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-07-12T15:03:59.013Z  INFO 2552 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-07-12T15:03:59.180Z  INFO 2552 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 6 resource(s) in the GraphQL schema.
-2025-07-12T15:03:59.211Z  INFO 2552 --- [    Test worker] o.s.b.a.g.GraphQlAutoConfiguration       : GraphQL schema inspection:
+2025-07-12T15:08:37.431Z  INFO 2607 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-07-12T15:08:37.525Z  INFO 2607 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 6 resource(s) in the GraphQL schema.
+2025-07-12T15:08:37.543Z  INFO 2607 --- [    Test worker] o.s.b.a.g.GraphQlAutoConfiguration       : GraphQL schema inspection:
 	Unmapped fields: {}
 	Unmapped registrations: {}
 	Unmapped arguments: {}
 	Skipped types: []
-2025-07-12T15:03:59.214Z  INFO 2552 --- [    Test worker] s.b.a.g.s.GraphQlWebMvcAutoConfiguration : GraphQL endpoint HTTP POST /api/graphql
-2025-07-12T15:03:59.287Z  INFO 2552 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2025-07-12T15:03:59.413Z  WARN 2552 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/**'], Ant [pattern='/static/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-07-12T15:03:59.413Z  WARN 2552 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version'], Ant [pattern='/version']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-07-12T15:03:59.413Z  WARN 2552 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version.*'], Ant [pattern='/version.*']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-07-12T15:03:59.413Z  WARN 2552 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore EndpointRequestMatcher includes=[health], excludes=[], includeLinks=false. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-07-12T15:03:59.437Z  INFO 2552 --- [    Test worker] esy.app.info.EnumRepositoryTest          : Started EnumRepositoryTest in 1.262 seconds (process running for 39.418)
-2025-07-12T15:03:59.450Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    46457 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.545Z  INFO 2607 --- [    Test worker] s.b.a.g.s.GraphQlWebMvcAutoConfiguration : GraphQL endpoint HTTP POST /api/graphql
+2025-07-12T15:08:37.597Z  INFO 2607 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-07-12T15:08:37.739Z  WARN 2607 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/**'], Ant [pattern='/static/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-07-12T15:08:37.740Z  WARN 2607 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version'], Ant [pattern='/version']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-07-12T15:08:37.740Z  WARN 2607 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version.*'], Ant [pattern='/version.*']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-07-12T15:08:37.740Z  WARN 2607 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore EndpointRequestMatcher includes=[health], excludes=[], includeLinks=false. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-07-12T15:08:37.766Z  INFO 2607 --- [    Test worker] esy.app.info.EnumRepositoryTest          : Started EnumRepositoryTest in 1.214 seconds (process running for 39.865)
+2025-07-12T15:08:37.785Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    52739 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
     0 nanoseconds spent executing 0 JDBC statements;
@@ -639,18 +639,18 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.507Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    21590 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.879Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    28773 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    2293597 nanoseconds spent preparing 3 JDBC statements;
-    416039 nanoseconds spent executing 2 JDBC statements;
-    179256 nanoseconds spent executing 1 JDBC batches;
+    2620620 nanoseconds spent preparing 3 JDBC statements;
+    455324 nanoseconds spent executing 2 JDBC statements;
+    182692 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    20151015 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    9247 nanoseconds spent executing 1 pre-partial-flushes;
-    7223 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    21584184 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    18304 nanoseconds spent executing 1 pre-partial-flushes;
+    5140 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -678,18 +678,18 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.527Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27711 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.902Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    25618 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    670285 nanoseconds spent preparing 3 JDBC statements;
-    3227257 nanoseconds spent executing 2 JDBC statements;
-    140082 nanoseconds spent executing 1 JDBC batches;
+    696885 nanoseconds spent preparing 3 JDBC statements;
+    2787513 nanoseconds spent executing 2 JDBC statements;
+    191980 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1844686 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    7474 nanoseconds spent executing 1 pre-partial-flushes;
-    5410 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    1639529 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    7834 nanoseconds spent executing 1 pre-partial-flushes;
+    4900 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -717,18 +717,18 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.540Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27161 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.913Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    24196 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    609453 nanoseconds spent preparing 3 JDBC statements;
-    146264 nanoseconds spent executing 2 JDBC statements;
-    100648 nanoseconds spent executing 1 JDBC batches;
+    581830 nanoseconds spent preparing 3 JDBC statements;
+    140324 nanoseconds spent executing 2 JDBC statements;
+    124554 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1213765 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    6021 nanoseconds spent executing 1 pre-partial-flushes;
-    4889 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    1097386 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    5781 nanoseconds spent executing 1 pre-partial-flushes;
+    3777 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -756,18 +756,18 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.550Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    25368 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.922Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    21711 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    550401 nanoseconds spent preparing 3 JDBC statements;
-    110818 nanoseconds spent executing 2 JDBC statements;
-    121377 nanoseconds spent executing 1 JDBC batches;
+    579435 nanoseconds spent preparing 3 JDBC statements;
+    140543 nanoseconds spent executing 2 JDBC statements;
+    111679 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    948797 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    22532 nanoseconds spent executing 1 pre-partial-flushes;
-    4468 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    981067 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    5330 nanoseconds spent executing 1 pre-partial-flushes;
+    3517 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -795,18 +795,18 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.559Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    21179 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.933Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    21410 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    499407 nanoseconds spent preparing 3 JDBC statements;
-    154850 nanoseconds spent executing 2 JDBC statements;
-    107682 nanoseconds spent executing 1 JDBC batches;
+    828071 nanoseconds spent preparing 3 JDBC statements;
+    133681 nanoseconds spent executing 2 JDBC statements;
+    96711 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    976680 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    4499 nanoseconds spent executing 1 pre-partial-flushes;
-    3847 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    1202252 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    79121 nanoseconds spent executing 1 pre-partial-flushes;
+    4469 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -834,18 +834,18 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.569Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    19337 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.944Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    21240 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    538197 nanoseconds spent preparing 3 JDBC statements;
-    210726 nanoseconds spent executing 2 JDBC statements;
-    78998 nanoseconds spent executing 1 JDBC batches;
+    575007 nanoseconds spent preparing 3 JDBC statements;
+    133861 nanoseconds spent executing 2 JDBC statements;
+    96060 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    980878 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    4959 nanoseconds spent executing 1 pre-partial-flushes;
-    4177 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    1113706 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    5531 nanoseconds spent executing 1 pre-partial-flushes;
+    3337 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -873,18 +873,18 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.579Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    21269 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.954Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    22172 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    506269 nanoseconds spent preparing 3 JDBC statements;
-    135163 nanoseconds spent executing 2 JDBC statements;
-    73067 nanoseconds spent executing 1 JDBC batches;
+    565591 nanoseconds spent preparing 3 JDBC statements;
+    102631 nanoseconds spent executing 2 JDBC statements;
+    87945 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    901789 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    5319 nanoseconds spent executing 1 pre-partial-flushes;
-    4418 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    899895 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    5140 nanoseconds spent executing 1 pre-partial-flushes;
+    3356 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -893,11 +893,11 @@ Hibernate:
         enum e1_0 
     where
         e1_0.art=?
-2025-07-12T15:03:59.583Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    21260 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.958Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    22132 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    208361 nanoseconds spent preparing 1 JDBC statements;
-    82464 nanoseconds spent executing 1 JDBC statements;
+    233688 nanoseconds spent preparing 1 JDBC statements;
+    91902 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -925,19 +925,19 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.589Z  INFO 2552 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
-2025-07-12T15:03:59.589Z  WARN 2552 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2025-07-12T15:03:59.589Z ERROR 2552 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
-2025-07-12T15:03:59.589Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    19016 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.964Z  INFO 2607 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
+2025-07-12T15:08:37.964Z  WARN 2607 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2025-07-12T15:08:37.964Z ERROR 2607 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
+2025-07-12T15:08:37.964Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    13395 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    310402 nanoseconds spent preparing 2 JDBC statements;
-    44273 nanoseconds spent executing 1 JDBC statements;
-    223118 nanoseconds spent executing 1 JDBC batches;
+    413234 nanoseconds spent preparing 2 JDBC statements;
+    57888 nanoseconds spent executing 1 JDBC statements;
+    283682 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1411724 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    1555754 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -960,19 +960,19 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-07-12T15:03:59.594Z  INFO 2552 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
-2025-07-12T15:03:59.594Z  WARN 2552 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2025-07-12T15:03:59.594Z ERROR 2552 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_CODE table: ENUM
-2025-07-12T15:03:59.595Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    16160 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.969Z  INFO 2607 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
+2025-07-12T15:08:37.969Z  WARN 2607 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2025-07-12T15:08:37.969Z ERROR 2607 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_CODE table: ENUM
+2025-07-12T15:08:37.969Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    16461 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    291065 nanoseconds spent preparing 2 JDBC statements;
-    38682 nanoseconds spent executing 1 JDBC statements;
-    176411 nanoseconds spent executing 1 JDBC batches;
+    313507 nanoseconds spent preparing 2 JDBC statements;
+    42239 nanoseconds spent executing 1 JDBC statements;
+    176241 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    2048523 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    1232719 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1037,18 +1037,18 @@ Hibernate:
         enum e1_0 
     where
         e1_0.id=?
-2025-07-12T15:03:59.627Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    19778 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:37.999Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    43351 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1517403 nanoseconds spent preparing 5 JDBC statements;
-    449592 nanoseconds spent executing 5 JDBC statements;
+    1446182 nanoseconds spent preparing 5 JDBC statements;
+    584517 nanoseconds spent executing 5 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1041321 nanoseconds spent executing 1 flushes (flushing a total of 7 entities and 0 collections);
-    233426 nanoseconds spent executing 5 pre-partial-flushes;
-    766816 nanoseconds spent executing 5 partial-flushes (flushing a total of 21 entities and 21 collections)
+    844703 nanoseconds spent executing 1 flushes (flushing a total of 7 entities and 0 collections);
+    217188 nanoseconds spent executing 5 pre-partial-flushes;
+    722263 nanoseconds spent executing 5 partial-flushes (flushing a total of 21 entities and 21 collections)
 }
 Hibernate: 
     select
@@ -1069,18 +1069,18 @@ Hibernate:
         enum e1_0 
     where
         e1_0.id=?
-2025-07-12T15:03:59.634Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    22372 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:38.006Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    24976 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    418585 nanoseconds spent preparing 2 JDBC statements;
-    90861 nanoseconds spent executing 2 JDBC statements;
+    519594 nanoseconds spent preparing 2 JDBC statements;
+    126347 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    4098 nanoseconds spent executing 1 pre-partial-flushes;
-    3497 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    5520 nanoseconds spent executing 1 pre-partial-flushes;
+    3347 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
 Hibernate: 
     select
@@ -1114,18 +1114,18 @@ Hibernate:
         e1_0.version 
     from
         enum e1_0
-2025-07-12T15:03:59.644Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    31339 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:38.016Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    21991 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    550521 nanoseconds spent preparing 3 JDBC statements;
-    268782 nanoseconds spent executing 3 JDBC statements;
+    654456 nanoseconds spent preparing 3 JDBC statements;
+    227055 nanoseconds spent executing 3 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    265247 nanoseconds spent executing 1 flushes (flushing a total of 7 entities and 0 collections);
-    107571 nanoseconds spent executing 3 pre-partial-flushes;
-    237786 nanoseconds spent executing 3 partial-flushes (flushing a total of 7 entities and 7 collections)
+    546133 nanoseconds spent executing 1 flushes (flushing a total of 7 entities and 0 collections);
+    84458 nanoseconds spent executing 3 pre-partial-flushes;
+    238366 nanoseconds spent executing 3 partial-flushes (flushing a total of 7 entities and 7 collections)
 }
 Hibernate: 
     select
@@ -1205,18 +1205,18 @@ Hibernate:
         enum e1_0 
     where
         e1_0.art=?
-2025-07-12T15:03:59.656Z  INFO 2552 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    18454 nanoseconds spent acquiring 1 JDBC connections;
+2025-07-12T15:08:38.036Z  INFO 2607 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    22152 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1121852 nanoseconds spent preparing 4 JDBC statements;
-    188944 nanoseconds spent executing 3 JDBC statements;
-    379381 nanoseconds spent executing 2 JDBC batches;
+    1936216 nanoseconds spent preparing 4 JDBC statements;
+    1108446 nanoseconds spent executing 3 JDBC statements;
+    1167497 nanoseconds spent executing 2 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
     0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    32861 nanoseconds spent executing 3 pre-partial-flushes;
-    2099283 nanoseconds spent executing 3 partial-flushes (flushing a total of 7 entities and 7 collections)
+    56966 nanoseconds spent executing 3 pre-partial-flushes;
+    4746962 nanoseconds spent executing 3 partial-flushes (flushing a total of 7 entities and 7 collections)
 }
 </pre>
 </span>
@@ -1229,7 +1229,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at Jul 12, 2025, 3:04:00 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at Jul 12, 2025, 3:08:38 PM</p>
 </div>
 </div>
 </body>
