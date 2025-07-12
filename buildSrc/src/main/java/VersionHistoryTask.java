@@ -26,7 +26,9 @@ public abstract class VersionHistoryTask extends DefaultTask {
     @TaskAction
     public void task() {
         try (final var git = JGit.open(getProject().getRootDir(), getVersion().get().getAsFile())) {
-            try (final var os = new PrintWriter(getChangelog().get().getAsFile())) {
+            final var localTag = git.versionTag();
+            final var file = getChangelog().get().getAsFile();
+            try (final var os = new PrintWriter(file)) {
                 final var allTag = git.listAllTag();
                 for (int i = 1; i < allTag.size(); i++) {
                     final var fromTag = allTag.get(i - 1);
@@ -36,9 +38,12 @@ public abstract class VersionHistoryTask extends DefaultTask {
                     os.printf("# Version %s%n%n", fromTag.toSemVer());
                     allLog.forEach(log -> os.printf("* %s%n", log));
                 }
+            } catch (FileNotFoundException e) {
+                throw new UncheckedIOException(e);
             }
-        } catch (FileNotFoundException e) {
-            throw new UncheckedIOException(e);
+            getLogger().lifecycle("changelog '{}' successfully created for version tag '{}'",
+                    file.getName(),
+                    localTag.toSemVer());
         }
     }
 }

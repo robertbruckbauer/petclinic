@@ -26,13 +26,18 @@ public abstract class VersionReleaseTask extends DefaultTask {
     @TaskAction
     public void task() {
         try (final var git = JGit.open(getProject().getRootDir(), getVersion().get().getAsFile())) {
-            try (final var os = new PrintWriter(getChangelog().get().getAsFile())) {
+            final var localTag = git.versionTag();
+            final var file = getChangelog().get().getAsFile();
+            try (final var os = new PrintWriter(file)) {
                 final var toTag = git.releaseTag();
                 final var allLog = git.listAllLog("HEAD", toTag.toRef());
                 allLog.forEach(log -> os.printf("* %s%n", log));
             } catch (FileNotFoundException e) {
                 throw new UncheckedIOException(e);
             }
+            getLogger().lifecycle("changelog '{}' successfully created for version tag '{}'",
+                    file.getName(),
+                    localTag.toSemVer());
         }
     }
 }

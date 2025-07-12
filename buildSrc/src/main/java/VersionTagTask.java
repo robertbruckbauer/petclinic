@@ -28,7 +28,14 @@ public abstract class VersionTagTask extends DefaultTask {
                     ));
                 }
             }
-            System.out.println(localTag.toSemVer());
+            if (cleanTag.equals(localTag)) {
+                getLogger().lifecycle("{}",
+                        cleanTag.toSemVer());
+            } else {
+                getLogger().lifecycle("{} -> {}",
+                        cleanTag.toSemVer(),
+                        localTag.toSemVer());
+            }
         }
     }
 }
