@@ -85,5 +85,8 @@ tasks.register('dockerRun') {
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
-    build.dependsOn it
+    group 'verification'
+}
+tasks.named('build') {
+    dependsOn 'versionCheck'
 }

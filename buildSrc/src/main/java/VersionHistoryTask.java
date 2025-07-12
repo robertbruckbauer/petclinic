@@ -32,10 +32,9 @@ public abstract class VersionHistoryTask extends DefaultTask {
                     final var fromTag = allTag.get(i - 1);
                     final var toTag = allTag.get(i);
                     final var allLog = git.listAllLog(fromTag.toRef(), toTag.toRef());
-                    os.printf("# Version %s%n", fromTag.toSemVer());
-                    os.println();
+                    if (i > 1) os.println();
+                    os.printf("# Version %s%n%n", fromTag.toSemVer());
                     allLog.forEach(log -> os.printf("* %s%n", log));
-                    os.println();
                 }
             }
         } catch (FileNotFoundException e) {

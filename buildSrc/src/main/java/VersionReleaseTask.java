@@ -30,7 +30,6 @@ public abstract class VersionReleaseTask extends DefaultTask {
                 final var toTag = git.releaseTag();
                 final var allLog = git.listAllLog("HEAD", toTag.toRef());
                 allLog.forEach(log -> os.printf("* %s%n", log));
-                os.println();
             } catch (FileNotFoundException e) {
                 throw new UncheckedIOException(e);
             }

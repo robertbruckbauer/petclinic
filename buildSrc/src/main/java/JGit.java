@@ -31,7 +31,8 @@ public final class JGit implements AutoCloseable {
     public static JGit open(@NonNull final File rootDir, @NonNull final File version) {
         try {
             final var tagName = Files.readString(version.toPath());
-            final var localTag = new VersionTag(versionTester.apply(tagName), Instant.now());
+            final var commitAt = Instant.ofEpochMilli(version.lastModified());
+            final var localTag = new VersionTag(versionTester.apply(tagName), commitAt);
             final var git = Git.open(rootDir);
             return new JGit(git, localTag);
         } catch (IOException e) {
@@ -42,6 +43,10 @@ public final class JGit implements AutoCloseable {
     @Override
     public void close() {
         this.git.close();
+    }
+
+    public VersionTag versionTag() {
+        return localTag;
     }
 
     /**
@@ -69,37 +74,6 @@ public final class JGit implements AutoCloseable {
     }
 
     /**
-     * git describe --tags --abbrev=0
-     */
-    public VersionTag versionTag() {
-        try {
-            final var tagName = git.describe().setTags(true).setAbbrev(0).call();
-            if (tagName == null) {
-                throw new IllegalStateException("tags not available");
-            }
-            final var tagRef = git.getRepository().findRef("refs/tags/" + tagName);
-            if (tagRef == null) {
-                throw new NoSuchElementException("tag '%s' not found".formatted(tagName));
-            }
-            final var tagCommit = parseCommit(tagRef);
-            final var fromId = git.getRepository().resolve("HEAD");;
-            final var toId = tagCommit.getId();
-            final var allRevCommit = git.log().add(fromId).not(toId).call();
-            if (allRevCommit.iterator().hasNext()) {
-                return localTag;
-            } else {
-                final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
-                final var semVer = versionTester.apply(tagName);
-                return new VersionTag(semVer, commitAt);
-            }
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } catch (GitAPIException e) {
-            throw new UnsupportedOperationException(e);
-        }
-    }
-
-    /**
      * git for-each-ref --sort=-creatordate refs/tags
      */
     public List<VersionTag> listAllTag() {
@@ -110,7 +84,10 @@ public final class JGit implements AutoCloseable {
                 final var tagName = tagRef.getName().replace("refs/tags/", "");
                 final var tagCommit = parseCommit(tagRef);
                 final var commitAt = tagCommit.getCommitterIdent().getWhenAsInstant();
-                allTag.add(new VersionTag(versionTester.apply(tagName), commitAt));
+                final var cleanTag = new VersionTag(versionTester.apply(tagName), commitAt);
+                if (!cleanTag.followsAfter(localTag)) {
+                    allTag.add(cleanTag);
+                }
             }
             Collections.sort(allTag);
             return allTag;
@@ -122,7 +99,7 @@ public final class JGit implements AutoCloseable {
     }
 
     /**
-     * git log tag1..tag2 --oneline
+     * git log fromRef..toRef --oneline
      */
     public List<String> listAllLog(@NonNull final String fromRef, @NonNull final String toRef) {
         try {
