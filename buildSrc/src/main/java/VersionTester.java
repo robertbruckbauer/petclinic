@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class VersionTester implements Predicate<String>, Function<String, Version> {
 
     static final Pattern VERSION_PATTERN = Pattern.compile(
-            "^(v)?(\\d+)\\.(\\d+)\\.?(.*)$"
+            "^(v)?(\\d+)\\.(\\d+)(\\.?.*)$"
     );
 
     @Override
