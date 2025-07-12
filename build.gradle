@@ -86,6 +86,9 @@ tasks.register('versionRelease', VersionReleaseTask.class) {
 
 tasks.register('lint') {
     group 'verification'
+    dependsOn ':app:deploy:versionCheck'
+    dependsOn ':app:server:versionCheck'
+    dependsOn ':app:client:versionCheck'
     dependsOn 'spotlessCheck'
     dependsOn ':app:client:prettierCheck'
 }

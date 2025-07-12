@@ -79,9 +79,6 @@ tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
     allFileWithVersion.from("package.json", "package-lock.json")
 }
-tasks.named('build') {
-    dependsOn 'versionCheck'
-}
 
 tasks.register('prettierCheck', NpmTask) {
     // No node in CI-Job build-java

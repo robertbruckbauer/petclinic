@@ -44,6 +44,3 @@ tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
     allFileWithVersion.from("Chart.yaml")
 }
-tasks.named('build') {
-    dependsOn 'versionCheck'
-}
