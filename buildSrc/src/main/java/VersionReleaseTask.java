@@ -3,6 +3,7 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.work.DisableCachingByDefault;
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
+@DisableCachingByDefault(because = "use always the latest tags and commits")
 public abstract class VersionReleaseTask extends DefaultTask {
 
     @InputFile
@@ -38,7 +40,7 @@ public abstract class VersionReleaseTask extends DefaultTask {
             } catch (FileNotFoundException e) {
                 throw new UncheckedIOException(e);
             }
-            getLogger().lifecycle("changelog '{}' successfully created for version tag '{}'",
+            getLogger().lifecycle("'{}' successfully created for local tag '{}'",
                     toFilename(outputFile),
                     localTag.toSemVer());
         }

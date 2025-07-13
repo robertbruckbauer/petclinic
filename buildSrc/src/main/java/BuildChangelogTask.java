@@ -14,7 +14,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
 @DisableCachingByDefault(because = "use always the latest tags and commits")
-public abstract class VersionHistoryTask extends DefaultTask {
+public abstract class BuildChangelogTask extends DefaultTask {
 
     @InputFile
     public abstract RegularFileProperty getVersion();
@@ -23,7 +23,7 @@ public abstract class VersionHistoryTask extends DefaultTask {
     public abstract RegularFileProperty getChangelog();
 
     @Inject
-    public VersionHistoryTask() {
+    public BuildChangelogTask() {
         final var version = getProject().getLayout().getSettingsDirectory().file("VERSION");
         getVersion().convention(version);
     }
@@ -31,24 +31,22 @@ public abstract class VersionHistoryTask extends DefaultTask {
     @TaskAction
     public void task() {
         try (final var git = JGit.open(getProject().getRootDir(), getVersion().get().getAsFile())) {
-            final var localTag = git.versionTag();
             final var outputFile = getChangelog().get().getAsFile();
             try (final var writer = new PrintWriter(outputFile)) {
                 final var allTag = git.listAllTag();
-                for (int i = 1; i < allTag.size(); i++) {
-                    final var fromTag = allTag.get(i - 1);
-                    final var toTag = allTag.get(i);
+                if (allTag.size() > 2) {
+                    final var fromTag = allTag.get(0);
+                    final var toTag = allTag.get(1);
                     final var allLog = git.listAllLog(fromTag.toRef(), toTag.toRef());
-                    if (i > 1) writer.println();
-                    writer.printf("# Version %s%n%n", fromTag.toSemVer());
                     allLog.forEach(log -> writer.printf("* %s%n", log));
+                    getLogger().lifecycle("'{}' successfully created from clean tags '{}' to '{}'",
+                            toFilename(outputFile),
+                            fromTag.toSemVer(),
+                            toTag.toSemVer());
                 }
             } catch (FileNotFoundException e) {
                 throw new UncheckedIOException(e);
             }
-            getLogger().lifecycle("'{}' successfully created for local tag '{}'",
-                    toFilename(outputFile),
-                    localTag.toSemVer());
         }
     }
 

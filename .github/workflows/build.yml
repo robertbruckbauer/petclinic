@@ -67,8 +67,23 @@ jobs:
           done
 
       # https://github.com/peaceiris/actions-gh-pages
-      - name: Update pages
+      - if: startsWith(github.ref, 'refs/tags')
+        name: Update pages (tag)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: pages
+
+      # https://cli.github.com/manual/gh_release
+      - if: startsWith(github.ref, 'refs/tags')
+        name: Create release (tag)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gradle buildChangelog
+          gh release create "${GITHUB_REF#refs/tags/}" \
+            --title "Version ${GITHUB_REF#refs/tags/}" \
+            --verify-tag \
+            --fail-on-no-commits \
+            --notes-file build/reports/CHANGELOG.md
+

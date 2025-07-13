@@ -51,7 +51,7 @@ public final class VersionTag implements Comparable<VersionTag> {
         if (that.version.minor() != this.version.minor()) {
             return that.version.minor() < this.version.minor();
         }
-        return false;
+        return !that.version.patch().equals(this.version.patch());
     }
 
     public String toRef() {

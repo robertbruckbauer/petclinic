@@ -2,9 +2,11 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.work.DisableCachingByDefault;
 
 import javax.inject.Inject;
 
+@DisableCachingByDefault(because = "use always the latest tags and commits")
 public abstract class VersionTagTask extends DefaultTask {
 
     @InputFile

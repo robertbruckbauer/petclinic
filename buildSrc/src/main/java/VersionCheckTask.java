@@ -46,7 +46,7 @@ public abstract class VersionCheckTask extends DefaultTask {
                 if (file.getName().endsWith(".yaml")) {
                     checkVersion(YAML_VERSION_PATTERN, localTag, file);
                 }
-                getLogger().lifecycle("versioned file '{}' matches version tag '{}'",
+                getLogger().lifecycle("'{}' matches local tag '{}'",
                         toFilename(file),
                         localTag.toSemVer());
             }

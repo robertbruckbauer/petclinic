@@ -75,13 +75,20 @@ ext.VERSION = new File("${rootDir}/VERSION").text
 tasks.register('versionTag', VersionTagTask.class) {
     group = 'versioning'
 }
+
 tasks.register('versionHistory', VersionHistoryTask.class) {
     group = 'documentation'
     changelog = layout.buildDirectory.file("reports/HISTORY.md")
 }
+
 tasks.register('versionRelease', VersionReleaseTask.class) {
     group = 'documentation'
     changelog = layout.buildDirectory.file("reports/RELEASE.md")
+}
+
+tasks.register('buildChangelog', BuildChangelogTask.class) {
+    group = 'build'
+    changelog = layout.buildDirectory.file("reports/CHANGELOG.md")
 }
 
 tasks.register('lint') {
