@@ -66,9 +66,26 @@ jobs:
             fi
           done
 
+      - name: Build Images
+        run: gradle buildImage
+
+        # https://github.com/features/packages
+      - if: startsWith(github.ref, 'refs/tags')
+        name: Update Packages (tag)
+        run: |
+          echo "${{ github.token }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          IMAGE_REPOSITORY_FROM=${{ github.event.repository.name }}
+          IMAGE_REPOSITORY_TO=`echo "ghcr.io/${{ github.repository }}" | tr '[:upper:]' '[:lower:]'`
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}
+          for IMAGE_NAME in client server
+          do
+            docker tag ${IMAGE_REPOSITORY_FROM}/${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_REPOSITORY_TO}/${IMAGE_NAME}:${IMAGE_TAG}
+            docker push ${IMAGE_REPOSITORY_TO}/${IMAGE_NAME}:${IMAGE_TAG}
+          done
+
       # https://github.com/peaceiris/actions-gh-pages
       - if: startsWith(github.ref, 'refs/tags')
-        name: Update pages (tag)
+        name: Update Pages (tag)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -76,7 +93,7 @@ jobs:
 
       # https://cli.github.com/manual/gh_release
       - if: startsWith(github.ref, 'refs/tags')
-        name: Create release (tag)
+        name: Create Release (tag)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
