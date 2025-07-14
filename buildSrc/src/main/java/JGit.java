@@ -101,17 +101,15 @@ public final class JGit implements AutoCloseable {
     /**
      * git log fromRef..toRef --oneline
      */
-    public List<String> listAllLog(@NonNull final String fromRef, @NonNull final String toRef) {
+    public List<Message> listAllLog(@NonNull final String fromRef, @NonNull final String toRef) {
         try {
-            final var allLog = new ArrayList<String>();
+            final var allLog = new ArrayList<Message>();
             final var fromId = git.getRepository().resolve(fromRef);
             final var toId = git.getRepository().resolve(toRef);
             final var allRevCommit = git.log().add(fromId).not(toId).call();
             for (final var revCommit : allRevCommit) {
                 final var message = revCommit.getShortMessage();
-                if (messageTester.test(message)) {
-                    allLog.add(message);
-                }
+                allLog.add(messageTester.apply(message));
             }
             return allLog;
         } catch (IOException e) {
