@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -6,6 +7,15 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VersionTesterTest {
+
+    @Test
+    void constraints() {
+        final var versionTester = new VersionTester();
+        assertThrows(NullPointerException.class, () -> versionTester.test(null));
+        assertThrows(NullPointerException.class, () -> versionTester.apply(null));
+        assertThrows(NullPointerException.class, () -> new Version(null, 0, 0, ""));
+        assertThrows(NullPointerException.class, () -> new Version("", 0, 0, null));
+    }
 
     @ParameterizedTest
     @ValueSource(strings = {

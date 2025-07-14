@@ -24,7 +24,7 @@ public abstract class VersionHistoryTask extends JGitTaskBase {
                     final var allLog = git.listAllLog(fromTag.toRef(), toTag.toRef());
                     if (i > 1) writer.println();
                     writer.printf("# Version %s%n%n", fromTag.toSemVer());
-                    allLog.forEach(log -> writer.printf("* %s%n", log));
+                    allLog.forEach(log -> writer.printf("* %s%n", log.text()));
                 }
             } catch (FileNotFoundException e) {
                 throw new UncheckedIOException(e);
