@@ -79,16 +79,19 @@ tasks.register('versionTag', VersionTagTask.class) {
 tasks.register('versionHistory', VersionHistoryTask.class) {
     group = 'documentation'
     changelog = layout.buildDirectory.file("reports/HISTORY.md")
+    outputs.upToDateWhen { false }
 }
 
 tasks.register('versionRelease', VersionReleaseTask.class) {
     group = 'documentation'
     changelog = layout.buildDirectory.file("reports/RELEASE.md")
+    outputs.upToDateWhen { false }
 }
 
 tasks.register('buildChangelog', BuildChangelogTask.class) {
     group = 'build'
     changelog = layout.buildDirectory.file("reports/CHANGELOG.md")
+    outputs.upToDateWhen { false }
 }
 
 tasks.register('lint') {

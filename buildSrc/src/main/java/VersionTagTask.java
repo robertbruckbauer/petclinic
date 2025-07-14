@@ -1,26 +1,10 @@
-import org.gradle.api.DefaultTask;
-import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.work.DisableCachingByDefault;
 
-import javax.inject.Inject;
-
-@DisableCachingByDefault(because = "use always the latest tags and commits")
-public abstract class VersionTagTask extends DefaultTask {
-
-    @InputFile
-    public abstract RegularFileProperty getVersion();
-
-    @Inject
-    public VersionTagTask() {
-        final var version = getProject().getLayout().getSettingsDirectory().file("VERSION");
-        getVersion().convention(version);
-    }
+public abstract class VersionTagTask extends JGitTaskBase {
 
     @TaskAction
     public void task() {
-        try (final var git = JGit.open(getProject().getRootDir(), getVersion().get().getAsFile())) {
+        doWithGit(git -> {
             final var cleanTag = git.releaseTag();
             final var localTag = git.versionTag();
             if (!cleanTag.equals(localTag)) {
@@ -38,6 +22,6 @@ public abstract class VersionTagTask extends DefaultTask {
                         cleanTag.toSemVer(),
                         localTag.toSemVer());
             }
-        }
+        });
     }
 }
