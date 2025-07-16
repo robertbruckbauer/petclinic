@@ -12,6 +12,16 @@ pluginManagement {
     }
 }
 
+dependencyResolutionManagement {
+    versionCatalogs {
+        extraLibs {
+            // https://playwright.dev/java/
+            library('playwright',
+                    'com.microsoft.playwright:playwright:1.52.0')
+        }
+    }
+}
+
 include 'lib:backend-api'
 include 'lib:backend-data'
 include 'app:server'

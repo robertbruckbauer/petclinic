@@ -20,13 +20,13 @@ dependencies {
     testRuntimeOnly('org.junit.platform:junit-platform-launcher')
     // https://site.mockito.org/
     testImplementation('org.mockito:mockito-junit-jupiter')
+    // https://playwright.dev/java/
+    testImplementation(extraLibs.playwright)
 }
 
 processResources {
-    with copySpec {
-        from("${rootDir}")
-        include 'VERSION'
-    }
+    from("${rootDir}")
+    include 'VERSION'
 }
 
 jar {
@@ -43,7 +43,7 @@ bootJar {
     }
 }
 
-import java.util.Optional;
+import java.util.Optional
 ext.SERVER_IMAGE = Optional.ofNullable(System.getenv("SERVER_IMAGE"))
             .orElse(rootProject.name + "/" + project.name)
 ext.SERVER_TAG = Optional.ofNullable(System.getenv("SERVER_TAG"))
