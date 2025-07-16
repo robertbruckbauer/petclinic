@@ -7,6 +7,7 @@ import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.RequestOptions;
 import esy.api.client.Owner;
 import esy.api.client.Pet;
+import esy.api.clinic.Vet;
 import esy.api.info.Enum;
 import esy.json.JsonMapper;
 import lombok.NonNull;
@@ -110,13 +111,13 @@ public class PlaywrightApiAssertion {
                 });
     }
 
-    private void deleteOwner(@NonNull final UUID ownerId) {
+    private void deleteOwner(@NonNull final Owner owner) {
         doWithApi(
-                (api) -> api.delete("/api/owner/%s".formatted(ownerId)),
+                (api) -> api.delete("/api/owner/%s".formatted(owner.getId())),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
                     final var json = Owner.parseJson(res.text());
-                    assertEquals(ownerId, json.getId());
+                    assertEquals(owner.getId(), json.getId());
                     return null;
                 });
     }
@@ -166,7 +167,7 @@ public class PlaywrightApiAssertion {
                         return json.getId();
                     });
         } finally {
-            deleteOwner(owner.getId());
+            deleteOwner(owner);
         }
     }
 
@@ -196,13 +197,13 @@ public class PlaywrightApiAssertion {
                 });
     }
 
-    private void deletePet(@NonNull final UUID petId) {
+    private void deletePet(@NonNull final Pet pet) {
         doWithApi(
-                (api) -> api.delete("/api/pet/%s".formatted(petId)),
+                (api) -> api.delete("/api/pet/%s".formatted(pet.getId())),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
                     final var json = Pet.parseJson(res.text());
-                    assertEquals(petId, json.getId());
+                    assertEquals(pet.getId(), json.getId());
                     return null;
                 });
     }
@@ -248,11 +249,79 @@ public class PlaywrightApiAssertion {
                                 return json.getId();
                             });
                 } finally {
-                    deletePet(pet.getId());
+                    deletePet(pet);
                 }
             });
         } finally {
-            deleteOwner(owner.getId());
+            deleteOwner(owner);
         }
+    }
+
+    private Vet createVet(@NonNull final String skill) {
+        final var name = randomName("Doc M%s");
+        return doWithApi(
+                (api) -> api.post("/api/vet", RequestOptions.create()
+                        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .setData("""
+                                {
+                                    "name":"%s",
+                                    "allSkill":["%s"]
+                                }
+                                """.formatted(name, skill))),
+                (res) -> {
+                    assertThat(res.status(), equalTo(HttpStatus.CREATED.value()));
+                    final var json = Vet.parseJson(res.text());
+                    assertNotNull(json.getId());
+                    assertEquals(name, json.getName());
+                    assertTrue(json.getAllSkill().contains(skill));
+                    return json;
+                });
+    }
+
+    private void deleteVet(@NonNull final Vet vet) {
+        doWithApi(
+                (api) -> api.delete("/api/vet/%s".formatted(vet.getId())),
+                (res) -> {
+                    assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                    final var json = Vet.parseJson(res.text());
+                    assertEquals(vet.getId(), json.getId());
+                    return null;
+                });
+    }
+
+    public void assertVet() {
+        List.of("Radiology", "Surgery").forEach(skill -> {
+            final var vet = createVet(skill);
+            try {
+                doWithApi(
+                        (api) -> api.get("/api/vet", RequestOptions.create()
+                                .setQueryParam("name", vet.getName())),
+                        (res) -> {
+                            assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                            final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+                            final var allId = jsonReader.readContent("id");
+                            assertEquals(1, allId.size());
+                            assertEquals(vet.getId(), UUID.fromString(allId.getFirst()));
+                            return null;
+                        });
+                doWithApi(
+                        (api) -> api.patch("/api/vet/%s".formatted(vet.getId()), RequestOptions.create()
+                                .setHeader(HttpHeaders.CONTENT_TYPE, "application/merge-patch+json")
+                                .setData("""
+                                        {
+                                            "allSkill":[]
+                                        }
+                                        """)),
+                        (res) -> {
+                            assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                            final var json = Vet.parseJson(res.text());
+                            assertEquals(vet.getId(), json.getId());
+                            assertTrue(json.getAllSkill().isEmpty());
+                            return json.getId();
+                        });
+            } finally {
+                deleteVet(vet);
+            }
+        });
     }
 }
