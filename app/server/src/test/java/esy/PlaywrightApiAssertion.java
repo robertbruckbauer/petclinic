@@ -8,6 +8,7 @@ import com.microsoft.playwright.options.RequestOptions;
 import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.api.clinic.Vet;
+import esy.api.clinic.Visit;
 import esy.api.info.Enum;
 import esy.json.JsonMapper;
 import lombok.NonNull;
@@ -28,6 +29,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlaywrightApiAssertion {
+
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     private final APIRequestContext context;
 
@@ -61,7 +64,7 @@ public class PlaywrightApiAssertion {
                 (api) -> api.get("/api/enum/skill"),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    return new JsonMapper().parseJsonContent(res.text(), esy.api.info.Enum.class);
+                    return jsonMapper.parseJsonContent(res.text(), esy.api.info.Enum.class);
                 });
         assertFalse(allEnum.isEmpty());
         final var allEnumName = allEnum.stream().map(Enum::getName).toList();
@@ -75,7 +78,7 @@ public class PlaywrightApiAssertion {
                 (api) -> api.get("/api/enum/species"),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    return new JsonMapper().parseJsonContent(res.text(), esy.api.info.Enum.class);
+                    return jsonMapper.parseJsonContent(res.text(), esy.api.info.Enum.class);
                 });
         assertFalse(allEnum.isEmpty());
         final var allEnumName = allEnum.stream().map(Enum::getName).toList();
@@ -130,7 +133,7 @@ public class PlaywrightApiAssertion {
                             .setQueryParam("name", owner.getName())),
                     (res) -> {
                         assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                        final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+                        final var jsonReader = jsonMapper.parseJsonPath(res.text());
                         final var allId = jsonReader.readContent("id");
                         assertEquals(1, allId.size());
                         assertEquals(owner.getId(), UUID.fromString(allId.getFirst()));
@@ -171,7 +174,7 @@ public class PlaywrightApiAssertion {
         }
     }
 
-    private Pet createPet(@NonNull final UUID ownerId, @NonNull final String species) {
+    private Pet createPet(@NonNull final Owner owner, @NonNull final String species) {
         final var name = randomName("Alf M%s");
         final var born = LocalDate.of(2021, 10, randomInt(31));
         return doWithApi(
@@ -184,7 +187,7 @@ public class PlaywrightApiAssertion {
                                     "species":"%s",
                                     "born":"%s"
                                 }
-                                """.formatted(ownerId, name, species, born))),
+                                """.formatted(owner.getId(), name, species, born))),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.CREATED.value()));
                     final var json = Pet.parseJson(res.text());
@@ -212,14 +215,14 @@ public class PlaywrightApiAssertion {
         final var owner = createOwner();
         try {
             List.of("Dog", "Cat").forEach(species -> {
-                final var pet = createPet(owner.getId(), species);
+                final var pet = createPet(owner, species);
                 try {
                     doWithApi(
                             (api) -> api.get("/api/pet", RequestOptions.create()
                                     .setQueryParam("name", pet.getName())),
                             (res) -> {
                                 assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                                final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+                                final var jsonReader = jsonMapper.parseJsonPath(res.text());
                                 final var allId = jsonReader.readContent("id");
                                 assertEquals(1, allId.size());
                                 assertEquals(pet.getId(), UUID.fromString(allId.getFirst()));
@@ -298,7 +301,7 @@ public class PlaywrightApiAssertion {
                                 .setQueryParam("name", vet.getName())),
                         (res) -> {
                             assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                            final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+                            final var jsonReader = jsonMapper.parseJsonPath(res.text());
                             final var allId = jsonReader.readContent("id");
                             assertEquals(1, allId.size());
                             assertEquals(vet.getId(), UUID.fromString(allId.getFirst()));
@@ -323,5 +326,100 @@ public class PlaywrightApiAssertion {
                 deleteVet(vet);
             }
         });
+    }
+
+    private void deleteVisit(@NonNull final Visit visit) {
+        doWithApi(
+                (api) -> api.delete("/api/visit/%s".formatted(visit.getId())),
+                (res) -> {
+                    assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                    final var json = Visit.parseJson(res.text());
+                    assertEquals(visit.getId(), json.getId());
+                    return null;
+                });
+    }
+
+    private Visit createVisit(@NonNull final LocalDate date, @NonNull final Pet pet, @NonNull final Vet vet) {
+        return doWithApi(
+                (api) -> api.post("/api/visit", RequestOptions.create()
+                        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .setData("""
+                                {
+                                    "pet":"/api/pet/%s",
+                                    "vet":"/api/vet/%s",
+                                    "date":"%s"
+                                }""".formatted(pet.getId(), vet.getId(), date))),
+                (res) -> {
+                    assertThat(res.status(), equalTo(HttpStatus.CREATED.value()));
+                    final var json = Visit.parseJson(res.text());
+                    assertNull(json.getPet());
+                    assertNull(json.getVet());
+                    assertNotNull(json.getId());
+                    assertEquals(date, json.getDate());
+                    assertEquals("", json.getText());
+                    return json;
+                });
+    }
+
+    public void assertVisit() {
+        final var pet = doWithApi(
+                (api) -> api.get("/api/pet", RequestOptions.create()
+                        .setQueryParam("name", "Odi")),
+                (res) -> {
+                    assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                    final var allPet = jsonMapper.parseJsonContent(res.text(), Pet.class);
+                    assertEquals(1, allPet.size());
+                    return allPet.getFirst();
+                });
+
+        final var vet = doWithApi(
+                (api) -> api.get("/api/vet", RequestOptions.create()
+                        .setQueryParam("name", "Eric Idle")),
+                (res) -> {
+                    assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                    final var allVet = jsonMapper.parseJsonContent(res.text(), Vet.class);
+                    assertEquals(1, allVet.size());
+                    return allVet.getFirst();
+                });
+
+        final var visitDate = LocalDate.now();
+        final var visitText = "Lorem ipsum.";
+        final var visit = createVisit(visitDate, pet, vet);
+        try {
+            doWithApi(
+                    (api) -> api.get("/api/visit/%s/pet".formatted(visit.getId())),
+                    (res) -> {
+                        assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                        final var json = Pet.parseJson(res.text());
+                        assertEquals(pet.getId(), json.getId());
+                        return json.getId();
+                    });
+            doWithApi(
+                    (api) -> api.get("/api/visit/%s/vet".formatted(visit.getId())),
+                    (res) -> {
+                        assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                        final var json = Vet.parseJson(res.text());
+                        assertEquals(vet.getId(), json.getId());
+                        return json.getId();
+                    });
+            doWithApi(
+                    (api) -> api.patch("/api/visit/%s".formatted(visit.getId()), RequestOptions.create()
+                            .setHeader(HttpHeaders.CONTENT_TYPE, "application/merge-patch+json")
+                            .setData("""
+                                        {
+                                            "text":"%s"
+                                        }
+                                        """.formatted(visitText))),
+                    (res) -> {
+                        assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+                        final var json = Visit.parseJson(res.text());
+                        assertEquals(visit.getId(), json.getId());
+                        assertEquals(visitDate, json.getDate());
+                        assertEquals(visitText, json.getText());
+                        return json.getId();
+                    });
+        } finally {
+            deleteVisit(visit);
+        }
     }
 }
