@@ -1,11 +1,13 @@
 package esy;
 
+import com.microsoft.playwright.Playwright;
 import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
 import esy.api.info.Enum;
 import esy.http.RestApiConnection;
+import esy.json.JsonMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,7 +17,6 @@ import org.springframework.http.HttpStatus;
 
 import java.net.URLEncoder;
 import java.time.Month;
-import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,231 +37,40 @@ public class ServerRunnerTest {
 	}
 
 	@Test
-	@Order(1)
-	void health() throws Exception {
-		final var result = RestApiConnection.with(
-				toBackendUrl("/actuator/health")).get();
-		assertThat(result.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		assertThat(result.toString(),
-				equalTo("{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}"));
+	void healthApi() {
+		try (final var playwright = Playwright.create()) {
+			final var req = playwright.request().newContext();
+			final var res = req.get(toBackendUrl("/actuator/health"));
+			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+			final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+			assertEquals("UP", jsonReader.read("$.status"));
+			assertEquals("liveness", jsonReader.read("$.groups[0]"));
+			assertEquals("readiness", jsonReader.read("$.groups[1]"));
+		}
 	}
 
 	@Test
-	@Order(2)
-	void version() throws Exception {
-		final var result = RestApiConnection.with(
-				toBackendUrl("/version")).get();
-		assertThat(result.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		final var allValue = result.toObject(Map.class);
-		assertEquals(3, allValue.size());
-		assertTrue(allValue.containsKey("major"));
-		assertTrue(allValue.containsKey("minor"));
-		assertTrue(allValue.containsKey("version"));
+	void versionApi() {
+		try (final var playwright = Playwright.create()) {
+			final var req = playwright.request().newContext();
+			final var res = req.get(toBackendUrl("/version"));
+			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
+			final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+			assertNotNull(jsonReader.read("$.major"));
+			assertNotNull(jsonReader.read("$.minor"));
+			assertNotNull(jsonReader.read("$.version"));
+		}
 	}
 
 	@Test
-	@Order(3)
-	void apiEnumSkill() throws Exception {
-		final var result = RestApiConnection.with(
-				toBackendUrl("/api/enum/skill")).get();
-		assertThat(result.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		assertEquals(3, result.toCollection(Enum.class).size());
-	}
-
-	@Test
-	@Order(4)
-	void apiEnumSpecies() throws Exception {
-		final var result = RestApiConnection.with(
-				toBackendUrl("/api/enum/species")).get();
-		assertThat(result.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		assertEquals(5, result.toCollection(Enum.class).size());
-	}
-
-	@Test
-	@Order(10)
-	void apiOwner() throws Exception {
-		final var name = "Mustermann";
-
-		final var result1a = RestApiConnection.with(
-				toBackendUrl("/api/owner"))
-				.post("{" +
-						"\"name\":\"Alf " + name + "\"," +
-						"\"address\":\"110 Space Way\"" +
-						"}");
-		assertThat(result1a.getCode(),
-				equalTo(HttpStatus.CREATED.value()));
-		final var value1 = result1a.toObject(Owner.class);
-		assertEquals(0L, value1.getVersion());
-		assertNotNull(value1.getId());
-		assertEquals("Alf " + name, value1.getName());
-
-		final var result1b = RestApiConnection.with(
-				toBackendUrl("/api/owner"))
-				.post("{" +
-						"\"name\":\"Alf " + name + "\"," +
-						"\"address\":\"110 Space Way\"" +
-						"}");
-		assertThat(result1b.getCode(),
-				equalTo(HttpStatus.CONFLICT.value()));
-
-		final var result2a = RestApiConnection.with(
-				toBackendUrl("/api/owner/" + value1.getId()))
-				.put("{" +
-						"\"name\":\"Max " + name + "\"," +
-						"\"address\":\"2749 Blackhawk Trail\"" +
-						"}");
-		assertThat(result2a.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		final var value2 = result2a.toObject(Owner.class);
-		assertFalse(value1.isEqual(value2));
-		assertEquals(1L, value2.getVersion());
-		assertNotNull(value2.getId());
-		assertEquals("Max " + name, value2.getName());
-
-		final var result3a = RestApiConnection.with(
-				toBackendUrl("/api/owner/" + value2.getId()))
-				.get();
-		assertThat(result3a.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		assertTrue(value2.isEqual(result3a.toObject(Owner.class)));
-
-		final var result3b = RestApiConnection.with(
-				toBackendUrl("/api/owner?name=" + URLEncoder.encode("Max " + name, UTF_8)))
-				.get();
-		assertThat(result3b.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		final var allValue3b = result3b.toCollection(Owner.class);
-		assertEquals(1, allValue3b.size());
-		assertEquals(1, allValue3b.stream()
-				.filter(e -> e.getId().equals(value1.getId()))
-				.count());
-
-		final var result3c = RestApiConnection.with(
-				toBackendUrl("/api/owner?sort=name,asc"))
-				.get();
-		assertThat(result3c.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		final var allValue3c = result3c.toCollection(Owner.class);
-		assertEquals(5, allValue3c.size());
-		assertEquals(1, allValue3c.stream()
-				.filter(e -> e.getId().equals(value1.getId()))
-				.count());
-
-		final var result4a = RestApiConnection.with(
-				toBackendUrl("/api/owner/" + value1.getId()))
-				.delete();
-		assertThat(result4a.getCode(),
-				equalTo(HttpStatus.OK.value()));
-
-		final var result4b = RestApiConnection.with(
-				toBackendUrl("/api/owner/" + value1.getId()))
-				.delete();
-		assertThat(result4b.getCode(),
-				equalTo(HttpStatus.NOT_FOUND.value()));
-	}
-
-	@Test
-	@Order(20)
-	void apiPet() throws Exception {
-		final var owner = RestApiConnection.with(
-						toBackendUrl("/api/owner?name=" + URLEncoder.encode("Thomas Mann", UTF_8)))
-				.get().toCollection(Owner.class).getFirst();
-		assertNotNull(owner);
-
-		final var result1a = RestApiConnection.with(
-						toBackendUrl("/api/pet"))
-				.post("{" +
-						"\"owner\":\"/api/owner/" + owner.getId() + "\"," +
-						"\"name\":\"Alf\"," +
-						"\"born\":\"2021-04-22\"," +
-						"\"species\":\"Alien\"" +
-						"}");
-		assertThat(result1a.getCode(),
-				equalTo(HttpStatus.CREATED.value()));
-		final var value1 = result1a.toObject(Pet.class);
-		assertEquals(0L, value1.getVersion());
-		assertNotNull(value1.getId());
-		assertEquals("Alf", value1.getName());
-		assertEquals(2021, value1.getBorn().getYear());
-		assertEquals(Month.APRIL, value1.getBorn().getMonth());
-		assertEquals(22, value1.getBorn().getDayOfMonth());
-		assertEquals("Alien", value1.getSpecies());
-
-		final var result1b = RestApiConnection.with(
-						toBackendUrl("/api/pet"))
-				.post("{" +
-						"\"owner\":\"/api/owner/" + owner.getId() + "\"," +
-						"\"name\":\"Alf\"," +
-						"\"born\":\"2021-04-22\"," +
-						"\"species\":\"Alien\"" +
-						"}");
-		assertThat(result1b.getCode(),
-				equalTo(HttpStatus.CONFLICT.value()));
-
-		final var result2a = RestApiConnection.with(
-						toBackendUrl("/api/pet/" + value1.getId()))
-				.put("{" +
-						"\"owner\":\"/api/owner/" + owner.getId() + "\"," +
-						"\"name\":\"Max\"," +
-						"\"born\":\"2021-04-22\"," +
-						"\"species\":\"Rat\"" +
-						"}");
-		assertThat(result2a.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		final var value2 = result2a.toObject(Pet.class);
-		assertFalse(value1.isEqual(value2));
-		assertEquals(1L, value2.getVersion());
-		assertNotNull(value2.getId());
-		assertEquals("Max", value2.getName());
-		assertEquals(2021, value2.getBorn().getYear());
-		assertEquals(Month.APRIL, value2.getBorn().getMonth());
-		assertEquals(22, value2.getBorn().getDayOfMonth());
-		assertEquals("Rat", value2.getSpecies());
-
-		final var result3a = RestApiConnection.with(
-						toBackendUrl("/api/pet/" + value2.getId()))
-				.get();
-		assertThat(result3a.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		assertTrue(value2.isEqual(result3a.toObject(Pet.class)));
-
-		final var result3b = RestApiConnection.with(
-						toBackendUrl("/api/pet?name=" + URLEncoder.encode("Max", UTF_8)))
-				.get();
-		assertThat(result3b.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		final var allValue3b = result3b.toCollection(Pet.class);
-		assertEquals(1, allValue3b.size());
-		assertEquals(1, allValue3b.stream()
-				.filter(e -> e.getId().equals(value1.getId()))
-				.count());
-
-		final var result3c = RestApiConnection.with(
-						toBackendUrl("/api/pet?sort,asc"))
-				.get();
-		assertThat(result3c.getCode(),
-				equalTo(HttpStatus.OK.value()));
-		final var allValue3c = result3c.toCollection(Pet.class);
-		assertEquals(4, allValue3c.size());
-		assertEquals(1, allValue3c.stream()
-				.filter(e -> e.getId().equals(value1.getId()))
-				.count());
-
-		final var result4a = RestApiConnection.with(
-						toBackendUrl("/api/pet/" + value1.getId()))
-				.delete();
-		assertThat(result4a.getCode(),
-				equalTo(HttpStatus.OK.value()));
-
-		final var result4b = RestApiConnection.with(
-						toBackendUrl("/api/pet/" + value1.getId()))
-				.delete();
-		assertThat(result4b.getCode(),
-				equalTo(HttpStatus.NOT_FOUND.value()));
+	void restApi() {
+		try (final var playwright = Playwright.create()) {
+			final var assertion = new PlaywrightApiAssertion(playwright, toBackendUrl(""));
+			assertion.assertEnumSkill();
+			assertion.assertEnumSpecies();
+			assertion.assertOwner();
+			assertion.assertPet();
+		}
 	}
 
 	@Test
