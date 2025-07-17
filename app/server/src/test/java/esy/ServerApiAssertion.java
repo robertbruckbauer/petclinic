@@ -28,13 +28,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlaywrightApiAssertion {
+public class ServerApiAssertion {
 
     private final JsonMapper jsonMapper = new JsonMapper();
 
     private final APIRequestContext context;
 
-    public PlaywrightApiAssertion(@NonNull final Playwright playwright, @NonNull final String baseUrl) {
+    public ServerApiAssertion(@NonNull final Playwright playwright, @NonNull final String baseUrl) {
         this.context = playwright.request().newContext(new APIRequest.NewContextOptions()
                 .setBaseURL(baseUrl)
                 .setTimeout(Duration.ofMinutes(5L).toMillis())

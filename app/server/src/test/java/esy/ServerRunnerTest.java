@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
+import java.util.Map;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,9 +32,16 @@ public class ServerRunnerTest {
 		return "http://localhost:" + port + path;
 	}
 
+	Playwright playwright() {
+		final var options = new Playwright.CreateOptions()
+				// https://playwright.dev/java/docs/browsers#skip-browser-downloads
+				.setEnv(Map.of("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD","1"));
+		return Playwright.create(options);
+	}
+
 	@Test
 	void healthApi() {
-		try (final var playwright = Playwright.create()) {
+		try (final var playwright = playwright()) {
 			final var req = playwright.request().newContext();
 			final var res = req.get(toBackendUrl("/actuator/health"));
 			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
@@ -45,7 +54,7 @@ public class ServerRunnerTest {
 
 	@Test
 	void versionApi() {
-		try (final var playwright = Playwright.create()) {
+		try (final var playwright = playwright()) {
 			final var req = playwright.request().newContext();
 			final var res = req.get(toBackendUrl("/version"));
 			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
@@ -58,8 +67,8 @@ public class ServerRunnerTest {
 
 	@Test
 	void restApi() {
-		try (final var playwright = Playwright.create()) {
-			final var assertion = new PlaywrightApiAssertion(playwright, toBackendUrl(""));
+		try (final var playwright = playwright()) {
+			final var assertion = new ServerApiAssertion(playwright, toBackendUrl(""));
 			assertion.assertEnumSkill();
 			assertion.assertEnumSpecies();
 			assertion.assertOwner();
