@@ -29,6 +29,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       # https://github.com/actions/setup-java
       - uses: actions/setup-java@v4
         with:
@@ -46,17 +51,6 @@ jobs:
           gradle versionTag
           gradle versionCheck
 
-      - name: Build Java
-        run: |
-          gradle spotlessCheck
-          gradle build --parallel
-          gradle jacocoTestReport
-
-      # https://github.com/actions/setup-node
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
       - name: Build Node
         run: |
           for dir in app/*
@@ -66,6 +60,12 @@ jobs:
               (cd $dir && sh -xv ./build.npm.sh)
             fi
           done
+
+      - name: Build Java
+        run: |
+          gradle spotlessCheck
+          gradle build --parallel
+          gradle jacocoTestReport
 
       - name: Build Images
         run: gradle buildImage
