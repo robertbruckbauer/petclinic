@@ -9,10 +9,10 @@ export class OwnerPage {
   }
 
   path = "/owner";
-  ownerName = "Zzz" + chance.last();
+  ownerName = "Zzz" + chance.word({ syllables: 3 });
   address = "Planet Erde";
   contact = "Brieftaube";
-  petName = "Zzz" + chance.first();
+  petName = "Zzz" + chance.word({ syllables: 1 });
 
   async goto() {
     await this.page.goto("/");

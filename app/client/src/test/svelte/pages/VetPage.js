@@ -9,7 +9,7 @@ export class VetPage {
   }
 
   path = "/vet";
-  name;
+  name = chance.word({ syllables: 3 });
 
   async goto() {
     await this.page.goto("/");
@@ -21,7 +21,6 @@ export class VetPage {
   async createVet() {
     await expect(this.page).toHaveURL(this.path);
     await this.page.getByRole("button", { name: "Add a new vet" }).click();
-    this.name = "Zzz" + chance.last();
     const nameField = this.page.getByRole("textbox", { name: "Name" });
     await nameField.click();
     await nameField.fill(this.name);

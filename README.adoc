@@ -151,12 +151,20 @@ Mit dem Wert `DEBUG` werden bspw. die Kennzahlen von Statements ausgegeben.
 
 [source, gradle]
 ----
-./gradlew app:server:dockerRun
+./gradlew app:server:imageRun
 ----
 
-Der Befehl startet den Server als Container.
-Der HAL-Explorer wird im Browser mit `localhost:8080/api/explorer` aufgerufen.
-Der GraphQl-Explorer wird im Browser mit `localhost:8080/api/graphiql` aufgerufen.
+Der Befehl startet den Server als Container-Image im Hintergrund (_detached_).
+Der interaktive HAL-Explorer wird im Browser mit `localhost:8080/api/explorer` aufgerufen.
+Der interaktive GraphQL-Explorer wird im Browser mit `localhost:8080/api/graphiql` aufgerufen.
+
+[source, gradle]
+----
+./gradlew app:server:imageStop
+----
+
+Der Befehl beendet den Server.
+Das Container-Image wird automatisch entfernt.
 
 === Svelte-Client lokal starten
 
@@ -170,11 +178,19 @@ Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
 
 [source, gradle]
 ----
-./gradlew app:client:dockerRun
+./gradlew app:client:imageRun
 ----
 
-Der Befehl startet den Client als Container.
+Der Befehl startet den Client als Container-Image im Hintergrund (_detached_).
 Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
+
+[source, gradle]
+----
+./gradlew app:client:imageStop
+----
+
+Der Befehl beendet den Client.
+Das Container-Image wird automatisch entfernt.
 
 === Anwendung lokal starten
 
