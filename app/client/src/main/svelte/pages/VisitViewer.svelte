@@ -6,9 +6,12 @@
   export let allVisit;
 
   let allVisitByDate = new Map();
-  $: allVisitByDate = mapify(allVisit, visitKey);
+  $: allVisitByDate = mapify(allVisit, visitKey, visitCompare);
   function visitKey(e) {
-    return e.petItem.text + " on " + e.date;
+    return e.petItem.text + " at " + e.date;
+  }
+  function visitCompare(e1, e2) {
+    return e1.date.localeCompare(e2.date);
   }
 </script>
 
