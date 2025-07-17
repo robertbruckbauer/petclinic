@@ -60,7 +60,7 @@
     petOwnerId = $storedOwner.id;
   });
 
-  $: petOwnerId, reloadAllPet();
+  $: (petOwnerId, reloadAllPet());
   function reloadAllPet() {
     console.log(petOwnerId);
     if (petOwnerId) {
