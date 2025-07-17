@@ -11,6 +11,7 @@ test.describe("Regression", () => {
     const owner = new OwnerPage(page);
     await owner.goto();
     await owner.create();
+    await owner.addPet();
     await owner.delete();
   });
 

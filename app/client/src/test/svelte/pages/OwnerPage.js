@@ -9,7 +9,8 @@ export class OwnerPage {
   }
 
   path = "/owner";
-  name;
+  ownerName = "Zzz" + chance.last();
+  petName = "Zzz" + chance.first();
 
   async goto() {
     await this.page.goto("/");
@@ -21,10 +22,9 @@ export class OwnerPage {
   async create() {
     await expect(this.page).toHaveURL(this.path);
     await this.page.getByRole("button", { name: "Add a new owner" }).click();
-    this.name = "Zzz" + chance.last();
     const nameField = this.page.getByRole("textbox", { name: "Name" });
     await nameField.click();
-    await nameField.fill(this.name);
+    await nameField.fill(this.ownerName);
     await nameField.press("Tab");
     const addressField = this.page.getByRole("textbox", { name: "Address" });
     await addressField.click();
@@ -37,10 +37,29 @@ export class OwnerPage {
     await this.page.getByRole("button", { name: "Ok" }).click();
   }
 
+  async addPet() {
+    await expect(this.page).toHaveURL(this.path);
+    const filterInput = this.page.locator('[aria-label="Filter"]');
+    await filterInput.fill(this.ownerName);
+    await filterInput.press("Enter");
+    await this.page.getByRole("button", { name: "Add a new pet" }).click();
+    const speciesSelect = this.page.getByLabel("Species");
+    await speciesSelect.selectOption("0");
+    await speciesSelect.press("Tab");
+    const nameField = this.page.getByRole("textbox", { name: "Name" });
+    await nameField.click();
+    await nameField.fill(this.petName);
+    await nameField.press("Tab");
+    const bornField = this.page.getByRole("textbox", { name: "Born" });
+    await bornField.fill("2022-03-22");
+    await bornField.press("Tab");
+    await this.page.getByRole("button", { name: "Ok" }).click();
+  }
+
   async delete() {
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
-    await filterInput.fill(this.name);
+    await filterInput.fill(this.ownerName);
     await filterInput.press("Enter");
     await this.page.getByRole("button", { name: "Edit owner details" }).click();
     await this.page.once("dialog", (dialog) => dialog.accept());
