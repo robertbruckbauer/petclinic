@@ -55,7 +55,7 @@ public class ServerTestset implements CommandLineRunner {
 
     @Override
     @Transactional
-    public void run(final String... args) throws Exception {
+    public void run(final String... args) {
         if (ownerRepository.count() != 0) {
             return;
         }
@@ -83,7 +83,6 @@ public class ServerTestset implements CommandLineRunner {
         log.info("CREATED [{}]", value);
     }
 
-    @Transactional
     private Map<String, Enum> createAllEnumSkill() {
         return Stream.of(
                         Enum.parseJson("""
@@ -112,7 +111,6 @@ public class ServerTestset implements CommandLineRunner {
                 .collect(Collectors.toMap(Enum::getName, identity()));
     }
 
-    @Transactional
     private Map<String, Enum> createAllEnumSpecies() {
         return Stream.of(
                         Enum.parseJson("""
@@ -155,7 +153,6 @@ public class ServerTestset implements CommandLineRunner {
                 .collect(Collectors.toMap(Enum::getName, identity()));
     }
 
-    @Transactional
     private Map<String, Owner> createAllOwner() {
         return Stream.of(
                         Owner.parseJson("""
@@ -190,7 +187,6 @@ public class ServerTestset implements CommandLineRunner {
                 .collect(Collectors.toMap(Owner::getName, identity()));
     }
 
-    @Transactional
     private Map<String, Pet> createAllPet(final Map<String, Owner> allOwner) {
         return Stream.of(
                         Pet.parseJson("""
@@ -221,7 +217,6 @@ public class ServerTestset implements CommandLineRunner {
                 .collect(Collectors.toMap(Pet::getName, identity()));
     }
 
-    @Transactional
     private Map<String, Vet> createAllVet() {
         return Stream.of(
                         Vet.parseJson("""
@@ -258,7 +253,6 @@ public class ServerTestset implements CommandLineRunner {
                 .collect(Collectors.toMap(Vet::getName, identity()));
     }
 
-    @Transactional
     private List<Visit> createAllVisit(Map<String, Pet> allPet, Map<String, Vet> allVet) {
         return Stream.of(
                         Visit.parseJson("""
