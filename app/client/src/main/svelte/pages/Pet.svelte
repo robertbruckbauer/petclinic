@@ -6,7 +6,7 @@
   import Icon from "../components/Icon";
   import Select from "../components/Select";
   import PetEditor from "./PetEditor.svelte";
-  import VisitTermin from "./VisitTermin.svelte";
+  import VisitTreatment from "./VisitTreatment.svelte";
 
   let allPet = [];
   let petOwnerId = null;
@@ -166,7 +166,7 @@
         {#if visitEditorCreate && petId === pet.id}
           <tr>
             <td class="px-4" colspan="6">
-              <VisitTermin
+              <VisitTreatment
                 bind:visible={visitEditorCreate}
                 on:create={(e) => reloadAllPet()}
                 {pet}

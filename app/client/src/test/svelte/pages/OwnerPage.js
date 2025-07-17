@@ -10,16 +10,18 @@ export class OwnerPage {
 
   path = "/owner";
   ownerName = "Zzz" + chance.last();
+  address = "Planet Erde";
+  contact = "Brieftaube";
   petName = "Zzz" + chance.first();
 
   async goto() {
     await this.page.goto("/");
     await this.page.getByRole("button", { name: "Menü" }).click();
-    await this.page.getByRole("link", { name: "Owner" }).click();
+    await this.page.getByRole("link", { name: "Owner", exact: true }).click();
     await this.page.waitForURL(this.path);
   }
 
-  async create() {
+  async createOwner() {
     await expect(this.page).toHaveURL(this.path);
     await this.page.getByRole("button", { name: "Add a new owner" }).click();
     const nameField = this.page.getByRole("textbox", { name: "Name" });
@@ -28,16 +30,17 @@ export class OwnerPage {
     await nameField.press("Tab");
     const addressField = this.page.getByRole("textbox", { name: "Address" });
     await addressField.click();
-    await addressField.fill("Planet Erde");
+    await addressField.fill(this.address);
     await addressField.press("Tab");
     const contactField = this.page.getByRole("textbox", { name: "Contact" });
     await contactField.click();
-    await contactField.fill("Brieftaube");
+    await contactField.fill(this.contact);
     await contactField.press("Tab");
     await this.page.getByRole("button", { name: "Ok" }).click();
+    return this.ownerName;
   }
 
-  async addPet() {
+  async createPet() {
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
     await filterInput.fill(this.ownerName);
@@ -54,9 +57,10 @@ export class OwnerPage {
     await bornField.fill("2022-03-22");
     await bornField.press("Tab");
     await this.page.getByRole("button", { name: "Ok" }).click();
+    return this.petName;
   }
 
-  async delete() {
+  async deleteOwner() {
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
     await filterInput.fill(this.ownerName);

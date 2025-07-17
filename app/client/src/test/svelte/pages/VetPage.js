@@ -14,11 +14,11 @@ export class VetPage {
   async goto() {
     await this.page.goto("/");
     await this.page.getByRole("button", { name: "Menü" }).click();
-    await this.page.getByRole("link", { name: "Vet" }).click();
+    await this.page.getByRole("link", { name: "Vet", exact: true }).click();
     await this.page.waitForURL(this.path);
   }
 
-  async create() {
+  async createVet() {
     await expect(this.page).toHaveURL(this.path);
     await this.page.getByRole("button", { name: "Add a new vet" }).click();
     this.name = "Zzz" + chance.last();
@@ -31,7 +31,7 @@ export class VetPage {
     await this.page.getByRole("button", { name: "Ok" }).click();
   }
 
-  async delete() {
+  async deleteVet() {
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
     await filterInput.fill(this.name);
