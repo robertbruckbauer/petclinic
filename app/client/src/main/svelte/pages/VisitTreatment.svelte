@@ -48,8 +48,8 @@
       <TextField
         bind:value={newVisit.date}
         type="date"
-        label="Termin"
-        placeholder="Bitte ein Datum eingeben"
+        label="Date of treatment"
+        placeholder="Choose a date"
       />
     </div>
   </form>

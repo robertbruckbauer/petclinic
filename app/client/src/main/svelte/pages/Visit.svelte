@@ -62,9 +62,12 @@
     });
   }
 
-  $: allVisitByDate = mapify(allVisitFiltered, visitKey);
+  $: allVisitByDate = mapify(allVisitFiltered, visitKey, visitCompare);
   function visitKey(e) {
     return e.date;
+  }
+  function visitCompare(e1, e2) {
+    return e1.id.localeCompare(e2.id);
   }
 
   function reloadAllVisit() {

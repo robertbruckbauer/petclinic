@@ -115,6 +115,7 @@
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
             <Icon
               on:click={() => vetEditorCreateClicked()}
+              title="Add a new vet"
               disabled={vetEditorDisabled}
               name="edit"
               outlined

@@ -1,15 +1,22 @@
-export function mapify(l, key) {
-  console.log(["mapify", l]);
-  let m = new Map();
-  l.forEach((e) => {
-    let k = key(e);
-    let v = m.get(k);
+export function mapify(allItem, keyFunction, sortFunction) {
+  if (!allItem) {
+    throw new Error("items are required");
+  }
+  if (!keyFunction) {
+    throw new Error("key function is required");
+  }
+  if (!sortFunction) {
+    throw new Error("sort function is required");
+  }
+  let allItemMapped = new Map();
+  allItem.forEach((e) => {
+    let k = keyFunction(e);
+    let v = allItemMapped.get(k);
     if (v) {
-      m.set(k, [...v, e]);
+      allItemMapped.set(k, [...v, e].sort(sortFunction));
     } else {
-      m.set(k, [e]);
+      allItemMapped.set(k, [e]);
     }
   });
-  console.log(["mapify", m]);
-  return m;
+  return allItemMapped;
 }

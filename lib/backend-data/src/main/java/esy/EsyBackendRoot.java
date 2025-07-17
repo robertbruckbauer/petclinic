@@ -50,7 +50,7 @@ public final class EsyBackendRoot implements InitializingBean, DisposableBean, C
         logProperty("server.port");
         logProperty("spring.application.name");
         logProperty("spring.profiles.active");
-        // database.properties
+        logProperty("spring.jpa.open-in-view");
         logProperty("spring.datasource.name");
         logProperty("spring.datasource.url");
         logProperty("spring.datasource.username");
@@ -58,7 +58,8 @@ public final class EsyBackendRoot implements InitializingBean, DisposableBean, C
         logProperty("spring.jpa.properties.hibernate.show_sql");
         logProperty("spring.jpa.properties.hibernate.format_sql");
         logProperty("spring.jpa.properties.hibernate.generate_statistics");
-        logProperty("spring.jpa.properties.hibernate.metadata_builder_contributor");
+        logProperty("management.endpoints.web.exposure.include");
+        logProperty("management.endpoint.health.probes.enabled");
      }
 
     private void logProperty(@NonNull final String key) {
