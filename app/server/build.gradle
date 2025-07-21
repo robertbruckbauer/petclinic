@@ -29,6 +29,16 @@ processResources {
     include 'VERSION'
 }
 
+test {
+    filter {
+        failOnNoMatchingTests false
+    }
+    reports {
+        html.required = true
+        html.destination = file("${rootDir}/pages/html/" + project.name + "/junit5")
+    }
+}
+
 jar {
     enabled = false
 }
@@ -44,6 +54,8 @@ bootJar {
 }
 
 import java.util.Optional
+ext.SERVER_NAME = Optional.ofNullable(System.getenv("SERVER_NAME"))
+        .orElse(rootProject.name + "-" + project.name)
 ext.SERVER_IMAGE = Optional.ofNullable(System.getenv("SERVER_IMAGE"))
             .orElse(rootProject.name + "/" + project.name)
 ext.SERVER_TAG = Optional.ofNullable(System.getenv("SERVER_TAG"))
@@ -67,19 +79,27 @@ tasks.register('buildImage') {
     dependsOn 'bootBuildImage'
 }
 
-// https://docs.docker.com/reference/cli/docker/build/
 // https://docs.docker.com/reference/cli/docker/container/run/
-tasks.register('dockerRun') {
+tasks.register('imageRun') {
+    group 'application'
+    mustRunAfter 'buildImage'
     doLast {
         exec {
             workingDir "${projectDir}"
             executable 'docker'
-            args 'build', '.', '-t', SERVER_IMAGE
+            args 'run', '--name', SERVER_NAME, '--detach', '--rm', '-p', '8080:8080', SERVER_IMAGE
         }
+    }
+}
+
+// https://docs.docker.com/reference/cli/docker/container/rm/
+tasks.register('imageStop') {
+    group 'application'
+    doLast {
         exec {
             workingDir "${projectDir}"
             executable 'docker'
-            args 'run', '-d', '--rm', '-p', '8080:8080', SERVER_IMAGE
+            args 'stop', SERVER_NAME
         }
     }
 }

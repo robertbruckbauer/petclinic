@@ -55,8 +55,9 @@ public class ServerApiAssertion {
     }
 
     @SuppressWarnings({"java:S2245", "java:S2119"}) // safe, no reuse
-    protected static int randomInt(int limit) {
-        return new Random().nextInt(limit);
+    protected static int randomInt(int min, int max) {
+        // start from min to max inclusive
+        return new Random().nextInt(max) + min;
     }
 
     public void assertEnumSkill() {
@@ -176,7 +177,7 @@ public class ServerApiAssertion {
 
     private Pet createPet(@NonNull final Owner owner, @NonNull final String species) {
         final var name = randomName("Alf M%s");
-        final var born = LocalDate.of(2021, 10, randomInt(31));
+        final var born = LocalDate.of(2021, 10, randomInt(1, 31));
         return doWithApi(
                 (api) -> api.post("/api/pet", RequestOptions.create()
                         .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
