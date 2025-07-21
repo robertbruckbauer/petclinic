@@ -50,7 +50,7 @@ public final class EsyBackendRoot implements InitializingBean, DisposableBean, C
 <span class="nc" id="L50">        logProperty(&quot;server.port&quot;);</span>
 <span class="nc" id="L51">        logProperty(&quot;spring.application.name&quot;);</span>
 <span class="nc" id="L52">        logProperty(&quot;spring.profiles.active&quot;);</span>
-        // database.properties
+<span class="nc" id="L53">        logProperty(&quot;spring.jpa.open-in-view&quot;);</span>
 <span class="nc" id="L54">        logProperty(&quot;spring.datasource.name&quot;);</span>
 <span class="nc" id="L55">        logProperty(&quot;spring.datasource.url&quot;);</span>
 <span class="nc" id="L56">        logProperty(&quot;spring.datasource.username&quot;);</span>
@@ -58,17 +58,18 @@ public final class EsyBackendRoot implements InitializingBean, DisposableBean, C
 <span class="nc" id="L58">        logProperty(&quot;spring.jpa.properties.hibernate.show_sql&quot;);</span>
 <span class="nc" id="L59">        logProperty(&quot;spring.jpa.properties.hibernate.format_sql&quot;);</span>
 <span class="nc" id="L60">        logProperty(&quot;spring.jpa.properties.hibernate.generate_statistics&quot;);</span>
-<span class="nc" id="L61">        logProperty(&quot;spring.jpa.properties.hibernate.metadata_builder_contributor&quot;);</span>
-<span class="nc" id="L62">     }</span>
+<span class="nc" id="L61">        logProperty(&quot;management.endpoints.web.exposure.include&quot;);</span>
+<span class="nc" id="L62">        logProperty(&quot;management.endpoint.health.probes.enabled&quot;);</span>
+<span class="nc" id="L63">     }</span>
 
-<span class="nc bnc" id="L64" title="All 2 branches missed.">    private void logProperty(@NonNull final String key) {</span>
-<span class="nc" id="L65">        final String value = env.getProperty(key);</span>
-<span class="nc" id="L66">        log.info(&quot;{}=[{}].&quot;, key, value);</span>
-<span class="nc" id="L67">    }</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    private void logProperty(@NonNull final String key) {</span>
+<span class="nc" id="L66">        final String value = env.getProperty(key);</span>
+<span class="nc" id="L67">        log.info(&quot;{}=[{}].&quot;, key, value);</span>
+<span class="nc" id="L68">    }</span>
 
-<span class="nc bnc" id="L69" title="All 2 branches missed.">    private void hasProperty(@NonNull final String key) {</span>
-<span class="nc" id="L70">        final String value = env.getProperty(key);</span>
-<span class="nc bnc" id="L71" title="All 4 branches missed.">        log.info(&quot;{}=[{}].&quot;, key, value != null &amp;&amp; !value.isBlank());</span>
-<span class="nc" id="L72">    }</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    private void hasProperty(@NonNull final String key) {</span>
+<span class="nc" id="L71">        final String value = env.getProperty(key);</span>
+<span class="nc bnc" id="L72" title="All 4 branches missed.">        log.info(&quot;{}=[{}].&quot;, key, value != null &amp;&amp; !value.isBlank());</span>
+<span class="nc" id="L73">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
