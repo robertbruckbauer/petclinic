@@ -24,7 +24,7 @@ const config = {
   outputDir: "build/test-results/",
   /* See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ["html", { outputFolder: "build/test-reports/html" }],
+    ["html", { outputFolder: "../../pages/html/client/playwright" }],
     ["junit", { outputFile: "build/test-results/test/TEST-playwright.xml" }],
   ],
   /* See https://playwright.dev/docs/api/class-testoptions. */

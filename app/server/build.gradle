@@ -29,6 +29,16 @@ processResources {
     include 'VERSION'
 }
 
+test {
+    filter {
+        failOnNoMatchingTests false
+    }
+    reports {
+        html.required = true
+        html.destination = file("${rootDir}/pages/html/" + project.name + "/junit5")
+    }
+}
+
 jar {
     enabled = false
 }
