@@ -29,6 +29,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       # https://github.com/actions/setup-java
       - uses: actions/setup-java@v4
         with:
@@ -42,9 +47,10 @@ jobs:
           gradle-version: "8.14"
 
       - name: Check Version
-        run: |
-          gradle versionTag
-          gradle versionCheck
+        run: gradle versionTag versionCheck
+
+      - name: Build Node
+        run: sh -xv app/client/build.npm.sh
 
       - name: Build Java
         run: |
@@ -52,23 +58,32 @@ jobs:
           gradle build --parallel
           gradle jacocoTestReport
 
-      # https://github.com/actions/setup-node
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Build Node
-        run: |
-          for dir in app/*
-          do
-            if [ -f "$dir/build.npm.sh" ]
-            then
-              (cd $dir && sh -xv ./build.npm.sh)
-            fi
-          done
-
       - name: Build Images
         run: gradle buildImage
+
+      - name: Check Images
+        env:
+          CI_ENVIRONMENT_URL: http://localhost:5000
+        run: |
+          if gradle imageRun; then
+            {
+              sh -xv app/client/build.e2e.sh
+            } && {
+              gradle imageStop
+              exit 0
+            } || {
+              gradle imageStop
+              exit 1
+            }
+          fi
+
+      # https://github.com/actions/upload-artifact
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: pages
+          path: pages/
+          retention-days: 30
 
         # https://github.com/features/packages
       - if: startsWith(github.ref, 'refs/tags')
