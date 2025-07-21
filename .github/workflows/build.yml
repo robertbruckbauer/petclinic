@@ -79,11 +79,11 @@ jobs:
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: ${{ failure() }}
         with:
           name: pages
           path: pages/
-          retention-days: 30
+          retention-days: 7
 
         # https://github.com/features/packages
       - if: startsWith(github.ref, 'refs/tags')
