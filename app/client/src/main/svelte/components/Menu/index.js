@@ -1,2 +1,1 @@
-import Menu from "./Menu.svelte";
-export default Menu;
+export { default } from "./Menu.svelte";

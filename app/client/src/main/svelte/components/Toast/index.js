@@ -1,4 +1,2 @@
-import Toast from "./Toast.svelte";
-export default Toast;
-import { toast } from "./stores.js";
-export { toast };
+export { default } from "./Toast.svelte";
+export { toast } from "./stores.js";
