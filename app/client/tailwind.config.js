@@ -39,5 +39,4 @@ export default {
       sm: { max: "639px" },
     },
   },
-  plugins: [forms],
 };
