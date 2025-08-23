@@ -4,6 +4,16 @@ package esy;
 public interface EsyBackendAware {
 
     /**
+     * Path to the root page.
+     */
+    String ROOT_PATH = "/";
+
+    /**
+     * Path returning the version.
+     */
+    String HEALTHZ_PATH = "/healthz";
+
+    /**
      * Base path of REST API requests.
      */
     String API_PATH = "/api";
