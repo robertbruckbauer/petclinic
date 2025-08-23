@@ -29,12 +29,12 @@ module.exports = {
   // If the access token changes, the old mrs are not recognized
   ignorePrAuthor: true,
   // https://docs.renovatebot.com/modules/manager/
-  enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm", "github-actions"],
+  enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
       matchManagers: ["gradle"],
-      matchFileNames: ["settings.gradle"],
+      matchFileNames: ["settings.gradle", "buildSrc/build.gradle"],
     },
     // https://docs.renovatebot.com/modules/manager/dockerfile/
     {
