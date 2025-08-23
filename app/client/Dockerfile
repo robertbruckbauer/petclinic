@@ -3,7 +3,8 @@ ENV TZ=Europe/Vienna
 RUN apk add --no-cache tzdata
 WORKDIR /client
 COPY ./package.json ./
-RUN npm install
+COPY ./package-lock.json ./
+RUN npm ci
 COPY . .
 RUN npm run build
 
