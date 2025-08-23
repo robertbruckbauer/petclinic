@@ -1,2 +1,1 @@
-import TextField from "./TextField.svelte";
-export default TextField;
+export { default } from "./TextField.svelte";

@@ -36,14 +36,3 @@
 >
   <slot />
 </button>
-
-<style lang="postcss">
-  button.disabled {
-    user-select: none;
-    pointer-events: none;
-    cursor: default;
-  }
-  button.outlined {
-    @apply border-2 border-solid border-primary-500 bg-transparent text-primary-500 font-bold;
-  }
-</style>

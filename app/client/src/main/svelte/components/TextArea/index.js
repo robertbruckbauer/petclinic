@@ -1,2 +1,1 @@
-import TextArea from "./TextArea.svelte";
-export default TextArea;
+export { default } from "./TextArea.svelte";

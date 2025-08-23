@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class EsyBackendRestController implements EsyBackendAware {
 
-    @GetMapping("/")
+    @GetMapping(ROOT_PATH)
     public ResponseEntity<String> root() {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/healthz")
+    @GetMapping(HEALTHZ_PATH)
     public ResponseEntity<String> healthz() {
         return ResponseEntity.ok().build();
     }
