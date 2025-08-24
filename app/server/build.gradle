@@ -2,6 +2,19 @@ plugins {
     id 'java'
     id 'io.spring.dependency-management'
     id 'org.springframework.boot'
+    id 'com.diffplug.spotless'
+}
+
+spotless {
+    encoding 'UTF-8'
+    java {
+        target fileTree(projectDir) {
+            include 'src/main/java/**/*.java'
+            exclude 'build/**'
+        }
+        leadingTabsToSpaces(4)
+        removeUnusedImports()
+    }
 }
 
 dependencies {
@@ -106,4 +119,14 @@ tasks.register('imageStop') {
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
+}
+
+tasks.register('lint') {
+    group = 'verification'
+    dependsOn 'spotlessCheck'
+}
+
+tasks.register('format') {
+    group = 'build'
+    dependsOn 'spotlessApply'
 }

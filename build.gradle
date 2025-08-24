@@ -6,7 +6,6 @@ plugins {
     id 'base'
     id 'eclipse'
     id 'idea'
-    id 'com.diffplug.spotless'
     id 'com.palantir.git-version'
 }
 
@@ -21,20 +20,6 @@ idea {
     module {
         downloadJavadoc = true
         downloadSources = true
-    }
-}
-
-spotless {
-    encoding 'UTF-8'
-    java {
-        target fileTree(projectDir) {
-            include '**/src/main/java/**/*.java'
-            exclude '**/build/**'
-            exclude '.gradle'
-            exclude '.github'
-        }
-        leadingTabsToSpaces(4)
-        removeUnusedImports()
     }
 }
 
@@ -92,19 +77,4 @@ tasks.register('buildChangelog', BuildChangelogTask.class) {
     group = 'build'
     changelog = layout.buildDirectory.file("reports/CHANGELOG.md")
     outputs.upToDateWhen { false }
-}
-
-tasks.register('lint') {
-    group 'verification'
-    dependsOn ':app:deploy:versionCheck'
-    dependsOn ':app:server:versionCheck'
-    dependsOn ':app:client:versionCheck'
-    dependsOn 'spotlessCheck'
-    dependsOn ':app:client:prettierCheck'
-}
-
-tasks.register('format') {
-    group 'build'
-    dependsOn 'spotlessApply'
-    dependsOn ':app:client:prettierApply'
 }

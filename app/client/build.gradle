@@ -90,16 +90,18 @@ tasks.register('versionCheck', VersionCheckTask.class)  {
     allFileWithVersion.from("package.json", "package-lock.json")
 }
 
-tasks.register('prettierCheck', NpmTask) {
+tasks.register('lint', NpmTask) {
+    group = 'verification'
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    mustRunAfter 'npmInstall'
     npmCommand = ['run', 'prettierCheck']
 }
 
-tasks.register('prettierApply', NpmTask) {
+tasks.register('format', NpmTask) {
+    group = 'build'
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    mustRunAfter 'npmInstall'
     npmCommand = ['run', 'prettierApply']
 }
