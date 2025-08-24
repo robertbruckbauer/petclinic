@@ -56,8 +56,8 @@
 </div>
 
 <div class="py-4">
-  <Button on:click={() => onCreateVisit()} {disabled}>Ok</Button>
-  <Button on:click={() => onCancel()}>Abbrechen</Button>
+  <Button onclick={() => onCreateVisit()} {disabled}>Ok</Button>
+  <Button onclick={() => onCancel()}>Abbrechen</Button>
 </div>
 
 <details>

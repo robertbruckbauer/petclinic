@@ -98,14 +98,14 @@
 
 <div class="py-4">
   {#if showUpdate}
-    <Button on:click={() => onUpdateVet()} {disabled}>Ok</Button>
+    <Button onclick={() => onUpdateVet()} {disabled}>Ok</Button>
   {:else}
-    <Button on:click={() => onCreateVet()} {disabled}>Ok</Button>
+    <Button onclick={() => onCreateVet()} {disabled}>Ok</Button>
   {/if}
   {#if showRemove}
-    <Button on:click={() => onRemoveVet()}>Löschen</Button>
+    <Button onclick={() => onRemoveVet()}>Löschen</Button>
   {/if}
-  <Button on:click={() => onCancel()}>Abbrechen</Button>
+  <Button onclick={() => onCancel()}>Abbrechen</Button>
 </div>
 
 <details>
