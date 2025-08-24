@@ -19,20 +19,20 @@
   $effect(() => {
     valueInternal = value;
   });
-  function handleChange(event: Event) {
-    const target = event.target as HTMLInputElement;
+  function handleChange(_event: Event) {
+    const target = _event.target as HTMLInputElement;
     value = target.value;
-    onchange?.(event);
+    onchange?.(_event);
   }
 
   let focused = $state(false);
-  function handleFocus(event: FocusEvent) {
+  function handleFocus(_event: FocusEvent) {
     focused = true;
-    onfocus?.(event);
+    onfocus?.(_event);
   }
-  function handleBlur(event: FocusEvent) {
+  function handleBlur(_event: FocusEvent) {
     focused = false;
-    onblur?.(event);
+    onblur?.(_event);
   }
 </script>
 

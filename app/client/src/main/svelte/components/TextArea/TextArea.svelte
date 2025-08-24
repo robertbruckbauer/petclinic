@@ -22,14 +22,14 @@
   });
 
   let focused = $state(false);
-  function handleBlur(event: FocusEvent) {
+  function handleBlur(_event: FocusEvent) {
     focused = false;
     value = valueInternal;
-    onblur?.(event);
+    onblur?.(_event);
   }
-  function handleFocus(event: FocusEvent) {
+  function handleFocus(_event: FocusEvent) {
     focused = true;
-    onfocus?.(event);
+    onfocus?.(_event);
   }
 </script>
 
