@@ -3,10 +3,10 @@
     checked = $bindable(false),
     clicked = $bindable(0),
     disabled = false,
+    name,
     outlined = false,
     title = undefined,
     onclick,
-    children,
     ...elementProps
   } = $props();
 
