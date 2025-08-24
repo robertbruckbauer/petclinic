@@ -1,25 +1,35 @@
-<script>
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
-  import filterProps from "../filterProps.js";
-  const props = filterProps(
-    ["disabled", "label", "resize", "title", "value"],
-    $$props
-  );
-  export let disabled = false;
-  export let label = undefined;
-  export let resize = true;
-  export let title = undefined;
-  export let value;
-  let focused;
+<script lang="ts">
+  let {
+    disabled = false,
+    label = undefined,
+    resize = true,
+    title = undefined,
+    value = $bindable(),
+    onchange = undefined,
+    onfocus = undefined,
+    onblur = undefined,
+    ...elementProps
+  } = $props();
+
   let element;
   export function focus() {
-    element.focus();
+    element?.focus();
   }
-  $: valueInternal = value;
-  function onBlur() {
+
+  let valueInternal = $state(value);
+  $effect(() => {
+    valueInternal = value;
+  });
+
+  let focused = $state(false);
+  function handleBlur(event: FocusEvent) {
+    focused = false;
     value = valueInternal;
-    dispatch("change", value);
+    onblur?.(event);
+  }
+  function handleFocus(event: FocusEvent) {
+    focused = true;
+    onfocus?.(event);
   }
 </script>
 
@@ -35,7 +45,7 @@
   {/if}
   <textarea
     bind:this={element}
-    {...props}
+    {...elementProps}
     {title}
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100"
@@ -45,16 +55,8 @@
     class:border-b={label}
     aria-label={label}
     bind:value={valueInternal}
-    on:input
-    on:keydown
-    on:keypress
-    on:keyup
-    on:click
-    on:focus={() => (focused = true)}
-    on:focus
-    on:blur={() => (focused = false)}
-    on:blur={onBlur}
-    on:blur
+    onfocus={handleFocus}
+    onblur={handleBlur}
   >
     &nbsp;
   </textarea>
