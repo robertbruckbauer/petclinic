@@ -1,21 +1,38 @@
-<script>
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
-  import filterProps from "../filterProps.js";
-  const props = filterProps(["disabled", "label", "title", "value"], $$props);
-  export let disabled = false;
-  export let label = undefined;
-  export let title = undefined;
-  export let value;
-  let focused;
+<script lang="ts">
+  let {
+    disabled = false,
+    label = undefined,
+    title = undefined,
+    value = $bindable(),
+    onchange = undefined,
+    onfocus = undefined,
+    onblur = undefined,
+    ...elementProps
+  } = $props();
+
   let element;
   export function focus() {
-    element.focus();
+    element?.focus();
   }
-  $: valueInternal = value;
-  function onChange() {
-    value = valueInternal;
-    dispatch("change", value);
+
+  let valueInternal = $state(value);
+  $effect(() => {
+    valueInternal = value;
+  });
+  function handleChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    value = target.value;
+    onchange?.(event);
+  }
+
+  let focused = $state(false);
+  function handleFocus(event: FocusEvent) {
+    focused = true;
+    onfocus?.(event);
+  }
+  function handleBlur(event: FocusEvent) {
+    focused = false;
+    onblur?.(event);
   }
 </script>
 
@@ -32,7 +49,7 @@
   <input
     bind:this={element}
     type="text"
-    {...props}
+    {...elementProps}
     {title}
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100"
@@ -41,15 +58,8 @@
     class:border-b={label}
     aria-label={label}
     bind:value={valueInternal}
-    on:change={onChange}
-    on:input
-    on:keydown
-    on:keypress
-    on:keyup
-    on:click
-    on:focus={() => (focused = true)}
-    on:focus
-    on:blur={() => (focused = false)}
-    on:blur
+    onchange={handleChange}
+    onfocus={handleFocus}
+    onblur={handleBlur}
   />
 </div>
