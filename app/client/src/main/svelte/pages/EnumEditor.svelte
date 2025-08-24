@@ -110,14 +110,14 @@
 
 <div class="py-4">
   {#if showUpdate}
-    <Button on:click={() => onUpdateItem()} {disabled}>Ok</Button>
+    <Button onclick={() => onUpdateItem()} {disabled}>Ok</Button>
   {:else}
-    <Button on:click={() => onCreateItem()} {disabled}>Ok</Button>
+    <Button onclick={() => onCreateItem()} {disabled}>Ok</Button>
   {/if}
   {#if showRemove}
-    <Button on:click={() => onRemoveItem()}>Löschen</Button>
+    <Button onclick={() => onRemoveItem()}>Löschen</Button>
   {/if}
-  <Button on:click={() => onCancel()}>Abbrechen</Button>
+  <Button onclick={() => onCancel()}>Abbrechen</Button>
 </div>
 
 <details tabindex="-1">
