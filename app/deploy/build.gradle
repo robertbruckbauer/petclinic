@@ -44,3 +44,11 @@ tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
     allFileWithVersion.from("Chart.yaml")
 }
+
+tasks.register('lint') {
+    group = 'verification'
+}
+
+tasks.register('format') {
+    group = 'build'
+}

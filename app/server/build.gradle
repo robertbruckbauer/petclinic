@@ -107,3 +107,13 @@ tasks.register('imageStop') {
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
 }
+
+tasks.register('lint') {
+    group = 'verification'
+    dependsOn 'spotlessCheck'
+}
+
+tasks.register('format') {
+    group = 'build'
+    dependsOn 'spotlessApply'
+}
