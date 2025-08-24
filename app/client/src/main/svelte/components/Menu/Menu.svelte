@@ -1,7 +1,7 @@
 <script>
   import { fly } from "svelte/transition";
   import { quadIn } from "svelte/easing";
-  export let show = true;
+  let { show = true, children } = $props();
 </script>
 
 {#if show}
@@ -16,7 +16,7 @@
   >
     <nav class="absolute flex w-full h-full pointer-events-auto z-10 bg-white">
       <div class="w-full">
-        <slot />
+        {@render children?.()}
       </div>
     </nav>
   </aside>
