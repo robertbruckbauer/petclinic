@@ -1,38 +1,30 @@
-<script>
-  import { createEventDispatcher, tick } from "svelte";
-  const dispatch = createEventDispatcher();
-  import filterProps from "../filterProps.js";
-  const props = filterProps(
-    [
-      "allItem",
-      "disabled",
-      "label",
-      "nullable",
-      "title",
-      "value",
-      "valueGetter",
-    ],
-    $$props
-  );
-  export let allItem;
-  export let disabled = false;
-  export let label = undefined;
-  export let nullable = false;
-  export let title = undefined;
-  export let value;
-  export let valueGetter = undefined;
+<script lang="ts">
+  import { tick } from "svelte";
 
-  let _focused;
+  let {
+    allItem,
+    disabled = false,
+    label = undefined,
+    nullable = false,
+    title = undefined,
+    value = $bindable(),
+    valueGetter = undefined,
+    onchange = undefined,
+    onfocus = undefined,
+    onblur = undefined,
+    ...elementProps
+  } = $props();
+
   let _element;
   export function focus() {
-    _element.focus();
+    _element?.focus();
   }
 
-  $: _primitive =
-    allItem.slice(0, 1).findIndex((e) => typeof e !== "object") !== -1;
+  const _primitive = $derived(
+    allItem.slice(0, 1).findIndex((e: any) => typeof e !== "object") !== -1
+  );
 
-  $: _allItemIndexed = allItem.map((e, i) => itemMapper(e, i));
-  function itemMapper(e, i) {
+  function itemMapper(e: any, i: number) {
     if (_primitive) {
       return {
         value: e,
@@ -46,19 +38,23 @@
     }
   }
 
-  $: _itemSelected = itemSelected(value);
-  function itemSelected(v) {
+  const _allItemIndexed = $derived(allItem.map(itemMapper));
+
+  function itemSelected(v: any) {
     if (_primitive) {
       return v;
     } else {
       if (typeof valueGetter === "function") {
-        return allItem.findIndex((e) => valueGetter(e) === v);
+        return allItem.findIndex((e: any) => valueGetter(e) === v);
       } else {
-        return allItem.findIndex((e) => itemString(e) === itemString(v));
+        return allItem.findIndex((e: any) => itemString(e) === itemString(v));
       }
     }
   }
-  function itemString(item) {
+
+  const _itemSelected = $derived(itemSelected(value));
+
+  function itemString(item: any) {
     if (typeof item?.value !== "object") {
       return item?.value;
     } else {
@@ -66,7 +62,8 @@
     }
   }
 
-  async function onChange({ target }) {
+  async function handleChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
     if (_primitive) {
       value = target.value || null;
     } else {
@@ -78,7 +75,19 @@
       }
     }
     await tick();
-    await dispatch("change", value);
+    onchange?.(event);
+  }
+
+  let _focused = $state(false);
+  async function handleFocus(event: FocusEvent) {
+    _focused = true;
+    await tick();
+    onfocus?.(event);
+  }
+  async function handleBlur(event: FocusEvent) {
+    _focused = false;
+    await tick();
+    onblur?.(event);
   }
 </script>
 
@@ -95,7 +104,7 @@
   {/if}
   <select
     bind:this={_element}
-    {...props}
+    {...elementProps}
     {title}
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100"
@@ -104,16 +113,9 @@
     class:border-b={label}
     aria-label={label}
     value={_itemSelected}
-    on:change={onChange}
-    on:input
-    on:keydown
-    on:keypress
-    on:keyup
-    on:click
-    on:focus={() => (_focused = true)}
-    on:focus
-    on:blur={() => (_focused = false)}
-    on:blur
+    onchange={handleChange}
+    onfocus={handleFocus}
+    onblur={handleBlur}
   >
     {#if nullable}
       <option value={null}>&nbsp;</option>
