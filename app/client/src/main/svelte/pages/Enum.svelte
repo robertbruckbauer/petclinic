@@ -92,7 +92,7 @@
           </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
             <Icon
-              on:click={() => itemEditorCreateClicked()}
+              onclick={() => itemEditorCreateClicked()}
               disabled={itemEditorDisabled}
               name="edit"
               outlined
@@ -130,7 +130,7 @@
             </td>
             <td class="px-2 py-3">
               <Icon
-                on:click={() => itemEditorUpdateClicked(item)}
+                onclick={() => itemEditorUpdateClicked(item)}
                 disabled={itemEditorDisabled}
                 name="edit"
                 outlined

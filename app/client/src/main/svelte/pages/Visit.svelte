@@ -132,7 +132,7 @@
               </td>
               <td class="px-2 py-3">
                 <Icon
-                  on:click={() => visitEditorUpdateClicked(visit)}
+                  onclick={() => visitEditorUpdateClicked(visit)}
                   title="Edit visit details"
                   disabled={visitEditorDisabled}
                   name="edit"
