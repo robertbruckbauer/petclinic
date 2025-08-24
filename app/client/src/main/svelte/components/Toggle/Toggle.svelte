@@ -1,24 +1,26 @@
-<script>
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
-  import filterProps from "../filterProps.js";
-  const props = filterProps(
-    ["allItem", "allValue", "disabled", "label", "title"],
-    $$props
-  );
-  export let allItem;
-  export let allValue;
-  export let disabled = false;
-  export let label = undefined;
-  export let title = undefined;
-  let focused;
-  let element;
+<script lang="ts">
+  import { tick } from "svelte";
+
+  let {
+    allItem,
+    allValue = $bindable(),
+    disabled = false,
+    label = undefined,
+    title = undefined,
+    onchange = undefined,
+    onfocus = undefined,
+    onblur = undefined,
+    ...elementProps
+  } = $props();
+
+  let _element;
   export function focus() {
-    element.focus();
+    _element?.focus();
   }
 
-  $: allValueProcessed = allValue.map(processValue);
-  function processValue(value) {
+  const allValueProcessed = $derived(allValue.map(valueMapper));
+
+  function valueMapper(value: any) {
     if (typeof value !== "object") {
       return value;
     } else {
@@ -26,8 +28,9 @@
     }
   }
 
-  $: allItemProcessed = allItem.map(processItem);
-  function processItem(item) {
+  const allItemProcessed = $derived(allItem.map(itemMapper));
+
+  function itemMapper(item: any) {
     if (typeof item !== "object") {
       return {
         value: item,
@@ -35,17 +38,18 @@
       };
     } else {
       return {
-        value: processValue(item.value),
+        value: valueMapper(item.value),
         text: item.text,
       };
     }
   }
 
-  function onChange({ target }) {
+  async function handleChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
     let item = allItem[target.selectedIndex];
     let itemProcessed = allItemProcessed[target.selectedIndex];
     let itemIndex = allValueProcessed.findIndex(
-      (e) => e === itemProcessed.value
+      (e: any) => e === itemProcessed.value
     );
     if (itemIndex === -1) {
       if (typeof item !== "object") {
@@ -56,22 +60,38 @@
     } else {
       allValue.splice(itemIndex, 1);
     }
-    // Assign for reactivity
+    // Trigger reactivity
     allValue = allValue;
-    dispatch("change", allValue);
+    // Clear value to get every change event
+    _element.value = null;
+    // Delegate to parent
+    await tick();
+    onchange?.(event);
   }
 
-  function onKey(e) {
-    if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
-      e.preventDefault();
+  const allKeyIgnore = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+  const allKeyDelete = ["Backspace", "Delete"];
+  function handleKeydown(event: KeyboardEvent) {
+    if (allKeyIgnore.includes(event.key)) {
+      event.preventDefault();
       return;
     }
-    if (["Backspace", "Delete"].includes(e.key)) {
+    if (allKeyDelete.includes(event.key)) {
       allValue.pop();
-      // Assign for reactivity
+      // Trigger reactivity
       allValue = allValue;
       return;
     }
+  }
+
+  let focused = $state(false);
+  function handleFocus(event: FocusEvent) {
+    focused = true;
+    onfocus?.(event);
+  }
+  function handleBlur(event: FocusEvent) {
+    focused = false;
+    onblur?.(event);
   }
 </script>
 
@@ -101,8 +121,8 @@
     </div>
   </div>
   <select
-    bind:this={element}
-    {...props}
+    bind:this={_element}
+    {...elementProps}
     {title}
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100 text-transparent"
@@ -110,18 +130,11 @@
     class:border-0={!focused}
     class:border-b={label}
     aria-label={label}
-    value="null"
-    on:change={onChange}
-    on:input
-    on:keydown={onKey}
-    on:keypress
-    on:keyup
-    on:keyup
-    on:click
-    on:focus={() => (focused = true)}
-    on:focus
-    on:blur={() => (focused = false)}
-    on:blur
+    value={null}
+    onchange={handleChange}
+    onkeydown={handleKeydown}
+    onfocus={handleFocus}
+    onblur={handleBlur}
   >
     {#each allItemProcessed as item}
       <option class="text-black" value={item.value}>
