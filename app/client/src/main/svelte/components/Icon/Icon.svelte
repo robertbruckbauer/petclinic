@@ -15,10 +15,10 @@
     element?.focus();
   }
 
-  function handleClick(event: MouseEvent) {
+  function handleClick(_event: MouseEvent) {
     checked = !checked;
     clicked++;
-    onclick?.(event);
+    onclick?.(_event);
   }
 </script>
 

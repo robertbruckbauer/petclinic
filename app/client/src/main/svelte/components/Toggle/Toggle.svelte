@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { tick } from "svelte";
-
   let {
     allItem,
     allValue = $bindable(),
@@ -19,33 +17,31 @@
   }
 
   const allValueProcessed = $derived(allValue.map(valueMapper));
-
-  function valueMapper(value: any) {
-    if (typeof value !== "object") {
-      return value;
+  function valueMapper(_value: any) {
+    if (typeof _value !== "object") {
+      return _value;
     } else {
-      return value ? JSON.stringify(value) : null;
+      return _value ? JSON.stringify(_value) : null;
     }
   }
 
   const allItemProcessed = $derived(allItem.map(itemMapper));
-
-  function itemMapper(item: any) {
-    if (typeof item !== "object") {
+  function itemMapper(_item: any) {
+    if (typeof _item !== "object") {
       return {
-        value: item,
-        text: item,
+        value: _item,
+        text: _item,
       };
     } else {
       return {
-        value: valueMapper(item.value),
-        text: item.text,
+        value: valueMapper(_item.value),
+        text: _item.text,
       };
     }
   }
 
-  async function handleChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
+  async function handleChange(_event: Event) {
+    const target = _event.target as HTMLSelectElement;
     let item = allItem[target.selectedIndex];
     let itemProcessed = allItemProcessed[target.selectedIndex];
     let itemIndex = allValueProcessed.findIndex(
@@ -64,19 +60,18 @@
     allValue = allValue;
     // Clear value to get every change event
     _element.value = null;
-    // Delegate to parent
-    await tick();
-    onchange?.(event);
+    onchange?.(_event);
   }
 
   const allKeyIgnore = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
   const allKeyDelete = ["Backspace", "Delete"];
-  function handleKeydown(event: KeyboardEvent) {
-    if (allKeyIgnore.includes(event.key)) {
-      event.preventDefault();
+  function handleKeydown(_event: KeyboardEvent) {
+    if (allKeyIgnore.includes(_event.key)) {
+      _event.preventDefault();
       return;
     }
-    if (allKeyDelete.includes(event.key)) {
+    if (allKeyDelete.includes(_event.key)) {
+      _event.preventDefault();
       allValue.pop();
       // Trigger reactivity
       allValue = allValue;
@@ -85,13 +80,13 @@
   }
 
   let focused = $state(false);
-  function handleFocus(event: FocusEvent) {
+  function handleFocus(_event: FocusEvent) {
     focused = true;
-    onfocus?.(event);
+    onfocus?.(_event);
   }
-  function handleBlur(event: FocusEvent) {
+  function handleBlur(_event: FocusEvent) {
     focused = false;
-    onblur?.(event);
+    onblur?.(_event);
   }
 </script>
 

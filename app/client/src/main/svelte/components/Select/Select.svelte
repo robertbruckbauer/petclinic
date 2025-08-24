@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { tick } from "svelte";
-
   let {
     allItem,
     disabled = false,
@@ -15,56 +13,56 @@
     ...elementProps
   } = $props();
 
-  let _element;
+  let element;
   export function focus() {
-    _element?.focus();
+    element?.focus();
   }
 
-  const _primitive = $derived(
+  const primitive = $derived(
     allItem.slice(0, 1).findIndex((e: any) => typeof e !== "object") !== -1
   );
 
-  function itemMapper(e: any, i: number) {
-    if (_primitive) {
+  function valueMapper(_item: any) {
+    if (typeof _item?.value !== "object") {
+      return _item?.value;
+    } else {
+      return _item?.value ? JSON.stringify(_item.value) : null;
+    }
+  }
+
+  const allItemIndexed = $derived(allItem.map(itemMapper));
+  function itemMapper(_value: any, _index: number) {
+    if (primitive) {
       return {
-        value: e,
-        text: e,
+        value: _value,
+        text: _value,
       };
     } else {
       return {
-        value: i,
-        text: e.text,
+        value: _index,
+        text: _value.text,
       };
     }
   }
 
-  const _allItemIndexed = $derived(allItem.map(itemMapper));
-
-  function itemSelected(v: any) {
-    if (_primitive) {
-      return v;
+  const itemSelected = $derived(itemSelector(value));
+  function itemSelector(_value: any) {
+    if (primitive) {
+      return _value;
     } else {
       if (typeof valueGetter === "function") {
-        return allItem.findIndex((e: any) => valueGetter(e) === v);
+        return allItem.findIndex((e: any) => valueGetter(e) === _value);
       } else {
-        return allItem.findIndex((e: any) => itemString(e) === itemString(v));
+        return allItem.findIndex(
+          (e: any) => valueMapper(e) === valueMapper(_value)
+        );
       }
     }
   }
 
-  const _itemSelected = $derived(itemSelected(value));
-
-  function itemString(item: any) {
-    if (typeof item?.value !== "object") {
-      return item?.value;
-    } else {
-      return item?.value ? JSON.stringify(item.value) : null;
-    }
-  }
-
-  async function handleChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    if (_primitive) {
+  function handleChange(_event: Event) {
+    const target = _event.target as HTMLSelectElement;
+    if (primitive) {
       value = target.value || null;
     } else {
       const item = target.value ? allItem[target.value] : {};
@@ -74,20 +72,17 @@
         value = item;
       }
     }
-    await tick();
     onchange?.(event);
   }
 
   let _focused = $state(false);
-  async function handleFocus(event: FocusEvent) {
+  function handleFocus(_event: FocusEvent) {
     _focused = true;
-    await tick();
-    onfocus?.(event);
+    onfocus?.(_event);
   }
-  async function handleBlur(event: FocusEvent) {
+  function handleBlur(_event: FocusEvent) {
     _focused = false;
-    await tick();
-    onblur?.(event);
+    onblur?.(_event);
   }
 </script>
 
@@ -103,7 +98,7 @@
     </span>
   {/if}
   <select
-    bind:this={_element}
+    bind:this={element}
     {...elementProps}
     {title}
     {disabled}
@@ -112,7 +107,7 @@
     class:border-0={!_focused}
     class:border-b={label}
     aria-label={label}
-    value={_itemSelected}
+    value={itemSelected}
     onchange={handleChange}
     onfocus={handleFocus}
     onblur={handleBlur}
@@ -120,7 +115,7 @@
     {#if nullable}
       <option value={null}>&nbsp;</option>
     {/if}
-    {#each _allItemIndexed as item}
+    {#each allItemIndexed as item}
       <option value={item.value}>{item.text}</option>
     {/each}
   </select>
