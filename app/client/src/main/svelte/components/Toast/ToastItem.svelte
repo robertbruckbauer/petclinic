@@ -1,40 +1,52 @@
-<script>
+<script lang="ts">
   import { tweened } from "svelte/motion";
   import { linear } from "svelte/easing";
   import { toast } from "./stores.js";
-  export let item;
+
+  let { item } = $props();
+
   const progress = tweened(item.initial, {
     duration: item.duration,
     easing: linear,
   });
-  const onKey = (e) => {
-    if (e.key === "Escape") {
+
+  let next = $state(item.initial);
+  let prev = $state(item.initial);
+  let paused = $state(false);
+
+  const onKey = (_event: KeyboardEvent) => {
+    if (_event.key === "Escape") {
       toast.pop(item.id);
     }
   };
+
   const onClose = () => {
     toast.pop(item.id);
   };
+
   const autoclose = () => {
     if ($progress === 1 || $progress === 0) {
       toast.pop(item.id);
     }
   };
-  let next = item.initial;
-  let prev = next;
-  let paused = false;
-  $: if (next !== item.next) {
-    next = item.next;
-    prev = $progress;
-    paused = false;
-    progress.set(next).then(autoclose);
-  }
+
+  // Watch for changes in item.next
+  $effect(() => {
+    if (next !== item.next) {
+      next = item.next;
+      prev = $progress;
+      paused = false;
+      progress.set(next).then(autoclose);
+    }
+  });
+
   const pause = () => {
     if (!paused && $progress !== next) {
       progress.set($progress, { duration: 0 });
       paused = true;
     }
   };
+
   const resume = () => {
     if (paused) {
       const d = item.duration;
@@ -43,39 +55,26 @@
       paused = false;
     }
   };
-  const getProps = () => {
-    const { props = {}, sendIdTo } = item.component;
-    if (sendIdTo) {
-      props[sendIdTo] = item.id;
-    }
-    return props;
-  };
 </script>
 
 <div
   class="_toastItem bg-error-800 text-white z-30"
   role="alert"
-  on:mouseenter={pause}
-  on:mouseleave={resume}
+  onmouseenter={pause}
+  onmouseleave={resume}
 >
   <div role="status" class="_toastMsg">
-    {#if item.component}
-      <svelte:component this={item.component.src} {...getProps()} />
-    {:else}
-      {@html item.msg}
-    {/if}
+    {@html item.msg}
   </div>
-  {#if item.dismissable}
-    <div
-      class="_toastBtn"
-      role="button"
-      tabindex="-1"
-      on:click={onClose}
-      on:keydown={onKey}
-    >
-      <span>✕</span>
-    </div>
-  {/if}
+  <div
+    class="_toastBtn"
+    role="button"
+    tabindex="-1"
+    onclick={onClose}
+    onkeydown={onKey}
+  >
+    <span>✕</span>
+  </div>
   <progress class="_toastBar bg-transparent" value={$progress}>&nbsp;</progress>
 </div>
 

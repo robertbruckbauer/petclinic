@@ -104,14 +104,14 @@
 
 <div class="py-4">
   {#if showUpdate}
-    <Button on:click={() => onUpdateOwner()} {disabled}>Ok</Button>
+    <Button onclick={() => onUpdateOwner()} {disabled}>Ok</Button>
   {:else}
-    <Button on:click={() => onCreateOwner()} {disabled}>Ok</Button>
+    <Button onclick={() => onCreateOwner()} {disabled}>Ok</Button>
   {/if}
   {#if showRemove}
-    <Button on:click={() => onRemoveOwner()}>Löschen</Button>
+    <Button onclick={() => onRemoveOwner()}>Löschen</Button>
   {/if}
-  <Button on:click={() => onCancel()}>Abbrechen</Button>
+  <Button onclick={() => onCancel()}>Abbrechen</Button>
 </div>
 
 <details>

@@ -1,22 +1,34 @@
-<script context="module">
+<script lang="ts" module>
   import { writable } from "svelte/store";
-  export const activeRoute = writable({});
-  const routes = {};
-  export function register(route) {
+  interface RouteData {
+    path?: string;
+    component?: any;
+    params?: Record<string, any>;
+  }
+  export const activeRoute = writable<RouteData>({});
+  const routes: Record<string, any> = {};
+  export function register(route: any) {
     routes[route.path] = route;
   }
 </script>
 
-<script>
+<script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import page from "page";
+
+  let { children } = $props();
+
   onMount(() => {
     for (let [path, route] of Object.entries(routes)) {
-      page(path, (ctx) => ($activeRoute = { ...route, params: ctx.params }));
+      page(
+        path,
+        (ctx: any) => ($activeRoute = { ...route, params: ctx.params })
+      );
     }
     page.start();
   });
+
   onDestroy(page.stop());
 </script>
 
-<slot />
+{@render children?.()}

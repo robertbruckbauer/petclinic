@@ -1,100 +1,150 @@
 <script>
   import { onMount } from "svelte";
+  import Circle from "../components/Spinner";
   import Icon from "../components/Icon";
   import TextField from "../components/TextField";
   import { toast } from "../components/Toast";
   import { loadAllValue } from "../utils/rest.js";
-  import { updateValue } from "../utils/rest.js";
+  import { removeValue } from "../utils/rest.js";
   import EnumEditor from "./EnumEditor.svelte";
 
-  export let art;
+  let { art } = $props();
 
-  let allItem = [];
-  let itemCode = undefined;
-  function onItemClicked(item) {
-    itemCode = item.code;
-  }
-
-  let itemEditorCreate = false;
-  let itemEditorUpdate = false;
-  $: itemEditorDisabled = itemEditorCreate || itemEditorUpdate;
-  function itemEditorCreateClicked() {
-    itemEditorCreate = true;
-  }
-  function itemEditorUpdateClicked(code) {
-    itemCode = code;
-    itemEditorUpdate = code;
-    itemEditorUpdate = true;
-  }
+  let loading = $state(true);
+  let allItem = $state([]);
+  let itemCode = $state(undefined);
+  let newItemCode = $derived(
+    allItem.length > 0 ? Math.max(...allItem.map((e) => e.code)) + 1 : 1
+  );
+  let itemEditorCreate = $state(false);
+  let itemEditorUpdate = $state(false);
+  let filterPrefix = $state("");
+  let itemEditorDisabled = $derived(itemEditorCreate || itemEditorUpdate);
+  let allItemFiltered = $derived(filterEnum(filterPrefix, allItem));
 
   onMount(async () => {
-    reloadAllItem();
+    try {
+      loading = true;
+      await reloadAllItem();
+    } catch (_err) {
+      console.log(["onMount", _err]);
+      toast.push(_err.toString());
+    } finally {
+      loading = false;
+    }
   });
 
-  let filterPrefix = "";
-  $: allItemFiltered = filterEnum(filterPrefix, allItem);
-  function filterEnum(prefix, allValue) {
-    if (!filterPrefix) return allValue;
-    return allValue.filter((e) => {
-      if (e.name.toLowerCase().startsWith(prefix.toLowerCase())) {
+  function onItemClicked(_item) {
+    itemCode = _item.code;
+  }
+
+  async function onItemRemoveClicked(_item) {
+    itemCode = _item.code;
+    await removeItem(_item);
+  }
+
+  async function onItemEditorCreateClicked() {
+    itemEditorCreate = true;
+  }
+
+  async function onItemEditorUpdateClicked(_item) {
+    itemEditorUpdate = true;
+    itemCode = _item.code;
+  }
+
+  function filterEnum(_prefix, _allItem) {
+    if (!_prefix) return _allItem;
+    return _allItem.filter((_item) => {
+      if (_item.name.toLowerCase().startsWith(_prefix.toLowerCase())) {
         return true;
       }
-      if (e.text.toLowerCase().startsWith(prefix.toLowerCase())) {
+      if (_item.text.toLowerCase().startsWith(_prefix.toLowerCase())) {
         return true;
       }
       return false;
     });
   }
 
+  function onCreateItem(_item) {
+    allItem = allItem.toSpliced(0, 0, _item);
+  }
+
+  function onUpdateItem(_item) {
+    let index = allItem.findIndex((e) => e.code === _item.code);
+    if (index > -1) allItem = allItem.toSpliced(index, 1, _item);
+  }
+
+  function onRemoveItem(_item) {
+    let index = allItem.findIndex((e) => e.code === _item.code);
+    if (index > -1) allItem = allItem.toSpliced(index, 1);
+  }
+
   function reloadAllItem() {
-    loadAllValue("/api/enum/" + art)
-      .then((json) => {
-        console.log(["reloadAllItem", json]);
-        allItem = json;
+    return loadAllValue("/api/enum/" + art)
+      .then((_json) => {
+        const msg = import.meta.env.DEV ? _json : _json.length;
+        console.log(["reloadAllItem", art, msg]);
+        allItem = _json;
       })
-      .catch((err) => {
-        console.log(["reloadAllItem", err]);
-        toast.push(err.toString());
+      .catch((_err) => {
+        console.log(["reloadAllItem", art, _err]);
+        allItem = [];
+        toast.push(_err.toString());
       });
   }
-  function updateItem(item) {
-    updateValue("/api/enum/" + art + "/" + item.code, item)
-      .then(() => {
-        reloadAllItem();
+
+  function removeItem(_item) {
+    const _text = _item.name;
+    const _hint = _text.length > 20 ? _text.substring(0, 20) + "..." : _text;
+    if (!confirm("Enum '" + _hint + "' wirklich löschen?")) return;
+    return removeValue("/api/enum/" + art + "/" + _item.code)
+      .then((_json) => {
+        console.log(["removeItem", _item, _json]);
+        onRemoveItem(_json);
       })
-      .catch((err) => {
-        console.log(["updateItem", err]);
-        toast.push(err.toString());
+      .catch((_err) => {
+        console.log(["removeItem", _item, _err]);
+        toast.push(_err.toString());
       });
   }
 </script>
 
-<h1>{art.toUpperCase()}</h1>
+<h1 title="Liste der Werte, ggfs. gefiltert, jedes Element editierbar">
+  {art.toUpperCase()}
+</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <div class="flex-grow">
-    <TextField
-      bind:value={filterPrefix}
-      disabled={itemEditorDisabled}
-      label="Filter"
-      placeholder="Insert a criteria"
-    />
+  <div class="flex flex-row gap-1 items-center">
+    <div class="w-full">
+      <TextField
+        bind:value={filterPrefix}
+        label="Filter"
+        placeholder="Bitte Filterkriterien eingeben"
+      />
+    </div>
+  </div>
+  {#if loading}
+    <div class="h-screen flex justify-center items-center">
+      <Circle size="60" unit="px" duration="1s" />
+    </div>
+  {:else}
     <table class="table-fixed">
       <thead class="justify-between">
-        <tr class="bg-gray-100">
-          <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-1/4">
-            <span class="text-gray-600">Code</span>
+        <tr class="bg-title-100">
+          <th class="px-2 py-3 text-left w-1/4 table-cell">
+            <span class="text-title-600">Code</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-1/4">
-            <span class="text-gray-600">Name</span>
+          <th class="px-2 py-3 text-left w-1/4 table-cell">
+            <span class="text-title-600">Name</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-1/2">
-            <span class="text-gray-600">Text</span>
+          <th class="px-2 py-3 text-left w-1/2 table-cell">
+            <span class="text-title-600">Text</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
+          <th class="px-2 py-3 text-right w-0 table-cell">
             <Icon
-              on:click={() => itemEditorCreateClicked()}
+              onclick={() => onItemEditorCreateClicked()}
               disabled={itemEditorDisabled}
-              name="edit"
+              title="Wert hinzufügen"
+              name="add"
               outlined
             />
           </th>
@@ -103,60 +153,72 @@
       <tbody>
         {#if itemEditorCreate}
           <tr>
-            <td class="px-4" colspan="4">
+            <td class="px-2" colspan="4">
               <EnumEditor
                 bind:visible={itemEditorCreate}
-                on:create={(e) => reloadAllItem()}
+                oncreate={(item) => onCreateItem(item)}
                 {art}
-                code={allItem.length}
+                code={newItemCode}
               />
-            </td><td> </td></tr
-          >
+            </td>
+          </tr>
         {/if}
         {#each allItemFiltered as item, i}
           <tr
-            on:click={(e) => onItemClicked(item)}
+            onclick={() => onItemClicked(item)}
             title={item.text}
-            class:ring={itemCode === item.code}
+            class:border-l-2={itemCode === item.code}
+            class:bg-gray-100={i % 2 === 1}
           >
-            <td class="px-2 py-3 text-left">
+            <td class="px-2 py-3 text-left table-cell">
               <span>{item.code}</span>
             </td>
-            <td class="px-2 py-3 text-left">
+            <td class="px-2 py-3 text-left table-cell">
               <span>{item.name}</span>
             </td>
-            <td class="px-2 py-3 text-left">
+            <td class="px-2 py-3 text-left table-cell">
               <span>{item.text}</span>
             </td>
-            <td class="px-2 py-3">
-              <Icon
-                on:click={() => itemEditorUpdateClicked(item)}
-                disabled={itemEditorDisabled}
-                name="edit"
-                outlined
-              />
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
+              >
+                <Icon
+                  onclick={() => onItemRemoveClicked(item)}
+                  disabled={itemEditorDisabled}
+                  title="Wert löschen"
+                  name="delete"
+                  outlined
+                />
+                <Icon
+                  onclick={() => onItemEditorUpdateClicked(item)}
+                  disabled={itemEditorDisabled}
+                  title="Wert bearbeiten"
+                  name="edit"
+                  outlined
+                />
+              </div>
             </td>
           </tr>
           {#if itemEditorUpdate && itemCode === item.code}
             <tr>
-              <td class="px-4" colspan="4">
+              <td class="border-l-4 px-2" colspan="4">
                 <EnumEditor
                   bind:visible={itemEditorUpdate}
-                  on:update={(e) => reloadAllItem()}
-                  on:remove={(e) => reloadAllItem()}
+                  onupdate={(item) => onUpdateItem(item)}
                   {art}
                   code={item.code}
                   {item}
                 />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
         {:else}
           <tr>
-            <td class="px-2 py-3" colspan="4"> No items </td>
+            <td class="px-2" colspan="4">Keine Werte</td>
           </tr>
         {/each}
       </tbody>
     </table>
-  </div>
+  {/if}
 </div>
