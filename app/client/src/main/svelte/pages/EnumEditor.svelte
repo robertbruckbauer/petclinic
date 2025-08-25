@@ -1,126 +1,142 @@
 <script>
+  import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
   import { toast } from "../components/Toast";
   import { createValue } from "../utils/rest.js";
   import { updateValue } from "../utils/rest.js";
-  import { removeValue } from "../utils/rest.js";
   import Button from "../components/Button";
   import TextField from "../components/TextField";
   import TextArea from "../components/TextArea";
 
   export let visible = false;
+  export let autofocus = true;
+  export let autoscroll = true;
   export let item = undefined;
   export let art;
   export let code;
 
+  let focusOn;
+  let bottomDiv;
+  let clicked = false;
   let showUpdate;
-  let showRemove;
-  let newItem = {
-    code: code,
-    name: "",
-    text: "",
-  };
+  let newItem;
+  onMount(async () => {
+    if (autofocus) focusOn.focus();
+    if (autoscroll) bottomDiv.scrollIntoView(false);
+    console.log(["onMount", autofocus, autoscroll]);
+  });
 
-  $: if (item) onChangeItem();
-  function onChangeItem() {
+  $: item ? onChange() : onCreate();
+  function onCreate() {
+    showUpdate = false;
+    newItem = {
+      code: code,
+      name: "",
+      text: "",
+    };
+    console.log(["onCreate", newItem]);
+  }
+  function onChange() {
     showUpdate = true;
-    showRemove = false;
     newItem = {
       code: code,
       name: item.name,
       text: item.text,
     };
-    console.log(["onChangeItem", newItem]);
+    console.log(["onChange", newItem]);
   }
-
-  $: disabled = !newItem.name || !newItem.text;
-
-  const dispatch = createEventDispatcher();
-  function onCreateItem() {
-    createValue("/api/enum/" + art, newItem)
-      .then((json) => {
-        console.log(["onCreateItem", newItem, json]);
-        visible = false;
-        dispatch("create", newItem);
-      })
-      .catch((err) => {
-        console.log(["onCreateItem", newItem, err]);
-        toast.push(err.toString());
-      });
-  }
-  function onUpdateItem() {
-    updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
-      .then((json) => {
-        console.log(["onUpdateItem", newItem, json]);
-        visible = false;
-        dispatch("update", newItem);
-      })
-      .catch((err) => {
-        console.log(["onUpdateItem", newItem, err]);
-        toast.push(err.toString());
-      });
-  }
-  function onRemoveItem() {
-    const text = newItem.text;
-    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Item '" + hint + "' wirklich löschen?")) return;
-    removeValue("/api/enum/" + art + "/" + newItem.code)
-      .then(() => {
-        console.log(["onRemoveItem", newItem]);
-        visible = false;
-        dispatch("remove", newItem);
-      })
-      .catch((err) => {
-        console.log(["onRemoveItem", newItem, err]);
-        toast.push(err.toString());
-      });
+  async function onSubmit() {
+    try {
+      clicked = true;
+      if (showUpdate) {
+        await updateItem();
+      } else {
+        await createItem();
+      }
+    } finally {
+      clicked = false;
+    }
   }
   function onCancel() {
     visible = false;
   }
+
+  const dispatch = createEventDispatcher();
+  function createItem() {
+    createValue("/api/enum/" + art, newItem)
+      .then((json) => {
+        console.log(["createItem", newItem, json]);
+        visible = false;
+        dispatch("create", json);
+      })
+      .catch((err) => {
+        console.log(["createItem", newItem, err]);
+        toast.push(err.toString());
+      });
+  }
+  function updateItem() {
+    updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
+      .then((json) => {
+        console.log(["updateItem", newItem, json]);
+        visible = false;
+        dispatch("update", json);
+      })
+      .catch((err) => {
+        console.log(["updateItem", newItem, err]);
+        toast.push(err.toString());
+      });
+  }
 </script>
 
-<div class="flex flex-col gap-1">
-  <div class="w-full flex flex-row gap-1 items-baseline">
-    <div class="w-1/6">
-      <TextField
-        bind:value={newItem.code}
-        type="number"
-        label="Code"
-        placeholder="Bitte den Code eingeben"
-        disabled={showUpdate}
-      />
+<form on:submit|preventDefault={onSubmit} on:reset|preventDefault={onCancel}>
+  <div class="flex flex-col gap-1">
+    <div class="w-full flex flex-row gap-1 items-baseline">
+      <div class="w-1/6">
+        <TextField
+          bind:value={newItem.code}
+          required
+          type="number"
+          label="Code"
+          placeholder="Bitte einen Code eingeben"
+          disabled={showUpdate}
+        />
+      </div>
+      <div class="w-full">
+        <TextField
+          bind:this={focusOn}
+          bind:value={newItem.name}
+          required
+          label="Name"
+          placeholder="Bitte einen Namen eingeben"
+        />
+      </div>
     </div>
     <div class="w-full">
-      <TextField
-        bind:value={newItem.name}
-        label="Name"
-        placeholder="Bitte den Namen eingeben"
+      <TextArea
+        bind:value={newItem.text}
+        required
+        label="Text"
+        placeholder="Bitte einen Text eingeben"
       />
     </div>
   </div>
-  <div class="w-full">
-    <TextArea
-      bind:value={newItem.text}
-      label="Text"
-      placeholder="Bitte den Text eingeben"
-    />
+  <div class="py-4 flex flex-row gap-1 items-baseline">
+    <div class="flex-initial">
+      <Button type="submit">Ok</Button>
+    </div>
+    <div class="flex-initial">
+      <slot name="cancel">
+        <Button type="reset">Abbrechen</Button>
+      </slot>
+    </div>
   </div>
-</div>
+</form>
 
-<div class="py-4">
-  {#if showUpdate}
-    <Button onclick={() => onUpdateItem()} {disabled}>Ok</Button>
-  {:else}
-    <Button onclick={() => onCreateItem()} {disabled}>Ok</Button>
-  {/if}
-  {#if showRemove}
-    <Button onclick={() => onRemoveItem()}>Löschen</Button>
-  {/if}
-  <Button onclick={() => onCancel()}>Abbrechen</Button>
-</div>
+<div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 
-<details tabindex="-1">
-  <summary>JSON</summary>
-  <pre>{JSON.stringify(newItem, null, 2)}</pre>
-</details>
+{#if import.meta.env.DEV}
+  <details tabindex="-1">
+    <summary>JSON</summary>
+    <pre>{JSON.stringify(newItem, null, 2)}</pre>
+  </details>
+{/if}

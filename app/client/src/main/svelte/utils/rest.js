@@ -114,20 +114,6 @@ export async function updatePatch(restUrl, value) {
     });
 }
 
-export async function updateLink(restUrl, linkUrl) {
-  return fetch(BACKEND_URL + restUrl, {
-    mode: "cors",
-    method: "PUT",
-    headers: {
-      "Content-type": "text/uri-list",
-    },
-    body: linkUrl,
-  }).then((res) => {
-    if (res.ok) return {};
-    throw Error(restUrl + " failed with code " + res.status);
-  });
-}
-
 export async function removeValue(restUrl) {
   return fetch(BACKEND_URL + restUrl, {
     mode: "cors",
@@ -135,10 +121,16 @@ export async function removeValue(restUrl) {
     headers: {
       Accept: "application/json",
     },
-  }).then((res) => {
-    if (res.ok) return {};
-    throw Error(restUrl + " failed with code " + res.status);
-  });
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      throw Error(restUrl + " failed with code " + res.status);
+    })
+    .then((json) => {
+      delete json.content;
+      delete json.links;
+      return json;
+    });
 }
 
 export async function fetchDoc(adocUrl, accept) {
