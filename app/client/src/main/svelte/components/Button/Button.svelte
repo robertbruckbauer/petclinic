@@ -5,7 +5,7 @@
     disabled = false,
     outlined = false,
     title = undefined,
-    onclick,
+    onclick = undefined,
     children,
     ...elementProps
   } = $props();
