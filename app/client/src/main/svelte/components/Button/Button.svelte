@@ -29,7 +29,7 @@
   {title}
   {disabled}
   class:disabled
-  class="text-sm text-white rounded uppercase py-2 px-4 disabled:opacity-50 hover:opacity-90 focus:ring bg-primary-500 overflow-hidden"
+  class="text-sm text-white rounded uppercase py-2 px-4 disabled:opacity-50 hover:opacity-90 focus:underline bg-primary-500 overflow-hidden"
   class:outlined
   onclick={handleClick}
 >
