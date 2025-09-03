@@ -114,7 +114,7 @@
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
           <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
             <Icon
-              on:click={() => vetEditorCreateClicked()}
+              onclick={() => vetEditorCreateClicked()}
               title="Add a new vet"
               disabled={vetEditorDisabled}
               name="edit"
@@ -157,7 +157,7 @@
             </td>
             <td class="px-2 py-3">
               <Icon
-                on:click={() => visitViewerCreateClicked(vet)}
+                onclick={() => visitViewerCreateClicked(vet)}
                 title="Show all visits"
                 disabled={vetEditorDisabled}
                 name="list"
@@ -166,7 +166,7 @@
             </td>
             <td class="px-2 py-3">
               <Icon
-                on:click={() => vetEditorUpdateClicked(vet)}
+                onclick={() => vetEditorUpdateClicked(vet)}
                 title="Edit vet details"
                 disabled={vetEditorDisabled}
                 name="edit"

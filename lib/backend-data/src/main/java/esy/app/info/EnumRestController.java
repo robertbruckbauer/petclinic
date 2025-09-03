@@ -29,7 +29,7 @@ public class EnumRestController {
     }
 
     @PostMapping("/enum/{art}")
-    public ResponseEntity<EnumItem> createOf(@PathVariable final String art, @RequestBody final EnumItem body) {
+    public ResponseEntity<EnumItem> createEnum(@PathVariable final String art, @RequestBody final EnumItem body) {
         final var value = enumRepository.save(
                 Enum.parseJson("{}")
                         .setArt(art)
@@ -40,7 +40,7 @@ public class EnumRestController {
     }
 
     @PutMapping("/enum/{art}/{code}")
-    public ResponseEntity<EnumItem> updateOf(@PathVariable final String art, @PathVariable final Long code, @RequestBody final EnumItem body) {
+    public ResponseEntity<EnumItem> updateEnum(@PathVariable final String art, @PathVariable final Long code, @RequestBody final EnumItem body) {
         final var value = enumRepository.save(
                 enumRepository.findByCode(art, code)
                         .orElseThrow(() ->
@@ -48,5 +48,14 @@ public class EnumRestController {
                         .setName(body.getName())
                         .setText(body.getText()));
         return ResponseEntity.status(HttpStatus.OK).body(new EnumItem(value));
+    }
+
+    @DeleteMapping("/enum/{art}/{code}")
+    public ResponseEntity<Enum> deleteEnum(@PathVariable("art") final String art, @PathVariable("code") final Long code) {
+        final var value = enumRepository.findByCode(art, code)
+                .orElseThrow(() ->
+                        new DataRetrievalFailureException("Enum(" + art + ", " + code + ") not found"));
+        enumRepository.delete(value);
+        return ResponseEntity.status(HttpStatus.OK).body(value);
     }
 }

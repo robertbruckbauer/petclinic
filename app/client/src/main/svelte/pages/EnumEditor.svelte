@@ -1,126 +1,146 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
   import { toast } from "../components/Toast";
-  import { createValue } from "../utils/rest.js";
-  import { updateValue } from "../utils/rest.js";
-  import { removeValue } from "../utils/rest.js";
+  import { createValue, updateValue } from "../utils/rest.js";
   import Button from "../components/Button";
   import TextField from "../components/TextField";
   import TextArea from "../components/TextArea";
 
-  export let visible = false;
-  export let item = undefined;
-  export let art;
-  export let code;
+  let {
+    visible = $bindable(false),
+    autofocus = true,
+    autoscroll = true,
+    art,
+    code,
+    item = undefined,
+    oncreate = undefined,
+    onupdate = undefined,
+  } = $props();
 
-  let showUpdate;
-  let showRemove;
-  let newItem = {
+  let focusOn;
+  let bottomDiv;
+  let clicked = $state(false);
+  let showUpdate = $state(false);
+  let newItem = $state({
     code: code,
     name: "",
     text: "",
-  };
+  });
 
-  $: if (item) onChangeItem();
-  function onChangeItem() {
-    showUpdate = true;
-    showRemove = false;
-    newItem = {
-      code: code,
-      name: item.name,
-      text: item.text,
-    };
-    console.log(["onChangeItem", newItem]);
+  $effect(() => {
+    if (item) {
+      showUpdate = true;
+      newItem.name = item.name;
+      newItem.text = item.text;
+    }
+  });
+
+  onMount(async () => {
+    if (autofocus) focusOn.focus();
+    if (autoscroll) bottomDiv.scrollIntoView(false);
+    console.log(["onMount", autofocus, autoscroll]);
+  });
+
+  async function onSubmit() {
+    try {
+      clicked = true;
+      if (showUpdate) {
+        await updateItem();
+      } else {
+        await createItem();
+      }
+    } finally {
+      clicked = false;
+    }
   }
 
-  $: disabled = !newItem.name || !newItem.text;
-
-  const dispatch = createEventDispatcher();
-  function onCreateItem() {
-    createValue("/api/enum/" + art, newItem)
-      .then((json) => {
-        console.log(["onCreateItem", newItem, json]);
-        visible = false;
-        dispatch("create", newItem);
-      })
-      .catch((err) => {
-        console.log(["onCreateItem", newItem, err]);
-        toast.push(err.toString());
-      });
-  }
-  function onUpdateItem() {
-    updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
-      .then((json) => {
-        console.log(["onUpdateItem", newItem, json]);
-        visible = false;
-        dispatch("update", newItem);
-      })
-      .catch((err) => {
-        console.log(["onUpdateItem", newItem, err]);
-        toast.push(err.toString());
-      });
-  }
-  function onRemoveItem() {
-    const text = newItem.text;
-    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Item '" + hint + "' wirklich löschen?")) return;
-    removeValue("/api/enum/" + art + "/" + newItem.code)
-      .then(() => {
-        console.log(["onRemoveItem", newItem]);
-        visible = false;
-        dispatch("remove", newItem);
-      })
-      .catch((err) => {
-        console.log(["onRemoveItem", newItem, err]);
-        toast.push(err.toString());
-      });
-  }
   function onCancel() {
     visible = false;
   }
+
+  function createItem() {
+    createValue("/api/enum/" + art, newItem)
+      .then((_json) => {
+        console.log(["createItem", newItem, _json]);
+        visible = false;
+        oncreate?.(_json);
+      })
+      .catch((_err) => {
+        console.log(["createItem", newItem, _err]);
+        toast.push(_err.toString());
+      });
+  }
+
+  function updateItem() {
+    updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
+      .then((_json) => {
+        console.log(["updateItem", newItem, _json]);
+        visible = false;
+        onupdate?.(_json);
+      })
+      .catch((_err) => {
+        console.log(["updateItem", newItem, _err]);
+        toast.push(_err.toString());
+      });
+  }
 </script>
 
-<div class="flex flex-col gap-1">
-  <div class="w-full flex flex-row gap-1 items-baseline">
-    <div class="w-1/6">
-      <TextField
-        bind:value={newItem.code}
-        type="number"
-        label="Code"
-        placeholder="Bitte den Code eingeben"
-        disabled={showUpdate}
-      />
+<form
+  onsubmit={(e) => {
+    e.preventDefault();
+    onSubmit();
+  }}
+  onreset={(e) => {
+    e.preventDefault();
+    onCancel();
+  }}
+>
+  <div class="flex flex-col gap-1">
+    <div class="w-full flex flex-row gap-1 items-baseline">
+      <div class="w-1/6">
+        <TextField
+          bind:value={newItem.code}
+          required
+          type="number"
+          label="Code"
+          placeholder="Bitte einen Code eingeben"
+          disabled={showUpdate}
+        />
+      </div>
+      <div class="w-full">
+        <TextField
+          bind:this={focusOn}
+          bind:value={newItem.name}
+          required
+          label="Name"
+          placeholder="Bitte einen Namen eingeben"
+        />
+      </div>
     </div>
     <div class="w-full">
-      <TextField
-        bind:value={newItem.name}
-        label="Name"
-        placeholder="Bitte den Namen eingeben"
+      <TextArea
+        bind:value={newItem.text}
+        required
+        label="Text"
+        placeholder="Bitte einen Text eingeben"
       />
     </div>
   </div>
-  <div class="w-full">
-    <TextArea
-      bind:value={newItem.text}
-      label="Text"
-      placeholder="Bitte den Text eingeben"
-    />
+  <div class="py-4 flex flex-row gap-1 items-baseline">
+    <div class="flex-initial">
+      <Button type="submit">Ok</Button>
+    </div>
+    <div class="flex-initial">
+      <Button type="reset">Abbrechen</Button>
+    </div>
   </div>
-</div>
+</form>
 
-<div class="py-4">
-  {#if showUpdate}
-    <Button on:click={() => onUpdateItem()} {disabled}>Ok</Button>
-  {:else}
-    <Button on:click={() => onCreateItem()} {disabled}>Ok</Button>
-  {/if}
-  {#if showRemove}
-    <Button on:click={() => onRemoveItem()}>Löschen</Button>
-  {/if}
-  <Button on:click={() => onCancel()}>Abbrechen</Button>
-</div>
+<div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 
-<details tabindex="-1">
-  <summary>JSON</summary>
-  <pre>{JSON.stringify(newItem, null, 2)}</pre>
-</details>
+{#if import.meta.env.DEV}
+  <details tabindex="-1">
+    <summary>JSON</summary>
+    <pre>{JSON.stringify(newItem, null, 2)}</pre>
+  </details>
+{/if}

@@ -4,7 +4,6 @@ const defaults = {
   duration: 10000,
   initial: 1,
   next: 0,
-  dismissable: true,
 };
 
 const createToast = () => {
