@@ -109,7 +109,7 @@
           <Icon
             onclick={() => petEditorCreateClicked()}
             disabled={petEditorDisabled}
-            name="edit"
+            name="add"
             outlined
           />
         </th>

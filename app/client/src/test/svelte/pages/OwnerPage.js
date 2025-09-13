@@ -23,7 +23,10 @@ export class OwnerPage {
 
   async createOwner() {
     await expect(this.page).toHaveURL(this.path);
-    await this.page.getByRole("button", { name: "Add a new owner" }).click();
+    const row = this.page.locator("th");
+    const addButton = row.getByRole("button", { name: "add", exact: true });
+    await expect(addButton).toBeEnabled();
+    await addButton.click();
     const nameField = this.page.getByRole("textbox", { name: "Name" });
     await nameField.click();
     await nameField.fill(this.ownerName);
@@ -36,7 +39,9 @@ export class OwnerPage {
     await contactField.click();
     await contactField.fill(this.contact);
     await contactField.press("Tab");
-    await this.page.getByRole("button", { name: "Ok" }).click();
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
     return this.ownerName;
   }
 
@@ -45,7 +50,14 @@ export class OwnerPage {
     const filterInput = this.page.locator('[aria-label="Filter"]');
     await filterInput.fill(this.ownerName);
     await filterInput.press("Enter");
-    await this.page.getByRole("button", { name: "Add a new pet" }).click();
+    const row = this.page
+      .getByRole("table")
+      .getByRole("row")
+      .filter({ hasText: this.ownerName });
+    await row.waitFor({ state: "visible" });
+    const editButton = row.getByRole("button", { name: "pets", exact: true });
+    await expect(editButton).toBeEnabled();
+    await editButton.click();
     const speciesSelect = this.page.getByLabel("Species");
     await speciesSelect.selectOption("0");
     await speciesSelect.press("Tab");
@@ -56,17 +68,31 @@ export class OwnerPage {
     const bornField = this.page.getByRole("textbox", { name: "Born" });
     await bornField.fill("2022-03-22");
     await bornField.press("Tab");
-    await this.page.getByRole("button", { name: "Ok" }).click();
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
     return this.petName;
   }
 
   async deleteOwner() {
+    await this.page.once("dialog", (dialog) => dialog.accept());
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
     await filterInput.fill(this.ownerName);
     await filterInput.press("Enter");
-    await this.page.getByRole("button", { name: "Edit owner details" }).click();
-    await this.page.once("dialog", (dialog) => dialog.accept());
-    await this.page.getByRole("button", { name: "Löschen" }).click();
+    const row = this.page
+      .getByRole("table")
+      .getByRole("row")
+      .filter({ hasText: this.ownerName });
+    await row.waitFor({ state: "visible" });
+    const editButton = row.getByRole("button", { name: "edit", exact: true });
+    await expect(editButton).toBeEnabled();
+    await editButton.click();
+    const deleteButton = this.page.getByRole("button", {
+      name: "Löschen",
+      exact: true,
+    });
+    await expect(deleteButton).toBeEnabled();
+    await deleteButton.click();
   }
 }

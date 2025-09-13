@@ -1,110 +1,109 @@
 <script>
   import { onMount } from "svelte";
-  import Circle from "../components/Spinner";
   import Icon from "../components/Icon";
   import TextField from "../components/TextField";
   import { toast } from "../components/Toast";
   import { loadAllValue } from "../utils/rest.js";
   import { removeValue } from "../utils/rest.js";
+  import Circle from "../components/Spinner";
   import EnumEditor from "./EnumEditor.svelte";
 
   let { art } = $props();
 
   let loading = $state(true);
-  let allItem = $state([]);
-  let itemCode = $state(undefined);
-  let newItemCode = $derived(
-    allItem.length > 0 ? Math.max(...allItem.map((e) => e.code)) + 1 : 1
-  );
-  let itemEditorCreate = $state(false);
-  let itemEditorUpdate = $state(false);
-  let filterPrefix = $state("");
-  let itemEditorDisabled = $derived(itemEditorCreate || itemEditorUpdate);
-  let allItemFiltered = $derived(filterEnum(filterPrefix, allItem));
-
   onMount(async () => {
     try {
       loading = true;
-      await reloadAllItem();
-    } catch (_err) {
-      console.log(["onMount", _err]);
-      toast.push(_err.toString());
+      loadAllItem();
+    } catch (err) {
+      console.log(["onMount", err]);
+      toast.push(err.toString());
     } finally {
       loading = false;
     }
   });
 
+  let newItemCode = $state(0);
+  let itemCode = $state();
   function onItemClicked(_item) {
     itemCode = _item.code;
   }
-
-  async function onItemRemoveClicked(_item) {
+  function onItemRemoveClicked(_item) {
     itemCode = _item.code;
-    await removeItem(_item);
+    removeItem(_item);
   }
 
-  async function onItemEditorCreateClicked() {
+  let itemEditorCreate = $state(false);
+  function onItemEditorCreateClicked() {
     itemEditorCreate = true;
   }
 
-  async function onItemEditorUpdateClicked(_item) {
+  let itemEditorUpdate = $state(false);
+  function onItemEditorUpdateClicked(_item) {
     itemEditorUpdate = true;
     itemCode = _item.code;
   }
 
-  function filterEnum(_prefix, _allItem) {
-    if (!_prefix) return _allItem;
-    return _allItem.filter((_item) => {
-      if (_item.name.toLowerCase().startsWith(_prefix.toLowerCase())) {
-        return true;
-      }
-      if (_item.text.toLowerCase().startsWith(_prefix.toLowerCase())) {
-        return true;
-      }
-      return false;
-    });
+  let itemEditorDisabled = $derived(itemEditorCreate || itemEditorUpdate);
+
+  let itemFilter = $state("");
+  function onItemFilterClicked(_event) {
+    _event.preventDefault();
+    try {
+      loading = true;
+      loadAllItem();
+    } finally {
+      loading = false;
+    }
   }
 
+  let allItem = $state([]);
   function onCreateItem(_item) {
     allItem = allItem.toSpliced(0, 0, _item);
   }
-
   function onUpdateItem(_item) {
     let index = allItem.findIndex((e) => e.code === _item.code);
     if (index > -1) allItem = allItem.toSpliced(index, 1, _item);
   }
-
   function onRemoveItem(_item) {
     let index = allItem.findIndex((e) => e.code === _item.code);
     if (index > -1) allItem = allItem.toSpliced(index, 1);
   }
 
-  function reloadAllItem() {
-    return loadAllValue("/api/enum/" + art)
-      .then((_json) => {
-        const msg = import.meta.env.DEV ? _json : _json.length;
-        console.log(["reloadAllItem", art, msg]);
-        allItem = _json;
+  function loadAllItem() {
+    loadAllValue("/api/enum/" + art)
+      .then((json) => {
+        const msg = import.meta.env.DEV ? json : json.length;
+        console.log(["loadAllItem", art, msg]);
+        newItemCode = Math.max(...json.map((e) => e.code)) + 1;
+        allItem = json.filter((e) => {
+          if (!itemFilter) return true;
+          if (e.name.toLowerCase().startsWith(itemFilter.toLowerCase())) {
+            return true;
+          }
+          if (e.text.toLowerCase().startsWith(itemFilter.toLowerCase())) {
+            return true;
+          }
+        });
       })
-      .catch((_err) => {
-        console.log(["reloadAllItem", art, _err]);
-        allItem = [];
-        toast.push(_err.toString());
+      .catch((err) => {
+        console.log(["loadAllItem", art, err]);
+        toast.push(err.toString());
       });
   }
 
   function removeItem(_item) {
-    const _text = _item.name;
-    const _hint = _text.length > 20 ? _text.substring(0, 20) + "..." : _text;
-    if (!confirm("Enum '" + _hint + "' wirklich löschen?")) return;
-    return removeValue("/api/enum/" + art + "/" + _item.code)
-      .then((_json) => {
-        console.log(["removeItem", _item, _json]);
-        onRemoveItem(_json);
+    const text = _item.name;
+    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
+    if (!confirm("Enum '" + hint + "' wirklich löschen?")) return;
+    removeValue("/api/enum/" + art + "/" + _item.code)
+      .then((json) => {
+        console.log(["removeItem", _item, json]);
+        onRemoveItem(json);
       })
-      .catch((_err) => {
-        console.log(["removeItem", _item, _err]);
-        toast.push(_err.toString());
+      .catch((err) => {
+        console.log(["removeItem", _item, err]);
+        toast.push(err.toString());
       });
   }
 </script>
@@ -113,15 +112,20 @@
   {art.toUpperCase()}
 </h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <div class="flex flex-row gap-1 items-center">
-    <div class="w-full">
-      <TextField
-        bind:value={filterPrefix}
-        label="Filter"
-        placeholder="Bitte Filterkriterien eingeben"
-      />
+  <form onsubmit={onItemFilterClicked}>
+    <div class="flex flex-row gap-1 items-center pr-2">
+      <div class="w-full">
+        <TextField
+          bind:value={itemFilter}
+          label="Filter"
+          placeholder="Bitte Filterkriterien eingeben"
+        />
+      </div>
+      <div class="w-min">
+        <Icon type="submit" name="search" outlined />
+      </div>
     </div>
-  </div>
+  </form>
   {#if loading}
     <div class="h-screen flex justify-center items-center">
       <Circle size="60" unit="px" duration="1s" />
@@ -156,16 +160,16 @@
             <td class="px-2" colspan="4">
               <EnumEditor
                 bind:visible={itemEditorCreate}
-                oncreate={(item) => onCreateItem(item)}
+                oncreate={onCreateItem}
                 {art}
                 code={newItemCode}
               />
             </td>
           </tr>
         {/if}
-        {#each allItemFiltered as item, i}
+        {#each allItem as item, i}
           <tr
-            onclick={() => onItemClicked(item)}
+            onclick={(e) => onItemClicked(item)}
             title={item.text}
             class:border-l-2={itemCode === item.code}
             class:bg-gray-100={i % 2 === 1}
@@ -205,7 +209,7 @@
               <td class="border-l-4 px-2" colspan="4">
                 <EnumEditor
                   bind:visible={itemEditorUpdate}
-                  onupdate={(item) => onUpdateItem(item)}
+                  onupdate={onUpdateItem}
                   {art}
                   code={item.code}
                   {item}

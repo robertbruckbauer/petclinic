@@ -117,7 +117,7 @@
               onclick={() => vetEditorCreateClicked()}
               title="Add a new vet"
               disabled={vetEditorDisabled}
-              name="edit"
+              name="add"
               outlined
             />
           </th>
