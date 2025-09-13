@@ -131,7 +131,7 @@
               onclick={() => ownerEditorCreateClicked()}
               title="Add a new owner"
               disabled={ownerEditorDisabled}
-              name="edit"
+              name="add"
               outlined
             />
           </th>

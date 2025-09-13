@@ -18,11 +18,19 @@ export class VisitPage {
   }
 
   async deleteVisit(visitAt, ownerName, petName) {
-    const petRow = this.page
+    await this.page.once("dialog", (dialog) => dialog.accept());
+    const row = this.page
       .locator("tr", { hasText: petName })
       .filter({ hasText: ownerName });
-    await petRow.getByRole("button", { name: "Edit visit details" }).click();
-    await this.page.once("dialog", (dialog) => dialog.accept());
-    await this.page.getByRole("button", { name: "Löschen" }).click();
+    await row.waitFor({ state: "visible" });
+    const editButton = row.getByRole("button", { name: "edit", exact: true });
+    await expect(editButton).toBeEnabled();
+    await editButton.click();
+    const deleteButton = this.page.getByRole("button", {
+      name: "Löschen",
+      exact: true,
+    });
+    await expect(deleteButton).toBeEnabled();
+    await deleteButton.click();
   }
 }

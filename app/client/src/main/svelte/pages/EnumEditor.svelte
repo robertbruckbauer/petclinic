@@ -1,116 +1,113 @@
 <script>
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
-  import { createValue, updateValue } from "../utils/rest.js";
+  import { createValue } from "../utils/rest.js";
+  import { updateValue } from "../utils/rest.js";
   import Button from "../components/Button";
   import TextField from "../components/TextField";
   import TextArea from "../components/TextArea";
 
   let {
-    visible = $bindable(false),
     autofocus = true,
     autoscroll = true,
+    visible = $bindable(false),
+    item = {},
     art,
     code,
-    item = undefined,
+    oncancel = undefined,
     oncreate = undefined,
     onupdate = undefined,
   } = $props();
 
+  let clicked = $state(false);
   let focusOn;
   let bottomDiv;
-  let clicked = $state(false);
-  let showUpdate = $state(false);
-  let newItem = $state({
-    code: code,
-    name: "",
-    text: "",
+  onMount(async () => {
+    console.log(["onMount", autofocus, autoscroll]);
+    if (autofocus) focusOn.focus();
+    if (autoscroll) bottomDiv.scrollIntoView(false);
+  });
+
+  let newItemCode = $derived(code);
+  let newItemName = $derived(item.name);
+  let newItemText = $derived(item.text);
+  let newItem = $derived({
+    id: item.id,
+    version: item.version,
+    code: newItemCode,
+    name: newItemName,
+    text: newItemText,
   });
 
   $effect(() => {
-    if (item) {
-      showUpdate = true;
-      newItem.name = item.name;
-      newItem.text = item.text;
-    }
+    $inspect(code).with(console.trace);
+    $inspect(item).with(console.trace);
   });
 
-  onMount(async () => {
-    if (autofocus) focusOn.focus();
-    if (autoscroll) bottomDiv.scrollIntoView(false);
-    console.log(["onMount", autofocus, autoscroll]);
-  });
-
-  async function onSubmit() {
+  function handleSubmit(_event) {
+    _event.preventDefault();
     try {
       clicked = true;
-      if (showUpdate) {
-        await updateItem();
+      if (item.code) {
+        updateItem();
       } else {
-        await createItem();
+        createItem();
       }
     } finally {
       clicked = false;
     }
   }
 
-  function onCancel() {
+  function handleCancel(_event) {
+    _event.preventDefault();
     visible = false;
+    oncancel?.();
   }
 
   function createItem() {
     createValue("/api/enum/" + art, newItem)
-      .then((_json) => {
-        console.log(["createItem", newItem, _json]);
+      .then((json) => {
+        console.log(["createItem", newItem, json]);
         visible = false;
-        oncreate?.(_json);
+        oncreate?.(json);
       })
-      .catch((_err) => {
-        console.log(["createItem", newItem, _err]);
-        toast.push(_err.toString());
+      .catch((err) => {
+        console.log(["createItem", newItem, err]);
+        toast.push(err.toString());
       });
   }
 
   function updateItem() {
     updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
-      .then((_json) => {
-        console.log(["updateItem", newItem, _json]);
+      .then((json) => {
+        console.log(["updateItem", newItem, json]);
         visible = false;
-        onupdate?.(_json);
+        onupdate?.(json);
       })
-      .catch((_err) => {
-        console.log(["updateItem", newItem, _err]);
-        toast.push(_err.toString());
+      .catch((err) => {
+        console.log(["updateItem", newItem, err]);
+        toast.push(err.toString());
       });
   }
 </script>
 
-<form
-  onsubmit={(e) => {
-    e.preventDefault();
-    onSubmit();
-  }}
-  onreset={(e) => {
-    e.preventDefault();
-    onCancel();
-  }}
->
+<form onsubmit={handleSubmit}>
   <div class="flex flex-col gap-1">
     <div class="w-full flex flex-row gap-1 items-baseline">
       <div class="w-1/6">
         <TextField
-          bind:value={newItem.code}
+          bind:value={newItemCode}
           required
           type="number"
           label="Code"
           placeholder="Bitte einen Code eingeben"
-          disabled={showUpdate}
+          disabled={item.id}
         />
       </div>
       <div class="w-full">
         <TextField
           bind:this={focusOn}
-          bind:value={newItem.name}
+          bind:value={newItemName}
           required
           label="Name"
           placeholder="Bitte einen Namen eingeben"
@@ -119,7 +116,7 @@
     </div>
     <div class="w-full">
       <TextArea
-        bind:value={newItem.text}
+        bind:value={newItemText}
         required
         label="Text"
         placeholder="Bitte einen Text eingeben"
@@ -131,7 +128,7 @@
       <Button type="submit">Ok</Button>
     </div>
     <div class="flex-initial">
-      <Button type="reset">Abbrechen</Button>
+      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
     </div>
   </div>
 </form>
