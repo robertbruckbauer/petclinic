@@ -29,45 +29,45 @@
 
 h1,
 .h1 {
-  @apply text-5xl font-light;
+  @apply text-3xl font-normal pt-4;
   letter-spacing: -1.5px;
 }
 
 h2,
 .h2 {
-  @apply text-4xl font-light;
+  @apply text-2xl font-normal pt-4;
   letter-spacing: -0.5px;
 }
 
 h3,
 .h3 {
-  @apply text-3xl font-normal;
+  @apply text-xl font-normal pt-4;
   letter-spacing: 0px;
 }
 
 h4,
 .h4 {
-  @apply text-2xl font-normal;
+  @apply text-lg font-normal pt-2;
   letter-spacing: 0.25px;
 }
 
 h5,
 .h5 {
-  @apply text-xl font-normal;
-  letter-spacing: 0px;
+  @apply text-base font-medium pt-2;
+  letter-spacing: 0.15px;
 }
 
 h6,
 .h6 {
   @apply text-base font-medium;
-  letter-spacing: 0.15px;
+  letter-spacing: 0px;
 }
 
 hr {
   @apply border-t border-gray-400 border-solid;
 }
 
-.a {
+a {
   @apply underline text-blue-600;
 }
 
@@ -89,19 +89,33 @@ input:focus {
   outline: none;
 }
 
+input,
 input::placeholder {
   text-align: left;
 }
 
-input[type="number"] {
+input[type="number"],
+input[type="number"]::placeholder {
   text-align: right;
 }
 
 /* no spinner for numeric input */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
+  -moz-appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
+}
+
+select:focus {
+  outline: none;
+}
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 textarea:focus {

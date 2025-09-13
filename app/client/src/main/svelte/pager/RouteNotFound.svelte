@@ -1,15 +1,11 @@
 <script lang="ts">
   import { register, activeRoute } from "./Router.svelte";
 
-  let { path = "*", component = null, children } = $props();
+  let { path = "*", children } = $props();
 
-  register({ path, component });
+  register({ path });
 </script>
 
 {#if $activeRoute.path === path}
-  {#if component}
-    {@const Component = component}
-    <Component />
-  {/if}
   {@render children?.()}
 {/if}

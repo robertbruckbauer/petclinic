@@ -1,7 +1,7 @@
 <script lang="ts">
   import { register, activeRoute } from "./Router.svelte";
 
-  let { path = "*", component = null, children, ...restProps } = $props();
+  let { path = "*", component = null, ...restProps } = $props();
 
   register({ path, component });
 
@@ -14,7 +14,5 @@
   {#if $activeRoute.component}
     {@const Component = $activeRoute.component}
     <Component {...restProps} {...params} />
-  {:else}
-    {@render children?.(params)}
   {/if}
 {/if}
