@@ -1,11 +1,11 @@
-<script>
-  export let open = false;
+<script lang="ts">
+  let { open = $bindable() } = $props();
 </script>
 
 <button
-  class="text-gray-500 hover:text-gray-700 cursor-pointer mr-4 border-none focus:outline-none"
+  class="text-title-500 hover:text-title-700 cursor-pointer mr-4 border-none focus:outline-hidden"
   class:open
-  on:click={() => (open = !open)}
+  onclick={() => (open = !open)}
   aria-label="Menü"
 >
   <svg width="32" height="24">

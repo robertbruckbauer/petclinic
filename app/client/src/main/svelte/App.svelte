@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
   import "./index.css";
-  import Menu from "./components/Menu";
+  import { fly } from "svelte/transition";
+  import { quadIn } from "svelte/easing";
   import Toast from "./components/Toast";
   import Router from "./pager/Router.svelte";
   import Route from "./pager/Route.svelte";
@@ -8,7 +9,7 @@
   import AppHelp from "./AppHelp.svelte";
   import AppHome from "./AppHome.svelte";
   import AppLogo from "./AppLogo.svelte";
-  import AppMenu from "./AppMenu.svelte";
+  import AppIcon from "./AppIcon.svelte";
   import Enum from "./pages/Enum.svelte";
   import Owner from "./pages/Owner.svelte";
   import OwnerViewer from "./pages/OwnerViewer.svelte";
@@ -17,41 +18,59 @@
   import Vet from "./pages/Vet.svelte";
   import VetViewer from "./pages/VetViewer.svelte";
   import Visit from "./pages/Visit.svelte";
-  let menuVisible = false;
+
+  let menuVisible = $state(false);
+  function handleClick() {
+    menuVisible = false;
+  }
 </script>
 
 <article class="flex flex-col h-screen">
-  <header class="flex justify-between bg-gray-200 p-2 h-12">
-    <nav class="flex flex-row text-lg text-gray-600 gap-1">
-      <AppMenu bind:open={menuVisible} />
+  <header class="flex justify-between items-center bg-title-200 p-2 h-12">
+    <nav class="flex flex-row text-lg text-title-600 gap-1">
+      <AppIcon bind:open={menuVisible} />
       <AppLogo bind:open={menuVisible} />
     </nav>
-    <nav class="flex flex-row text-lg text-gray-600 gap-1">
-      <a on:click={() => (menuVisible = false)} href="/help">?</a>
+    <nav class="flex flex-row text-lg text-title-600 gap-1">
+      <a onclick={handleClick} href="/help">?</a>
     </nav>
   </header>
   <main class="flex-1 overflow-y-auto">
     <Toast />
-    <Menu bind:show={menuVisible}>
-      <div class="flex flex-col p-2 text-gray-600 gap-1">
-        <span class="text-lg text-gray-900 capitalize">Client</span>
-        <div class="flex flex-col p-4 text-gray-600 gap-1">
-          <a on:click={() => (menuVisible = false)} href="/owner">Owner</a>
-          <a on:click={() => (menuVisible = false)} href="/pet">Pet</a>
-        </div>
-      </div>
-      <div class="flex flex-col p-2 text-gray-600 gap-1">
-        <span class="text-lg text-gray-900 capitalize">Clinic</span>
-        <div class="flex flex-col p-4 text-gray-600 gap-1">
-          <a on:click={() => (menuVisible = false)} href="/visit">Visit</a>
-          <a on:click={() => (menuVisible = false)} href="/vet">Vet</a>
-          <a on:click={() => (menuVisible = false)} href="/enum/skill">Skill</a>
-          <a on:click={() => (menuVisible = false)} href="/enum/species"
-            >Species</a
-          >
-        </div>
-      </div>
-    </Menu>
+    {#if menuVisible}
+      <aside
+        class="w-72 h-full pointer-events-none"
+        transition:fly={{
+          duration: 200,
+          x: -300,
+          easing: quadIn,
+          opacity: 1,
+        }}
+      >
+        <nav
+          class="absolute flex w-full h-full pointer-events-auto z-10 bg-white"
+        >
+          <div class="w-full">
+            <div class="flex flex-col p-2 text-gray-600 gap-1">
+              <span class="text-lg text-gray-900 capitalize">Client</span>
+              <div class="flex flex-col p-4 text-gray-600 gap-1">
+                <a onclick={handleClick} href="/owner">Owner </a>
+                <a onclick={handleClick} href="/pet">Pet</a>
+              </div>
+            </div>
+            <div class="flex flex-col p-2 text-gray-600 gap-1">
+              <span class="text-lg text-gray-900 capitalize">Clinic</span>
+              <div class="flex flex-col p-4 text-gray-600 gap-1">
+                <a onclick={handleClick} href="/visit">Visit </a>
+                <a onclick={handleClick} href="/vet">Vet</a>
+                <a onclick={handleClick} href="/enum/skill">Skill</a>
+                <a onclick={handleClick} href="/enum/species">Species</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </aside>
+    {/if}
     <Router>
       <Route path="/" component={AppHome} />
       <Route path="/home" component={AppHome} />
@@ -70,9 +89,9 @@
       </RouteNotFound>
     </Router>
   </main>
-  <footer class="flex justify-center bg-gray-200 p-2 h-10">
-    <nav class="flex flex-row text-sm text-gray-600 gap-1">
-      <a on:click={() => (menuVisible = false)} href="/help">Impressum</a>
+  <footer class="flex justify-center bg-title-200 p-2 h-10">
+    <nav class="flex flex-row text-sm text-title-600 gap-1">
+      <a onclick={handleClick} href="/help">Impressum</a>
     </nav>
   </footer>
 </article>
