@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
   import { register, activeRoute } from "./Router.svelte";
-  export let path = "*";
-  export let component = null;
-  register({ path, component });
+
+  let { path = "*", children } = $props();
+
+  register({ path });
 </script>
 
 {#if $activeRoute.path === path}
-  <svelte:component this={component} />
-  <slot />
+  {@render children?.()}
 {/if}

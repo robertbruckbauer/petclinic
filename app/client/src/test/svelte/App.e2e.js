@@ -1,4 +1,5 @@
 import { test } from "@playwright/test";
+import { EnumPage } from "./pages/EnumPage.js";
 import { OwnerPage } from "./pages/OwnerPage.js";
 import { PetPage } from "./pages/PetPage.js";
 import { VetPage } from "./pages/VetPage.js";
@@ -7,6 +8,16 @@ import { VisitPage } from "./pages/VisitPage.js";
 test.describe("Regression", () => {
   test("Home", async ({ page }) => {
     await page.goto("/");
+  });
+
+  ["Skill", "Species"].forEach((art) => {
+    test(art, async ({ page }) => {
+      const enumPage = new EnumPage(page, art);
+      await enumPage.goto();
+      await enumPage.create();
+      await enumPage.updateName();
+      await enumPage.delete();
+    });
   });
 
   test("Owner", async ({ page }) => {
