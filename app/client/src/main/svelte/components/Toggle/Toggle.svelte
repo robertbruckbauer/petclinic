@@ -11,9 +11,19 @@
     ...elementProps
   } = $props();
 
-  let _element;
+  let element;
   export function focus() {
-    _element?.focus();
+    element?.focus();
+  }
+
+  let elementIsFocused = $state(false);
+  function handleFocus(_event: FocusEvent) {
+    elementIsFocused = true;
+    onfocus?.(_event);
+  }
+  function handleBlur(_event: FocusEvent) {
+    elementIsFocused = false;
+    onblur?.(_event);
   }
 
   const allValueProcessed = $derived(allValue.map(valueMapper));
@@ -40,26 +50,26 @@
     }
   }
 
-  async function handleChange(_event: Event) {
-    const target = _event.target as HTMLSelectElement;
-    let item = allItem[target.selectedIndex];
-    let itemProcessed = allItemProcessed[target.selectedIndex];
-    let itemIndex = allValueProcessed.findIndex(
-      (e: any) => e === itemProcessed.value
+  function handleChange(_event: Event) {
+    const _target = _event.target as HTMLSelectElement;
+    let _item = allItem[_target.selectedIndex];
+    let _itemProcessed = allItemProcessed[_target.selectedIndex];
+    let _itemIndex = allValueProcessed.findIndex(
+      (e: any) => e === _itemProcessed.value
     );
-    if (itemIndex === -1) {
-      if (typeof item !== "object") {
-        allValue.push(item);
+    if (_itemIndex === -1) {
+      if (typeof _item !== "object") {
+        allValue.push(_item);
       } else {
-        allValue.push(item.value);
+        allValue.push(_item.value);
       }
     } else {
-      allValue.splice(itemIndex, 1);
+      allValue.splice(_itemIndex, 1);
     }
     // Trigger reactivity
     allValue = allValue;
     // Clear value to get every change event
-    _element.value = null;
+    element.value = null;
     onchange?.(_event);
   }
 
@@ -78,16 +88,6 @@
       return;
     }
   }
-
-  let focused = $state(false);
-  function handleFocus(_event: FocusEvent) {
-    focused = true;
-    onfocus?.(_event);
-  }
-  function handleBlur(_event: FocusEvent) {
-    focused = false;
-    onblur?.(_event);
-  }
 </script>
 
 <div class="mt-1 relative">
@@ -98,8 +98,8 @@
       <span
         {title}
         class="text-xs"
-        class:text-label-600={!focused}
-        class:text-primary-500={focused}
+        class:text-label-600={!elementIsFocused}
+        class:text-primary-500={elementIsFocused}
       >
         {label}
       </span>
@@ -108,7 +108,10 @@
       {#each allValueProcessed as value}
         {@const item = allItemProcessed.find((e) => e.value === value)}
         {#if item}
-          <span {title} class="px-1 text-xs text-white bg-primary-500 rounded">
+          <span
+            title={item.text}
+            class="px-1 text-xs text-white bg-primary-500 rounded"
+          >
             {item.text}
           </span>
         {/if}
@@ -116,13 +119,13 @@
     </div>
   </div>
   <select
-    bind:this={_element}
+    bind:this={element}
     {...elementProps}
     {title}
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100 text-transparent"
     class:pt-6={label}
-    class:border-0={!focused}
+    class:border-0={!elementIsFocused}
     class:border-b={label}
     aria-label={label}
     value={null}

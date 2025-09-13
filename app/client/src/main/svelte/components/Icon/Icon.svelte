@@ -6,7 +6,7 @@
     name,
     outlined = false,
     title = undefined,
-    onclick,
+    onclick = undefined,
     ...elementProps
   } = $props();
 
@@ -24,6 +24,7 @@
 
 <button
   type="button"
+  aria-label={name}
   bind:this={element}
   {...elementProps}
   {title}
