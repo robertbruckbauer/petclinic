@@ -18,7 +18,17 @@
     element?.focus();
   }
 
-  const primitive = $derived(
+  let elementIsFocused = $state(false);
+  function handleFocus(_event: FocusEvent) {
+    elementIsFocused = true;
+    onfocus?.(_event);
+  }
+  function handleBlur(_event: FocusEvent) {
+    elementIsFocused = false;
+    onblur?.(_event);
+  }
+
+  const itemIsPrimitive = $derived(
     allItem.slice(0, 1).findIndex((e: any) => typeof e !== "object") !== -1
   );
 
@@ -32,7 +42,7 @@
 
   const allItemIndexed = $derived(allItem.map(itemMapper));
   function itemMapper(_value: any, _index: number) {
-    if (primitive) {
+    if (itemIsPrimitive) {
       return {
         value: _value,
         text: _value,
@@ -47,7 +57,7 @@
 
   const itemSelected = $derived(itemSelector(value));
   function itemSelector(_value: any) {
-    if (primitive) {
+    if (itemIsPrimitive) {
       return _value;
     } else {
       if (typeof valueGetter === "function") {
@@ -61,28 +71,18 @@
   }
 
   function handleChange(_event: Event) {
-    const target = _event.target as HTMLSelectElement;
-    if (primitive) {
-      value = target.value || null;
+    const _target = _event.target as HTMLSelectElement;
+    if (itemIsPrimitive) {
+      value = _target.value || null;
     } else {
-      const item = target.value ? allItem[target.value] : {};
+      const _item = _target.value ? allItem[_target.value] : {};
       if (typeof valueGetter === "function") {
-        value = valueGetter(item);
+        value = valueGetter(_item);
       } else {
-        value = item;
+        value = _item;
       }
     }
-    onchange?.(event);
-  }
-
-  let _focused = $state(false);
-  function handleFocus(_event: FocusEvent) {
-    _focused = true;
-    onfocus?.(_event);
-  }
-  function handleBlur(_event: FocusEvent) {
-    _focused = false;
-    onblur?.(_event);
+    onchange?.(_event);
   }
 </script>
 
@@ -91,8 +91,8 @@
     <span
       {title}
       class="px-4 pt-2 text-xs absolute left-0 top-0"
-      class:text-label-600={!_focused}
-      class:text-primary-500={_focused}
+      class:text-label-600={!elementIsFocused}
+      class:text-primary-500={elementIsFocused}
     >
       {label}
     </span>
@@ -104,7 +104,7 @@
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100"
     class:pt-6={label}
-    class:border-0={!_focused}
+    class:border-0={!elementIsFocused}
     class:border-b={label}
     aria-label={label}
     value={itemSelected}
