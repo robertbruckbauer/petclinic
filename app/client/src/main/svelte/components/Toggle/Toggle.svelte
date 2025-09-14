@@ -59,17 +59,16 @@
     );
     if (_itemIndex === -1) {
       if (typeof _item !== "object") {
-        allValue.push(_item);
+        allValue = allValue.toSpliced(0, 0, _item);
       } else {
-        allValue.push(_item.value);
+        allValue = allValue.toSpliced(0, 0, _item.value);
       }
     } else {
-      allValue.splice(_itemIndex, 1);
+      allValue = allValue.toSpliced(_itemIndex, 1);
     }
-    // Trigger reactivity
-    allValue = allValue;
-    // Clear value to get every change event
-    element.value = null;
+    // The value is the whole array as a csv string
+    // The value always differs from the element value
+    element.value = JSON.stringify(allValue);
     onchange?.(_event);
   }
 

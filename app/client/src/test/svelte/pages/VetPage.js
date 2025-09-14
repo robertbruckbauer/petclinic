@@ -46,11 +46,8 @@ export class VetPage {
       .getByRole("row")
       .filter({ hasText: this.vetName });
     await row.waitFor({ state: "visible" });
-    const editButton = row.getByRole("button", { name: "edit", exact: true });
-    await expect(editButton).toBeEnabled();
-    await editButton.click();
-    const deleteButton = this.page.getByRole("button", {
-      name: "Löschen",
+    const deleteButton = row.getByRole("button", {
+      name: "delete",
       exact: true,
     });
     await expect(deleteButton).toBeEnabled();

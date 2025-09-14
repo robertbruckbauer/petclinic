@@ -1,114 +1,119 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
   import { toast } from "../components/Toast";
   import { createValue } from "../utils/rest.js";
   import { updatePatch } from "../utils/rest.js";
-  import { removeValue } from "../utils/rest.js";
   import Button from "../components/Button";
   import TextField from "../components/TextField";
   import Toggle from "../components/Toggle";
 
-  export let visible = false;
-  export let vet = undefined;
-  export let allSkillEnum;
+  let {
+    autofocus = true,
+    autoscroll = true,
+    visible = $bindable(false),
+    vet = {},
+    allSkillEnum,
+    oncancel = undefined,
+    oncreate = undefined,
+    onupdate = undefined,
+  } = $props();
 
-  let showUpdate;
-  let showRemove;
-  let newVet = {
-    name: "",
-    allSkill: [],
-  };
+  let clicked = $state(false);
+  let focusOn;
+  let bottomDiv;
+  onMount(async () => {
+    console.log(["onMount", autofocus, autoscroll]);
+    if (autofocus) focusOn.focus();
+    if (autoscroll) bottomDiv.scrollIntoView(false);
+  });
 
-  $: if (vet) onChangeVet();
-  function onChangeVet() {
-    showUpdate = true;
-    showRemove = true;
-    newVet = {
-      id: vet.id,
-      name: vet.name,
-      allSkill: [...vet.allSkill],
-    };
-    console.log(["onChangeVet", newVet]);
+  let newVetName = $derived(vet.name);
+  let newVetAllSkill = $derived(vet.allSkill || []);
+  let newVet = $derived({
+    id: vet.id,
+    version: vet.version,
+    name: newVetName,
+    allSkill: newVetAllSkill,
+  });
+
+  function handleSubmit(_event) {
+    _event.preventDefault();
+    try {
+      clicked = true;
+      if (vet.id) {
+        updateVet();
+      } else {
+        createVet();
+      }
+    } finally {
+      clicked = false;
+    }
   }
 
-  $: disabled = !newVet.name;
+  function handleCancel(_event) {
+    _event.preventDefault();
+    visible = false;
+    oncancel?.();
+  }
 
-  const dispatch = createEventDispatcher();
-  function onCreateVet() {
+  function createVet() {
     createValue("/api/vet", newVet)
       .then((json) => {
-        console.log(["onCreateVet", newVet, json]);
+        console.log(["createVet", newVet, json]);
         visible = false;
-        dispatch("create", newVet);
+        oncreate?.(json);
       })
       .catch((err) => {
-        console.log(["onCreateVet", newVet, err]);
+        console.log(["createVet", newVet, err]);
         toast.push(err.toString());
       });
   }
-  function onUpdateVet() {
+
+  function updateVet() {
     updatePatch("/api/vet" + "/" + newVet.id, newVet)
       .then((json) => {
-        console.log(["onUpdateVet", newVet, json]);
+        console.log(["updateVet", newVet, json]);
         visible = false;
-        dispatch("update", newVet);
+        onupdate?.(json);
       })
       .catch((err) => {
-        console.log(["onUpdateVet", newVet, err]);
+        console.log(["updateVet", newVet, err]);
         toast.push(err.toString());
       });
-  }
-  function onRemoveVet() {
-    const text = newVet.name;
-    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Really delete '" + hint + "'?")) return;
-    removeValue("/api/vet" + "/" + newVet.id)
-      .then(() => {
-        console.log(["onRemoveVet", newVet]);
-        visible = false;
-        dispatch("remove", newVet);
-      })
-      .catch((err) => {
-        console.log(["onRemoveVet", newVet, err]);
-        toast.push(err.toString());
-      });
-  }
-  function onCancel() {
-    visible = false;
   }
 </script>
 
-<div class="flex flex-col">
-  <div class="w-full">
+<form onsubmit={handleSubmit}>
+  <div class="flex flex-col gap-1">
     <TextField
-      bind:value={newVet.name}
+      bind:this={focusOn}
+      bind:value={newVetName}
+      required
       label="Name"
-      placeholder="Insert a name"
+      placeholder="Bitte einen Namen eingeben"
     />
-  </div>
-  <div class="w-full">
     <Toggle
-      bind:allValue={newVet.allSkill}
+      bind:allValue={newVetAllSkill}
       allItem={allSkillEnum}
       label="Skills"
       placeholder="Insert skills"
     />
   </div>
-</div>
+  <div class="py-4 flex flex-row gap-1 items-baseline">
+    <div class="flex-initial">
+      <Button type="submit">Ok</Button>
+    </div>
+    <div class="flex-initial">
+      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
+    </div>
+  </div>
+</form>
 
-<div class="py-4">
-  {#if showUpdate}
-    <Button onclick={() => onUpdateVet()} {disabled}>Ok</Button>
-  {:else}
-    <Button onclick={() => onCreateVet()} {disabled}>Ok</Button>
-  {/if}
-  {#if showRemove}
-    <Button onclick={() => onRemoveVet()}>Löschen</Button>
-  {/if}
-  <Button onclick={() => onCancel()}>Abbrechen</Button>
-</div>
+<div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 
-<details>
-  <summary>JSON</summary>
-  <pre>{JSON.stringify(newVet, null, 2)}</pre>
-</details>
+{#if import.meta.env.DEV}
+  <details tabindex="-1">
+    <summary>JSON</summary>
+    <pre>{JSON.stringify(newVet, null, 2)}</pre>
+  </details>
+{/if}
