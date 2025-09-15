@@ -92,31 +92,6 @@ tasks.register('buildImage') {
     dependsOn 'bootBuildImage'
 }
 
-// https://docs.docker.com/reference/cli/docker/container/run/
-tasks.register('imageRun') {
-    group 'application'
-    mustRunAfter 'buildImage'
-    doLast {
-        exec {
-            workingDir "${projectDir}"
-            executable 'docker'
-            args 'run', '--name', SERVER_NAME, '--detach', '--rm', '-p', '8080:8080', SERVER_IMAGE
-        }
-    }
-}
-
-// https://docs.docker.com/reference/cli/docker/container/rm/
-tasks.register('imageStop') {
-    group 'application'
-    doLast {
-        exec {
-            workingDir "${projectDir}"
-            executable 'docker'
-            args 'stop', SERVER_NAME
-        }
-    }
-}
-
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
 }
