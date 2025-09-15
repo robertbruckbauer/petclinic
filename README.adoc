@@ -149,23 +149,6 @@ Mit dem Wert `TRACE` werden bspw. die aktuellen Parameter von Statements ausgege
 Mit der Umgebungsvariable `LOGGING_LEVEL_ORG_HIBERNATE_STAT` kann die Ausgabe von Statistiken gesteuert werden.
 Mit dem Wert `DEBUG` werden bspw. die Kennzahlen von Statements ausgegeben.
 
-[source, gradle]
-----
-./gradlew app:server:imageRun
-----
-
-Der Befehl startet den Server als Container-Image im Hintergrund (_detached_).
-Der interaktive HAL-Explorer wird im Browser mit `localhost:8080/api/explorer` aufgerufen.
-Der interaktive GraphQL-Explorer wird im Browser mit `localhost:8080/api/graphiql` aufgerufen.
-
-[source, gradle]
-----
-./gradlew app:server:imageStop
-----
-
-Der Befehl beendet den Server.
-Das Container-Image wird automatisch entfernt.
-
 === Svelte-Client lokal starten
 
 [source, npm]
@@ -176,27 +159,11 @@ npm run dev --prefix app/client
 Der Befehl startet den Client als Node-Anwendung.
 Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
 
-[source, gradle]
-----
-./gradlew app:client:imageRun
-----
-
-Der Befehl startet den Client als Container-Image im Hintergrund (_detached_).
-Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
-
-[source, gradle]
-----
-./gradlew app:client:imageStop
-----
-
-Der Befehl beendet den Client.
-Das Container-Image wird automatisch entfernt.
-
 === Anwendung lokal starten
 
 [source, gradle]
 ----
-./gradlew composeup
+./gradlew composeUp
 ----
 
 Der Befehl startet Client und Server lokal.
@@ -204,7 +171,24 @@ Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
 
 [source, gradle]
 ----
-./gradlew composedown
+./gradlew composeDown
 ----
 
 Der Befehl stoppt Client und Server.
+
+=== Anwendung lokal testen
+
+[source, gradle]
+----
+sh app/playwright-setup.sh
+----
+
+Der Befehl installiert die Browser für den Test mit Playwright.
+
+[source, gradle]
+----
+sh app/playwright-test.sh
+----
+
+Der Befehl startet die Anwendumg und führt End-to-End-Tests mit Playwright aus.
+Am Ende wird die Anwendung heruntergefahren - auch im Fehlerfall.
