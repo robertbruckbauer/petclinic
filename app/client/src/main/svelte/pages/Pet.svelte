@@ -134,7 +134,7 @@
   {:else}
     <table class="table-fixed">
       <thead class="justify-between">
-        <tr class="bg-title-100">
+        <tr class="bg-title-200">
           <th class="px-2 py-3 text-left w-1/4 table-cell">
             <span class="text-gray-600">Species</span>
           </th>

@@ -4,14 +4,16 @@
   import { loadAllValue } from "../utils/rest.js";
   import { removeValue } from "../utils/rest.js";
   import { mapify } from "../utils/list.js";
+  import Circle from "../components/Spinner";
   import Icon from "../components/Icon";
-  import Select from "../components/Select";
   import VisitDiagnose from "./VisitDiagnose.svelte";
 
-  let allVetItem = [];
-  let allSpeciesEnum = [];
+  let allVetItem = $state([]);
+  let allSpeciesEnum = $state([]);
+  let loading = $state(true);
   onMount(async () => {
     try {
+      loading = true;
       allVetItem = await loadAllValue("/api/vet?sort=name,asc");
       allVetItem = allVetItem.map((e) => ({}));
       console.log(["onMount", allVetItem]);
@@ -21,15 +23,16 @@
         text: e.name,
       }));
       console.log(["onMount", allSpeciesEnum]);
+      loadAllVisit();
     } catch (err) {
       console.log(["onMount", err]);
       toast.push(err.toString());
+    } finally {
+      loading = false;
     }
-    loadAllVisit();
   });
 
-  let allVisit = [];
-  let visitId = undefined;
+  let visitId = $state();
   function onVisitClicked(_visit) {
     visitId = _visit.id;
   }
@@ -38,28 +41,16 @@
     removeVisit(_visit);
   }
 
-  let visitEditorUpdate = false;
-  $: visitEditorDisabled = visitEditorUpdate;
+  let visitEditorUpdate = $state(false);
   function onVisitEditorUpdateClicked(_visit) {
     visitId = _visit.id;
     visitEditorUpdate = true;
   }
 
-  let filterPrefix = null;
-  $: allVisitFiltered = filterVisit(filterPrefix, allVisit);
-  function filterVisit(prefix, allValue) {
-    if (!filterPrefix) return allValue;
-    return allValue.filter((e) => {
-      for (const s of e.petItem.text.split(" ")) {
-        if (s.toLowerCase().startsWith(prefix.toLowerCase())) {
-          return true;
-        }
-      }
-      return false;
-    });
-  }
+  let visitEditorDisabled = $derived(visitEditorUpdate);
 
-  $: allVisitByDate = mapify(allVisitFiltered, visitKey, visitCompare);
+  let allVisit = $state([]);
+  let allVisitByDate = $derived(mapify(allVisit, visitKey, visitCompare));
   function visitKey(e) {
     return e.date;
   }
@@ -96,23 +87,16 @@
 
 <h1>Visit</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <div class="flex-grow">
-    <Select
-      bind:value={filterPrefix}
-      valueGetter={(v) => v?.value}
-      allItem={allSpeciesEnum}
-      disabled={visitEditorDisabled}
-      nullable
-      label="Filter"
-      placeholder="Choose species"
-    />
-  </div>
-  <div class="flex-grow">
-    {#each [...allVisitByDate] as [date, allVisitOfDate], i}
+  {#if loading}
+    <div class="h-screen flex justify-center items-center">
+      <Circle size="60" unit="px" duration="1s" />
+    </div>
+  {:else}
+    {#each [...allVisitByDate] as [date, allVisitOfDate]}
       <h4>{date} <small>({allVisitOfDate.length})</small></h4>
       <table class="table-fixed">
         <thead class="justify-between">
-          <tr class="bg-gray-100">
+          <tr class="bg-title-200">
             <th class="px-2 py-3 text-left w-2/6 table-cell">
               <span class="text-gray-600">Owner</span>
             </th>
@@ -126,11 +110,12 @@
           </tr>
         </thead>
         <tbody>
-          {#each allVisitOfDate as visit}
+          {#each allVisitOfDate as visit, i}
             <tr
-              on:click={(e) => onVisitClicked(visit)}
+              onclick={(e) => onVisitClicked(visit)}
               title={visit.id}
-              class:ring={visitId === visit.id}
+              class:border-l-2={visitId === visit.id}
+              class:bg-gray-100={i % 2 === 1}
             >
               <td class="px-2 py-3 text-left table-cell">
                 {visit.ownerItem.text}
@@ -184,5 +169,5 @@
     {:else}
       <span>No visits</span>
     {/each}
-  </div>
+  {/if}
 </div>
