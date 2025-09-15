@@ -2,55 +2,25 @@
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
   import { loadAllValue } from "../utils/rest.js";
+  import { removeValue } from "../utils/rest.js";
+  import Circle from "../components/Spinner";
   import Icon from "../components/Icon";
   import TextField from "../components/TextField";
   import OwnerEditor from "./OwnerEditor.svelte";
   import PetEditor from "./PetEditor.svelte";
-  import VisitViewer from "./VisitViewer.svelte";
+  import VisitCardLister from "./VisitCardLister.svelte";
 
-  let allOwner = [];
-  let ownerId = undefined;
-  function onOwnerClicked(owner) {
-    ownerId = owner.id;
-    reloadAllVisit();
-  }
-
-  let ownerEditorCreate = false;
-  let ownerEditorUpdate = false;
-  $: ownerEditorDisabled =
-    ownerEditorCreate || ownerEditorUpdate || petEditorCreate;
-  function ownerEditorCreateClicked() {
-    ownerEditorCreate = true;
-    visitViewerCreate = false;
-  }
-  function ownerEditorUpdateClicked(owner) {
-    ownerId = owner.id;
-    ownerEditorUpdate = true;
-    visitViewerCreate = false;
-  }
-
-  let petEditorCreate = false;
-  function petEditorCreateClicked(owner) {
-    ownerId = owner.id;
-    petEditorCreate = true;
-    visitViewerCreate = false;
-  }
-
-  let allVisit = [];
-
-  let visitViewerCreate = false;
-  function visitViewerCreateClicked(owner) {
-    ownerId = owner.id;
-    visitViewerCreate = !visitViewerCreate;
-  }
-
-  let allVetItem = [];
-
-  let allSpeciesEnum = [];
-
+  let allVetItem = $state([]);
+  let allSpeciesEnum = $state([]);
+  let loading = $state(true);
   onMount(async () => {
     try {
-      allVetItem = await loadAllValue("/api/vet/search/findAllItem");
+      loading = true;
+      allVetItem = await loadAllValue("/api/owner?sort=name,asc");
+      allVetItem = allVetItem.map((e) => ({
+        value: e.id,
+        text: e.name,
+      }));
       console.log(["onMount", allVetItem]);
       allSpeciesEnum = await loadAllValue("/api/enum/species");
       allSpeciesEnum = allSpeciesEnum.map((e) => ({
@@ -58,49 +28,145 @@
         text: e.name,
       }));
       console.log(["onMount", allSpeciesEnum]);
+      loadAllOwner();
     } catch (err) {
       console.log(["onMount", err]);
       toast.push(err.toString());
+    } finally {
+      loading = false;
     }
-    reloadAllOwner();
   });
 
-  let filterPrefix = "";
-  $: allOwnerFiltered = filterOwner(filterPrefix, allOwner);
-  function filterOwner(prefix, allValue) {
-    if (!filterPrefix) return allValue;
-    return allValue.filter((e) => {
-      for (const s of e.name.split(" ")) {
-        if (s.toLowerCase().startsWith(prefix.toLowerCase())) {
-          return true;
-        }
-      }
-      return false;
-    });
+  let ownerId = $state();
+  function onOwnerClicked(_owner) {
+    ownerId = _owner.id;
+  }
+  function onOwnerRemoveClicked(_owner) {
+    ownerId = _owner.id;
+    removeOwner(_owner);
   }
 
-  function reloadAllOwner() {
-    loadAllValue("/api/owner?sort=name,asc")
+  let ownerEditorCreate = $state(false);
+  function onOwnerEditorCreateClicked() {
+    ownerEditorCreate = true;
+    ownerEditorUpdate = false;
+    visitLister = false;
+    petCreateEditor = false;
+  }
+
+  let ownerEditorUpdate = $state(false);
+  function onOwnerEditorUpdateClicked(_owner) {
+    ownerId = _owner.id;
+    ownerEditorCreate = false;
+    ownerEditorUpdate = true;
+    visitLister = false;
+    petCreateEditor = false;
+  }
+
+  let visitLister = $state(false);
+  function onVisitListerClicked(_owner) {
+    ownerId = _owner.id;
+    ownerEditorCreate = false;
+    ownerEditorUpdate = false;
+    visitLister = !visitLister;
+    petCreateEditor = false;
+    if (visitLister) loadAllVisit();
+  }
+
+  let petCreateEditor = $state(false);
+  function onPetCreateEditorClicked(_owner) {
+    ownerId = _owner.id;
+    ownerEditorCreate = false;
+    ownerEditorUpdate = false;
+    visitLister = false;
+    petCreateEditor = true;
+    visitLister = false;
+  }
+
+  let ownerEditorDisabled = $derived(
+    ownerEditorCreate || ownerEditorUpdate || petCreateEditor
+  );
+
+  let ownerFilter = $state("");
+  function ownerFilterParameter() {
+    if (!ownerFilter) return "";
+    return "&name=" + encodeURIComponent(ownerFilter);
+  }
+  function ownerSortParameter() {
+    return "?sort=name";
+  }
+
+  function onOwnerFilterClicked(_event) {
+    _event.preventDefault();
+    try {
+      loading = true;
+      loadAllOwner();
+    } finally {
+      loading = false;
+    }
+  }
+
+  let allOwner = $state([]);
+  function onCreateOwner(_owner) {
+    allOwner = allOwner.toSpliced(0, 0, _owner);
+  }
+  function onUpdateOwner(_owner) {
+    let index = allOwner.findIndex((e) => e.id === _owner.id);
+    if (index > -1) allOwner = allOwner.toSpliced(index, 1, _owner);
+  }
+  function onRemoveOwner(_owner) {
+    let index = allOwner.findIndex((e) => e.id === _owner.id);
+    if (index > -1) allOwner = allOwner.toSpliced(index, 1);
+  }
+
+  function onCreatePet(_owner, _pet) {
+    const _petItem = {
+      value: _pet.id,
+      text: _pet.species + " '" + _pet.name + "'",
+    };
+    _owner.allPetItem = _owner.allPetItem.toSpliced(0, 0, _petItem);
+  }
+
+  function loadAllOwner() {
+    const query = ownerSortParameter() + ownerFilterParameter();
+    loadAllValue("/api/owner" + query)
       .then((json) => {
-        console.log(["reloadAllOwner", json]);
+        const msg = import.meta.env.DEV ? json : json.length;
+        console.log(["loadAllOwner", query, msg]);
         allOwner = json;
       })
       .catch((err) => {
-        console.log(["reloadAllOwner", err]);
+        console.log(["loadAllOwner", query, err]);
         toast.push(err.toString());
       });
   }
 
-  function reloadAllVisit() {
-    allVisit = [];
-    if (!ownerId) return;
-    loadAllValue("/api/visit?sort=date,desc&pet.owner.id=" + ownerId)
+  let allOwnerVisit = $state([]);
+  function loadAllVisit() {
+    const query = "?sort=date,desc&pet.owner.id=" + ownerId;
+    loadAllValue("/api/visit" + query)
       .then((json) => {
-        console.log(["reloadAllVisit", json]);
-        allVisit = json;
+        const msg = import.meta.env.DEV ? json : json.length;
+        console.log(["loadAllVisit", query, msg]);
+        allOwnerVisit = json;
       })
       .catch((err) => {
-        console.log(["reloadAllVisit", err]);
+        console.log(["loadAllVisit", query, err]);
+        toast.push(err.toString());
+      });
+  }
+
+  function removeOwner(_owner) {
+    const text = _owner.name;
+    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
+    if (!confirm("Delete owner '" + hint + "' permanently?")) return;
+    removeValue("/api/owner/" + _owner.id)
+      .then((json) => {
+        console.log(["removeOwner", _owner, json]);
+        onRemoveOwner(json);
+      })
+      .catch((err) => {
+        console.log(["removeOwner", _owner, err]);
         toast.push(err.toString());
       });
   }
@@ -108,30 +174,40 @@
 
 <h1>Owner</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <div class="flex-grow">
-    <TextField
-      bind:value={filterPrefix}
-      disabled={ownerEditorDisabled}
-      label="Filter"
-      placeholder="Insert a criteria"
-    />
+  <form onsubmit={onOwnerFilterClicked}>
+    <div class="flex flex-row gap-1 items-center pr-2">
+      <div class="w-full">
+        <TextField
+          bind:value={ownerFilter}
+          label="Filter"
+          placeholder="Bitte Filterkriterien eingeben"
+        />
+      </div>
+      <div class="w-min">
+        <Icon type="submit" name="search" outlined />
+      </div>
+    </div>
+  </form>
+  {#if loading}
+    <div class="h-screen flex justify-center items-center">
+      <Circle size="60" unit="px" duration="1s" />
+    </div>
+  {:else}
     <table class="table-fixed">
       <thead class="justify-between">
-        <tr class="bg-gray-100">
-          <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-1/3">
-            <span class="text-gray-600">Name</span>
+        <tr class="bg-title-200">
+          <th class="px-2 py-3 text-left w-1/3 table-cell">
+            <span class="text-title-600">Name</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-full">
+          <th class="px-2 py-3 text-left w-full table-cell">
             <span class="text-gray-600">Pets</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
+          <th class="px-2 py-3 text-right w-0 table-cell">
             <Icon
-              on:click={() => ownerEditorCreateClicked()}
-              title="Add a new owner"
+              onclick={() => onOwnerEditorCreateClicked()}
               disabled={ownerEditorDisabled}
-              name="edit"
+              title="Add a new owner"
+              name="add"
               outlined
             />
           </th>
@@ -140,26 +216,27 @@
       <tbody>
         {#if ownerEditorCreate}
           <tr>
-            <td class="px-4" colspan="6">
+            <td class="border-l-4 px-2" colspan="3">
               <OwnerEditor
                 bind:visible={ownerEditorCreate}
-                on:create={(e) => reloadAllOwner()}
+                oncreate={onCreateOwner}
               />
-            </td><td> </td></tr
-          >
+            </td>
+          </tr>
         {/if}
-        {#each allOwnerFiltered as owner}
+        {#each allOwner as owner, i}
           <tr
-            on:click={(e) => onOwnerClicked(owner)}
+            onclick={(e) => onOwnerClicked(owner)}
             title={owner.id}
-            class:ring={ownerId === owner.id}
+            class:border-l-2={ownerId === owner.id}
+            class:bg-gray-100={i % 2 === 1}
           >
-            <td class="px-2 py-3 text-left">
+            <td class="px-2 py-3 text-left table-cell">
               <div class="text-sm underline text-blue-600">
                 <a href={"/owner/" + owner.id}>{owner.name}</a>
               </div>
             </td>
-            <td class="px-2 py-3 text-left">
+            <td class="px-2 py-3 text-left table-cell">
               <div class="flex flex-col">
                 {#each owner.allPetItem as petItem}
                   <div class="text-sm underline text-blue-600">
@@ -170,47 +247,54 @@
                 {/each}
               </div>
             </td>
-            <td class="px-2 py-3">
-              <Icon
-                on:click={() => visitViewerCreateClicked(owner)}
-                title="Show all visits"
-                disabled={ownerEditorDisabled}
-                name="list"
-                outlined
-              />
-            </td>
-            <td class="px-2 py-3">
-              <Icon
-                on:click={() => petEditorCreateClicked(owner)}
-                title="Add a new pet"
-                disabled={ownerEditorDisabled}
-                name="pets"
-                outlined
-              />
-            </td>
-            <td class="px-2 py-3">
-              <Icon
-                on:click={() => ownerEditorUpdateClicked(owner)}
-                title="Edit owner details"
-                disabled={ownerEditorDisabled}
-                name="edit"
-                outlined
-              />
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-4 items-center gap-1 w-max"
+              >
+                <Icon
+                  onclick={() => onVisitListerClicked(owner)}
+                  disabled={ownerEditorDisabled}
+                  title="Show all visits"
+                  name="list"
+                  outlined
+                />
+                <Icon
+                  onclick={() => onPetCreateEditorClicked(owner)}
+                  disabled={ownerEditorDisabled}
+                  title="Add a new pet"
+                  name="pets"
+                  outlined
+                />
+                <Icon
+                  onclick={() => onOwnerRemoveClicked(owner)}
+                  disabled={ownerEditorDisabled}
+                  title="Delete an owner"
+                  name="delete"
+                  outlined
+                />
+                <Icon
+                  onclick={() => onOwnerEditorUpdateClicked(owner)}
+                  disabled={ownerEditorDisabled}
+                  title="Edit an owner"
+                  name="edit"
+                  outlined
+                />
+              </div>
             </td>
           </tr>
-          {#if visitViewerCreate && ownerId === owner.id}
+          {#if visitLister && ownerId === owner.id}
             <tr>
-              <td class="px-4" colspan="6">
-                <VisitViewer {allVisit} />
+              <td class="border-l-4 px-2" colspan="3">
+                <VisitCardLister allVisit={allOwnerVisit} />
               </td>
             </tr>
           {/if}
-          {#if petEditorCreate && ownerId === owner.id}
+          {#if petCreateEditor && ownerId === owner.id}
             <tr>
-              <td class="px-4" colspan="6">
+              <td class="border-l-4 px-2" colspan="3">
                 <PetEditor
-                  bind:visible={petEditorCreate}
-                  on:create={(e) => reloadAllOwner()}
+                  bind:visible={petCreateEditor}
+                  oncreate={(pet) => onCreatePet(owner, pet)}
                   {allSpeciesEnum}
                   ownerId={owner.id}
                 />
@@ -219,11 +303,10 @@
           {/if}
           {#if ownerEditorUpdate && ownerId === owner.id}
             <tr>
-              <td class="px-4" colspan="6">
+              <td class="border-l-4 px-2" colspan="3">
                 <OwnerEditor
                   bind:visible={ownerEditorUpdate}
-                  on:update={(e) => reloadAllOwner()}
-                  on:remove={(e) => reloadAllOwner()}
+                  onupdate={onUpdateOwner}
                   {owner}
                 />
               </td>
@@ -231,10 +314,10 @@
           {/if}
         {:else}
           <tr>
-            <td class="px-2 py-3" colspan="6"> No owners </td>
+            <td class="px-2" colspan="3">No owners</td>
           </tr>
         {/each}
       </tbody>
     </table>
-  </div>
+  {/if}
 </div>

@@ -1,126 +1,143 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
   import { toast } from "../components/Toast";
   import { createValue } from "../utils/rest.js";
   import { updateValue } from "../utils/rest.js";
-  import { removeValue } from "../utils/rest.js";
   import Button from "../components/Button";
   import TextField from "../components/TextField";
   import TextArea from "../components/TextArea";
 
-  export let visible = false;
-  export let item = undefined;
-  export let art;
-  export let code;
+  let {
+    autofocus = true,
+    autoscroll = true,
+    visible = $bindable(false),
+    item = {},
+    art,
+    code,
+    oncancel = undefined,
+    oncreate = undefined,
+    onupdate = undefined,
+  } = $props();
 
-  let showUpdate;
-  let showRemove;
-  let newItem = {
-    code: code,
-    name: "",
-    text: "",
-  };
+  let clicked = $state(false);
+  let focusOn;
+  let bottomDiv;
+  onMount(async () => {
+    console.log(["onMount", autofocus, autoscroll]);
+    if (autofocus) focusOn.focus();
+    if (autoscroll) bottomDiv.scrollIntoView(false);
+  });
 
-  $: if (item) onChangeItem();
-  function onChangeItem() {
-    showUpdate = true;
-    showRemove = false;
-    newItem = {
-      code: code,
-      name: item.name,
-      text: item.text,
-    };
-    console.log(["onChangeItem", newItem]);
+  let newItemCode = $derived(code);
+  let newItemName = $derived(item.name);
+  let newItemText = $derived(item.text);
+  let newItem = $derived({
+    id: item.id,
+    version: item.version,
+    code: newItemCode,
+    name: newItemName,
+    text: newItemText,
+  });
+
+  $effect(() => {
+    $inspect(code).with(console.trace);
+    $inspect(item).with(console.trace);
+  });
+
+  function handleSubmit(_event) {
+    _event.preventDefault();
+    try {
+      clicked = true;
+      if (item.code) {
+        updateItem();
+      } else {
+        createItem();
+      }
+    } finally {
+      clicked = false;
+    }
   }
 
-  $: disabled = !newItem.name || !newItem.text;
+  function handleCancel(_event) {
+    _event.preventDefault();
+    visible = false;
+    oncancel?.();
+  }
 
-  const dispatch = createEventDispatcher();
-  function onCreateItem() {
+  function createItem() {
     createValue("/api/enum/" + art, newItem)
       .then((json) => {
-        console.log(["onCreateItem", newItem, json]);
+        console.log(["createItem", newItem, json]);
         visible = false;
-        dispatch("create", newItem);
+        oncreate?.(json);
       })
       .catch((err) => {
-        console.log(["onCreateItem", newItem, err]);
+        console.log(["createItem", newItem, err]);
         toast.push(err.toString());
       });
   }
-  function onUpdateItem() {
+
+  function updateItem() {
     updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
       .then((json) => {
-        console.log(["onUpdateItem", newItem, json]);
+        console.log(["updateItem", newItem, json]);
         visible = false;
-        dispatch("update", newItem);
+        onupdate?.(json);
       })
       .catch((err) => {
-        console.log(["onUpdateItem", newItem, err]);
+        console.log(["updateItem", newItem, err]);
         toast.push(err.toString());
       });
-  }
-  function onRemoveItem() {
-    const text = newItem.text;
-    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Item '" + hint + "' wirklich löschen?")) return;
-    removeValue("/api/enum/" + art + "/" + newItem.code)
-      .then(() => {
-        console.log(["onRemoveItem", newItem]);
-        visible = false;
-        dispatch("remove", newItem);
-      })
-      .catch((err) => {
-        console.log(["onRemoveItem", newItem, err]);
-        toast.push(err.toString());
-      });
-  }
-  function onCancel() {
-    visible = false;
   }
 </script>
 
-<div class="flex flex-col gap-1">
-  <div class="w-full flex flex-row gap-1 items-baseline">
-    <div class="w-1/6">
-      <TextField
-        bind:value={newItem.code}
-        type="number"
-        label="Code"
-        placeholder="Bitte den Code eingeben"
-        disabled={showUpdate}
-      />
+<form onsubmit={handleSubmit}>
+  <div class="flex flex-col gap-1">
+    <div class="w-full flex flex-row gap-1 items-baseline">
+      <div class="w-1/6">
+        <TextField
+          bind:value={newItemCode}
+          required
+          type="number"
+          label="Code"
+          placeholder="Bitte einen Code eingeben"
+          disabled={item.id}
+        />
+      </div>
+      <div class="w-full">
+        <TextField
+          bind:this={focusOn}
+          bind:value={newItemName}
+          required
+          label="Name"
+          placeholder="Bitte einen Namen eingeben"
+        />
+      </div>
     </div>
     <div class="w-full">
-      <TextField
-        bind:value={newItem.name}
-        label="Name"
-        placeholder="Bitte den Namen eingeben"
+      <TextArea
+        bind:value={newItemText}
+        required
+        label="Text"
+        placeholder="Bitte einen Text eingeben"
       />
     </div>
   </div>
-  <div class="w-full">
-    <TextArea
-      bind:value={newItem.text}
-      label="Text"
-      placeholder="Bitte den Text eingeben"
-    />
+  <div class="py-4 flex flex-row gap-1 items-baseline">
+    <div class="flex-initial">
+      <Button type="submit">Ok</Button>
+    </div>
+    <div class="flex-initial">
+      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
+    </div>
   </div>
-</div>
+</form>
 
-<div class="py-4">
-  {#if showUpdate}
-    <Button on:click={() => onUpdateItem()} {disabled}>Ok</Button>
-  {:else}
-    <Button on:click={() => onCreateItem()} {disabled}>Ok</Button>
-  {/if}
-  {#if showRemove}
-    <Button on:click={() => onRemoveItem()}>Löschen</Button>
-  {/if}
-  <Button on:click={() => onCancel()}>Abbrechen</Button>
-</div>
+<div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 
-<details tabindex="-1">
-  <summary>JSON</summary>
-  <pre>{JSON.stringify(newItem, null, 2)}</pre>
-</details>
+{#if import.meta.env.DEV}
+  <details tabindex="-1">
+    <summary>JSON</summary>
+    <pre>{JSON.stringify(newItem, null, 2)}</pre>
+  </details>
+{/if}

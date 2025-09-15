@@ -1,64 +1,88 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
   import { toast } from "../components/Toast";
   import { createValue } from "../utils/rest.js";
   import Button from "../components/Button";
   import TextField from "../components/TextField";
 
-  export let visible = false;
-  export let pet;
+  let {
+    autofocus = true,
+    autoscroll = true,
+    visible = $bindable(false),
+    pet,
+    oncancel = undefined,
+    oncreate = undefined,
+  } = $props();
 
-  let newVisit = {
-    date: null,
-    text: "",
-    petItem: {
-      value: null,
-      text: "",
-    },
-    vetItem: {
-      value: null,
-      text: "",
-    },
-  };
+  let clicked = $state(false);
+  let focusOn;
+  let bottomDiv;
+  onMount(async () => {
+    console.log(["onMount", autofocus, autoscroll]);
+    if (autofocus) focusOn.focus();
+    if (autoscroll) bottomDiv.scrollIntoView(false);
+  });
 
-  $: disabled = !newVisit.date || !newVisit.petItem || !newVisit.vetItem;
+  let newVisitDate = $state();
+  let newVisit = $derived({
+    pet: "/api/pet/" + pet.id,
+    date: newVisitDate,
+  });
 
-  const dispatch = createEventDispatcher();
-  function onCreateVisit() {
-    newVisit.pet = "/api/pet/" + pet.id;
+  function handleSubmit(_event) {
+    _event.preventDefault();
+    try {
+      clicked = true;
+      createVisit();
+    } finally {
+      clicked = false;
+    }
+  }
+
+  function handleCancel(_event) {
+    _event.preventDefault();
+    visible = false;
+    oncancel?.();
+  }
+
+  function createVisit() {
     createValue("/api/visit", newVisit)
       .then((json) => {
-        console.log(["onCreateVisit", newVisit, json]);
+        console.log(["createVisit", newVisit, json]);
         visible = false;
-        dispatch("create", newVisit);
+        oncreate?.(json);
       })
       .catch((err) => {
-        console.log(["onCreateVisit", newVisit, err]);
+        console.log(["createVisit", newVisit, err]);
         toast.push(err.toString());
       });
-  }
-  function onCancel() {
-    visible = false;
   }
 </script>
 
 <div class="flex flex-col">
-  <form class="w-full">
+  <form onsubmit={handleSubmit}>
     <div class="w-full">
       <TextField
-        bind:value={newVisit.date}
+        bind:this={focusOn}
+        bind:value={newVisitDate}
         type="date"
+        required
         label="Date of treatment"
         placeholder="Choose a date"
       />
     </div>
+    <div class="py-4 flex flex-row gap-1 items-baseline">
+      <div class="flex-initial">
+        <Button type="submit">Ok</Button>
+      </div>
+      <div class="flex-initial">
+        <Button type="button" onclick={handleCancel}>Abbrechen</Button>
+      </div>
+    </div>
   </form>
 </div>
 
-<div class="py-4">
-  <Button on:click={() => onCreateVisit()} {disabled}>Ok</Button>
-  <Button on:click={() => onCancel()}>Abbrechen</Button>
-</div>
+<div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 
 <details>
   <summary>JSON</summary>

@@ -2,122 +2,166 @@
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
   import { loadAllValue } from "../utils/rest.js";
+  import { updatePatch } from "../utils/rest.js";
+  import { removeValue } from "../utils/rest.js";
+  import Circle from "../components/Spinner";
   import Icon from "../components/Icon";
   import TextField from "../components/TextField";
   import VetEditor from "./VetEditor.svelte";
-  import VisitViewer from "./VisitViewer.svelte";
 
-  let allVet = [];
-  let vetId = undefined;
-  function onVetClicked(vet) {
-    vetId = vet.id;
-    reloadAllVisit();
-  }
-
-  let vetEditorCreate = false;
-  let vetEditorUpdate = false;
-  $: vetEditorDisabled = vetEditorCreate || vetEditorUpdate;
-  function vetEditorCreateClicked() {
-    vetEditorCreate = true;
-    visitViewerCreate = false;
-  }
-  function vetEditorUpdateClicked(vet) {
-    vetId = vet.id;
-    vetEditorUpdate = true;
-    visitViewerCreate = false;
-  }
-
-  let allVisit = [];
-
-  let visitViewerCreate = false;
-  function visitViewerCreateClicked(vet) {
-    vetId = vet.id;
-    visitViewerCreate = !visitViewerCreate;
-  }
-
-  let allSkillEnum = [];
-
+  let allSkillEnum = $state([]);
+  let loading = $state(true);
   onMount(async () => {
     try {
+      loading = true;
       allSkillEnum = await loadAllValue("/api/enum/skill");
       allSkillEnum = allSkillEnum.map((e) => ({
         value: e.value,
         text: e.name,
       }));
-      console.log(["onMount", allSkillEnum]);
+      loadAllVet();
     } catch (err) {
       console.log(["onMount", err]);
       toast.push(err.toString());
+    } finally {
+      loading = false;
     }
-    reloadAllVet();
   });
 
-  let filterPrefix = "";
-  $: allVetFiltered = filterVet(filterPrefix, allVet);
-  function filterVet(prefix, allValue) {
-    if (!filterPrefix) return allValue;
-    return allValue.filter((e) => {
-      for (const s of e.name.split(" ")) {
-        if (s.toLowerCase().startsWith(prefix.toLowerCase())) {
-          return true;
-        }
-      }
-      return false;
-    });
+  let vetId = $state();
+  function onVetClicked(_vet) {
+    vetId = _vet.id;
+  }
+  function onVetRemoveClicked(_vet) {
+    vetId = _vet.id;
+    removeVet(_vet);
   }
 
-  function reloadAllVet() {
-    loadAllValue("/api/vet?sort=name,asc")
+  let vetEditorCreate = $state(false);
+  function onVetEditorCreateClicked() {
+    vetEditorCreate = true;
+    vetEditorUpdate = false;
+  }
+
+  let vetEditorUpdate = $state(false);
+  function onVetEditorUpdateClicked(_vet) {
+    vetId = _vet.id;
+    vetEditorUpdate = true;
+    vetEditorCreate = false;
+  }
+
+  let vetEditorDisabled = $derived(vetEditorCreate || vetEditorUpdate);
+
+  let vetFilter = $state("");
+  function vetFilterParameter() {
+    if (!vetFilter) return "";
+    return "&name=" + encodeURIComponent(vetFilter);
+  }
+  function vetSortParameter() {
+    return "?sort=name";
+  }
+
+  function onVetFilterClicked(_event) {
+    _event.preventDefault();
+    try {
+      loading = true;
+      loadAllVet();
+    } finally {
+      loading = false;
+    }
+  }
+
+  let allVet = $state([]);
+  function onCreateVet(_vet) {
+    allVet = allVet.toSpliced(0, 0, _vet);
+  }
+  function onUpdateVet(_vet) {
+    let index = allVet.findIndex((e) => e.id === _vet.id);
+    if (index > -1) allVet = allVet.toSpliced(index, 1, _vet);
+  }
+  function onRemoveVet(_vet) {
+    let index = allVet.findIndex((e) => e.id === _vet.id);
+    if (index > -1) allVet = allVet.toSpliced(index, 1);
+  }
+
+  function loadAllVet() {
+    const query = vetSortParameter() + vetFilterParameter();
+    loadAllValue("/api/vet" + query)
       .then((json) => {
-        console.log(["reloadAllVet", json]);
+        const msg = import.meta.env.DEV ? json : json.length;
+        console.log(["loadAllVet", query, msg]);
         allVet = json;
       })
       .catch((err) => {
-        console.log(["reloadAllVet", err]);
+        console.log(["loadAllVet", query, err]);
         toast.push(err.toString());
       });
   }
 
-  function reloadAllVisit() {
-    allVisit = [];
-    if (!vetId) return;
-    loadAllValue("/api/visit?sort=date,desc&vet.id=" + vetId)
+  function updateVet(_vet) {
+    updatePatch("/api/vet/" + _vet.id, _vet)
       .then((json) => {
-        console.log(["reloadAllVisit", json]);
-        allVisit = json;
+        console.log(["updateVet", _vet, json]);
+        onUpdateVet(json);
       })
       .catch((err) => {
-        console.log(["reloadAllVisit", err]);
+        console.log(["updateVet", _vet, err]);
+        toast.push(err.toString());
+      });
+  }
+
+  function removeVet(_vet) {
+    const text = _vet.name;
+    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
+    if (!confirm("Delete vet '" + hint + "' permanently?")) return;
+    removeValue("/api/vet/" + _vet.id)
+      .then((json) => {
+        console.log(["removeVet", _vet, json]);
+        onRemoveVet(json);
+      })
+      .catch((err) => {
+        console.log(["removeVet", _vet, err]);
         toast.push(err.toString());
       });
   }
 </script>
 
-<h1>Vet</h1>
+<h1 title="Liste der Vetn, ggfs. gefiltert, jedes Element editierbar">Vet</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <div class="flex-grow">
-    <TextField
-      bind:value={filterPrefix}
-      disabled={vetEditorDisabled}
-      label="Filter"
-      placeholder="Insert a criteria"
-    />
+  <form onsubmit={onVetFilterClicked}>
+    <div class="flex flex-row gap-1 items-center pr-2">
+      <div class="w-full">
+        <TextField
+          bind:value={vetFilter}
+          label="Filter"
+          placeholder="Bitte Filterkriterien eingeben"
+        />
+      </div>
+      <div class="w-min">
+        <Icon type="submit" name="search" outlined />
+      </div>
+    </div>
+  </form>
+  {#if loading}
+    <div class="h-screen flex justify-center items-center">
+      <Circle size="60" unit="px" duration="1s" />
+    </div>
+  {:else}
     <table class="table-fixed">
       <thead class="justify-between">
-        <tr class="bg-gray-100">
-          <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-1/3">
-            <span class="text-gray-600">Name</span>
+        <tr class="bg-title-200">
+          <th class="px-2 py-3 text-left w-1/3 table-cell">
+            <span class="text-title-600">Name</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-2/3">
-            <span class="text-gray-600">Special Skills</span>
+          <th class="px-2 py-3 text-left w-full table-cell">
+            <span class="text-title-600">Skills</span>
           </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
-          <th class="px-2 py-3 border-b-2 border-gray-300 w-16">
+          <th class="px-2 py-3 text-right w-0 table-cell">
             <Icon
-              on:click={() => vetEditorCreateClicked()}
-              title="Add a new vet"
+              onclick={() => onVetEditorCreateClicked()}
               disabled={vetEditorDisabled}
-              name="edit"
+              title="Vet hinzufügen"
+              name="add"
               outlined
             />
           </th>
@@ -126,27 +170,28 @@
       <tbody>
         {#if vetEditorCreate}
           <tr>
-            <td class="px-4" colspan="3">
+            <td class="px-2" colspan="3">
               <VetEditor
                 bind:visible={vetEditorCreate}
-                on:create={(e) => reloadAllVet()}
+                oncreate={onCreateVet}
                 {allSkillEnum}
               />
-            </td><td> </td></tr
-          >
+            </td>
+          </tr>
         {/if}
-        {#each allVetFiltered as vet}
+        {#each allVet as vet, i}
           <tr
-            on:click={(e) => onVetClicked(vet)}
+            onclick={(e) => onVetClicked(vet)}
             title={vet.id}
-            class:ring={vetId === vet.id}
+            class:border-l-2={vetId === vet.id}
+            class:bg-gray-100={i % 2 === 1}
           >
-            <td class="px-2 py-3 text-left">
+            <td class="px-2 py-3 text-left table-cell">
               <div class="text-sm underline text-blue-600">
                 <a href={"/vet/" + vet.id}>{vet.name}</a>
               </div>
             </td>
-            <td class="px-2 py-3 text-left">
+            <td class="px-2 py-3 text-left table-cell">
               {#each vet.allSkill as skill}
                 <div class="flex flex-col">
                   <span>{skill}</span>
@@ -155,51 +200,45 @@
                 <span>No skills</span>
               {/each}
             </td>
-            <td class="px-2 py-3">
-              <Icon
-                on:click={() => visitViewerCreateClicked(vet)}
-                title="Show all visits"
-                disabled={vetEditorDisabled}
-                name="list"
-                outlined
-              />
-            </td>
-            <td class="px-2 py-3">
-              <Icon
-                on:click={() => vetEditorUpdateClicked(vet)}
-                title="Edit vet details"
-                disabled={vetEditorDisabled}
-                name="edit"
-                outlined
-              />
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
+              >
+                <Icon
+                  onclick={() => onVetRemoveClicked(vet)}
+                  disabled={vetEditorDisabled}
+                  title="Vet löschen"
+                  name="delete"
+                  outlined
+                />
+                <Icon
+                  onclick={() => onVetEditorUpdateClicked(vet)}
+                  disabled={vetEditorDisabled}
+                  title="Vet bearbeiten"
+                  name="edit"
+                  outlined
+                />
+              </div>
             </td>
           </tr>
-          {#if visitViewerCreate && vetId === vet.id}
-            <tr>
-              <td class="px-4" colspan="6">
-                <VisitViewer {allVisit} />
-              </td><td> </td></tr
-            >
-          {/if}
           {#if vetEditorUpdate && vetId === vet.id}
             <tr>
-              <td class="px-4" colspan="3">
+              <td class="border-l-4 px-2" colspan="3">
                 <VetEditor
                   bind:visible={vetEditorUpdate}
-                  on:update={(e) => reloadAllVet()}
-                  on:remove={(e) => reloadAllVet()}
+                  onupdate={onUpdateVet}
                   {allSkillEnum}
                   {vet}
                 />
-              </td><td> </td></tr
-            >
+              </td>
+            </tr>
           {/if}
         {:else}
           <tr>
-            <td class="px-2 py-3" colspan="3"> No vets </td>
+            <td class="px-2" colspan="3">Keine Vetn</td>
           </tr>
         {/each}
       </tbody>
     </table>
-  </div>
+  {/if}
 </div>

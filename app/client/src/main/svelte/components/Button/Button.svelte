@@ -1,38 +1,37 @@
-<script>
-  import filterProps from "../filterProps.js";
-  const props = filterProps(
-    ["checked", "clicked", "disabled", "outlined", "title"],
-    $$props
-  );
-  export let checked = false;
-  export let clicked = 0;
-  export let disabled = false;
-  export let outlined = false;
-  export let title = undefined;
+<script lang="ts">
+  let {
+    checked = $bindable(false),
+    clicked = $bindable(0),
+    disabled = false,
+    outlined = false,
+    title = undefined,
+    onclick = undefined,
+    children,
+    ...elementProps
+  } = $props();
+
   let element;
   export function focus() {
-    element.focus();
+    element?.focus();
   }
-  function onClick() {
+
+  function handleClick(_event: MouseEvent) {
     checked = !checked;
     clicked++;
+    onclick?.(_event);
   }
 </script>
 
 <button
   type="button"
   bind:this={element}
-  {...props}
+  {...elementProps}
   {title}
   {disabled}
   class:disabled
-  class="text-sm text-white rounded uppercase py-2 px-4 disabled:opacity-50 hover:opacity-90 focus:ring bg-primary-500 overflow-hidden"
+  class="text-sm text-white rounded uppercase py-2 px-4 disabled:opacity-50 hover:opacity-90 focus:underline bg-primary-500 overflow-hidden"
   class:outlined
-  on:click={onClick}
-  on:click
-  on:mouseover
-  on:focus
-  on:blur
+  onclick={handleClick}
 >
-  <slot />
+  {@render children?.()}
 </button>

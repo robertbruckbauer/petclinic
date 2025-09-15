@@ -26,13 +26,18 @@ export class PetPage {
       )?.value;
     }, ownerName);
     await ownerSelect.selectOption({ value: ownerValue });
-    const petRow = this.page.locator("tr", { hasText: petName });
-    await petRow.getByRole("button", { name: "Add a new visit" }).click();
+    const row = this.page.locator("tr", { hasText: petName });
+    await row.waitFor({ state: "visible" });
+    const addButton = row.getByRole("button", { name: "event", exact: true });
+    await expect(addButton).toBeEnabled();
+    await addButton.click();
     const dateField = this.page.getByRole("textbox", {
       name: "Date of treatment",
     });
     await dateField.fill(visitAt);
     await dateField.press("Tab");
-    await this.page.getByRole("button", { name: "Ok" }).click();
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
   }
 }

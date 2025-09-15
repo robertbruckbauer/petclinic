@@ -1,12 +1,15 @@
-<script>
-  import { fade } from "svelte/transition";
-  import { fly } from "svelte/transition";
+<script lang="ts">
+  import { fade, fly } from "svelte/transition";
   import { toast } from "./stores.js";
   import ToastItem from "./ToastItem.svelte";
-  export let options = {};
-  export let target = "default";
-  $: toast._init(target, options);
-  $: allItem = $toast.filter((i) => i.target === target);
+
+  let { options = {}, target = "default" } = $props();
+
+  $effect(() => {
+    toast._init(target, options);
+  });
+
+  const allItem = $derived($toast.filter((i: any) => i.target === target));
 </script>
 
 <ul class="_toastContainer">
