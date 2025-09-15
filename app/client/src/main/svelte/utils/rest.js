@@ -11,8 +11,8 @@ export function apiGraphiqlUrl() {
   return BACKEND_URL + "/api/graphiql";
 }
 
-export async function loadAllValue(restUrl) {
-  return fetch(BACKEND_URL + restUrl, {
+export async function loadAllValue(path) {
+  return fetch(BACKEND_URL + path, {
     mode: "cors",
     method: "GET",
     headers: {
@@ -21,7 +21,7 @@ export async function loadAllValue(restUrl) {
   })
     .then((res) => {
       if (res.ok) return res.json();
-      throw Error(restUrl + " failed with code " + res.status);
+      throw Error(path + " failed with code " + res.status);
     })
     .then((json) => {
       return json.content.map((item) => {
@@ -32,8 +32,8 @@ export async function loadAllValue(restUrl) {
     });
 }
 
-export async function loadOneValue(restUrl) {
-  return fetch(BACKEND_URL + restUrl, {
+export async function loadOneValue(path) {
+  return fetch(BACKEND_URL + path, {
     mode: "cors",
     method: "GET",
     headers: {
@@ -42,7 +42,7 @@ export async function loadOneValue(restUrl) {
   })
     .then((res) => {
       if (res.ok) return res.json();
-      throw Error(restUrl + " failed with code " + res.status);
+      throw Error(path + " failed with code " + res.status);
     })
     .then((json) => {
       delete json.content;
@@ -51,8 +51,8 @@ export async function loadOneValue(restUrl) {
     });
 }
 
-export async function createValue(restUrl, value) {
-  return fetch(BACKEND_URL + restUrl, {
+export async function createValue(path, value) {
+  return fetch(BACKEND_URL + path, {
     mode: "cors",
     method: "POST",
     headers: {
@@ -63,7 +63,7 @@ export async function createValue(restUrl, value) {
   })
     .then((res) => {
       if (res.ok) return res.json();
-      throw Error(restUrl + " failed with code " + res.status);
+      throw Error(path + " failed with code " + res.status);
     })
     .then((json) => {
       delete json.content;
@@ -72,8 +72,8 @@ export async function createValue(restUrl, value) {
     });
 }
 
-export async function updateValue(restUrl, value) {
-  return fetch(BACKEND_URL + restUrl, {
+export async function updateValue(path, value) {
+  return fetch(BACKEND_URL + path, {
     mode: "cors",
     method: "PUT",
     headers: {
@@ -84,7 +84,7 @@ export async function updateValue(restUrl, value) {
   })
     .then((res) => {
       if (res.ok) return res.json();
-      throw Error(restUrl + " failed with code " + res.status);
+      throw Error(path + " failed with code " + res.status);
     })
     .then((json) => {
       delete json.content;
@@ -93,8 +93,8 @@ export async function updateValue(restUrl, value) {
     });
 }
 
-export async function updatePatch(restUrl, value) {
-  return fetch(BACKEND_URL + restUrl, {
+export async function updatePatch(path, value) {
+  return fetch(BACKEND_URL + path, {
     mode: "cors",
     method: "PATCH",
     headers: {
@@ -105,7 +105,7 @@ export async function updatePatch(restUrl, value) {
   })
     .then((res) => {
       if (res.ok) return res.json();
-      throw Error(restUrl + " failed with code " + res.status);
+      throw Error(path + " failed with code " + res.status);
     })
     .then((json) => {
       delete json.content;
@@ -114,8 +114,8 @@ export async function updatePatch(restUrl, value) {
     });
 }
 
-export async function removeValue(restUrl) {
-  return fetch(BACKEND_URL + restUrl, {
+export async function removeValue(path) {
+  return fetch(BACKEND_URL + path, {
     mode: "cors",
     method: "DELETE",
     headers: {
@@ -124,7 +124,7 @@ export async function removeValue(restUrl) {
   })
     .then((res) => {
       if (res.ok) return res.json();
-      throw Error(restUrl + " failed with code " + res.status);
+      throw Error(path + " failed with code " + res.status);
     })
     .then((json) => {
       delete json.content;
@@ -133,15 +133,16 @@ export async function removeValue(restUrl) {
     });
 }
 
-export async function fetchDoc(adocUrl, accept) {
-  return fetch(BACKEND_URL + adocUrl, {
+export async function version() {
+  const path = "/version";
+  return fetch(BACKEND_URL + path, {
     mode: "cors",
     method: "GET",
     headers: {
-      Accept: accept,
+      Accept: "text/html",
     },
   }).then((res) => {
     if (res.ok) return res;
-    throw Error(adocUrl + " failed with " + res.status);
+    throw Error(path + " failed with " + res.status);
   });
 }
