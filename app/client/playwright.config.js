@@ -32,9 +32,7 @@ const config = {
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-action-timeout */
     actionTimeout: 0,
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-base-url */
-    baseURL: process.env.CI
-      ? process.env.CI_ENVIRONMENT_URL
-      : "http://localhost:5000",
+    baseURL: "http://localhost:5000",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-trace */
     trace: "on",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-screenshot */

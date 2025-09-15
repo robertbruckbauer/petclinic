@@ -61,21 +61,26 @@ jobs:
       - name: Build Images
         run: gradle buildImage
 
-      - name: Check Images
-        env:
-          CI_ENVIRONMENT_URL: http://localhost:5000
+      - name: Fetch playwright version
+        id: playwright
         run: |
-          if gradle imageRun; then
-            {
-              sh -xv app/client/build.e2e.sh
-            } && {
-              gradle imageStop
-              exit 0
-            } || {
-              gradle imageStop
-              exit 1
-            }
-          fi
+          version=$(jq -r '.devDependencies["@playwright/test"]' app/client/package.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Cache playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          key: playwright-${{ steps.playwright.outputs.version }}
+          path: |
+            ~/.cache/ms-playwright
+
+      - name: Install playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: sh -xv app/playwright-setup.sh
+
+      - name: Run playwright tests
+        run: sh -xv app/playwright-test.sh
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v4
