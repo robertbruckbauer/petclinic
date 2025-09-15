@@ -145,11 +145,9 @@
                 <td class="px-4" colspan="4">
                   <VisitDiagnose
                     bind:visible={visitEditorUpdate}
-                    on:update={(e) => reloadAllVisit()}
-                    on:remove={(e) => reloadAllVisit()}
-                    {date}
-                    {visit}
+                    onupdate={reloadAllVisit}
                     {allVetItem}
+                    {visit}
                   />
                 </td><td> </td></tr
               >
