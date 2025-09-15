@@ -159,7 +159,7 @@
   function removeOwner(_owner) {
     const text = _owner.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Owner '" + hint + "' wirklich löschen?")) return;
+    if (!confirm("Delete owner '" + hint + "' permanently?")) return;
     removeValue("/api/owner/" + _owner.id)
       .then((json) => {
         console.log(["removeOwner", _owner, json]);

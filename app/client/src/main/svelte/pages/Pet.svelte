@@ -101,7 +101,7 @@
   function removePet(_pet) {
     const text = _pet.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Pet '" + hint + "' wirklich löschen?")) return;
+    if (!confirm("Delete pet '" + hint + "' permanently?")) return;
     removeValue("/api/pet/" + _pet.id)
       .then((json) => {
         console.log(["removePet", _pet, json]);

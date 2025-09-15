@@ -113,7 +113,7 @@
   function removeVet(_vet) {
     const text = _vet.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Vet '" + hint + "' wirklich löschen?")) return;
+    if (!confirm("Delete vet '" + hint + "' permanently?")) return;
     removeValue("/api/vet/" + _vet.id)
       .then((json) => {
         console.log(["removeVet", _vet, json]);

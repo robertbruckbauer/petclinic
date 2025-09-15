@@ -80,9 +80,8 @@
   }
 
   function removeVisit(_visit) {
-    const text = _visit.date + " " + _visit.petItem.text;
-    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Visit '" + hint + "' wirklich löschen?")) return;
+    const hint = _visit.date;
+    if (!confirm("Delete visit at '" + hint + "' permanently?")) return;
     removeValue("/api/visit/" + _visit.id)
       .then((json) => {
         console.log(["removeVisit", _visit, json]);

@@ -97,7 +97,7 @@
   function removeItem(_item) {
     const text = _item.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Enum '" + hint + "' wirklich löschen?")) return;
+    if (!confirm("Delete enum '" + hint + "' permanently?")) return;
     removeValue("/api/enum/" + art + "/" + _item.code)
       .then((json) => {
         console.log(["removeItem", _item, json]);
