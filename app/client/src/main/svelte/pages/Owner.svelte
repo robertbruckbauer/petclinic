@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
   import { loadAllValue } from "../utils/rest.js";
-  import { updatePatch } from "../utils/rest.js";
   import { removeValue } from "../utils/rest.js";
   import Circle from "../components/Spinner";
   import Icon from "../components/Icon";
@@ -91,7 +90,7 @@
   let allOwner = $state([]);
   function onCreateOwner(_owner) {
     allOwner = allOwner.toSpliced(0, 0, _owner);
-  }  
+  }
   function onUpdateOwner(_owner) {
     let index = allOwner.findIndex((e) => e.id === _owner.id);
     if (index > -1) allOwner = allOwner.toSpliced(index, 1, _owner);
@@ -105,7 +104,7 @@
     const _petItem = {
       value: _pet.id,
       text: _pet.species + " '" + _pet.name + "'",
-    }
+    };
     _owner.allPetItem = _owner.allPetItem.toSpliced(0, 0, _petItem);
   }
 
@@ -138,18 +137,6 @@
       });
   }
 
-  function updateOwner(_owner) {
-    updatePatch("/api/owner/" + _owner.id, _owner)
-      .then((json) => {
-        console.log(["updateOwner", _owner, json]);
-        onUpdateOwner(json);
-      })
-      .catch((err) => {
-        console.log(["updateOwner", _owner, err]);
-        toast.push(err.toString());
-      });
-  }
-
   function removeOwner(_owner) {
     const text = _owner.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
@@ -166,9 +153,7 @@
   }
 </script>
 
-<h1 title="Liste der Ownern, ggfs. gefiltert, jedes Element editierbar">
-  Owner
-</h1>
+<h1>Owner</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
   <form onsubmit={onOwnerFilterClicked}>
     <div class="flex flex-row gap-1 items-center pr-2">
@@ -212,7 +197,7 @@
       <tbody>
         {#if ownerEditorCreate}
           <tr>
-            <td class="px-2" colspan="3">
+            <td class="border-l-4 px-2" colspan="3">
               <OwnerEditor
                 bind:visible={ownerEditorCreate}
                 oncreate={onCreateOwner}
@@ -280,14 +265,14 @@
           </tr>
           {#if visitViewer && ownerId === owner.id}
             <tr>
-              <td class="px-4" colspan="3">
+              <td class="px-2" colspan="3">
                 <VisitViewer allVisit={allOwnerVisit} />
               </td>
             </tr>
           {/if}
           {#if petCreateEditor && ownerId === owner.id}
             <tr>
-              <td class="px-4" colspan="3">
+              <td class="px-2" colspan="3">
                 <PetEditor
                   bind:visible={petCreateEditor}
                   on:create={(e) => onCreatePet(owner, e.detail)}

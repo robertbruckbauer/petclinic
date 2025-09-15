@@ -108,9 +108,7 @@
   }
 </script>
 
-<h1 title="Liste der Werte, ggfs. gefiltert, jedes Element editierbar">
-  {art.toUpperCase()}
-</h1>
+<h1>{art.toUpperCase()}</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
   <form onsubmit={onItemFilterClicked}>
     <div class="flex flex-row gap-1 items-center pr-2">
@@ -147,7 +145,7 @@
             <Icon
               onclick={() => onItemEditorCreateClicked()}
               disabled={itemEditorDisabled}
-              title="Wert hinzufügen"
+              title="Add a new item"
               name="add"
               outlined
             />
@@ -157,7 +155,7 @@
       <tbody>
         {#if itemEditorCreate}
           <tr>
-            <td class="px-2" colspan="4">
+            <td class="border-l-4 px-2" colspan="4">
               <EnumEditor
                 bind:visible={itemEditorCreate}
                 oncreate={onCreateItem}
@@ -190,14 +188,14 @@
                 <Icon
                   onclick={() => onItemRemoveClicked(item)}
                   disabled={itemEditorDisabled}
-                  title="Wert löschen"
+                  title="Delete an item"
                   name="delete"
                   outlined
                 />
                 <Icon
                   onclick={() => onItemEditorUpdateClicked(item)}
                   disabled={itemEditorDisabled}
-                  title="Wert bearbeiten"
+                  title="Edit an item"
                   name="edit"
                   outlined
                 />
@@ -219,7 +217,7 @@
           {/if}
         {:else}
           <tr>
-            <td class="px-2" colspan="4">Keine Werte</td>
+            <td class="px-2" colspan="4">No items</td>
           </tr>
         {/each}
       </tbody>

@@ -1,93 +1,98 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
   import { toast } from "../components/Toast";
   import { createValue } from "../utils/rest.js";
   import { updatePatch } from "../utils/rest.js";
-  import { removeValue } from "../utils/rest.js";
   import Button from "../components/Button";
   import Select from "../components/Select";
   import TextField from "../components/TextField";
 
-  export let visible = false;
-  export let pet = undefined;
-  export let ownerId;
-  export let allSpeciesEnum;
+  let {
+    autofocus = true,
+    autoscroll = true,
+    visible = $bindable(false),
+    allSpeciesEnum,
+    ownerId,
+    pet = {},
+    oncancel = undefined,
+    oncreate = undefined,
+    onupdate = undefined,
+  } = $props();
 
-  let showUpdate;
-  let showRemove;
-  let newPet = {
-    name: "",
-    born: null,
-    species: null,
-  };
+  let clicked = $state(false);
+  let focusOn;
+  let bottomDiv;
+  onMount(async () => {
+    console.log(["onMount", autofocus, autoscroll]);
+    if (autofocus) focusOn.focus();
+    if (autoscroll) bottomDiv.scrollIntoView(false);
+  });
 
-  $: if (pet) onChangePet();
-  function onChangePet() {
-    showUpdate = true;
-    showRemove = true;
-    newPet = {
-      id: pet.id,
-      name: pet.name,
-      born: pet.born,
-      species: pet.species,
-    };
-    console.log(["onChangePet", newPet]);
+  let newPetSpecies = $derived(pet.species);
+  let newPetName = $derived(pet.name);
+  let newPetBorn = $derived(pet.born);
+  let newPet = $derived({
+    id: pet.id,
+    version: pet.version,
+    owner: "/api/owner/" + ownerId,
+    species: newPetSpecies,
+    name: newPetName,
+    born: newPetBorn,
+  });
+
+  function handleSubmit(_event) {
+    _event.preventDefault();
+    try {
+      clicked = true;
+      if (pet.id) {
+        updatePet();
+      } else {
+        createPet();
+      }
+    } finally {
+      clicked = false;
+    }
   }
 
-  $: disabled = !newPet.name || !newPet.species;
+  function handleCancel(_event) {
+    _event.preventDefault();
+    visible = false;
+    oncancel?.();
+  }
 
-  const dispatch = createEventDispatcher();
-  function onCreatePet() {
-    newPet.owner = "/api/owner/" + ownerId;
+  function createPet() {
     createValue("/api/pet", newPet)
       .then((json) => {
-        console.log(["onCreatePet", newPet, json]);
+        console.log(["createPet", newPet, json]);
         visible = false;
-        dispatch("create", newPet);
+        oncreate?.(json);
       })
       .catch((err) => {
-        console.log(["onCreatePet", newPet, err]);
+        console.log(["createPet", newPet, err]);
         toast.push(err.toString());
       });
   }
-  function onUpdatePet() {
-    newPet.owner = "/api/owner/" + ownerId;
+
+  function updatePet() {
     updatePatch("/api/pet" + "/" + newPet.id, newPet)
       .then((json) => {
-        console.log(["onUpdatePet", newPet, json]);
+        console.log(["updatePet", newPet, json]);
         visible = false;
-        dispatch("update", newPet);
+        onupdate?.(json);
       })
       .catch((err) => {
-        console.log(["onUpdatePet", newPet, err]);
+        console.log(["updatePet", newPet, err]);
         toast.push(err.toString());
       });
-  }
-  function onRemovePet() {
-    const text = newPet.name;
-    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Really delete '" + hint + "'?")) return;
-    removeValue("/api/pet" + "/" + newPet.id)
-      .then(() => {
-        console.log(["onRemovePet", newPet]);
-        visible = false;
-        dispatch("remove", newPet);
-      })
-      .catch((err) => {
-        console.log(["onRemovePet", newPet, err]);
-        toast.push(err.toString());
-      });
-  }
-  function onCancel() {
-    visible = false;
   }
 </script>
 
-<div class="flex flex-col">
-  <div class="flex flex-col lg:flex-row gap-1">
+<form onsubmit={handleSubmit}>
+  <div class="flex flex-col gap-1">
     <div class="w-full lg:w-1/4">
       <Select
-        bind:value={newPet.species}
+        bind:this={focusOn}
+        bind:value={newPetSpecies}
         valueGetter={(v) => v?.value}
         allItem={allSpeciesEnum}
         label="Species"
@@ -96,35 +101,35 @@
     </div>
     <div class="w-full lg:w-2/4">
       <TextField
-        bind:value={newPet.name}
+        bind:value={newPetName}
         label="Name"
         placeholder="Insert a name"
       />
     </div>
     <div class="w-full lg:w-1/4">
       <TextField
-        bind:value={newPet.born}
+        bind:value={newPetBorn}
         type="date"
         label="Born"
         placeholder="Insert a date"
       />
     </div>
   </div>
-</div>
+  <div class="py-4 flex flex-row gap-1 items-baseline">
+    <div class="flex-initial">
+      <Button type="submit">Ok</Button>
+    </div>
+    <div class="flex-initial">
+      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
+    </div>
+  </div>
+</form>
 
-<div class="py-4">
-  {#if showUpdate}
-    <Button onclick={() => onUpdatePet()} {disabled}>Ok</Button>
-  {:else}
-    <Button onclick={() => onCreatePet()} {disabled}>Ok</Button>
-  {/if}
-  {#if showRemove}
-    <Button onclick={() => onRemovePet()}>Löschen</Button>
-  {/if}
-  <Button onclick={() => onCancel()}>Abbrechen</Button>
-</div>
+<div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 
-<details>
-  <summary>JSON</summary>
-  <pre>{JSON.stringify(newPet, null, 2)}</pre>
-</details>
+{#if import.meta.env.DEV}
+  <details tabindex="-1">
+    <summary>JSON</summary>
+    <pre>{JSON.stringify(newPet, null, 2)}</pre>
+  </details>
+{/if}
