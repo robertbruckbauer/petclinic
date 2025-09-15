@@ -9,7 +9,7 @@ export class VetPage {
   }
 
   path = "/vet";
-  name = chance.word({ syllables: 3 });
+  vetName = chance.word({ syllables: 3 });
 
   async goto() {
     await this.page.goto("/");
@@ -20,23 +20,37 @@ export class VetPage {
 
   async createVet() {
     await expect(this.page).toHaveURL(this.path);
-    await this.page.getByRole("button", { name: "Add a new vet" }).click();
+    const row = this.page.locator("th");
+    const addButton = row.getByRole("button", { name: "add", exact: true });
+    await expect(addButton).toBeEnabled();
+    await addButton.click();
     const nameField = this.page.getByRole("textbox", { name: "Name" });
     await nameField.click();
-    await nameField.fill(this.name);
+    await nameField.fill(this.vetName);
     await nameField.press("Tab");
     const skillsSelect = this.page.getByLabel("Skills");
     await skillsSelect.selectOption("Radiology");
-    await this.page.getByRole("button", { name: "Ok" }).click();
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
   }
 
   async deleteVet() {
+    await this.page.once("dialog", (dialog) => dialog.accept());
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
-    await filterInput.fill(this.name);
+    await filterInput.fill(this.vetName);
     await filterInput.press("Enter");
-    await this.page.getByRole("button", { name: "Edit vet details" }).click();
-    await this.page.once("dialog", (dialog) => dialog.accept());
-    await this.page.getByRole("button", { name: "Löschen" }).click();
+    const row = this.page
+      .getByRole("table")
+      .getByRole("row")
+      .filter({ hasText: this.vetName });
+    await row.waitFor({ state: "visible" });
+    const deleteButton = row.getByRole("button", {
+      name: "delete",
+      exact: true,
+    });
+    await expect(deleteButton).toBeEnabled();
+    await deleteButton.click();
   }
 }

@@ -1,84 +1,88 @@
-<script>
-  import { createEventDispatcher, tick } from "svelte";
-  const dispatch = createEventDispatcher();
-  import filterProps from "../filterProps.js";
-  const props = filterProps(
-    [
-      "allItem",
-      "disabled",
-      "label",
-      "nullable",
-      "title",
-      "value",
-      "valueGetter",
-    ],
-    $$props
-  );
-  export let allItem;
-  export let disabled = false;
-  export let label = undefined;
-  export let nullable = false;
-  export let title = undefined;
-  export let value;
-  export let valueGetter = undefined;
+<script lang="ts">
+  let {
+    allItem,
+    disabled = false,
+    label = undefined,
+    nullable = false,
+    title = undefined,
+    value = $bindable(),
+    valueGetter = undefined,
+    onchange = undefined,
+    onfocus = undefined,
+    onblur = undefined,
+    ...elementProps
+  } = $props();
 
-  let _focused;
-  let _element;
+  let element;
   export function focus() {
-    _element.focus();
+    element?.focus();
   }
 
-  $: _primitive =
-    allItem.slice(0, 1).findIndex((e) => typeof e !== "object") !== -1;
+  let elementIsFocused = $state(false);
+  function handleFocus(_event: FocusEvent) {
+    elementIsFocused = true;
+    onfocus?.(_event);
+  }
+  function handleBlur(_event: FocusEvent) {
+    elementIsFocused = false;
+    onblur?.(_event);
+  }
 
-  $: _allItemIndexed = allItem.map((e, i) => itemMapper(e, i));
-  function itemMapper(e, i) {
-    if (_primitive) {
+  const itemIsPrimitive = $derived(
+    allItem.slice(0, 1).findIndex((e: any) => typeof e !== "object") !== -1
+  );
+
+  function valueMapper(_item: any) {
+    if (typeof _item?.value !== "object") {
+      return _item?.value;
+    } else {
+      return _item?.value ? JSON.stringify(_item.value) : null;
+    }
+  }
+
+  const allItemIndexed = $derived(allItem.map(itemMapper));
+  function itemMapper(_value: any, _index: number) {
+    if (itemIsPrimitive) {
       return {
-        value: e,
-        text: e,
+        value: _value,
+        text: _value,
       };
     } else {
       return {
-        value: i,
-        text: e.text,
+        value: _index,
+        text: _value.text,
       };
     }
   }
 
-  $: _itemSelected = itemSelected(value);
-  function itemSelected(v) {
-    if (_primitive) {
-      return v;
+  const itemSelected = $derived(itemSelector(value));
+  function itemSelector(_value: any) {
+    if (itemIsPrimitive) {
+      return _value;
     } else {
       if (typeof valueGetter === "function") {
-        return allItem.findIndex((e) => valueGetter(e) === v);
+        return allItem.findIndex((e: any) => valueGetter(e) === _value);
       } else {
-        return allItem.findIndex((e) => itemString(e) === itemString(v));
+        return allItem.findIndex(
+          (e: any) => valueMapper(e) === valueMapper(_value)
+        );
       }
-    }
-  }
-  function itemString(item) {
-    if (typeof item?.value !== "object") {
-      return item?.value;
-    } else {
-      return item?.value ? JSON.stringify(item.value) : null;
     }
   }
 
-  async function onChange({ target }) {
-    if (_primitive) {
-      value = target.value || null;
+  function handleChange(_event: Event) {
+    const _target = _event.target as HTMLSelectElement;
+    if (itemIsPrimitive) {
+      value = _target.value || null;
     } else {
-      const item = target.value ? allItem[target.value] : {};
+      const _item = _target.value ? allItem[_target.value] : {};
       if (typeof valueGetter === "function") {
-        value = valueGetter(item);
+        value = valueGetter(_item);
       } else {
-        value = item;
+        value = _item;
       }
     }
-    await tick();
-    await dispatch("change", value);
+    onchange?.(_event);
   }
 </script>
 
@@ -87,38 +91,31 @@
     <span
       {title}
       class="px-4 pt-2 text-xs absolute left-0 top-0"
-      class:text-label-600={!_focused}
-      class:text-primary-500={_focused}
+      class:text-label-600={!elementIsFocused}
+      class:text-primary-500={elementIsFocused}
     >
       {label}
     </span>
   {/if}
   <select
-    bind:this={_element}
-    {...props}
+    bind:this={element}
+    {...elementProps}
     {title}
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100"
     class:pt-6={label}
-    class:border-0={!_focused}
+    class:border-0={!elementIsFocused}
     class:border-b={label}
     aria-label={label}
-    value={_itemSelected}
-    on:change={onChange}
-    on:input
-    on:keydown
-    on:keypress
-    on:keyup
-    on:click
-    on:focus={() => (_focused = true)}
-    on:focus
-    on:blur={() => (_focused = false)}
-    on:blur
+    value={itemSelected}
+    onchange={handleChange}
+    onfocus={handleFocus}
+    onblur={handleBlur}
   >
     {#if nullable}
       <option value={null}>&nbsp;</option>
     {/if}
-    {#each _allItemIndexed as item}
+    {#each allItemIndexed as item}
       <option value={item.value}>{item.text}</option>
     {/each}
   </select>
