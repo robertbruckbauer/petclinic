@@ -1,18 +1,17 @@
 <script>
+  import * as restApi from "./utils/rest.js";
   import { onMount } from "svelte";
   import { toast } from "./components/Toast";
-  import { fetchDoc } from "./utils/rest.js";
 
-  import { apiExplorerUrl } from "./utils/rest.js";
-  let apiExplorer = apiExplorerUrl();
+  let apiExplorer = restApi.apiExplorerUrl();
 
-  import { apiGraphiqlUrl } from "./utils/rest.js";
-  let apiGraphiql = apiGraphiqlUrl();
+  let apiGraphiql = restApi.apiGraphiqlUrl();
 
-  let versionUrl = "/version";
-  let versionHtml = "loading ..";
+  let versionHtml = "<span>loading ..</span>";
+
   onMount(async () => {
-    fetchDoc(versionUrl, "text/html")
+    restApi
+      .version()
       .then((res) => res.text())
       .then((html) => {
         versionHtml = html;

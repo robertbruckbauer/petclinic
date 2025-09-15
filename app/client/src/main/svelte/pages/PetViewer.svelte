@@ -1,7 +1,7 @@
 <script>
+  import * as restApi from "../utils/rest.js";
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
-  import { loadOneValue } from "../utils/rest.js";
 
   export let id;
 
@@ -11,7 +11,7 @@
 
   onMount(async () => {
     try {
-      pet = await loadOneValue("/api/pet/" + id);
+      pet = await restApi.loadOneValue("/api/pet/" + id);
       console.log(["onMount", pet]);
     } catch (err) {
       console.log(["onMount", err]);

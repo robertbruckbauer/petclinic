@@ -1,83 +1,112 @@
 <script>
+  import * as restApi from "../utils/rest.js";
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
-  import { loadAllValue } from "../utils/rest.js";
-  import { mapify } from "../utils/list.js";
+  import Circle from "../components/Spinner";
   import Icon from "../components/Icon";
-  import Select from "../components/Select";
   import VisitDiagnose from "./VisitDiagnose.svelte";
 
-  let allVisit = [];
-  let visitId = undefined;
-  function onVisitClicked(visit) {
-    visitId = visit.id;
-  }
-
-  let visitEditorUpdate = false;
-  $: visitEditorDisabled = visitEditorUpdate;
-  function visitEditorUpdateClicked(visit) {
-    visitId = visit.id;
-    visitEditorUpdate = true;
-  }
-
-  let allVetItem = [];
-  function vetToVetItem(vet) {
-    return {
-      value: vet.id,
-      text: vet.name,
-    };
-  }
-
-  let allSpeciesEnum = [];
-
+  let allVetItem = $state([]);
+  let allSpeciesEnum = $state([]);
+  let loading = $state(true);
   onMount(async () => {
     try {
-      allVetItem = await loadAllValue("/api/vet?sort=name,asc");
-      allVetItem = allVetItem.map(vetToVetItem);
+      loading = true;
+      allVetItem = await restApi.loadAllValue("/api/vet?sort=name,asc");
+      allVetItem = allVetItem.map((e) => ({}));
       console.log(["onMount", allVetItem]);
-      allSpeciesEnum = await loadAllValue("/api/enum/species");
+      allSpeciesEnum = await restApi.loadAllValue("/api/enum/species");
       allSpeciesEnum = allSpeciesEnum.map((e) => ({
-        value: e.value,
+        value: e.id,
         text: e.name,
       }));
       console.log(["onMount", allSpeciesEnum]);
+      loadAllVisit();
     } catch (err) {
       console.log(["onMount", err]);
       toast.push(err.toString());
+    } finally {
+      loading = false;
     }
-    reloadAllVisit();
   });
 
-  let filterPrefix = null;
-  $: allVisitFiltered = filterVisit(filterPrefix, allVisit);
-  function filterVisit(prefix, allValue) {
-    if (!filterPrefix) return allValue;
-    return allValue.filter((e) => {
-      for (const s of e.petItem.text.split(" ")) {
-        if (s.toLowerCase().startsWith(prefix.toLowerCase())) {
-          return true;
-        }
-      }
-      return false;
-    });
+  let visitId = $state();
+  function onVisitClicked(_visit) {
+    visitId = _visit.id;
+  }
+  function onVisitRemoveClicked(_visit) {
+    visitId = _visit.id;
+    removeVisit(_visit);
   }
 
-  $: allVisitByDate = mapify(allVisitFiltered, visitKey, visitCompare);
-  function visitKey(e) {
-    return e.date;
-  }
-  function visitCompare(e1, e2) {
-    return e1.id.localeCompare(e2.id);
+  let visitEditorUpdate = $state(false);
+  function onVisitEditorUpdateClicked(_visit) {
+    visitId = _visit.id;
+    visitEditorUpdate = true;
   }
 
-  function reloadAllVisit() {
-    loadAllValue("/api/visit?sort=date,desc")
+  const visitEditorDisabled = $derived(visitEditorUpdate);
+
+  let allVisit = $state([]);
+  function onCreateVisit(_visit) {
+    allVisit = allVisit.toSpliced(0, 0, _visit).sort(dateComparator);
+  }
+  function onUpdateVisit(_visit) {
+    let index = allVisit.findIndex((e) => e.id === _visit.id);
+    if (index > -1) {
+      allVisit = allVisit.toSpliced(index, 1, _visit).sort(dateComparator);
+    }
+  }
+  function onRemoveVisit(_visit) {
+    let index = allVisit.findIndex((e) => e.id === _visit.id);
+    if (index > -1) {
+      allVisit = allVisit.toSpliced(index, 1);
+    }
+  }
+
+  /**
+   * Start swimlane if the date changes
+   * in a date ordered array.
+   *
+   * @param _index from #each
+   */
+  function isSwimlaneChange(_index) {
+    if (_index) {
+      return allVisit[_index - 1].date !== allVisit[_index].date;
+    } else {
+      return true;
+    }
+  }
+
+  /**
+   * Comparator for a date ordered array.
+   */
+  const dateComparator = (e1, e2) => e1.date.localeCompare(e2.date);
+
+  function loadAllVisit() {
+    restApi
+      .loadAllValue("/api/visit?sort=date,desc")
       .then((json) => {
-        console.log(["reloadAllVisit", json]);
-        allVisit = json;
+        console.log(["loadAllVisit", json]);
+        allVisit = json.sort(dateComparator);
       })
       .catch((err) => {
-        console.log(["reloadAllVisit", err]);
+        console.log(["loadAllVisit", err]);
+        toast.push(err.toString());
+      });
+  }
+
+  function removeVisit(_visit) {
+    const hint = _visit.date;
+    if (!confirm("Delete visit at '" + hint + "' permanently?")) return;
+    restApi
+      .removeValue("/api/visit/" + _visit.id)
+      .then((json) => {
+        console.log(["removeVisit", _visit, json]);
+        loadAllVisit();
+      })
+      .catch((err) => {
+        console.log(["removeVisit", _visit, err]);
         toast.push(err.toString());
       });
   }
@@ -85,84 +114,88 @@
 
 <h1>Visit</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <div class="flex-grow">
-    <Select
-      bind:value={filterPrefix}
-      valueGetter={(v) => v?.value}
-      allItem={allSpeciesEnum}
-      disabled={visitEditorDisabled}
-      nullable
-      label="Filter"
-      placeholder="Choose species"
-    />
-  </div>
-  <div class="flex-grow">
-    {#each [...allVisitByDate] as [date, allVisitOfDate], i}
-      <h4>{date} <small>({allVisitOfDate.length})</small></h4>
-      <table class="table-fixed">
-        <thead class="justify-between">
-          <tr class="bg-gray-100">
-            <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-2/6">
-              <span class="text-gray-600">Owner</span>
-            </th>
-            <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-2/6">
-              <span class="text-gray-600">Pet</span>
-            </th>
-            <th class="px-2 py-3 border-b-2 border-gray-300 text-left w-2/6">
-              <span class="text-gray-600">Vet</span>
-            </th>
-            <th class="px-2 py-3 border-b-2 border-gray-300 w-16"> </th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each allVisitOfDate as visit}
-            <tr
-              on:click={(e) => onVisitClicked(visit)}
-              title={visit.id}
-              class:ring={visitId === visit.id}
-            >
-              <td class="px-2 py-3 text-left">
-                {visit.ownerItem.text}
+  {#if loading}
+    <div class="h-screen flex justify-center items-center">
+      <Circle size="60" unit="px" duration="1s" />
+    </div>
+  {:else}
+    <table class="table-fixed">
+      <thead class="justify-between">
+        <tr class="bg-title-200">
+          <th class="px-2 py-3 text-left w-2/6 table-cell">
+            <span class="text-gray-600">Owner</span>
+          </th>
+          <th class="px-2 py-3 text-left w-2/6 table-cell">
+            <span class="text-gray-600">Pet</span>
+          </th>
+          <th class="px-2 py-3 text-left w-2/6 table-cell">
+            <span class="text-gray-600">Vet</span>
+          </th>
+          <th class="px-2 py-3 w-16"> </th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each allVisit as visit, i}
+          {#if isSwimlaneChange(i)}
+            <tr class="bg-gray-100">
+              <td class="px-2 py-3" colspan="4">
+                <span class="h-5 text-center text-xl">{visit.date}</span>
               </td>
-              <td class="px-2 py-3 text-left">
-                {visit.petItem.text}
-              </td>
-              <td class="px-2 py-3 text-left">
-                {visit.vetItem.text}
-              </td>
-              <td class="px-2 py-3">
+            </tr>
+          {/if}
+          <tr
+            onclick={(e) => onVisitClicked(visit)}
+            title={visit.id}
+            class:border-l-2={visitId === visit.id}
+          >
+            <td class="px-2 py-3 text-left table-cell">
+              {visit.ownerItem.text}
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              {visit.petItem.text}
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              {visit.vetItem.text}
+            </td>
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
+              >
                 <Icon
-                  on:click={() => visitEditorUpdateClicked(visit)}
+                  onclick={() => onVisitRemoveClicked(visit)}
+                  title="Delete a visit"
+                  disabled={visitEditorDisabled}
+                  name="delete"
+                  outlined
+                />
+                <Icon
+                  onclick={() => onVisitEditorUpdateClicked(visit)}
                   title="Edit visit details"
                   disabled={visitEditorDisabled}
                   name="edit"
                   outlined
                 />
+              </div>
+            </td>
+          </tr>
+          {#if visitEditorUpdate && visitId === visit.id}
+            <tr>
+              <td class="border-l-4 px-4" colspan="4">
+                <VisitDiagnose
+                  bind:visible={visitEditorUpdate}
+                  onupdate={loadAllVisit}
+                  {allVetItem}
+                  {visit}
+                />
               </td>
             </tr>
-            {#if visitEditorUpdate && visitId === visit.id}
-              <tr>
-                <td class="px-4" colspan="4">
-                  <VisitDiagnose
-                    bind:visible={visitEditorUpdate}
-                    on:update={(e) => reloadAllVisit()}
-                    on:remove={(e) => reloadAllVisit()}
-                    {date}
-                    {visit}
-                    {allVetItem}
-                  />
-                </td><td> </td></tr
-              >
-            {/if}
-          {:else}
-            <tr>
-              <td class="px-2 py-3" colspan="4"> No visits </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    {:else}
-      No visits
-    {/each}
-  </div>
+          {/if}
+        {:else}
+          <tr>
+            <td class="px-2 py-3" colspan="4">No visits</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  {/if}
 </div>

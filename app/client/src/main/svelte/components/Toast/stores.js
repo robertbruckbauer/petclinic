@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
 const defaults = {
-  duration: 10000,
+  duration: 60000,
   initial: 1,
   next: 0,
   dismissable: true,

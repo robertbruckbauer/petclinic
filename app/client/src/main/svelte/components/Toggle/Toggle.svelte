@@ -1,74 +1,88 @@
-<script>
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
-  import filterProps from "../filterProps.js";
-  const props = filterProps(
-    ["allItem", "allValue", "disabled", "label", "title"],
-    $$props
-  );
-  export let allItem;
-  export let allValue;
-  export let disabled = false;
-  export let label = undefined;
-  export let title = undefined;
-  let focused;
+<script lang="ts">
+  let {
+    allItem,
+    allValue = $bindable(),
+    disabled = false,
+    label = undefined,
+    title = undefined,
+    onchange = undefined,
+    onfocus = undefined,
+    onblur = undefined,
+    ...elementProps
+  } = $props();
+
   let element;
   export function focus() {
-    element.focus();
+    element?.focus();
   }
 
-  $: allValueProcessed = allValue.map(processValue);
-  function processValue(value) {
-    if (typeof value !== "object") {
-      return value;
+  let elementIsFocused = $state(false);
+  function handleFocus(_event: FocusEvent) {
+    elementIsFocused = true;
+    onfocus?.(_event);
+  }
+  function handleBlur(_event: FocusEvent) {
+    elementIsFocused = false;
+    onblur?.(_event);
+  }
+
+  const allValueProcessed = $derived(allValue.map(valueMapper));
+  function valueMapper(_value: any) {
+    if (typeof _value !== "object") {
+      return _value;
     } else {
-      return value ? JSON.stringify(value) : null;
+      return _value ? JSON.stringify(_value) : null;
     }
   }
 
-  $: allItemProcessed = allItem.map(processItem);
-  function processItem(item) {
-    if (typeof item !== "object") {
+  const allItemProcessed = $derived(allItem.map(itemMapper));
+  function itemMapper(_item: any) {
+    if (typeof _item !== "object") {
       return {
-        value: item,
-        text: item,
+        value: _item,
+        text: _item,
       };
     } else {
       return {
-        value: processValue(item.value),
-        text: item.text,
+        value: valueMapper(_item.value),
+        text: _item.text,
       };
     }
   }
 
-  function onChange({ target }) {
-    let item = allItem[target.selectedIndex];
-    let itemProcessed = allItemProcessed[target.selectedIndex];
-    let itemIndex = allValueProcessed.findIndex(
-      (e) => e === itemProcessed.value
+  function handleChange(_event: Event) {
+    const _target = _event.target as HTMLSelectElement;
+    let _item = allItem[_target.selectedIndex];
+    let _itemProcessed = allItemProcessed[_target.selectedIndex];
+    let _itemIndex = allValueProcessed.findIndex(
+      (e: any) => e === _itemProcessed.value
     );
-    if (itemIndex === -1) {
-      if (typeof item !== "object") {
-        allValue.push(item);
+    if (_itemIndex === -1) {
+      if (typeof _item !== "object") {
+        allValue = allValue.toSpliced(0, 0, _item);
       } else {
-        allValue.push(item.value);
+        allValue = allValue.toSpliced(0, 0, _item.value);
       }
     } else {
-      allValue.splice(itemIndex, 1);
+      allValue = allValue.toSpliced(_itemIndex, 1);
     }
-    // Assign for reactivity
-    allValue = allValue;
-    dispatch("change", allValue);
+    // The value is the whole array as a csv string
+    // The value always differs from the element value
+    element.value = JSON.stringify(allValue);
+    onchange?.(_event);
   }
 
-  function onKey(e) {
-    if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
-      e.preventDefault();
+  const allKeyIgnore = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+  const allKeyDelete = ["Backspace", "Delete"];
+  function handleKeydown(_event: KeyboardEvent) {
+    if (allKeyIgnore.includes(_event.key)) {
+      _event.preventDefault();
       return;
     }
-    if (["Backspace", "Delete"].includes(e.key)) {
+    if (allKeyDelete.includes(_event.key)) {
+      _event.preventDefault();
       allValue.pop();
-      // Assign for reactivity
+      // Trigger reactivity
       allValue = allValue;
       return;
     }
@@ -83,8 +97,8 @@
       <span
         {title}
         class="text-xs"
-        class:text-label-600={!focused}
-        class:text-primary-500={focused}
+        class:text-label-600={!elementIsFocused}
+        class:text-primary-500={elementIsFocused}
       >
         {label}
       </span>
@@ -93,7 +107,10 @@
       {#each allValueProcessed as value}
         {@const item = allItemProcessed.find((e) => e.value === value)}
         {#if item}
-          <span {title} class="px-1 text-xs text-white bg-primary-500 rounded">
+          <span
+            title={item.text}
+            class="px-1 text-xs text-white bg-primary-500 rounded"
+          >
             {item.text}
           </span>
         {/if}
@@ -102,26 +119,19 @@
   </div>
   <select
     bind:this={element}
-    {...props}
+    {...elementProps}
     {title}
     {disabled}
     class="disabled:opacity-50 w-full px-4 text-black bg-gray-100 text-transparent"
     class:pt-6={label}
-    class:border-0={!focused}
+    class:border-0={!elementIsFocused}
     class:border-b={label}
     aria-label={label}
-    value="null"
-    on:change={onChange}
-    on:input
-    on:keydown={onKey}
-    on:keypress
-    on:keyup
-    on:keyup
-    on:click
-    on:focus={() => (focused = true)}
-    on:focus
-    on:blur={() => (focused = false)}
-    on:blur
+    value={null}
+    onchange={handleChange}
+    onkeydown={handleKeydown}
+    onfocus={handleFocus}
+    onblur={handleBlur}
   >
     {#each allItemProcessed as item}
       <option class="text-black" value={item.value}>
