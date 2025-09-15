@@ -36,10 +36,12 @@
   let itemEditorCreate = $state(false);
   function onItemEditorCreateClicked() {
     itemEditorCreate = true;
+    itemEditorUpdate = false;
   }
 
   let itemEditorUpdate = $state(false);
   function onItemEditorUpdateClicked(_item) {
+    itemEditorCreate = false;
     itemEditorUpdate = true;
     itemCode = _item.code;
   }

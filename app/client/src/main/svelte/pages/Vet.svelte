@@ -29,23 +29,25 @@
   });
 
   let vetId = $state();
-  function onVetClicked(vet) {
-    vetId = vet.id;
+  function onVetClicked(_vet) {
+    vetId = _vet.id;
   }
-  function onVetRemoveClicked(vet) {
-    vetId = vet.id;
-    removeVet(vet);
+  function onVetRemoveClicked(_vet) {
+    vetId = _vet.id;
+    removeVet(_vet);
   }
 
   let vetEditorCreate = $state(false);
   function onVetEditorCreateClicked() {
     vetEditorCreate = true;
+    vetEditorUpdate = false;
   }
 
   let vetEditorUpdate = $state(false);
-  function onVetEditorUpdateClicked(vet) {
-    vetId = vet.id;
+  function onVetEditorUpdateClicked(_vet) {
+    vetId = _vet.id;
     vetEditorUpdate = true;
+    vetEditorCreate = false;
   }
 
   let vetEditorDisabled = $derived(vetEditorCreate || vetEditorUpdate);
@@ -204,7 +206,7 @@
               >
                 <Icon
                   onclick={() => onVetRemoveClicked(vet)}
-                  disabled={vetEditorDisabled || vet.aktiv}
+                  disabled={vetEditorDisabled}
                   title="Vet löschen"
                   name="delete"
                   outlined

@@ -49,17 +49,23 @@
   let petEditorCreate = $state(false);
   function onPetEditorCreateClicked() {
     petEditorCreate = true;
+    petEditorUpdate = false;
+    visitEditorCreate = false;
   }
 
   let petEditorUpdate = $state(false);
   function onPetEditorUpdateClicked(_pet) {
     petId = _pet.id;
+    petEditorCreate = false;
     petEditorUpdate = true;
+    visitEditorCreate = false;
   }
 
   let visitEditorCreate = $state(false);
   function onVisitEditorCreateClicked(_pet) {
     petId = _pet.id;
+    petEditorCreate = false;
+    petEditorUpdate = false;
     visitEditorCreate = true;
   }
 

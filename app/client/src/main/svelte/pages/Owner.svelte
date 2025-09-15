@@ -8,13 +8,20 @@
   import TextField from "../components/TextField";
   import OwnerEditor from "./OwnerEditor.svelte";
   import PetEditor from "./PetEditor.svelte";
-  import VisitViewer from "./VisitViewer.svelte";
+  import VisitCardLister from "./VisitCardLister.svelte";
 
+  let allVetItem = $state([]);
   let allSpeciesEnum = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
+      allVetItem = await loadAllValue("/api/owner?sort=name,asc");
+      allVetItem = allVetItem.map((e) => ({
+        value: e.id,
+        text: e.name,
+      }));
+      console.log(["onMount", allVetItem]);
       allSpeciesEnum = await loadAllValue("/api/enum/species");
       allSpeciesEnum = allSpeciesEnum.map((e) => ({
         value: e.value,
@@ -33,7 +40,6 @@
   let ownerId = $state();
   function onOwnerClicked(_owner) {
     ownerId = _owner.id;
-    loadAllVisit();
   }
   function onOwnerRemoveClicked(_owner) {
     ownerId = _owner.id;
@@ -43,25 +49,38 @@
   let ownerEditorCreate = $state(false);
   function onOwnerEditorCreateClicked() {
     ownerEditorCreate = true;
+    ownerEditorUpdate = false;
+    visitLister = false;
+    petCreateEditor = false;
   }
 
   let ownerEditorUpdate = $state(false);
   function onOwnerEditorUpdateClicked(_owner) {
     ownerId = _owner.id;
+    ownerEditorCreate = false;
     ownerEditorUpdate = true;
+    visitLister = false;
+    petCreateEditor = false;
   }
 
-  let visitViewer = $state(false);
+  let visitLister = $state(false);
   function onVisitListerClicked(_owner) {
     ownerId = _owner.id;
-    visitViewer = !visitViewer;
+    ownerEditorCreate = false;
+    ownerEditorUpdate = false;
+    visitLister = !visitLister;
+    petCreateEditor = false;
+    if (visitLister) loadAllVisit();
   }
 
   let petCreateEditor = $state(false);
   function onPetCreateEditorClicked(_owner) {
     ownerId = _owner.id;
+    ownerEditorCreate = false;
+    ownerEditorUpdate = false;
+    visitLister = false;
     petCreateEditor = true;
-    visitViewer = false;
+    visitLister = false;
   }
 
   let ownerEditorDisabled = $derived(
@@ -248,7 +267,7 @@
                 />
                 <Icon
                   onclick={() => onOwnerRemoveClicked(owner)}
-                  disabled={ownerEditorDisabled || owner.aktiv}
+                  disabled={ownerEditorDisabled}
                   title="Delete an owner"
                   name="delete"
                   outlined
@@ -263,19 +282,19 @@
               </div>
             </td>
           </tr>
-          {#if visitViewer && ownerId === owner.id}
+          {#if visitLister && ownerId === owner.id}
             <tr>
-              <td class="px-2" colspan="3">
-                <VisitViewer allVisit={allOwnerVisit} />
+              <td class="border-l-4 px-2" colspan="3">
+                <VisitCardLister allVisit={allOwnerVisit} />
               </td>
             </tr>
           {/if}
           {#if petCreateEditor && ownerId === owner.id}
             <tr>
-              <td class="px-2" colspan="3">
+              <td class="border-l-4 px-2" colspan="3">
                 <PetEditor
                   bind:visible={petCreateEditor}
-                  on:create={(e) => onCreatePet(owner, e.detail)}
+                  oncreate={(pet) => onCreatePet(owner, pet)}
                   {allSpeciesEnum}
                   ownerId={owner.id}
                 />
