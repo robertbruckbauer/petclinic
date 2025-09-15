@@ -91,7 +91,7 @@
   let allOwner = $state([]);
   function onCreateOwner(_owner) {
     allOwner = allOwner.toSpliced(0, 0, _owner);
-  }
+  }  
   function onUpdateOwner(_owner) {
     let index = allOwner.findIndex((e) => e.id === _owner.id);
     if (index > -1) allOwner = allOwner.toSpliced(index, 1, _owner);
@@ -100,11 +100,13 @@
     let index = allOwner.findIndex((e) => e.id === _owner.id);
     if (index > -1) allOwner = allOwner.toSpliced(index, 1);
   }
+
   function onCreatePet(_owner, _pet) {
-    _owner.allPetItem.push({
+    const _petItem = {
       value: _pet.id,
       text: _pet.species + " '" + _pet.name + "'",
-    });
+    }
+    _owner.allPetItem = _owner.allPetItem.toSpliced(0, 0, _petItem);
   }
 
   function loadAllOwner() {
@@ -121,15 +123,14 @@
       });
   }
 
-  let allVisit = $state([]);
-
+  let allOwnerVisit = $state([]);
   function loadAllVisit() {
     const query = "?sort=date,desc&pet.owner.id=" + ownerId;
     loadAllValue("/api/visit" + query)
       .then((json) => {
         const msg = import.meta.env.DEV ? json : json.length;
         console.log(["loadAllVisit", query, msg]);
-        allVisit = json;
+        allOwnerVisit = json;
       })
       .catch((err) => {
         console.log(["loadAllVisit", query, err]);
@@ -201,7 +202,7 @@
             <Icon
               onclick={() => onOwnerEditorCreateClicked()}
               disabled={ownerEditorDisabled}
-              title="Owner hinzufügen"
+              title="Add a new owner"
               name="add"
               outlined
             />
@@ -263,14 +264,14 @@
                 <Icon
                   onclick={() => onOwnerRemoveClicked(owner)}
                   disabled={ownerEditorDisabled || owner.aktiv}
-                  title="Owner löschen"
+                  title="Delete an owner"
                   name="delete"
                   outlined
                 />
                 <Icon
                   onclick={() => onOwnerEditorUpdateClicked(owner)}
                   disabled={ownerEditorDisabled}
-                  title="Owner bearbeiten"
+                  title="Edit an owner"
                   name="edit"
                   outlined
                 />
@@ -280,13 +281,13 @@
           {#if visitViewer && ownerId === owner.id}
             <tr>
               <td class="px-4" colspan="3">
-                <VisitViewer {allVisit} />
+                <VisitViewer allVisit={allOwnerVisit} />
               </td>
             </tr>
           {/if}
           {#if petCreateEditor && ownerId === owner.id}
             <tr>
-              <td class="px-4" colspan="6">
+              <td class="px-4" colspan="3">
                 <PetEditor
                   bind:visible={petCreateEditor}
                   on:create={(e) => onCreatePet(owner, e.detail)}
@@ -309,7 +310,7 @@
           {/if}
         {:else}
           <tr>
-            <td class="px-2" colspan="3">Keine Ownern</td>
+            <td class="px-2" colspan="3">No owners</td>
           </tr>
         {/each}
       </tbody>
