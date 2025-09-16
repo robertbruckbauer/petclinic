@@ -29,7 +29,7 @@ public class EnumRestController {
     }
 
     @PostMapping(&quot;/enum/{art}&quot;)
-    public ResponseEntity&lt;EnumItem&gt; createOf(@PathVariable final String art, @RequestBody final EnumItem body) {
+    public ResponseEntity&lt;EnumItem&gt; createEnum(@PathVariable final String art, @RequestBody final EnumItem body) {
 <span class="fc" id="L33">        final var value = enumRepository.save(</span>
 <span class="fc" id="L34">                Enum.parseJson(&quot;{}&quot;)</span>
 <span class="fc" id="L35">                        .setArt(art)</span>
@@ -40,7 +40,7 @@ public class EnumRestController {
     }
 
     @PutMapping(&quot;/enum/{art}/{code}&quot;)
-    public ResponseEntity&lt;EnumItem&gt; updateOf(@PathVariable final String art, @PathVariable final Long code, @RequestBody final EnumItem body) {
+    public ResponseEntity&lt;EnumItem&gt; updateEnum(@PathVariable final String art, @PathVariable final Long code, @RequestBody final EnumItem body) {
 <span class="fc" id="L44">        final var value = enumRepository.save(</span>
 <span class="fc" id="L45">                enumRepository.findByCode(art, code)</span>
 <span class="fc" id="L46">                        .orElseThrow(() -&gt;</span>
@@ -48,6 +48,15 @@ public class EnumRestController {
 <span class="fc" id="L48">                        .setName(body.getName())</span>
 <span class="fc" id="L49">                        .setText(body.getText()));</span>
 <span class="fc" id="L50">        return ResponseEntity.status(HttpStatus.OK).body(new EnumItem(value));</span>
+    }
+
+    @DeleteMapping(&quot;/enum/{art}/{code}&quot;)
+    public ResponseEntity&lt;Enum&gt; deleteEnum(@PathVariable(&quot;art&quot;) final String art, @PathVariable(&quot;code&quot;) final Long code) {
+<span class="nc" id="L55">        final var value = enumRepository.findByCode(art, code)</span>
+<span class="nc" id="L56">                .orElseThrow(() -&gt;</span>
+<span class="nc" id="L57">                        new DataRetrievalFailureException(&quot;Enum(&quot; + art + &quot;, &quot; + code + &quot;) not found&quot;));</span>
+<span class="nc" id="L58">        enumRepository.delete(value);</span>
+<span class="nc" id="L59">        return ResponseEntity.status(HttpStatus.OK).body(value);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
