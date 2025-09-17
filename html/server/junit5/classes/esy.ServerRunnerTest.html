@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">5.156s</div>
+<div class="counter">5.300s</div>
 <p>duration</p>
 </div>
 </td>
@@ -82,17 +82,17 @@
 </thead>
 <tr>
 <td class="success">healthApi()</td>
-<td class="success">0.592s</td>
+<td class="success">0.671s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">restApi()</td>
-<td class="success">2.148s</td>
+<td class="success">2.510s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">versionApi()</td>
-<td class="success">2.416s</td>
+<td class="success">2.119s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -100,8 +100,8 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>10:54:01.511 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.ServerRunnerTest]: ServerRunnerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-10:54:01.743 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.ServerRunner for test class esy.ServerRunnerTest
+<pre>14:45:20.910 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.ServerRunnerTest]: ServerRunnerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:45:21.133 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.ServerRunner for test class esy.ServerRunnerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -112,76 +112,76 @@
 
  :: Spring Boot ::                (v3.5.5)
 
-2025-09-16T10:54:02.641Z  INFO 2915 --- [    Test worker] esy.ServerRunnerTest                     : Starting ServerRunnerTest using Java 21.0.8 with PID 2915 (started by runner in /home/runner/work/petclinic/petclinic/app/server)
-2025-09-16T10:54:02.643Z  INFO 2915 --- [    Test worker] esy.ServerRunnerTest                     : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-09-16T10:54:04.140Z  INFO 2915 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-09-16T10:54:04.363Z  INFO 2915 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 204 ms. Found 5 JPA repository interfaces.
-2025-09-16T10:54:06.404Z  INFO 2915 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
-2025-09-16T10:54:06.435Z  INFO 2915 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-09-16T10:54:06.436Z  INFO 2915 --- [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.44]
-2025-09-16T10:54:06.531Z  INFO 2915 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-09-16T10:54:06.533Z  INFO 2915 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3856 ms
-2025-09-16T10:54:07.028Z  INFO 2915 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-09-16T10:54:07.404Z  INFO 2915 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Driver does not support get/set network timeout for connections. (feature not supported)
-2025-09-16T10:54:07.406Z  INFO 2915 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.hsqldb.jdbc.JDBCConnection@6516181f
-2025-09-16T10:54:07.408Z  INFO 2915 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-09-16T10:54:07.464Z  INFO 2915 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
-2025-09-16T10:54:08.347Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Creating database history table with name: PUBLIC.DATABASECHANGELOG
-2025-09-16T10:54:08.491Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2025-09-16T10:54:08.688Z  INFO 2915 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-09-16T10:54:08.962Z  INFO 2915 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
-2025-09-16T10:54:08.962Z  INFO 2915 --- [    Test worker] liquibase.command                        : Using deploymentId: 8020047001
-2025-09-16T10:54:08.964Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2025-09-16T10:54:09.024Z  INFO 2915 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/enum.xml::1::robert
-2025-09-16T10:54:09.035Z  INFO 2915 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-09-16T10:54:09.060Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Table enum created
-2025-09-16T10:54:09.070Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, name)
-2025-09-16T10:54:09.075Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, code)
-2025-09-16T10:54:09.075Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/enum.xml::1::robert ran successfully in 48ms
-2025-09-16T10:54:09.090Z  INFO 2915 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/owner.xml::1::robert
-2025-09-16T10:54:09.099Z  INFO 2915 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-09-16T10:54:09.123Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Table owner created
-2025-09-16T10:54:09.125Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Unique constraint added to owner(name)
-2025-09-16T10:54:09.125Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/owner.xml::1::robert ran successfully in 35ms
-2025-09-16T10:54:09.135Z  INFO 2915 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::1::robert
-2025-09-16T10:54:09.142Z  INFO 2915 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-09-16T10:54:09.188Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Table pet created
-2025-09-16T10:54:09.196Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Unique constraint added to pet(name,owner_id)
-2025-09-16T10:54:09.200Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to pet (owner_id)
-2025-09-16T10:54:09.201Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::1::robert ran successfully in 65ms
-2025-09-16T10:54:09.209Z  INFO 2915 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet.xml::1::robert
-2025-09-16T10:54:09.216Z  INFO 2915 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-09-16T10:54:09.236Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Table vet created
-2025-09-16T10:54:09.241Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Unique constraint added to vet(name)
-2025-09-16T10:54:09.241Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet.xml::1::robert ran successfully in 31ms
-2025-09-16T10:54:09.247Z  INFO 2915 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_skill.xml::1::robert
-2025-09-16T10:54:09.255Z  INFO 2915 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-09-16T10:54:09.275Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Table vet_skill created
-2025-09-16T10:54:09.277Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_skill (id)
-2025-09-16T10:54:09.277Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_skill.xml::1::robert ran successfully in 27ms
-2025-09-16T10:54:09.287Z  INFO 2915 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::1::robert
-2025-09-16T10:54:09.294Z  INFO 2915 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2025-09-16T10:54:09.315Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Table visit created
-2025-09-16T10:54:09.320Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Unique constraint added to visit(date,pet_id)
-2025-09-16T10:54:09.321Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (pet_id)
-2025-09-16T10:54:09.325Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (vet_id)
-2025-09-16T10:54:09.325Z  INFO 2915 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::1::robert ran successfully in 37ms
-2025-09-16T10:54:09.336Z  INFO 2915 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
-2025-09-16T10:54:09.337Z  INFO 2915 --- [    Test worker] liquibase.util                           : Run:                          6
-2025-09-16T10:54:09.337Z  INFO 2915 --- [    Test worker] liquibase.util                           : Previously run:               0
-2025-09-16T10:54:09.337Z  INFO 2915 --- [    Test worker] liquibase.util                           : Filtered out:                 0
-2025-09-16T10:54:09.337Z  INFO 2915 --- [    Test worker] liquibase.util                           : -------------------------------
-2025-09-16T10:54:09.337Z  INFO 2915 --- [    Test worker] liquibase.util                           : Total change sets:            6
-2025-09-16T10:54:09.338Z  INFO 2915 --- [    Test worker] liquibase.util                           : Update summary generated
-2025-09-16T10:54:09.341Z  INFO 2915 --- [    Test worker] liquibase.command                        : Update command completed successfully.
-2025-09-16T10:54:09.342Z  INFO 2915 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 6
-2025-09-16T10:54:09.344Z  INFO 2915 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
-2025-09-16T10:54:09.347Z  INFO 2915 --- [    Test worker] liquibase.command                        : Command execution complete
-2025-09-16T10:54:10.747Z  INFO 2915 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-09-16T10:54:10.852Z  INFO 2915 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.26.Final
-2025-09-16T10:54:10.914Z  INFO 2915 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-09-16T10:54:11.437Z  INFO 2915 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-09-16T10:54:11.543Z  INFO 2915 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-09-17T14:45:21.990Z  INFO 2921 --- [    Test worker] esy.ServerRunnerTest                     : Starting ServerRunnerTest using Java 21.0.8 with PID 2921 (started by runner in /home/runner/work/petclinic/petclinic/app/server)
+2025-09-17T14:45:21.995Z  INFO 2921 --- [    Test worker] esy.ServerRunnerTest                     : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-09-17T14:45:23.696Z  INFO 2921 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-17T14:45:23.941Z  INFO 2921 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 224 ms. Found 5 JPA repository interfaces.
+2025-09-17T14:45:25.845Z  INFO 2921 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2025-09-17T14:45:25.860Z  INFO 2921 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-17T14:45:25.860Z  INFO 2921 --- [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.44]
+2025-09-17T14:45:25.912Z  INFO 2921 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-17T14:45:25.914Z  INFO 2921 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3886 ms
+2025-09-17T14:45:26.246Z  INFO 2921 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-17T14:45:26.627Z  INFO 2921 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Driver does not support get/set network timeout for connections. (feature not supported)
+2025-09-17T14:45:26.628Z  INFO 2921 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.hsqldb.jdbc.JDBCConnection@22f046b
+2025-09-17T14:45:26.630Z  INFO 2921 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-17T14:45:26.697Z  INFO 2921 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
+2025-09-17T14:45:27.685Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Creating database history table with name: PUBLIC.DATABASECHANGELOG
+2025-09-17T14:45:27.868Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2025-09-17T14:45:28.095Z  INFO 2921 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-09-17T14:45:28.372Z  INFO 2921 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
+2025-09-17T14:45:28.376Z  INFO 2921 --- [    Test worker] liquibase.command                        : Using deploymentId: 8120326207
+2025-09-17T14:45:28.378Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2025-09-17T14:45:28.480Z  INFO 2921 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/enum.xml::1::robert
+2025-09-17T14:45:28.495Z  INFO 2921 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-09-17T14:45:28.537Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Table enum created
+2025-09-17T14:45:28.548Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, name)
+2025-09-17T14:45:28.552Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, code)
+2025-09-17T14:45:28.552Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/enum.xml::1::robert ran successfully in 70ms
+2025-09-17T14:45:28.567Z  INFO 2921 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/owner.xml::1::robert
+2025-09-17T14:45:28.577Z  INFO 2921 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-09-17T14:45:28.613Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Table owner created
+2025-09-17T14:45:28.615Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Unique constraint added to owner(name)
+2025-09-17T14:45:28.619Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/owner.xml::1::robert ran successfully in 45ms
+2025-09-17T14:45:28.629Z  INFO 2921 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::1::robert
+2025-09-17T14:45:28.639Z  INFO 2921 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-09-17T14:45:28.665Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Table pet created
+2025-09-17T14:45:28.674Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Unique constraint added to pet(name,owner_id)
+2025-09-17T14:45:28.681Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to pet (owner_id)
+2025-09-17T14:45:28.681Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::1::robert ran successfully in 48ms
+2025-09-17T14:45:28.689Z  INFO 2921 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet.xml::1::robert
+2025-09-17T14:45:28.702Z  INFO 2921 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-09-17T14:45:28.732Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Table vet created
+2025-09-17T14:45:28.743Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Unique constraint added to vet(name)
+2025-09-17T14:45:28.743Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet.xml::1::robert ran successfully in 52ms
+2025-09-17T14:45:28.760Z  INFO 2921 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_skill.xml::1::robert
+2025-09-17T14:45:28.766Z  INFO 2921 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-09-17T14:45:28.794Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Table vet_skill created
+2025-09-17T14:45:28.796Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_skill (id)
+2025-09-17T14:45:28.796Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_skill.xml::1::robert ran successfully in 35ms
+2025-09-17T14:45:28.807Z  INFO 2921 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::1::robert
+2025-09-17T14:45:28.814Z  INFO 2921 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2025-09-17T14:45:28.829Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Table visit created
+2025-09-17T14:45:28.835Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Unique constraint added to visit(date,pet_id)
+2025-09-17T14:45:28.839Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (pet_id)
+2025-09-17T14:45:28.844Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (vet_id)
+2025-09-17T14:45:28.844Z  INFO 2921 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::1::robert ran successfully in 36ms
+2025-09-17T14:45:28.855Z  INFO 2921 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
+2025-09-17T14:45:28.855Z  INFO 2921 --- [    Test worker] liquibase.util                           : Run:                          6
+2025-09-17T14:45:28.855Z  INFO 2921 --- [    Test worker] liquibase.util                           : Previously run:               0
+2025-09-17T14:45:28.855Z  INFO 2921 --- [    Test worker] liquibase.util                           : Filtered out:                 0
+2025-09-17T14:45:28.855Z  INFO 2921 --- [    Test worker] liquibase.util                           : -------------------------------
+2025-09-17T14:45:28.855Z  INFO 2921 --- [    Test worker] liquibase.util                           : Total change sets:            6
+2025-09-17T14:45:28.856Z  INFO 2921 --- [    Test worker] liquibase.util                           : Update summary generated
+2025-09-17T14:45:28.859Z  INFO 2921 --- [    Test worker] liquibase.command                        : Update command completed successfully.
+2025-09-17T14:45:28.861Z  INFO 2921 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 6
+2025-09-17T14:45:28.863Z  INFO 2921 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
+2025-09-17T14:45:28.865Z  INFO 2921 --- [    Test worker] liquibase.command                        : Command execution complete
+2025-09-17T14:45:29.994Z  INFO 2921 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-17T14:45:30.077Z  INFO 2921 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.26.Final
+2025-09-17T14:45:30.109Z  INFO 2921 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-17T14:45:30.587Z  INFO 2921 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-17T14:45:30.729Z  INFO 2921 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 2.7.3
@@ -189,9 +189,9 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-09-16T10:54:12.831Z  INFO 2915 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-09-16T10:54:12.835Z  INFO 2915 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-09-16T10:54:13.304Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:31.793Z  INFO 2921 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-17T14:45:31.796Z  INFO 2921 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T14:45:32.149Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -204,8 +204,8 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:13.335Z  INFO 2915 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-09-16T10:54:14.357Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:32.193Z  INFO 2921 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-17T14:45:33.402Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -218,7 +218,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.360Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:33.405Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -231,7 +231,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.386Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:33.418Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -244,7 +244,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.387Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:33.420Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -257,7 +257,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.463Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:33.451Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -270,7 +270,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.467Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:33.455Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -283,7 +283,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.475Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:33.461Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -296,7 +296,7 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.583Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:33.567Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
     0 nanoseconds spent acquiring 0 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
     0 nanoseconds spent preparing 0 JDBC statements;
@@ -309,28 +309,42 @@
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:14.748Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : CREATED [esy.EsyBackendRoot].
-2025-09-16T10:54:15.164Z  WARN 2915 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2025-09-17T14:45:33.763Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : CREATED [esy.EsyBackendRoot].
+2025-09-17T14:45:34.197Z  WARN 2921 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 312cfb0f-7d3d-4f26-974e-327be1a49c92
+Using generated security password: 53868aee-f44a-43f7-b5e4-57d3080963be
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-09-16T10:54:15.198Z  INFO 2915 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-09-16T10:54:16.263Z  INFO 2915 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 6 resource(s) in the GraphQL schema.
-2025-09-16T10:54:16.644Z  INFO 2915 --- [    Test worker] o.s.b.a.g.GraphQlAutoConfiguration       : GraphQL schema inspection:
+2025-09-17T14:45:34.211Z  INFO 2921 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-17T14:45:35.385Z  INFO 2921 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 6 resource(s) in the GraphQL schema.
+2025-09-17T14:45:35.619Z  INFO 2921 --- [    Test worker] o.s.b.a.g.GraphQlAutoConfiguration       : GraphQL schema inspection:
 	Unmapped fields: {}
 	Unmapped registrations: {}
 	Unmapped arguments: {}
 	Skipped types: []
-2025-09-16T10:54:16.692Z  INFO 2915 --- [    Test worker] s.b.a.g.s.GraphQlWebMvcAutoConfiguration : GraphQL endpoint HTTP POST /api/graphql
-2025-09-16T10:54:16.951Z  INFO 2915 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2025-09-16T10:54:17.701Z  WARN 2915 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/**'], Ant [pattern='/static/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-09-16T10:54:17.702Z  WARN 2915 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version'], Ant [pattern='/version']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-09-16T10:54:17.702Z  WARN 2915 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version.*'], Ant [pattern='/version.*']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-09-16T10:54:17.703Z  WARN 2915 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore EndpointRequestMatcher includes=[health], excludes=[], includeLinks=false. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2025-09-16T10:54:18.081Z  INFO 2915 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 36929 (http) with context path '/'
-2025-09-16T10:54:18.138Z  INFO 2915 --- [    Test worker] esy.ServerRunnerTest                     : Started ServerRunnerTest in 16.069 seconds (process running for 19.051)
+2025-09-17T14:45:35.641Z  INFO 2921 --- [    Test worker] s.b.a.g.s.GraphQlWebMvcAutoConfiguration : GraphQL endpoint HTTP POST /api/graphql
+2025-09-17T14:45:35.900Z  INFO 2921 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-09-17T14:45:36.627Z  WARN 2921 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/**'], Ant [pattern='/static/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-09-17T14:45:36.628Z  WARN 2921 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version'], Ant [pattern='/version']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-09-17T14:45:36.628Z  WARN 2921 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Deferred [Mvc [pattern='/version.*'], Ant [pattern='/version.*']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-09-17T14:45:36.629Z  WARN 2921 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore EndpointRequestMatcher includes=[health], excludes=[], includeLinks=false. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2025-09-17T14:45:36.985Z  INFO 2921 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 41611 (http) with context path '/'
+2025-09-17T14:45:37.042Z  INFO 2921 --- [    Test worker] esy.ServerRunnerTest                     : Started ServerRunnerTest in 15.615 seconds (process running for 18.535)
+2025-09-17T14:45:37.735Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : STARTED [esy.EsyBackendRoot].
+2025-09-17T14:45:37.736Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : server.port=[0].
+2025-09-17T14:45:37.736Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.application.name=[null].
+2025-09-17T14:45:37.736Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.profiles.active=[null].
+2025-09-17T14:45:37.737Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.open-in-view=[false].
+2025-09-17T14:45:37.737Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.name=[null].
+2025-09-17T14:45:37.738Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.url=[jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1].
+2025-09-17T14:45:37.741Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.username=[SA].
+2025-09-17T14:45:37.741Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.password=[false].
+2025-09-17T14:45:37.741Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.properties.hibernate.show_sql=[true].
+2025-09-17T14:45:37.741Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.properties.hibernate.format_sql=[true].
+2025-09-17T14:45:37.741Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.properties.hibernate.generate_statistics=[true].
+2025-09-17T14:45:37.741Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : management.endpoints.web.exposure.include=[health].
+2025-09-17T14:45:37.741Z  INFO 2921 --- [    Test worker] esy.EsyBackendRoot                       : management.endpoint.health.probes.enabled=[true].
 Hibernate: 
     select
         count(*) 
@@ -372,9 +386,9 @@ Hibernate:
         enum e1_0 
     where
         e1_0.id=?
-2025-09-16T10:54:18.948Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:10747a26-359e-4e76-956a-cb7aa931cbf1,art='skill',text='Surgery he branch of medical practice that treats injuries, diseases, and deformities by the physical removal, repair, or readjustment of organs and tissues.']
-2025-09-16T10:54:18.950Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:c0e0a8f8-f1ae-4981-aadd-8a55a520c020,art='skill',text='Radiology is the medical discipline that uses medical imaging to diagnose and treat diseases within the bodies of animals and humans']
-2025-09-16T10:54:18.951Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:7b6740b6-54f7-4501-b90c-f1fb14eb6028,art='skill',text='Dentistry is a branch of medicine that consists of the study, diagnosis, prevention, and treatment of diseases, disorders, and conditions of the oral cavity (the mouth).']
+2025-09-17T14:45:37.988Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:9af15a1c-094b-4bca-ba31-292eb434d62e,art='skill',text='Surgery he branch of medical practice that treats injuries, diseases, and deformities by the physical removal, repair, or readjustment of organs and tissues.']
+2025-09-17T14:45:37.989Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:1a9d829d-73ed-4663-8062-4fe49b29b731,art='skill',text='Radiology is the medical discipline that uses medical imaging to diagnose and treat diseases within the bodies of animals and humans']
+2025-09-17T14:45:37.990Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:a5853e64-8694-40e1-b395-586829171217,art='skill',text='Dentistry is a branch of medicine that consists of the study, diagnosis, prevention, and treatment of diseases, disorders, and conditions of the oral cavity (the mouth).']
 Hibernate: 
     select
         e1_0.id,
@@ -435,11 +449,11 @@ Hibernate:
         enum e1_0 
     where
         e1_0.id=?
-2025-09-16T10:54:18.973Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:2d8dc1ba-1004-444c-a1ea-ff2ec5ad6bde,art='species',text='A rat (tax. rattus) is a family of various medium-sized, long-tailed rodents.']
-2025-09-16T10:54:18.973Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:9e31ffac-4529-4309-a261-a3c5d70ea178,art='species',text='A bird (tax. aves) is a class of various feathered anmimals.']
-2025-09-16T10:54:18.973Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:3b917617-ff0a-41e5-8ebf-0730114f28b0,art='species',text='A cat (tax. felis catus) is a domestic species of a small carnivorous mammal.']
-2025-09-16T10:54:18.973Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:c220cb1f-519e-4511-bb45-ee94dd85152d,art='species',text='A dog (tax. canis familiaris) is a domesticated descendant of the wolf.']
-2025-09-16T10:54:18.973Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:0a972c79-3ddb-40c6-8180-de5d68f245ed,art='species',text='A pig (tax. sus domesticus) is an omnivorous, domesticated even-toed hoofed mammal.']
+2025-09-17T14:45:38.037Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:57ad0927-103d-47c6-b24f-88e597bdc7e2,art='species',text='A rat (tax. rattus) is a family of various medium-sized, long-tailed rodents.']
+2025-09-17T14:45:38.037Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:280d4027-a0bf-42b7-be5f-6d4fa98203cc,art='species',text='A bird (tax. aves) is a class of various feathered anmimals.']
+2025-09-17T14:45:38.037Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:6e5a5e00-834f-4b87-b71c-d704171e1ca2,art='species',text='A cat (tax. felis catus) is a domestic species of a small carnivorous mammal.']
+2025-09-17T14:45:38.037Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:91bfcf48-dee5-4b61-8de5-07b341ab68cc,art='species',text='A dog (tax. canis familiaris) is a domesticated descendant of the wolf.']
+2025-09-17T14:45:38.039Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:89b0cc92-f4be-4f75-9ad7-2e634993ac9f,art='species',text='A pig (tax. sus domesticus) is an omnivorous, domesticated even-toed hoofed mammal.']
 Hibernate: 
     select
         o1_0.id,
@@ -520,10 +534,10 @@ Hibernate:
             on o1_0.id=ap1_0.owner_id 
     where
         o1_0.id=?
-2025-09-16T10:54:19.070Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:5417429d-d6b2-42c2-8a97-189838a3ac54,name='Wolfgang A. Mozart']
-2025-09-16T10:54:19.071Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:3609e949-1aa2-4bf8-b69f-2d3b3e45e622,name='Arthur Conan Doyle']
-2025-09-16T10:54:19.071Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:0043405c-6ce6-46c0-bf23-2af67ec8fd41,name='Stefan Zweig']
-2025-09-16T10:54:19.071Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:869a4946-89fb-4b04-9889-1bbc461d24ce,name='Thomas Mann']
+2025-09-17T14:45:38.101Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:87a87c76-a6fc-4cca-b7e8-a2639fce99d3,name='Wolfgang A. Mozart']
+2025-09-17T14:45:38.101Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:c6a5421f-709d-411e-afbe-a759c6bcf919,name='Arthur Conan Doyle']
+2025-09-17T14:45:38.102Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:cf6da391-0c64-4d7b-ac13-c4a8b07bbf44,name='Stefan Zweig']
+2025-09-17T14:45:38.102Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:78869c59-aca2-45f7-9185-5e2a5e060d04,name='Thomas Mann']
 Hibernate: 
     select
         p1_0.id,
@@ -584,9 +598,9 @@ Hibernate:
             on o1_0.id=p1_0.owner_id 
     where
         p1_0.id=?
-2025-09-16T10:54:19.131Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:4a6fb3e9-5d28-4909-b466-200d62732b98,name='Tom']
-2025-09-16T10:54:19.132Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:b5bc9cc7-416e-4086-aa64-43c9342b421e,name='Odi']
-2025-09-16T10:54:19.132Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:846823f4-197a-498e-a87b-80b28eb1103f,name='Fox']
+2025-09-17T14:45:38.138Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:7b73dee0-3f84-429c-8c80-f4b5c3e60ae3,name='Tom']
+2025-09-17T14:45:38.139Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:03431b38-59aa-4cdd-93a2-f405a5de01d6,name='Odi']
+2025-09-17T14:45:38.139Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:5bced56c-804d-466a-ad3b-13b7e0ed663b,name='Fox']
 Hibernate: 
     select
         v1_0.id,
@@ -657,11 +671,11 @@ Hibernate:
             on v1_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:19.166Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:835a286d-e351-42f9-966c-bf040fa430fd,name='Graham Chapman']
-2025-09-16T10:54:19.169Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:42ee0a27-c27f-46c2-a3ae-c7000c692938,name='Terry Gilliam']
-2025-09-16T10:54:19.169Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:a377112a-0383-4398-b8c7-88f29cbcfb60,name='Eric Idle']
-2025-09-16T10:54:19.169Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:5c3c2ae4-714b-4c6c-a54e-850417b9a92f,name='Terry Jones']
-2025-09-16T10:54:19.169Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:bd18eaa9-f078-4945-93e0-8eca806dbd11,name='John Cleese']
+2025-09-17T14:45:38.161Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:a373c0c8-fa6e-462a-8f73-f287b704dd11,name='Graham Chapman']
+2025-09-17T14:45:38.162Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:c9b112e6-8053-4e6e-93cc-01e90ef8c515,name='Terry Gilliam']
+2025-09-17T14:45:38.162Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:b64f6d81-f8b0-4d9d-99b0-299d4352dbe3,name='Eric Idle']
+2025-09-17T14:45:38.162Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:8f927447-5493-4f6a-ad07-4870fcaa98c7,name='Terry Jones']
+2025-09-17T14:45:38.162Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:fe77c47f-6a1b-415c-9189-a59bcd4594e8,name='John Cleese']
 Hibernate: 
     select
         v1_0.id,
@@ -890,12 +904,12 @@ Hibernate:
             on v2_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:19.228Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:caeb9ced-26a3-4afe-bc9c-a17ccddd338a,date='2021-04-21']
-2025-09-16T10:54:19.228Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:2f862f94-f3f3-461d-ac5a-6b864eb2db95,date='2021-04-21']
-2025-09-16T10:54:19.229Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:a358fd53-0a9f-4e78-b093-1aa708177503,date='2021-04-22']
-2025-09-16T10:54:19.229Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:d1cc358c-b0cb-465f-889a-0de905dbc082,date='2021-04-23']
-2025-09-16T10:54:19.230Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:f8b7988b-f830-46b9-8b4e-f22d1d37c04f,date='2021-04-24']
-2025-09-16T10:54:19.230Z  INFO 2915 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:6cbcb9f0-a3dd-430f-b485-8db0c9ac1b7c,date='2021-04-24']
+2025-09-17T14:45:38.235Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:73e28cda-ebf8-472a-9483-d1dc41293de9,date='2021-04-21']
+2025-09-17T14:45:38.236Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:83ed9c3d-a73a-420e-8c24-5af6b1423840,date='2021-04-21']
+2025-09-17T14:45:38.236Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:7bf28970-4119-45bd-a79f-c004aa1293ed,date='2021-04-22']
+2025-09-17T14:45:38.236Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:bb88c464-6de1-4abb-9e4b-5ac52dc034d7,date='2021-04-23']
+2025-09-17T14:45:38.236Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:ac32dcc6-826a-484a-8887-efff05d98333,date='2021-04-24']
+2025-09-17T14:45:38.236Z  INFO 2921 --- [    Test worker] esy.ServerTestset                        : CREATED [version:0,id:d5f0f8f7-199c-4b42-9198-f5d7b69fffad,date='2021-04-24']
 Hibernate: 
     insert 
     into
@@ -1152,36 +1166,22 @@ Hibernate:
         (id, skill) 
     values
         (?, ?)
-2025-09-16T10:54:19.352Z  INFO 2915 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    90068 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:38.310Z  INFO 2921 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    106157 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    43958896 nanoseconds spent preparing 34 JDBC statements;
-    1944358 nanoseconds spent executing 27 JDBC statements;
-    8343172 nanoseconds spent executing 10 JDBC batches;
+    21569609 nanoseconds spent preparing 34 JDBC statements;
+    1849710 nanoseconds spent executing 27 JDBC statements;
+    3529669 nanoseconds spent executing 10 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    117857929 nanoseconds spent executing 1 flushes (flushing a total of 26 entities and 9 collections);
-    37109 nanoseconds spent executing 1 pre-partial-flushes;
-    15058 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+    71691792 nanoseconds spent executing 1 flushes (flushing a total of 26 entities and 9 collections);
+    37680 nanoseconds spent executing 1 pre-partial-flushes;
+    14416 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:19.353Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : STARTED [esy.EsyBackendRoot].
-2025-09-16T10:54:19.354Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : server.port=[0].
-2025-09-16T10:54:19.354Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.application.name=[null].
-2025-09-16T10:54:19.356Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.profiles.active=[null].
-2025-09-16T10:54:19.356Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.open-in-view=[false].
-2025-09-16T10:54:19.357Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.name=[null].
-2025-09-16T10:54:19.359Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.url=[jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1].
-2025-09-16T10:54:19.360Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.username=[SA].
-2025-09-16T10:54:19.360Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.datasource.password=[false].
-2025-09-16T10:54:19.361Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.properties.hibernate.show_sql=[true].
-2025-09-16T10:54:19.361Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.properties.hibernate.format_sql=[true].
-2025-09-16T10:54:19.361Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : spring.jpa.properties.hibernate.generate_statistics=[true].
-2025-09-16T10:54:19.361Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : management.endpoints.web.exposure.include=[health].
-2025-09-16T10:54:19.362Z  INFO 2915 --- [    Test worker] esy.EsyBackendRoot                       : management.endpoint.health.probes.enabled=[true].
-2025-09-16T10:54:21.618Z  INFO 2915 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-09-16T10:54:21.619Z  INFO 2915 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-09-16T10:54:21.620Z  INFO 2915 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-09-17T14:45:40.270Z  INFO 2921 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-17T14:45:40.270Z  INFO 2921 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-17T14:45:40.271Z  INFO 2921 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 Hibernate: 
     select
         e1_0.id,
@@ -1197,11 +1197,11 @@ Hibernate:
     order by
         e1_0.art,
         e1_0.code
-2025-09-16T10:54:23.008Z  INFO 2915 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    59581 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:41.771Z  INFO 2921 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    52598 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    565128 nanoseconds spent preparing 1 JDBC statements;
-    165359 nanoseconds spent executing 1 JDBC statements;
+    607931 nanoseconds spent preparing 1 JDBC statements;
+    159998 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1225,11 +1225,11 @@ Hibernate:
     order by
         e1_0.art,
         e1_0.code
-2025-09-16T10:54:23.052Z  INFO 2915 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    44544 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:41.851Z  INFO 2921 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    41136 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    491329 nanoseconds spent preparing 1 JDBC statements;
-    183193 nanoseconds spent executing 1 JDBC statements;
+    5287454 nanoseconds spent preparing 1 JDBC statements;
+    171269 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1238,8 +1238,8 @@ Hibernate:
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:23.155Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']; creating ...
-2025-09-16T10:54:23.156Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
+2025-09-17T14:45:41.979Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']; creating ...
+2025-09-17T14:45:41.979Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
 Hibernate: 
     select
         o1_0.id,
@@ -1267,17 +1267,17 @@ Hibernate:
         (address, contact, name, version, id) 
     values
         (?, ?, ?, ?, ?)
-2025-09-16T10:54:23.165Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
-2025-09-16T10:54:23.212Z  INFO 2915 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    39654 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:41.989Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
+2025-09-17T14:45:42.069Z  INFO 2921 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    45004 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    647633 nanoseconds spent preparing 2 JDBC statements;
-    151614 nanoseconds spent executing 1 JDBC statements;
-    73898 nanoseconds spent executing 1 JDBC batches;
+    3727125 nanoseconds spent preparing 2 JDBC statements;
+    92322 nanoseconds spent executing 1 JDBC statements;
+    82234 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    2515577 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    1173043 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1308,11 +1308,11 @@ Hibernate:
         pet ap1_0 
     where
         ap1_0.owner_id=?
-2025-09-16T10:54:23.484Z  INFO 2915 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    46638 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.413Z  INFO 2921 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    67035 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    2094242 nanoseconds spent preparing 2 JDBC statements;
-    461504 nanoseconds spent executing 2 JDBC statements;
+    2033293 nanoseconds spent preparing 2 JDBC statements;
+    590790 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1332,8 +1332,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:23.535Z  INFO 2915 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']; updating ...
-2025-09-16T10:54:23.535Z  INFO 2915 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
+2025-09-17T14:45:42.448Z  INFO 2921 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']; updating ...
+2025-09-17T14:45:42.448Z  INFO 2921 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
 Hibernate: 
     update
         owner 
@@ -1345,7 +1345,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:23.542Z  INFO 2915 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
+2025-09-17T14:45:42.453Z  INFO 2921 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -1358,16 +1358,16 @@ Hibernate:
         pet ap1_0 
     where
         ap1_0.owner_id=?
-2025-09-16T10:54:23.553Z  INFO 2915 --- [o-auto-1-exec-9] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    41567 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.460Z  INFO 2921 --- [o-auto-1-exec-9] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    41557 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1454332 nanoseconds spent preparing 3 JDBC statements;
-    188072 nanoseconds spent executing 2 JDBC statements;
-    246381 nanoseconds spent executing 1 JDBC batches;
+    4405738 nanoseconds spent preparing 3 JDBC statements;
+    238945 nanoseconds spent executing 2 JDBC statements;
+    231161 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    4813056 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    3208580 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1382,8 +1382,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:23.598Z  INFO 2915 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']; updating ...
-2025-09-16T10:54:23.603Z  INFO 2915 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
+2025-09-17T14:45:42.500Z  INFO 2921 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']; updating ...
+2025-09-17T14:45:42.500Z  INFO 2921 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
 Hibernate: 
     update
         owner 
@@ -1395,7 +1395,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:23.608Z  INFO 2915 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
+2025-09-17T14:45:42.503Z  INFO 2921 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -1408,16 +1408,16 @@ Hibernate:
         pet ap1_0 
     where
         ap1_0.owner_id=?
-2025-09-16T10:54:23.615Z  INFO 2915 --- [-auto-1-exec-10] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    43321 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.507Z  INFO 2921 --- [-auto-1-exec-10] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    49281 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1059563 nanoseconds spent preparing 3 JDBC statements;
-    192590 nanoseconds spent executing 2 JDBC statements;
-    173394 nanoseconds spent executing 1 JDBC batches;
+    1183783 nanoseconds spent preparing 3 JDBC statements;
+    177560 nanoseconds spent executing 2 JDBC statements;
+    165458 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    4466789 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    1730841 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1432,8 +1432,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:23.667Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']; deleting ...
-2025-09-16T10:54:23.668Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
+2025-09-17T14:45:42.526Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']; deleting ...
+2025-09-17T14:45:42.526Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -1453,22 +1453,22 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:23.686Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:542aa129-6ffc-4d51-a61f-8f05c9ed2d89,name='Alf Mbeefaafafdeff']
-2025-09-16T10:54:23.689Z  INFO 2915 --- [o-auto-1-exec-1] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    35637 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.536Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:b54757b5-f305-4d0d-86e0-f568064d847d,name='Alf Mfadfbedbade']
+2025-09-17T14:45:42.542Z  INFO 2921 --- [o-auto-1-exec-1] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    44663 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    4542510 nanoseconds spent preparing 3 JDBC statements;
-    291175 nanoseconds spent executing 2 JDBC statements;
-    3084602 nanoseconds spent executing 1 JDBC batches;
+    1184480 nanoseconds spent preparing 3 JDBC statements;
+    157734 nanoseconds spent executing 2 JDBC statements;
+    168874 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    8826097 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    4410317 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:23.707Z  INFO 2915 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:368f3365-35bb-486c-b768-fe831a2e65fa,name='Alf Mceefecbddfc']; creating ...
-2025-09-16T10:54:23.709Z  INFO 2915 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:368f3365-35bb-486c-b768-fe831a2e65fa,name='Alf Mceefecbddfc']
+2025-09-17T14:45:42.568Z  INFO 2921 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4df344ad-2adf-4508-aa6e-fc04bb85be06,name='Alf Mebcdeadfdcea']; creating ...
+2025-09-17T14:45:42.568Z  INFO 2921 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4df344ad-2adf-4508-aa6e-fc04bb85be06,name='Alf Mebcdeadfdcea']
 Hibernate: 
     select
         o1_0.id,
@@ -1496,17 +1496,17 @@ Hibernate:
         (address, contact, name, version, id) 
     values
         (?, ?, ?, ?, ?)
-2025-09-16T10:54:23.714Z  INFO 2915 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:368f3365-35bb-486c-b768-fe831a2e65fa,name='Alf Mceefecbddfc']
-2025-09-16T10:54:23.721Z  INFO 2915 --- [o-auto-1-exec-2] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    37611 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.579Z  INFO 2921 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:4df344ad-2adf-4508-aa6e-fc04bb85be06,name='Alf Mebcdeadfdcea']
+2025-09-17T14:45:42.585Z  INFO 2921 --- [o-auto-1-exec-2] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    41818 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1425567 nanoseconds spent preparing 2 JDBC statements;
-    89377 nanoseconds spent executing 1 JDBC statements;
-    113262 nanoseconds spent executing 1 JDBC batches;
+    731922 nanoseconds spent preparing 2 JDBC statements;
+    91230 nanoseconds spent executing 1 JDBC statements;
+    82724 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1052800 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    1833883 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1521,8 +1521,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:23.756Z  INFO 2915 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']; creating ...
-2025-09-16T10:54:23.756Z  INFO 2915 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']
+2025-09-17T14:45:42.617Z  INFO 2921 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']; creating ...
+2025-09-17T14:45:42.617Z  INFO 2921 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']
 Hibernate: 
     select
         p1_0.id,
@@ -1550,17 +1550,17 @@ Hibernate:
         (born, name, owner_id, species, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-09-16T10:54:23.760Z  INFO 2915 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']
-2025-09-16T10:54:23.785Z  INFO 2915 --- [o-auto-1-exec-3] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    33693 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.620Z  INFO 2921 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']
+2025-09-17T14:45:42.631Z  INFO 2921 --- [o-auto-1-exec-3] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38181 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    910743 nanoseconds spent preparing 3 JDBC statements;
-    206055 nanoseconds spent executing 2 JDBC statements;
-    111138 nanoseconds spent executing 1 JDBC batches;
+    862574 nanoseconds spent preparing 3 JDBC statements;
+    234586 nanoseconds spent executing 2 JDBC statements;
+    93374 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1224240 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
+    1181669 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1591,11 +1591,11 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:23.830Z  INFO 2915 --- [o-auto-1-exec-4] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    41578 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.681Z  INFO 2921 --- [o-auto-1-exec-4] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    47678 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    976358 nanoseconds spent preparing 2 JDBC statements;
-    506528 nanoseconds spent executing 2 JDBC statements;
+    920947 nanoseconds spent preparing 2 JDBC statements;
+    246208 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1636,11 +1636,11 @@ Hibernate:
         pet ap1_0 
     where
         ap1_0.owner_id=?
-2025-09-16T10:54:23.854Z  INFO 2915 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    31419 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.736Z  INFO 2921 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    35997 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    792272 nanoseconds spent preparing 2 JDBC statements;
-    214701 nanoseconds spent executing 2 JDBC statements;
+    3029116 nanoseconds spent preparing 2 JDBC statements;
+    239556 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1669,8 +1669,8 @@ Hibernate:
             on o1_0.id=p1_0.owner_id 
     where
         p1_0.id=?
-2025-09-16T10:54:23.871Z  INFO 2915 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']; updating ...
-2025-09-16T10:54:23.871Z  INFO 2915 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']
+2025-09-17T14:45:42.775Z  INFO 2921 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']; updating ...
+2025-09-17T14:45:42.775Z  INFO 2921 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']
 Hibernate: 
     update
         pet 
@@ -1683,17 +1683,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:23.873Z  INFO 2915 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']
-2025-09-16T10:54:23.891Z  INFO 2915 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    37551 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.779Z  INFO 2921 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']
+2025-09-17T14:45:42.784Z  INFO 2921 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    39494 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    848077 nanoseconds spent preparing 2 JDBC statements;
-    128461 nanoseconds spent executing 1 JDBC statements;
-    181440 nanoseconds spent executing 1 JDBC batches;
+    870540 nanoseconds spent preparing 2 JDBC statements;
+    129992 nanoseconds spent executing 1 JDBC statements;
+    247861 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1399800 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
+    3162244 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1717,8 +1717,8 @@ Hibernate:
             on o1_0.id=p1_0.owner_id 
     where
         p1_0.id=?
-2025-09-16T10:54:23.912Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']; deleting ...
-2025-09-16T10:54:23.914Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']
+2025-09-17T14:45:42.814Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']; deleting ...
+2025-09-17T14:45:42.814Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']
 Hibernate: 
     delete 
     from
@@ -1726,17 +1726,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:23.919Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:dabe2ac8-e388-4250-aebe-e86b3a653cf7,name='Alf Mcaaebbafacc']
-2025-09-16T10:54:23.921Z  INFO 2915 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    32291 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.819Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:ba1919c9-5c1f-401d-9ed4-e6fc75bf7989,name='Alf Mabedffbcdceafd']
+2025-09-17T14:45:42.825Z  INFO 2921 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    40085 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    720529 nanoseconds spent preparing 2 JDBC statements;
-    133911 nanoseconds spent executing 1 JDBC statements;
-    149099 nanoseconds spent executing 1 JDBC batches;
+    1244345 nanoseconds spent preparing 2 JDBC statements;
+    146583 nanoseconds spent executing 1 JDBC statements;
+    148606 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1152977 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
+    3495304 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1751,8 +1751,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:23.946Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']; creating ...
-2025-09-16T10:54:23.946Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']
+2025-09-17T14:45:42.851Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']; creating ...
+2025-09-17T14:45:42.853Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']
 Hibernate: 
     select
         p1_0.id,
@@ -1780,17 +1780,17 @@ Hibernate:
         (born, name, owner_id, species, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-09-16T10:54:23.952Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']
-2025-09-16T10:54:23.959Z  INFO 2915 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    32560 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.857Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']
+2025-09-17T14:45:42.867Z  INFO 2921 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    36749 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    3961381 nanoseconds spent preparing 3 JDBC statements;
-    157775 nanoseconds spent executing 2 JDBC statements;
-    100528 nanoseconds spent executing 1 JDBC batches;
+    1134992 nanoseconds spent preparing 3 JDBC statements;
+    3045247 nanoseconds spent executing 2 JDBC statements;
+    91631 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1168317 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
+    1140191 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1821,11 +1821,11 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:23.995Z  INFO 2915 --- [o-auto-1-exec-9] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    34756 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.905Z  INFO 2921 --- [o-auto-1-exec-9] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38191 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    882561 nanoseconds spent preparing 2 JDBC statements;
-    259416 nanoseconds spent executing 2 JDBC statements;
+    834643 nanoseconds spent preparing 2 JDBC statements;
+    260024 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1866,11 +1866,11 @@ Hibernate:
         pet ap1_0 
     where
         ap1_0.owner_id=?
-2025-09-16T10:54:24.018Z  INFO 2915 --- [-auto-1-exec-10] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    31950 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.952Z  INFO 2921 --- [-auto-1-exec-10] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38412 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1088998 nanoseconds spent preparing 2 JDBC statements;
-    197389 nanoseconds spent executing 2 JDBC statements;
+    3233116 nanoseconds spent preparing 2 JDBC statements;
+    270271 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -1899,8 +1899,8 @@ Hibernate:
             on o1_0.id=p1_0.owner_id 
     where
         p1_0.id=?
-2025-09-16T10:54:24.042Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']; updating ...
-2025-09-16T10:54:24.043Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']
+2025-09-17T14:45:42.984Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']; updating ...
+2025-09-17T14:45:42.985Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']
 Hibernate: 
     update
         pet 
@@ -1913,17 +1913,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:24.045Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']
-2025-09-16T10:54:24.053Z  INFO 2915 --- [o-auto-1-exec-1] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    30938 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:42.990Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']
+2025-09-17T14:45:42.996Z  INFO 2921 --- [o-auto-1-exec-1] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    35035 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    824773 nanoseconds spent preparing 2 JDBC statements;
-    119994 nanoseconds spent executing 1 JDBC statements;
-    171751 nanoseconds spent executing 1 JDBC batches;
+    1451381 nanoseconds spent preparing 2 JDBC statements;
+    119082 nanoseconds spent executing 1 JDBC statements;
+    198599 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1712635 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
+    4722335 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1947,8 +1947,8 @@ Hibernate:
             on o1_0.id=p1_0.owner_id 
     where
         p1_0.id=?
-2025-09-16T10:54:24.077Z  INFO 2915 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']; deleting ...
-2025-09-16T10:54:24.079Z  INFO 2915 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']
+2025-09-17T14:45:43.018Z  INFO 2921 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']; deleting ...
+2025-09-17T14:45:43.019Z  INFO 2921 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']
 Hibernate: 
     delete 
     from
@@ -1956,17 +1956,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:24.082Z  INFO 2915 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:7220620d-ec41-4f3d-b869-d766d43e0331,name='Alf Mbadabbaacbfc']
-2025-09-16T10:54:24.086Z  INFO 2915 --- [o-auto-1-exec-2] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    28063 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.022Z  INFO 2921 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:4b612d17-84f7-4ff3-b9bf-e1f686d3e573,name='Alf Mbebffccda']
+2025-09-17T14:45:43.027Z  INFO 2921 --- [o-auto-1-exec-2] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    34304 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    647231 nanoseconds spent preparing 2 JDBC statements;
-    109836 nanoseconds spent executing 1 JDBC statements;
-    122940 nanoseconds spent executing 1 JDBC batches;
+    1424919 nanoseconds spent preparing 2 JDBC statements;
+    125503 nanoseconds spent executing 1 JDBC statements;
+    130553 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    2397997 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
+    1055684 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -1981,8 +1981,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:24.103Z  INFO 2915 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:368f3365-35bb-486c-b768-fe831a2e65fa,name='Alf Mceefecbddfc']; deleting ...
-2025-09-16T10:54:24.103Z  INFO 2915 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:368f3365-35bb-486c-b768-fe831a2e65fa,name='Alf Mceefecbddfc']
+2025-09-17T14:45:43.052Z  INFO 2921 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4df344ad-2adf-4508-aa6e-fc04bb85be06,name='Alf Mebcdeadfdcea']; deleting ...
+2025-09-17T14:45:43.052Z  INFO 2921 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4df344ad-2adf-4508-aa6e-fc04bb85be06,name='Alf Mebcdeadfdcea']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -2002,22 +2002,22 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:24.109Z  INFO 2915 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : DELETED [version:0,id:368f3365-35bb-486c-b768-fe831a2e65fa,name='Alf Mceefecbddfc']
-2025-09-16T10:54:24.114Z  INFO 2915 --- [o-auto-1-exec-3] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    26460 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.063Z  INFO 2921 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : DELETED [version:0,id:4df344ad-2adf-4508-aa6e-fc04bb85be06,name='Alf Mebcdeadfdcea']
+2025-09-17T14:45:43.066Z  INFO 2921 --- [o-auto-1-exec-3] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    39874 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    750685 nanoseconds spent preparing 3 JDBC statements;
-    127649 nanoseconds spent executing 2 JDBC statements;
-    125554 nanoseconds spent executing 1 JDBC batches;
+    2137889 nanoseconds spent preparing 3 JDBC statements;
+    183041 nanoseconds spent executing 2 JDBC statements;
+    126295 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    2032040 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    1035317 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
-2025-09-16T10:54:24.137Z  INFO 2915 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']; creating ...
-2025-09-16T10:54:24.137Z  INFO 2915 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']
+2025-09-17T14:45:43.097Z  INFO 2921 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']; creating ...
+2025-09-17T14:45:43.099Z  INFO 2921 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']
 Hibernate: 
     select
         v1_0.id,
@@ -2054,17 +2054,17 @@ Hibernate:
         (id, skill) 
     values
         (?, ?)
-2025-09-16T10:54:24.145Z  INFO 2915 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']
-2025-09-16T10:54:24.162Z  INFO 2915 --- [o-auto-1-exec-4] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    33804 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.114Z  INFO 2921 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']
+2025-09-17T14:45:43.139Z  INFO 2921 --- [o-auto-1-exec-4] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    43511 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    923968 nanoseconds spent preparing 4 JDBC statements;
-    84959 nanoseconds spent executing 1 JDBC statements;
-    278151 nanoseconds spent executing 3 JDBC batches;
+    1578867 nanoseconds spent preparing 4 JDBC statements;
+    78917 nanoseconds spent executing 1 JDBC statements;
+    290600 nanoseconds spent executing 3 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    3168780 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    5058824 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -2089,11 +2089,11 @@ Hibernate:
         vet_skill as1_0 
     where
         as1_0.id=?
-2025-09-16T10:54:24.199Z  INFO 2915 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    31830 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.180Z  INFO 2921 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    37770 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    5939232 nanoseconds spent preparing 2 JDBC statements;
-    247674 nanoseconds spent executing 2 JDBC statements;
+    2266877 nanoseconds spent preparing 2 JDBC statements;
+    258782 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -2116,8 +2116,8 @@ Hibernate:
             on v1_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:24.231Z  INFO 2915 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']; updating ...
-2025-09-16T10:54:24.231Z  INFO 2915 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']
+2025-09-17T14:45:43.210Z  INFO 2921 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']; updating ...
+2025-09-17T14:45:43.210Z  INFO 2921 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']
 Hibernate: 
     update
         vet 
@@ -2133,17 +2133,17 @@ Hibernate:
         vet_skill 
     where
         id=?
-2025-09-16T10:54:24.250Z  INFO 2915 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']
-2025-09-16T10:54:24.261Z  INFO 2915 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    30317 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.219Z  INFO 2921 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']
+2025-09-17T14:45:43.222Z  INFO 2921 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    36819 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1054633 nanoseconds spent preparing 3 JDBC statements;
-    114885 nanoseconds spent executing 1 JDBC statements;
-    306554 nanoseconds spent executing 2 JDBC batches;
+    1028193 nanoseconds spent preparing 3 JDBC statements;
+    141122 nanoseconds spent executing 1 JDBC statements;
+    2692980 nanoseconds spent executing 2 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    17565409 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 2 collections);
+    6853010 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 2 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -2161,8 +2161,8 @@ Hibernate:
             on v1_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:24.281Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']; deleting ...
-2025-09-16T10:54:24.282Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']
+2025-09-17T14:45:43.242Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']; deleting ...
+2025-09-17T14:45:43.243Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']
 Hibernate: 
     delete 
     from
@@ -2170,185 +2170,185 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:24.286Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:3251d7d7-82aa-4669-a7b9-05239286f756,name='Doc Mfefeebeecffd']
-2025-09-16T10:54:24.290Z  INFO 2915 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
+2025-09-17T14:45:43.250Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:018b6cb1-77a8-4ec9-8ca0-8b339dadd655,name='Doc Mbccaebfaccbdab']
+2025-09-17T14:45:43.253Z  INFO 2921 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38251 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    804097 nanoseconds spent preparing 2 JDBC statements;
+    126215 nanoseconds spent executing 1 JDBC statements;
+    153245 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    4151606 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2025-09-17T14:45:43.267Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']; creating ...
+2025-09-17T14:45:43.267Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']
+Hibernate: 
+    select
+        v1_0.id,
+        as1_0.id,
+        as1_0.skill,
+        v1_0.name,
+        v1_0.version 
+    from
+        vet v1_0 
+    left join
+        vet_skill as1_0 
+            on v1_0.id=as1_0.id 
+    where
+        v1_0.id=?
+Hibernate: 
+    insert 
+    into
+        vet
+        (name, version, id) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    update
+        vet 
+    set
+        version=? 
+    where
+        id=? 
+        and version=?
+Hibernate: 
+    insert 
+    into
+        vet_skill
+        (id, skill) 
+    values
+        (?, ?)
+2025-09-17T14:45:43.279Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']
+2025-09-17T14:45:43.289Z  INFO 2921 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38472 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    890307 nanoseconds spent preparing 4 JDBC statements;
+    101779 nanoseconds spent executing 1 JDBC statements;
+    254885 nanoseconds spent executing 3 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    7311425 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+Hibernate: 
+    select
+        v1_0.id,
+        v1_0.name,
+        v1_0.version 
+    from
+        vet v1_0 
+    where
+        lower(v1_0.name) like ? escape '!' 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        as1_0.id,
+        as1_0.skill 
+    from
+        vet_skill as1_0 
+    where
+        as1_0.id=?
+2025-09-17T14:45:43.321Z  INFO 2921 --- [o-auto-1-exec-9] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    37360 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    729919 nanoseconds spent preparing 2 JDBC statements;
+    2051427 nanoseconds spent executing 2 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+Hibernate: 
+    select
+        v1_0.id,
+        as1_0.id,
+        as1_0.skill,
+        v1_0.name,
+        v1_0.version 
+    from
+        vet v1_0 
+    left join
+        vet_skill as1_0 
+            on v1_0.id=as1_0.id 
+    where
+        v1_0.id=?
+2025-09-17T14:45:43.346Z  INFO 2921 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']; updating ...
+2025-09-17T14:45:43.347Z  INFO 2921 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']
+Hibernate: 
+    update
+        vet 
+    set
+        name=?,
+        version=? 
+    where
+        id=? 
+        and version=?
+Hibernate: 
+    delete 
+    from
+        vet_skill 
+    where
+        id=?
+2025-09-17T14:45:43.350Z  INFO 2921 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']
+2025-09-17T14:45:43.352Z  INFO 2921 --- [-auto-1-exec-10] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    45344 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    807662 nanoseconds spent preparing 3 JDBC statements;
+    134069 nanoseconds spent executing 1 JDBC statements;
+    286693 nanoseconds spent executing 2 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    1960167 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 2 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+Hibernate: 
+    select
+        v1_0.id,
+        as1_0.id,
+        as1_0.skill,
+        v1_0.name,
+        v1_0.version 
+    from
+        vet v1_0 
+    left join
+        vet_skill as1_0 
+            on v1_0.id=as1_0.id 
+    where
+        v1_0.id=?
+2025-09-17T14:45:43.365Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']; deleting ...
+2025-09-17T14:45:43.365Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']
+Hibernate: 
+    delete 
+    from
+        vet 
+    where
+        id=? 
+        and version=?
+2025-09-17T14:45:43.368Z  INFO 2921 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:098273fd-b862-49c5-90fc-84baac6b6a4c,name='Doc Maebaba']
+2025-09-17T14:45:43.370Z  INFO 2921 --- [o-auto-1-exec-1] i.StatisticalLoggingSessionEventListener : Session Metrics {
     34324 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    615221 nanoseconds spent preparing 2 JDBC statements;
-    135444 nanoseconds spent executing 1 JDBC statements;
-    119433 nanoseconds spent executing 1 JDBC batches;
+    759322 nanoseconds spent preparing 2 JDBC statements;
+    140161 nanoseconds spent executing 1 JDBC statements;
+    148637 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    896157 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
-2025-09-16T10:54:24.311Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']; creating ...
-2025-09-16T10:54:24.311Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']
-Hibernate: 
-    select
-        v1_0.id,
-        as1_0.id,
-        as1_0.skill,
-        v1_0.name,
-        v1_0.version 
-    from
-        vet v1_0 
-    left join
-        vet_skill as1_0 
-            on v1_0.id=as1_0.id 
-    where
-        v1_0.id=?
-Hibernate: 
-    insert 
-    into
-        vet
-        (name, version, id) 
-    values
-        (?, ?, ?)
-Hibernate: 
-    update
-        vet 
-    set
-        version=? 
-    where
-        id=? 
-        and version=?
-Hibernate: 
-    insert 
-    into
-        vet_skill
-        (id, skill) 
-    values
-        (?, ?)
-2025-09-16T10:54:24.316Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']
-2025-09-16T10:54:24.318Z  INFO 2915 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    32391 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    796819 nanoseconds spent preparing 4 JDBC statements;
-    83717 nanoseconds spent executing 1 JDBC statements;
-    270115 nanoseconds spent executing 3 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    2047153 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
-Hibernate: 
-    select
-        v1_0.id,
-        v1_0.name,
-        v1_0.version 
-    from
-        vet v1_0 
-    where
-        lower(v1_0.name) like ? escape '!' 
-    offset
-        ? rows 
-    fetch
-        first ? rows only
-Hibernate: 
-    select
-        as1_0.id,
-        as1_0.skill 
-    from
-        vet_skill as1_0 
-    where
-        as1_0.id=?
-2025-09-16T10:54:24.339Z  INFO 2915 --- [o-auto-1-exec-9] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    33283 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    1848080 nanoseconds spent preparing 2 JDBC statements;
-    233777 nanoseconds spent executing 2 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
-Hibernate: 
-    select
-        v1_0.id,
-        as1_0.id,
-        as1_0.skill,
-        v1_0.name,
-        v1_0.version 
-    from
-        vet v1_0 
-    left join
-        vet_skill as1_0 
-            on v1_0.id=as1_0.id 
-    where
-        v1_0.id=?
-2025-09-16T10:54:24.358Z  INFO 2915 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']; updating ...
-2025-09-16T10:54:24.358Z  INFO 2915 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']
-Hibernate: 
-    update
-        vet 
-    set
-        name=?,
-        version=? 
-    where
-        id=? 
-        and version=?
-Hibernate: 
-    delete 
-    from
-        vet_skill 
-    where
-        id=?
-2025-09-16T10:54:24.362Z  INFO 2915 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']
-2025-09-16T10:54:24.364Z  INFO 2915 --- [-auto-1-exec-10] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27101 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    951240 nanoseconds spent preparing 3 JDBC statements;
-    117710 nanoseconds spent executing 1 JDBC statements;
-    251510 nanoseconds spent executing 2 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    3223632 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 2 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
-Hibernate: 
-    select
-        v1_0.id,
-        as1_0.id,
-        as1_0.skill,
-        v1_0.name,
-        v1_0.version 
-    from
-        vet v1_0 
-    left join
-        vet_skill as1_0 
-            on v1_0.id=as1_0.id 
-    where
-        v1_0.id=?
-2025-09-16T10:54:24.374Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']; deleting ...
-2025-09-16T10:54:24.374Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']
-Hibernate: 
-    delete 
-    from
-        vet 
-    where
-        id=? 
-        and version=?
-2025-09-16T10:54:24.376Z  INFO 2915 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:03907fe0-d1b3-42d2-9831-1ef9259b47ea,name='Doc Mfdbccaddeadddd']
-2025-09-16T10:54:24.377Z  INFO 2915 --- [o-auto-1-exec-1] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    28353 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    499744 nanoseconds spent preparing 2 JDBC statements;
-    111529 nanoseconds spent executing 1 JDBC statements;
-    160300 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    833039 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    931483 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -2379,11 +2379,11 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2025-09-16T10:54:24.391Z  INFO 2915 --- [o-auto-1-exec-2] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    25037 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.397Z  INFO 2921 --- [o-auto-1-exec-2] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    35537 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    571128 nanoseconds spent preparing 2 JDBC statements;
-    245850 nanoseconds spent executing 2 JDBC statements;
+    670878 nanoseconds spent preparing 2 JDBC statements;
+    316819 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -2413,11 +2413,11 @@ Hibernate:
         vet_skill as1_0 
     where
         as1_0.id=?
-2025-09-16T10:54:24.408Z  INFO 2915 --- [o-auto-1-exec-3] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    46417 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.425Z  INFO 2921 --- [o-auto-1-exec-3] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    36928 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    566209 nanoseconds spent preparing 2 JDBC statements;
-    211405 nanoseconds spent executing 2 JDBC statements;
+    2527736 nanoseconds spent preparing 2 JDBC statements;
+    310328 nanoseconds spent executing 2 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -2460,8 +2460,8 @@ Hibernate:
             on v1_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:24.428Z  INFO 2915 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']; creating ...
-2025-09-16T10:54:24.429Z  INFO 2915 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']
+2025-09-17T14:45:43.442Z  INFO 2921 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']; creating ...
+2025-09-17T14:45:43.442Z  INFO 2921 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']
 Hibernate: 
     select
         v1_0.id,
@@ -2507,17 +2507,17 @@ Hibernate:
         (date, pet_id, text, version, vet_id, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2025-09-16T10:54:24.433Z  INFO 2915 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']
-2025-09-16T10:54:24.443Z  INFO 2915 --- [o-auto-1-exec-4] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    28373 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.445Z  INFO 2921 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']
+2025-09-17T14:45:43.454Z  INFO 2921 --- [o-auto-1-exec-4] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    33693 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1757597 nanoseconds spent preparing 4 JDBC statements;
-    240891 nanoseconds spent executing 3 JDBC statements;
-    104365 nanoseconds spent executing 1 JDBC batches;
+    1779422 nanoseconds spent preparing 4 JDBC statements;
+    213768 nanoseconds spent executing 3 JDBC statements;
+    107711 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1199675 nanoseconds spent executing 1 flushes (flushing a total of 4 entities and 2 collections);
+    1172922 nanoseconds spent executing 1 flushes (flushing a total of 4 entities and 2 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -2559,11 +2559,11 @@ Hibernate:
             on v2_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:24.460Z  INFO 2915 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    24536 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.477Z  INFO 2921 --- [o-auto-1-exec-5] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    32701 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    856911 nanoseconds spent preparing 1 JDBC statements;
-    154650 nanoseconds spent executing 1 JDBC statements;
+    791282 nanoseconds spent preparing 1 JDBC statements;
+    159236 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -2610,11 +2610,11 @@ Hibernate:
             on v2_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:24.473Z  INFO 2915 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27903 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.515Z  INFO 2921 --- [o-auto-1-exec-6] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    37389 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    577651 nanoseconds spent preparing 1 JDBC statements;
-    130024 nanoseconds spent executing 1 JDBC statements;
+    584498 nanoseconds spent preparing 1 JDBC statements;
+    150039 nanoseconds spent executing 1 JDBC statements;
     0 nanoseconds spent executing 0 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
@@ -2661,8 +2661,8 @@ Hibernate:
             on v2_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:24.486Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']; updating ...
-2025-09-16T10:54:24.486Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']
+2025-09-17T14:45:43.544Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']; updating ...
+2025-09-17T14:45:43.544Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']
 Hibernate: 
     update
         visit 
@@ -2675,17 +2675,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:24.488Z  INFO 2915 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']
-2025-09-16T10:54:24.490Z  INFO 2915 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    26239 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.548Z  INFO 2921 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']
+2025-09-17T14:45:43.552Z  INFO 2921 --- [o-auto-1-exec-7] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    38812 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    1095630 nanoseconds spent preparing 2 JDBC statements;
-    161793 nanoseconds spent executing 1 JDBC statements;
-    201397 nanoseconds spent executing 1 JDBC batches;
+    4871294 nanoseconds spent preparing 2 JDBC statements;
+    1006082 nanoseconds spent executing 1 JDBC statements;
+    211443 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1666699 nanoseconds spent executing 1 flushes (flushing a total of 4 entities and 2 collections);
+    3520627 nanoseconds spent executing 1 flushes (flushing a total of 4 entities and 2 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -2727,8 +2727,8 @@ Hibernate:
             on v2_0.id=as1_0.id 
     where
         v1_0.id=?
-2025-09-16T10:54:24.510Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']; deleting ...
-2025-09-16T10:54:24.510Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']
+2025-09-17T14:45:43.585Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']; deleting ...
+2025-09-17T14:45:43.586Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']
 Hibernate: 
     delete 
     from
@@ -2736,17 +2736,17 @@ Hibernate:
     where
         id=? 
         and version=?
-2025-09-16T10:54:24.513Z  INFO 2915 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:18dd3fe0-8d00-4a27-a764-6a2b764821e1,date='2025-09-16']
-2025-09-16T10:54:24.515Z  INFO 2915 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    28243 nanoseconds spent acquiring 1 JDBC connections;
+2025-09-17T14:45:43.591Z  INFO 2921 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:9d602a2d-9de7-413f-a82c-8c0aa1c48114,date='2025-09-17']
+2025-09-17T14:45:43.594Z  INFO 2921 --- [o-auto-1-exec-8] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    39594 nanoseconds spent acquiring 1 JDBC connections;
     0 nanoseconds spent releasing 0 JDBC connections;
-    3744559 nanoseconds spent preparing 2 JDBC statements;
-    1088627 nanoseconds spent executing 1 JDBC statements;
-    107332 nanoseconds spent executing 1 JDBC batches;
+    3173455 nanoseconds spent preparing 2 JDBC statements;
+    708889 nanoseconds spent executing 1 JDBC statements;
+    158295 nanoseconds spent executing 1 JDBC batches;
     0 nanoseconds spent performing 0 L2C puts;
     0 nanoseconds spent performing 0 L2C hits;
     0 nanoseconds spent performing 0 L2C misses;
-    1227699 nanoseconds spent executing 1 flushes (flushing a total of 4 entities and 2 collections);
+    2272429 nanoseconds spent executing 1 flushes (flushing a total of 4 entities and 2 collections);
     0 nanoseconds spent executing 0 pre-partial-flushes;
     0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
 }
@@ -2772,7 +2772,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at Sep 16, 2025, 10:54:25 AM</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at Sep 17, 2025, 2:45:44 PM</p>
 </div>
 </div>
 </body>
