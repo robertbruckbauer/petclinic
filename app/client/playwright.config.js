@@ -8,7 +8,7 @@ const config = {
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-test-ignore */
   testIgnore: "**/*Page.js",
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  timeout: process.env.PWDEBUG ? 0 : 30000,
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-expect */
   expect: {
     /* Maximum time expect() should wait for the condition to be met. */
@@ -34,7 +34,9 @@ const config = {
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-base-url */
     baseURL: "http://localhost:5000",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-trace */
-    trace: "on",
+    trace: "retain-on-failure",
+    /* See https://playwright.dev/docs/api/class-testoptions#test-options-video */
+    video: "retain-on-failure",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-screenshot */
     screenshot: "on",
   },
