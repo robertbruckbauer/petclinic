@@ -3,6 +3,7 @@ module.exports = {
     "mergeConfidence:all-badges",
     "config:best-practices",
     "group:allNonMajor",
+    "group:springBoot",
     ":preserveSemverRanges",
     ":disableDependencyDashboard",
   ],
