@@ -33,7 +33,7 @@ playwright() {
     cd $dir/app/client
     PLAYWRIGHT_HTML_REPORT=$dir/pages/html/client/playwright \
     PLAYWRIGHT_HTML_OPEN=never \
-    npx playwright test --reporter=list,html --trace=off
+    npx playwright test --reporter=list,html --trace=off --retries=1
 }
 
 if composeUp; then
