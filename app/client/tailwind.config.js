@@ -1,7 +1,5 @@
 import colors from "tailwindcss/colors";
-import forms from "@tailwindcss/forms";
 export default {
-  mode: "jit",
   content: ["./src/**/*.{html,svelte,js,ts}"],
   theme: {
     extend: {
