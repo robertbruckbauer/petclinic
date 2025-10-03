@@ -50,7 +50,9 @@ jobs:
         run: gradle versionTag versionCheck
 
       - name: Build Node
-        run: sh -xv app/client/build.npm.sh ci
+        run: |
+          sh -xv app/client-angular/build.npm.sh ci
+          sh -xv app/client-svelte/build.npm.sh ci
 
       - name: Build Java
         run: |

@@ -2,13 +2,9 @@ plugins {
     id 'base'
 }
 
-ext.SERVER_NAME = "server"
-ext.SERVER_IMAGE = rootProject.name + "/server"
-ext.CLIENT_NAME = "server"                  
-ext.CLIENT_IMAGE = rootProject.name + "/server"
-
 tasks.register('composeUp') {
-    mustRunAfter ':app:client:buildImage'
+    mustRunAfter ':app:client-angular:buildImage'
+    mustRunAfter ':app:client-svelte:buildImage'
     mustRunAfter ':app:server:buildImage'
     doLast {
         println '\nDeploying with latest'

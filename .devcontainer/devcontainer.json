@@ -23,16 +23,20 @@
       ]
     }
   },
-  "forwardPorts": [8080, 5000],
+  "forwardPorts": [8080, 5052, 5000],
   "portsAttributes": {
     "8080": {
       "label": "Backend API",
       "onAutoForward": "notify"
     },
+    "5052": {
+      "label": "Angular",
+      "onAutoForward": "openBrowser"
+    },
     "5000": {
-      "label": "Frontend",
+      "label": "Svelte",
       "onAutoForward": "openBrowser"
     }
   },
-  "postCreateCommand": "npm install --prefix app/client"
+  "postCreateCommand": "npm install --prefix app/client-angular && npm install --prefix app/client-svelte"
 }

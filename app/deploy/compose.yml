@@ -1,7 +1,12 @@
 services:
-  client:
-    hostname: client
-    image: ${COMPOSE_PROJECT_NAME}/client
+  client-angular:
+    hostname: client-angular
+    image: ${COMPOSE_PROJECT_NAME}/client-angular
+    ports:
+      - 5052:5052
+  client-svelte:
+    hostname: client-svelte
+    image: ${COMPOSE_PROJECT_NAME}/client-svelte
     ports:
       - 5000:5000
   server:

@@ -1,0 +1,82 @@
+plugins {
+    id 'base'
+    id 'com.github.node-gradle.node'
+}
+
+clean {
+    delete ".angular"
+}
+
+tasks.register('npmBuild', NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    build.dependsOn it
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'build']
+}
+
+tasks.register('npmTest', NpmTask) {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmBuild'
+    check.dependsOn it
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'test']
+}
+
+import java.util.Optional;
+ext.CLIENT_NAME = Optional.ofNullable(System.getenv("CLIENT_NAME"))
+        .orElse(rootProject.name + "-" + project.name)
+ext.CLIENT_IMAGE = Optional.ofNullable(System.getenv("CLIENT_IMAGE"))
+            .orElse(rootProject.name + "/" + project.name)
+ext.CLIENT_TAG = Optional.ofNullable(System.getenv("CLIENT_TAG"))
+            .orElse('latest')
+
+// https://docs.docker.com/reference/cli/docker/build/
+// https://docs.docker.com/reference/cli/docker/image/tag/
+tasks.register('buildImage') {
+    group = 'build'
+    mustRunAfter 'build'
+    enabled = true
+    doLast {
+        String image1 = CLIENT_IMAGE + ":" + CLIENT_TAG;
+        String image2 = CLIENT_IMAGE + ":" + VERSION;
+        exec {
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'build', '.', '-t', image1
+        }
+        if (image1 != image2) {
+            exec {
+                workingDir "${projectDir}"
+                executable 'docker'
+                args 'tag', image1, image2
+            }
+            println 'Built image to docker daemon as ' + image1 + ", " + image2
+        } else {
+            println 'Built image to docker daemon as ' + image1
+        }
+    }
+}
+
+tasks.register('versionCheck', VersionCheckTask.class)  {
+    group 'verification'
+    allFileWithVersion.from("package.json", "package-lock.json")
+}
+
+tasks.register('lint', NpmTask) {
+    group = 'verification'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    npmCommand = ['run', 'prettierCheck']
+}
+
+tasks.register('format', NpmTask) {
+    group = 'build'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    npmCommand = ['run', 'prettierApply']
+}

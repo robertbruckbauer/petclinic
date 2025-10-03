@@ -12,15 +12,21 @@ https://spring.io/projects/spring-boot
 
 http://hsqldb.org
 
-=== app/client
+=== app/client-angular
+
+Browser-basierter Web-Client der Anwendung.
+
+https://angular.dev
+
+https://tailwindcss.com
+
+=== app/client-svelte
 
 Browser-basierter Web-Client der Anwendung.
 
 https://svelte.dev
 
 https://tailwindcss.com
-
-https://visionmedia.github.io/page.js
 
 https://vitejs.dev
 
@@ -112,7 +118,8 @@ Der Befehl prüft, ob alle eingetragenen Version mit Major- und Minor-Nummer exa
 
 [source, npm]
 ----
-npm install --prefix app/client
+npm install --prefix app/client-angular
+npm install --prefix app/client-svelte
 ----
 
 [source, gradle]
@@ -149,15 +156,25 @@ Mit dem Wert `TRACE` werden bspw. die aktuellen Parameter von Statements ausgege
 Mit der Umgebungsvariable `LOGGING_LEVEL_ORG_HIBERNATE_STAT` kann die Ausgabe von Statistiken gesteuert werden.
 Mit dem Wert `DEBUG` werden bspw. die Kennzahlen von Statements ausgegeben.
 
+=== Angular-Client lokal starten
+
+[source, npm]
+----
+npm run start --prefix app/client-angular
+----
+
+Der Befehl startet den Client als Node-Anwendung.
+Der Client wird im Browser mit `localhost:5052` aufgerufen.
+
 === Svelte-Client lokal starten
 
 [source, npm]
 ----
-npm run dev --prefix app/client
+npm run dev --prefix app/client-svelte
 ----
 
 Der Befehl startet den Client als Node-Anwendung.
-Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
+Der Client wird im Browser mit `localhost:5000` aufgerufen.
 
 === Anwendung lokal starten
 
@@ -166,15 +183,16 @@ Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
 ./gradlew composeUp
 ----
 
-Der Befehl startet Client und Server lokal.
-Die Anwendung wird im Browser mit `localhost:5000` aufgerufen.
+Der Befehl startet Clients und Server lokal.
+Der Angular-Client wird im Browser mit `localhost:5052` aufgerufen.
+Der Svelte-Client wird im Browser mit `localhost:5000` aufgerufen.
 
 [source, gradle]
 ----
 ./gradlew composeDown
 ----
 
-Der Befehl stoppt Client und Server.
+Der Befehl stoppt Clients und Server.
 
 === Anwendung lokal testen
 
