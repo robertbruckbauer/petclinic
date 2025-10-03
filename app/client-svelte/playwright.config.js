@@ -32,7 +32,7 @@ const config = {
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-action-timeout */
     actionTimeout: 0,
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-base-url */
-    baseURL: "http://localhost:5000",
+    baseURL: "http://localhost:5050",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-trace */
     trace: "retain-on-failure",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-video */

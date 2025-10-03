@@ -19,7 +19,7 @@ composeUp() {
     cd $dir/app/deploy
     docker compose --project-name petclinic --file compose.yml up --detach --no-build server client-svelte
     healthz 8080
-    healthz 5000
+    healthz 5050
     echo "System is up"
 }
 
