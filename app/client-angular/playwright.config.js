@@ -2,7 +2,7 @@ import { devices } from "@playwright/test";
 
 const config = {
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-test-dir */
-  testDir: "./src/test",
+  testDir: "./src/test/playwright",
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-test-match */
   testMatch: /.+\.e2e\.js/,
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-test-ignore */
@@ -24,7 +24,7 @@ const config = {
   outputDir: "build/test-results/",
   /* See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ["html", { outputFolder: "../../pages/html/client/playwright" }],
+    ["list"],
     ["junit", { outputFile: "build/test-results/test/TEST-playwright.xml" }],
   ],
   /* See https://playwright.dev/docs/api/class-testoptions. */
@@ -32,7 +32,7 @@ const config = {
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-action-timeout */
     actionTimeout: 0,
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-base-url */
-    baseURL: "http://localhost:5000",
+    baseURL: "http://localhost:5052",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-trace */
     trace: "retain-on-failure",
     /* See https://playwright.dev/docs/api/class-testoptions#test-options-video */

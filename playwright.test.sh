@@ -17,9 +17,10 @@ healthz() {
 
 composeUp() {
     cd $dir/app/deploy
-    docker compose --project-name petclinic --file compose.yml up --detach --no-build server client
+    docker compose --project-name petclinic --file compose.yml up --detach --no-build server client-angular client-svelte
     healthz 8080
-    healthz 5000
+    healthz 5050
+    healthz 5052
     echo "System is up"
 }
 
@@ -30,8 +31,12 @@ composeDown() {
 }
 
 playwright() {
-    cd $dir/app/client
-    PLAYWRIGHT_HTML_REPORT=$dir/pages/html/client/playwright \
+    cd $dir/app/client-angular
+    PLAYWRIGHT_HTML_REPORT=$dir/pages/html/client-angular/playwright \
+    PLAYWRIGHT_HTML_OPEN=never \
+    npx playwright test --reporter=list,html --trace=off --retries=1
+    cd $dir/app/client-svelte
+    PLAYWRIGHT_HTML_REPORT=$dir/pages/html/client-svelte/playwright \
     PLAYWRIGHT_HTML_OPEN=never \
     npx playwright test --reporter=list,html --trace=off --retries=1
 }
