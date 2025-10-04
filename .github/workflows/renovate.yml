@@ -1,7 +1,7 @@
-# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#name
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#name
 name: "renovate"
 
-# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#on
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#on
 on:
   # run on every push to the default branch
   push:
@@ -13,10 +13,16 @@ on:
   # run manually
   workflow_dispatch:
 
-# https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobs
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobs
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions
 jobs:
   renovate:
     runs-on: ubuntu-latest    
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      security-events: read
     steps:
       - uses: actions/checkout@v5
       - uses: renovatebot/github-action@v43.0.13

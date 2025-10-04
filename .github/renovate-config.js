@@ -6,6 +6,7 @@ module.exports = {
     "group:springBoot",
     ":preserveSemverRanges",
     ":disableDependencyDashboard",
+    ":disableVulnerabilityAlerts"
   ],
   labels: ["renovate"],
   // https://docs.renovatebot.com/self-hosted-configuration/#onboarding
@@ -25,7 +26,7 @@ module.exports = {
   // https://docs.renovatebot.com/configuration-options/#prhourlylimit
   prHourlyLimit: 0,
   // https://docs.renovatebot.com/configuration-options/#rebasewhen
-  rebaseWhen: "never",
+  rebaseWhen: "behind-base-branch",
   // https://docs.renovatebot.com/configuration-options/#ignoreprauthor
   // If the access token changes, the old mrs are not recognized
   ignorePrAuthor: true,
