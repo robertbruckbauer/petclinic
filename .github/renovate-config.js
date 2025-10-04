@@ -6,6 +6,7 @@ module.exports = {
     "group:springBoot",
     ":preserveSemverRanges",
     ":disableDependencyDashboard",
+    ":disableVulnerabilityAlerts",
   ],
   labels: ["renovate"],
   // https://docs.renovatebot.com/self-hosted-configuration/#onboarding
@@ -25,9 +26,8 @@ module.exports = {
   // https://docs.renovatebot.com/configuration-options/#prhourlylimit
   prHourlyLimit: 0,
   // https://docs.renovatebot.com/configuration-options/#rebasewhen
-  rebaseWhen: "never",
+  rebaseWhen: "behind-base-branch",
   // https://docs.renovatebot.com/configuration-options/#ignoreprauthor
-  // If the access token changes, the old mrs are not recognized
   ignorePrAuthor: true,
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
@@ -36,10 +36,17 @@ module.exports = {
     {
       groupName: "Playwright",
       matchManagers: ["npm", "gradle"],
-      matchDepNames: ["@playwright/test", "playwright"],
-      matchDepPatterns: ["^com\\.microsoft\\.playwright:playwright$"],
+      matchDepNames: [
+        "@playwright/test",
+        "/^com\\.microsoft\\.playwright:playwright$/",
+      ],
       separateMajorMinor: false,
       separateMinorPatch: false,
+    },
+    // https://docs.renovatebot.com/modules/manager/npm/
+    {
+      matchManagers: ["npm"],
+      matchFileNames: ["app/**/package.json"],
     },
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
@@ -59,11 +66,6 @@ module.exports = {
       matchFileNames: ["app/**/compose*.yml"],
       matchUpdateTypes: ["major"],
       pinDigests: true,
-    },
-    // https://docs.renovatebot.com/modules/manager/npm/
-    {
-      matchManagers: ["npm"],
-      matchFileNames: ["app/**/package.json"],
     },
     // https://docs.renovatebot.com/modules/datasource/docker/
     {
