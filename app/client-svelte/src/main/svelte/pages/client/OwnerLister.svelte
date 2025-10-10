@@ -7,7 +7,7 @@
   import TextField from "../../components/TextField/index.js";
   import OwnerEditor from "./OwnerEditor.svelte";
   import PetEditor from "./PetEditor.svelte";
-  import VisitCardLister from "../VisitCardLister.svelte";
+  import VisitCardLister from "../clinic/VisitCardLister.svelte";
 
   let allVetItem = $state([]);
   let allSpeciesEnum = $state([]);

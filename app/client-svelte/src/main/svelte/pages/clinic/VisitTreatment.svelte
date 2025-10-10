@@ -1,19 +1,17 @@
 <script>
-  import * as restApi from "../services/rest.js";
+  import * as restApi from "../../services/rest.js";
   import { onMount } from "svelte";
-  import { toast } from "../components/Toast";
-  import Button from "../components/Button";
-  import Select from "../components/Select";
-  import TextArea from "../components/TextArea";
+  import { toast } from "../../components/Toast";
+  import Button from "../../components/Button";
+  import TextField from "../../components/TextField";
 
   let {
     autofocus = true,
     autoscroll = true,
     visible = $bindable(false),
-    allVetItem,
-    visit,
+    pet,
     oncancel = undefined,
-    onupdate = undefined,
+    oncreate = undefined,
   } = $props();
 
   let clicked = $state(false);
@@ -25,21 +23,17 @@
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
-  let newVisitText = $derived(visit.text);
-  let newVisitVetItem = $derived(visit.vetItem);
+  let newVisitDate = $state();
   const newVisit = $derived({
-    id: visit.id,
-    version: visit.version,
-    text: newVisitText,
-    vetItem: newVisitVetItem,
-    vet: "/api/vet/" + newVisitVetItem.value,
+    pet: "/api/pet/" + pet.id,
+    date: newVisitDate,
   });
 
   function handleSubmit(_event) {
     _event.preventDefault();
     try {
       clicked = true;
-      updateVisit();
+      createVisit();
     } finally {
       clicked = false;
     }
@@ -51,13 +45,13 @@
     oncancel?.();
   }
 
-  function updateVisit() {
+  function createVisit() {
     restApi
-      .updatePatch("/api/visit/" + newVisit.id, newVisit)
+      .createValue("/api/visit", newVisit)
       .then((json) => {
         console.log(["createVisit", newVisit, json]);
         visible = false;
-        onupdate?.(json);
+        oncreate?.(json);
       })
       .catch((err) => {
         console.log(["createVisit", newVisit, err]);
@@ -69,21 +63,13 @@
 <div class="flex flex-col">
   <form onsubmit={handleSubmit}>
     <div class="w-full">
-      <TextArea
+      <TextField
         bind:this={focusOn}
-        bind:value={newVisitText}
+        bind:value={newVisitDate}
+        type="date"
         required
-        label="Diagnosis"
-        placeholder="Insert diagnosis"
-      />
-    </div>
-    <div class="full">
-      <Select
-        bind:value={newVisitVetItem}
-        allItem={allVetItem}
-        required
-        label="Vet"
-        placeholder="Choose vet"
+        label="Date of treatment"
+        placeholder="Choose a date"
       />
     </div>
     <div class="py-4 flex flex-row gap-1 items-baseline">

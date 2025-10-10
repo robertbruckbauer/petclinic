@@ -7,7 +7,7 @@
   import Icon from "../../components/Icon/index.js";
   import Select from "../../components/Select/index.js";
   import PetEditor from "./PetEditor.svelte";
-  import VisitTreatment from "../VisitTreatment.svelte";
+  import VisitTreatment from "../clinic/VisitTreatment.svelte";
 
   let allOwnerItem = $state([]);
   let allSpeciesEnum = $state([]);

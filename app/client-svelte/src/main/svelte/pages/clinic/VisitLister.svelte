@@ -1,9 +1,9 @@
 <script>
-  import * as restApi from "../services/rest.js";
+  import * as restApi from "../../services/rest.js";
   import { onMount } from "svelte";
-  import { toast } from "../components/Toast";
-  import Circle from "../components/Spinner";
-  import Icon from "../components/Icon";
+  import { toast } from "../../components/Toast";
+  import Circle from "../../components/Spinner";
+  import Icon from "../../components/Icon";
   import VisitDiagnose from "./VisitDiagnose.svelte";
 
   let allVetItem = $state([]);

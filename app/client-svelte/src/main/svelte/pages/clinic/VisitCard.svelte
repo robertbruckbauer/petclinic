@@ -1,6 +1,6 @@
 <script>
-  import Text from "../components/Text";
-  import TextArea from "../components/TextArea";
+  import Text from "../../components/Text";
+  import TextArea from "../../components/TextArea";
 
   let { visit } = $props();
 

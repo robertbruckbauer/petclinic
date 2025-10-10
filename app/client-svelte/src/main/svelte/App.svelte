@@ -6,18 +6,18 @@
   import Router from "./router/Router.svelte";
   import Route from "./router/Route.svelte";
   import RouteNotFound from "./router/RouteNotFound.svelte";
-  import AppHelp from "./AppHelp.svelte";
   import AppHome from "./AppHome.svelte";
   import AppLogo from "./AppLogo.svelte";
   import AppIcon from "./AppIcon.svelte";
+  import Help from "./pages/Help.svelte";
   import EnumLister from "./pages/info/EnumLister.svelte";
   import OwnerLister from "./pages/client/OwnerLister.svelte";
   import OwnerViewer from "./pages/client/OwnerViewer.svelte";
   import PetLister from "./pages/client/PetLister.svelte";
   import PetViewer from "./pages/client/PetViewer.svelte";
-  import Vet from "./pages/Vet.svelte";
-  import VetViewer from "./pages/VetViewer.svelte";
-  import Visit from "./pages/Visit.svelte";
+  import VetLister from "./pages/clinic/VetLister.svelte";
+  import VetViewer from "./pages/clinic/VetViewer.svelte";
+  import VisitLister from "./pages/clinic/VisitLister.svelte";
 
   let menuVisible = $state(false);
   function handleClick() {
@@ -74,13 +74,13 @@
     <Router>
       <Route path="/" component={AppHome} />
       <Route path="/home" component={AppHome} />
-      <Route path="/help" component={AppHelp} />
+      <Route path="/help" component={Help} />
       <Route path="/owner" component={OwnerLister} />
       <Route path="/owner/:id" component={OwnerViewer} />
       <Route path="/pet" component={PetLister} />
       <Route path="/pet/:id" component={PetViewer} />
-      <Route path="/visit" component={Visit} />
-      <Route path="/vet" component={Vet} />
+      <Route path="/visit" component={VisitLister} />
+      <Route path="/vet" component={VetLister} />
       <Route path="/vet/:id" component={VetViewer} />
       <Route path="/enum/skill" component={EnumLister} art="skill" />
       <Route path="/enum/species" component={EnumLister} art="species" />
