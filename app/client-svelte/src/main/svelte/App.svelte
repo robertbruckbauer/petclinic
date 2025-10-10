@@ -3,9 +3,9 @@
   import { fly } from "svelte/transition";
   import { quadIn } from "svelte/easing";
   import Toast from "./components/Toast";
-  import Router from "./pager/Router.svelte";
-  import Route from "./pager/Route.svelte";
-  import RouteNotFound from "./pager/RouteNotFound.svelte";
+  import Router from "./router/Router.svelte";
+  import Route from "./router/Route.svelte";
+  import RouteNotFound from "./router/RouteNotFound.svelte";
   import AppHelp from "./AppHelp.svelte";
   import AppHome from "./AppHome.svelte";
   import AppLogo from "./AppLogo.svelte";
