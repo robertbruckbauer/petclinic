@@ -1,10 +1,10 @@
 <script>
-  import * as restApi from "../services/rest.js";
+  import * as restApi from "../../services/rest.js";
   import { onMount } from "svelte";
-  import { toast } from "../components/Toast";
-  import Icon from "../components/Icon";
-  import TextField from "../components/TextField";
-  import Circle from "../components/Spinner";
+  import { toast } from "../../components/Toast/index.js";
+  import Icon from "../../components/Icon/index.js";
+  import TextField from "../../components/TextField/index.js";
+  import Circle from "../../components/Spinner/index.js";
   import EnumEditor from "./EnumEditor.svelte";
 
   let { art } = $props();

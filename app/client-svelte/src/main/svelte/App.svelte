@@ -10,7 +10,7 @@
   import AppHome from "./AppHome.svelte";
   import AppLogo from "./AppLogo.svelte";
   import AppIcon from "./AppIcon.svelte";
-  import Enum from "./pages/Enum.svelte";
+  import EnumLister from "./pages/info/EnumLister.svelte";
   import Owner from "./pages/Owner.svelte";
   import OwnerViewer from "./pages/OwnerViewer.svelte";
   import Pet from "./pages/Pet.svelte";
@@ -82,8 +82,8 @@
       <Route path="/visit" component={Visit} />
       <Route path="/vet" component={Vet} />
       <Route path="/vet/:id" component={VetViewer} />
-      <Route path="/enum/skill" component={Enum} art="skill" />
-      <Route path="/enum/species" component={Enum} art="species" />
+      <Route path="/enum/skill" component={EnumLister} art="skill" />
+      <Route path="/enum/species" component={EnumLister} art="species" />
       <RouteNotFound>
         <h1>Ups!</h1>
       </RouteNotFound>
