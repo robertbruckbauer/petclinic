@@ -1,13 +1,13 @@
 <script>
-  import * as restApi from "./utils/rest.js";
+  import * as restApi from "../services/rest.js";
   import { onMount } from "svelte";
-  import { toast } from "./components/Toast";
+  import { toast } from "../components/Toast";
 
   let apiExplorer = restApi.apiExplorerUrl();
 
   let apiGraphiql = restApi.apiGraphiqlUrl();
 
-  let versionHtml = "<span>loading ..</span>";
+  let versionHtml = $state("<span>loading ..</span>");
 
   onMount(async () => {
     restApi
@@ -26,7 +26,7 @@
 <h1>Info</h1>
 <div class="flex flex-col ml-2 mr-2 space-y-2">
   <fieldset class="p-4 border-2 space-y-2">
-    <legend class="text-xs">APP-Logo</legend>
+    <legend class="text-xs">APP-Banner</legend>
     <div class="text-2xl">
       <img src="/pets.png" alt="Pets" />
     </div>

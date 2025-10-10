@@ -1,13 +1,13 @@
 <script>
-  import * as restApi from "../utils/rest.js";
-  import { storedOwner } from "../stores/owner.js";
+  import * as restApi from "../../services/rest.js";
+  import { storedOwner } from "../../stores/owner.js";
   import { onMount } from "svelte";
-  import { toast } from "../components/Toast";
-  import Circle from "../components/Spinner";
-  import Icon from "../components/Icon";
-  import Select from "../components/Select";
+  import { toast } from "../../components/Toast/index.js";
+  import Circle from "../../components/Spinner/index.js";
+  import Icon from "../../components/Icon/index.js";
+  import Select from "../../components/Select/index.js";
   import PetEditor from "./PetEditor.svelte";
-  import VisitTreatment from "./VisitTreatment.svelte";
+  import VisitTreatment from "../clinic/VisitTreatment.svelte";
 
   let allOwnerItem = $state([]);
   let allSpeciesEnum = $state([]);

@@ -1,18 +1,18 @@
 <script>
-  import * as restApi from "../utils/rest.js";
+  import * as restApi from "../../services/rest.js";
   import { onMount } from "svelte";
-  import { toast } from "../components/Toast";
+  import { toast } from "../../components/Toast";
 
   export let id;
 
-  let vet = {
+  let pet = {
     name: undefined,
   };
 
   onMount(async () => {
     try {
-      vet = await restApi.loadOneValue("/api/vet/" + id);
-      console.log(["onMount", vet]);
+      pet = await restApi.loadOneValue("/api/pet/" + id);
+      console.log(["onMount", pet]);
     } catch (err) {
       console.log(["onMount", err]);
       toast.push(err.toString());
@@ -20,4 +20,4 @@
   });
 </script>
 
-<h1>{vet.name}</h1>
+<h1>{pet.name}</h1>

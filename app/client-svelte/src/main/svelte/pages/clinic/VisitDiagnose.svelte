@@ -1,10 +1,10 @@
 <script>
-  import * as restApi from "../utils/rest.js";
+  import * as restApi from "../../services/rest.js";
   import { onMount } from "svelte";
-  import { toast } from "../components/Toast";
-  import Button from "../components/Button";
-  import Select from "../components/Select";
-  import TextArea from "../components/TextArea";
+  import { toast } from "../../components/Toast";
+  import Button from "../../components/Button";
+  import Select from "../../components/Select";
+  import TextArea from "../../components/TextArea";
 
   let {
     autofocus = true,

@@ -3,21 +3,21 @@
   import { fly } from "svelte/transition";
   import { quadIn } from "svelte/easing";
   import Toast from "./components/Toast";
-  import Router from "./pager/Router.svelte";
-  import Route from "./pager/Route.svelte";
-  import RouteNotFound from "./pager/RouteNotFound.svelte";
-  import AppHelp from "./AppHelp.svelte";
-  import AppHome from "./AppHome.svelte";
-  import AppLogo from "./AppLogo.svelte";
-  import AppIcon from "./AppIcon.svelte";
-  import Enum from "./pages/Enum.svelte";
-  import Owner from "./pages/Owner.svelte";
-  import OwnerViewer from "./pages/OwnerViewer.svelte";
-  import Pet from "./pages/Pet.svelte";
-  import PetViewer from "./pages/PetViewer.svelte";
-  import Vet from "./pages/Vet.svelte";
-  import VetViewer from "./pages/VetViewer.svelte";
-  import Visit from "./pages/Visit.svelte";
+  import Router from "./router/Router.svelte";
+  import Route from "./router/Route.svelte";
+  import RouteNotFound from "./router/RouteNotFound.svelte";
+  import AppLogo from "./components/AppLogo";
+  import AppIcon from "./components/AppIcon";
+  import Home from "./pages/Home.svelte";
+  import Help from "./pages/Help.svelte";
+  import EnumLister from "./pages/basis/EnumLister.svelte";
+  import OwnerLister from "./pages/client/OwnerLister.svelte";
+  import OwnerViewer from "./pages/client/OwnerViewer.svelte";
+  import PetLister from "./pages/client/PetLister.svelte";
+  import PetViewer from "./pages/client/PetViewer.svelte";
+  import VetLister from "./pages/clinic/VetLister.svelte";
+  import VetViewer from "./pages/clinic/VetViewer.svelte";
+  import VisitLister from "./pages/clinic/VisitLister.svelte";
 
   let menuVisible = $state(false);
   function handleClick() {
@@ -72,18 +72,18 @@
       </aside>
     {/if}
     <Router>
-      <Route path="/" component={AppHome} />
-      <Route path="/home" component={AppHome} />
-      <Route path="/help" component={AppHelp} />
-      <Route path="/owner" component={Owner} />
+      <Route path="/" component={Home} />
+      <Route path="/home" component={Home} />
+      <Route path="/help" component={Help} />
+      <Route path="/owner" component={OwnerLister} />
       <Route path="/owner/:id" component={OwnerViewer} />
-      <Route path="/pet" component={Pet} />
+      <Route path="/pet" component={PetLister} />
       <Route path="/pet/:id" component={PetViewer} />
-      <Route path="/visit" component={Visit} />
-      <Route path="/vet" component={Vet} />
+      <Route path="/visit" component={VisitLister} />
+      <Route path="/vet" component={VetLister} />
       <Route path="/vet/:id" component={VetViewer} />
-      <Route path="/enum/skill" component={Enum} art="skill" />
-      <Route path="/enum/species" component={Enum} art="species" />
+      <Route path="/enum/skill" component={EnumLister} art="skill" />
+      <Route path="/enum/species" component={EnumLister} art="species" />
       <RouteNotFound>
         <h1>Ups!</h1>
       </RouteNotFound>
