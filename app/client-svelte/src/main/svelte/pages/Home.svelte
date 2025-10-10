@@ -1,7 +1,7 @@
 <script>
-  import * as restApi from "./services/rest.js";
+  import * as restApi from "../services/rest.js";
   import { onMount } from "svelte";
-  import { toast } from "./components/Toast";
+  import { toast } from "../components/Toast";
 
   let apiExplorer = restApi.apiExplorerUrl();
 

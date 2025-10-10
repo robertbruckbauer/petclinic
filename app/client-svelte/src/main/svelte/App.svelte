@@ -6,9 +6,9 @@
   import Router from "./router/Router.svelte";
   import Route from "./router/Route.svelte";
   import RouteNotFound from "./router/RouteNotFound.svelte";
-  import AppHome from "./AppHome.svelte";
-  import AppLogo from "./AppLogo.svelte";
-  import AppIcon from "./AppIcon.svelte";
+  import AppLogo from "./components/AppLogo";
+  import AppIcon from "./components/AppIcon";
+  import Home from "./pages/Home.svelte";
   import Help from "./pages/Help.svelte";
   import EnumLister from "./pages/info/EnumLister.svelte";
   import OwnerLister from "./pages/client/OwnerLister.svelte";
@@ -72,8 +72,8 @@
       </aside>
     {/if}
     <Router>
-      <Route path="/" component={AppHome} />
-      <Route path="/home" component={AppHome} />
+      <Route path="/" component={Home} />
+      <Route path="/home" component={Home} />
       <Route path="/help" component={Help} />
       <Route path="/owner" component={OwnerLister} />
       <Route path="/owner/:id" component={OwnerViewer} />
