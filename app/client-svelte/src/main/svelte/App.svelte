@@ -11,10 +11,10 @@
   import AppLogo from "./AppLogo.svelte";
   import AppIcon from "./AppIcon.svelte";
   import EnumLister from "./pages/info/EnumLister.svelte";
-  import Owner from "./pages/Owner.svelte";
-  import OwnerViewer from "./pages/OwnerViewer.svelte";
-  import Pet from "./pages/Pet.svelte";
-  import PetViewer from "./pages/PetViewer.svelte";
+  import OwnerLister from "./pages/client/OwnerLister.svelte";
+  import OwnerViewer from "./pages/client/OwnerViewer.svelte";
+  import PetLister from "./pages/client/PetLister.svelte";
+  import PetViewer from "./pages/client/PetViewer.svelte";
   import Vet from "./pages/Vet.svelte";
   import VetViewer from "./pages/VetViewer.svelte";
   import Visit from "./pages/Visit.svelte";
@@ -75,9 +75,9 @@
       <Route path="/" component={AppHome} />
       <Route path="/home" component={AppHome} />
       <Route path="/help" component={AppHelp} />
-      <Route path="/owner" component={Owner} />
+      <Route path="/owner" component={OwnerLister} />
       <Route path="/owner/:id" component={OwnerViewer} />
-      <Route path="/pet" component={Pet} />
+      <Route path="/pet" component={PetLister} />
       <Route path="/pet/:id" component={PetViewer} />
       <Route path="/visit" component={Visit} />
       <Route path="/vet" component={Vet} />
