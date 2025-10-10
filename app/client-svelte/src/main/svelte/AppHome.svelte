@@ -1,5 +1,5 @@
 <script>
-  import * as restApi from "./utils/rest.js";
+  import * as restApi from "./services/rest.js";
   import { onMount } from "svelte";
   import { toast } from "./components/Toast";
 
