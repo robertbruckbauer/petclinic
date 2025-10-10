@@ -10,7 +10,7 @@
   import AppIcon from "./components/AppIcon";
   import Home from "./pages/Home.svelte";
   import Help from "./pages/Help.svelte";
-  import EnumLister from "./pages/info/EnumLister.svelte";
+  import EnumLister from "./pages/basis/EnumLister.svelte";
   import OwnerLister from "./pages/client/OwnerLister.svelte";
   import OwnerViewer from "./pages/client/OwnerViewer.svelte";
   import PetLister from "./pages/client/PetLister.svelte";
