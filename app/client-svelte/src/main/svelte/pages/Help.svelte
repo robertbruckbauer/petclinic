@@ -2,12 +2,48 @@
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">Server</legend>
     <div class="text-2xl underline text-blue-600">
-      <a href="https://spring.io/projects" target="_blank" rel="noreferrer">
-        Spring
+      <a
+        href="https://spring.io/projects/spring-boot"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Spring Boot
       </a>
       <br />
-      <a href="https://docs.asciidoctor.org" target="_blank" rel="noreferrer">
-        Asciidoc(tor)
+      <a
+        href="https://spring.io/projects/spring-security"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Spring Security
+      </a>
+      <br />
+      <a
+        href="https://spring.io/projects/spring-data-jpa"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Spring Data JPA
+      </a>
+      <br />
+      <a
+        href="https://spring.io/projects/spring-data-rest"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Spring Data REST
+      </a>
+      <br />
+      <a
+        href="https://spring.io/projects/spring-graphql"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Spring GraphQL
+      </a>
+      <br />
+      <a href="https://hibernate.org/" target="_blank" rel="noreferrer">
+        Hibernate
       </a>
     </div>
   </fieldset>
