@@ -1,19 +1,54 @@
 <article class="flex flex-col h-screen">
   <header class="flex justify-between items-center bg-gray-200 p-2 h-12">
     <nav class="flex flex-row text-lg text-gray-600 gap-1">
-      <app-icon />
-      <app-logo />
+      <app-icon [(open)]="menuVisible" />
+      <app-logo (click)="menuVisible.set(false)" routerLink="/home" />
     </nav>
     <nav class="flex flex-row text-lg text-gray-600 gap-1">
-      <a routerLink="/help">?</a>
+      <a (click)="menuVisible.set(false)" routerLink="/help">?</a>
     </nav>
   </header>
   <main class="flex-1 overflow-y-auto">
-    <router-outlet />
+    @if (menuVisible()) {
+      <aside class="w-72 h-full pointer-events-none">
+        <nav
+          class="absolute flex w-full h-full pointer-events-auto z-10 bg-white"
+        >
+          <div class="w-full">
+            <div class="flex flex-col p-2 text-gray-600 gap-1">
+              <span class="text-lg text-gray-900 capitalize">Client</span>
+              <div class="flex flex-col p-4 text-gray-600 gap-1">
+                <a (click)="menuVisible.set(false)" routerLink="/owner"
+                  >Owner</a
+                >
+                <a (click)="menuVisible.set(false)" routerLink="/pet">Pet</a>
+              </div>
+            </div>
+            <div class="flex flex-col p-2 text-gray-600 gap-1">
+              <span class="text-lg text-gray-900 capitalize">Clinic</span>
+              <div class="flex flex-col p-4 text-gray-600 gap-1">
+                <a (click)="menuVisible.set(false)" routerLink="/visit"
+                  >Visit
+                </a>
+                <a (click)="menuVisible.set(false)" routerLink="/vet">Vet</a>
+                <a (click)="menuVisible.set(false)" routerLink="/enum/:skill"
+                  >Skill</a
+                >
+                <a (click)="menuVisible.set(false)" routerLink="/enum/:species"
+                  >Species</a
+                >
+              </div>
+            </div>
+          </div>
+        </nav>
+      </aside>
+    } @else {
+      <router-outlet />
+    }
   </main>
   <footer class="flex justify-center bg-gray-200 p-2 h-10">
     <nav class="flex flex-row text-sm text-gray-600 gap-1">
-      <a routerLink="/help">Impressum</a>
+      <a (click)="menuVisible.set(false)" routerLink="/help">Impressum</a>
     </nav>
   </footer>
 </article>
