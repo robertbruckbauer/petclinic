@@ -32,16 +32,17 @@ module.exports = {
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
-    // Bundle playwright java and js update
+    // Bundle playwright java and js updates
     {
       groupName: "Playwright",
       matchManagers: ["npm", "gradle"],
-      matchDepNames: [
+      matchPackageNames: [
         "@playwright/test",
-        "/^com\\.microsoft\\.playwright:playwright$/",
+        "com.microsoft.playwright:playwright",
       ],
       separateMajorMinor: false,
       separateMinorPatch: false,
+      excludeFromGrouping: true,
     },
     // https://docs.renovatebot.com/modules/manager/npm/
     {
