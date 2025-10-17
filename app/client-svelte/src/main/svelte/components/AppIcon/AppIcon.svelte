@@ -3,8 +3,8 @@
 </script>
 
 <button
-  aria-label="Menü"
-  class="text-gray-500 hover:text-gray-700 cursor-pointer mr-4 border-none focus:outline-hidden"
+  aria-label="Icon"
+  class="text-title-500 hover:text-title-700 cursor-pointer mr-4 border-none focus:outline-none bg-transparent p-0 flex items-center justify-center h-8 w-8"
   class:open
   onclick={() => (open = !open)}
 >
@@ -17,7 +17,6 @@
 
 <style>
   svg {
-    min-height: 24px;
     transition: transform 0.3s ease-in-out;
   }
   svg line {
@@ -26,7 +25,7 @@
     transition: transform 0.3s ease-in-out;
   }
   .open svg {
-    transform: scale(0.7);
+    transform: scale(0.9);
   }
   .open #top {
     transform: translate(6px, 0px) rotate(45deg);

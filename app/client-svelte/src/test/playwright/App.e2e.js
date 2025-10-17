@@ -36,6 +36,11 @@ test.describe("Regression", () => {
     await owner.deleteOwner();
   });
 
+  test("Pet", async ({ page }) => {
+    const pet = new PetPage(page);
+    await pet.goto();
+  });
+
   test("Vet", async ({ page }) => {
     const vet = new VetPage(page);
     await vet.goto();
