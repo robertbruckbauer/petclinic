@@ -35,6 +35,7 @@ module.exports = {
     // Bundle playwright java and js updates
     {
       groupName: "Playwright",
+      branchTopic: "playwright",
       matchManagers: ["npm", "gradle"],
       matchPackageNames: [
         "@playwright/test",
