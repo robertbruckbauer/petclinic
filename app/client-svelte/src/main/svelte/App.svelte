@@ -26,12 +26,12 @@
 </script>
 
 <article class="flex flex-col h-screen">
-  <header class="flex justify-between items-center bg-title-200 p-2 h-12">
-    <nav class="flex flex-row text-lg text-title-600 gap-1">
+  <header class="flex justify-between items-center bg-gray-200 p-2 h-12">
+    <nav class="flex flex-row text-lg text-gray-600 gap-1">
       <AppIcon bind:open={menuVisible} />
       <AppLogo bind:open={menuVisible} />
     </nav>
-    <nav class="flex flex-row text-lg text-title-600 gap-1">
+    <nav class="flex flex-row text-lg text-gray-600 gap-1">
       <a onclick={handleClick} href="/help">?</a>
     </nav>
   </header>
@@ -89,8 +89,8 @@
       </RouteNotFound>
     </Router>
   </main>
-  <footer class="flex justify-center bg-title-200 p-2 h-10">
-    <nav class="flex flex-row text-sm text-title-600 gap-1">
+  <footer class="flex justify-center bg-gray-200 p-2 h-10">
+    <nav class="flex flex-row text-sm text-gray-600 gap-1">
       <a onclick={handleClick} href="/help">Impressum</a>
     </nav>
   </footer>

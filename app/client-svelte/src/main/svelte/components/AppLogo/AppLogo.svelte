@@ -6,7 +6,8 @@
 </script>
 
 <a
-  class="text-title-500 hover:text-title-700 cursor-pointer mr-4 border-none focus:outline-none"
+  aria-label="Menü"
+  class="text-gray-500 hover:text-gray-700 cursor-pointer mr-4 border-none focus:outline-none"
   class:open
   href="/home"
   onclick={handleClick}

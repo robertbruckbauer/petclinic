@@ -121,7 +121,7 @@
   {:else}
     <table class="table-fixed">
       <thead class="justify-between">
-        <tr class="bg-title-200">
+        <tr class="bg-gray-200">
           <th class="px-2 py-3 text-left w-2/6 table-cell">
             <span class="text-gray-600">Owner</span>
           </th>

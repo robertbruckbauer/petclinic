@@ -30,8 +30,12 @@
   {title}
   {disabled}
   class:disabled
-  class="text-xl text-white w-12 h-12 rounded-full p-2 disabled:opacity-50 hover:opacity-90 focus:ring bg-primary-500"
+  class="text-xl font-bold border-2 border-solid border-indigo-500 w-12 h-12 rounded-full p-2 disabled:opacity-50 hover:opacity-90 focus:ring bg-indigo-500"
   class:outlined
+  class:text-indigo-500={outlined}
+  class:bg-transparent={outlined}
+  class:text-white={!outlined}
+  class:bg-indigo-500={!outlined}
   onclick={handleClick}
 >
   <div class="flex justify-center items-center">

@@ -58,7 +58,7 @@
 </script>
 
 <div
-  class="_toastItem bg-error-800 text-white z-30"
+  class="_toastItem bg-red-800 text-white z-30"
   role="alert"
   onmouseenter={pause}
   onmouseleave={resume}

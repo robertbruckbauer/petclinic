@@ -97,8 +97,8 @@
       <span
         {title}
         class="text-xs"
-        class:text-label-600={!elementIsFocused}
-        class:text-primary-500={elementIsFocused}
+        class:text-gray-600={!elementIsFocused}
+        class:text-indigo-500={elementIsFocused}
       >
         {label}
       </span>
@@ -109,7 +109,7 @@
         {#if item}
           <span
             title={item.text}
-            class="px-1 text-xs text-white bg-primary-500 rounded"
+            class="px-1 text-xs text-white bg-indigo-500 rounded"
           >
             {item.text}
           </span>

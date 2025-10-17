@@ -38,8 +38,8 @@
   {#if label}
     <span
       class="px-4 pt-2 text-xs absolute left-0 top-0"
-      class:text-label-600={!elementIsFocused}
-      class:text-primary-500={elementIsFocused}
+      class:text-gray-600={!elementIsFocused}
+      class:text-indigo-500={elementIsFocused}
     >
       {label}
     </span>

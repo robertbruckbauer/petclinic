@@ -29,6 +29,6 @@
     class:pt-6={label}
   />
   {#if label}
-    <hr class="w-full bg-label-600 absolute left-0 bottom-0" />
+    <hr class="w-full bg-gray-600 absolute left-0 bottom-0" />
   {/if}
 </div>

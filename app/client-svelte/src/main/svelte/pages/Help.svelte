@@ -59,15 +59,19 @@
       </a>
       <br />
       <a href="https://nodejs.org/api/" target="_blank" rel="noreferrer">
-        Node.js API
+        Node.js
       </a>
       <br />
-      <a href="https://svelte.dev/docs" target="_blank" rel="noreferrer">
-        Svelte API
+      <a
+        href="https://svelte.dev/docs/svelte/overview"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Svelte Overview
       </a>
       <br />
-      <a href="https://svelte.dev/repl" target="_blank" rel="noreferrer">
-        Svelte REPL
+      <a href="https://svelte.dev/playground" target="_blank" rel="noreferrer">
+        Svelte Playground
       </a>
       <br />
       <a href="https://tailwindcss.com/docs" target="_blank" rel="noreferrer">

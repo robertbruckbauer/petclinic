@@ -3,10 +3,10 @@
 </script>
 
 <button
-  class="text-title-500 hover:text-title-700 cursor-pointer mr-4 border-none focus:outline-hidden"
+  aria-label="Menü"
+  class="text-gray-500 hover:text-gray-700 cursor-pointer mr-4 border-none focus:outline-hidden"
   class:open
   onclick={() => (open = !open)}
-  aria-label="Menü"
 >
   <svg width="32" height="24">
     <line id="top" x1="0" y1="2" x2="32" y2="2" />

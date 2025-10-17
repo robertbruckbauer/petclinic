@@ -137,12 +137,12 @@
   {:else}
     <table class="table-fixed">
       <thead class="justify-between">
-        <tr class="bg-title-200">
+        <tr class="bg-gray-200">
           <th class="px-2 py-3 text-left w-1/4 table-cell">
             <span class="text-gray-600">Species</span>
           </th>
           <th class="px-2 py-3 text-left w-2/4 table-cell">
-            <span class="text-title-600">Name</span>
+            <span class="text-gray-600">Name</span>
           </th>
           <th class="px-2 py-3 text-left w-1/4 table-cell">
             <span class="text-gray-600">Born</span>
