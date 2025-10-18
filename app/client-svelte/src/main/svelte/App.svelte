@@ -39,7 +39,7 @@
     <Toast />
     {#if menuVisible}
       <aside
-        class="w-72 h-full pointer-events-none"
+        class="w-72 w-full h-screen fixed z-10"
         transition:fly={{
           duration: 200,
           x: -300,
@@ -47,9 +47,7 @@
           opacity: 1,
         }}
       >
-        <nav
-          class="absolute flex w-full h-full pointer-events-auto z-10 bg-white"
-        >
+        <nav class="absolute flex w-full h-full pointer-events-auto bg-white">
           <div class="w-full">
             <div class="flex flex-col p-2 text-gray-600 gap-1">
               <span class="text-lg text-gray-900 capitalize">Client</span>

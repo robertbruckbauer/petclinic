@@ -1,12 +1,15 @@
 <script lang="ts">
   let { open = $bindable() } = $props();
+  function handleClick() {
+    open = !open;
+  }
 </script>
 
 <button
   aria-label="Icon"
   class="text-title-500 hover:text-title-700 cursor-pointer mr-4 border-none focus:outline-none bg-transparent p-0 flex items-center justify-center h-8 w-8"
   class:open
-  onclick={() => (open = !open)}
+  onclick={handleClick}
 >
   <svg width="32" height="24">
     <line id="top" x1="0" y1="2" x2="32" y2="2" />

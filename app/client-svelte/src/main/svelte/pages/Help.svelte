@@ -3,6 +3,7 @@
     <legend class="text-xs">Server</legend>
     <div class="text-2xl underline text-blue-600">
       <a
+        class="break-all"
         href="https://spring.io/projects/spring-boot"
         target="_blank"
         rel="noreferrer"
@@ -11,6 +12,7 @@
       </a>
       <br />
       <a
+        class="break-all"
         href="https://spring.io/projects/spring-security"
         target="_blank"
         rel="noreferrer"
@@ -19,6 +21,7 @@
       </a>
       <br />
       <a
+        class="break-all"
         href="https://spring.io/projects/spring-data-jpa"
         target="_blank"
         rel="noreferrer"
@@ -27,6 +30,7 @@
       </a>
       <br />
       <a
+        class="break-all"
         href="https://spring.io/projects/spring-data-rest"
         target="_blank"
         rel="noreferrer"
@@ -35,6 +39,7 @@
       </a>
       <br />
       <a
+        class="break-all"
         href="https://spring.io/projects/spring-graphql"
         target="_blank"
         rel="noreferrer"
@@ -42,7 +47,12 @@
         Spring GraphQL
       </a>
       <br />
-      <a href="https://hibernate.org/" target="_blank" rel="noreferrer">
+      <a
+        class="break-all"
+        href="https://hibernate.org/"
+        target="_blank"
+        rel="noreferrer"
+      >
         Hibernate
       </a>
     </div>
@@ -51,6 +61,7 @@
     <legend class="text-xs">Client</legend>
     <div class="text-2xl underline text-blue-600">
       <a
+        class="break-all"
         href="https://developer.mozilla.org/docs/Web/JavaScript"
         target="_blank"
         rel="noreferrer"
@@ -58,11 +69,17 @@
         Javascript
       </a>
       <br />
-      <a href="https://nodejs.org/api/" target="_blank" rel="noreferrer">
+      <a
+        class="break-all"
+        href="https://nodejs.org/api/"
+        target="_blank"
+        rel="noreferrer"
+      >
         Node.js
       </a>
       <br />
       <a
+        class="break-all"
         href="https://svelte.dev/docs/svelte/overview"
         target="_blank"
         rel="noreferrer"
@@ -70,15 +87,30 @@
         Svelte Overview
       </a>
       <br />
-      <a href="https://svelte.dev/playground" target="_blank" rel="noreferrer">
+      <a
+        class="break-all"
+        href="https://svelte.dev/playground"
+        target="_blank"
+        rel="noreferrer"
+      >
         Svelte Playground
       </a>
       <br />
-      <a href="https://tailwindcss.com/docs" target="_blank" rel="noreferrer">
+      <a
+        class="break-all"
+        href="https://tailwindcss.com/docs"
+        target="_blank"
+        rel="noreferrer"
+      >
         Tailwind CSS
       </a>
       <br />
-      <a href="https://fonts.google.com/icons" target="_blank" rel="noreferrer">
+      <a
+        class="break-all"
+        href="https://fonts.google.com/icons"
+        target="_blank"
+        rel="noreferrer"
+      >
         Material Icons
       </a>
       <br />

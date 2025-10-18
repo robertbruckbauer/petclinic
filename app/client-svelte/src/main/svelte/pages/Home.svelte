@@ -45,7 +45,7 @@
     <legend class="text-xs">API-Explorer</legend>
     <div class="text-2xl">
       <a
-        class="underline text-blue-600"
+        class="underline text-blue-600 break-all"
         href="{apiExplorer}/index.html#uri=/api"
         target="_blank"
         >{apiExplorer}
@@ -56,7 +56,7 @@
     <legend class="text-xs">API-Graphiql</legend>
     <div class="text-2xl">
       <a
-        class="underline text-blue-600"
+        class="underline text-blue-600 break-all"
         href="{apiGraphiql}?path=/api/graphql"
         target="_blank"
         >{apiGraphiql}
