@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from "@angular/core";
-import { backendUrl, RestService } from "../../services/rest";
+import { backendUrl, VersionService } from "../../services/version";
 
 @Component({
   selector: "app-home",
@@ -8,7 +8,7 @@ import { backendUrl, RestService } from "../../services/rest";
   styleUrl: "./home.css",
 })
 export class HomeComponent {
-  private restApi = inject(RestService);
+  private restApi = inject(VersionService);
 
   protected apiExplorer = signal<string>(backendUrl() + "/api/explorer");
   protected apiExplorerHref = computed<string>(

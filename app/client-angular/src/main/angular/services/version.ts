@@ -1,22 +1,20 @@
 import { DestroyRef, Injectable, inject, signal } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
-@Injectable({
-  providedIn: "root",
-})
-export class RestService {
+@Injectable()
+export class VersionService {
   private destroyRef = inject(DestroyRef);
   private httpClient = inject(HttpClient);
 
   public loadVersion() {
-    const html = signal("-");
+    const version = signal("-");
     const path = backendUrl() + "/version";
     const subscription = this.httpClient
       .get<{ version: string }>(path)
       .subscribe({
         next: (res) => {
           console.log(["version", res]);
-          html.set(res.version);
+          version.set(res.version);
         },
         error: (err) => {
           console.log(["version", err]);
@@ -25,7 +23,7 @@ export class RestService {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
-    return html;
+    return version;
   }
 }
 
