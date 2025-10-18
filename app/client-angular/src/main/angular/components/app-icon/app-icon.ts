@@ -1,4 +1,4 @@
-import { Component, model } from "@angular/core";
+import { Component, input } from "@angular/core";
 
 @Component({
   selector: "app-icon",
@@ -7,5 +7,5 @@ import { Component, model } from "@angular/core";
   styleUrl: "./app-icon.css",
 })
 export class AppIcon {
-  open = model(false);
+  open = input(false);
 }
