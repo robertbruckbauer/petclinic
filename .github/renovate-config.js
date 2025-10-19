@@ -3,6 +3,7 @@ module.exports = {
     "mergeConfidence:all-badges",
     "config:best-practices",
     "group:allNonMajor",
+    "group:monorepos",
     "group:springBoot",
     ":preserveSemverRanges",
     ":disableDependencyDashboard",
@@ -32,19 +33,6 @@ module.exports = {
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
-    // Bundle playwright java and js updates
-    {
-      groupName: "Playwright",
-      branchTopic: "playwright",
-      matchManagers: ["npm", "gradle"],
-      matchPackageNames: [
-        "@playwright/test",
-        "com.microsoft.playwright:playwright",
-      ],
-      separateMajorMinor: false,
-      separateMinorPatch: false,
-      excludeFromGrouping: true,
-    },
     // https://docs.renovatebot.com/modules/manager/npm/
     {
       matchManagers: ["npm"],
