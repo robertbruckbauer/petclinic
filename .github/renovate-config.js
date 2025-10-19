@@ -33,10 +33,15 @@ module.exports = {
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
-    // https://docs.renovatebot.com/modules/manager/npm/
+    // Bundle Playwright updates for JavaScript and Java
     {
-      matchManagers: ["npm"],
-      matchFileNames: ["app/**/package.json"],
+      groupName: "Playwright",
+      branchTopic: "playwright",
+      matchSourceUrls: [
+        "https://github.com/microsoft/playwright",
+        "https://github.com/microsoft/playwright-java"
+      ],
+      excludeFromGrouping: true,
     },
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
