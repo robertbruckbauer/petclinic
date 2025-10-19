@@ -36,7 +36,6 @@ module.exports = {
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
-
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
       matchManagers: ["gradle"],
