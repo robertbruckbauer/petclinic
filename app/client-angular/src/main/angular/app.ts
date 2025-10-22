@@ -1,11 +1,11 @@
 import { Component, signal } from "@angular/core";
 import { RouterLink, RouterOutlet } from "@angular/router";
-import { AppLogo } from "./components/app-logo/app-logo";
-import { AppIcon } from "./components/app-icon/app-icon";
+import { AppLogoComponent } from "./components/app-logo/app-logo";
+import { AppIconComponent } from "./components/app-icon/app-icon";
 
 @Component({
   selector: "app-root",
-  imports: [AppLogo, AppIcon, RouterLink, RouterOutlet],
+  imports: [AppLogoComponent, AppIconComponent, RouterLink, RouterOutlet],
   templateUrl: "./app.html",
   styleUrl: "./app.css",
 })

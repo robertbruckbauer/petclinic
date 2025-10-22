@@ -7,6 +7,6 @@ import { RouterLink } from "@angular/router";
   templateUrl: "./app-logo.html",
   styleUrl: "./app-logo.css",
 })
-export class AppLogo {
+export class AppLogoComponent {
   routerLink = input.required<string>();
 }

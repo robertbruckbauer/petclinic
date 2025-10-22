@@ -6,6 +6,6 @@ import { Component, input } from "@angular/core";
   templateUrl: "./app-icon.html",
   styleUrl: "./app-icon.css",
 })
-export class AppIcon {
+export class AppIconComponent {
   open = input(false);
 }
