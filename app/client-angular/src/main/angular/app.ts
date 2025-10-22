@@ -1,7 +1,7 @@
 import { Component, signal } from "@angular/core";
 import { RouterLink, RouterOutlet } from "@angular/router";
-import { AppLogoComponent } from "./components/app-logo/app-logo";
-import { AppIconComponent } from "./components/app-icon/app-icon";
+import { AppLogoComponent } from "./controls/app-logo/app-logo";
+import { AppIconComponent } from "./controls/app-icon/app-icon";
 
 @Component({
   selector: "app-root",

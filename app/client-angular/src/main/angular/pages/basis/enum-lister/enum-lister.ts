@@ -7,9 +7,9 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SpinnerComponent } from "../../../components/spinner/spinner";
-import { type EnumItem } from "../../../types/enum.type";
+import { SpinnerComponent } from "../../../controls/spinner/spinner";
 import { EnumService } from "../../../services/enum.service";
+import { type EnumItem } from "../../../types/enum.type";
 
 @Component({
   selector: "app-enum-lister",
