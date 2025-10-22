@@ -2,13 +2,16 @@
 
 <div class="flex flex-col gap-1 ml-2 mr-2">
   <form>
-    <div class="flex flex-row gap-1 items-center pr-2">
-      <div class="w-full">
-        <span>TextField</span>
-      </div>
-      <div class="w-min">
-        <span>Icon search</span>
-      </div>
+    <div class="flex flex-row gap-2 items-baseline pr-2">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">Filter</legend>
+        <input
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Enter filter critria"
+        />
+      </fieldset>
+      <button class="btn btn-circle btn-outline">S</button>
     </div>
   </form>
   @if (loading()) {
@@ -29,7 +32,7 @@
             <span class="text-gray-600">Text</span>
           </th>
           <th class="px-2 py-3 text-right w-0 table-cell">
-            <span>Icon add</span>
+            <button class="btn btn-circle btn-outline">A</button>
           </th>
         </tr>
       </thead>
@@ -49,8 +52,8 @@
               <div
                 class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
               >
-                <span>Icon delete</span>
-                <span>Icon edit</span>
+                <button class="btn btn-circle btn-outline">D</button>
+                <button class="btn btn-circle btn-outline">E</button>
               </div>
             </td>
           </tr>
