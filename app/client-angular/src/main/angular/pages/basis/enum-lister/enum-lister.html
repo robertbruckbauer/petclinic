@@ -60,7 +60,12 @@
           </tr>
         }
         @for (item of allItem(); track item.code) {
-          <tr [title]="item.text" [class.bg-gray-100]="$index % 2 === 1">
+          <tr
+            [title]="item.text"
+            [class.border-l-2]="itemCode() === item.code"
+            [class.bg-gray-100]="$index % 2 === 1"
+            (click)="onItemClicked(item)"
+          >
             <td class="px-2 py-3 text-left table-cell">
               <span>{{ item.code }}</span>
             </td>
