@@ -1,17 +1,24 @@
 <h1>{{ art() | uppercase }}</h1>
 
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <form>
+  <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
     <div class="flex flex-row gap-2 items-baseline pr-2">
-      <fieldset class="fieldset">
+      <fieldset class="fieldset w-full">
         <legend class="fieldset-legend">Filter</legend>
         <input
           type="text"
           class="input input-bordered w-full"
           placeholder="Enter filter critria"
+          formControlName="criteria"
         />
       </fieldset>
-      <button class="btn btn-circle btn-outline">S</button>
+      <button
+        type="submit"
+        class="btn btn-circle btn-outline"
+        [disabled]="itemEditorDisabled()"
+      >
+        S
+      </button>
     </div>
   </form>
   @if (loading()) {
@@ -32,11 +39,26 @@
             <span class="text-gray-600">Text</span>
           </th>
           <th class="px-2 py-3 text-right w-0 table-cell">
-            <button class="btn btn-circle btn-outline">A</button>
+            <button
+              class="btn btn-circle btn-outline"
+              (click)="onItemEditorCreateClicked()"
+              [disabled]="itemEditorDisabled()"
+            >
+              A
+            </button>
           </th>
         </tr>
       </thead>
       <tbody>
+        @if (itemEditorCreate()) {
+          <tr>
+            <td class="border-l-4 px-2" colspan="4">
+              <button class="btn" (click)="itemEditorCreate.set(false)">
+                Create Item {{ newItemCode() }}
+              </button>
+            </td>
+          </tr>
+        }
         @for (item of allItem(); track item.code) {
           <tr [title]="item.text" [class.bg-gray-100]="$index % 2 === 1">
             <td class="px-2 py-3 text-left table-cell">
@@ -52,11 +74,32 @@
               <div
                 class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
               >
-                <button class="btn btn-circle btn-outline">D</button>
-                <button class="btn btn-circle btn-outline">E</button>
+                <button
+                  class="btn btn-circle btn-outline"
+                  (click)="onItemRemoveClicked(item)"
+                  [disabled]="itemEditorDisabled()"
+                >
+                  D
+                </button>
+                <button
+                  class="btn btn-circle btn-outline"
+                  (click)="onItemEditorUpdateClicked(item)"
+                  [disabled]="itemEditorDisabled()"
+                >
+                  E
+                </button>
               </div>
             </td>
           </tr>
+          @if (itemEditorUpdate() && itemCode() === item.code) {
+            <tr>
+              <td class="border-l-4 px-2" colspan="4">
+                <button class="btn" (click)="itemEditorUpdate.set(false)">
+                  Update Item {{ newItemCode() }}
+                </button>
+              </td>
+            </tr>
+          }
         } @empty {
           <tr>
             <td class="px-2" colspan="4">No items</td>
