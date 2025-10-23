@@ -37,24 +37,16 @@ export class EnumListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const subscription = this.restApi.loadAllEnum(this.art()).subscribe({
-      next: (res) => {
-        this.allItem.set(
-          res.content.filter((e) => {
-            if (this.filterForm.value.criteria) {
-              const criteria = this.filterForm.value.criteria.toLowerCase();
-              if (e.name.toLowerCase().startsWith(criteria)) return true;
-              if (e.text.toLowerCase().startsWith(criteria)) return true;
-              return false;
-            }
-            return true;
-          })
-        );
-      },
-      complete: () => {
-        this.loading.set(false);
-      },
-    });
+    const subscription = this.restApi
+      .loadAllEnum(this.art(), this.filterForm.value.criteria)
+      .subscribe({
+        next: (allItem) => {
+          this.allItem.set(allItem);
+        },
+        complete: () => {
+          this.loading.set(false);
+        },
+      });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
@@ -67,7 +59,25 @@ export class EnumListerComponent implements OnInit {
   }
   onItemRemoveClicked(item: EnumItem) {
     this.itemCode.set(item.code);
-    console.log(["onItemRemoveClicked", item]);
+    const text = item.name;
+    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
+    if (!confirm("Delete enum '" + hint + "' permanently?")) return;
+    this.loading.set(true);
+    const subscription = this.restApi
+      .removeEnum(this.art(), item.code)
+      .subscribe({
+        next: () => {
+          this.allItem.update((allItem) => {
+            return allItem.filter((e) => e.code !== item.code);
+          });
+        },
+        complete: () => {
+          this.loading.set(false);
+        },
+      });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 
   itemEditorCreate = signal(false);
