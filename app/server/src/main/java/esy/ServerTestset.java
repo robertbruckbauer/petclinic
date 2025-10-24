@@ -103,7 +103,7 @@ public class ServerTestset implements CommandLineRunner {
                                 {
                                     "code": 2,
                                     "name":"Surgery",
-                                    "text":"Surgery he branch of medical practice that treats injuries, diseases, and deformities by the physical removal, repair, or readjustment of organs and tissues."
+                                    "text":"Surgery is the branch of medical practice that treats injuries, diseases, and deformities by the physical removal, repair, or readjustment of organs and tissues."
                                 }
                                 """))
                 .map(e -> e.setArt("skill"))

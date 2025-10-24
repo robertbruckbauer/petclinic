@@ -14,6 +14,9 @@ test.describe("Regression", () => {
     test(art, async ({ page }) => {
       const enumPage = new EnumPage(page, art);
       await enumPage.goto();
+      const name = await enumPage.createItem();
+      await enumPage.updateText(name);
+      await enumPage.deleteItem(name);
     });
   });
 

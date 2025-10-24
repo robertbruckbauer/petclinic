@@ -4,6 +4,6 @@ import { Component } from "@angular/core";
   selector: "app-help",
   imports: [],
   templateUrl: "./help.html",
-  styleUrl: "./help.css",
+  styles: ``,
 })
 export class HelpComponent {}
