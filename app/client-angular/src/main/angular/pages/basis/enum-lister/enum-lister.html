@@ -1,0 +1,124 @@
+<h1>{{ art() | uppercase }}</h1>
+
+<div class="flex flex-col gap-1 ml-2 mr-2">
+  <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
+    <div class="flex flex-row gap-2 items-center pb-2 pr-2">
+      <label class="floating-label w-full">
+        <span class="label">Filter</span>
+        <input
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Enter filter critria"
+          formControlName="criteria"
+        />
+      </label>
+      <button
+        type="submit"
+        class="btn btn-circle btn-outline"
+        [disabled]="itemEditorDisabled()"
+      >
+        <span class="material-icons">search</span>
+      </button>
+    </div>
+  </form>
+  @if (loading()) {
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
+    </div>
+  } @else {
+    <table class="table-fixed">
+      <thead class="justify-between">
+        <tr class="bg-gray-200">
+          <th class="px-2 py-3 text-left w-1/4 table-cell">
+            <span class="text-gray-600">Code</span>
+          </th>
+          <th class="px-2 py-3 text-left w-1/4 table-cell">
+            <span class="text-gray-600">Name</span>
+          </th>
+          <th class="px-2 py-3 text-left w-1/2 table-cell">
+            <span class="text-gray-600">Text</span>
+          </th>
+          <th class="px-2 py-3 text-right w-0 table-cell">
+            <button
+              class="btn btn-circle btn-outline"
+              (click)="onItemEditorCreateClicked()"
+              [disabled]="itemEditorDisabled()"
+            >
+              <span class="material-icons">add</span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (itemEditorCreate()) {
+          <tr>
+            <td class="border-l-4 px-2" colspan="4">
+              <app-enum-editor
+                mode="create"
+                (create)="afterCreateItem($event)"
+                [art]="art()"
+                [(visible)]="itemEditorCreate"
+                [item]="{ code: newItemCode(), name: '', text: '' }"
+              />
+            </td>
+          </tr>
+        }
+        @for (item of allItem(); track item.code) {
+          <tr
+            [title]="item.text"
+            [class.border-l-2]="itemCode() === item.code"
+            [class.bg-gray-100]="$index % 2 === 1"
+            (click)="onItemClicked(item)"
+          >
+            <td class="px-2 py-3 text-left table-cell">
+              <span>{{ item.code }}</span>
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              <span>{{ item.name }}</span>
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              <span>{{ item.text }}</span>
+            </td>
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
+              >
+                <button
+                  class="btn btn-circle btn-outline"
+                  (click)="onItemRemoveClicked(item)"
+                  [disabled]="itemEditorDisabled()"
+                >
+                  <span class="material-icons">delete</span>
+                </button>
+                <button
+                  class="btn btn-circle btn-outline"
+                  (click)="onItemEditorUpdateClicked(item)"
+                  [disabled]="itemEditorDisabled()"
+                >
+                  <span class="material-icons">edit</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          @if (itemEditorUpdate() && itemCode() === item.code) {
+            <tr>
+              <td class="border-l-4 px-2" colspan="4">
+                <app-enum-editor
+                  mode="update"
+                  (update)="afterUpdateItem($event)"
+                  [art]="art()"
+                  [(visible)]="itemEditorUpdate"
+                  [item]="item"
+                />
+              </td>
+            </tr>
+          }
+        } @empty {
+          <tr>
+            <td class="px-2" colspan="4">No items</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
