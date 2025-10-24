@@ -17,7 +17,7 @@ import { type EnumItem } from "../../../types/enum.type";
   selector: "app-enum-lister",
   imports: [CommonModule, ReactiveFormsModule, SpinnerComponent],
   templateUrl: "./enum-lister.html",
-  styleUrl: "./enum-lister.css",
+  styles: ``,
 })
 export class EnumListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);

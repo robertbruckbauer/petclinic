@@ -13,7 +13,7 @@ import { backendUrl } from "../../app.routes";
   selector: "app-home",
   imports: [],
   templateUrl: "./home.html",
-  styleUrl: "./home.css",
+  styles: ``,
 })
 export class HomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
