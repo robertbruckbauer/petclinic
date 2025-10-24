@@ -1,33 +1,58 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@font-face {
+  font-family: "Material Icons";
+  src: url("/MaterialIcons-Regular.ttf") format("truetype");
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+}
+
 h1,
 .h1 {
-  @apply text-3xl font-normal pt-4 mx-2;
+  @apply text-3xl font-normal pt-4 pb-2 mx-2;
   letter-spacing: -1.5px;
 }
 
 h2,
 .h2 {
-  @apply text-2xl font-normal pt-4 mx-2;
+  @apply text-2xl font-normal pt-4 pb-2 mx-2;
   letter-spacing: -0.5px;
 }
 
 h3,
 .h3 {
-  @apply text-xl font-normal pt-4 mx-2;
+  @apply text-xl font-normal pt-4 pb-2 mx-2;
   letter-spacing: 0px;
 }
 
 h4,
 .h4 {
-  @apply text-lg font-normal pt-2 mx-2;
+  @apply text-lg font-normal pt-2 pb-1 mx-2;
   letter-spacing: 0.25px;
 }
 
 h5,
 .h5 {
-  @apply text-base font-medium pt-2 mx-2;
+  @apply text-base font-medium pt-2 pb-1 mx-2;
   letter-spacing: 0.15px;
 }
 
@@ -43,55 +68,4 @@ hr {
 
 a {
   @apply underline text-blue-600;
-}
-
-button:focus {
-  outline: none;
-}
-
-button.disabled {
-  user-select: none;
-  pointer-events: none;
-  cursor: default;
-}
-
-button.outlined {
-  @apply border-2 border-solid bg-transparent font-bold;
-}
-
-input:focus {
-  outline: none;
-}
-
-input,
-input::placeholder {
-  text-align: left;
-}
-
-input[type="number"],
-input[type="number"]::placeholder {
-  text-align: right;
-}
-
-/* no spinner for numeric input */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  margin: 0;
-}
-
-select:focus {
-  outline: none;
-}
-
-select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-textarea:focus {
-  outline: none;
 }
