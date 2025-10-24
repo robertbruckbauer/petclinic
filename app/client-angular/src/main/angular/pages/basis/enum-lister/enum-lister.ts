@@ -8,14 +8,19 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { SpinnerComponent } from "../../../controls/spinner/spinner";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { EnumService } from "../../../services/enum.service";
 import { type EnumItem } from "../../../types/enum.type";
+import { EnumEditorComponent } from "../enum-editor/enum-editor";
 
 @Component({
   selector: "app-enum-lister",
-  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent],
+  imports: [CommonModule, ReactiveFormsModule, EnumEditorComponent],
   templateUrl: "./enum-lister.html",
   styles: ``,
 })
@@ -24,11 +29,31 @@ export class EnumListerComponent implements OnInit {
   private restApi = inject(EnumService);
   art = input.required<string>();
   loading = signal(false);
-  allItem = signal<EnumItem[]>([]);
 
-  private formBuilder = inject(FormBuilder);
-  filterForm = this.formBuilder.group({
-    criteria: ["", Validators.required],
+  filterForm = new FormGroup({
+    criteria: new FormControl("", Validators.required),
+  });
+
+  allItem = signal<EnumItem[]>([]);
+  afterCreateItem(newItem: EnumItem) {
+    this.allItem.update((allItem) => {
+      return [newItem, ...allItem];
+    });
+  }
+  afterUpdateItem(newItem: EnumItem) {
+    this.allItem.update((allItem) => {
+      return allItem.map((item) =>
+        item.code === newItem.code ? newItem : item
+      );
+    });
+  }
+  afterRemoveItem(newItem: EnumItem) {
+    this.allItem.update((allItem) => {
+      return allItem.filter((item) => item.code !== newItem.code);
+    });
+  }
+  newItemCode = computed(() => {
+    return Math.max(...this.allItem().map((item) => item.code)) + 1;
   });
 
   ngOnInit() {
@@ -52,36 +77,14 @@ export class EnumListerComponent implements OnInit {
     });
   }
 
-  newItemCode = signal(0);
-  itemCode = signal(0);
+  itemCode = signal(-1); // no item selected
   onItemClicked(item: EnumItem) {
     this.itemCode.set(item.code);
-  }
-  onItemRemoveClicked(item: EnumItem) {
-    this.itemCode.set(item.code);
-    const text = item.name;
-    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Delete enum '" + hint + "' permanently?")) return;
-    this.loading.set(true);
-    const subscription = this.restApi
-      .removeEnum(this.art(), item.code)
-      .subscribe({
-        next: () => {
-          this.allItem.update((allItem) => {
-            return allItem.filter((e) => e.code !== item.code);
-          });
-        },
-        complete: () => {
-          this.loading.set(false);
-        },
-      });
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
   }
 
   itemEditorCreate = signal(false);
   onItemEditorCreateClicked() {
+    this.itemCode.set(-1); // no item selected
     this.itemEditorCreate.set(true);
     this.itemEditorUpdate.set(false);
   }
@@ -96,4 +99,25 @@ export class EnumListerComponent implements OnInit {
   itemEditorDisabled = computed(
     () => this.itemEditorCreate() || this.itemEditorUpdate()
   );
+
+  onItemRemoveClicked(item: EnumItem) {
+    this.itemCode.set(-1); // no item selected
+    const text = item.name;
+    const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
+    if (!confirm("Delete enum '" + hint + "' permanently?")) return;
+    this.loading.set(true);
+    const subscription = this.restApi
+      .removeEnum(this.art(), item.code)
+      .subscribe({
+        next: (item) => {
+          this.afterRemoveItem(item);
+        },
+        complete: () => {
+          this.loading.set(false);
+        },
+      });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
 }

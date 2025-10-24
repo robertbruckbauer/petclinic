@@ -22,8 +22,8 @@
     </div>
   </form>
   @if (loading()) {
-    <div class="h-screen flex justify-center items-center">
-      <app-spinner />
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
     </div>
   } @else {
     <table class="table-fixed">
@@ -53,9 +53,13 @@
         @if (itemEditorCreate()) {
           <tr>
             <td class="border-l-4 px-2" colspan="4">
-              <button class="btn" (click)="itemEditorCreate.set(false)">
-                Create Item {{ newItemCode() }}
-              </button>
+              <app-enum-editor
+                mode="create"
+                (create)="afterCreateItem($event)"
+                [art]="art()"
+                [(visible)]="itemEditorCreate"
+                [item]="{ code: newItemCode(), name: '', text: '' }"
+              />
             </td>
           </tr>
         }
@@ -99,9 +103,13 @@
           @if (itemEditorUpdate() && itemCode() === item.code) {
             <tr>
               <td class="border-l-4 px-2" colspan="4">
-                <button class="btn" (click)="itemEditorUpdate.set(false)">
-                  Update Item {{ newItemCode() }}
-                </button>
+                <app-enum-editor
+                  mode="update"
+                  (update)="afterUpdateItem($event)"
+                  [art]="art()"
+                  [(visible)]="itemEditorUpdate"
+                  [item]="item"
+                />
               </td>
             </tr>
           }
