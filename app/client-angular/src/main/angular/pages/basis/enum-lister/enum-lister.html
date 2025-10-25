@@ -14,6 +14,7 @@
       </label>
       <button
         type="submit"
+        title="Filter items"
         class="btn btn-circle btn-outline"
         [disabled]="itemEditorDisabled()"
       >
@@ -29,17 +30,18 @@
     <table class="table-fixed">
       <thead class="justify-between">
         <tr class="bg-gray-200">
-          <th class="px-2 py-3 text-left w-1/4 table-cell">
+          <th class="px-2 py-3 text-left w-48 table-cell">
             <span class="text-gray-600">Code</span>
           </th>
-          <th class="px-2 py-3 text-left w-1/4 table-cell">
+          <th class="px-2 py-3 text-left w-full sm:w-1/4 table-cell">
             <span class="text-gray-600">Name</span>
           </th>
-          <th class="px-2 py-3 text-left w-1/2 table-cell">
+          <th class="px-2 py-3 text-left w-0 sm:w-1/2 hidden sm:table-cell">
             <span class="text-gray-600">Text</span>
           </th>
           <th class="px-2 py-3 text-right w-0 table-cell">
             <button
+              title="Add a new item"
               class="btn btn-circle btn-outline"
               (click)="onItemEditorCreateClicked()"
               [disabled]="itemEditorDisabled()"
@@ -58,7 +60,7 @@
                 (create)="afterCreateItem($event)"
                 [art]="art()"
                 [(visible)]="itemEditorCreate"
-                [item]="{ code: newItemCode(), name: '', text: '' }"
+                [item]="newItem()"
               />
             </td>
           </tr>
@@ -76,7 +78,7 @@
             <td class="px-2 py-3 text-left table-cell">
               <span>{{ item.name }}</span>
             </td>
-            <td class="px-2 py-3 text-left table-cell">
+            <td class="px-2 py-3 text-left hidden sm:table-cell">
               <span>{{ item.text }}</span>
             </td>
             <td class="px-2 py-3 table-cell">
@@ -84,6 +86,7 @@
                 class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
               >
                 <button
+                  title="Delete an item"
                   class="btn btn-circle btn-outline"
                   (click)="onItemRemoveClicked(item)"
                   [disabled]="itemEditorDisabled()"
@@ -91,6 +94,7 @@
                   <span class="material-icons">delete</span>
                 </button>
                 <button
+                  title="Edit an item"
                   class="btn btn-circle btn-outline"
                   (click)="onItemEditorUpdateClicked(item)"
                   [disabled]="itemEditorDisabled()"

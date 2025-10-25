@@ -52,8 +52,13 @@ export class EnumListerComponent implements OnInit {
       return allItem.filter((item) => item.code !== newItem.code);
     });
   }
-  newItemCode = computed(() => {
-    return Math.max(...this.allItem().map((item) => item.code)) + 1;
+
+  newItem = computed<EnumItem>(() => {
+    return {
+      code: Math.max(...this.allItem().map((item) => item.code)) + 1,
+      name: "",
+      text: "",
+    };
   });
 
   ngOnInit() {

@@ -10,7 +10,7 @@ export class EnumService {
   private httpClient = inject(HttpClient);
 
   public loadAllEnum(art: string, criteria: string | null | undefined) {
-    const path = [backendUrl(), "enum", art].join("/");
+    const path = [backendUrl(), "api", "enum", art].join("/");
     return this.httpClient.get<{ content: EnumItem[] }>(path).pipe(
       tapLog("GET", path),
       map((body) => body.content.filter(filterByCriteria(criteria)))
@@ -18,19 +18,19 @@ export class EnumService {
   }
 
   public createEnum(art: string, item: EnumItem) {
-    const path = [backendUrl(), "enum", art].join("/");
+    const path = [backendUrl(), "api", "enum", art].join("/");
     return this.httpClient
       .post<EnumItem>(path, item)
       .pipe(tapLog("POST", path));
   }
 
   public updateEnum(art: string, item: EnumItem) {
-    const path = [backendUrl(), "enum", art, item.code].join("/");
+    const path = [backendUrl(), "api", "enum", art, item.code].join("/");
     return this.httpClient.put<EnumItem>(path, item).pipe(tapLog("PUT", path));
   }
 
   public removeEnum(art: string, code: number) {
-    const path = [backendUrl(), "enum", art, code].join("/");
+    const path = [backendUrl(), "api", "enum", art, code].join("/");
     return this.httpClient.delete<EnumItem>(path).pipe(tapLog("DELETE", path));
   }
 }
