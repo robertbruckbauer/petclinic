@@ -1,7 +1,7 @@
 import { PetItem } from "./pet.type";
 
 export interface Owner {
-  id: string | undefined;
+  id?: string;
   version: number;
   name: string;
   address: string;
