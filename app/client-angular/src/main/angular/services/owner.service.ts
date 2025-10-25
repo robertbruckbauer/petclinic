@@ -1,5 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { backendUrl } from "../app.routes";
 import { type Owner } from "../types/owner.type";
 import { tapLog } from "../utils/log";
@@ -9,9 +9,9 @@ import { map } from "rxjs";
 export class OwnerService {
   private httpClient = inject(HttpClient);
 
-  public loadAllOwner() {
+  public loadAllOwner(params: HttpParams | undefined = undefined) {
     const path = [backendUrl(), "api", "owner"].join("/");
-    return this.httpClient.get<{ content: Owner[] }>(path).pipe(
+    return this.httpClient.get<{ content: Owner[] }>(path, { params }).pipe(
       tapLog("GET", path),
       map((body) => body.content)
     );

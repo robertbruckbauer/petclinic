@@ -8,6 +8,7 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { HttpParams } from "@angular/common/http";
 import {
   FormControl,
   FormGroup,
@@ -54,7 +55,6 @@ export class OwnerListerComponent implements OnInit {
 
   newOwner = computed<Owner>(() => {
     return {
-      id: undefined,
       version: 0,
       name: "",
       address: "",
@@ -69,7 +69,10 @@ export class OwnerListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const subscription = this.restApi.loadAllOwner().subscribe({
+    const params = new HttpParams()
+      .set("sort", "name,asc")
+      .set("name", this.filterForm.value.criteria!);
+    const subscription = this.restApi.loadAllOwner(params).subscribe({
       next: (allOwner) => {
         this.allOwner.set(allOwner);
       },
