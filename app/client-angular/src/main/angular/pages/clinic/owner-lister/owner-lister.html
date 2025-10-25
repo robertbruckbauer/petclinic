@@ -51,7 +51,12 @@
         @if (ownerEditorCreate()) {
           <tr>
             <td class="border-l-4 px-2" colspan="3">
-              <span>Not implemented</span>
+              <app-owner-editor
+                mode="create"
+                (create)="afterCreateItem($event)"
+                [(visible)]="ownerEditorCreate"
+                [owner]="newOwner()"
+              />
             </td>
           </tr>
         }
@@ -120,21 +125,32 @@
           @if (visitLister() && ownerId() === owner.id) {
             <tr>
               <td class="border-l-4 px-2" colspan="3">
-                <span>Not implemented</span>
+                <span class="text-sm">Operation not implmented </span>
+                <button class="btn" (click)="visitLister.set(false)">
+                  Close
+                </button>
               </td>
             </tr>
           }
           @if (petEditorCreate() && ownerId() === owner.id) {
             <tr>
               <td class="border-l-4 px-2" colspan="3">
-                <span>Not implemented</span>
+                <span class="text-sm">Operation not implmented </span>
+                <button class="btn" (click)="petEditorCreate.set(false)">
+                  Close
+                </button>
               </td>
             </tr>
           }
           @if (ownerEditorUpdate() && ownerId() === owner.id) {
             <tr>
               <td class="border-l-4 px-2" colspan="3">
-                <span>Not implemented</span>
+                <app-owner-editor
+                  mode="update"
+                  (update)="afterUpdateItem($event)"
+                  [(visible)]="ownerEditorUpdate"
+                  [owner]="owner"
+                />
               </td>
             </tr>
           }

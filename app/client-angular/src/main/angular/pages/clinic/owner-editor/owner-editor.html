@@ -1,0 +1,45 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
+  <div class="flex flex-col gap-1">
+    <div class="w-full">
+      <label class="floating-label">
+        <span class="label">Name</span>
+        <input
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Enter a name"
+          formControlName="name"
+        />
+      </label>
+    </div>
+    <div class="w-full">
+      <label class="floating-label">
+        <span class="label">Address</span>
+        <input
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Enter an address"
+          formControlName="address"
+        />
+      </label>
+    </div>
+    <div class="w-full">
+      <label class="floating-label">
+        <span class="label">Contact</span>
+        <input
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Enter a contact"
+          formControlName="contact"
+        />
+      </label>
+    </div>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
+      Ok
+    </button>
+    <button type="button" class="btn join-item" (click)="onCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</form>

@@ -16,10 +16,11 @@ import {
 } from "@angular/forms";
 import { OwnerService } from "../../../services/owner.service";
 import { type Owner } from "../../../types/owner.type";
+import { OwnerEditorComponent } from "../owner-editor/owner-editor";
 
 @Component({
   selector: "app-owner-lister",
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, OwnerEditorComponent],
   templateUrl: "./owner-lister.html",
   styles: ``,
 })
@@ -50,6 +51,17 @@ export class OwnerListerComponent implements OnInit {
       return allOwner.filter((owner) => owner.id !== newOwner.id);
     });
   }
+
+  newOwner = computed<Owner>(() => {
+    return {
+      id: undefined,
+      version: 0,
+      name: "",
+      address: "",
+      contact: "",
+      allPetItem: [],
+    };
+  });
 
   ngOnInit() {
     this.onFilterClicked();
