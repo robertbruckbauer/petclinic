@@ -19,7 +19,6 @@ export class EnumService {
 
   public createEnum(art: string, item: EnumItem) {
     const path = [backendUrl(), "api", "enum", art].join("/");
-    console.log(["createEnum", art, item]);
     return this.httpClient
       .post<EnumItem>(path, item)
       .pipe(tapLog("POST", path));
@@ -27,13 +26,11 @@ export class EnumService {
 
   public updateEnum(art: string, item: EnumItem) {
     const path = [backendUrl(), "api", "enum", art, item.code].join("/");
-    console.log(["updateEnum", art, item]);
     return this.httpClient.put<EnumItem>(path, item).pipe(tapLog("PUT", path));
   }
 
   public removeEnum(art: string, code: number) {
     const path = [backendUrl(), "api", "enum", art, code].join("/");
-    console.log(["removeEnum", art, code]);
     return this.httpClient.delete<EnumItem>(path).pipe(tapLog("DELETE", path));
   }
 }
