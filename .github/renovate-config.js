@@ -28,30 +28,15 @@ module.exports = {
   prHourlyLimit: 0,
   // https://docs.renovatebot.com/configuration-options/#rebasewhen
   rebaseWhen: "behind-base-branch",
+  // https://docs.renovatebot.com/configuration-options/#ignoredeps  
+  ignoreDeps: [
+    // Ignore Playwright java dependency - will be updated manually when the javascript version is updated
+    "com.microsoft.playwright:playwright"
+  ],
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
-    // Bundle Playwright updates for JavaScript and Java
-    {
-      groupName: "Playwright",
-      branchTopic: "playwright",
-      matchPackageNames: [
-        "@playwright/test",
-        "playwright",
-        "com.microsoft.playwright:playwright"
-      ],
-      separateMajorMinor: false,
-      separateMinorPatch: false,
-    },
-    // Explicitly exclude Playwright from other groupings
-    {
-      matchPackageNames: [
-        "@playwright/test",
-        "playwright",
-        "com.microsoft.playwright:playwright"
-      ],
-      excludeFromGrouping: true,
-    },
+
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
       matchManagers: ["gradle"],
