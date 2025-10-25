@@ -28,8 +28,6 @@ module.exports = {
   prHourlyLimit: 0,
   // https://docs.renovatebot.com/configuration-options/#rebasewhen
   rebaseWhen: "behind-base-branch",
-  // https://docs.renovatebot.com/configuration-options/#ignoreprauthor
-  ignorePrAuthor: true,
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
