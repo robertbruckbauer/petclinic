@@ -28,25 +28,55 @@ export class OwnerPage {
     await expect(addButton).toBeEnabled();
     await addButton.click();
     // Name
-    const nameField = this.page.getByRole("textbox", { name: "Name" });
-    await nameField.click();
-    await nameField.fill(ownerName);
-    await nameField.press("Tab");
+    const nameInput = this.page.getByRole("textbox", { name: "Name" });
+    await nameInput.click();
+    await nameInput.fill(ownerName);
+    await nameInput.press("Tab");
     // Address
-    const addressField = this.page.getByRole("textbox", { name: "Address" });
-    await addressField.click();
-    await addressField.fill(address);
-    await addressField.press("Tab");
+    const addressInput = this.page.getByRole("textbox", { name: "Address" });
+    await addressInput.click();
+    await addressInput.fill(address);
+    await addressInput.press("Tab");
     // Contact
-    const contactField = this.page.getByRole("textbox", { name: "Contact" });
-    await contactField.click();
-    await contactField.fill(contact);
-    await contactField.press("Tab");
+    const contactInput = this.page.getByRole("textbox", { name: "Contact" });
+    await contactInput.click();
+    await contactInput.fill(contact);
+    await contactInput.press("Tab");
     // Ok
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
     return ownerName;
+  }
+
+  async updateAddress(name) {
+    await expect(this.page).toHaveURL(this.path);
+    const address = "Planet Mars";
+    // Search
+    const filterInput = this.page.locator('[aria-label="Filter"]');
+    await filterInput.fill(name);
+    await filterInput.press("Enter");
+    await filterInput.press("Tab");
+    await this.page.locator(".circle").waitFor({ state: "hidden" });
+    const row = this.page
+      .getByRole("table")
+      .getByRole("row")
+      .filter({ hasText: name });
+    await row.waitFor({ state: "visible" });
+    // Edit
+    const editButton = row.getByRole("button", { name: "edit", exact: true });
+    await expect(editButton).toBeEnabled();
+    await editButton.click();
+    // Addreess
+    const addressInput = this.page.locator('[aria-label="Address"]');
+    await expect(addressInput).not.toHaveValue(address);
+    await addressInput.fill(address);
+    await addressInput.press("Tab");
+    await expect(addressInput).toHaveValue(address);
+    // Ok
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
   }
 
   async deleteOwner(ownerName) {
