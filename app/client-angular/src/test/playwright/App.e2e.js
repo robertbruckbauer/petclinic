@@ -23,6 +23,8 @@ test.describe("Regression", () => {
   test("Owner", async ({ page }) => {
     const owner = new OwnerPage(page);
     await owner.goto();
+    const ownerName = await owner.createOwner();
+    await owner.deleteOwner(ownerName);
   });
 
   test("Pet", async ({ page }) => {
