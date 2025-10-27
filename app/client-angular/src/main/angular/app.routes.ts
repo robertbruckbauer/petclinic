@@ -21,6 +21,11 @@ export const routes: Routes = [
       import("./pages/basis/enum.routes").then((m) => m.routes),
   },
   {
+    path: "owner",
+    loadChildren: () =>
+      import("./pages/clinic/owner.routes").then((m) => m.routes),
+  },
+  {
     path: "**",
     loadComponent: () =>
       import("./pages/error/not-found").then((m) => m.NotFoundComponent),

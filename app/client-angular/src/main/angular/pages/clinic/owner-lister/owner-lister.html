@@ -1,0 +1,167 @@
+<h1>Owner</h1>
+
+<div class="flex flex-col gap-1 ml-2 mr-2">
+  <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
+    <div class="flex flex-row gap-2 items-center pb-2 pr-2">
+      <label class="floating-label w-full">
+        <span class="label">Filter</span>
+        <input
+          aria-label="Filter"
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Enter filter critria"
+          formControlName="criteria"
+        />
+      </label>
+      <button
+        type="submit"
+        title="Filter items"
+        class="btn btn-circle btn-outline"
+        [disabled]="ownerEditorDisabled()"
+      >
+        <span class="material-icons">search</span>
+      </button>
+    </div>
+  </form>
+  @if (loading()) {
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
+    </div>
+  } @else {
+    <table class="table-fixed">
+      <thead class="justify-between">
+        <tr class="bg-gray-200">
+          <th class="px-2 py-3 text-left w-1/3 table-cell">
+            <span class="text-gray-600">Name</span>
+          </th>
+          <th class="px-2 py-3 text-left w-full table-cell">
+            <span class="text-gray-600">Pets</span>
+          </th>
+          <th class="px-2 py-3 text-right w-0 table-cell">
+            <button
+              title="Add a new owner"
+              class="btn btn-circle btn-outline"
+              (click)="onOwnerEditorCreateClicked()"
+              [disabled]="ownerEditorDisabled()"
+            >
+              <span class="material-icons">add</span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (ownerEditorCreate()) {
+          <tr>
+            <td class="border-l-4 px-2" colspan="3">
+              <app-owner-editor
+                mode="create"
+                (create)="afterCreateItem($event)"
+                [(visible)]="ownerEditorCreate"
+                [owner]="newOwner()"
+              />
+            </td>
+          </tr>
+        }
+        @for (owner of allOwner(); track owner.id) {
+          <tr
+            [title]="owner.name"
+            [class.border-l-2]="ownerId() === owner.id"
+            [class.bg-gray-100]="$index % 2 === 1"
+            (click)="onOwnerClicked(owner)"
+          >
+            <td class="px-2 py-3 text-left table-cell">
+              <div class="text-sm underline text-blue-600">
+                {{ owner.name }}
+              </div>
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              <div class="flex flex-col text-sm">
+                @for (petItem of owner.allPetItem; track petItem.value) {
+                  <div class="underline text-blue-600">
+                    {{ petItem.text }}
+                  </div>
+                } @empty {
+                  <span>No pets</span>
+                }
+              </div>
+            </td>
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-4 items-center gap-1 w-max"
+              >
+                <button
+                  title="Show all visits"
+                  class="btn btn-circle btn-outline"
+                  (click)="onVisitListerClicked(owner)"
+                  [disabled]="ownerEditorDisabled()"
+                >
+                  <span class="material-icons">list</span>
+                </button>
+                <button
+                  title="Add a new pet"
+                  class="btn btn-circle btn-outline"
+                  (click)="onPetCreateEditorClicked(owner)"
+                  [disabled]="ownerEditorDisabled()"
+                >
+                  <span class="material-icons">pets</span>
+                </button>
+                <button
+                  title="Delete an owner"
+                  class="btn btn-circle btn-outline"
+                  (click)="onOwnerRemoveClicked(owner)"
+                  [disabled]="ownerEditorDisabled()"
+                >
+                  <span class="material-icons">delete</span>
+                </button>
+                <button
+                  title="Edit an owner"
+                  class="btn btn-circle btn-outline"
+                  (click)="onOwnerEditorUpdateClicked(owner)"
+                  [disabled]="ownerEditorDisabled()"
+                >
+                  <span class="material-icons">edit</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          @if (visitLister() && ownerId() === owner.id) {
+            <tr>
+              <td class="border-l-4 px-2" colspan="3">
+                <span class="text-sm">Operation not implmented </span>
+                <button class="btn" (click)="visitLister.set(false)">
+                  Close
+                </button>
+              </td>
+            </tr>
+          }
+          @if (petEditorCreate() && ownerId() === owner.id) {
+            <tr>
+              <td class="border-l-4 px-2" colspan="3">
+                <span class="text-sm">Operation not implmented </span>
+                <button class="btn" (click)="petEditorCreate.set(false)">
+                  Close
+                </button>
+              </td>
+            </tr>
+          }
+          @if (ownerEditorUpdate() && ownerId() === owner.id) {
+            <tr>
+              <td class="border-l-4 px-2" colspan="3">
+                <app-owner-editor
+                  mode="update"
+                  (update)="afterUpdateItem($event)"
+                  [(visible)]="ownerEditorUpdate"
+                  [owner]="owner"
+                />
+              </td>
+            </tr>
+          }
+        } @empty {
+          <tr>
+            <td class="px-2" colspan="3">No owners</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
