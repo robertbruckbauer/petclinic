@@ -55,9 +55,7 @@ export class OwnerEditorComponent implements OnInit {
     if (this.mode() === "create") {
       const subscription = this.restApi
         .createOwner({
-          id: undefined,
-          version: 0,
-          allPetItem: [],
+          ...this.owner(),
           name: this.form.value.name!,
           address: this.form.value.address!,
           contact: this.form.value.contact!,

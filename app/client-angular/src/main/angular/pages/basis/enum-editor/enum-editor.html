@@ -1,42 +1,36 @@
 <form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
   <div class="flex flex-col gap-2 pt-4">
     <div class="w-full flex flex-row gap-1 items-baseline">
-      <div class="w-1/6">
-        <label class="floating-label">
-          <span class="label">Code</span>
-          <input
-            aria-label="Code"
-            type="number"
-            class="input input-bordered w-full"
-            formControlName="code"
-            readonly
-          />
-        </label>
-      </div>
-      <div class="w-full">
-        <label class="floating-label">
-          <span class="label">Name</span>
-          <input
-            aria-label="Name"
-            type="text"
-            class="input input-bordered w-full"
-            placeholder="Enter a name"
-            formControlName="name"
-          />
-        </label>
-      </div>
+      <fieldset class="fieldset w-24">
+        <legend class="fieldset-legend">Code</legend>
+        <input
+          aria-label="Code"
+          type="number"
+          class="input input-bordered w-full text-center"
+          formControlName="code"
+          readonly
+        />
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Name</legend>
+        <input
+          aria-label="Name"
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Enter a name"
+          formControlName="name"
+        />
+      </fieldset>
     </div>
-    <div class="w-full">
-      <label class="floating-label">
-        <span class="label">Text</span>
-        <textarea
-          aria-label="Text"
-          class="textarea w-full"
-          placeholder="Enter a text"
-          formControlName="text"
-        ></textarea>
-      </label>
-    </div>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Text</legend>
+      <textarea
+        aria-label="Text"
+        class="textarea w-full"
+        placeholder="Enter a text"
+        formControlName="text"
+      ></textarea>
+    </fieldset>
   </div>
   <div class="join py-4">
     <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
