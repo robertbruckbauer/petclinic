@@ -24,7 +24,7 @@ import { type EnumItem } from "../../../types/enum.type";
 })
 export class EnumEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  private restApi = inject(EnumService);
+  private enumService = inject(EnumService);
   art = input.required<string>();
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
@@ -54,7 +54,7 @@ export class EnumEditorComponent implements OnInit {
   updateEmitter = output<EnumItem>({ alias: "update" });
   onSubmitClicked() {
     if (this.mode() === "create") {
-      const subscription = this.restApi
+      const subscription = this.enumService
         .createEnum(this.art(), {
           ...this.item(),
           name: this.form.value.name!,
@@ -71,7 +71,7 @@ export class EnumEditorComponent implements OnInit {
         subscription.unsubscribe();
       });
     } else {
-      const subscription = this.restApi
+      const subscription = this.enumService
         .updateEnum(this.art(), {
           ...this.item(),
           name: this.form.value.name!,
