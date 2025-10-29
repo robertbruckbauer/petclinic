@@ -1,0 +1,142 @@
+<h1>Pet</h1>
+
+<div class="flex flex-col gap-1 ml-2 mr-2">
+  <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
+    <div class="flex flex-row gap-2 items-center pb-2 pr-2">
+      <select
+        aria-label="Filter"
+        class="select w-full"
+        formControlName="ownerItem"
+        (change)="onFilterClicked()"
+      >
+        <option disabled selected>Choose an owner</option>
+        @for (ownerItem of allOwnerItem(); track ownerItem.value) {
+          <option [ngValue]="ownerItem">{{ ownerItem.text }}</option>
+        }
+      </select>
+      <button
+        type="submit"
+        title="Filter items"
+        class="btn btn-circle btn-outline"
+        [disabled]="petFilterDisabled()"
+      >
+        <span class="material-icons">search</span>
+      </button>
+    </div>
+  </form>
+  @if (loading()) {
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
+    </div>
+  } @else {
+    <table class="table-fixed">
+      <thead class="justify-between">
+        <tr class="bg-gray-200">
+          <th class="px-2 py-3 text-left w-1/4 table-cell">
+            <span class="text-gray-600">Species</span>
+          </th>
+          <th class="px-2 py-3 text-left w-full table-cell">
+            <span class="text-gray-600">Name</span>
+          </th>
+          <th class="px-2 py-3 text-right w-0 table-cell">
+            <button
+              title="Add a new pet"
+              class="btn btn-circle btn-outline"
+              (click)="onPetEditorCreateClicked()"
+              [disabled]="petEditorDisabled()"
+            >
+              <span class="material-icons">add</span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (petEditorCreate()) {
+          <tr>
+            <td class="border-l-4 px-2" colspan="3">
+              <app-pet-editor
+                mode="create"
+                (create)="afterCreateItem($event)"
+                [(visible)]="petEditorCreate"
+                [allSpeciesEnum]="allSpeciesEnum()"
+                [pet]="newPet()"
+              />
+            </td>
+          </tr>
+        }
+        @for (pet of allPet(); track pet.id) {
+          <tr
+            [title]="pet.name"
+            [class.border-l-2]="petId() === pet.id"
+            [class.bg-gray-100]="$index % 2 === 1"
+            (click)="onPetClicked(pet)"
+          >
+            <td class="px-2 py-3 text-left table-cell">
+              <span>{{ pet.species }}</span>
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              <span>{{ pet.name }}</span>
+            </td>
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-3 items-center gap-1 w-max"
+              >
+                <button
+                  title="Add a new visit"
+                  class="btn btn-circle btn-outline"
+                  (click)="onVisitEditorCreateClicked(pet)"
+                  [disabled]="petEditorDisabled()"
+                >
+                  <span class="material-icons">event</span>
+                </button>
+                <button
+                  title="Delete a pet"
+                  class="btn btn-circle btn-outline"
+                  (click)="onPetRemoveClicked(pet)"
+                  [disabled]="petEditorDisabled()"
+                >
+                  <span class="material-icons">delete</span>
+                </button>
+                <button
+                  title="Edit a pet"
+                  class="btn btn-circle btn-outline"
+                  (click)="onPetEditorUpdateClicked(pet)"
+                  [disabled]="petEditorDisabled()"
+                >
+                  <span class="material-icons">edit</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          @if (visitEditorCreate() && petId() === pet.id) {
+            <tr>
+              <td class="border-l-4 px-2" colspan="3">
+                <span class="text-sm">Operation not implmented </span>
+                <button class="btn" (click)="visitEditorCreate.set(false)">
+                  Close
+                </button>
+              </td>
+            </tr>
+          }
+          @if (petEditorUpdate() && petId() === pet.id) {
+            <tr>
+              <td class="border-l-4 px-2" colspan="3">
+                <app-pet-editor
+                  mode="update"
+                  (update)="afterUpdateItem($event)"
+                  [(visible)]="petEditorUpdate"
+                  [allSpeciesEnum]="allSpeciesEnum()"
+                  [pet]="pet"
+                />
+              </td>
+            </tr>
+          }
+        } @empty {
+          <tr>
+            <td class="px-2 py-3" colspan="3">No pets</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
