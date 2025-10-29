@@ -4,7 +4,6 @@ import {
   OnInit,
   computed,
   inject,
-  input,
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
