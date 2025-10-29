@@ -49,20 +49,17 @@ export class PetListerComponent implements OnInit {
   ownerId = computed(() => this.filterFormValue().ownerItem!.value);
 
   allPet = signal<Pet[]>([]);
-  afterCreateItem(newPet: Pet) {
-    console.log(["afterCreateItem", newPet]);
+  afterCreatePet(newPet: Pet) {
     this.allPet.update((allPet) => {
       return [newPet, ...allPet];
     });
   }
-  afterUpdateItem(newPet: Pet) {
-    console.log(["afterUpdateItem", newPet]);
+  afterUpdatePet(newPet: Pet) {
     this.allPet.update((allPet) => {
       return allPet.map((pet) => (pet.id === newPet.id ? newPet : pet));
     });
   }
-  afterRemoveItem(newPet: Pet) {
-    console.log(["afterRemoveItem", newPet]);
+  afterRemovePet(newPet: Pet) {
     this.allPet.update((allPet) => {
       return allPet.filter((pet) => pet.id !== newPet.id);
     });
@@ -87,8 +84,8 @@ export class PetListerComponent implements OnInit {
       allOwnerItem: this.ownerService.loadAllOwnerItem(),
     }).subscribe({
       next: (value) => {
-        this.allOwnerItem.set(value.allOwnerItem);
         this.allSpeciesEnum.set(value.allSpeciesEnum);
+        this.allOwnerItem.set(value.allOwnerItem);
       },
       complete: () => {
         this.loading.set(false);
@@ -165,7 +162,7 @@ export class PetListerComponent implements OnInit {
     this.loading.set(true);
     const subscription = this.petService.removePet(pet.id!).subscribe({
       next: (pet) => {
-        this.afterRemoveItem(pet);
+        this.afterRemovePet(pet);
       },
       complete: () => {
         this.loading.set(false);

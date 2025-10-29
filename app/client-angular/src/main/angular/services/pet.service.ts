@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { backendUrl } from "../app.routes";
-import { type Pet } from "../types/pet.type";
+import { type PetItem, type Pet } from "../types/pet.type";
 import { tapLog } from "../utils/log";
 import { map } from "rxjs";
 
@@ -31,4 +31,11 @@ export class PetService {
     const path = [backendUrl(), "api", "pet", id].join("/");
     return this.httpClient.delete<Pet>(path).pipe(tapLog("DELETE", path));
   }
+}
+
+export function mapPetToItem(value: Pet): PetItem {
+  return {
+    value: value.id!,
+    text: value.species + " " + value.name,
+  };
 }

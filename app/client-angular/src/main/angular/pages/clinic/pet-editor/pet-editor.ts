@@ -46,7 +46,6 @@ export class PetEditorComponent implements OnInit {
 
   cancelEmitter = output<Pet>({ alias: "cancel" });
   onCancelClicked() {
-    console.log(["onCancelClicked", this.pet(), this.form.value]);
     this.cancelEmitter.emit(this.pet());
     this.visible.set(false);
     this.form.reset();
@@ -55,7 +54,6 @@ export class PetEditorComponent implements OnInit {
   createEmitter = output<Pet>({ alias: "create" });
   updateEmitter = output<Pet>({ alias: "update" });
   onSubmitClicked() {
-    console.log(["onSubmitClicked", this.pet(), this.form.value]);
     if (this.mode() === "create") {
       const subscription = this.petService
         .createPet({

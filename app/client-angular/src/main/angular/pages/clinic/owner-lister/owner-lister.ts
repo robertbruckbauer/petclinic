@@ -14,18 +14,30 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { forkJoin } from "rxjs";
+import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
+import { mapPetToItem } from "../../../services/pet.service";
+import { type EnumItem } from "../../../types/enum.type";
 import { type Owner } from "../../../types/owner.type";
+import { type Pet } from "../../../types/pet.type";
 import { OwnerEditorComponent } from "../owner-editor/owner-editor";
+import { PetEditorComponent } from "../pet-editor/pet-editor";
 
 @Component({
   selector: "app-owner-lister",
-  imports: [CommonModule, ReactiveFormsModule, OwnerEditorComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    OwnerEditorComponent,
+    PetEditorComponent,
+  ],
   templateUrl: "./owner-lister.html",
   styles: ``,
 })
 export class OwnerListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private enumService = inject(EnumService);
   private ownerService = inject(OwnerService);
   loading = signal(false);
 
@@ -34,21 +46,31 @@ export class OwnerListerComponent implements OnInit {
   });
 
   allOwner = signal<Owner[]>([]);
-  afterCreateItem(newOwner: Owner) {
+  afterCreateOwner(newOwner: Owner) {
     this.allOwner.update((allOwner) => {
       return [newOwner, ...allOwner];
     });
   }
-  afterUpdateItem(newOwner: Owner) {
+  afterUpdateOwner(newOwner: Owner) {
     this.allOwner.update((allOwner) => {
       return allOwner.map((owner) =>
         owner.id === newOwner.id ? newOwner : owner
       );
     });
   }
-  afterRemoveItem(newOwner: Owner) {
+  afterRemoveOwner(newOwner: Owner) {
     this.allOwner.update((allOwner) => {
       return allOwner.filter((owner) => owner.id !== newOwner.id);
+    });
+  }
+  afterCreatePet(newPet: Pet, newOwner: Owner) {
+    this.allOwner.update((allOwner) => {
+      return allOwner.map((owner) => {
+        if (newOwner.id === owner.id) {
+          owner.allPetItem.push(mapPetToItem(newPet));
+        }
+        return owner;
+      });
     });
   }
 
@@ -62,8 +84,35 @@ export class OwnerListerComponent implements OnInit {
     };
   });
 
+  newPet = computed<Pet>(() => {
+    return {
+      version: 0,
+      owner: ["api", "owner", this.ownerId()].join("/"),
+      name: "",
+      born: "",
+      species: "",
+    };
+  });
+
+  allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
-    this.onFilterClicked();
+    this.loading.set(true);
+    const params = new HttpParams().set("sort", "name,asc");
+    const subscription = forkJoin({
+      allSpeciesEnum: this.enumService.loadAllEnum("species"),
+      allOwner: this.ownerService.loadAllOwner(params),
+    }).subscribe({
+      next: (value) => {
+        this.allSpeciesEnum.set(value.allSpeciesEnum);
+        this.allOwner.set(value.allOwner);
+      },
+      complete: () => {
+        this.loading.set(false);
+      },
+    });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 
   onFilterClicked() {
@@ -143,7 +192,7 @@ export class OwnerListerComponent implements OnInit {
     this.loading.set(true);
     const subscription = this.ownerService.removeOwner(owner.id!).subscribe({
       next: (owner) => {
-        this.afterRemoveItem(owner);
+        this.afterRemoveOwner(owner);
       },
       complete: () => {
         this.loading.set(false);

@@ -22,12 +22,7 @@ export class OwnerService {
     const path = [backendUrl(), "api", "owner"].join("/");
     return this.httpClient.get<{ content: Owner[] }>(path, { params }).pipe(
       tapLog("GET", path),
-      map((body) =>
-        body.content.map((e) => ({
-          value: e.id!,
-          text: e.name + ", " + e.address,
-        }))
-      )
+      map((body) => body.content.map(mapOwnerToItem))
     );
   }
 
@@ -45,4 +40,11 @@ export class OwnerService {
     const path = [backendUrl(), "api", "owner", id].join("/");
     return this.httpClient.delete<Owner>(path).pipe(tapLog("DELETE", path));
   }
+}
+
+export function mapOwnerToItem(value: Owner): OwnerItem {
+  return {
+    value: value.id!,
+    text: value.name + ", " + value.address,
+  };
 }
