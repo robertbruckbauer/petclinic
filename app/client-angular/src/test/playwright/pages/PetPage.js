@@ -21,9 +21,10 @@ export class PetPage {
     await expect(this.page).toHaveURL(this.path);
     // Search
     const filterSelect = this.page.getByLabel("Filter");
+    await filterSelect.waitFor({ state: "visible" });
     const ownerItem = await filterSelect.evaluate((element, name) => {
       return Array.from(element.options).find((option) =>
-        option.label.startsWith(name)
+        option.text.startsWith(name)
       )?.value;
     }, ownerName);
     await filterSelect.selectOption({ value: ownerItem });
