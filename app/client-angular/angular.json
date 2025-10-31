@@ -69,6 +69,14 @@
           },
           "defaultConfiguration": "production"
         },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "tsconfig.test.json",
+            "runner": "vitest",
+            "buildTarget": "::development"
+          }
+        },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
