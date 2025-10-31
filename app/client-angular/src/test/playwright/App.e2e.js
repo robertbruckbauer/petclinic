@@ -21,25 +21,44 @@ test.describe("Regression", () => {
   });
 
   test("Owner", async ({ page }) => {
-    const owner = new OwnerPage(page);
-    await owner.goto();
-    const ownerName = await owner.createOwner();
-    await owner.updateAddress(ownerName);
-    await owner.deleteOwner(ownerName);
+    const ownerPage = new OwnerPage(page);
+    await ownerPage.goto();
+    const ownerName = await ownerPage.createOwner();
+    await ownerPage.updateAddress(ownerName);
+    const petPage = new PetPage(page);
+    await petPage.goto();
+    await petPage.show(ownerName, []);
+    await ownerPage.goto();
+    const catName = await ownerPage.createPet(ownerName, "Cat", "2022-04-22");
+    await petPage.goto();
+    await petPage.show(ownerName, [catName]);
+    await ownerPage.goto();
+    await ownerPage.deleteOwner(ownerName);
   });
 
   test("Pet", async ({ page }) => {
-    const pet = new PetPage(page);
-    await pet.goto();
+    const ownerPage = new OwnerPage(page);
+    await ownerPage.goto();
+    const ownerName = await ownerPage.createOwner();
+    const petPage = new PetPage(page);
+    await petPage.goto();
+    await petPage.show(ownerName, []);
+    const dogName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
+    await petPage.updateBorn(ownerName, dogName, "2023-03-09");
+    await petPage.show(ownerName, [dogName]);
+    await petPage.deletePet(ownerName, dogName);
+    await petPage.show(ownerName, []);
+    await ownerPage.goto();
+    await ownerPage.deleteOwner(ownerName);
   });
 
   test("Vet", async ({ page }) => {
-    const vet = new VetPage(page);
-    await vet.goto();
+    const vetPage = new VetPage(page);
+    await vetPage.goto();
   });
 
   test("Visit", async ({ page }) => {
-    const visit = new VisitPage(page);
-    await visit.goto();
+    const visitPage = new VisitPage(page);
+    await visitPage.goto();
   });
 });

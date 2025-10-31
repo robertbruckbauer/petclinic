@@ -1,9 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { backendUrl } from "../app.routes";
-import { type Owner } from "../types/owner.type";
+import { type OwnerItem, type Owner } from "../types/owner.type";
 import { tapLog } from "../utils/log";
-import { map } from "rxjs";
+import { map, Observable } from "rxjs";
 
 @Injectable()
 export class OwnerService {
@@ -14,6 +14,15 @@ export class OwnerService {
     return this.httpClient.get<{ content: Owner[] }>(path, { params }).pipe(
       tapLog("GET", path),
       map((body) => body.content)
+    );
+  }
+
+  public loadAllOwnerItem(): Observable<OwnerItem[]> {
+    const params = new HttpParams().set("sort", "name,asc");
+    const path = [backendUrl(), "api", "owner"].join("/");
+    return this.httpClient.get<{ content: Owner[] }>(path, { params }).pipe(
+      tapLog("GET", path),
+      map((body) => body.content.map(mapOwnerToItem))
     );
   }
 
@@ -31,4 +40,11 @@ export class OwnerService {
     const path = [backendUrl(), "api", "owner", id].join("/");
     return this.httpClient.delete<Owner>(path).pipe(tapLog("DELETE", path));
   }
+}
+
+export function mapOwnerToItem(value: Owner): OwnerItem {
+  return {
+    value: value.id!,
+    text: value.name + ", " + value.address,
+  };
 }

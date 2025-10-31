@@ -3,21 +3,18 @@
 <div class="flex flex-col gap-1 ml-2 mr-2">
   <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
     <div class="flex flex-row gap-2 items-center pb-2 pr-2">
-      <label class="floating-label w-full">
-        <span class="label">Filter</span>
-        <input
-          aria-label="Filter"
-          type="text"
-          class="input input-bordered w-full"
-          placeholder="Enter filter critria"
-          formControlName="criteria"
-        />
-      </label>
+      <input
+        aria-label="Filter"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter filter critria"
+        formControlName="criteria"
+      />
       <button
         type="submit"
         title="Filter items"
         class="btn btn-circle btn-outline"
-        [disabled]="itemEditorDisabled()"
+        [disabled]="itemFilterDisabled()"
       >
         <span class="material-icons">search</span>
       </button>

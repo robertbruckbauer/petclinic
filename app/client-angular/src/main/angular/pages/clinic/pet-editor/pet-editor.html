@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
+  <div class="flex flex-col sm:flex-row gap-2 pt-4">
+    <fieldset class="fieldset w-full sm:w-1/4">
+      <legend class="fieldset-legend">Species</legend>
+      <select
+        aria-label="Species"
+        class="select w-full"
+        formControlName="species"
+      >
+        <option disabled selected>Choose a species</option>
+        @for (speciesEnum of allSpeciesEnum(); track speciesEnum.code) {
+          <option [value]="speciesEnum.name" [title]="speciesEnum.text">
+            {{ speciesEnum.name }}
+          </option>
+        }
+      </select>
+    </fieldset>
+    <fieldset class="fieldset w-full sm:w-2/4">
+      <legend class="fieldset-legend">Name</legend>
+      <input
+        aria-label="Name"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter a name"
+        formControlName="name"
+      />
+    </fieldset>
+    <fieldset class="fieldset w-full sm:w-1/4">
+      <legend class="fieldset-legend">Born</legend>
+      <input
+        aria-label="Born"
+        type="date"
+        class="input input-bordered w-full"
+        placeholder="Enter a date"
+        formControlName="born"
+      />
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
+      Ok
+    </button>
+    <button type="button" class="btn join-item" (click)="onCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</form>
