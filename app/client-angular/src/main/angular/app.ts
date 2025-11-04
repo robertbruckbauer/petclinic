@@ -1,20 +1,20 @@
 import { Component, signal } from "@angular/core";
 import { RouterLink, RouterOutlet } from "@angular/router";
-import { AppLogoComponent } from "./controls/app-logo/app-logo";
-import { AppIconComponent } from "./controls/app-icon/app-icon";
 
 @Component({
   selector: "app-root",
-  imports: [AppLogoComponent, AppIconComponent, RouterLink, RouterOutlet],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: "./app.html",
   styleUrl: "./app.css",
 })
 export class App {
   protected menuVisible = signal(false);
-  onMenuToggle() {
+  onMenuToggle(event: MouseEvent) {
+    event.stopPropagation();
     this.menuVisible.update((value) => !value);
   }
-  onMenuClose() {
+  onMenuClose(event: MouseEvent) {
+    event.stopPropagation();
     this.menuVisible.set(false);
   }
 }

@@ -1,46 +1,114 @@
-<article class="flex flex-col h-screen">
-  <header class="flex justify-between items-center bg-gray-200 p-2 h-12">
-    <nav class="flex flex-row text-lg text-gray-600 gap-1">
-      <app-icon (click)="onMenuToggle()" [open]="menuVisible()" />
-      <app-logo (click)="onMenuClose()" routerLink="/home" />
-    </nav>
-    <nav class="flex flex-row text-lg text-gray-600 gap-1">
-      <a (click)="onMenuClose()" routerLink="/help">?</a>
-    </nav>
-  </header>
-  <main class="flex-1 overflow-y-auto">
-    @if (menuVisible()) {
-      <aside class="w-72 w-full h-screen fixed z-10">
-        <nav class="absolute flex w-full h-full pointer-events-auto bg-white">
-          <div class="w-full">
-            <div class="flex flex-col p-2 text-gray-600 gap-1">
-              <span class="text-lg text-gray-900 capitalize">Client</span>
-              <div class="flex flex-col p-4 text-gray-600 gap-1">
-                <a (click)="onMenuClose()" routerLink="/owner">Owner</a>
-                <a (click)="onMenuClose()" routerLink="/pet">Pet</a>
-              </div>
-            </div>
-            <div class="flex flex-col p-2 text-gray-600 gap-1">
-              <span class="text-lg text-gray-900 capitalize">Clinic</span>
-              <div class="flex flex-col p-4 text-gray-600 gap-1">
-                <a (click)="onMenuClose()" routerLink="/visit">Visit </a>
-                <a (click)="onMenuClose()" routerLink="/vet">Vet</a>
-                <a (click)="onMenuClose()" routerLink="/enum/skill">Skill</a>
-                <a (click)="onMenuClose()" routerLink="/enum/species"
-                  >Species</a
-                >
-              </div>
-            </div>
-          </div>
-        </nav>
-      </aside>
-    } @else {
-      <router-outlet />
-    }
-  </main>
-  <footer class="flex justify-center bg-gray-200 p-2 h-10">
-    <nav class="flex flex-row text-sm text-gray-600 gap-1">
-      <a (click)="onMenuClose()" routerLink="/help">Impressum</a>
-    </nav>
-  </footer>
-</article>
+<header class="navbar bg-base-100 shadow-sm">
+  <div class="navbar-start">
+    <details
+      class="dropdown"
+      [open]="menuVisible()"
+      (click)="onMenuToggle($event)"
+    >
+      <summary
+        tabindex="0"
+        class="btn btn-circle swap swap-rotate"
+        [class.swap-active]="menuVisible()"
+      >
+        <svg
+          class="swap-off h-5 w-5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+        <svg
+          class="swap-on h-5 w-5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </summary>
+      <ul
+        tabindex="-1"
+        class="menu dropdown-content bg-base-100 rounded-box z-1 mt-3 w-max p-2 shadow"
+      >
+        <li>
+          <span class="capitalize">Client</span>
+          <ul class="p-2">
+            <li>
+              <a class="link" (click)="onMenuClose($event)" routerLink="/owner"
+                >Owner</a
+              >
+            </li>
+            <li>
+              <a class="link" (click)="onMenuClose($event)" routerLink="/pet"
+                >Pet</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="capitalize">Clinic</span>
+          <ul class="p-2">
+            <li>
+              <a class="link" (click)="onMenuClose($event)" routerLink="/visit"
+                >Visit</a
+              >
+            </li>
+            <li>
+              <a class="link" (click)="onMenuClose($event)" routerLink="/vet"
+                >Vet</a
+              >
+            </li>
+            <li>
+              <a
+                class="link"
+                (click)="onMenuClose($event)"
+                routerLink="/enum/skill"
+                >Skill</a
+              >
+            </li>
+            <li>
+              <a
+                class="link"
+                (click)="onMenuClose($event)"
+                routerLink="/enum/species"
+                >Species</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+  </div>
+  <div class="navbar-center">
+    <a
+      (click)="onMenuClose($event)"
+      routerLink="/home"
+      class="btn btn-ghost text-xl"
+      >Petclinic</a
+    >
+  </div>
+  <div class="navbar-end">
+    <a class="link" (click)="onMenuClose($event)" routerLink="/help">?</a>
+  </div>
+</header>
+
+<main class="overflow-y-auto">
+  <router-outlet />
+</main>
+
+<footer class="dock">
+  <a (click)="onMenuClose($event)" routerLink="/help">Impressum</a>
+</footer>
