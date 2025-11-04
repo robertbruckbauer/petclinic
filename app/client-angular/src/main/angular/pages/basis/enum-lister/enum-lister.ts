@@ -26,7 +26,7 @@ import { EnumEditorComponent } from "../enum-editor/enum-editor";
 })
 export class EnumListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  private restApi = inject(EnumService);
+  private enumService = inject(EnumService);
   art = input.required<string>();
   loading = signal(false);
 
@@ -73,7 +73,7 @@ export class EnumListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const subscription = this.restApi.loadAllEnum(this.art()).subscribe({
+    const subscription = this.enumService.loadAllEnum(this.art()).subscribe({
       next: (allItem) => {
         this.allItem.set(allItem);
       },
@@ -105,9 +105,11 @@ export class EnumListerComponent implements OnInit {
     this.itemEditorUpdate.set(true);
   }
 
-  itemEditorDisabled = computed(
+  itemFilterDisabled = computed(
     () => this.itemEditorCreate() || this.itemEditorUpdate()
   );
+
+  itemEditorDisabled = computed(() => this.itemFilterDisabled());
 
   onItemRemoveClicked(item: EnumItem) {
     this.itemCode.set(-1); // no item selected
@@ -115,7 +117,7 @@ export class EnumListerComponent implements OnInit {
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete enum '" + hint + "' permanently?")) return;
     this.loading.set(true);
-    const subscription = this.restApi
+    const subscription = this.enumService
       .removeEnum(this.art(), item.code)
       .subscribe({
         next: (item) => {

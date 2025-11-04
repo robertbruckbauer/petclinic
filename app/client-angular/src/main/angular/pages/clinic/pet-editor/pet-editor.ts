@@ -13,56 +13,58 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { EnumService } from "../../../services/enum.service";
+import { PetService } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
+import { type Pet } from "../../../types/pet.type";
 
 @Component({
-  selector: "app-enum-editor",
+  selector: "app-pet-editor",
   imports: [ReactiveFormsModule],
-  templateUrl: "./enum-editor.html",
+  templateUrl: "./pet-editor.html",
   styles: ``,
 })
-export class EnumEditorComponent implements OnInit {
+export class PetEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  private enumService = inject(EnumService);
-  art = input.required<string>();
+  private petService = inject(PetService);
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
-  item = input.required<EnumItem>();
+  allSpeciesEnum = input.required<EnumItem[]>();
+  pet = input.required<Pet>();
   form = new FormGroup({
-    code: new FormControl(0, Validators.required),
     name: new FormControl("", Validators.required),
-    text: new FormControl("", Validators.required),
+    born: new FormControl("", Validators.required),
+    species: new FormControl("", Validators.required),
   });
 
   ngOnInit() {
-    this.form.patchValue(this.item());
+    this.form.patchValue(this.pet());
   }
 
   get isSubmittable() {
     return this.form.dirty && this.form.valid;
   }
 
-  cancelEmitter = output<EnumItem>({ alias: "cancel" });
+  cancelEmitter = output<Pet>({ alias: "cancel" });
   onCancelClicked() {
-    this.cancelEmitter.emit(this.item());
+    this.cancelEmitter.emit(this.pet());
     this.visible.set(false);
     this.form.reset();
   }
 
-  createEmitter = output<EnumItem>({ alias: "create" });
-  updateEmitter = output<EnumItem>({ alias: "update" });
+  createEmitter = output<Pet>({ alias: "create" });
+  updateEmitter = output<Pet>({ alias: "update" });
   onSubmitClicked() {
     if (this.mode() === "create") {
-      const subscription = this.enumService
-        .createEnum(this.art(), {
-          ...this.item(),
+      const subscription = this.petService
+        .createPet({
+          ...this.pet(),
           name: this.form.value.name!,
-          text: this.form.value.text!,
+          born: this.form.value.born!,
+          species: this.form.value.species!,
         })
         .subscribe({
-          next: (item) => {
-            this.createEmitter.emit(item);
+          next: (value) => {
+            this.createEmitter.emit(value);
             this.visible.set(false);
             this.form.reset();
           },
@@ -71,15 +73,16 @@ export class EnumEditorComponent implements OnInit {
         subscription.unsubscribe();
       });
     } else {
-      const subscription = this.enumService
-        .updateEnum(this.art(), {
-          ...this.item(),
+      const subscription = this.petService
+        .updatePet({
+          ...this.pet(),
           name: this.form.value.name!,
-          text: this.form.value.text!,
+          born: this.form.value.born!,
+          species: this.form.value.species!,
         })
         .subscribe({
-          next: (item) => {
-            this.updateEmitter.emit(item);
+          next: (value) => {
+            this.updateEmitter.emit(value);
             this.visible.set(false);
             this.form.reset();
           },

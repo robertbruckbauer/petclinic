@@ -1,10 +1,10 @@
 export interface Pet {
-  id: string | undefined;
+  id?: string;
   version: number;
+  owner: string;
   name: string;
   born: string;
   species: string;
-  owner: string;
 }
 
 export interface PetItem {

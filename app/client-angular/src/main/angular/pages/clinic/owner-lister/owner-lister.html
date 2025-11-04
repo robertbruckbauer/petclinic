@@ -3,21 +3,18 @@
 <div class="flex flex-col gap-1 ml-2 mr-2">
   <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
     <div class="flex flex-row gap-2 items-center pb-2 pr-2">
-      <label class="floating-label w-full">
-        <span class="label">Filter</span>
-        <input
-          aria-label="Filter"
-          type="text"
-          class="input input-bordered w-full"
-          placeholder="Enter filter critria"
-          formControlName="criteria"
-        />
-      </label>
+      <input
+        aria-label="Filter"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter filter critria"
+        formControlName="criteria"
+      />
       <button
         type="submit"
         title="Filter items"
         class="btn btn-circle btn-outline"
-        [disabled]="ownerEditorDisabled()"
+        [disabled]="ownerFilterDisabled()"
       >
         <span class="material-icons">search</span>
       </button>
@@ -55,7 +52,7 @@
             <td class="border-l-4 px-2" colspan="3">
               <app-owner-editor
                 mode="create"
-                (create)="afterCreateItem($event)"
+                (create)="afterCreateOwner($event)"
                 [(visible)]="ownerEditorCreate"
                 [owner]="newOwner()"
               />
@@ -70,16 +67,12 @@
             (click)="onOwnerClicked(owner)"
           >
             <td class="px-2 py-3 text-left table-cell">
-              <div class="text-sm underline text-blue-600">
-                {{ owner.name }}
-              </div>
+              <span>{{ owner.name }}</span>
             </td>
             <td class="px-2 py-3 text-left table-cell">
               <div class="flex flex-col text-sm">
                 @for (petItem of owner.allPetItem; track petItem.value) {
-                  <div class="underline text-blue-600">
-                    {{ petItem.text }}
-                  </div>
+                  <span>{{ petItem.text }}</span>
                 } @empty {
                   <span>No pets</span>
                 }
@@ -137,10 +130,13 @@
           @if (petEditorCreate() && ownerId() === owner.id) {
             <tr>
               <td class="border-l-4 px-2" colspan="3">
-                <span class="text-sm">Operation not implmented </span>
-                <button class="btn" (click)="petEditorCreate.set(false)">
-                  Close
-                </button>
+                <app-pet-editor
+                  mode="create"
+                  (create)="afterCreatePet($event, owner)"
+                  [(visible)]="petEditorCreate"
+                  [allSpeciesEnum]="allSpeciesEnum()"
+                  [pet]="newPet()"
+                />
               </td>
             </tr>
           }
@@ -149,7 +145,7 @@
               <td class="border-l-4 px-2" colspan="3">
                 <app-owner-editor
                   mode="update"
-                  (update)="afterUpdateItem($event)"
+                  (update)="afterUpdateOwner($event)"
                   [(visible)]="ownerEditorUpdate"
                   [owner]="owner"
                 />

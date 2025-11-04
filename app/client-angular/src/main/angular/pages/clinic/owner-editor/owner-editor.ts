@@ -24,7 +24,7 @@ import { type Owner } from "../../../types/owner.type";
 })
 export class OwnerEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  private restApi = inject(OwnerService);
+  private ownerService = inject(OwnerService);
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
   owner = input.required<Owner>();
@@ -53,18 +53,16 @@ export class OwnerEditorComponent implements OnInit {
   updateEmitter = output<Owner>({ alias: "update" });
   onSubmitClicked() {
     if (this.mode() === "create") {
-      const subscription = this.restApi
+      const subscription = this.ownerService
         .createOwner({
-          id: undefined,
-          version: 0,
-          allPetItem: [],
+          ...this.owner(),
           name: this.form.value.name!,
           address: this.form.value.address!,
           contact: this.form.value.contact!,
         })
         .subscribe({
-          next: (item) => {
-            this.createEmitter.emit(item);
+          next: (value) => {
+            this.createEmitter.emit(value);
             this.visible.set(false);
             this.form.reset();
           },
@@ -73,7 +71,7 @@ export class OwnerEditorComponent implements OnInit {
         subscription.unsubscribe();
       });
     } else {
-      const subscription = this.restApi
+      const subscription = this.ownerService
         .updateOwner({
           ...this.owner(),
           name: this.form.value.name!,
@@ -81,8 +79,8 @@ export class OwnerEditorComponent implements OnInit {
           contact: this.form.value.contact!,
         })
         .subscribe({
-          next: (item) => {
-            this.updateEmitter.emit(item);
+          next: (value) => {
+            this.updateEmitter.emit(value);
             this.visible.set(false);
             this.form.reset();
           },
