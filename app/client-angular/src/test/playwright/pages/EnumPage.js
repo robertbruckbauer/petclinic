@@ -15,7 +15,7 @@ export class EnumPage {
 
   async goto() {
     await this.page.goto("/");
-    await this.page.getByRole("button", { name: "Icon" }).click();
+    await this.page.locator("header").locator("summary").click();
     await this.page.getByRole("link", { name: this.art, exact: true }).click();
     await this.page.waitForURL(this.path);
   }
