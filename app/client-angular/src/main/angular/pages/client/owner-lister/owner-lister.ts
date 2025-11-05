@@ -188,7 +188,7 @@ export class OwnerListerComponent implements OnInit {
     this.ownerId.set(undefined); // no owner selected
     const text = owner.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Delete enum '" + hint + "' permanently?")) return;
+    if (!confirm("Delete owner '" + hint + "' permanently?")) return;
     this.loading.set(true);
     const subscription = this.ownerService.removeOwner(owner.id!).subscribe({
       next: (owner) => {
