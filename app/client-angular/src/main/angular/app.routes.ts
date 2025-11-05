@@ -23,12 +23,12 @@ export const routes: Routes = [
   {
     path: "owner",
     loadChildren: () =>
-      import("./pages/clinic/owner.routes").then((m) => m.routes),
+      import("./pages/client/owner.routes").then((m) => m.routes),
   },
   {
     path: "pet",
     loadChildren: () =>
-      import("./pages/clinic/pet.routes").then((m) => m.routes),
+      import("./pages/client/pet.routes").then((m) => m.routes),
   },
   {
     path: "**",
