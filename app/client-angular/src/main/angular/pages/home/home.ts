@@ -19,14 +19,14 @@ export class HomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private restApi = inject(VersionService);
 
-  apiExplorer = signal<string>(backendUrl() + "/api/explorer");
+  apiExplorer = signal<string>("/api/explorer");
   apiExplorerHref = computed<string>(
-    () => this.apiExplorer() + "/index.html#uri=/api"
+    () => backendUrl() + this.apiExplorer() + "/index.html#uri=/api"
   );
 
-  apiGraphiql = signal<string>(backendUrl() + "/api/graphiql");
+  apiGraphiql = signal<string>("/api/graphiql");
   apiGraphiqlHref = computed<string>(
-    () => this.apiGraphiql() + "?path=/api/graphql"
+    () => backendUrl() + this.apiGraphiql() + "?path=/api/graphql"
   );
 
   version = signal("-");
