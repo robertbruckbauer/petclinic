@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Name</legend>
+      <input
+        aria-label="Name"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter a name"
+        formControlName="name"
+      />
+    </fieldset>
+    <!--Toggle
+      bind:allValue={newVetAllSkill}
+      allItem={allSkillEnum}
+      label="Skills"
+      placeholder="Insert skills"
+    /-->
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
+      Ok
+    </button>
+    <button type="button" class="btn join-item" (click)="onCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</form>

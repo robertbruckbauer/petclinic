@@ -50,10 +50,12 @@
         @if (vetEditorCreate()) {
           <tr>
             <td class="px-2" colspan="3">
-              <span class="text-sm">Operation not implmented </span>
-              <button class="btn" (click)="vetEditorCreate.set(false)">
-                Close
-              </button>
+              <app-vet-editor
+                mode="create"
+                (create)="afterCreateVet($event)"
+                [(visible)]="vetEditorCreate"
+                [vet]="newVet()"
+              />
             </td>
           </tr>
         }
@@ -102,10 +104,12 @@
           @if (vetEditorUpdate() && vetId() === vet.id) {
             <tr>
               <td class="border-l-4 px-2" colspan="3">
-                <span class="text-sm">Operation not implmented </span>
-                <button class="btn" (click)="vetEditorUpdate.set(false)">
-                  Close
-                </button>
+                <app-vet-editor
+                  mode="update"
+                  (update)="afterUpdateVet($event)"
+                  [(visible)]="vetEditorUpdate"
+                  [vet]="vet"
+                />
               </td>
             </tr>
           }
