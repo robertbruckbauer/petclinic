@@ -54,6 +54,7 @@
                 mode="create"
                 (create)="afterCreateVet($event)"
                 [(visible)]="vetEditorCreate"
+                [allSkillEnum]="allSkillEnum()"
                 [vet]="newVet()"
               />
             </td>
@@ -108,6 +109,7 @@
                   mode="update"
                   (update)="afterUpdateVet($event)"
                   [(visible)]="vetEditorUpdate"
+                  [allSkillEnum]="allSkillEnum()"
                   [vet]="vet"
                 />
               </td>

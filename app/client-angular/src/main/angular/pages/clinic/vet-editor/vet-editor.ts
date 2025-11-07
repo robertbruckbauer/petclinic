@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { EnumItem } from "../../../types/enum.type";
 import { VetService } from "../../../services/vet.service";
 import { type Vet } from "../../../types/vet.type";
 
@@ -27,9 +28,11 @@ export class VetEditorComponent implements OnInit {
   private vetService = inject(VetService);
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
+  allSkillEnum = input.required<EnumItem[]>();
   vet = input.required<Vet>();
   form = new FormGroup({
     name: new FormControl("", Validators.required),
+    allSkill: new FormControl<string[]>([], Validators.required),
   });
 
   ngOnInit() {
@@ -55,6 +58,7 @@ export class VetEditorComponent implements OnInit {
         .createVet({
           ...this.vet(),
           name: this.form.value.name!,
+          allSkill: this.form.value.allSkill!,
         })
         .subscribe({
           next: (value) => {
@@ -71,6 +75,7 @@ export class VetEditorComponent implements OnInit {
         .updateVet({
           ...this.vet(),
           name: this.form.value.name!,
+          allSkill: this.form.value.allSkill!,
         })
         .subscribe({
           next: (value) => {

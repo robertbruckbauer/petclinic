@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { distinctUntilChanged, forkJoin, map } from "rxjs";
+import { forkJoin } from "rxjs";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
 import { PetService } from "../../../services/pet.service";

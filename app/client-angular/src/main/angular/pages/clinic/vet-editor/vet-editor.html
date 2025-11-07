@@ -10,12 +10,21 @@
         formControlName="name"
       />
     </fieldset>
-    <!--Toggle
-      bind:allValue={newVetAllSkill}
-      allItem={allSkillEnum}
-      label="Skills"
-      placeholder="Insert skills"
-    /-->
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Skills</legend>
+      <select
+        aria-label="Skills"
+        multiple
+        [size]="allSkillEnum().length"
+        class="select select-bordered w-full"
+        placeholder="Choose skills"
+        formControlName="allSkill"
+      >
+        @for (skillEnum of allSkillEnum(); track skillEnum.code) {
+          <option [value]="skillEnum.name">{{ skillEnum.name }}</option>
+        }
+      </select>
+    </fieldset>
   </div>
   <div class="join py-4">
     <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
