@@ -1,0 +1,94 @@
+<h1>Visit</h1>
+
+<div class="flex flex-col gap-1 ml-2 mr-2">
+  @if (loading()) {
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
+    </div>
+  } @else {
+    <table class="table-fixed">
+      <thead class="justify-between">
+        <tr class="bg-gray-200">
+          <th class="px-2 py-3 text-left w-2/6 table-cell">
+            <span class="text-gray-600">Owner</span>
+          </th>
+          <th class="px-2 py-3 text-left w-2/6 table-cell">
+            <span class="text-gray-600">Pet</span>
+          </th>
+          <th class="px-2 py-3 text-left w-2/6 table-cell">
+            <span class="text-gray-600">Vet</span>
+          </th>
+          <th class="px-2 py-3 w-16"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (visit of allVisit(); track visit.id) {
+          @if (isSwimlaneChange($index)) {
+            <tr class="bg-gray-100">
+              <td class="px-2 py-3" colspan="4">
+                <span class="h-5 text-xl">{{ visit.date }}</span>
+              </td>
+            </tr>
+          }
+          <tr
+            [title]="visit.id"
+            [class.border-l-2]="visitId() === visit.id"
+            (click)="onVisitClicked(visit)"
+          >
+            <td class="px-2 py-3 text-left table-cell">
+              {{ visit.ownerItem?.text }}
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              {{ visit.petItem?.text }}
+            </td>
+            <td class="px-2 py-3 text-left table-cell">
+              {{ visit.vetItem?.text }}
+            </td>
+            <td class="px-2 py-3 table-cell">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
+              >
+                <button
+                  title="Delete a visit"
+                  class="btn btn-circle btn-outline"
+                  (click)="onVisitRemoveClicked(visit)"
+                  [disabled]="visitEditorDisabled()"
+                >
+                  <span class="material-icons">delete</span>
+                </button>
+                <button
+                  title="Edit visit details"
+                  class="btn btn-circle btn-outline"
+                  (click)="onVisitEditorUpdateClicked(visit)"
+                  [disabled]="visitEditorDisabled()"
+                >
+                  <span class="material-icons">edit</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          @if (visitEditorUpdate() && visitId() === visit.id) {
+            <tr>
+              <td class="border-l-4 px-4" colspan="4">
+                <span class="text-sm">Operation not implmented </span>
+                <button class="btn" (click)="visitEditorUpdate.set(false)">
+                  Close
+                </button>
+                <!--VisitDiagnose
+                  bind:visible={visitEditorUpdate}
+                  onupdate={loadAllVisit}
+                  {allVetItem}
+                  {visit}
+                /-->
+              </td>
+            </tr>
+          }
+        } @empty {
+          <tr>
+            <td class="px-2" colspan="3">No visits</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { backendUrl } from "../app.routes";
 import { type PetItem, type Pet } from "../types/pet.type";
 import { tapLog } from "../utils/log";
-import { map } from "rxjs";
+import { map, Observable } from "rxjs";
 
 @Injectable()
 export class PetService {
@@ -14,6 +14,15 @@ export class PetService {
     return this.httpClient.get<{ content: Pet[] }>(path, { params }).pipe(
       tapLog("GET", path),
       map((body) => body.content)
+    );
+  }
+
+  public loadAllPetItem(): Observable<PetItem[]> {
+    const params = new HttpParams().set("sort", "name,asc");
+    const path = [backendUrl(), "api", "pet"].join("/");
+    return this.httpClient.get<{ content: Pet[] }>(path, { params }).pipe(
+      tapLog("GET", path),
+      map((body) => body.content.map(mapPetToItem))
     );
   }
 
