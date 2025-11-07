@@ -1,0 +1,37 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Name</legend>
+      <input
+        aria-label="Name"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter a name"
+        formControlName="name"
+      />
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Skills</legend>
+      <select
+        aria-label="Skills"
+        multiple
+        [size]="allSkillEnum().length"
+        class="select select-bordered w-full"
+        placeholder="Choose skills"
+        formControlName="allSkill"
+      >
+        @for (skillEnum of allSkillEnum(); track skillEnum.code) {
+          <option [value]="skillEnum.name">{{ skillEnum.name }}</option>
+        }
+      </select>
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
+      Ok
+    </button>
+    <button type="button" class="btn join-item" (click)="onCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</form>

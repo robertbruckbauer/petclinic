@@ -31,6 +31,11 @@ export const routes: Routes = [
       import("./pages/client/pet.routes").then((m) => m.routes),
   },
   {
+    path: "vet",
+    loadChildren: () =>
+      import("./pages/clinic/vet.routes").then((m) => m.routes),
+  },
+  {
     path: "**",
     loadComponent: () =>
       import("./pages/error/not-found").then((m) => m.NotFoundComponent),
