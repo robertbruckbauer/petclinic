@@ -55,6 +55,9 @@ test.describe("Regression", () => {
   test("Vet", async ({ page }) => {
     const vetPage = new VetPage(page);
     await vetPage.goto();
+    const vetName = await vetPage.createVet();
+    await vetPage.updateSkills(vetName);
+    await vetPage.deleteVet(vetName);
   });
 
   test("Visit", async ({ page }) => {
