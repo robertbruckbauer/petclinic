@@ -17,7 +17,7 @@ import {
 import { forkJoin } from "rxjs";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
-import { mapPetToItem } from "../../../services/pet.service";
+import { mapPetToPetItem } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { type Owner } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
@@ -67,7 +67,7 @@ export class OwnerListerComponent implements OnInit {
     this.allOwner.update((allOwner) => {
       return allOwner.map((owner) => {
         if (newOwner.id === owner.id) {
-          owner.allPetItem.push(mapPetToItem(newPet));
+          owner.allPetItem.push(mapPetToPetItem(newPet));
         }
         return owner;
       });

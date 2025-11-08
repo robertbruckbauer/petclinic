@@ -21,12 +21,14 @@ export class EnumService {
     const path = [backendUrl(), "api", "enum", art].join("/");
     return this.httpClient
       .post<EnumItem>(path, item)
-      .pipe(tapLog("POST", path));
+      .pipe(tapLog("POST", path, item));
   }
 
   public updateEnum(art: string, item: EnumItem) {
     const path = [backendUrl(), "api", "enum", art, item.code].join("/");
-    return this.httpClient.put<EnumItem>(path, item).pipe(tapLog("PUT", path));
+    return this.httpClient
+      .put<EnumItem>(path, item)
+      .pipe(tapLog("PUT", path, item));
   }
 
   public removeEnum(art: string, code: number) {
@@ -46,4 +48,11 @@ export function filterByCriteria(criteria: string | null | undefined) {
     }
     return true;
   };
+}
+
+export function compareEnumItem(
+  item1: EnumItem | null,
+  item2: EnumItem | null
+): boolean {
+  return item1?.code === item2?.code;
 }

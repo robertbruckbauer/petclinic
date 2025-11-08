@@ -18,7 +18,7 @@ import {
 import { forkJoin } from "rxjs";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
-import { PetService } from "../../../services/pet.service";
+import { PetService, comparePetItem } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { type OwnerItem } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
@@ -54,6 +54,8 @@ export class PetListerComponent implements OnInit {
     initialValue: this.filterForm.value,
   });
   ownerId = computed(() => this.filterFormValue().ownerItem!.value);
+
+  readonly comparePetItem = comparePetItem;
 
   allPet = signal<Pet[]>([]);
   afterCreatePet(newPet: Pet) {

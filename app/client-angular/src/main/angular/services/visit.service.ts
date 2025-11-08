@@ -19,12 +19,16 @@ export class VisitService {
 
   public createVisit(value: Visit) {
     const path = [backendUrl(), "api", "visit"].join("/");
-    return this.httpClient.post<Visit>(path, value).pipe(tapLog("POST", path));
+    return this.httpClient
+      .post<Visit>(path, value)
+      .pipe(tapLog("POST", path, value));
   }
 
   public updateVisit(value: Visit) {
     const path = [backendUrl(), "api", "visit", value.id].join("/");
-    return this.httpClient.put<Visit>(path, value).pipe(tapLog("PUT", path));
+    return this.httpClient
+      .put<Visit>(path, value)
+      .pipe(tapLog("PUT", path, value));
   }
 
   public removeVisit(id: string) {

@@ -7,6 +7,7 @@
         aria-label="Filter"
         class="select w-full"
         formControlName="ownerItem"
+        [compareWith]="comparePetItem"
         (change)="onFilterClicked()"
       >
         <option disabled selected>Choose an owner</option>

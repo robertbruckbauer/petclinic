@@ -22,18 +22,22 @@ export class PetService {
     const path = [backendUrl(), "api", "pet"].join("/");
     return this.httpClient.get<{ content: Pet[] }>(path, { params }).pipe(
       tapLog("GET", path),
-      map((body) => body.content.map(mapPetToItem))
+      map((body) => body.content.map(mapPetToPetItem))
     );
   }
 
   public createPet(value: Pet) {
     const path = [backendUrl(), "api", "pet"].join("/");
-    return this.httpClient.post<Pet>(path, value).pipe(tapLog("POST", path));
+    return this.httpClient
+      .post<Pet>(path, value)
+      .pipe(tapLog("POST", path, value));
   }
 
   public updatePet(value: Pet) {
     const path = [backendUrl(), "api", "pet", value.id].join("/");
-    return this.httpClient.put<Pet>(path, value).pipe(tapLog("PUT", path));
+    return this.httpClient
+      .put<Pet>(path, value)
+      .pipe(tapLog("PUT", path, value));
   }
 
   public removePet(id: string) {
@@ -42,9 +46,16 @@ export class PetService {
   }
 }
 
-export function mapPetToItem(value: Pet): PetItem {
+export function mapPetToPetItem(value: Pet): PetItem {
   return {
     value: value.id!,
     text: value.species + " " + value.name,
   };
+}
+
+export function comparePetItem(
+  item1: PetItem | null,
+  item2: PetItem | null
+): boolean {
+  return item1?.value === item2?.value;
 }

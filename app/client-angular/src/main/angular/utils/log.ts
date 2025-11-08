@@ -2,11 +2,12 @@ import { OperatorFunction, tap } from "rxjs";
 
 export function tapLog<T>(
   method: string,
-  path: string
+  path: string,
+  reqBody: any | undefined = undefined
 ): OperatorFunction<T, T> {
   return tap({
-    next: (res) => {
-      console.log([method, path, res]);
+    next: (resBody) => {
+      console.log([method, path, reqBody, resBody]);
     },
     error: (err) => {
       console.log([method, path, err]);
