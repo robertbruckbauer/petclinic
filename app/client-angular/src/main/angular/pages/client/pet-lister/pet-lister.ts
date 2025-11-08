@@ -6,6 +6,7 @@ import {
   inject,
   signal,
 } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { CommonModule } from "@angular/common";
 import { HttpParams } from "@angular/common/http";
 import {
@@ -21,12 +22,18 @@ import { PetService } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { type OwnerItem } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
+import { type Visit } from "../../../types/visit.type";
 import { PetEditorComponent } from "../pet-editor/pet-editor";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { VisitTreatmentComponent } from "../../clinic/visit-treatment/visit-treatment";
 
 @Component({
   selector: "app-pet-lister",
-  imports: [CommonModule, ReactiveFormsModule, PetEditorComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PetEditorComponent,
+    VisitTreatmentComponent,
+  ],
   templateUrl: "./pet-lister.html",
   styles: ``,
 })
@@ -72,6 +79,15 @@ export class PetListerComponent implements OnInit {
       name: "",
       born: "",
       species: "",
+    };
+  });
+
+  newTreatment = computed<Visit>(() => {
+    return {
+      version: 0,
+      pet: ["api", "pet", this.petId()].join("/"),
+      date: "",
+      text: "",
     };
   });
 
@@ -124,7 +140,7 @@ export class PetListerComponent implements OnInit {
     this.petId.set(undefined); // no pet selected
     this.petEditorCreate.set(true);
     this.petEditorUpdate.set(false);
-    this.visitEditorCreate.set(false);
+    this.treatmentCreate.set(false);
   }
 
   petEditorUpdate = signal(false);
@@ -132,22 +148,20 @@ export class PetListerComponent implements OnInit {
     this.petId.set(pet.id);
     this.petEditorCreate.set(false);
     this.petEditorUpdate.set(true);
-    this.visitEditorCreate.set(false);
+    this.treatmentCreate.set(false);
   }
 
-  visitEditorCreate = signal(false);
+  treatmentCreate = signal(false);
   onVisitEditorCreateClicked(pet: Pet) {
     this.petId.set(pet.id);
     this.petEditorCreate.set(false);
     this.petEditorUpdate.set(false);
-    this.visitEditorCreate.set(true);
+    this.treatmentCreate.set(true);
   }
 
   petFilterDisabled = computed(
     () =>
-      this.petEditorCreate() ||
-      this.petEditorUpdate() ||
-      this.visitEditorCreate()
+      this.petEditorCreate() || this.petEditorUpdate() || this.treatmentCreate()
   );
 
   petEditorDisabled = computed(

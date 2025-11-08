@@ -1,0 +1,22 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Date of treatment</legend>
+      <input
+        aria-label="Date of treatment"
+        type="date"
+        class="input input-bordered w-full"
+        placeholder="Choose a date"
+        formControlName="date"
+      />
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
+      Ok
+    </button>
+    <button type="button" class="btn join-item" (click)="onCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</form>

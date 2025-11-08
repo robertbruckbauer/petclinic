@@ -82,7 +82,7 @@
                 class="grid grid-cols-1 md:grid-cols-3 items-center gap-1 w-max"
               >
                 <button
-                  title="Add a new visit"
+                  title="Add a treatment"
                   class="btn btn-circle btn-outline"
                   (click)="onVisitEditorCreateClicked(pet)"
                   [disabled]="petEditorDisabled()"
@@ -108,13 +108,14 @@
               </div>
             </td>
           </tr>
-          @if (visitEditorCreate() && petId() === pet.id) {
+          @if (treatmentCreate() && petId() === pet.id) {
             <tr>
               <td class="border-l-4 px-2" colspan="3">
-                <span class="text-sm">Operation not implmented </span>
-                <button class="btn" (click)="visitEditorCreate.set(false)">
-                  Close
-                </button>
+                <app-visit-treatment
+                  mode="create"
+                  [(visible)]="treatmentCreate"
+                  [visit]="newTreatment()"
+                />
               </td>
             </tr>
           }
