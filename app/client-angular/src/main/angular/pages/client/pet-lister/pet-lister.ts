@@ -77,7 +77,7 @@ export class PetListerComponent implements OnInit {
   newPet = computed<Pet>(() => {
     return {
       version: 0,
-      owner: ["api", "owner", this.ownerId()].join("/"),
+      owner: "/api/owner/" + this.ownerId(),
       name: "",
       born: "",
       species: "",
@@ -87,7 +87,7 @@ export class PetListerComponent implements OnInit {
   newTreatment = computed<Visit>(() => {
     return {
       version: 0,
-      pet: ["api", "pet", this.petId()].join("/"),
+      pet: "/api/pet/" + this.petId(),
       date: "",
       text: "",
     };

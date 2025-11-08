@@ -87,7 +87,7 @@ export class OwnerListerComponent implements OnInit {
   newPet = computed<Pet>(() => {
     return {
       version: 0,
-      owner: ["api", "owner", this.ownerId()].join("/"),
+      owner: "/api/owner/" + this.ownerId(),
       name: "",
       born: "",
       species: "",

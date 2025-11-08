@@ -55,12 +55,12 @@
     restApi
       .updatePatch("/api/visit/" + newVisit.id, newVisit)
       .then((json) => {
-        console.log(["createVisit", newVisit, json]);
+        console.log(["updateVisit", newVisit, json]);
         visible = false;
         onupdate?.(json);
       })
       .catch((err) => {
-        console.log(["createVisit", newVisit, err]);
+        console.log(["updateVisit", newVisit, err]);
         toast.push(err.toString());
       });
   }

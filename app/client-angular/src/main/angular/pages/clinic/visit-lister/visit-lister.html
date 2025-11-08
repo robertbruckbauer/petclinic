@@ -70,16 +70,13 @@
           @if (visitEditorUpdate() && visitId() === visit.id) {
             <tr>
               <td class="border-l-4 px-4" colspan="4">
-                <span class="text-sm">Operation not implmented </span>
-                <button class="btn" (click)="visitEditorUpdate.set(false)">
-                  Close
-                </button>
-                <!--VisitDiagnose
-                  bind:visible={visitEditorUpdate}
-                  onupdate={loadAllVisit}
-                  {allVetItem}
-                  {visit}
-                /-->
+                <app-visit-diagnose
+                  mode="update"
+                  (update)="afterUpdateVisit($event)"
+                  [(visible)]="visitEditorUpdate"
+                  [allVetItem]="allVetItem()"
+                  [visit]="visit"
+                />
               </td>
             </tr>
           }

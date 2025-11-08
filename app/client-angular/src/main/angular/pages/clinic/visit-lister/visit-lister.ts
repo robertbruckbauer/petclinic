@@ -21,10 +21,11 @@ import { VisitService } from "../../../services/visit.service";
 import { type PetItem } from "../../../types/pet.type";
 import { type VetItem } from "../../../types/vet.type";
 import { type Visit } from "../../../types/visit.type";
+import { VisitDiagnoseComponent } from "../visit-diagnose/visit-diagnose";
 
 @Component({
   selector: "app-visit-lister",
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, VisitDiagnoseComponent],
   templateUrl: "./visit-lister.html",
   styles: ``,
 })
@@ -61,8 +62,6 @@ export class VisitListerComponent implements OnInit {
   /**
    * Start swimlane if the date changes
    * in a date ordered array.
-   *
-   * @param _index from #each
    */
   isSwimlaneChange(index: number) {
     if (index) {
@@ -82,18 +81,15 @@ export class VisitListerComponent implements OnInit {
     };
   });
 
-  allPetItem = signal<PetItem[]>([]);
   allVetItem = signal<VetItem[]>([]);
   ngOnInit() {
     this.loading.set(true);
     const params = new HttpParams().set("sort", "date,asc");
     const subscription = forkJoin({
-      allPetItem: this.petService.loadAllPetItem(),
       allVetItem: this.vetService.loadAllVetItem(),
       allVisit: this.visitService.loadAllVisit(params),
     }).subscribe({
       next: (value) => {
-        this.allPetItem.set(value.allPetItem);
         this.allVetItem.set(value.allVetItem);
         this.allVisit.set(value.allVisit);
       },
