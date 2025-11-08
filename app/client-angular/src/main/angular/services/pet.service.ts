@@ -35,9 +35,10 @@ export class PetService {
 
   public updatePet(value: Pet) {
     const path = [backendUrl(), "api", "pet", value.id].join("/");
+    const headers = { "Content-Type": "application/merge-patch+json" };
     return this.httpClient
-      .put<Pet>(path, value)
-      .pipe(tapLog("PUT", path, value));
+      .patch<Pet>(path, value, { headers })
+      .pipe(tapLog("PATCH", path, value));
   }
 
   public removePet(id: string) {

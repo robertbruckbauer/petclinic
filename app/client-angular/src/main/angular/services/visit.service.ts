@@ -26,9 +26,10 @@ export class VisitService {
 
   public updateVisit(value: Visit) {
     const path = [backendUrl(), "api", "visit", value.id].join("/");
+    const headers = { "Content-Type": "application/merge-patch+json" };
     return this.httpClient
-      .put<Visit>(path, value)
-      .pipe(tapLog("PUT", path, value));
+      .patch<Visit>(path, value, { headers })
+      .pipe(tapLog("PATCH", path, value));
   }
 
   public removeVisit(id: string) {

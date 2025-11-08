@@ -35,9 +35,10 @@ export class OwnerService {
 
   public updateOwner(value: Owner) {
     const path = [backendUrl(), "api", "owner", value.id].join("/");
+    const headers = { "Content-Type": "application/merge-patch+json" };
     return this.httpClient
-      .put<Owner>(path, value)
-      .pipe(tapLog("PUT", path, value));
+      .patch<Owner>(path, value, { headers })
+      .pipe(tapLog("PATCH", path, value));
   }
 
   public removeOwner(id: string) {
