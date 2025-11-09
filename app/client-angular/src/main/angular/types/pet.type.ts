@@ -1,7 +1,10 @@
+import { OwnerItem } from "./owner.type";
+
 export interface Pet {
   id?: string;
   version: number;
-  owner: string;
+  ownerItem?: OwnerItem;
+  owner?: string;
   name: string;
   born: string;
   species: string;

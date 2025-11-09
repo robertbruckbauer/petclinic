@@ -25,14 +25,6 @@ test.describe("Regression", () => {
     await ownerPage.goto();
     const ownerName = await ownerPage.createOwner();
     await ownerPage.updateAddress(ownerName);
-    const petPage = new PetPage(page);
-    await petPage.goto();
-    await petPage.show(ownerName, []);
-    await ownerPage.goto();
-    const catName = await ownerPage.createPet(ownerName, "Cat", "2022-04-22");
-    await petPage.goto();
-    await petPage.show(ownerName, [catName]);
-    await ownerPage.goto();
     await ownerPage.deleteOwner(ownerName);
   });
 
@@ -43,10 +35,10 @@ test.describe("Regression", () => {
     const petPage = new PetPage(page);
     await petPage.goto();
     await petPage.show(ownerName, []);
-    const dogName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
-    await petPage.updateBorn(ownerName, dogName, "2023-03-09");
-    await petPage.show(ownerName, [dogName]);
-    await petPage.deletePet(ownerName, dogName);
+    const petName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
+    await petPage.show(ownerName, [petName]);
+    await petPage.updateBorn(ownerName, petName, "2023-03-09");
+    await petPage.deletePet(ownerName, petName);
     await petPage.show(ownerName, []);
     await ownerPage.goto();
     await ownerPage.deleteOwner(ownerName);
@@ -61,7 +53,20 @@ test.describe("Regression", () => {
   });
 
   test("Visit", async ({ page }) => {
+    const ownerPage = new OwnerPage(page);
+    await ownerPage.goto();
+    const ownerName = await ownerPage.createOwner();
+    const petPage = new PetPage(page);
+    await petPage.goto();
+    const petName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
+    await petPage.createVisit(ownerName, petName, "2025-04-22");
     const visitPage = new VisitPage(page);
     await visitPage.goto();
+    await visitPage.updateDiagnose(ownerName, petName);
+    await visitPage.deleteVisit(ownerName, petName);
+    await petPage.goto();
+    await petPage.deletePet(ownerName, petName);
+    await ownerPage.goto();
+    await ownerPage.deleteOwner(ownerName);
   });
 });

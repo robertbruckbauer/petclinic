@@ -120,11 +120,11 @@ export class VetListerComponent implements OnInit {
     this.vetEditorUpdate.set(true);
   }
 
-  vetFilterDisabled = computed(
+  readonly vetFilterDisabled = computed(
     () => this.vetEditorCreate() || this.vetEditorUpdate()
   );
 
-  vetEditorDisabled = computed(() => this.vetFilterDisabled());
+  readonly vetEditorDisabled = computed(() => this.vetFilterDisabled());
 
   onVetRemoveClicked(vet: Vet) {
     this.vetId.set(undefined); // no vet selected

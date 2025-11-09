@@ -61,7 +61,7 @@
   }
 
   let visitEditorCreate = $state(false);
-  function onVisitEditorCreateClicked(_pet) {
+  function onTreatmentCreateClicked(_pet) {
     petId = _pet.id;
     petEditorCreate = false;
     petEditorUpdate = false;
@@ -194,9 +194,9 @@
                 class="grid grid-cols-1 md:grid-cols-3 items-center gap-1 w-max"
               >
                 <Icon
-                  onclick={() => onVisitEditorCreateClicked(pet)}
+                  onclick={() => onTreatmentCreateClicked(pet)}
                   disabled={petEditorDisabled}
-                  title="Add a new visit"
+                  title="Add a treatment"
                   name="event"
                   outlined
                 />
@@ -220,11 +220,7 @@
           {#if visitEditorCreate && petId === pet.id}
             <tr>
               <td class="border-l-4 px-2" colspan="4">
-                <VisitTreatment
-                  bind:visible={visitEditorCreate}
-                  oncreate={loadAllPet}
-                  {pet}
-                />
+                <VisitTreatment bind:visible={visitEditorCreate} {pet} />
               </td>
             </tr>
           {/if}

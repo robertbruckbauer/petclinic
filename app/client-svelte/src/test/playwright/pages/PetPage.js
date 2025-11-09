@@ -32,7 +32,7 @@ export class PetPage {
     await expect(addButton).toBeEnabled();
     await addButton.click();
     const dateField = this.page.getByRole("textbox", {
-      name: "Date of treatment",
+      name: "Treatment",
     });
     await dateField.fill(visitAt);
     await dateField.press("Tab");

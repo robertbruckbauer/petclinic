@@ -76,6 +76,29 @@ export class PetPage {
     return petName;
   }
 
+  async createVisit(ownerName, petName, date) {
+    await this.filterOwner(ownerName);
+    const row = this.page
+      .getByRole("table")
+      .getByRole("row")
+      .filter({ hasText: petName });
+    await row.waitFor({ state: "visible" });
+    // Edit
+    const editButton = row.getByRole("button", { name: "event", exact: true });
+    await expect(editButton).toBeEnabled();
+    await editButton.click();
+    // Born
+    const dateInput = this.page.getByRole("textbox", { name: "Treatment" });
+    await expect(dateInput).not.toHaveValue(date);
+    await dateInput.fill(date);
+    await dateInput.press("Tab");
+    await expect(dateInput).toHaveValue(date);
+    // Ok
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
+  }
+
   async updateBorn(ownerName, petName, born) {
     await this.filterOwner(ownerName);
     const row = this.page

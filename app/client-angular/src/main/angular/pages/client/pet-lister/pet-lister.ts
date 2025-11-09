@@ -6,6 +6,7 @@ import {
   inject,
   signal,
 } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { CommonModule } from "@angular/common";
 import { HttpParams } from "@angular/common/http";
 import {
@@ -21,12 +22,18 @@ import { PetService } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { type OwnerItem } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
+import { type Visit } from "../../../types/visit.type";
 import { PetEditorComponent } from "../pet-editor/pet-editor";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { VisitTreatmentComponent } from "../../clinic/visit-treatment/visit-treatment";
 
 @Component({
   selector: "app-pet-lister",
-  imports: [CommonModule, ReactiveFormsModule, PetEditorComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PetEditorComponent,
+    VisitTreatmentComponent,
+  ],
   templateUrl: "./pet-lister.html",
   styles: ``,
 })
@@ -38,15 +45,12 @@ export class PetListerComponent implements OnInit {
   loading = signal(false);
 
   filterForm = new FormGroup({
-    ownerItem: new FormControl<OwnerItem>(
-      { value: "", text: "" },
-      Validators.required
-    ),
+    ownerId: new FormControl("", Validators.required),
   });
   filterFormValue = toSignal(this.filterForm.valueChanges, {
     initialValue: this.filterForm.value,
   });
-  ownerId = computed(() => this.filterFormValue().ownerItem!.value);
+  ownerId = computed(() => this.filterFormValue().ownerId!);
 
   allPet = signal<Pet[]>([]);
   afterCreatePet(newPet: Pet) {
@@ -68,10 +72,19 @@ export class PetListerComponent implements OnInit {
   newPet = computed<Pet>(() => {
     return {
       version: 0,
-      owner: ["api", "owner", this.ownerId()].join("/"),
+      owner: "/api/owner/" + this.ownerId(),
       name: "",
       born: "",
       species: "",
+    };
+  });
+
+  newTreatment = computed<Visit>(() => {
+    return {
+      version: 0,
+      pet: "/api/pet/" + this.petId(),
+      date: "",
+      text: "",
     };
   });
 
@@ -124,7 +137,7 @@ export class PetListerComponent implements OnInit {
     this.petId.set(undefined); // no pet selected
     this.petEditorCreate.set(true);
     this.petEditorUpdate.set(false);
-    this.visitEditorCreate.set(false);
+    this.treatmentCreate.set(false);
   }
 
   petEditorUpdate = signal(false);
@@ -132,25 +145,23 @@ export class PetListerComponent implements OnInit {
     this.petId.set(pet.id);
     this.petEditorCreate.set(false);
     this.petEditorUpdate.set(true);
-    this.visitEditorCreate.set(false);
+    this.treatmentCreate.set(false);
   }
 
-  visitEditorCreate = signal(false);
+  treatmentCreate = signal(false);
   onVisitEditorCreateClicked(pet: Pet) {
     this.petId.set(pet.id);
     this.petEditorCreate.set(false);
     this.petEditorUpdate.set(false);
-    this.visitEditorCreate.set(true);
+    this.treatmentCreate.set(true);
   }
 
-  petFilterDisabled = computed(
+  readonly petFilterDisabled = computed(
     () =>
-      this.petEditorCreate() ||
-      this.petEditorUpdate() ||
-      this.visitEditorCreate()
+      this.petEditorCreate() || this.petEditorUpdate() || this.treatmentCreate()
   );
 
-  petEditorDisabled = computed(
+  readonly petEditorDisabled = computed(
     () => this.ownerId() === "" || this.petFilterDisabled()
   );
 

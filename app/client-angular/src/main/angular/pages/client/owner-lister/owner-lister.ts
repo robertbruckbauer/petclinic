@@ -17,12 +17,13 @@ import {
 import { forkJoin } from "rxjs";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
-import { mapPetToItem } from "../../../services/pet.service";
+import { mapPetToPetItem } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { type Owner } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
 import { OwnerEditorComponent } from "../owner-editor/owner-editor";
 import { PetEditorComponent } from "../pet-editor/pet-editor";
+import { VisitOverviewComponent } from "../../clinic/visit-overview/visit-overview";
 
 @Component({
   selector: "app-owner-lister",
@@ -31,6 +32,7 @@ import { PetEditorComponent } from "../pet-editor/pet-editor";
     ReactiveFormsModule,
     OwnerEditorComponent,
     PetEditorComponent,
+    VisitOverviewComponent,
   ],
   templateUrl: "./owner-lister.html",
   styles: ``,
@@ -67,7 +69,7 @@ export class OwnerListerComponent implements OnInit {
     this.allOwner.update((allOwner) => {
       return allOwner.map((owner) => {
         if (newOwner.id === owner.id) {
-          owner.allPetItem.push(mapPetToItem(newPet));
+          owner.allPetItem.push(mapPetToPetItem(newPet));
         }
         return owner;
       });
@@ -87,7 +89,7 @@ export class OwnerListerComponent implements OnInit {
   newPet = computed<Pet>(() => {
     return {
       version: 0,
-      owner: ["api", "owner", this.ownerId()].join("/"),
+      owner: "/api/owner/" + this.ownerId(),
       name: "",
       born: "",
       species: "",
@@ -174,7 +176,7 @@ export class OwnerListerComponent implements OnInit {
     this.visitLister.set(!this.visitLister());
   }
 
-  ownerFilterDisabled = computed(
+  readonly ownerFilterDisabled = computed(
     () =>
       this.ownerEditorCreate() ||
       this.ownerEditorUpdate() ||
@@ -182,7 +184,7 @@ export class OwnerListerComponent implements OnInit {
       this.visitLister()
   );
 
-  ownerEditorDisabled = computed(() => this.ownerFilterDisabled());
+  readonly ownerEditorDisabled = computed(() => this.ownerFilterDisabled());
 
   onOwnerRemoveClicked(owner: Owner) {
     this.ownerId.set(undefined); // no owner selected

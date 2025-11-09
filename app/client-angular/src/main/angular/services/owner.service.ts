@@ -22,18 +22,23 @@ export class OwnerService {
     const path = [backendUrl(), "api", "owner"].join("/");
     return this.httpClient.get<{ content: Owner[] }>(path, { params }).pipe(
       tapLog("GET", path),
-      map((body) => body.content.map(mapOwnerToItem))
+      map((body) => body.content.map(mapOwnerToOwnerItem))
     );
   }
 
   public createOwner(value: Owner) {
     const path = [backendUrl(), "api", "owner"].join("/");
-    return this.httpClient.post<Owner>(path, value).pipe(tapLog("POST", path));
+    return this.httpClient
+      .post<Owner>(path, value)
+      .pipe(tapLog("POST", path, value));
   }
 
   public updateOwner(value: Owner) {
     const path = [backendUrl(), "api", "owner", value.id].join("/");
-    return this.httpClient.put<Owner>(path, value).pipe(tapLog("PUT", path));
+    const headers = { "Content-Type": "application/merge-patch+json" };
+    return this.httpClient
+      .patch<Owner>(path, value, { headers })
+      .pipe(tapLog("PATCH", path, value));
   }
 
   public removeOwner(id: string) {
@@ -42,9 +47,16 @@ export class OwnerService {
   }
 }
 
-export function mapOwnerToItem(value: Owner): OwnerItem {
+export function mapOwnerToOwnerItem(value: Owner): OwnerItem {
   return {
     value: value.id!,
     text: value.name + ", " + value.address,
   };
+}
+
+export function compareOwnerItem(
+  item1: OwnerItem | null,
+  item2: OwnerItem | null
+): boolean {
+  return item1?.value === item2?.value;
 }

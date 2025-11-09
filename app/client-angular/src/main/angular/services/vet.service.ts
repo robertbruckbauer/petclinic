@@ -22,18 +22,23 @@ export class VetService {
     const path = [backendUrl(), "api", "vet"].join("/");
     return this.httpClient.get<{ content: Vet[] }>(path, { params }).pipe(
       tapLog("GET", path),
-      map((body) => body.content.map(mapVetToItem))
+      map((body) => body.content.map(mapVetToVetItem))
     );
   }
 
   public createVet(value: Vet) {
     const path = [backendUrl(), "api", "vet"].join("/");
-    return this.httpClient.post<Vet>(path, value).pipe(tapLog("POST", path));
+    return this.httpClient
+      .post<Vet>(path, value)
+      .pipe(tapLog("POST", path, value));
   }
 
   public updateVet(value: Vet) {
     const path = [backendUrl(), "api", "vet", value.id].join("/");
-    return this.httpClient.put<Vet>(path, value).pipe(tapLog("PUT", path));
+    const headers = { "Content-Type": "application/merge-patch+json" };
+    return this.httpClient
+      .patch<Vet>(path, value, { headers })
+      .pipe(tapLog("PATCH", path, value));
   }
 
   public removeVet(id: string) {
@@ -42,9 +47,16 @@ export class VetService {
   }
 }
 
-export function mapVetToItem(value: Vet): VetItem {
+export function mapVetToVetItem(value: Vet): VetItem {
   return {
     value: value.id!,
     text: value.name,
   };
+}
+
+export function compareVetItem(
+  item1: VetItem | null,
+  item2: VetItem | null
+): boolean {
+  return item1?.value === item2?.value;
 }

@@ -13,7 +13,10 @@
     try {
       loading = true;
       allVetItem = await restApi.loadAllValue("/api/vet?sort=name,asc");
-      allVetItem = allVetItem.map((e) => ({}));
+      allVetItem = allVetItem.map((e) => ({
+        value: e.id,
+        text: e.name,
+      }));
       console.log(["onMount", allVetItem]);
       allSpeciesEnum = await restApi.loadAllValue("/api/enum/species");
       allSpeciesEnum = allSpeciesEnum.map((e) => ({

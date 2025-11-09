@@ -1,0 +1,30 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Diagnosis</legend>
+      <textarea
+        aria-label="Diagnosis"
+        class="textarea w-full"
+        placeholder="Enter a diagnosis"
+        formControlName="text"
+      ></textarea>
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Vet</legend>
+      <select aria-label="Vet" class="select w-full" formControlName="vet">
+        <option disabled selected>Choose a vet</option>
+        @for (vetItem of allVetItem(); track vetItem.value) {
+          <option [value]="vetItem.value">{{ vetItem.text }}</option>
+        }
+      </select>
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
+      Ok
+    </button>
+    <button type="button" class="btn join-item" (click)="onCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</form>
