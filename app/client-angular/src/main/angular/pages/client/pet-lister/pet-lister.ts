@@ -161,12 +161,12 @@ export class PetListerComponent implements OnInit {
     this.treatmentCreate.set(true);
   }
 
-  petFilterDisabled = computed(
+  readonly petFilterDisabled = computed(
     () =>
       this.petEditorCreate() || this.petEditorUpdate() || this.treatmentCreate()
   );
 
-  petEditorDisabled = computed(
+  readonly petEditorDisabled = computed(
     () => this.ownerId() === "" || this.petFilterDisabled()
   );
 

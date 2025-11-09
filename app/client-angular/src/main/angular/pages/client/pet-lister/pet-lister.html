@@ -6,6 +6,7 @@
       <select
         aria-label="Filter"
         class="select w-full"
+        [class.pointer-events-none]="petFilterDisabled()"
         formControlName="ownerItem"
         [compareWith]="comparePetItem"
         (change)="onFilterClicked()"

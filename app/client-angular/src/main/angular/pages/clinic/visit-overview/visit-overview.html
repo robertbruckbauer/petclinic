@@ -1,0 +1,54 @@
+@if (loading()) {
+  <div class="h-screen flex justify-center items-start">
+    <span class="loading loading-spinner loading-xl"></span>
+  </div>
+} @else {
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-1"
+  >
+    @for (visit of allVisit(); track visit.id) {
+      <div class="card flex flex-col border rounded-md p-2">
+        <div class="flex flex-row gap-1">
+          <fieldset class="fieldset w-full">
+            <legend class="fieldset-legend">Pet</legend>
+            <input
+              aria-label="Pet"
+              type="text"
+              class="input w-full"
+              readonly
+              [value]="visit.petItem?.text"
+            />
+          </fieldset>
+          <fieldset class="fieldset w-48">
+            <legend class="fieldset-legend">Treatment</legend>
+            <input
+              aria-label="Treatment"
+              type="date"
+              class="input w-full"
+              readonly
+              [value]="visit.date"
+            />
+          </fieldset>
+        </div>
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">Vet</legend>
+          <input
+            aria-label="Vet"
+            type="text"
+            class="input w-full"
+            readonly
+            [value]="visit.vetItem?.text"
+          />
+        </fieldset>
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">Diagnosis</legend>
+          <textarea aria-label="Diagnosis" class="textarea w-full" readonly>{{
+            visit.text
+          }}</textarea>
+        </fieldset>
+      </div>
+    } @empty {
+      <span>No visits</span>
+    }
+  </div>
+}

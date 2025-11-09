@@ -23,6 +23,7 @@ import { type Owner } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
 import { OwnerEditorComponent } from "../owner-editor/owner-editor";
 import { PetEditorComponent } from "../pet-editor/pet-editor";
+import { VisitOverviewComponent } from "../../clinic/visit-overview/visit-overview";
 
 @Component({
   selector: "app-owner-lister",
@@ -31,6 +32,7 @@ import { PetEditorComponent } from "../pet-editor/pet-editor";
     ReactiveFormsModule,
     OwnerEditorComponent,
     PetEditorComponent,
+    VisitOverviewComponent,
   ],
   templateUrl: "./owner-lister.html",
   styles: ``,
@@ -174,7 +176,7 @@ export class OwnerListerComponent implements OnInit {
     this.visitLister.set(!this.visitLister());
   }
 
-  ownerFilterDisabled = computed(
+  readonly ownerFilterDisabled = computed(
     () =>
       this.ownerEditorCreate() ||
       this.ownerEditorUpdate() ||
@@ -182,7 +184,7 @@ export class OwnerListerComponent implements OnInit {
       this.visitLister()
   );
 
-  ownerEditorDisabled = computed(() => this.ownerFilterDisabled());
+  readonly ownerEditorDisabled = computed(() => this.ownerFilterDisabled());
 
   onOwnerRemoveClicked(owner: Owner) {
     this.ownerId.set(undefined); // no owner selected

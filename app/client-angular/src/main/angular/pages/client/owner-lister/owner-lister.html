@@ -7,6 +7,7 @@
         aria-label="Filter"
         type="text"
         class="input input-bordered w-full"
+        [readonly]="ownerFilterDisabled()"
         placeholder="Enter filter critria"
         formControlName="criteria"
       />
@@ -119,7 +120,7 @@
           @if (visitLister() && ownerId() === owner.id) {
             <tr>
               <td class="border-l-4 px-2" colspan="3">
-                <span class="text-sm">Operation not implmented </span>
+                <app-visit-overview [owner]="owner" />
               </td>
             </tr>
           }

@@ -105,11 +105,11 @@ export class EnumListerComponent implements OnInit {
     this.itemEditorUpdate.set(true);
   }
 
-  itemFilterDisabled = computed(
+  readonly itemFilterDisabled = computed(
     () => this.itemEditorCreate() || this.itemEditorUpdate()
   );
 
-  itemEditorDisabled = computed(() => this.itemFilterDisabled());
+  readonly itemEditorDisabled = computed(() => this.itemFilterDisabled());
 
   onItemRemoveClicked(item: EnumItem) {
     this.itemCode.set(-1); // no item selected

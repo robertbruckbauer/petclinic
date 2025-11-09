@@ -15,10 +15,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { forkJoin } from "rxjs";
-import { PetService } from "../../../services/pet.service";
 import { VetService } from "../../../services/vet.service";
 import { VisitService } from "../../../services/visit.service";
-import { type PetItem } from "../../../types/pet.type";
 import { type VetItem } from "../../../types/vet.type";
 import { type Visit } from "../../../types/visit.type";
 import { VisitDiagnoseComponent } from "../visit-diagnose/visit-diagnose";
@@ -31,7 +29,6 @@ import { VisitDiagnoseComponent } from "../visit-diagnose/visit-diagnose";
 })
 export class VisitListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  private petService = inject(PetService);
   private vetService = inject(VetService);
   private visitService = inject(VisitService);
   loading = signal(false);
@@ -137,11 +134,11 @@ export class VisitListerComponent implements OnInit {
     this.visitEditorUpdate.set(true);
   }
 
-  visitFilterDisabled = computed(
+  readonly visitFilterDisabled = computed(
     () => this.visitEditorCreate() || this.visitEditorUpdate()
   );
 
-  visitEditorDisabled = computed(() => this.visitFilterDisabled());
+  readonly visitEditorDisabled = computed(() => this.visitFilterDisabled());
 
   onVisitRemoveClicked(visit: Visit) {
     this.visitId.set(undefined); // no visit selected
