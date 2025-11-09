@@ -220,10 +220,7 @@
           {#if visitEditorCreate && petId === pet.id}
             <tr>
               <td class="border-l-4 px-2" colspan="4">
-                <VisitTreatment
-                  bind:visible={visitEditorCreate}
-                  {pet}
-                />
+                <VisitTreatment bind:visible={visitEditorCreate} {pet} />
               </td>
             </tr>
           {/if}

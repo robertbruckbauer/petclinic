@@ -68,7 +68,7 @@
         bind:value={newVisitDate}
         type="date"
         required
-        label="Date of treatment"
+        label="Treatment"
         placeholder="Choose a date"
       />
     </div>
