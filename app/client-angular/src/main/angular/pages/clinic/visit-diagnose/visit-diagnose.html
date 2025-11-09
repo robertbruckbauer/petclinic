@@ -11,15 +11,10 @@
     </fieldset>
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Vet</legend>
-      <select
-        aria-label="Vet"
-        class="select w-full"
-        formControlName="vetItem"
-        [compareWith]="compareVetItem"
-      >
+      <select aria-label="Vet" class="select w-full" formControlName="vet">
         <option disabled selected>Choose a vet</option>
         @for (vetItem of allVetItem(); track vetItem.value) {
-          <option [ngValue]="vetItem">{{ vetItem.text }}</option>
+          <option [value]="vetItem.value">{{ vetItem.text }}</option>
         }
       </select>
     </fieldset>

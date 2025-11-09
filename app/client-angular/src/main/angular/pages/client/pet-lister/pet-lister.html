@@ -7,13 +7,12 @@
         aria-label="Filter"
         class="select w-full"
         [class.pointer-events-none]="petFilterDisabled()"
-        formControlName="ownerItem"
-        [compareWith]="comparePetItem"
+        formControlName="ownerId"
         (change)="onFilterClicked()"
       >
         <option disabled selected>Choose an owner</option>
         @for (ownerItem of allOwnerItem(); track ownerItem.value) {
-          <option [ngValue]="ownerItem">{{ ownerItem.text }}</option>
+          <option [value]="ownerItem.value">{{ ownerItem.text }}</option>
         }
       </select>
       <button

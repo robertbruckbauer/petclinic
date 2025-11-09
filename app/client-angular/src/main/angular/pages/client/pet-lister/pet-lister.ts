@@ -18,7 +18,7 @@ import {
 import { forkJoin } from "rxjs";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
-import { PetService, comparePetItem } from "../../../services/pet.service";
+import { PetService } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { type OwnerItem } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
@@ -45,17 +45,12 @@ export class PetListerComponent implements OnInit {
   loading = signal(false);
 
   filterForm = new FormGroup({
-    ownerItem: new FormControl<OwnerItem>(
-      { value: "", text: "" },
-      Validators.required
-    ),
+    ownerId: new FormControl("", Validators.required),
   });
   filterFormValue = toSignal(this.filterForm.valueChanges, {
     initialValue: this.filterForm.value,
   });
-  ownerId = computed(() => this.filterFormValue().ownerItem!.value);
-
-  readonly comparePetItem = comparePetItem;
+  ownerId = computed(() => this.filterFormValue().ownerId!);
 
   allPet = signal<Pet[]>([]);
   afterCreatePet(newPet: Pet) {

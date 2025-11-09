@@ -17,7 +17,6 @@ import {
   ValidationErrors,
 } from "@angular/forms";
 import { VisitService } from "../../../services/visit.service";
-import { compareVetItem } from "../../../services/vet.service";
 import { type VetItem } from "../../../types/vet.type";
 import { type Visit } from "../../../types/visit.type";
 
@@ -36,19 +35,15 @@ export class VisitDiagnoseComponent implements OnInit {
   visit = input.required<Visit>();
   form = new FormGroup({
     text: new FormControl("", Validators.required),
-    vetItem: new FormControl<VetItem | null>(null, (control) => {
-      const item = control.value as VetItem | null;
-      if (!item || !item.value || item.value.trim() === "") {
-        return { required: true };
-      }
-      return null;
-    }),
+    vet: new FormControl("", Validators.required),
   });
 
-  readonly compareVetItem = compareVetItem;
-
   ngOnInit() {
-    this.form.patchValue(this.visit());
+    this.form.patchValue({
+      ...this.visit(),
+      vet: this.visit().vetItem?.value,
+    });
+    console.log(["ngOnInit", this.form.value]);
   }
 
   get isSubmittable() {
@@ -70,8 +65,8 @@ export class VisitDiagnoseComponent implements OnInit {
         .createVisit({
           ...this.visit(),
           text: this.form.value.text!,
-          vetItem: this.form.value.vetItem!,
-          vet: "/api/vet/" + this.form.value.vetItem!.value,
+          vetItem: undefined, // item is invalid
+          vet: "/api/vet/" + this.form.value.vet!,
         })
         .subscribe({
           next: (value) => {
@@ -88,8 +83,8 @@ export class VisitDiagnoseComponent implements OnInit {
         .updateVisit({
           ...this.visit(),
           text: this.form.value.text!,
-          vetItem: this.form.value.vetItem!,
-          vet: "/api/vet/" + this.form.value.vetItem!.value,
+          vetItem: undefined, // item is invalid
+          vet: "/api/vet/" + this.form.value.vet!,
         })
         .subscribe({
           next: (value) => {
