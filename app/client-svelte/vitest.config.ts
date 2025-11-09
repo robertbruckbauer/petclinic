@@ -9,6 +9,9 @@ export default defineConfig({
     outputFile: {
       junit: './build/test-results/test/TEST-vitest.xml'
     },
-    setupFiles: ['./vitest.setup.js']
+    setupFiles: ['./vitest.setup.js'],
+    typecheck: {
+      enabled: true
+    }
   },
 })

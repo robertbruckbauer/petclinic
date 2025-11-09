@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ES6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "verbatimModuleSyntax": true,
+    "sourceMap": true,
+    "declaration": false,
+    "declarationMap": false,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "$lib/*": ["src/main/svelte/lib/*"],
+      "$app/*": ["src/main/svelte/app/*"]
+    }
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.svelte"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist"
+  ]
+}

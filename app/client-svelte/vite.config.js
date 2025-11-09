@@ -5,7 +5,12 @@ import path from "path";
 
 export default defineConfig({
   plugins: [
-    svelte(), tailwindcss()
+    svelte({
+      preprocess: {
+        typescript: true
+      }
+    }),
+    tailwindcss()
   ],
   build: {
     outDir: path.join(__dirname, "build/generated"),
