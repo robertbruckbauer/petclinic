@@ -13,8 +13,6 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
-  AbstractControl,
-  ValidationErrors,
 } from "@angular/forms";
 import { VisitService } from "../../../services/visit.service";
 import { type VetItem } from "../../../types/vet.type";
@@ -40,10 +38,9 @@ export class VisitDiagnoseComponent implements OnInit {
 
   ngOnInit() {
     this.form.patchValue({
-      ...this.visit(),
-      vet: this.visit().vetItem?.value,
+      text: this.visit().text,
+      vet: this.visit().vetItem?.value || "",
     });
-    console.log(["ngOnInit", this.form.value]);
   }
 
   get isSubmittable() {
@@ -52,9 +49,13 @@ export class VisitDiagnoseComponent implements OnInit {
 
   cancelEmitter = output<Visit>({ alias: "cancel" });
   onCancelClicked() {
+    this.form.patchValue({
+      text: this.visit().text,
+      vet: this.visit().vetItem?.value || "",
+    });
+    this.form.markAsPristine();
     this.cancelEmitter.emit(this.visit());
     this.visible.set(false);
-    this.form.reset();
   }
 
   createEmitter = output<Visit>({ alias: "create" });
@@ -65,14 +66,13 @@ export class VisitDiagnoseComponent implements OnInit {
         .createVisit({
           ...this.visit(),
           text: this.form.value.text!,
-          vetItem: undefined, // item is invalid
+          vetItem: undefined, // vetItem is invalid
           vet: "/api/vet/" + this.form.value.vet!,
         })
         .subscribe({
           next: (value) => {
             this.createEmitter.emit(value);
             this.visible.set(false);
-            this.form.reset();
           },
         });
       this.destroyRef.onDestroy(() => {
@@ -83,14 +83,13 @@ export class VisitDiagnoseComponent implements OnInit {
         .updateVisit({
           ...this.visit(),
           text: this.form.value.text!,
-          vetItem: undefined, // item is invalid
+          vetItem: undefined, // vetItem is invalid
           vet: "/api/vet/" + this.form.value.vet!,
         })
         .subscribe({
           next: (value) => {
             this.updateEmitter.emit(value);
             this.visible.set(false);
-            this.form.reset();
           },
         });
       this.destroyRef.onDestroy(() => {

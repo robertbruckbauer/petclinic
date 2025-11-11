@@ -7,13 +7,14 @@ import {
   signal,
 } from "@angular/core";
 import { HttpParams } from "@angular/common/http";
+import { RouterLink } from "@angular/router";
 import { VisitService } from "../../../services/visit.service";
 import { type Owner } from "../../../types/owner.type";
 import { type Visit } from "../../../types/visit.type";
 
 @Component({
   selector: "app-visit-overview",
-  imports: [],
+  imports: [RouterLink],
   templateUrl: "./visit-overview.html",
   styles: ``,
 })

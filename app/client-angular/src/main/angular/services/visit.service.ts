@@ -17,6 +17,11 @@ export class VisitService {
     );
   }
 
+  public loadVisit(id: string) {
+    const path = [backendUrl(), "api", "visit", id].join("/");
+    return this.httpClient.get<Visit>(path).pipe(tapLog("GET", path));
+  }
+
   public createVisit(value: Visit) {
     const path = [backendUrl(), "api", "visit"].join("/");
     return this.httpClient
