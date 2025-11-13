@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    include: ['src/main/svelte/**/*.spec.ts'],
+    include: ['src/main/angular/**/*.spec.ts'],
     environment: 'node',
     globals: true,
     reporters: ['default', 'junit'],
