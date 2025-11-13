@@ -7,20 +7,26 @@ clean {
     delete ".vite"
 }
 
+build {
+    dependsOn 'npmBuild'
+}
+
 tasks.register('npmBuild', NpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
     mustRunAfter 'npmInstall'
-    build.dependsOn it
     // https://docs.npmjs.com/cli/v10/commands/npm-run-script
     npmCommand = ['run', 'build']
 }
 
-tasks.register('npmTest', NpmTask) {
+check {
+    dependsOn 'npmCheck'
+}
+
+tasks.register('npmCheck', NpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
     mustRunAfter 'npmBuild'
-    check.dependsOn it
     // https://docs.npmjs.com/cli/v10/commands/npm-run-script
     npmCommand = ['run', 'test']
 }
