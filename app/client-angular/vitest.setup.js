@@ -1,9 +1,16 @@
-import { vi, afterEach } from "vitest";
+import { vi, beforeEach } from "vitest";
 
-vi.stubGlobal("window", {
-  location: { protocol: "http:", host: "localhost:5052" },
-});
+const mockWindow = {
+  location: {
+    protocol: "http:",
+    host: "localhost:5052",
+    hostname: "localhost",
+    port: "5052",
+    pathname: "/",
+    href: "http://localhost:5052/"
+  }
+};
 
-afterEach(() => {
-  vi.unstubAllGlobals?.();
+beforeEach(() => {
+  vi.stubGlobal("window", mockWindow);
 });

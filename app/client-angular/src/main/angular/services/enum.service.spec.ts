@@ -1,7 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { provideZonelessChangeDetection } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { HttpClient } from "@angular/common/http";
 import { of, throwError } from "rxjs";
 import { EnumService } from "./enum.service";
 import { type EnumItem } from "../types/enum.type";
@@ -30,14 +27,7 @@ describe("EnumService", () => {
       put: vi.fn(),
       delete: vi.fn(),
     };
-    TestBed.configureTestingModule({
-      providers: [
-        EnumService,
-        { provide: HttpClient, useValue: httpClientMock },
-        provideZonelessChangeDetection(),
-      ],
-    });
-    enumService = TestBed.inject(EnumService);
+    enumService = new EnumService(httpClientMock);
   });
 
   it("should be created", () => {

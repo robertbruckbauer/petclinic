@@ -1,4 +1,4 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { backendUrl } from "../app.routes";
 import { type Visit } from "../types/visit.type";
@@ -7,7 +7,7 @@ import { map } from "rxjs";
 
 @Injectable()
 export class VisitService {
-  private httpClient = inject(HttpClient);
+  constructor(private httpClient: HttpClient) {}
 
   public loadAllVisit(params: HttpParams | undefined = undefined) {
     const path = [backendUrl(), "api", "visit"].join("/");

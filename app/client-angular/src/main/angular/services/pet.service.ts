@@ -1,4 +1,4 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { backendUrl } from "../app.routes";
 import { type PetItem, type Pet } from "../types/pet.type";
@@ -7,7 +7,7 @@ import { map, Observable } from "rxjs";
 
 @Injectable()
 export class PetService {
-  private httpClient = inject(HttpClient);
+  constructor(private httpClient: HttpClient) {}
 
   public loadAllPet(params: HttpParams | undefined = undefined) {
     const path = [backendUrl(), "api", "pet"].join("/");

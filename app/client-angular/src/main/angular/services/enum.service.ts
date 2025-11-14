@@ -1,4 +1,4 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs";
 import { backendUrl } from "../app.routes";
@@ -7,7 +7,7 @@ import { tapLog } from "../utils/log";
 
 @Injectable()
 export class EnumService {
-  private httpClient = inject(HttpClient);
+  constructor(private httpClient: HttpClient) {}
 
   public loadAllEnum(art: string) {
     const path = [backendUrl(), "api", "enum", art].join("/");

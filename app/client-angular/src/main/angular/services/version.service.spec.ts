@@ -1,7 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { provideZonelessChangeDetection } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { HttpClient } from "@angular/common/http";
 import { of, throwError } from "rxjs";
 import { VersionService } from "./version.service";
 import { type Version } from "../types/version.type";
@@ -18,14 +15,7 @@ describe("VersionService", () => {
     httpClientMock = {
       get: vi.fn(),
     };
-    TestBed.configureTestingModule({
-      providers: [
-        VersionService,
-        { provide: HttpClient, useValue: httpClientMock },
-        provideZonelessChangeDetection(),
-      ],
-    });
-    versionService = TestBed.inject(VersionService);
+    versionService = new VersionService(httpClientMock);
   });
 
   it("should be created", () => {
