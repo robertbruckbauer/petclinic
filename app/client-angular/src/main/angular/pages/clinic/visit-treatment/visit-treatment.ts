@@ -33,7 +33,9 @@ export class VisitTreatmentComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.form.patchValue(this.visit());
+    this.form.patchValue({
+      date: this.visit().date,
+    });
   }
 
   get isSubmittable() {
@@ -42,9 +44,12 @@ export class VisitTreatmentComponent implements OnInit {
 
   cancelEmitter = output<Visit>({ alias: "cancel" });
   onCancelClicked() {
+    this.form.patchValue({
+      date: this.visit().date,
+    });
+    this.form.markAsPristine();
     this.cancelEmitter.emit(this.visit());
     this.visible.set(false);
-    this.form.reset();
   }
 
   createEmitter = output<Visit>({ alias: "create" });
@@ -60,7 +65,6 @@ export class VisitTreatmentComponent implements OnInit {
           next: (value) => {
             this.createEmitter.emit(value);
             this.visible.set(false);
-            this.form.reset();
           },
         });
       this.destroyRef.onDestroy(() => {
@@ -76,7 +80,6 @@ export class VisitTreatmentComponent implements OnInit {
           next: (value) => {
             this.updateEmitter.emit(value);
             this.visible.set(false);
-            this.form.reset();
           },
         });
       this.destroyRef.onDestroy(() => {

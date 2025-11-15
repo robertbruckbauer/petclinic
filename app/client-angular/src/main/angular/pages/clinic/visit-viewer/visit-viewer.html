@@ -1,0 +1,19 @@
+<h1>Visit {{ title }}</h1>
+
+<div class="flex flex-col gap-1 ml-2 mr-2">
+  @if (loading()) {
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
+    </div>
+  } @else {
+    @if (visit()) {
+      <app-visit-treatment mode="update" [visible]="true" [visit]="visit()!" />
+      <app-visit-diagnose
+        mode="update"
+        [visible]="true"
+        [allVetItem]="allVetItem()"
+        [visit]="visit()!"
+      />
+    }
+  }
+</div>

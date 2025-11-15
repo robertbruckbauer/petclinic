@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import Chance from "chance";
 const chance = new Chance();
 
-export class EnumPage {
+export class EnumListerPage {
   constructor(page, art) {
     this.page = page;
     this.art = art;
@@ -22,7 +22,7 @@ export class EnumPage {
     await this.page.waitForURL(this.path);
   }
 
-  async create() {
+  async createItem() {
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
     await filterInput.fill("Zzz");
@@ -75,7 +75,7 @@ export class EnumPage {
     await okButton.click();
   }
 
-  async delete() {
+  async deleteItem() {
     await this.page.once("dialog", (dialog) => dialog.accept());
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');

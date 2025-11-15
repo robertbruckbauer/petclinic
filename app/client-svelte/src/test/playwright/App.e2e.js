@@ -1,29 +1,46 @@
 import { test } from "@playwright/test";
-import { EnumPage } from "./pages/EnumPage.js";
-import { OwnerPage } from "./pages/OwnerPage.js";
-import { PetPage } from "./pages/PetPage.js";
-import { VetPage } from "./pages/VetPage.js";
-import { VisitPage } from "./pages/VisitPage.js";
+import { EnumListerPage } from "./pages/EnumListerPage.js";
+import { OwnerListerPage } from "./pages/OwnerListerPage.js";
+import { PetListerPage } from "./pages/PetListerPage.js";
+import { VetListerPage } from "./pages/VetListerPage.js";
+import { VisitListerPage } from "./pages/VisitListerPage.js";
 
-test.describe("Regression", () => {
-  test("Home", async ({ page }) => {
+test.describe("Navigation", () => {
+  test("Root", async ({ page }) => {
     await page.goto("/");
+    // Some deployments don't perform a client-side redirect from "/" to "/home",
+    // so wait for a known element on the home page instead of waiting for URL change.
+    await page.waitForSelector('h1:has-text("Info")');
   });
+  test("Home", async ({ page }) => {
+    const path = "/home";
+    await page.goto(path);
+    await page.waitForURL(path);
+  });
+  test("Help", async ({ page }) => {
+    const path = "/help";
+    await page.goto(path);
+    await page.waitForURL(path);
+  });
+});
 
+test.describe("Enum", () => {
   ["Skill", "Species"].forEach((art) => {
     test(art, async ({ page }) => {
-      const enumPage = new EnumPage(page, art);
+      const enumPage = new EnumListerPage(page, art);
       await enumPage.goto();
-      await enumPage.create();
+      const name = await enumPage.createItem();
       await enumPage.updateName();
-      await enumPage.delete();
+      await enumPage.deleteItem();
     });
   });
+});
 
-  test("Owner", async ({ page }) => {
-    const owner = new OwnerPage(page);
-    const pet = new PetPage(page);
-    const visit = new VisitPage(page);
+test.describe("Owner", () => {
+  test("OwnerLister", async ({ page }) => {
+    const owner = new OwnerListerPage(page);
+    const pet = new PetListerPage(page);
+    const visit = new VisitListerPage(page);
     await owner.goto();
     const ownerName = await owner.createOwner();
     const petName = await owner.createPet();
@@ -35,21 +52,27 @@ test.describe("Regression", () => {
     await owner.goto();
     await owner.deleteOwner();
   });
+});
 
-  test("Pet", async ({ page }) => {
-    const pet = new PetPage(page);
+test.describe("Pet", () => {
+  test("PetLister", async ({ page }) => {
+    const pet = new PetListerPage(page);
     await pet.goto();
   });
+});
 
-  test("Vet", async ({ page }) => {
-    const vet = new VetPage(page);
+test.describe("Vet", () => {
+  test("VetLister", async ({ page }) => {
+    const vet = new VetListerPage(page);
     await vet.goto();
     await vet.createVet();
     await vet.deleteVet();
   });
+});
 
-  test("Visit", async ({ page }) => {
-    const visit = new VisitPage(page);
+test.describe("Visit", () => {
+  test("VisitLister", async ({ page }) => {
+    const visit = new VisitListerPage(page);
     await visit.goto();
   });
 });

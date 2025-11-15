@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import Chance from "chance";
 const chance = new Chance();
 
-export class OwnerPage {
+export class OwnerListerPage {
   constructor(page) {
     this.page = page;
   }
@@ -28,19 +28,19 @@ export class OwnerPage {
     await expect(addButton).toBeEnabled();
     await addButton.click();
     // Name
-    const nameInput = this.page.getByRole("textbox", { name: "Name" });
+    const nameInput = this.page.locator('[aria-label="Name"]');
     await expect(nameInput).toHaveValue("");
     await nameInput.fill(ownerName);
     await nameInput.press("Tab");
     await expect(nameInput).toHaveValue(ownerName);
     // Address
-    const addressInput = this.page.getByRole("textbox", { name: "Address" });
+    const addressInput = this.page.locator('[aria-label="Address"]');
     await expect(addressInput).toHaveValue("");
     await addressInput.fill(address);
     await addressInput.press("Tab");
     await expect(addressInput).toHaveValue(address);
     // Contact
-    const contactInput = this.page.getByRole("textbox", { name: "Contact" });
+    const contactInput = this.page.locator('[aria-label="Contact"]');
     await expect(contactInput).toHaveValue("");
     await contactInput.fill(contact);
     await contactInput.press("Tab");
@@ -60,6 +60,31 @@ export class OwnerPage {
     await filterInput.press("Tab");
   }
 
+  async showVisit(ownerName, petName) {
+    await this.filterOwner(ownerName);
+    const row = this.page.getByRole("table").getByRole("row").nth(1);
+    await row.waitFor({ state: "visible" });
+    // List on
+    const visitButton = row.getByRole("button", { name: "list", exact: true });
+    await expect(visitButton).toBeEnabled();
+    await visitButton.click();
+    // Card
+    const card = this.page.getByRole("table").getByRole("row").nth(2);
+    const petInput = card.locator('[aria-label="Pet"]');
+    await expect(await petInput.inputValue()).toContain(petName);
+    const vetInput = card.locator('[aria-label="Vet"]');
+    await expect(vetInput).not.toHaveValue("");
+    const treatmentInput = card.locator('[aria-label="Treatment"]');
+    await expect(treatmentInput).not.toHaveValue("");
+    const diagnoseInput = card.locator('[aria-label="Diagnose"]');
+    await expect(diagnoseInput).not.toHaveValue("");
+    const editButton = card.getByRole("link", { name: "Edit", exact: true });
+    await expect(editButton).toBeEnabled();
+    // List off
+    await expect(visitButton).toBeEnabled();
+    await visitButton.click();
+  }
+
   async createPet(ownerName, species, born) {
     const petName = "Zzz" + chance.word({ syllables: 1 });
     await this.filterOwner(ownerName);
@@ -73,19 +98,19 @@ export class OwnerPage {
     await expect(editButton).toBeEnabled();
     await editButton.click();
     // Species
-    const speciesSelect = this.page.getByLabel("Species");
+    const speciesSelect = this.page.locator('[aria-label="Species"]');
     await expect(speciesSelect).toHaveValue("");
     await speciesSelect.selectOption(species);
     await speciesSelect.press("Tab");
     await expect(speciesSelect).toHaveValue(species);
     // Name
-    const nameInput = this.page.getByRole("textbox", { name: "Name" });
+    const nameInput = this.page.locator('[aria-label="Name"]');
     await expect(nameInput).toHaveValue("");
     await nameInput.fill(petName);
     await nameInput.press("Tab");
     await expect(nameInput).toHaveValue(petName);
     // Born
-    const bornInput = this.page.getByRole("textbox", { name: "Born" });
+    const bornInput = this.page.locator('[aria-label="Born"]');
     await expect(bornInput).toHaveValue("");
     await bornInput.fill(born);
     await bornInput.press("Tab");
