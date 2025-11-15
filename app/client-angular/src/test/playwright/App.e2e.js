@@ -1,38 +1,55 @@
 import { test } from "@playwright/test";
-import { EnumPage } from "./pages/EnumPage.js";
-import { OwnerPage } from "./pages/OwnerPage.js";
-import { PetPage } from "./pages/PetPage.js";
-import { VetPage } from "./pages/VetPage.js";
-import { VisitPage } from "./pages/VisitPage.js";
+import { EnumListerPage } from "./pages/EnumListerPage.js";
+import { OwnerListerPage } from "./pages/OwnerListerPage.js";
+import { PetListerPage } from "./pages/PetListerPage.js";
+import { VetListerPage } from "./pages/VetListerPage.js";
+import { VisitListerPage } from "./pages/VisitListerPage.js";
 
-test.describe("Regression", () => {
-  test("Home", async ({ page }) => {
+test.describe("Navigation", () => {
+  test("Root", async ({ page }) => {
     await page.goto("/");
+    await page.waitForURL("/home");
   });
+  test("Home", async ({ page }) => {
+    const path = "/home";
+    await page.goto(path);
+    await page.waitForURL(path);
+  });
+  test("Help", async ({ page }) => {
+    const path = "/help";
+    await page.goto(path);
+    await page.waitForURL(path);
+  });
+});
 
+test.describe("Enum", () => {
   ["Skill", "Species"].forEach((art) => {
     test(art, async ({ page }) => {
-      const enumPage = new EnumPage(page, art);
+      const enumPage = new EnumListerPage(page, art);
       await enumPage.goto();
       const name = await enumPage.createItem();
       await enumPage.updateText(name);
       await enumPage.deleteItem(name);
     });
   });
+});
 
-  test("Owner", async ({ page }) => {
-    const ownerPage = new OwnerPage(page);
+test.describe("Owner", () => {
+  test("OwnerLister", async ({ page }) => {
+    const ownerPage = new OwnerListerPage(page);
     await ownerPage.goto();
     const ownerName = await ownerPage.createOwner();
     await ownerPage.updateAddress(ownerName);
     await ownerPage.deleteOwner(ownerName);
   });
+});
 
-  test("Pet", async ({ page }) => {
-    const ownerPage = new OwnerPage(page);
+test.describe("Pet", () => {
+  test("PetLister", async ({ page }) => {
+    const ownerPage = new OwnerListerPage(page);
     await ownerPage.goto();
     const ownerName = await ownerPage.createOwner();
-    const petPage = new PetPage(page);
+    const petPage = new PetListerPage(page);
     await petPage.goto();
     await petPage.show(ownerName, []);
     const petName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
@@ -43,24 +60,28 @@ test.describe("Regression", () => {
     await ownerPage.goto();
     await ownerPage.deleteOwner(ownerName);
   });
+});
 
-  test("Vet", async ({ page }) => {
-    const vetPage = new VetPage(page);
+test.describe("Vet", () => {
+  test("VetLister", async ({ page }) => {
+    const vetPage = new VetListerPage(page);
     await vetPage.goto();
     const vetName = await vetPage.createVet();
     await vetPage.updateSkills(vetName);
     await vetPage.deleteVet(vetName);
   });
+});
 
-  test("Visit", async ({ page }) => {
-    const ownerPage = new OwnerPage(page);
+test.describe("Visit", () => {
+  test("VisitLister", async ({ page }) => {
+    const ownerPage = new OwnerListerPage(page);
     await ownerPage.goto();
     const ownerName = await ownerPage.createOwner();
-    const petPage = new PetPage(page);
+    const petPage = new PetListerPage(page);
     await petPage.goto();
     const petName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
     await petPage.createVisit(ownerName, petName, "2025-04-22");
-    const visitPage = new VisitPage(page);
+    const visitPage = new VisitListerPage(page);
     await visitPage.goto();
     await visitPage.updateDiagnose(ownerName, petName);
     await ownerPage.goto();

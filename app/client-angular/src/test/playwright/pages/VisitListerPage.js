@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import Chance from "chance";
 const chance = new Chance();
 
-export class VisitPage {
+export class VisitListerPage {
   constructor(page) {
     this.page = page;
   }
