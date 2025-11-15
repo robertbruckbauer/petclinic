@@ -26,13 +26,13 @@ export class VetPage {
     await expect(addButton).toBeEnabled();
     await addButton.click();
     // Name
-    const nameInput = this.page.getByRole("textbox", { name: "Name" });
+    const nameInput = this.page.locator('[aria-label="Name"]');
     await expect(nameInput).toHaveValue("");
     await nameInput.fill(vetName);
     await nameInput.press("Tab");
     await expect(nameInput).toHaveValue(vetName);
     // Skills
-    const skillsSelect = this.page.getByRole("listbox", { name: "Skills" });
+    const skillsSelect = this.page.locator('[aria-label="Skills"]');
     await expect(skillsSelect).toHaveValues([]);
     await skillsSelect.selectOption(["Radiology"]);
     await skillsSelect.press("Tab");
@@ -63,7 +63,7 @@ export class VetPage {
     await expect(editButton).toBeEnabled();
     await editButton.click();
     // Skills
-    const skillsSelect = this.page.getByRole("listbox", { name: "Skills" });
+    const skillsSelect = this.page.locator('[aria-label="Skills"]');
     await expect(skillsSelect).not.toHaveValues([]);
     await skillsSelect.selectOption(["Surgery"]);
     await skillsSelect.press("Tab");

@@ -63,6 +63,9 @@ test.describe("Regression", () => {
     const visitPage = new VisitPage(page);
     await visitPage.goto();
     await visitPage.updateDiagnose(ownerName, petName);
+    await ownerPage.goto();
+    await ownerPage.showVisit(ownerName, petName);
+    await visitPage.goto();
     await visitPage.deleteVisit(ownerName, petName);
     await petPage.goto();
     await petPage.deletePet(ownerName, petName);

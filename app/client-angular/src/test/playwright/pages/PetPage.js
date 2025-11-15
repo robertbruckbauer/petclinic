@@ -52,19 +52,19 @@ export class PetPage {
     await expect(addButton).toBeEnabled();
     await addButton.click();
     // Species
-    const speciesSelect = this.page.getByLabel("Species");
+    const speciesSelect = this.page.locator('[aria-label="Species"]');
     await expect(speciesSelect).toHaveValue("");
     await speciesSelect.selectOption(species);
     await speciesSelect.press("Tab");
     await expect(speciesSelect).toHaveValue(species);
     // Name
-    const nameInput = this.page.getByRole("textbox", { name: "Name" });
+    const nameInput = this.page.locator('[aria-label="Name"]');
     await expect(nameInput).toHaveValue("");
     await nameInput.fill(petName);
     await nameInput.press("Tab");
     expect(nameInput).toHaveValue(petName);
     // Born
-    const bornInput = this.page.getByRole("textbox", { name: "Born" });
+    const bornInput = this.page.locator('[aria-label="Born"]');
     await expect(bornInput).toHaveValue("");
     await bornInput.fill(born);
     await bornInput.press("Tab");
@@ -87,8 +87,8 @@ export class PetPage {
     const editButton = row.getByRole("button", { name: "event", exact: true });
     await expect(editButton).toBeEnabled();
     await editButton.click();
-    // Born
-    const dateInput = this.page.getByRole("textbox", { name: "Treatment" });
+    // Treatment
+    const dateInput = this.page.locator('[aria-label="Treatment"]');
     await expect(dateInput).not.toHaveValue(date);
     await dateInput.fill(date);
     await dateInput.press("Tab");
@@ -111,7 +111,7 @@ export class PetPage {
     await expect(editButton).toBeEnabled();
     await editButton.click();
     // Born
-    const bornInput = this.page.getByRole("textbox", { name: "Born" });
+    const bornInput = this.page.locator('[aria-label="Born"]');
     await expect(bornInput).not.toHaveValue(born);
     await bornInput.fill(born);
     await bornInput.press("Tab");
