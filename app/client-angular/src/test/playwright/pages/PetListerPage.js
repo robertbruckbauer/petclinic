@@ -22,12 +22,12 @@ export class PetListerPage {
     // Search
     const filterSelect = this.page.getByLabel("Filter");
     await filterSelect.waitFor({ state: "visible" });
-    const ownerItem = await filterSelect.evaluate((element, name) => {
+    const ownerId = await filterSelect.evaluate((element, name) => {
       return Array.from(element.options).find((option) =>
         option.text.startsWith(name)
       )?.value;
     }, ownerName);
-    await filterSelect.selectOption({ value: ownerItem });
+    await filterSelect.selectOption({ value: ownerId });
   }
 
   async show(ownerName, allPetName) {

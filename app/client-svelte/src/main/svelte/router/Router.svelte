@@ -1,34 +1,26 @@
 <script lang="ts" module>
-  import { writable } from "svelte/store";
-  interface RouteData {
-    path?: string;
-    component?: any;
-    params?: Record<string, any>;
-  }
-  export const activeRoute = writable<RouteData>({});
-  const routes: Record<string, any> = {};
-  export function register(route: any) {
-    routes[route.path] = route;
-  }
+  export {
+    activeRoute,
+    register,
+    startRouter,
+    stopRouter,
+    navigate,
+  } from "./router";
 </script>
 
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import page from "page";
+  import { startRouter, stopRouter } from "./router";
 
   let { children } = $props();
 
   onMount(() => {
-    for (let [path, route] of Object.entries(routes)) {
-      page(
-        path,
-        (ctx: any) => ($activeRoute = { ...route, params: ctx.params })
-      );
-    }
-    page.start();
+    startRouter();
   });
 
-  onDestroy(page.stop());
+  onDestroy(() => {
+    stopRouter();
+  });
 </script>
 
 {@render children?.()}
