@@ -47,7 +47,7 @@ The operation reports `Bad Request` or code 400 if the data was not processed.
 
 The operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
 
-== `PUT /api/pet/{id}`
+=== `PUT /api/pet/{id}`
 
 This operation updates an existing _Pet_ entity or creates a new one.
 
@@ -72,7 +72,7 @@ This operation reports `Bad Request` or code 400 if the data was not processed.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
-== `PATCH /api/pet/{id}`
+=== `PATCH /api/pet/{id}`
 
 This operation partially updates an existing _Pet_ entity.
 
@@ -95,7 +95,7 @@ This operation reports `Bad Request` or code 400 if the data was not processed.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
-== `GET /api/pet`
+=== `GET /api/pet`
 
 This operation returns all persisted _Pet_ entities.
 
@@ -128,7 +128,27 @@ include::{restdocDir}/get-api-pet/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-== `GET /api/pet/{id}`
+=== `GET /api/pet/search/findAllItem`
+
+This operation returns all persisted _Pet_ entities as simplified _PetItem_ objects for selection purposes.
+The items are sorted by name in ascending order.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-pet-item/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-pet-item/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-pet-item/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+==== `GET /api/pet/{id}`
 
 This operation returns a single persisted _Pet_ entity.
 
@@ -149,7 +169,7 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 This operation reports `Not found` or code 404 if the data does not exist.
 
-== `DELETE /api/pet/{id}`
+=== `DELETE /api/pet/{id}`
 
 This operation deletes a single persisted _Pet_ entity.
 

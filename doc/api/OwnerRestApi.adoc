@@ -127,6 +127,26 @@ include::{restdocDir}/get-api-owner/response-body.adoc[]
 
 The operation reports `Ok` or code 200 if the data was successfully loaded.
 
+=== `GET /api/owner/search/findAllItem`
+
+This operation returns all persisted _Owner_ entities as simplified _OwnerItem_ objects for selection purposes.
+The items are sorted by name in ascending order.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-owner-item/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-owner-item/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-owner-item/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the data was successfully loaded.
+
 === `GET /api/owner/{id}`
 
 This operation returns a single persisted _Owner_ entity.
