@@ -102,16 +102,22 @@ This operation returns all persisted _Pet_ entities.
 It supports advanced query parameters for filtering and sorting, e.g.
 
 `?name=Max`::
-Find visits with name containing "Max" (case-insensitive)
+Find pets with name containing "Max" (case-insensitive)
 `?name=Max%`::
-Find visits with name starting with "Max" (case-insensitive)
+Find pets with name starting with "Max" (case-insensitive)
+`?species=dog`::
+Find pets with species containing "dog" (case-insensitive)
+`?owner.name=Smith`::
+Find pets whose owner's name contains "Smith" (case-insensitive)
 
 It supports sorting and pagination, e.g.
 
-`?sort=date,desc`::
-Sort visits by date in descending order
+`?sort=name,asc`::
+Sort pets by name in ascending order
+`?sort=born,desc`::
+Sort pets by birth date in descending order
 `?size=10&page=1`::
-Find 10 visits on page 1
+Find 10 pets on page 1
 
 ****
 
