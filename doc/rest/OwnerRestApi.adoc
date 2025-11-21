@@ -1,4 +1,5 @@
-:restdocDir: ../../lib/backend-data/build/generated-snippets
+:project-dir: ../..
+:restdoc-dir: {project-dir}/lib/backend-data/build/generated-snippets
 = Owner-API
 
 REST-API for managing pet owners acting as clients in the pet clinic application.
@@ -12,7 +13,7 @@ Each owner represents a pet clinic client who owns one or more pets.
 .Entity
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
 ----
 
 A simplified representation of a _Owner_ for item selection purposes.
@@ -20,7 +21,7 @@ A simplified representation of a _Owner_ for item selection purposes.
 .Item
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
 ----
 
 == Operations
@@ -32,13 +33,13 @@ This operation creates a new _Owner_ entity.
 ****
 
 .CURL
-include::{restdocDir}/post-api-owner/curl-request.adoc[]
+include::{restdoc-dir}/post-api-owner/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/post-api-owner/http-request.adoc[]
+include::{restdoc-dir}/post-api-owner/http-request.adoc[]
 
 .Response
-include::{restdocDir}/post-api-owner/response-body.adoc[]
+include::{restdoc-dir}/post-api-owner/response-body.adoc[]
 
 ****
 
@@ -55,13 +56,13 @@ This operation updates an existing _Owner_ entity or creates a new one.
 ****
 
 .CURL
-include::{restdocDir}/put-api-owner/curl-request.adoc[]
+include::{restdoc-dir}/put-api-owner/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/put-api-owner/http-request.adoc[]
+include::{restdoc-dir}/put-api-owner/http-request.adoc[]
 
 .Response
-include::{restdocDir}/put-api-owner/response-body.adoc[]
+include::{restdoc-dir}/put-api-owner/response-body.adoc[]
 
 ****
 This operation reports `Ok` or code 200 if the object was successfully updated.
@@ -80,13 +81,13 @@ The following example shows the update of the name.
 ****
 
 .CURL
-include::{restdocDir}/patch-api-owner-name/curl-request.adoc[]
+include::{restdoc-dir}/patch-api-owner-name/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/patch-api-owner-name/http-request.adoc[]
+include::{restdoc-dir}/patch-api-owner-name/http-request.adoc[]
 
 .Response
-include::{restdocDir}/patch-api-owner-name/response-body.adoc[]
+include::{restdoc-dir}/patch-api-owner-name/response-body.adoc[]
 
 ****
 
@@ -121,13 +122,13 @@ Find 10 owners on page 1
 ****
 
 .CURL
-include::{restdocDir}/get-api-owner/curl-request.adoc[]
+include::{restdoc-dir}/get-api-owner/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-owner/http-request.adoc[]
+include::{restdoc-dir}/get-api-owner/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-owner/response-body.adoc[]
+include::{restdoc-dir}/get-api-owner/response-body.adoc[]
 
 ****
 
@@ -141,13 +142,13 @@ The items are sorted by name in ascending order.
 ****
 
 .CURL
-include::{restdocDir}/get-api-owner-item/curl-request.adoc[]
+include::{restdoc-dir}/get-api-owner-item/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-owner-item/http-request.adoc[]
+include::{restdoc-dir}/get-api-owner-item/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-owner-item/response-body.adoc[]
+include::{restdoc-dir}/get-api-owner-item/response-body.adoc[]
 
 ****
 
@@ -160,13 +161,13 @@ This operation returns a single persisted _Owner_ entity.
 ****
 
 .CURL
-include::{restdocDir}/get-api-owner-by-id/curl-request.adoc[]
+include::{restdoc-dir}/get-api-owner-by-id/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-owner-by-id/http-request.adoc[]
+include::{restdoc-dir}/get-api-owner-by-id/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-owner-by-id/response-body.adoc[]
+include::{restdoc-dir}/get-api-owner-by-id/response-body.adoc[]
 
 ****
 
@@ -181,10 +182,10 @@ This operation deletes a single persisted _Owner_ entity.
 ****
 
 .CURL
-include::{restdocDir}/delete-api-owner/curl-request.adoc[]
+include::{restdoc-dir}/delete-api-owner/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/delete-api-owner/http-request.adoc[]
+include::{restdoc-dir}/delete-api-owner/http-request.adoc[]
 
 ****
 

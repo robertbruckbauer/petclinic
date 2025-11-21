@@ -1,4 +1,5 @@
-:restdocDir: ../../lib/backend-data/build/generated-snippets
+:project-dir: ../..
+:restdoc-dir: {project-dir}/lib/backend-data/build/generated-snippets
 = Pet-API
 
 REST-API for managing pets in the pet clinic application.
@@ -12,7 +13,7 @@ Each pet represents an animal owned by a client and can have multiple veterinary
 .Entity
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
 ----
 
 A simplified representation of a _Pet_ for item selection purposes.
@@ -20,7 +21,7 @@ A simplified representation of a _Pet_ for item selection purposes.
 .Item
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
 ----
 
 == Operations
@@ -32,13 +33,13 @@ This operation creates a new _Pet_ entity.
 ****
 
 .CURL
-include::{restdocDir}/post-api-pet/curl-request.adoc[]
+include::{restdoc-dir}/post-api-pet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/post-api-pet/http-request.adoc[]
+include::{restdoc-dir}/post-api-pet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/post-api-pet/response-body.adoc[]
+include::{restdoc-dir}/post-api-pet/response-body.adoc[]
 
 ****
 
@@ -55,13 +56,13 @@ This operation updates an existing _Pet_ entity or creates a new one.
 ****
 
 .CURL
-include::{restdocDir}/put-api-pet/curl-request.adoc[]
+include::{restdoc-dir}/put-api-pet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/put-api-pet/http-request.adoc[]
+include::{restdoc-dir}/put-api-pet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/put-api-pet/response-body.adoc[]
+include::{restdoc-dir}/put-api-pet/response-body.adoc[]
 
 ****
 
@@ -81,13 +82,13 @@ The following example shows the update of the name.
 ****
 
 .CURL
-include::{restdocDir}/patch-api-pet-name/curl-request.adoc[]
+include::{restdoc-dir}/patch-api-pet-name/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/patch-api-pet-name/http-request.adoc[]
+include::{restdoc-dir}/patch-api-pet-name/http-request.adoc[]
 
 .Response
-include::{restdocDir}/patch-api-pet-name/response-body.adoc[]
+include::{restdoc-dir}/patch-api-pet-name/response-body.adoc[]
 
 ****
 
@@ -124,13 +125,13 @@ Find 10 pets on page 1
 ****
 
 .CURL
-include::{restdocDir}/get-api-pet/curl-request.adoc[]
+include::{restdoc-dir}/get-api-pet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-pet/http-request.adoc[]
+include::{restdoc-dir}/get-api-pet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-pet/response-body.adoc[]
+include::{restdoc-dir}/get-api-pet/response-body.adoc[]
 
 ****
 
@@ -144,13 +145,13 @@ The items are sorted by name in ascending order.
 ****
 
 .CURL
-include::{restdocDir}/get-api-pet-item/curl-request.adoc[]
+include::{restdoc-dir}/get-api-pet-item/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-pet-item/http-request.adoc[]
+include::{restdoc-dir}/get-api-pet-item/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-pet-item/response-body.adoc[]
+include::{restdoc-dir}/get-api-pet-item/response-body.adoc[]
 
 ****
 
@@ -163,13 +164,13 @@ This operation returns a single persisted _Pet_ entity.
 ****
 
 .CURL
-include::{restdocDir}/get-api-pet-by-id/curl-request.adoc[]
+include::{restdoc-dir}/get-api-pet-by-id/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-pet-by-id/http-request.adoc[]
+include::{restdoc-dir}/get-api-pet-by-id/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-pet-by-id/response-body.adoc[]
+include::{restdoc-dir}/get-api-pet-by-id/response-body.adoc[]
 
 ****
 
@@ -184,10 +185,10 @@ This operation deletes a single persisted _Pet_ entity.
 ****
 
 .CURL
-include::{restdocDir}/delete-api-pet/curl-request.adoc[]
+include::{restdoc-dir}/delete-api-pet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/delete-api-pet/http-request.adoc[]
+include::{restdoc-dir}/delete-api-pet/http-request.adoc[]
 
 ****
 

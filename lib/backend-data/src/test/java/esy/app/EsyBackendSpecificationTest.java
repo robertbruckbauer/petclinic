@@ -17,18 +17,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag("fast")
 public class EsyBackendSpecificationTest {
 
-    static <T> void assertApiFor(final Class<T> clazz) {
+    static <T> void assertDocFor(final Class<T> clazz) {
         final var root = "../".repeat(2);
-        final var path = Paths.get(root, "doc", "api", "%sRestApi.adoc".formatted(clazz.getSimpleName()));
+        final var path = Paths.get(root, "doc", "rest", "%sRestApi.adoc".formatted(clazz.getSimpleName()));
         assertTrue(Files.exists(path), path.toString());
     }
 
     @Test
     void restApi() {
-        assertApiFor(Enum.class);
-        assertApiFor(Owner.class);
-        assertApiFor(Pet.class);
-        assertApiFor(Vet.class);
-        assertApiFor(Visit.class);
+        assertDocFor(Enum.class);
+        assertDocFor(Owner.class);
+        assertDocFor(Pet.class);
+        assertDocFor(Vet.class);
+        assertDocFor(Visit.class);
     }
 }

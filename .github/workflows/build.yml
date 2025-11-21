@@ -59,6 +59,7 @@ jobs:
           gradle spotlessCheck
           gradle build --parallel
           gradle jacocoTestReport
+          gradle asciidoctor
 
       - name: Build Images
         run: gradle buildImage

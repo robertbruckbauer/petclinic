@@ -1,4 +1,5 @@
-:restdocDir: ../../lib/backend-data/build/generated-snippets
+:project-dir: ../..
+:restdoc-dir: {project-dir}/lib/backend-data/build/generated-snippets
 = Vet-API
 
 REST-API for managing veterinarians in the pet clinic application.
@@ -11,7 +12,7 @@ The main entity of a _Vet_ managed by this controller for persistence.
 .Vet entity
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
 The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
@@ -21,7 +22,7 @@ A simplified representation of a _Vet_ for item selection purposes.
 .Vet item
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/clinic/VetItem.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/clinic/VetItem.java[indent=0,tags=properties]
 ----
 
 == Operations
@@ -33,13 +34,13 @@ This operation creates a new _Vet_ entity.
 ****
 
 .CURL
-include::{restdocDir}/post-api-vet/curl-request.adoc[]
+include::{restdoc-dir}/post-api-vet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/post-api-vet/http-request.adoc[]
+include::{restdoc-dir}/post-api-vet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/post-api-vet/response-body.adoc[]
+include::{restdoc-dir}/post-api-vet/response-body.adoc[]
 
 ****
 
@@ -56,13 +57,13 @@ This operation updates an existing _Vet_ entity or creates a new one.
 ****
 
 .CURL
-include::{restdocDir}/put-api-vet/curl-request.adoc[]
+include::{restdoc-dir}/put-api-vet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/put-api-vet/http-request.adoc[]
+include::{restdoc-dir}/put-api-vet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/put-api-vet/response-body.adoc[]
+include::{restdoc-dir}/put-api-vet/response-body.adoc[]
 
 ****
 
@@ -82,13 +83,13 @@ The following example shows the update of the name.
 ****
 
 .CURL
-include::{restdocDir}/patch-api-vet-name/curl-request.adoc[]
+include::{restdoc-dir}/patch-api-vet-name/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/patch-api-vet-name/http-request.adoc[]
+include::{restdoc-dir}/patch-api-vet-name/http-request.adoc[]
 
 .Response
-include::{restdocDir}/patch-api-vet-name/response-body.adoc[]
+include::{restdoc-dir}/patch-api-vet-name/response-body.adoc[]
 
 ****
 
@@ -121,13 +122,13 @@ Find 10 vets on page 1
 ****
 
 .CURL
-include::{restdocDir}/get-api-vet/curl-request.adoc[]
+include::{restdoc-dir}/get-api-vet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-vet/http-request.adoc[]
+include::{restdoc-dir}/get-api-vet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-vet/response-body.adoc[]
+include::{restdoc-dir}/get-api-vet/response-body.adoc[]
 
 ****
 
@@ -141,13 +142,13 @@ The items are sorted by name in ascending order.
 ****
 
 .CURL
-include::{restdocDir}/get-api-vet-item/curl-request.adoc[]
+include::{restdoc-dir}/get-api-vet-item/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-vet-item/http-request.adoc[]
+include::{restdoc-dir}/get-api-vet-item/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-vet-item/response-body.adoc[]
+include::{restdoc-dir}/get-api-vet-item/response-body.adoc[]
 
 ****
 
@@ -160,13 +161,13 @@ This operation returns a single persisted _Vet_ entity.
 ****
 
 .CURL
-include::{restdocDir}/get-api-vet-by-id/curl-request.adoc[]
+include::{restdoc-dir}/get-api-vet-by-id/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-vet-by-id/http-request.adoc[]
+include::{restdoc-dir}/get-api-vet-by-id/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-vet-by-id/response-body.adoc[]
+include::{restdoc-dir}/get-api-vet-by-id/response-body.adoc[]
 
 ****
 
@@ -181,10 +182,10 @@ This operation deletes a single persisted _Vet_ entity.
 ****
 
 .CURL
-include::{restdocDir}/delete-api-vet/curl-request.adoc[]
+include::{restdoc-dir}/delete-api-vet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/delete-api-vet/http-request.adoc[]
+include::{restdoc-dir}/delete-api-vet/http-request.adoc[]
 
 ****
 

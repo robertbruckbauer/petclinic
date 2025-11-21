@@ -7,6 +7,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'com.palantir.git-version'
+    id 'org.asciidoctor.jvm.convert'
 }
 
 eclipse {
@@ -77,4 +78,20 @@ tasks.register('buildChangelog', BuildChangelogTask.class) {
     group = 'build'
     changelog = layout.buildDirectory.file("reports/CHANGELOG.md")
     outputs.upToDateWhen { false }
+}
+
+asciidoctor {
+    sourceDir = file('doc/rest')
+    outputDir = file('pages/html/server/rest')
+    baseDir = file('.') // == project-dir
+    attributes = [
+        'project-dir': '.',
+        'source-highlighter': 'coderay',
+        'toc': 'left',
+        'toclevels': 3,
+        'sectanchors': true,
+        'sectlinks': true,
+        'linkattrs': true,
+        'allow-uri-read': true        
+    ]
 }

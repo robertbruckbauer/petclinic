@@ -1,4 +1,5 @@
-:restdocDir: ../../lib/backend-data/build/generated-snippets
+:project-dir: ../..
+:restdoc-dir: {project-dir}/lib/backend-data/build/generated-snippets
 = Enum-API
 
 REST-API for managing configurable enumerations in the pet clinic application.
@@ -13,7 +14,7 @@ Each enum represents a configurable enumeration value with a discriminator.
 .Entity
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/info/Enum.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/info/Enum.java[indent=0,tags=properties]
 ----
 
 Enumerations are organized by discriminator (art) for logical grouping (e.g., "SPECIES", "SKILL").
@@ -25,7 +26,7 @@ A simplified representation of an _Enum_ for item selection purposes.
 .EnumItem
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/info/EnumItem.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/info/EnumItem.java[indent=0,tags=properties]
 ----
 
 == Operations
@@ -37,13 +38,13 @@ This operation creates a new _Enum_ entity for a specific discriminator.
 ****
 
 .CURL
-include::{restdocDir}/post-api-enum/curl-request.adoc[]
+include::{restdoc-dir}/post-api-enum/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/post-api-enum/http-request.adoc[]
+include::{restdoc-dir}/post-api-enum/http-request.adoc[]
 
 .Response
-include::{restdocDir}/post-api-enum/response-body.adoc[]
+include::{restdoc-dir}/post-api-enum/response-body.adoc[]
 
 ****
 
@@ -60,13 +61,13 @@ This operation updates an existing _Enum_ entity for a specific discriminator an
 ****
 
 .CURL
-include::{restdocDir}/put-api-enum/curl-request.adoc[]
+include::{restdoc-dir}/put-api-enum/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/put-api-enum/http-request.adoc[]
+include::{restdoc-dir}/put-api-enum/http-request.adoc[]
 
 .Response
-include::{restdocDir}/put-api-enum/response-body.adoc[]
+include::{restdoc-dir}/put-api-enum/response-body.adoc[]
 
 ****
 
@@ -84,13 +85,13 @@ Results are ordered by art and code.
 ****
 
 .CURL
-include::{restdocDir}/get-api-enum/curl-request.adoc[]
+include::{restdoc-dir}/get-api-enum/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-enum/http-request.adoc[]
+include::{restdoc-dir}/get-api-enum/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-enum/response-body.adoc[]
+include::{restdoc-dir}/get-api-enum/response-body.adoc[]
 
 ****
 

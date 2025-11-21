@@ -1,4 +1,5 @@
-:restdocDir: ../../lib/backend-data/build/generated-snippets
+:project-dir: ../..
+:restdoc-dir: {project-dir}/lib/backend-data/build/generated-snippets
 = Visit-API
 
 REST-API for managing veterinary visits in the pet clinic application.
@@ -8,22 +9,14 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 
 The main entity of a _Visit_ managed by this controller for persistence.
 Each visit represents a veterinary appointment with a specific date, associated pet, attending veterinarian, and visit notes.
-
-**Important constraints:**
-- Each pet can only have one visit per date (unique constraint on date + pet)
-- Both pet and vet relationships are optional but typically required for meaningful visits
+Each pet can only have one visit per date. 
+Both pet and vet relationships are optional but typically required for meaningful visits.
 
 .Visit entity
 [source,java,options="nowrap"]
 ----
-include::../../lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
 ----
-
-**Response Enhancement:**
-Visit responses include computed fields for UI convenience:
-- `ownerItem`: Simplified owner information derived from the pet
-- `petItem`: Simplified pet information for selection lists
-- `vetItem`: Simplified veterinarian information for selection lists
 
 == Operations
 
@@ -34,13 +27,13 @@ This operation creates a new _Visit_ entity.
 ****
 
 .CURL
-include::{restdocDir}/post-api-visit/curl-request.adoc[]
+include::{restdoc-dir}/post-api-visit/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/post-api-visit/http-request.adoc[]
+include::{restdoc-dir}/post-api-visit/http-request.adoc[]
 
 .Response
-include::{restdocDir}/post-api-visit/response-body.adoc[]
+include::{restdoc-dir}/post-api-visit/response-body.adoc[]
 
 ****
 
@@ -57,13 +50,13 @@ This operation updates an existing _Visit_ entity or creates a new one.
 ****
 
 .CURL
-include::{restdocDir}/put-api-visit/curl-request.adoc[]
+include::{restdoc-dir}/put-api-visit/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/put-api-visit/http-request.adoc[]
+include::{restdoc-dir}/put-api-visit/http-request.adoc[]
 
 .Response
-include::{restdocDir}/put-api-visit/response-body.adoc[]
+include::{restdoc-dir}/put-api-visit/response-body.adoc[]
 
 ****
 
@@ -85,13 +78,13 @@ You can update individual fields like `date`, `text`, `pet`, or `vet` without af
 ****
 
 .CURL
-include::{restdocDir}/patch-api-visit-date/curl-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-date/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/patch-api-visit-date/http-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-date/http-request.adoc[]
 
 .Response
-include::{restdocDir}/patch-api-visit-date/response-body.adoc[]
+include::{restdoc-dir}/patch-api-visit-date/response-body.adoc[]
 
 ****
 
@@ -100,13 +93,13 @@ include::{restdocDir}/patch-api-visit-date/response-body.adoc[]
 ****
 
 .CURL
-include::{restdocDir}/patch-api-visit-text/curl-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-text/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/patch-api-visit-text/http-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-text/http-request.adoc[]
 
 .Response
-include::{restdocDir}/patch-api-visit-text/response-body.adoc[]
+include::{restdoc-dir}/patch-api-visit-text/response-body.adoc[]
 
 ****
 
@@ -115,13 +108,13 @@ include::{restdocDir}/patch-api-visit-text/response-body.adoc[]
 ****
 
 .CURL
-include::{restdocDir}/patch-api-visit-pet/curl-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-pet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/patch-api-visit-pet/http-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-pet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/patch-api-visit-pet/response-body.adoc[]
+include::{restdoc-dir}/patch-api-visit-pet/response-body.adoc[]
 
 ****
 
@@ -130,13 +123,13 @@ include::{restdocDir}/patch-api-visit-pet/response-body.adoc[]
 ****
 
 .CURL
-include::{restdocDir}/patch-api-visit-vet/curl-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-vet/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/patch-api-visit-vet/http-request.adoc[]
+include::{restdoc-dir}/patch-api-visit-vet/http-request.adoc[]
 
 .Response
-include::{restdocDir}/patch-api-visit-vet/response-body.adoc[]
+include::{restdoc-dir}/patch-api-visit-vet/response-body.adoc[]
 
 ****
 
@@ -179,13 +172,13 @@ Find 10 visits on page 1
 ****
 
 .CURL
-include::{restdocDir}/get-api-visit/curl-request.adoc[]
+include::{restdoc-dir}/get-api-visit/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-visit/http-request.adoc[]
+include::{restdoc-dir}/get-api-visit/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-visit/response-body.adoc[]
+include::{restdoc-dir}/get-api-visit/response-body.adoc[]
 
 ****
 
@@ -198,13 +191,13 @@ This operation returns a single persisted _Visit_ entity.
 ****
 
 .CURL
-include::{restdocDir}/get-api-visit-by-id/curl-request.adoc[]
+include::{restdoc-dir}/get-api-visit-by-id/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/get-api-visit-by-id/http-request.adoc[]
+include::{restdoc-dir}/get-api-visit-by-id/http-request.adoc[]
 
 .Response
-include::{restdocDir}/get-api-visit-by-id/response-body.adoc[]
+include::{restdoc-dir}/get-api-visit-by-id/response-body.adoc[]
 
 ****
 
@@ -219,10 +212,10 @@ This operation deletes a single persisted _Visit_ entity.
 ****
 
 .CURL
-include::{restdocDir}/delete-api-visit/curl-request.adoc[]
+include::{restdoc-dir}/delete-api-visit/curl-request.adoc[]
 
 .Request
-include::{restdocDir}/delete-api-visit/http-request.adoc[]
+include::{restdoc-dir}/delete-api-visit/http-request.adoc[]
 
 ****
 
