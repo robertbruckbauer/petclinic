@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 })
 public final class Owner extends JsonJpaEntity<Owner> {
 
+    // tag::properties[]
+    @NotBlank
     @Column(name = "name")
     @Getter
     @JsonProperty
@@ -42,6 +45,7 @@ public final class Owner extends JsonJpaEntity<Owner> {
     @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Pet> allPet;
+    // end::properties[]
 
     Owner() {
         super();

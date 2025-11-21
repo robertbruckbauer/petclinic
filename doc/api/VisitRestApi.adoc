@@ -1,0 +1,145 @@
+:restdocDir: ../../lib/backend-data/build/generated-snippets
+= Visit-API
+
+REST-API für die Verwaltung von _Visit_-Objekten.
+
+== Model
+
+The main entity of a _Visit_ managed by this controller for persistence.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
+----
+
+== Operations
+
+== `POST /api/visit`
+
+This operation creates a new _Visit_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/post-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/post-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocDir}/post-api-visit/response-body.adoc[]
+
+****
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+
+== `PUT /api/visit/{id}`
+
+This operation updates an existing _Visit_ entity or creates a new one.
+
+****
+
+.CURL
+include::{restdocDir}/put-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/put-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocDir}/put-api-visit/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+== `PATCH /api/visit/{id}`
+
+This operation partially updates an existing _Visit_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/patch-api-visit-date/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/patch-api-visit-date/http-request.adoc[]
+
+.Response
+include::{restdocDir}/patch-api-visit-date/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+== `GET /api/visit`
+
+This operation returns all persisted _Visit_ entities.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-visit/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+== `GET /api/visit/{id}`
+
+This operation returns a single persisted _Visit_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-visit-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-visit-by-id/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-visit-by-id/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not found` or code 404 if the data does not exist.
+
+== `DELETE /api/visit/{id}`
+
+This operation deletes a single persisted _Visit_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/delete-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/delete-api-visit/http-request.adoc[]
+
+****
+
+This operation reports `No Content` or code 204 if the data was successfully deleted.
+
+This operation reports `Not found` or code 404 if the data does not exist.

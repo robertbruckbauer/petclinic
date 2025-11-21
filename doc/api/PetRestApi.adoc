@@ -1,0 +1,154 @@
+:restdocDir: ../../lib/backend-data/build/generated-snippets
+= Pet-API
+
+REST-API for managing pets in the pet clinic application.
+It provides standard CRUD operations and a search endpoint that returns items.
+
+== Model
+
+The main entity of a _Pet_ managed by this controller for persistence.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
+----
+
+A simplified representation of a _Pet_ for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `POST /api/pet`
+
+This operation creates a new _Pet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/post-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/post-api-pet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/post-api-pet/response-body.adoc[]
+
+****
+
+The operation reports `Created` or code 201 if the object was successfully created.
+
+The operation reports `Bad Request` or code 400 if the data was not processed.
+
+The operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+
+== `PUT /api/pet/{id}`
+
+This operation updates an existing _Pet_ entity or creates a new one.
+
+****
+
+.CURL
+include::{restdocDir}/put-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/put-api-pet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/put-api-pet/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+== `PATCH /api/pet/{id}`
+
+This operation partially updates an existing _Pet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/patch-api-pet-name/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/patch-api-pet-name/http-request.adoc[]
+
+.Response
+include::{restdocDir}/patch-api-pet-name/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+== `GET /api/pet`
+
+This operation returns all persisted _Pet_ entities.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-pet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-pet/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+== `GET /api/pet/{id}`
+
+This operation returns a single persisted _Pet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-pet-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-pet-by-id/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-pet-by-id/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not found` or code 404 if the data does not exist.
+
+== `DELETE /api/pet/{id}`
+
+This operation deletes a single persisted _Pet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/delete-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/delete-api-pet/http-request.adoc[]
+
+****
+
+This operation reports `No Content` or code 204 if the data was successfully deleted.
+
+This operation reports `Not found` or code 404 if the data does not exist.

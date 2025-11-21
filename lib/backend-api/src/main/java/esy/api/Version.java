@@ -14,42 +14,39 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Version-Objekt mit der Version der Anwendung.
- *
- * @see <a href="https://de.wikipedia.org/wiki/Version_(Software)" />
  * @see <a href="https://semver.org/"/>
  */
 @Embeddable
 @Data
 public class Version {
 
+    // tag::properties[]
     /**
-     * Die Major-Version X (X.y.z | X > 0) muss (MUST) immer dann erhöht
-     * werden, wenn API-inkompatible Änderungen in die öffentlichen API
-     * eingeführt werden. Die Änderungen dürfen (MAY) auch Änderungen
-     * umfassen, die ansonsten die Minor Version oder die Patch Version
-     * erhöht hätten. Wenn diese Versionsnummer erhöht wird, muss (MUST)
-     * sowohl die Minor-Version als auch die Patch Version auf Null
-     * zurückgesetzt werden.
+     * The major version X (X.y.z | X > 0) MUST always be increased
+     * when incompatible changes are introduced into the public API.
+     * Changes MAY also include changes that would otherwise have 
+     * increased the minor version or the patch version. When this 
+     * version number is increased, both the minor version and the 
+     * patch version MUST be reset to zero
      */
     @Column(name = "major")
     @JsonProperty
     private final int major;
 
     /**
-     * Die Minor-Version Y (x.Y.z | x > 0) muss (MUST) erhöht werden,
-     * wenn neue Funktionalitäten, welche kompatibel zur bisherigen
-     * API sind, veröffentlicht werden.
-     * Sie muss (MUST) außerdem erhöht werden, wenn eine Funktion der
-     * öffentlichen API als deprecated markiert wird. Wenn umfangreiche
-     * Änderungen an internem Code eingeführt werden, darf (MAY) die
-     * Minor Version ebenfalls erhöht werden. Wenn diese Versionsnummer
-     * erhöht wird, muss (MUST) die Patch-Version auf Null zurückgesetzt
-     * werden.
+     * The minor version Y (x.Y.z | x > 0) MUST always be increased
+     * when new functionality that is compatible with the existing
+     * API is released.
+     * It MUST also be incremented when a function of the public API
+     * is marked as deprecated. If extensive changes to internal code 
+     * are introduced, the minor version MAY also be incremented. 
+     * If this version number is incremented, the patch version MUST 
+     * be reset to zero.
      */
     @Column(name = "minor")
     @JsonProperty
     private final int minor;
+    // end::properties[]
 
     public Version(final int major, final int minor) {
         if (major < 0) {

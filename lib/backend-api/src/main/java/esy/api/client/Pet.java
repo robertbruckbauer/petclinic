@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,8 @@ import java.util.UUID;
 })
 public final class Pet extends JsonJpaEntity<Pet> {
 
+    // tag::properties[]
+    @NotBlank
     @Column(name = "name")
     @Getter
     @JsonProperty
@@ -45,6 +48,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
     @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Owner owner;
+    // end::properties[]
 
     Pet() {
         super();

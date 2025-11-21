@@ -1,0 +1,153 @@
+:restdocDir: ../../lib/backend-data/build/generated-snippets
+= Owner-API
+
+REST-API for managing pet owners acting as clients in the pet clinic application.
+It provides standard CRUD operations and a search endpoint that returns items.
+
+== Model
+
+The main entity of a _Owner_ managed by this controller for persistence.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
+----
+
+A simplified representation of a _Owner_ for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `POST /api/owner`
+
+This operation creates a new _Owner_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/post-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/post-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocDir}/post-api-owner/response-body.adoc[]
+
+****
+
+The operation reports `Created` or code 201 if the object was successfully created.
+
+The operation reports `Bad Request` or code 400 if the data was not processed.
+
+The operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+
+=== `PUT /api/owner/{id}`
+
+This operation updates an existing _Owner_ entity or creates a new one.
+
+****
+
+.CURL
+include::{restdocDir}/put-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/put-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocDir}/put-api-owner/response-body.adoc[]
+
+****
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+=== `PATCH /api/owner/{id}`
+
+This operation partially updates an existing _Owner_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/patch-api-owner-name/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/patch-api-owner-name/http-request.adoc[]
+
+.Response
+include::{restdocDir}/patch-api-owner-name/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+=== `GET /api/owner`
+
+This operation returns all persisted _Owner_ entities.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-owner/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/owner/{id}`
+
+This operation returns a single persisted _Owner_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-owner-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-owner-by-id/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-owner-by-id/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the data was successfully loaded.
+
+The operation reports `Not found` or code 404 if the data does not exist.
+
+=== `DELETE /api/owner/{id}`
+
+This operation deletes a single persisted _Owner_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/delete-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/delete-api-owner/http-request.adoc[]
+
+****
+
+The operation reports `No Content` or code 204 if the data was successfully deleted.
+
+The operation reports `Not found` or code 404 if the data does not exist.

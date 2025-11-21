@@ -1,0 +1,155 @@
+:restdocDir: ../../lib/backend-data/build/generated-snippets
+= Vet-API
+
+REST-API for managing veterinarians in the pet clinic application.
+It provides standard CRUD operations and a search endpoint that returns items.
+
+== Model
+
+The main entity of a _Vet_ managed by this controller for persistence.
+
+.Vet entity
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
+----
+
+A simplified representation of a _Vet_ for item selection purposes.
+
+.Vet item
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/clinic/VetItem.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `POST /api/vet`
+
+This operation creates a new _Vet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/post-api-vet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/post-api-vet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/post-api-vet/response-body.adoc[]
+
+****
+
+The operation reports `Created` or code 201 if the object was successfully created.
+
+The operation reports `Bad Request` or code 400 if the data was not processed.
+
+The operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+
+=== `PUT /api/vet/{id}`
+
+This operation updates an existing _Vet_ entity or creates a new one.
+
+****
+
+.CURL
+include::{restdocDir}/put-api-vet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/put-api-vet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/put-api-vet/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the object was successfully updated.
+
+The operation reports `Created` or code 201 if the object was successfully created.
+
+The operation reports `Bad Request` or code 400 if the data was not processed.
+
+The operation reports `Conflict` or code 409 if the data is incomplete or is invalid.vollständig oder gültig sind.
+
+=== `PATCH /api/vet/{id}`
+
+This operation partially updates an existing _Vet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/patch-api-vet-name/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/patch-api-vet-name/http-request.adoc[]
+
+.Response
+include::{restdocDir}/patch-api-vet-name/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the object was successfully updated.
+
+The operation reports `Bad Request` or code 400 if the data was not processed.
+
+The operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+=== `GET /api/vet`
+
+This operation returns all persisted _Vet_ entities.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-vet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-vet/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-vet/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/vet/{id}`
+
+This operation returns a single persisted _Vet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-vet-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-vet-by-id/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-vet-by-id/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the data was successfully loaded.
+
+The operation reports `Not found` or code 404 if the data does not exist.
+
+=== `DELETE /api/vet/{id}`
+
+This operation deletes a single persisted _Vet_ entity.
+
+****
+
+.CURL
+include::{restdocDir}/delete-api-vet/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/delete-api-vet/http-request.adoc[]
+
+****
+
+The operation reports `No Content` or code 204 if the data was successfully deleted.
+
+The operation reports `Not found` or code 404 if the data does not exist.
+
