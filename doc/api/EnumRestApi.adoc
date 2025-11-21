@@ -1,11 +1,38 @@
 :restdocDir: ../../lib/backend-data/build/generated-snippets
 = Enum-API
 
-REST-API für die Verwaltung von konfigurierbaren Aufzählungen mit  _Enum_-Objekten.
+REST-API for managing configurable enumerations in the pet clinic application.
+It provides operations to create, update, and retrieve enumeration values organized by discriminator.
+Each enumeration type is identified by a discriminator and contains ordered items with unique numeric codes, names, and display texts.
 
-== `POST /api/enum/{art}`
+== Model
 
-Die Operation erstellt ein _Enum_-Objekt für eine Art von Aufzählung.
+The main entity of an _Enum_ managed by this controller for persistence.
+Each enum represents a configurable enumeration value with a discriminator.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/info/Enum.java[indent=0,tags=properties]
+----
+
+Enumerations are organized by discriminator (art) for logical grouping (e.g., "SPECIES", "SKILL").
+Within each discriminator group, codes and names must be unique.
+Codes are numeric.
+
+A simplified representation of an _Enum_ for item selection purposes.
+
+.EnumItem
+[source,java,options="nowrap"]
+----
+include::../../lib/backend-api/src/main/java/esy/api/info/EnumItem.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `POST /api/enum/{art}`
+
+This operation creates a new _Enum_ entity for a specific discriminator.
 
 ****
 
@@ -20,15 +47,15 @@ include::{restdocDir}/post-api-enum/response-body.adoc[]
 
 ****
 
-Die Operation meldet `Created` bzw. den Code 201, wenn das Objekt erfolgreich angelegt wurde.
+This operation reports `Created` or code 201 if the object was successfully created.
 
-Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+This operation reports `Bad Request` or code 400 if the data was not processed.
 
-Die Operation meldet `Conflict` bzw. den Code 409, wenn das Objekt schon existiert.
+This operation reports `Conflict` or code 409 if the object already exists.
 
-== `PUT /api/enum/{art}/{code}`
+=== `PUT /api/enum/{art}/{code}`
 
-Die Operation aktualisiert ein _Enum_-Objekt für eine Art von Aufzählung.
+This operation updates an existing _Enum_ entity for a specific discriminator and code.
 
 ****
 
@@ -43,15 +70,16 @@ include::{restdocDir}/put-api-enum/response-body.adoc[]
 
 ****
 
-Die Operation meldet `Ok` bzw. den Code 200, wenn das Objekt erfolgreich aktualisiert wurde.
+This operation reports `Ok` or code 200 if the object was successfully updated.
 
-Die Operation meldet `Conflict` bzw. den Code 409, wenn das Objekt bereit existiert.
+This operation reports `Not Found` or code 404 if the enum does not exist.
 
-Die Operation meldet `Bad Request` bzw. den Code 400, wenn die Daten nicht verarbeitet wurden.
+This operation reports `Bad Request` or code 400 if the data was not processed.
 
-== `GET /api/enum/{art}`
+=== `GET /api/enum/{art}`
 
-Die Operation liefert alle gespeicherten _Enum_-Objekte einer Art von Aufzählung.
+This operation returns all persisted _Enum_ entities for a specific discriminator .
+Results are ordered by art and code.
 
 ****
 
@@ -66,5 +94,5 @@ include::{restdocDir}/get-api-enum/response-body.adoc[]
 
 ****
 
-Die Operation meldet `Ok` bzw. den Code 200, wenn die Daten geladen wurden.
-Das Ergebnis kann auch leer sein.
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+The result can be empty if no enums exist for the discriminator.
