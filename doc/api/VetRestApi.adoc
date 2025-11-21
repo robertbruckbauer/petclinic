@@ -14,6 +14,8 @@ The main entity of a _Vet_ managed by this controller for persistence.
 include::../../lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
+The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+
 A simplified representation of a _Vet_ for item selection purposes.
 
 .Vet item
@@ -70,7 +72,7 @@ The operation reports `Created` or code 201 if the object was successfully creat
 
 The operation reports `Bad Request` or code 400 if the data was not processed.
 
-The operation reports `Conflict` or code 409 if the data is incomplete or is invalid.vollständig oder gültig sind.
+The operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
 === `PATCH /api/vet/{id}`
 
@@ -99,6 +101,20 @@ The operation reports `Conflict` or code 409 if the data is incomplete or is inv
 
 This operation returns all persisted _Vet_ entities.
 
+It supports advanced query parameters for filtering and sorting, e.g.
+
+`?name=Max`::
+Find visits with name containing "Max" (case-insensitive)
+`?name=Max%`::
+Find visits with name starting with "Max" (case-insensitive)
+
+It supports sorting and pagination, e.g.
+
+`?sort=date,desc`::
+Sort visits by date in descending order
+`?size=10&page=1`::
+Find 10 visits on page 1
+
 ****
 
 .CURL
@@ -109,6 +125,26 @@ include::{restdocDir}/get-api-vet/http-request.adoc[]
 
 .Response
 include::{restdocDir}/get-api-vet/response-body.adoc[]
+
+****
+
+The operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/vet/search/findAllItem`
+
+This operation returns all persisted _Vet_ entities as simplified _VetItem_ objects for selection purposes.
+The items are sorted by name in ascending order.
+
+****
+
+.CURL
+include::{restdocDir}/get-api-vet-item/curl-request.adoc[]
+
+.Request
+include::{restdocDir}/get-api-vet-item/http-request.adoc[]
+
+.Response
+include::{restdocDir}/get-api-vet-item/response-body.adoc[]
 
 ****
 
@@ -152,4 +188,3 @@ include::{restdocDir}/delete-api-vet/http-request.adoc[]
 The operation reports `No Content` or code 204 if the data was successfully deleted.
 
 The operation reports `Not found` or code 404 if the data does not exist.
-

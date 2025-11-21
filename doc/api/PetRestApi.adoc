@@ -99,6 +99,20 @@ This operation reports `Conflict` or code 409 if the data is incomplete or is in
 
 This operation returns all persisted _Pet_ entities.
 
+It supports advanced query parameters for filtering and sorting, e.g.
+
+`?name=Max`::
+Find visits with name containing "Max" (case-insensitive)
+`?name=Max%`::
+Find visits with name starting with "Max" (case-insensitive)
+
+It supports sorting and pagination, e.g.
+
+`?sort=date,desc`::
+Sort visits by date in descending order
+`?size=10&page=1`::
+Find 10 visits on page 1
+
 ****
 
 .CURL
