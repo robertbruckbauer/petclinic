@@ -7,6 +7,15 @@ clean {
     delete ".vite"
 }
 
+assemble {
+    dependsOn 'npmInstall'
+}
+
+tasks.named("npmInstall") {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+}
+
 build {
     dependsOn 'npmBuild'
 }
