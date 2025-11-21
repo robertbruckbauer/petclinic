@@ -7,6 +7,7 @@ It provides standard CRUD operations and a search endpoint that returns items.
 == Model
 
 The main entity of a _Pet_ managed by this controller for persistence.
+Each pet represents an animal owned by a client and can have multiple veterinary visits.
 
 .Entity
 [source,java,options="nowrap"]
@@ -75,6 +76,7 @@ This operation reports `Conflict` or code 409 if the data is incomplete or is in
 === `PATCH /api/pet/{id}`
 
 This operation partially updates an existing _Pet_ entity.
+The following example shows the update of the name.
 
 ****
 

@@ -7,6 +7,7 @@ It provides standard CRUD operations and a search endpoint that returns items.
 == Model
 
 The main entity of a _Owner_ managed by this controller for persistence.
+Each owner represents a pet clinic client who owns one or more pets.
 
 .Entity
 [source,java,options="nowrap"]
@@ -74,6 +75,7 @@ This operation reports `Conflict` or code 409 if the data is incomplete or is in
 === `PATCH /api/owner/{id}`
 
 This operation partially updates an existing _Owner_ entity.
+The following example shows the update of the name.
 
 ****
 
