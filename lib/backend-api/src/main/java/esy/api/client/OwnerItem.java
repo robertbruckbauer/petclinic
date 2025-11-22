@@ -15,6 +15,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class OwnerItem implements JsonJpaItem<UUID> {
 
+    // tag::properties[]
     @Transient
     @Getter
     @JsonProperty
@@ -24,6 +25,7 @@ public class OwnerItem implements JsonJpaItem<UUID> {
     @Getter
     @JsonProperty
     private final String text;
+    // end::properties[]
 
     private OwnerItem() {
         this.value = null;

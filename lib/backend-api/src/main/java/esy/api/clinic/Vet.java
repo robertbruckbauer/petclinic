@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.util.*;
 
 @Entity
@@ -18,6 +19,8 @@ import java.util.*;
 })
 public final class Vet extends JsonJpaEntity<Vet> {
 
+    // tag::properties[]
+    @NotBlank
     @Column(name = "name")
     @Getter
     @JsonProperty
@@ -32,6 +35,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @Getter
     @JsonProperty
     private SortedSet<String> allSkill;
+    // end::properties[]
 
     Vet() {
         super();

@@ -28,47 +28,32 @@ import java.util.UUID;
 })
 public final class Enum extends JsonJpaEntity<Enum> {
 
-    /**
-     * Art der Aufzählung (Diskriminitor)
-     */
+    // tag::properties[]
+    @NotEmpty
     @Column(name = "art")
     @Getter
     @JsonProperty
-    @NotEmpty
     private String art;
 
-    /**
-     * Code eines Wertes.
-     */
+    @PositiveOrZero
     @Column(name = "code")
     @Getter
     @JsonProperty
-    @PositiveOrZero
     private Long code;
 
-    /**
-     * Name eines Wertes (Kurzbezeichnung, Kürzel, Abkürzung)
-     */
+    @NotEmpty
     @Column(name = "name")
     @Getter
     @JsonProperty
-    @NotEmpty
     private String name;
 
-    /**
-     * Text eines Wertes (Langbezeichnung, Beschreibung)
-     */
+    @NotEmpty
     @Column(name = "text")
     @Getter
     @JsonProperty
-    @NotEmpty
     private String text;
+    // end::properties[]
 
-    /**
-     * Erzeugt eine Instanz mit Standardwerten. Die
-     * Instanz ist nicht gültig, d.h. der Aufruf von
-     * {@link #verify()} ist nicht erfolgreich.
-     */
     Enum() {
         super();
         this.art = "";
@@ -77,11 +62,6 @@ public final class Enum extends JsonJpaEntity<Enum> {
         this.text = "";
     }
 
-    /**
-     * Erzeugt eine Instanz mit Standardwerten. Die
-     * Instanz ist nicht gültig, d.h. der Aufruf von
-     * {@link #verify()} ist nicht erfolgreich.
-     */
     Enum(@NonNull final Long version, @NonNull final UUID id) {
         super(version, id);
         this.art = "";

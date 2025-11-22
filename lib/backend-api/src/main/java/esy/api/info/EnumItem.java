@@ -13,6 +13,7 @@ import jakarta.persistence.Embeddable;
 @EqualsAndHashCode
 public class EnumItem implements JsonJpaItem<String>  {
 
+    // tag::properties[]
     @Column(name = "name")
     @Getter
     @JsonProperty
@@ -27,6 +28,7 @@ public class EnumItem implements JsonJpaItem<String>  {
     @Getter
     @JsonProperty
     private final Long code;
+    // end::properties[]
 
     public EnumItem() {
         this.name = null;

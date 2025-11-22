@@ -432,10 +432,15 @@ class PetRestApiTest {
     void deleteApiPet() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
-        mockMvc.perform(delete("/api/pet/" + uuid))
+        mockMvc.perform(delete("/api/pet/" + uuid)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
-                        .isNoContent());
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()));
     }
 
     @Test

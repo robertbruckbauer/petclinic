@@ -1,0 +1,163 @@
+:project-dir: ../..
+:restdoc-dir: {project-dir}/lib/backend-data/build/generated-snippets
+= Base-API
+
+REST-API for general application operations, e.g., health probes or version queries.
+
+== Model
+
+=== Version
+
+[source,java,options="nowrap"]
+----
+include::{project-dir}/lib/backend-api/src/main/java/esy/api/Version.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `GET /`
+
+This operation returns no data and *always* reports `Not found` or code 404.
+
+=== `GET /home`
+
+This operation returns no data and always reports `Ok` or code 200.
+
+=== `GET /healthz`
+
+This operation returns no data and *always* reports `Ok` or code 200.
+
+=== `GET /actuator/health`
+
+This operation returns the overall health status of the application.
+
+****
+
+.Settings
+[source,properties,options="nowrap"]
+----
+include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
+----
+
+.Command
+include::{restdoc-dir}/get-health/curl-request.adoc[]
+
+.Request
+include::{restdoc-dir}/get-health/http-request.adoc[]
+
+.Response
+include::{restdoc-dir}/get-health/response-body.adoc[]
+
+****
+
+See
+https://docs.spring.io/spring-boot/reference/actuator/endpoints.html[Spring Boot Actuator Endpoints]
+for more information.
+
+=== `GET /actuator/health/liveness`
+
+The _liveness probe_ indicates whether the application is running.
+
+****
+
+.Settings
+[source,properties,options="nowrap"]
+----
+include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
+----
+
+.Command
+include::{restdoc-dir}/get-health-liveness/curl-request.adoc[]
+
+.Request
+include::{restdoc-dir}/get-health-liveness/http-request.adoc[]
+
+.Response
+include::{restdoc-dir}/get-health-liveness/response-body.adoc[]
+
+****
+
+See
+https://docs.spring.io/spring-boot/reference/actuator/endpoints.html[Spring Boot Actuator Endpoints]
+for more information.
+
+=== `GET /actuator/health/readiness`
+
+The _readiness probe_ indicates whether the application is ready to respond to requests.
+
+****
+
+.Settings
+[source,properties,options="nowrap"]
+----
+include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
+----
+
+.Command
+include::{restdoc-dir}/get-health-readiness/curl-request.adoc[]
+
+.Request
+include::{restdoc-dir}/get-health-readiness/http-request.adoc[]
+
+.Response
+include::{restdoc-dir}/get-health-readiness/response-body.adoc[]
+
+****
+
+See
+https://docs.spring.io/spring-boot/reference/actuator/endpoints.html[Spring Boot Actuator Endpoints]
+for more information.
+
+=== `GET /version`
+
+This operation loads the current application version from the `VERSION` file in the classpath and provides it in various formats.
+
+.`JSON`
+****
+
+.Command
+include::{restdoc-dir}/get-version-json/curl-request.adoc[]
+
+.Request
+include::{restdoc-dir}/get-version-json/http-request.adoc[]
+
+.Response
+include::{restdoc-dir}/get-version-json/response-body.adoc[]
+
+****
+
+.`ADOC`
+****
+
+.Command
+include::{restdoc-dir}/get-version-adoc/curl-request.adoc[]
+
+.Request
+include::{restdoc-dir}/get-version-adoc/http-request.adoc[]
+
+.Response
+include::{restdoc-dir}/get-version-adoc/response-body.adoc[]
+
+****
+
+.`HTML`
+****
+
+.Command
+include::{restdoc-dir}/get-version-html/curl-request.adoc[]
+
+.Request
+include::{restdoc-dir}/get-version-html/http-request.adoc[]
+
+.Response
+include::{restdoc-dir}/get-version-html/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 when the version is successfully loaded and available as a document for download.
+
+This operation reports `No Content` or code 204 when the version is not valid.
+
+This operation reports `Bad Request` or code 400 when the version is not available.
+
+This operation reports `Not Acceptable` or code 406 when the requested format cannot be generated.

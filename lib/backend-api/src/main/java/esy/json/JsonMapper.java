@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 public class JsonMapper {
 
+    // tag::configure[]
     public static ObjectMapper configure(@NonNull final ObjectMapper mapper) {
         return mapper
                 .registerModule(new Jdk8Module()) // <1>
@@ -33,6 +34,7 @@ public class JsonMapper {
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) // <6>
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // <7>
     }
+    // end::configure[]
 
     /**
      * Erzeugt eine JSON-Struktur für ein Value-Objekt.

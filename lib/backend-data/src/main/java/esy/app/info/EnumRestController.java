@@ -51,11 +51,11 @@ public class EnumRestController {
     }
 
     @DeleteMapping("/enum/{art}/{code}")
-    public ResponseEntity<Enum> deleteEnum(@PathVariable("art") final String art, @PathVariable("code") final Long code) {
+    public ResponseEntity<EnumItem> deleteEnum(@PathVariable("art") final String art, @PathVariable("code") final Long code) {
         final var value = enumRepository.findByCode(art, code)
                 .orElseThrow(() ->
                         new DataRetrievalFailureException("Enum(" + art + ", " + code + ") not found"));
         enumRepository.delete(value);
-        return ResponseEntity.status(HttpStatus.OK).body(value);
+        return ResponseEntity.status(HttpStatus.OK).body(new EnumItem(value));
     }
 }
