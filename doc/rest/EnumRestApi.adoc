@@ -73,13 +73,13 @@ include::{restdoc-dir}/put-api-enum/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the object was successfully updated.
 
-This operation reports `Not Found` or code 404 if the enum does not exist.
+This operation reports `Not found` or code 404 if the enum does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
 === `GET /api/enum/{art}`
 
-This operation returns all persisted _Enum_ entities for a specific discriminator .
+This operation returns all persisted _Enum_ entities for a specific discriminator.
 Results are ordered by art and code.
 
 ****
@@ -97,3 +97,7 @@ include::{restdoc-dir}/get-api-enum/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 The result can be empty if no enums exist for the discriminator.
+
+// TODO: Missing DELETE operation documentation - The EnumRestController implements
+// DELETE /api/enum/{art}/{code} operation that should be documented here.
+// Add section for DELETE operation with curl, request, and response examples.

@@ -43,11 +43,11 @@ include::{restdoc-dir}/post-api-pet/response-body.adoc[]
 
 ****
 
-The operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the object was successfully created.
 
-The operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Bad Request` or code 400 if the data was not processed.
 
-The operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
 
 === `PUT /api/pet/{id}`
 
@@ -95,6 +95,8 @@ include::{restdoc-dir}/patch-api-pet-name/response-body.adoc[]
 This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Not found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
@@ -157,7 +159,7 @@ include::{restdoc-dir}/get-api-pet-item/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-==== `GET /api/pet/{id}`
+=== `GET /api/pet/{id}`
 
 This operation returns a single persisted _Pet_ entity.
 
@@ -189,6 +191,10 @@ include::{restdoc-dir}/delete-api-pet/curl-request.adoc[]
 
 .Request
 include::{restdoc-dir}/delete-api-pet/http-request.adoc[]
+
+// TODO: Add response body section for DELETE operation to match template structure
+// .Response
+// include::{restdoc-dir}/delete-api-pet/response-body.adoc[]
 
 ****
 

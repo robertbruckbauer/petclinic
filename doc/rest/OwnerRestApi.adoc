@@ -10,6 +10,10 @@ It provides standard CRUD operations and a search endpoint that returns items.
 The main entity of a _Owner_ managed by this controller for persistence.
 Each owner represents a pet clinic client who owns one or more pets.
 
+// TODO: Review validation consistency - Owner.verify() method requires non-blank address,
+// but the address field lacks @NotBlank annotation. Consider adding @NotBlank to address field
+// or updating verify() method to match the annotation constraints.
+
 .Entity
 [source,java,options="nowrap"]
 ----
@@ -43,11 +47,11 @@ include::{restdoc-dir}/post-api-owner/response-body.adoc[]
 
 ****
 
-The operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the object was successfully created.
 
-The operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Bad Request` or code 400 if the data was not processed.
 
-The operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
 
 === `PUT /api/owner/{id}`
 
@@ -95,6 +99,8 @@ This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
+This operation reports `Not found` or code 404 if the entity does not exist.
+
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
 === `GET /api/owner`
@@ -132,7 +138,7 @@ include::{restdoc-dir}/get-api-owner/response-body.adoc[]
 
 ****
 
-The operation reports `Ok` or code 200 if the data was successfully loaded.
+This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/owner/search/findAllItem`
 
@@ -152,7 +158,7 @@ include::{restdoc-dir}/get-api-owner-item/response-body.adoc[]
 
 ****
 
-The operation reports `Ok` or code 200 if the data was successfully loaded.
+This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/owner/{id}`
 
@@ -171,9 +177,9 @@ include::{restdoc-dir}/get-api-owner-by-id/response-body.adoc[]
 
 ****
 
-The operation reports `Ok` or code 200 if the data was successfully loaded.
+This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-The operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not found` or code 404 if the data does not exist.
 
 === `DELETE /api/owner/{id}`
 
@@ -187,8 +193,12 @@ include::{restdoc-dir}/delete-api-owner/curl-request.adoc[]
 .Request
 include::{restdoc-dir}/delete-api-owner/http-request.adoc[]
 
+// TODO: Add response body section for DELETE operation to match template structure
+// .Response
+// include::{restdoc-dir}/delete-api-owner/response-body.adoc[]
+
 ****
 
-The operation reports `No Content` or code 204 if the data was successfully deleted.
+This operation reports `No Content` or code 204 if the data was successfully deleted.
 
-The operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not found` or code 404 if the data does not exist.
