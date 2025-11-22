@@ -17,7 +17,7 @@ Each enum represents a configurable enumeration value with a discriminator.
 include::{project-dir}/lib/backend-api/src/main/java/esy/api/info/Enum.java[indent=0,tags=properties]
 ----
 
-Enumerations are organized by discriminator (art) for logical grouping (e.g., "SPECIES", "SKILL").
+Enumerations are organized by discriminator for logical grouping (e.g., "SPECIES", "SKILL").
 Within each discriminator group, codes and names must be unique.
 Codes are numeric.
 
@@ -80,7 +80,7 @@ This operation reports `Bad Request` or code 400 if the data was not processed.
 === `GET /api/enum/{art}`
 
 This operation returns all persisted _Enum_ entities for a specific discriminator.
-Results are ordered by art and code.
+Results are ordered by discriminator and code.
 
 ****
 
@@ -98,6 +98,23 @@ include::{restdoc-dir}/get-api-enum/response-body.adoc[]
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 The result can be empty if no enums exist for the discriminator.
 
-// TODO: Missing DELETE operation documentation - The EnumRestController implements
-// DELETE /api/enum/{art}/{code} operation that should be documented here.
-// Add section for DELETE operation with curl, request, and response examples.
+=== `DELETE /api/enum/{art}/{code}`
+
+This operation deletes a single persisted _Enum_ entity for a specific discriminator and code.
+
+****
+
+.CURL
+include::{restdoc-dir}/delete-api-enum/curl-request.adoc[]
+
+.Request
+include::{restdoc-dir}/delete-api-enum/http-request.adoc[]
+
+.Response
+include::{restdoc-dir}/delete-api-enum/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully deleted.
+
+This operation reports `Not found` or code 404 if the enum does not exist.
