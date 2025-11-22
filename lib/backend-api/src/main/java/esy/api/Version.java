@@ -26,8 +26,8 @@ public class Version {
      * when incompatible changes are introduced into the public API.
      * Changes MAY also include changes that would otherwise have 
      * increased the minor version or the patch version. When this 
-     * version number is increased, both the minor version and the 
-     * patch version MUST be reset to zero
+     * version number is increased, the minor version MUST be reset
+     * to zero.
      */
     @Column(name = "major")
     @JsonProperty
@@ -39,9 +39,7 @@ public class Version {
      * API is released.
      * It MUST also be incremented when a function of the public API
      * is marked as deprecated. If extensive changes to internal code 
-     * are introduced, the minor version MAY also be incremented. 
-     * If this version number is incremented, the patch version MUST 
-     * be reset to zero.
+     * are introduced, the minor version MAY also be incremented.
      */
     @Column(name = "minor")
     @JsonProperty
