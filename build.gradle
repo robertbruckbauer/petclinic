@@ -80,7 +80,10 @@ tasks.register('buildChangelog', BuildChangelogTask.class) {
     outputs.upToDateWhen { false }
 }
 
-asciidoctor {
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+tasks.register('pagesServerRest', AsciidoctorTask) {
+    group = 'documentation'
+    description = 'Builds rest api documentation'
     sourceDir = file('doc/rest')
     outputDir = file('pages/html/server/rest')
     baseDir = file('.') // == project-dir
@@ -94,4 +97,15 @@ asciidoctor {
         'linkattrs': true,
         'allow-uri-read': true        
     ]
+}
+
+tasks.register('pages', Task) {
+    group = 'documentation'
+    description = 'Builds all documentation'
+    mustRunAfter 'build'
+    dependsOn 'pagesServerRest'
+}
+
+tasks.named("asciidoctor") {
+  enabled = false
 }
