@@ -8,7 +8,9 @@ It provides standard CRUD operations and a search endpoint that returns items.
 == Model
 
 The main entity of an _Owner_ managed by this controller for persistence.
+The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each owner represents a pet clinic client who owns one or more pets.
+The owner requires a valid name and address.
 
 .Entity
 [source,java,options="nowrap"]
@@ -189,8 +191,11 @@ include::{restdoc-dir}/delete-api-owner/curl-request.adoc[]
 .Request
 include::{restdoc-dir}/delete-api-owner/http-request.adoc[]
 
+.Response
+include::{restdoc-dir}/delete-api-owner/response-body.adoc[]
+
 ****
 
-This operation reports `No Content` or code 204 if the data was successfully deleted.
+This operation reports `Ok` or code 200 if the data was successfully deleted.
 
 This operation reports `Not found` or code 404 if the data does not exist.

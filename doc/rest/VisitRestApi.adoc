@@ -8,6 +8,7 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 == Model
 
 The main entity of a _Visit_ managed by this controller for persistence.
+The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each visit represents a veterinary appointment with a treatment date, associated pet, attending veterinarian, and visit diagnosis.
 Each pet can only have one visit per date.
 The vet relationship is optional because it may not be clear who is on duty at the time the visit is created.
@@ -218,8 +219,11 @@ include::{restdoc-dir}/delete-api-visit/curl-request.adoc[]
 .Request
 include::{restdoc-dir}/delete-api-visit/http-request.adoc[]
 
+.Response
+include::{restdoc-dir}/delete-api-visit/response-body.adoc[]
+
 ****
 
-This operation reports `No Content` or code 204 if the data was successfully deleted.
+This operation reports `Ok` or code 200 if the data was successfully deleted.
 
 This operation reports `Not found` or code 404 if the data does not exist.

@@ -10,6 +10,7 @@ import lombok.NonNull;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +31,13 @@ public final class Pet extends JsonJpaEntity<Pet> {
     @JsonProperty
     private String name;
 
+    @NotNull
     @Column(name = "born")
     @Getter
     @JsonProperty
     private LocalDate born;
 
+    @NotBlank
     @Column(name = "species")
     @Getter
     @JsonProperty

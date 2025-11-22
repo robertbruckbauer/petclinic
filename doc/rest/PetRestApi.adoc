@@ -8,7 +8,10 @@ It provides standard CRUD operations and a search endpoint that returns items.
 == Model
 
 The main entity of a _Pet_ managed by this controller for persistence.
+The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each pet represents an animal owned by a client and can have multiple veterinary visits.
+The pet requires a valid name and species.
+Each pet must have an owner.
 
 .Entity
 [source,java,options="nowrap"]
@@ -192,8 +195,11 @@ include::{restdoc-dir}/delete-api-pet/curl-request.adoc[]
 .Request
 include::{restdoc-dir}/delete-api-pet/http-request.adoc[]
 
+.Response
+include::{restdoc-dir}/delete-api-pet/response-body.adoc[]
+
 ****
 
-This operation reports `No Content` or code 204 if the data was successfully deleted.
+This operation reports `Ok` or code 200 if the data was successfully deleted.
 
 This operation reports `Not found` or code 404 if the data does not exist.
