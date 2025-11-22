@@ -26,6 +26,7 @@ public final class Owner extends JsonJpaEntity<Owner> {
     @JsonProperty
     private String name;
 
+    @NotBlank
     @Column(name = "address")
     @Getter
     @JsonProperty
