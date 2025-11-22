@@ -10,7 +10,7 @@ It provides standard CRUD operations and a search endpoint that returns items.
 The main entity of a _Pet_ managed by this controller for persistence.
 The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each pet represents an animal owned by a client and can have multiple veterinary visits.
-The pet requires a valid name and species.
+The pet requires a valid name, species, and birth date.
 Each pet must have an owner.
 
 .Entity
@@ -50,7 +50,7 @@ This operation reports `Created` or code 201 if the object was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+This operation reports `Conflict` or code 409 if the name for the given owner already exists, data is incomplete or invalid.
 
 === `PUT /api/pet/{id}`
 

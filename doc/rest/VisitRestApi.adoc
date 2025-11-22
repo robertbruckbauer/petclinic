@@ -10,15 +10,17 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 The main entity of a _Visit_ managed by this controller for persistence.
 The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each visit represents a veterinary appointment with a treatment date, associated pet, attending veterinarian, and visit diagnosis.
-Each pet can only have one visit per date.
+Each pet can only have one visit per date (enforced by unique constraint).
 The vet relationship is optional because it may not be clear who is on duty at the time the visit is created.
-The pet relationship is optional to create visits as placeholder for vets on duty.
+The pet relationship is optional to create visits as placeholders for vets on duty.
 
-.Visit entity
+.Entity
 [source,java,options="nowrap"]
 ----
 include::{project-dir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
 ----
+
+No simplified representation of a _Visit_ exists.
 
 == Operations
 
@@ -151,7 +153,7 @@ It supports advanced query parameters for filtering and sorting, e.g.
 
 `?date=2021-04-20`::
 Find visits on a single date
-`?date=2021-04-20&date=2021-04-25`:: 
+`?date=2021-04-20&date=2021-04-25`::
 Find visits between dates (inclusive)
 `?date=2021-04-20&date=2021-04-22&date=2021-04-24`::
 Find visits on multiple dates

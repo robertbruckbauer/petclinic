@@ -11,6 +11,7 @@ The main entity of an _Owner_ managed by this controller for persistence.
 The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each owner represents a pet clinic client who owns one or more pets.
 The owner requires a valid name and address.
+All other fields are optional.
 
 .Entity
 [source,java,options="nowrap"]
@@ -49,7 +50,7 @@ This operation reports `Created` or code 201 if the object was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+This operation reports `Conflict` or code 409 if the name already exists, data is incomplete or invalid.
 
 === `PUT /api/owner/{id}`
 

@@ -12,17 +12,15 @@ The entity extends `JsonJpaEntity` which provides unique identifier and version 
 Each vet represents a pet clinic veterinarian.
 The vet requires a valid name and has a set of skills.
 
-.Vet entity
+.Entity
 [source,java,options="nowrap"]
 ----
 include::{project-dir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
-The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-
 A simplified representation of a _Vet_ for item selection purposes.
 
-.Vet item
+.Item
 [source,java,options="nowrap"]
 ----
 include::{project-dir}/lib/backend-api/src/main/java/esy/api/clinic/VetItem.java[indent=0,tags=properties]
@@ -51,7 +49,7 @@ This operation reports `Created` or code 201 if the object was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+This operation reports `Conflict` or code 409 if the name already exists, data is incomplete or invalid.
 
 === `PUT /api/vet/{id}`
 
