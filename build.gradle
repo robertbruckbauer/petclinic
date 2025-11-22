@@ -95,7 +95,27 @@ tasks.register('pagesServerRest', AsciidoctorTask) {
         'sectanchors': true,
         'sectlinks': true,
         'linkattrs': true,
-        'allow-uri-read': true        
+        'allow-uri-read': true,
+        'icons': 'font'             
+    ]
+}
+tasks.register('pagesServerSpec', AsciidoctorTask) {
+    group = 'documentation'
+    description = 'Builds implementation specifications'
+    sourceDir = file('lib')
+    sources { include '**/src/main/java/**/*.adoc' }
+    outputDir = file('pages/html')
+    baseDir = file('.') // == project-dir
+    attributes = [
+        'project-dir': '.',
+        'source-highlighter': 'coderay',
+        'toc': 'left',
+        'toclevels': 3,
+        'sectanchors': true,
+        'sectlinks': true,
+        'linkattrs': true,
+        'allow-uri-read': true,
+        'icons': 'font'        
     ]
 }
 
@@ -103,7 +123,7 @@ tasks.register('pages', Task) {
     group = 'documentation'
     description = 'Builds all documentation'
     mustRunAfter 'build'
-    dependsOn 'pagesServerRest'
+    dependsOn 'pagesServerRest', 'pagesServerSpec'
 }
 
 tasks.named("asciidoctor") {
