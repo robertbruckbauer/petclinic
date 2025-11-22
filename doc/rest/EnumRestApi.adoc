@@ -118,3 +118,8 @@ include::{restdoc-dir}/delete-api-enum/response-body.adoc[]
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
 This operation reports `Not found` or code 404 if the enum does not exist.
+
+// TODO: Design inconsistency - DELETE operation returns 200 with response body instead of
+// standard 204 No Content. Consider changing EnumRestController.deleteEnum() to return
+// ResponseEntity.noContent() for better REST compliance, or update documentation to
+// reflect the current implementation that returns the deleted enum data.
