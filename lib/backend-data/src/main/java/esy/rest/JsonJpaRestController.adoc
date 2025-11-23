@@ -1,4 +1,4 @@
-:project-dir: ../../../../../../..
+:includedir: ../../../../../../..
 :term: JsonJpaRestController
 = {term}
 
@@ -97,7 +97,7 @@ The instance of a `TransactionTemplate` is used to validate incoming data, compl
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeCreateTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeCreateTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -126,7 +126,7 @@ The callback method expects a `Void`.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterCreateTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterCreateTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -136,7 +136,7 @@ The callback method is executed *after* saving a new record.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeSaveTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeSaveTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -167,7 +167,7 @@ The callback method expects a `Void`.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterSaveTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterSaveTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -177,7 +177,7 @@ The callback method is executed *after* saving an already existing record.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeDeleteTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeDeleteTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -187,7 +187,7 @@ The callback method is executed *before* deleting a record.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterDeleteTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterDeleteTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -197,7 +197,7 @@ The callback method is executed *after* deleting a record.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeLinkSaveTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeLinkSaveTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -208,7 +208,7 @@ The method can modify the incoming record.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterLinkSaveTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterLinkSaveTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -218,7 +218,7 @@ The callback method is executed *after* saving a relation in this record.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeLinkDeleteTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=beforeLinkDeleteTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
@@ -243,7 +243,7 @@ This ensures data integrity.
 
 [source,java,options="nowrap"]
 ----
-include::{project-dir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterLinkDeleteTransaction, indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControllerBase.java[tags=afterLinkDeleteTransaction, indent=0]
 ----
 
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.

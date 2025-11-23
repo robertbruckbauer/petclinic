@@ -86,9 +86,9 @@ tasks.register('pagesServerRest', AsciidoctorTask) {
     description = 'Builds rest api documentation'
     sourceDir = file('doc/rest')
     outputDir = file('pages/html/server/rest')
-    baseDir = file('.') // == project-dir
+    baseDir = file('.') // == includedir
     attributes = [
-        'project-dir': '.',
+        'includedir': '.',
         'source-highlighter': 'coderay',
         'toc': 'left',
         'toclevels': 3,
@@ -105,9 +105,9 @@ tasks.register('pagesServerSpec', AsciidoctorTask) {
     sourceDir = file('lib')
     sources { include '**/src/main/java/**/*.adoc' }
     outputDir = file('pages/html')
-    baseDir = file('.') // == project-dir
+    baseDir = file('.') // == includedir
     attributes = [
-        'project-dir': '.',
+        'includedir': '.',
         'source-highlighter': 'coderay',
         'toc': 'left',
         'toclevels': 3,
