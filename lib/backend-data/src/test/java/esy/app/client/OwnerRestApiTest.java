@@ -348,10 +348,15 @@ class OwnerRestApiTest {
     void deleteApiOwner() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
-        mockMvc.perform(delete("/api/owner/" + uuid))
+        mockMvc.perform(delete("/api/owner/" + uuid)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
-                        .isNoContent());
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()));
     }
 
     @Test

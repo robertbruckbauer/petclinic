@@ -144,6 +144,9 @@ public class EsyBackendConfiguration implements EsyBackendAware {
                 // create JSON with content (not _embedded)
                 configuration.setDefaultMediaType(MediaType.APPLICATION_JSON);
                 configuration.useHalAsDefaultJsonMediaType(false);
+                configuration.setReturnBodyOnCreate(true);
+                configuration.setReturnBodyOnUpdate(true);
+                configuration.setReturnBodyOnDelete(true);
                 // expose id for value objects
                 applyJsonConfiguration(configuration);
                 // apply CORS settings

@@ -1,0 +1,44 @@
+:includedir: ../../../../../../..
+:relrootdir: ../../../../../../..
+:term: QuerydslRepository
+= {term}
+
+The `{term}` interface extends Spring Data's QueryDSL support with custom binding methods for common query patterns.
+It provides utility methods for handling date ranges, numeric ranges and flexible string matching predicates.
+
+== Properties
+
+None
+
+== Operations
+
+=== localDateEqBetweenInBinding
+
+The method provides flexible `LocalDate` querying:
+
+**Single value**::
+Uses exact match with `eq()`.
+**Two values**::
+Creates date range query with `between()`.
+**Multiple values**::
+Uses IN clause with `in()`.
+
+=== longEqBetweenInBinding
+
+The method provides flexible Long value querying:
+
+**Single value**::
+Uses exact match with `eq()`.
+**Two values**::
+Creates numeric range query with `between()`.
+**Multiple values**::
+Uses IN clause with `in()`.
+
+=== stringContainsOrLikeIgnoreCaseBinding
+
+The method provides intelligent string matching:
+
+**Contains '%' character**::
+Uses SQL LIKE pattern matching with `likeIgnoreCase()`.
+**No '%' character**::
+Uses case-insensitive substring search with `containsIgnoreCase()`.

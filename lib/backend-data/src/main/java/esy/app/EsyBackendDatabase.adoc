@@ -1,24 +1,26 @@
-= Spezifikation für die Datenbank
+:includedir: ../../../../../../..
+:relrootdir: ../../../../../../..
+= Specification for the Database
 
-Der Dienst nutzt eine zentrale Konfigurationsdatei für die Datenbank.
-Sie wird nur beim Start der Anwendung gelesen.
+The service uses a central configuration file for the database.
+It is only read when the application starts.
 
 .database.properties
 [source,text]
 ----
-include::../../../resources/database.properties[]
+include::{includedir}/lib/backend-data/src/main/resources/database.properties[]
 ----
 
-Der Dienst nutzt XML-Skripte für die Erstellung und Migration der Datenbank.
-DDL-Statements werden in einem speziellen XML-Format geskriptet.
-Für jedes Datenbankobjekt gibt es ein eigenes Skript.
-Da die Reihenfolge der Ausführung der Skripte relevant ist, werden die Skripte für die Datenbankobjekte zu einem Changelog-Skript zusammengefasst.
-Das Changelog-Skript wird beim Start der Anwendung ausgeführt.
-Abhängig vom aktuellen Zustand der Datenbank werden Skripte ausgeführt und erzeugen neue Datenbankobjekte.
-Bereits auf dieser Datenbank ausgeführte Skripte werden ignoriert.
+The service uses _Liquibase_ for creating and migrating the database.
+DDL statements are scripted in a special XML format.
+Each database object has its own script.
+Since the execution order of the scripts is relevant, the scripts for the database objects are combined into a changelog script.
+The changelog script is executed when the application starts.
+Depending on the current state of the database, scripts are executed and create new database objects.
+Scripts that have already been executed on this database are ignored.
 
 .liquibase/changelog.xml
 [source,text]
 ----
-include::../../../resources/liquibase/changelog.xml[]
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/changelog.xml[]
 ----

@@ -1,29 +1,31 @@
-:projectDir: ../../../../../../..
-:icons: font
+:includedir: ../../../../../../..
+:relrootdir: ../../../../../../..
 :term: JsonMapper
 = {term}
 
-Die {term}-Klasse ist die zentrale Stelle für die Konfiguration von Jackson für die Verwendung zum Lesen und Schreiben von JSON-Strukturen.
+The {term} class is the central location for configuring Jackson for reading and writing JSON structures.
 
 [source,java,options="nowrap"]
 ----
-include::JsonMapper.java[tags=configure,indent=0]
+include::{includedir}/lib/backend-api/src/main/java/esy/json/JsonMapper.java[tags=configure,indent=0]
 ----
-<1> Das `Jdk8Module` sorgt dafür, dass Datentypen wie `Optional` korrekt serialisiert werden.
+<1> The `Jdk8Module` ensures that data types like `Optional` are correctly serialized.
 
-<2> Das `Jdk8Module` sorgt dafür, dass temporale Datentypen wie `LocalDate` korrekt serialisiert werden.
+<2> The `JavaTimeModule` ensures that temporal data types like `LocalDate` are correctly serialized.
 
-<3> Mit dem Wert `false` wird sichergestellt, dass bei PATCH-Operationen die Liste aus der JSON-Struktur mit der Liste aus der Datenbank zusammengeführt wird.
-Das Verhalten bei Listen ist dadurch konsistent mit dem Verhalten bei Werten.
-Siehe auch Annotation `@JsonMerge`.
+<3> With the value `false`, it is ensured that during PATCH operations the list from the JSON structure is merged with the list from the database. +
+The behavior for lists is thus consistent with the behavior for values. +
+See also annotation `@JsonMerge`.
 
-<4> Mit dem Wert `true` werden temporale Datentypen mit Zeitzone serialisiert.
+<4> With the value `Include.NON_NULL` only properties with non-null values are serialized.
 
-<5> Mit dem Wert `false` werden temporale Datentypen mit einem formatierten Text serialisiert.
+<5> With the value `true`, temporal data types are serialized with timezone.
 
-<6> Mit dem Wert `false` wird die Serialisierung robust gemacht.
-Unbekannte Eigenschaften werden ignoriert.
+<6> With the value `false`, temporal data types are serialized with formatted text.
 
-Die Methode initialisiert Jackson.
-Sie wird in der EndpointConfiguration-Klasse verwendet, um das Verhalten im Spring-Framework einheitlich zu definieren.
-Sie wird in JsonJpaValue-, JsonJpaPart- und JsonJpaRef-Klassen für die Implementierung der Operationen `parseJson` und `writeJson` verwendet.
+<7> With the value `false`, serialization is made robust. +
+Unknown properties are ignored.
+
+This method initializes the _Jackson Object Mapper_.
+It is used in the `EndpointConfiguration` class to uniformly define behavior in the _Spring Framework_.
+It is used in classes like `JsonJpaEntity` to implement `parseJson` and `writeJson` operations.

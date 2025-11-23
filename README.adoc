@@ -1,12 +1,12 @@
 :icons: font
 :experimental: true
-= Self-Contained System mit Spring-Boot und Web-UI
+= Self-Contained System with Spring Boot backend and browser-based clients
 
-== Anwendungen
+== Applications
 
 === app/server
 
-Backend-Server der Anwendung mit einer HSQL-Datenbank.
+Backend server of the application with a HSQL database.
 
 https://spring.io/projects/spring-boot
 
@@ -14,7 +14,7 @@ http://hsqldb.org
 
 === app/client-angular
 
-Browser-basierter Web-Client der Anwendung.
+Browser-based web client of the application.
 
 https://angular.dev
 
@@ -22,7 +22,7 @@ https://tailwindcss.com
 
 === app/client-svelte
 
-Browser-basierter Web-Client der Anwendung.
+Browser-based web client of the application.
 
 https://svelte.dev
 
@@ -32,17 +32,17 @@ https://vitejs.dev
 
 === app/deploy
 
-Lokales Deployment der Anwendung.
+Local deployment of the application.
 
 https://www.docker.com/
 
 https://rancherdesktop.io/
 
-== Bibliotheken
+== Libraries
 
 === lib/backend-api
 
-Datenmodell für den Backend-Server der Anwendung.
+Data model for the backend server of the application.
 
 https://projectlombok.org/
 
@@ -50,7 +50,7 @@ https://github.com/FasterXML/jackson-docs
 
 === lib/backend-data
 
-REST-API für den Backend-Server der Anwendung.
+REST API for the backend server of the application.
 
 https://spring.io/projects/spring-framework
 
@@ -62,59 +62,59 @@ https://spring.io/projects/spring-data-rest
 
 https://docs.liquibase.com/home.html
 
-== Versionierung
+== Versioning
 
-Die Versionierung der Anwendung basiert auf
+The application versioning is based on
 https://git-scm.com/book/en/v2/Git-Basics-Tagging[_lightweight tags_]
-im Repository und folgt dem Konzept 
+in the repository and follows the concept of
 https://semver.org/[_semantic versioning_]
-mit Major und Minor-Nummer.
-Eine Patch-Nummer wird nur für interne Zwecke verwendet.
+with major and minor numbers.
+A patch number is only used for internal purposes.
 
 [source, gradle]
 ----
 ./gradlew versionTag
 ----
 
-Der Befehl zeigt die aktuelle Version der Anwendung.
+This command shows the current version of the application.
 
-Die Änderungshistorie basiert auf der
+The change history is based on the
 https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History[_commit history_]
-des Repositories und folgt dem Konzept 
+of the repository and follows the concept of
 https://www.conventionalcommits.org/[_conventional commits_]
-für die Beschreibung der Änderungen.
+for describing changes.
 
 [source, gradle]
 ----
 ./gradlew versionRelease
 ----
 
-Der Befehl zeigt eine Liste der Änderungen am aktuellen Release.
-Die Liste kann auch leer sein.
+This command shows a list of changes in the current release.
+The list can also be empty.
 
 [source, gradle]
 ----
 ./gradlew versionHistory
 ----
 
-Der Befehl zeigt alle Änderungen der vergangenen Releases gruppiert nach der Version und absteigend sortiert.
+This command shows all changes from past releases grouped by version and sorted in descending order.
 
-Die aktuelle Version mit Major- und Minor-Nummer wird in der Datei `VERSION` eingetragen.
+The current version with major and minor number is entered in the `VERSION` file.
 
-WARNING: Die Datei darf keinen Zeilenumbruch enthalten.
+WARNING: The file must not contain a line break.
 
-Zusätzlich muss die aktuelle Version in anderen Dateien eingetragen werden, z.B. in `package.json` oder `Chart.yaml`.
+Additionally, the current version must be entered in other files, e.g., in `package.json` or `Chart.yaml`.
 
 [source, gradle]
 ----
 ./gradlew versionCheck
 ----
 
-Der Befehl prüft, ob alle eingetragenen Version mit Major- und Minor-Nummer exakt übereinstimmen.
+This command checks whether all entered versions with major and minor numbers match exactly.
 
-== Häufig gestellte Fragen
+== Frequently Asked Questions
 
-=== Code bauen und testen
+=== Building and testing code
 
 [source, npm]
 ----
@@ -132,81 +132,86 @@ npm install --prefix app/client-svelte
 ./gradlew buildImage
 ----
 
-=== Code formatieren
+[source, gradle]
+----
+./gradlew pages
+----
+
+=== Formatting code
 
 [source, gradle]
 ----
 ./gradlew format
 ----
 
-=== Spring-Boot-Server lokal starten
+=== Starting Spring Boot server locally
 
 [source, gradle]
 ----
 ./gradlew app:server:bootRun
 ----
 
-Der Befehl startet den Server als Java-Anwendung.
-Der HAL-Explorer wird im Browser mit `localhost:8080/api/explorer` aufgerufen.
-Der GraphQl-Explorer wird im Browser mit `localhost:8080/api/graphiql` aufgerufen.
+This command starts the server as a Java application.
+The HAL Explorer is accessed in the browser at `localhost:8080/api/explorer`.
+The GraphQL Explorer is accessed in the browser at `localhost:8080/api/graphiql`.
 
-Mit der Umgebungsvariable `LOGGING_LEVEL_ORG_HIBERNATE_TYPE` kann die Ausgabe von Typinformationen gesteuert werden.
-Mit dem Wert `TRACE` werden bspw. die aktuellen Parameter von Statements ausgegeben.
+The environment variable `LOGGING_LEVEL_ORG_HIBERNATE_TYPE` can be used to control the output of type information.
+With the value `TRACE`, for example, the current parameters of statements are output.
 
-Mit der Umgebungsvariable `LOGGING_LEVEL_ORG_HIBERNATE_STAT` kann die Ausgabe von Statistiken gesteuert werden.
-Mit dem Wert `DEBUG` werden bspw. die Kennzahlen von Statements ausgegeben.
+The environment variable `LOGGING_LEVEL_ORG_HIBERNATE_STAT` can be used to control the output of statistics.
+With the value `DEBUG`, for example, the metrics of statements are output.
 
-=== Angular-Client lokal starten
+=== Starting Angular client locally
 
 [source, npm]
 ----
 npm run start --prefix app/client-angular
 ----
 
-Der Befehl startet den Client als Node-Anwendung.
-Der Angular-Client wird im Browser mit `localhost:5052` aufgerufen.
+This command starts the client as a Node application.
+The Angular client is accessed in the browser at `localhost:5052`.
 
-=== Svelte-Client lokal starten
+=== Starting Svelte client locally
 
 [source, npm]
 ----
 npm run start --prefix app/client-svelte
 ----
 
-Der Befehl startet den Client als Node-Anwendung.
-Der Svelte-Client wird im Browser mit `localhost:5050` aufgerufen.
+This command starts the client as a Node application.
+The Svelte client is accessed in the browser at `localhost:5050`.
 
-=== Anwendung lokal starten
+=== Starting application locally
 
 [source, gradle]
 ----
 ./gradlew composeUp
 ----
 
-Der Befehl startet Clients und Server lokal.
-Der Angular-Client wird im Browser mit `localhost:5052` aufgerufen.
-Der Svelte-Client wird im Browser mit `localhost:5050` aufgerufen.
+This command starts clients and server locally.
+The Angular client is accessed in the browser at `localhost:5052`.
+The Svelte client is accessed in the browser at `localhost:5050`.
 
 [source, gradle]
 ----
 ./gradlew composeDown
 ----
 
-Der Befehl stoppt Clients und Server.
+This command stops clients and server.
 
-=== Anwendung lokal testen
+=== Testing application locally
 
 [source, gradle]
 ----
 sh playwright.setup.sh
 ----
 
-Der Befehl installiert die Browser für den Test mit Playwright.
+This command installs the browsers for testing with Playwright.
 
 [source, gradle]
 ----
 sh playwright.test.sh
 ----
 
-Der Befehl startet die Anwendumg und führt End-to-End-Tests mit Playwright aus.
-Am Ende wird die Anwendung heruntergefahren - auch im Fehlerfall.
+This command starts the application and runs end-to-end tests with Playwright.
+At the end, the application is shut down - even in case of errors.

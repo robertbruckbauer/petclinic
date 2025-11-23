@@ -1,0 +1,205 @@
+:includedir: ../..
+:relrootdir: ../..
+:restdocdir: {includedir}/lib/backend-data/build/generated-snippets
+= Owner-API
+
+REST-API for managing pet owners acting as clients in the pet clinic application.
+It provides standard CRUD operations and a search endpoint that returns items.
+
+== Model
+
+=== Owner
+
+The main entity of an _Owner_ managed by this controller for persistence.
+The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+Each owner represents a pet clinic client who owns one or more pets.
+The owner requires a valid name and address.
+All other fields are optional.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
+----
+
+A simplified representation of an _Owner_ for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `POST /api/owner`
+
+This operation creates a new _Owner_ entity.
+
+****
+
+.Command
+include::{restdocdir}/post-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/post-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/post-api-owner/response-body.adoc[]
+
+****
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the name already exists, data is incomplete or invalid.
+
+=== `PUT /api/owner/{id}`
+
+This operation updates an existing _Owner_ entity or creates a new one.
+
+****
+
+.Command
+include::{restdocdir}/put-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/put-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/put-api-owner/response-body.adoc[]
+
+****
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+=== `PATCH /api/owner/{id}`
+
+This operation partially updates an existing _Owner_ entity.
+The following example shows the update of the name.
+
+****
+
+.Command
+include::{restdocdir}/patch-api-owner-name/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-owner-name/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-owner-name/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Not found` or code 404 if the entity does not exist.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+=== `GET /api/owner`
+
+This operation returns all persisted _Owner_ entities.
+
+It supports advanced query parameters for filtering and sorting, e.g.
+
+`?name=Max`::
+Find owners with name containing "Max" (case-insensitive)
+`?name=Max%`::
+Find owners with name starting with "Max" (case-insensitive)
+`?address=Street`::
+Find owners with address containing "Street" (case-insensitive)
+`?contact=@gmx.at`::
+Find owners with contact information containing "@gmx.at" (case-insensitive)
+
+It supports sorting and pagination, e.g.
+
+`?sort=name,asc`::
+Sort owners by name in ascending order
+`?size=10&page=1`::
+Find 10 owners on page 1
+
+****
+
+.Command
+include::{restdocdir}/get-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-owner/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/owner/search/findAllItem`
+
+This operation returns all persisted _Owner_ entities as simplified _OwnerItem_ objects for selection purposes.
+The items are sorted by name in ascending order.
+
+****
+
+.Command
+include::{restdocdir}/get-api-owner-item/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-owner-item/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-owner-item/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/owner/{id}`
+
+This operation returns a single persisted _Owner_ entity.
+
+****
+
+.Command
+include::{restdocdir}/get-api-owner-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-owner-by-id/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-owner-by-id/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not found` or code 404 if the data does not exist.
+
+=== `DELETE /api/owner/{id}`
+
+This operation deletes a single persisted _Owner_ entity.
+
+****
+
+.Command
+include::{restdocdir}/delete-api-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/delete-api-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/delete-api-owner/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully deleted.
+
+This operation reports `Not found` or code 404 if the data does not exist.

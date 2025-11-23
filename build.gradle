@@ -7,6 +7,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'com.palantir.git-version'
+    id 'org.asciidoctor.jvm.convert'
 }
 
 eclipse {
@@ -77,4 +78,54 @@ tasks.register('buildChangelog', BuildChangelogTask.class) {
     group = 'build'
     changelog = layout.buildDirectory.file("reports/CHANGELOG.md")
     outputs.upToDateWhen { false }
+}
+
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+tasks.register('pagesServerRest', AsciidoctorTask) {
+    group = 'documentation'
+    description = 'Builds rest api documentation'
+    sourceDir = file('doc/rest')
+    outputDir = file('pages/html/server/rest')
+    baseDir = file('.') // == includedir
+    attributes = [
+        'includedir': '.',
+        'source-highlighter': 'coderay',
+        'toc': 'left',
+        'toclevels': 3,
+        'sectanchors': true,
+        'sectlinks': true,
+        'linkattrs': true,
+        'allow-uri-read': true,
+        'icons': 'font'             
+    ]
+}
+tasks.register('pagesServerSpec', AsciidoctorTask) {
+    group = 'documentation'
+    description = 'Builds implementation specifications'
+    sourceDir = file('lib')
+    sources { include '**/src/main/java/**/*.adoc' }
+    outputDir = file('pages/html')
+    baseDir = file('.') // == includedir
+    attributes = [
+        'includedir': '.',
+        'source-highlighter': 'coderay',
+        'toc': 'left',
+        'toclevels': 3,
+        'sectanchors': true,
+        'sectlinks': true,
+        'linkattrs': true,
+        'allow-uri-read': true,
+        'icons': 'font'        
+    ]
+}
+
+tasks.register('pages', Task) {
+    group = 'documentation'
+    description = 'Builds all documentation'
+    mustRunAfter 'build'
+    dependsOn 'pagesServerRest', 'pagesServerSpec'
+}
+
+tasks.named("asciidoctor") {
+  enabled = false
 }

@@ -25,6 +25,7 @@ import java.util.UUID;
 })
 public final class Visit extends JsonJpaEntity<Visit> {
 
+    // tag::properties[]
     @Column(name = "date")
     @Getter
     @JsonProperty
@@ -50,6 +51,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
     @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Vet vet;
+    // end::properties[]
 
     Visit() {
         super();

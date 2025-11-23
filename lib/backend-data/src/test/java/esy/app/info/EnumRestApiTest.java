@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -236,11 +236,39 @@ class EnumRestApiTest {
     }
 
     @Test
+    @Order(50)
+    void deleteApiEnum() throws Exception {
+        mockMvc.perform(delete("/api/enum/" + ENUM_ART + "/0"))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(jsonPath("$.value")
+                        .value("A1"))
+                .andExpect(jsonPath("$.code")
+                        .value("0"))
+                .andExpect(jsonPath("$.name")
+                        .value("A1"))
+                .andExpect(jsonPath("$.text")
+                        .value("Alpha Eins"));;
+    }
+
+    @Test
+    @Order(51)
+    void deleteApiEnumNotFound() throws Exception {
+        mockMvc.perform(delete("/api/enum/" + ENUM_ART + "/0"))
+                .andDo(print())
+                .andExpect(status()
+                        .isNotFound());
+    }
+
+    @Test
     @Order(99)
     @Transactional
     @Rollback(false)
     void cleanup() {
-        assertEquals(3, enumRepository.count(ENUM_ART));
+        assertEquals(2, enumRepository.count(ENUM_ART));
         enumRepository.findAll(ENUM_ART).forEach(e ->
                 enumRepository.delete(e));
         enumRepository.deleteAll();

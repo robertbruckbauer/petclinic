@@ -1,0 +1,234 @@
+:includedir: ../..
+:relrootdir: ../..
+:restdocdir: {includedir}/lib/backend-data/build/generated-snippets
+= Visit-API
+
+REST-API for managing veterinary visits in the pet clinic application.
+It provides standard CRUD operations, partial updates via PATCH, and advanced query capabilities for filtering visits by date, pet, veterinarian, and text content.
+
+== Model
+
+=== Visit
+
+The main entity of a _Visit_ managed by this controller for persistence.
+The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+Each visit represents a veterinary appointment with a treatment date, associated pet, attending veterinarian, and visit diagnosis.
+Each pet can only have one visit per date (enforced by unique constraint).
+The vet relationship is optional because it may not be clear who is on duty at the time the visit is created.
+The pet relationship is optional to create visits as placeholders for vets on duty.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
+----
+
+No simplified representation of a _Visit_ exists.
+
+== Operations
+
+=== `POST /api/visit`
+
+This operation creates a new _Visit_ entity.
+
+****
+
+.Command
+include::{restdocdir}/post-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/post-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocdir}/post-api-visit/response-body.adoc[]
+
+****
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+
+=== `PUT /api/visit/{id}`
+
+This operation updates an existing _Visit_ entity or creates a new one.
+
+****
+
+.Command
+include::{restdocdir}/put-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/put-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocdir}/put-api-visit/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Created` or code 201 if the object was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint (duplicate visit for same pet on same date).
+
+=== `PATCH /api/visit/{id}`
+
+This operation partially updates an existing _Visit_ entity.
+You can update individual fields like `date`, `text`, `pet`, or `vet` without affecting other properties.
+
+==== Update date
+
+****
+
+.Command
+include::{restdocdir}/patch-api-visit-date/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-visit-date/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-visit-date/response-body.adoc[]
+
+****
+
+==== Update text
+
+****
+
+.Command
+include::{restdocdir}/patch-api-visit-text/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-visit-text/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-visit-text/response-body.adoc[]
+
+****
+
+==== Update pet relation
+
+****
+
+.Command
+include::{restdocdir}/patch-api-visit-pet/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-visit-pet/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-visit-pet/response-body.adoc[]
+
+****
+
+==== Update vet relation
+
+****
+
+.Command
+include::{restdocdir}/patch-api-visit-vet/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-visit-vet/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-visit-vet/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Not found` or code 404 if the entity does not exist.
+
+This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint (duplicate visit for same pet on same date).
+
+=== `GET /api/visit`
+
+This operation returns all persisted _Visit_ entities.
+
+It supports advanced query parameters for filtering and sorting, e.g.
+
+`?date=2021-04-20`::
+Find visits on a single date
+`?date=2021-04-20&date=2021-04-25`::
+Find visits between dates (inclusive)
+`?date=2021-04-20&date=2021-04-22&date=2021-04-24`::
+Find visits on multiple dates
+`?pet.id=c1111111-1111-beef-dead-beefdeadbeef`::
+Find visits for specific pet
+`?vet.id=d1111111-1111-beef-dead-beefdeadbeef`::
+Find visits with specific vet
+`?text=Lorem`::
+Find visits with text containing "Lorem" (case-insensitive)
+`?text=Lorem%`::
+Find visits with text starting with "Lorem" (case-insensitive)
+
+It supports sorting and pagination, e.g.
+
+`?sort=date,desc`::
+Sort visits by date in descending order
+`?size=10&page=1`::
+Find 10 visits on page 1
+
+****
+
+.Command
+include::{restdocdir}/get-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-visit/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/visit/{id}`
+
+This operation returns a single persisted _Visit_ entity.
+
+****
+
+.Command
+include::{restdocdir}/get-api-visit-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-visit-by-id/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-visit-by-id/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not found` or code 404 if the data does not exist.
+
+=== `DELETE /api/visit/{id}`
+
+This operation deletes a single persisted _Visit_ entity.
+
+****
+
+.Command
+include::{restdocdir}/delete-api-visit/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/delete-api-visit/http-request.adoc[]
+
+.Response
+include::{restdocdir}/delete-api-visit/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully deleted.
+
+This operation reports `Not found` or code 404 if the data does not exist.
