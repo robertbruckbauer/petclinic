@@ -33,12 +33,6 @@ This operation returns the overall health status of the application.
 
 ****
 
-.Settings
-[source,properties,options="nowrap"]
-----
-include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
-----
-
 .Command
 include::{restdoc-dir}/get-health/curl-request.adoc[]
 
@@ -50,6 +44,14 @@ include::{restdoc-dir}/get-health/response-body.adoc[]
 
 ****
 
+This built-in operation must be enabled.
+
+.endpoint.properties
+[source,properties,options="nowrap"]
+----
+include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
+----
+
 See
 https://docs.spring.io/spring-boot/reference/actuator/endpoints.html[Spring Boot Actuator Endpoints]
 for more information.
@@ -59,12 +61,6 @@ for more information.
 The _liveness probe_ indicates whether the application is running.
 
 ****
-
-.Settings
-[source,properties,options="nowrap"]
-----
-include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
-----
 
 .Command
 include::{restdoc-dir}/get-health-liveness/curl-request.adoc[]
@@ -77,6 +73,14 @@ include::{restdoc-dir}/get-health-liveness/response-body.adoc[]
 
 ****
 
+This built-in operation must be enabled.
+
+.endpoint.properties
+[source,properties,options="nowrap"]
+----
+include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
+----
+
 See
 https://docs.spring.io/spring-boot/reference/actuator/endpoints.html[Spring Boot Actuator Endpoints]
 for more information.
@@ -86,12 +90,6 @@ for more information.
 The _readiness probe_ indicates whether the application is ready to respond to requests.
 
 ****
-
-.Settings
-[source,properties,options="nowrap"]
-----
-include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
-----
 
 .Command
 include::{restdoc-dir}/get-health-readiness/curl-request.adoc[]
@@ -103,6 +101,14 @@ include::{restdoc-dir}/get-health-readiness/http-request.adoc[]
 include::{restdoc-dir}/get-health-readiness/response-body.adoc[]
 
 ****
+
+This built-in operation must be enabled.
+
+.endpoint.properties
+[source,properties,options="nowrap"]
+----
+include::{project-dir}/lib/backend-data/src/main/resources/endpoint.properties[tags=management]
+----
 
 See
 https://docs.spring.io/spring-boot/reference/actuator/endpoints.html[Spring Boot Actuator Endpoints]
