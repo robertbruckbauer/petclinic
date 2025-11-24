@@ -1,3 +1,6 @@
+:includedir: ../..
+:relrootdir: ../..
+:restdocdir: {includedir}/lib/backend-data/build
 = Name of the API
 
 Write a brief summary of the model and operations of this controller.
@@ -41,6 +44,12 @@ Describe with one example if a snippet exists.
 Describe with one example if a snippet exists.
 
 Briefly describe the response codes for each operation.
+Take in account the mapping from exceptions to status codes:
+
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendRestControllerAdvice.java[indent=0,tags=resolveStatus]
+----
 
 Let included snippets be a major part of the documentation.
 Use snippets for the `curl` command with title `Command`.

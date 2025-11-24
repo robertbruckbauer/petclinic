@@ -43,7 +43,7 @@ import java.util.NoSuchElementException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @RestController
-public class EsyBackendControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {
+public class EsyBackendRestControllerAdvice extends ResponseEntityExceptionHandler implements ErrorController {
 
     /**
      * @see org.springframework.data.rest.webmvc.RepositoryRestExceptionHandler
@@ -76,6 +76,7 @@ public class EsyBackendControllerAdvice extends ResponseEntityExceptionHandler i
         return handleErrorResponseException(error, error.getHeaders(), error.getStatusCode(), request);
     }
 
+    // tag::resolveStatus[]
     @SuppressWarnings("java:S3776") // allow complexity
     protected HttpStatus resolveStatus(final Exception cause) {
         if (cause instanceof AuthenticationException) {
@@ -143,6 +144,7 @@ public class EsyBackendControllerAdvice extends ResponseEntityExceptionHandler i
         }
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
+    // end::resolveStatus[]
 
     /**
      * @see org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController
