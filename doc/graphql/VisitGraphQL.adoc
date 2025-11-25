@@ -1,0 +1,110 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Visit GraphQL API
+
+GraphQL API for querying veterinary treatments during a visit in the pet clinic application.
+It provides query operations to retrieve all visits, filter visits by date, and find visits associated with specific pets or veterinarians.
+
+== Schema
+
+=== Visit
+
+The main GraphQL type representing a veterinary treatment.
+
+.Schema
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/Visit.gqls[]
+----
+
+The `Visit` type corresponds to the entity class defined in the backend API:
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
+----
+
+Each visit represents a veterinary treatment with a date, associated pet, attending veterinarian, and visit diagnosis text.
+Both the pet and vet relationships are optional.
+All fields in the visit can be nullable.
+
+The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
+
+== Queries
+
+=== `allVisit`
+
+This query returns all veterinary visits in the system.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allVisit: [Visit]
+----
+
+*Returns:*
+
+A list of all `Visit` objects.
+Returns an empty list if no visits exist.
+
+=== `allVisitAt`
+
+This query returns all visits scheduled for a specific date.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allVisitAt(date: LocalDate): [Visit]
+----
+
+*Arguments:*
+
+`date` (LocalDate)::
+The date to filter visits by (e.g., "2024-12-25").
+
+*Returns:*
+
+A list of `Visit` objects scheduled on the specified date, ordered by date ascending.
+Returns an empty list if no visits exist for the given date.
+
+=== `allVisitByPetId`
+
+This query returns all visits for a specific pet.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allVisitByPetId(id: ID): [Visit]
+----
+
+*Arguments:*
+
+`id` (ID)::
+The unique identifier of the pet (UUID format).
+
+*Returns:*
+
+A list of `Visit` objects associated with the specified pet, ordered by date ascending.
+Returns an empty list if no visits exist for the given pet.
+
+=== `allVisitByVetId`
+
+This query returns all visits attended by a specific veterinarian.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allVisitByVetId(id: ID): [Visit]
+----
+
+*Arguments:*
+
+`id` (ID)::
+The unique identifier of the veterinarian (UUID format).
+
+*Returns:*
+
+A list of `Visit` objects attended by the specified veterinarian, ordered by date ascending.
+Returns an empty list if no visits exist for the given veterinarian.

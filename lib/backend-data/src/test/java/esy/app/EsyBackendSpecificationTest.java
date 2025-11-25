@@ -43,6 +43,6 @@ public class EsyBackendSpecificationTest {
         assertGraphQLFor(Owner.class);
         //assertGraphQLFor(Pet.class);
         //assertGraphQLFor(Vet.class);
-        //assertGraphQLFor(Visit.class);
+        assertGraphQLFor(Visit.class);
     }
 }
