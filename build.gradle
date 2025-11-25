@@ -81,11 +81,12 @@ tasks.register('buildChangelog', BuildChangelogTask.class) {
 }
 
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
-tasks.register('pagesServerRest', AsciidoctorTask) {
+tasks.register('pagesServerApi', AsciidoctorTask) {
     group = 'documentation'
-    description = 'Builds rest api documentation'
-    sourceDir = file('doc/rest')
-    outputDir = file('pages/html/server/rest')
+    description = 'Builds api documentation'
+    sourceDir = file('doc')
+    sources { include '**/*.adoc' exclude 'template' }
+    outputDir = file('pages/html/server')
     baseDir = file('.') // == includedir
     attributes = [
         'includedir': '.',
@@ -123,7 +124,7 @@ tasks.register('pages', Task) {
     group = 'documentation'
     description = 'Builds all documentation'
     mustRunAfter 'build'
-    dependsOn 'pagesServerRest', 'pagesServerSpec'
+    dependsOn 'pagesServerApi', 'pagesServerSpec'
 }
 
 tasks.named("asciidoctor") {
