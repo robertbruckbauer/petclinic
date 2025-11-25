@@ -9,14 +9,15 @@ Take into account the names of types, fields, and query operations from the Grap
 == Schema
 
 There is a separate section for each GraphQL type defined in the schema.
-Use the include directive to reference the GraphQL schema files.
+The title is the type name only.
+Use the include directive to reference the GraphQL schema definition files.
 Let included schema definitions be a major part of the documentation.
 Do not repeat information from the schema in the text.
 
 Briefly describe the purpose of each type and its relationship to the domain model.
-Reference the corresponding Java entity classes where applicable.
+Reference the corresponding entity classes where applicable.
 
-If the schema includes relationships that use batch loading (via @BatchMapping),
+If the schema definition includes relationships that use batch loading (via @BatchMapping),
 document the optimization strategy to avoid N+1 query problems.
 Explain how related entities are efficiently loaded in a single database query.
 

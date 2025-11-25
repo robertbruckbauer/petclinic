@@ -12,7 +12,7 @@ It provides query operations to retrieve all owners, find owners by identifier o
 
 The main GraphQL type representing a pet owner who acts as a client in the pet clinic.
 
-.Schema
+.Schema Definition
 [source,graphql,options="nowrap"]
 ----
 include::{graphqldir}/owner.gqls[]
@@ -29,6 +29,8 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[in
 Each owner represents a pet clinic client who can own multiple pets.
 The owner requires a valid name and address.
 The contact field is optional.
+
+NOTE: The Java entity marks `address` as @NotBlank (required), but the GraphQL schema shows it as nullable (`address: String`). Verify whether the schema should use `address: String!` to match the entity constraint.
 
 The `allPet` field uses batch loading via `@BatchMapping` to efficiently load pets for multiple owners.
 This optimization avoids N+1 query problems by collecting all owner IDs from the current batch, executing a single query (`findAllByOwnerIdIn`) to fetch all related pets, and then grouping them by owner for the GraphQL response.
@@ -65,6 +67,8 @@ ownerById(id: ID): Owner
 `id` (ID)::
 The unique identifier of the owner (UUID format).
 
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. Verify whether the parameter should be mandatory in the schema: `ownerById(id: ID!): Owner`
+
 *Returns:*
 
 An `Owner` object if found, or null if no owner exists with the given identifier.
@@ -83,6 +87,8 @@ ownerByName(name: String): Owner
 
 `name` (String)::
 The unique name of the owner (exact match, case-sensitive).
+
+NOTE: The GraphQL schema shows `name` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. Verify whether the parameter should be mandatory in the schema: `ownerByName(name: String!): Owner`
 
 *Returns:*
 

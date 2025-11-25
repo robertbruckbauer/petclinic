@@ -12,7 +12,7 @@ It provides query operations to retrieve all visits, filter visits by date, and 
 
 The main GraphQL type representing a veterinary treatment.
 
-.Schema
+.Schema Definition
 [source,graphql,options="nowrap"]
 ----
 include::{graphqldir}/Visit.gqls[]
@@ -64,6 +64,8 @@ allVisitAt(date: LocalDate): [Visit]
 `date` (LocalDate)::
 The date to filter visits by (e.g., "2024-12-25").
 
+NOTE: The GraphQL schema shows `date` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. Verify whether the parameter should be mandatory in the schema: `allVisitAt(date: LocalDate!): [Visit]`
+
 *Returns:*
 
 A list of `Visit` objects scheduled on the specified date, ordered by date ascending.
@@ -84,6 +86,8 @@ allVisitByPetId(id: ID): [Visit]
 `id` (ID)::
 The unique identifier of the pet (UUID format).
 
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. Verify whether the parameter should be mandatory in the schema: `allVisitByPetId(id: ID!): [Visit]`
+
 *Returns:*
 
 A list of `Visit` objects associated with the specified pet, ordered by date ascending.
@@ -103,6 +107,8 @@ allVisitByVetId(id: ID): [Visit]
 
 `id` (ID)::
 The unique identifier of the veterinarian (UUID format).
+
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. Verify whether the parameter should be mandatory in the schema: `allVisitByVetId(id: ID!): [Visit]`
 
 *Returns:*
 
