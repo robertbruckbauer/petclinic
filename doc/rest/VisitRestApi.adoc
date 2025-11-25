@@ -25,6 +25,8 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[in
 
 No simplified representation of a _Visit_ exists.
 
+NOTE: The documentation states that both pet and vet relationships are optional, but verify if the @UniqueConstraint on date and pet_id allows null pet_id values. Consider documenting the actual constraint behavior and whether visits can exist without a pet.
+
 == Operations
 
 === `POST /api/visit`
@@ -210,7 +212,7 @@ include::{restdocdir}/get-api-visit-by-id/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
 
 === `DELETE /api/visit/{id}`
 
@@ -231,4 +233,4 @@ include::{restdocdir}/delete-api-visit/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
