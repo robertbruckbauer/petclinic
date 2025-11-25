@@ -58,8 +58,12 @@ jobs:
         run: |
           gradle spotlessCheck
           gradle build --parallel
-          gradle jacocoTestReport
-          gradle pages
+
+      - name: Build Reports
+        run: gradle jacocoTestReport
+
+      - name: Build Pages
+        run: gradle pages
 
       - name: Build Images
         run: gradle buildImage
