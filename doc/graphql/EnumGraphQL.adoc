@@ -34,6 +34,8 @@ Each enum represents an extensible enumeration item.
 Enums are organized by discriminator for logical grouping (e.g., "SPECIES", "SKILL").
 Within each discriminator group, codes and names must be unique.
 
+NOTE: The GraphQL schema defines `code` as String, but the Java entity uses Long. Verify that the GraphQL resolver properly handles the type conversion between String and Long for the code field.
+
 == Queries
 
 === `allEnum`
@@ -52,6 +54,8 @@ allEnum(art: String): [Enum]
 
 `art` (String)::
 The discriminator that identifies the enumeration type (e.g., "species", "skill").
+
+NOTE: The GraphQL schema shows `art` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. Verify whether the parameter should be mandatory in the schema: `allEnum(art: String!): [Enum]`
 
 *Returns:*
 
