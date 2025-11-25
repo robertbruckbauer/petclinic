@@ -7,7 +7,9 @@ REST-API for managing configurable enumerations in the pet clinic application.
 It provides operations to create, update, and retrieve enumeration values organized by discriminator.
 Each enumeration type is identified by a discriminator and contains ordered items with unique numeric codes, names, and display texts.
 
-TIP: This API uses a custom controller, not the standard endpoints provided by Spring Data REST. 
+TIP: This API uses a custom controller, not the standard endpoints provided by Spring Data REST.
+
+NOTE: Verify that the EnumRestController properly validates unique constraints for both code and name within each discriminator group. Check the @UniqueConstraint annotations in the Enum entity match the controller behavior. 
 
 == Model
 
@@ -125,4 +127,4 @@ include::{restdocdir}/delete-api-enum/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
-This operation reports `Not found` or code 404 if the enum does not exist.
+This operation reports `Not Found` or code 404 if the enum does not exist.

@@ -52,7 +52,7 @@ This operation reports `Created` or code 201 if the object was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the name already exists, data is incomplete or invalid.
+This operation reports `Conflict` or code 409 if the name already exists, data is incomplete, or is invalid.
 
 === `PUT /api/vet/{id}`
 
@@ -101,9 +101,11 @@ This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Not found` or code 404 if the entity does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+NOTE: Document the skill PATCH operation with a separate example if snippet exists for patch-api-vet-skill.
 
 === `GET /api/vet`
 
@@ -179,7 +181,7 @@ include::{restdocdir}/get-api-vet-by-id/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
 
 === `DELETE /api/vet/{id}`
 
@@ -200,4 +202,4 @@ include::{restdocdir}/delete-api-vet/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
