@@ -1,5 +1,10 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { PetService } from "../../services/pet.service";
+  import {
+    mapOwnerToOwnerItem,
+    OwnerService,
+  } from "../../services/owner.service";
+  import { EnumService } from "../../services/enum.service";
   import { storedOwner } from "../../stores/owner.js";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast/index.js";
@@ -9,24 +14,39 @@
   import PetEditor from "./PetEditor.svelte";
   import VisitTreatment from "../clinic/VisitTreatment.svelte";
 
+  const petService = new PetService();
+  const ownerService = new OwnerService();
+  const enumService = new EnumService();
+
   let allOwnerItem = $state([]);
   let allSpeciesEnum = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
-      allOwnerItem = await restApi.loadAllValue("/api/owner?sort=name,asc");
-      allOwnerItem = allOwnerItem.map((e) => ({
-        value: e.id,
-        text: e.name + ", " + e.address,
-      }));
-      console.log(["onMount", allOwnerItem]);
-      allSpeciesEnum = await restApi.loadAllValue("/api/enum/species");
-      allSpeciesEnum = allSpeciesEnum.map((e) => ({
-        value: e.value,
-        text: e.name,
-      }));
-      console.log(["onMount", allSpeciesEnum]);
+      ownerService.loadAllOwner("?sort=name,asc").subscribe({
+        next: (json) => {
+          allOwnerItem = json.map(mapOwnerToOwnerItem);
+          console.log(["onMount", allOwnerItem]);
+        },
+        error: (err) => {
+          console.log(["onMount", err]);
+          toast.push(err.detail || err.toString());
+        },
+      });
+      enumService.loadAllEnum("species").subscribe({
+        next: (json) => {
+          allSpeciesEnum = json.map((e) => ({
+            value: e.value,
+            text: e.name,
+          }));
+          console.log(["onMount", allSpeciesEnum]);
+        },
+        error: (err) => {
+          console.log(["onMount", err]);
+          toast.push(err.detail || err.toString());
+        },
+      });
     } catch (err) {
       console.log(["onMount", err]);
       toast.push(err.toString());
@@ -85,35 +105,35 @@
 
   function loadAllPet() {
     const query = "?owner.id=" + petOwnerId;
-    restApi
-      .loadAllValue("/api/pet" + query)
-      .then((json) => {
+    petService.loadAllPet(query).subscribe({
+      next: (json) => {
         const msg = import.meta.env.DEV ? json : json.length;
         console.log(["loadAllPet", query, msg]);
         allPet = json;
         // make that owner persistent
         $storedOwner.id = petOwnerId;
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["loadAllPet", query, err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 
   function removePet(_pet) {
     const text = _pet.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete pet '" + hint + "' permanently?")) return;
-    restApi
-      .removeValue("/api/pet/" + _pet.id)
-      .then((json) => {
+    petService.removePet(_pet.id).subscribe({
+      next: (json) => {
         console.log(["removePet", _pet, json]);
         onRemovePet(json);
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["removePet", _pet, err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 </script>
 

@@ -1,10 +1,16 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { VisitService } from "../../services/visit.service";
+  import { mapVetToVetItem, VetService } from "../../services/vet.service";
+  import { EnumService } from "../../services/enum.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast";
   import Circle from "../../components/Spinner";
   import Icon from "../../components/Icon";
   import VisitDiagnose from "./VisitDiagnose.svelte";
+
+  const visitService = new VisitService();
+  const vetService = new VetService();
+  const enumService = new EnumService();
 
   let allVetItem = $state([]);
   let allSpeciesEnum = $state([]);
@@ -12,18 +18,29 @@
   onMount(async () => {
     try {
       loading = true;
-      allVetItem = await restApi.loadAllValue("/api/vet?sort=name,asc");
-      allVetItem = allVetItem.map((e) => ({
-        value: e.id,
-        text: e.name,
-      }));
-      console.log(["onMount", allVetItem]);
-      allSpeciesEnum = await restApi.loadAllValue("/api/enum/species");
-      allSpeciesEnum = allSpeciesEnum.map((e) => ({
-        value: e.id,
-        text: e.name,
-      }));
-      console.log(["onMount", allSpeciesEnum]);
+      vetService.loadAllVet("?sort=name,asc").subscribe({
+        next: (json) => {
+          allVetItem = json.map(mapVetToVetItem);
+          console.log(["onMount", allVetItem]);
+        },
+        error: (err) => {
+          console.log(["onMount", err]);
+          toast.push(err.detail || err.toString());
+        },
+      });
+      enumService.loadAllEnum("species").subscribe({
+        next: (json) => {
+          allSpeciesEnum = json.map((e) => ({
+            value: e.id,
+            text: e.name,
+          }));
+          console.log(["onMount", allSpeciesEnum]);
+        },
+        error: (err) => {
+          console.log(["onMount", err]);
+          toast.push(err.detail || err.toString());
+        },
+      });
       loadAllVisit();
     } catch (err) {
       console.log(["onMount", err]);
@@ -87,31 +104,31 @@
   const dateComparator = (e1, e2) => e1.date.localeCompare(e2.date);
 
   function loadAllVisit() {
-    restApi
-      .loadAllValue("/api/visit?sort=date,desc")
-      .then((json) => {
+    visitService.loadAllVisit("?sort=date,desc").subscribe({
+      next: (json) => {
         console.log(["loadAllVisit", json]);
         allVisit = json.sort(dateComparator);
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["loadAllVisit", err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 
   function removeVisit(_visit) {
     const hint = _visit.date;
     if (!confirm("Delete visit at '" + hint + "' permanently?")) return;
-    restApi
-      .removeValue("/api/visit/" + _visit.id)
-      .then((json) => {
+    visitService.removeVisit(_visit.id).subscribe({
+      next: (json) => {
         console.log(["removeVisit", _visit, json]);
         loadAllVisit();
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["removeVisit", _visit, err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 </script>
 

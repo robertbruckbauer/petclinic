@@ -1,25 +1,28 @@
 <script>
-  import * as restApi from "../services/rest.js";
+  import { VersionService } from "../services/version.service";
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
 
-  let apiExplorer = restApi.apiExplorerUrl();
+  const versionService = new VersionService();
 
-  let apiGraphiql = restApi.apiGraphiqlUrl();
+  let apiExplorer = versionService.apiExplorerUrl();
+
+  let apiGraphiql = versionService.apiGraphiqlUrl();
 
   let versionHtml = $state("<span>loading ..</span>");
 
   onMount(async () => {
-    restApi
-      .version()
-      .then((res) => res.text())
-      .then((html) => {
-        versionHtml = html;
-      })
-      .catch((err) => {
+    versionService.version().subscribe({
+      next: (res) => {
+        res.text().then((html) => {
+          versionHtml = html;
+        });
+      },
+      error: (err) => {
         console.log(err);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   });
 </script>
 
