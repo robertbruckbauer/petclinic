@@ -1,5 +1,5 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { EnumService } from "../../services/enum.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast/index.js";
   import Button from "../../components/Button/index.js";
@@ -70,32 +70,34 @@
     oncancel?.();
   }
 
+  const enumService = new EnumService();
+
   function createItem() {
-    restApi
-      .createValue("/api/enum/" + art, newItem)
-      .then((json) => {
+    enumService.createEnum(art, newItem).subscribe({
+      next: (json) => {
         console.log(["createItem", newItem, json]);
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["createItem", newItem, err]);
         toast.push(err.toString());
-      });
+      },
+    });
   }
 
   function updateItem() {
-    restApi
-      .updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
-      .then((json) => {
+    enumService.updateEnum(art, newItem).subscribe({
+      next: (json) => {
         console.log(["updateItem", newItem, json]);
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["updateItem", newItem, err]);
         toast.push(err.toString());
-      });
+      },
+    });
   }
 </script>
 

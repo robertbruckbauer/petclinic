@@ -1,22 +1,27 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { VetService } from "../../services/vet.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast";
 
   export let id;
+
+  const vetService = new VetService();
 
   let vet = {
     name: undefined,
   };
 
   onMount(async () => {
-    try {
-      vet = await restApi.loadOneValue("/api/vet/" + id);
-      console.log(["onMount", vet]);
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
-    }
+    vetService.loadOneVet(id).subscribe({
+      next: (json) => {
+        vet = json;
+        console.log(["onMount", vet]);
+      },
+      error: (err) => {
+        console.log(["onMount", err]);
+        toast.push(err.detail || err.toString());
+      },
+    });
   });
 </script>
 

@@ -1,10 +1,12 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { VisitService } from "../../services/visit.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import Select from "../../components/Select";
   import TextArea from "../../components/TextArea";
+
+  const visitService = new VisitService();
 
   let {
     autofocus = true,
@@ -52,17 +54,17 @@
   }
 
   function updateVisit() {
-    restApi
-      .updatePatch("/api/visit/" + newVisit.id, newVisit)
-      .then((json) => {
+    visitService.updatePatch(newVisit.id, newVisit).subscribe({
+      next: (json) => {
         console.log(["updateVisit", newVisit, json]);
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["updateVisit", newVisit, err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 </script>
 

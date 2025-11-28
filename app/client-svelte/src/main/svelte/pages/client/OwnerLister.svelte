@@ -1,5 +1,8 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { OwnerService } from "../../services/owner.service";
+  import { EnumService } from "../../services/enum.service";
+  import { mapVetToVetItem } from "../../services/vet.service";
+  import { VisitService } from "../../services/visit.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast/index.js";
   import Circle from "../../components/Spinner/index.js";
@@ -9,24 +12,39 @@
   import PetEditor from "./PetEditor.svelte";
   import VisitCardLister from "../clinic/VisitCardLister.svelte";
 
+  const ownerService = new OwnerService();
+  const enumService = new EnumService();
+  const visitService = new VisitService();
+
   let allVetItem = $state([]);
   let allSpeciesEnum = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
-      allVetItem = await restApi.loadAllValue("/api/owner?sort=name,asc");
-      allVetItem = allVetItem.map((e) => ({
-        value: e.id,
-        text: e.name,
-      }));
-      console.log(["onMount", allVetItem]);
-      allSpeciesEnum = await restApi.loadAllValue("/api/enum/species");
-      allSpeciesEnum = allSpeciesEnum.map((e) => ({
-        value: e.value,
-        text: e.name,
-      }));
-      console.log(["onMount", allSpeciesEnum]);
+      ownerService.loadAllOwner("?sort=name,asc").subscribe({
+        next: (json) => {
+          allVetItem = json.map(mapVetToVetItem);
+          console.log(["onMount", allVetItem]);
+        },
+        error: (err) => {
+          console.log(["onMount", err]);
+          toast.push(err.detail || err.toString());
+        },
+      });
+      enumService.loadAllEnum("species").subscribe({
+        next: (json) => {
+          allSpeciesEnum = json.map((e) => ({
+            value: e.value,
+            text: e.name,
+          }));
+          console.log(["onMount", allSpeciesEnum]);
+        },
+        error: (err) => {
+          console.log(["onMount", err]);
+          toast.push(err.detail || err.toString());
+        },
+      });
       loadAllOwner();
     } catch (err) {
       console.log(["onMount", err]);
@@ -128,49 +146,49 @@
 
   function loadAllOwner() {
     const query = ownerSortParameter() + ownerFilterParameter();
-    restApi
-      .loadAllValue("/api/owner" + query)
-      .then((json) => {
+    ownerService.loadAllOwner(query).subscribe({
+      next: (json) => {
         const msg = import.meta.env.DEV ? json : json.length;
         console.log(["loadAllOwner", query, msg]);
         allOwner = json;
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["loadAllOwner", query, err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 
   let allOwnerVisit = $state([]);
   function loadAllVisit() {
     const query = "?sort=date,desc&pet.owner.id=" + ownerId;
-    restApi
-      .loadAllValue("/api/visit" + query)
-      .then((json) => {
+    visitService.loadAllVisit(query).subscribe({
+      next: (json) => {
         const msg = import.meta.env.DEV ? json : json.length;
         console.log(["loadAllVisit", query, msg]);
         allOwnerVisit = json;
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["loadAllVisit", query, err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 
   function removeOwner(_owner) {
     const text = _owner.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete owner '" + hint + "' permanently?")) return;
-    restApi
-      .removeValue("/api/owner/" + _owner.id)
-      .then((json) => {
+    ownerService.removeOwner(_owner.id).subscribe({
+      next: (json) => {
         console.log(["removeOwner", _owner, json]);
         onRemoveOwner(json);
-      })
-      .catch((err) => {
+      },
+      error: (err) => {
         console.log(["removeOwner", _owner, err]);
-        toast.push(err.toString());
-      });
+        toast.push(err.detail || err.toString());
+      },
+    });
   }
 </script>
 
