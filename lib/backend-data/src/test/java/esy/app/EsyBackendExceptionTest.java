@@ -1,5 +1,6 @@
 package esy.app;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,14 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URI;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,6 +31,9 @@ class EsyBackendExceptionTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper jsonMapper;
+
     static Stream<HttpMethod> error() {
         return Stream.of(
                 HttpMethod.GET,
@@ -44,16 +47,22 @@ class EsyBackendExceptionTest {
     @ParameterizedTest
     @MethodSource
     void error(final HttpMethod method) throws Exception {
-        mockMvc.perform(request(method, URI.create("/error")))
+        final var uri = URI.create("/error");
+        final var jsonString = mockMvc.perform(request(method, uri))
                 .andDo(print())
                 .andExpect(status()
                         .isOk())
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .doesNotExist());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.OK.value(), jsonObject.getStatus());
+        assertNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
@@ -62,7 +71,8 @@ class EsyBackendExceptionTest {
             "<.>"
     })
     void withBadJson(final String json) throws Exception {
-        mockMvc.perform(get("/badJson")
+        final var uri = URI.create("/badJson");
+        final var jsonString = mockMvc.perform(get(uri)
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -71,16 +81,22 @@ class EsyBackendExceptionTest {
                         .isBadRequest())
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
     @ValueSource(ints = {400, 401, 403, 404, 500, 501})
     void withClientError(final int code) throws Exception {
-        mockMvc.perform(get("/httpClientErrorException/" + code))
+        final var uri = URI.create("/httpClientErrorException/" + code);
+        final var jsonString = mockMvc.perform(get(uri))
                 .andDo(print())
                 .andExpect(status()
                         .is(code))
@@ -88,16 +104,22 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(code, jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
     @ValueSource(ints = {400, 401, 403, 404, 500, 501})
     void withServerError(final int code) throws Exception {
-        mockMvc.perform(get("/httpServerErrorException/" + code))
+        final var uri = URI.create("/httpServerErrorException/" + code);
+        final var jsonString = mockMvc.perform(get(uri))
                 .andDo(print())
                 .andExpect(status()
                         .is(code))
@@ -105,20 +127,26 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(code, jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
             "/badCredentialsException"
     })
-    void statusUnauthorized(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusUnauthorized(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isUnauthorized())
@@ -126,20 +154,26 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
             "/accessDeniedException"
     })
-    void statusForbidden(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusForbidden(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isForbidden())
@@ -147,10 +181,15 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.FORBIDDEN.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
@@ -159,10 +198,11 @@ class EsyBackendExceptionTest {
             "/illegalStateException",
             "/numberFormatException"
     })
-    void statusBadRequest(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusBadRequest(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isBadRequest())
@@ -170,10 +210,15 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
@@ -186,10 +231,11 @@ class EsyBackendExceptionTest {
             "/noSuchFileException",
             "/fileNotFoundException"
     })
-    void statusNotFound(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusNotFound(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isNotFound())
@@ -197,10 +243,15 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.NOT_FOUND.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
@@ -211,10 +262,11 @@ class EsyBackendExceptionTest {
             "/optimisticLockException",
             "/pessimisticLockException"
     })
-    void statusConflict(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusConflict(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isConflict())
@@ -222,20 +274,26 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.CONFLICT.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
             "/etagDoesntMatchException"
     })
-    void statusPreconditionFailed(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusPreconditionFailed(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isPreconditionFailed())
@@ -243,10 +301,15 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.PRECONDITION_FAILED.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
@@ -255,10 +318,11 @@ class EsyBackendExceptionTest {
             "/unsupportedEncodingException",
             "/unsupportedOperationException"
     })
-    void statusNotImplemented(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusNotImplemented(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isNotImplemented())
@@ -266,20 +330,26 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.NOT_IMPLEMENTED.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
             "/nullPointerException"
     })
-    void statusInternalServerError(final String url) throws Exception {
-        mockMvc.perform(get(url)
+    void statusInternalServerError(final String path) throws Exception {
+        final var uri = URI.create(path);
+        final var jsonString = mockMvc.perform(get(uri)
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("GET " + url))
+                        .content("GET " + uri))
                 .andDo(print())
                 .andExpect(status()
                         .isInternalServerError())
@@ -287,9 +357,14 @@ class EsyBackendExceptionTest {
                         .exists(HttpHeaders.CACHE_CONTROL))
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status")
-                        .exists())
-                .andExpect(jsonPath("$.detail")
-                        .exists());
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        final var jsonObject = jsonMapper.readValue(jsonString, ProblemDetail.class);
+        assertNotNull(jsonObject);
+        assertEquals(uri, jsonObject.getInstance());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), jsonObject.getStatus());
+        assertNotNull(jsonObject.getDetail());
+        assertNull(jsonObject.getProperties());
     }
 }
