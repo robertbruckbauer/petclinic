@@ -1,21 +1,22 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { VetService } from "./vet.service";
-import { type Vet, type VetItem } from "../types/vet.type";
-import { type ErrorItem } from "../types/error.type";
+import { mapVetToVetItem, VetService } from "./vet.service";
+import type { ErrorItem } from "../types/error.type";
+import type { Vet, VetItem } from "../types/vet.type";
 
-const MOCKVET: Vet = {
-  id: "1",
-  version: 1,
-  name: "Dr. Smith",
-  allSkill: ["Surgery", "Dentistry"],
-};
-
-const MOCKVETS: Vet[] = [MOCKVET];
-
-const MOCKVETITEM: VetItem = {
-  value: "1",
-  text: "Dr. Smith",
-};
+const ALLVET = [
+  {
+    id: "1",
+    version: 1,
+    name: "Dr. Smith",
+    allSkill: ["Surgery", "Dentistry"],
+  },
+  {
+    id: "2",
+    version: 1,
+    name: "Dr. Doolittle",
+    allSkill: ["Surgery"],
+  },
+];
 
 describe("VetService", () => {
   let vetService: VetService;
@@ -28,7 +29,6 @@ describe("VetService", () => {
         host: "localhost:5050",
       },
     } as any;
-
     fetchMock = vi.fn();
     global.fetch = fetchMock;
     vetService = new VetService();
@@ -40,31 +40,32 @@ describe("VetService", () => {
 
   describe("loadAllVet", () => {
     it("should load vets successfully", () => {
+      const content: Vet[] = ALLVET;
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ content: MOCKVETS }),
+        json: async () => ({ content: content }),
       });
       vetService.loadAllVet().subscribe({
-        next: (vets) => {
-          expect(vets).toEqual(MOCKVETS);
+        next: (allVet) => {
+          expect(allVet).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const error: ErrorItem = {
         instance: "/api/vet",
         status: 404,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
-        json: async () => errorItem,
+        json: async () => error,
       });
       vetService.loadAllVet().subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -72,13 +73,14 @@ describe("VetService", () => {
 
   describe("loadOneVet", () => {
     it("should load one vet successfully", () => {
+      const content: Vet = ALLVET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVET,
+        json: async () => content,
       });
-      vetService.loadOneVet("1").subscribe({
+      vetService.loadOneVet(content.id!).subscribe({
         next: (vet) => {
-          expect(vet).toEqual(MOCKVET);
+          expect(vet).toEqual(content);
         },
       });
     });
@@ -86,13 +88,14 @@ describe("VetService", () => {
 
   describe("loadAllVetItem", () => {
     it("should load vet items successfully", () => {
+      const content: VetItem[] = ALLVET.map(mapVetToVetItem);
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ content: [MOCKVETITEM] }),
+        json: async () => ({ content: content }),
       });
       vetService.loadAllVetItem().subscribe({
-        next: (items) => {
-          expect(items).toEqual([MOCKVETITEM]);
+        next: (allItem) => {
+          expect(allItem).toEqual(content);
         },
       });
     });
@@ -100,13 +103,14 @@ describe("VetService", () => {
 
   describe("createVet", () => {
     it("should create vet successfully", () => {
+      const content: Vet = ALLVET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVET,
+        json: async () => content,
       });
-      vetService.createVet(MOCKVET).subscribe({
+      vetService.createVet(content).subscribe({
         next: (vet) => {
-          expect(vet).toEqual(MOCKVET);
+          expect(vet).toEqual(content);
         },
       });
     });
@@ -114,13 +118,14 @@ describe("VetService", () => {
 
   describe("updateVet", () => {
     it("should update vet successfully", () => {
+      const content: Vet = ALLVET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVET,
+        json: async () => content,
       });
-      vetService.updateVet(MOCKVET.id, MOCKVET).subscribe({
+      vetService.updateVet(content.id!, content).subscribe({
         next: (vet) => {
-          expect(vet).toEqual(MOCKVET);
+          expect(vet).toEqual(content);
         },
       });
     });
@@ -128,13 +133,14 @@ describe("VetService", () => {
 
   describe("removeVet", () => {
     it("should remove vet successfully", () => {
+      const content: Vet = ALLVET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVET,
+        json: async () => content,
       });
-      vetService.removeVet("1").subscribe({
+      vetService.removeVet(content.id!).subscribe({
         next: (vet) => {
-          expect(vet).toEqual(MOCKVET);
+          expect(vet).toEqual(content);
         },
       });
     });

@@ -1,17 +1,6 @@
-export interface OwnerItem {
-  value: string;
-  text: string;
-}
-
-export interface PetItem {
-  value: string;
-  text: string;
-}
-
-export interface VetItem {
-  value: string;
-  text: string;
-}
+import type { OwnerItem } from "./owner.type";
+import type { PetItem } from "./pet.type";
+import type { VetItem } from "./vet.type";
 
 export interface Visit {
   id?: string;

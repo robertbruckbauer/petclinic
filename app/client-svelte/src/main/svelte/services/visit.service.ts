@@ -1,6 +1,6 @@
 import { map, Observable, from, switchMap, throwError } from "rxjs";
-import { type Visit } from "../types/visit.type";
-import { type ErrorItem } from "../types/error.type";
+import type { ErrorItem } from "../types/error.type";
+import type { Visit } from "../types/visit.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
 
@@ -102,10 +102,7 @@ export class VisitService {
     );
   }
 
-  public updateVisitPatch(
-    id: string,
-    patch: Partial<Visit>
-  ): Observable<Visit> {
+  public patchVisit(id: string, patch: Partial<Visit>): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
     return from(
       fetch(path, {

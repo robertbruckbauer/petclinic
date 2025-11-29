@@ -1,23 +1,26 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PetService } from "./pet.service";
-import { type Pet, type PetItem } from "../types/pet.type";
-import { type ErrorItem } from "../types/error.type";
+import { mapPetToPetItem, PetService } from "./pet.service";
+import type { ErrorItem } from "../types/error.type";
+import type { Pet, PetItem } from "../types/pet.type";
 
-const MOCKPET: Pet = {
-  id: "1",
-  version: 1,
-  owner: "owner1",
-  name: "Fluffy",
-  born: "2020-01-01",
-  species: "Dog",
-};
-
-const MOCKPETS: Pet[] = [MOCKPET];
-
-const MOCKPETITEM: PetItem = {
-  value: "1",
-  text: "Fluffy",
-};
+const ALLPET = [
+  {
+    id: "1",
+    version: 1,
+    owner: "/api/owner/1",
+    name: "Tom",
+    born: "2020-01-01",
+    species: "Cat",
+  },
+  {
+    id: "2",
+    version: 1,
+    owner: "/api/owner/2",
+    name: "Odi",
+    born: "2020-12-31",
+    species: "Dog",
+  },
+];
 
 describe("PetService", () => {
   let petService: PetService;
@@ -30,7 +33,6 @@ describe("PetService", () => {
         host: "localhost:5050",
       },
     } as any;
-
     fetchMock = vi.fn();
     global.fetch = fetchMock;
     petService = new PetService();
@@ -42,31 +44,32 @@ describe("PetService", () => {
 
   describe("loadAllPet", () => {
     it("should load pets successfully", () => {
+      const content: Pet[] = ALLPET;
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ content: MOCKPETS }),
+        json: async () => ({ content: content }),
       });
       petService.loadAllPet().subscribe({
-        next: (pets) => {
-          expect(pets).toEqual(MOCKPETS);
+        next: (allPet) => {
+          expect(allPet).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const error: ErrorItem = {
         instance: "/api/pet",
         status: 404,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
-        json: async () => errorItem,
+        json: async () => error,
       });
       petService.loadAllPet().subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -74,13 +77,14 @@ describe("PetService", () => {
 
   describe("loadOnePet", () => {
     it("should load one pet successfully", () => {
+      const content: Pet = ALLPET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKPET,
+        json: async () => content,
       });
-      petService.loadOnePet("1").subscribe({
+      petService.loadOnePet(content.id!).subscribe({
         next: (pet) => {
-          expect(pet).toEqual(MOCKPET);
+          expect(pet).toEqual(content);
         },
       });
     });
@@ -88,13 +92,14 @@ describe("PetService", () => {
 
   describe("loadAllPetItem", () => {
     it("should load pet items successfully", () => {
+      const content: PetItem[] = ALLPET.map(mapPetToPetItem);
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ content: [MOCKPETITEM] }),
+        json: async () => ({ content: content }),
       });
-      petService.loadAllPetItem("owner1").subscribe({
-        next: (items) => {
-          expect(items).toEqual([MOCKPETITEM]);
+      petService.loadAllPetItem(ALLPET[0].owner).subscribe({
+        next: (allItem) => {
+          expect(allItem).toEqual(content);
         },
       });
     });
@@ -102,13 +107,14 @@ describe("PetService", () => {
 
   describe("createPet", () => {
     it("should create pet successfully", () => {
+      const content: Pet = ALLPET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKPET,
+        json: async () => content,
       });
-      petService.createPet(MOCKPET).subscribe({
+      petService.createPet(content).subscribe({
         next: (pet) => {
-          expect(pet).toEqual(MOCKPET);
+          expect(pet).toEqual(content);
         },
       });
     });
@@ -116,13 +122,14 @@ describe("PetService", () => {
 
   describe("updatePet", () => {
     it("should update pet successfully", () => {
+      const content: Pet = ALLPET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKPET,
+        json: async () => content,
       });
-      petService.updatePet(MOCKPET.id, MOCKPET).subscribe({
+      petService.updatePet(content.id!, content).subscribe({
         next: (pet) => {
-          expect(pet).toEqual(MOCKPET);
+          expect(pet).toEqual(content);
         },
       });
     });
@@ -130,13 +137,14 @@ describe("PetService", () => {
 
   describe("removePet", () => {
     it("should remove pet successfully", () => {
+      const content: Pet = ALLPET[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKPET,
+        json: async () => content,
       });
-      petService.removePet("1").subscribe({
+      petService.removePet(content.id!).subscribe({
         next: (pet) => {
-          expect(pet).toEqual(MOCKPET);
+          expect(pet).toEqual(content);
         },
       });
     });
