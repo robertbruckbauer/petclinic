@@ -1,10 +1,10 @@
-import { map, Observable, from, switchMap, throwError } from "rxjs";
-import type { ErrorItem } from "../types/error.type";
+import { map, Observable, from, switchMap } from "rxjs";
 import type { Visit } from "../types/visit.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
+import { BaseService } from "./base.service";
 
-export class VisitService {
+export class VisitService extends BaseService {
   public loadAllVisit(query: string = ""): Observable<Visit[]> {
     const path = [backendUrl(), "api", "visit" + query].join("/");
     return from(
@@ -16,39 +16,9 @@ export class VisitService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<{ content: Visit[] }>),
       tapLog("GET", path),
       map((body: { content: Visit[] }) => body.content)
-    );
-  }
-
-  public loadOneVisit(id: string): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
-      tapLog("GET", path)
     );
   }
 
@@ -65,15 +35,24 @@ export class VisitService {
         body: JSON.stringify(visit),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Visit>),
       tapLog("POST", path, visit)
+    );
+  }
+
+  public loadOneVisit(id: string): Observable<Visit> {
+    const path = [backendUrl(), "api", "visit", id].join("/");
+    return from(
+      fetch(path, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+    ).pipe(
+      switchMap(this.mapResponseToObservableJson<Visit>),
+      tapLog("GET", path)
     );
   }
 
@@ -90,14 +69,7 @@ export class VisitService {
         body: JSON.stringify(visit),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Visit>),
       tapLog("PUT", path, visit)
     );
   }
@@ -115,14 +87,7 @@ export class VisitService {
         body: JSON.stringify(patch),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Visit>),
       tapLog("PATCH", path, patch)
     );
   }
@@ -138,14 +103,7 @@ export class VisitService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Visit>),
       tapLog("DELETE", path)
     );
   }
