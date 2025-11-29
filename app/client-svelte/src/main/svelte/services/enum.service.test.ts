@@ -21,14 +21,12 @@ describe("EnumService", () => {
   let fetchMock: any;
 
   beforeEach(() => {
-    // Mock window object for tests
     global.window = {
       location: {
         protocol: "http:",
         host: "localhost:5050",
       },
     } as any;
-
     fetchMock = vi.fn();
     global.fetch = fetchMock;
     enumService = new EnumService();
@@ -40,21 +38,22 @@ describe("EnumService", () => {
 
   describe("loadAllEnum", () => {
     it("should load enum items successfully", async () => {
+      const content = ALLSPECIES;
       fetchMock.mockResolvedValue({
         ok: true,
         json: async () => ({
-          content: ALLSPECIES,
+          content: content,
         }),
       });
       enumService.loadAllEnum("species").subscribe({
         next: (allItem) => {
-          expect(allItem).toEqual(ALLSPECIES);
+          expect(allItem).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", async () => {
-      const errorItem: ErrorItem = {
+      const error: ErrorItem = {
         instance: "/api/enum/species",
         status: 404,
       };
@@ -62,12 +61,12 @@ describe("EnumService", () => {
         ok: false,
         status: 404,
         statusText: "Not Found",
-        json: async () => errorItem,
+        json: async () => error,
       });
       enumService.loadAllEnum("species").subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -75,20 +74,21 @@ describe("EnumService", () => {
 
   describe("createEnum", () => {
     it("should create enum item successfully", async () => {
-      const newItem = ALLSPECIES[0];
+      const content = ALLSPECIES[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => newItem,
+        json: async () => content,
       });
-      enumService.createEnum("species", newItem).subscribe({
+      enumService.createEnum("species", content).subscribe({
         next: (createdItem) => {
-          expect(createdItem).toEqual(newItem);
+          expect(createdItem).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", async () => {
-      const errorItem: ErrorItem = {
+      const content = ALLSPECIES[0];
+      const error: ErrorItem = {
         instance: "/api/enum/species",
         status: 404,
       };
@@ -96,12 +96,12 @@ describe("EnumService", () => {
         ok: false,
         status: 404,
         statusText: "Not Found",
-        json: async () => errorItem,
+        json: async () => error,
       });
-      enumService.createEnum("species", ALLSPECIES[0]).subscribe({
+      enumService.createEnum("species", content).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -109,20 +109,21 @@ describe("EnumService", () => {
 
   describe("updateEnum", () => {
     it("should update enum item successfully", async () => {
-      const newItem = ALLSPECIES[0];
+      const content = ALLSPECIES[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => newItem,
+        json: async () => content,
       });
-      enumService.updateEnum("species", newItem).subscribe({
+      enumService.updateEnum("species", content).subscribe({
         next: (createdItem) => {
-          expect(createdItem).toEqual(newItem);
+          expect(createdItem).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", async () => {
-      const errorItem: ErrorItem = {
+      const content = ALLSPECIES[0];
+      const error: ErrorItem = {
         instance: "/api/enum/species",
         status: 404,
       };
@@ -130,12 +131,12 @@ describe("EnumService", () => {
         ok: false,
         status: 404,
         statusText: "Not Found",
-        json: async () => errorItem,
+        json: async () => error,
       });
-      enumService.updateEnum("species", ALLSPECIES[0]).subscribe({
+      enumService.updateEnum("species", content).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -143,20 +144,21 @@ describe("EnumService", () => {
 
   describe("removeEnum", () => {
     it("should remove enum item successfully", async () => {
-      const newItem = ALLSPECIES[0];
+      const content = ALLSPECIES[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => newItem,
+        json: async () => content,
       });
-      enumService.removeEnum("species", newItem.code).subscribe({
+      enumService.removeEnum("species", content.code).subscribe({
         next: (createdItem) => {
-          expect(createdItem).toEqual(newItem);
+          expect(createdItem).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", async () => {
-      const errorItem: ErrorItem = {
+      const content = ALLSPECIES[0];
+      const error: ErrorItem = {
         instance: "/api/enum/species",
         status: 404,
       };
@@ -164,12 +166,12 @@ describe("EnumService", () => {
         ok: false,
         status: 404,
         statusText: "Not Found",
-        json: async () => errorItem,
+        json: async () => error,
       });
-      enumService.removeEnum("species", 1).subscribe({
+      enumService.removeEnum("species", content.code).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });

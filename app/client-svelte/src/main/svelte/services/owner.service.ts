@@ -1,6 +1,6 @@
 import { map, Observable, from, switchMap, throwError } from "rxjs";
-import { type Owner, type OwnerItem } from "../types/owner.type";
-import { type ErrorItem } from "../types/error.type";
+import type { ErrorItem } from "../types/error.type";
+import type { Owner, OwnerItem } from "../types/owner.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
 

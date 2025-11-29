@@ -3,17 +3,24 @@ import { VisitService } from "./visit.service";
 import { type Visit } from "../types/visit.type";
 import { type ErrorItem } from "../types/error.type";
 
-const MOCKVISIT: Visit = {
-  id: "1",
-  version: 1,
-  date: "2024-01-01",
-  text: "Regular checkup",
-  owner: "owner1",
-  pet: "pet1",
-  vet: "vet1",
-};
-
-const MOCKVISITS: Visit[] = [MOCKVISIT];
+const ALLVISIT = [
+  {
+    id: "1",
+    version: 1,
+    date: "2024-01-01",
+    text: "Regular checkup",
+    pet: "/api/pet/1",
+    vet: "/api/vet/1",
+  },
+  {
+    id: "2",
+    version: 1,
+    date: "2024-01-02",
+    text: "Regular checkup",
+    pet: "/api/pet/2",
+    vet: "/api/vet/2",
+  },
+];
 
 describe("VisitService", () => {
   let visitService: VisitService;
@@ -26,7 +33,6 @@ describe("VisitService", () => {
         host: "localhost:5050",
       },
     } as any;
-
     fetchMock = vi.fn();
     global.fetch = fetchMock;
     visitService = new VisitService();
@@ -38,31 +44,32 @@ describe("VisitService", () => {
 
   describe("loadAllVisit", () => {
     it("should load visits successfully", () => {
+      const content: Visit[] = ALLVISIT;
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ content: MOCKVISITS }),
+        json: async () => ({ content: content }),
       });
       visitService.loadAllVisit().subscribe({
-        next: (visits) => {
-          expect(visits).toEqual(MOCKVISITS);
+        next: (allVisit) => {
+          expect(allVisit).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const error: ErrorItem = {
         instance: "/api/visit",
         status: 404,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
-        json: async () => errorItem,
+        json: async () => error,
       });
       visitService.loadAllVisit().subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -70,13 +77,14 @@ describe("VisitService", () => {
 
   describe("loadOneVisit", () => {
     it("should load one visit successfully", () => {
+      const content: Visit = ALLVISIT[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVISIT,
+        json: async () => content,
       });
-      visitService.loadOneVisit("1").subscribe({
+      visitService.loadOneVisit(content.id!).subscribe({
         next: (visit) => {
-          expect(visit).toEqual(MOCKVISIT);
+          expect(visit).toEqual(content);
         },
       });
     });
@@ -84,13 +92,14 @@ describe("VisitService", () => {
 
   describe("createVisit", () => {
     it("should create visit successfully", () => {
+      const content: Visit = ALLVISIT[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVISIT,
+        json: async () => content,
       });
-      visitService.createVisit(MOCKVISIT).subscribe({
+      visitService.createVisit(content).subscribe({
         next: (visit) => {
-          expect(visit).toEqual(MOCKVISIT);
+          expect(visit).toEqual(content);
         },
       });
     });
@@ -98,26 +107,28 @@ describe("VisitService", () => {
 
   describe("updateVisit", () => {
     it("should update visit successfully", () => {
+      const content: Visit = ALLVISIT[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVISIT,
+        json: async () => content,
       });
-      visitService.updateVisit(MOCKVISIT.id, MOCKVISIT).subscribe({
+      visitService.updateVisit(content.id!, content).subscribe({
         next: (visit) => {
-          expect(visit).toEqual(MOCKVISIT);
+          expect(visit).toEqual(content);
         },
       });
     });
   });
 
-  describe("updateVisitPatch", () => {
+  describe("patchVisit", () => {
     it("should patch visit successfully", () => {
+      const content: Visit = ALLVISIT[0];
       const patch = { text: "Updated checkup" };
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ ...MOCKVISIT, ...patch }),
+        json: async () => ({ ...content, ...patch }),
       });
-      visitService.updateVisitPatch("1", patch).subscribe({
+      visitService.patchVisit(content.id!, patch).subscribe({
         next: (visit) => {
           expect(visit.text).toEqual("Updated checkup");
         },
@@ -127,13 +138,14 @@ describe("VisitService", () => {
 
   describe("removeVisit", () => {
     it("should remove visit successfully", () => {
+      const content: Visit = ALLVISIT[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKVISIT,
+        json: async () => content,
       });
-      visitService.removeVisit("1").subscribe({
+      visitService.removeVisit(content.id!).subscribe({
         next: (visit) => {
-          expect(visit).toEqual(MOCKVISIT);
+          expect(visit).toEqual(content);
         },
       });
     });

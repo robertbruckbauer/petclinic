@@ -1,23 +1,26 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { OwnerService } from "./owner.service";
-import { type Owner, type OwnerItem } from "../types/owner.type";
-import { type ErrorItem } from "../types/error.type";
+import { mapOwnerToOwnerItem, OwnerService } from "./owner.service";
+import type { ErrorItem } from "../types/error.type";
+import type { Owner, OwnerItem } from "../types/owner.type";
 
-const MOCKOWNER: Owner = {
-  id: "1",
-  version: 1,
-  name: "John Doe",
-  address: "123 Main St",
-  contact: "john@example.com",
-  allPetItem: [],
-};
-
-const MOCKOWNERS: Owner[] = [MOCKOWNER];
-
-const MOCKOWNERITEM: OwnerItem = {
-  value: "1",
-  text: "John Doe",
-};
+const ALLOWNER = [
+  {
+    id: "1",
+    version: 1,
+    name: "John Doe",
+    address: "123 Upper St",
+    contact: "john@example.com",
+    allPetItem: [],
+  },
+  {
+    id: "2",
+    version: 1,
+    name: "Jane Doe",
+    address: "456 Lower St",
+    contact: "jane@example.com",
+    allPetItem: [],
+  },
+];
 
 describe("OwnerService", () => {
   let ownerService: OwnerService;
@@ -30,7 +33,6 @@ describe("OwnerService", () => {
         host: "localhost:5050",
       },
     } as any;
-
     fetchMock = vi.fn();
     global.fetch = fetchMock;
     ownerService = new OwnerService();
@@ -42,31 +44,32 @@ describe("OwnerService", () => {
 
   describe("loadAllOwner", () => {
     it("should load owners successfully", () => {
+      const content: Owner[] = ALLOWNER;
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ content: MOCKOWNERS }),
+        json: async () => ({ content: content }),
       });
       ownerService.loadAllOwner().subscribe({
-        next: (owners) => {
-          expect(owners).toEqual(MOCKOWNERS);
+        next: (allOwner) => {
+          expect(allOwner).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const error: ErrorItem = {
         instance: "/api/owner",
         status: 404,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
-        json: async () => errorItem,
+        json: async () => error,
       });
       ownerService.loadAllOwner().subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -74,31 +77,32 @@ describe("OwnerService", () => {
 
   describe("loadOneOwner", () => {
     it("should load one owner successfully", () => {
+      const content: Owner = ALLOWNER[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKOWNER,
+        json: async () => content,
       });
-      ownerService.loadOneOwner("1").subscribe({
+      ownerService.loadOneOwner(content.id!).subscribe({
         next: (owner) => {
-          expect(owner).toEqual(MOCKOWNER);
+          expect(owner).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const error: ErrorItem = {
         instance: "/api/owner/1",
         status: 404,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
-        json: async () => errorItem,
+        json: async () => error,
       });
       ownerService.loadOneOwner("1").subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -106,13 +110,14 @@ describe("OwnerService", () => {
 
   describe("loadAllOwnerItem", () => {
     it("should load owner items successfully", () => {
+      const content: OwnerItem[] = ALLOWNER.map(mapOwnerToOwnerItem);
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => ({ content: [MOCKOWNERITEM] }),
+        json: async () => ({ content: [content] }),
       });
       ownerService.loadAllOwnerItem().subscribe({
-        next: (items) => {
-          expect(items).toEqual([MOCKOWNERITEM]);
+        next: (allItem) => {
+          expect(allItem).toEqual([content]);
         },
       });
     });
@@ -120,31 +125,33 @@ describe("OwnerService", () => {
 
   describe("createOwner", () => {
     it("should create owner successfully", () => {
+      const content: Owner = ALLOWNER[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKOWNER,
+        json: async () => content,
       });
-      ownerService.createOwner(MOCKOWNER).subscribe({
+      ownerService.createOwner(content).subscribe({
         next: (owner) => {
-          expect(owner).toEqual(MOCKOWNER);
+          expect(owner).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const content: Owner = ALLOWNER[0];
+      const error: ErrorItem = {
         instance: "/api/owner",
         status: 400,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 400,
-        json: async () => errorItem,
+        json: async () => error,
       });
-      ownerService.createOwner(MOCKOWNER).subscribe({
+      ownerService.createOwner(content).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -152,31 +159,33 @@ describe("OwnerService", () => {
 
   describe("updateOwner", () => {
     it("should update owner successfully", () => {
+      const content: Owner = ALLOWNER[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKOWNER,
+        json: async () => content,
       });
-      ownerService.updateOwner(MOCKOWNER.id, MOCKOWNER).subscribe({
+      ownerService.updateOwner(content.id!, content).subscribe({
         next: (owner) => {
-          expect(owner).toEqual(MOCKOWNER);
+          expect(owner).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const content: Owner = ALLOWNER[0];
+      const error: ErrorItem = {
         instance: "/api/owner/1",
         status: 404,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
-        json: async () => errorItem,
+        json: async () => error,
       });
-      ownerService.updateOwner(MOCKOWNER.id, MOCKOWNER).subscribe({
+      ownerService.updateOwner(content.id!, content).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -184,31 +193,33 @@ describe("OwnerService", () => {
 
   describe("removeOwner", () => {
     it("should remove owner successfully", () => {
+      const content: Owner = ALLOWNER[0];
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => MOCKOWNER,
+        json: async () => content,
       });
-      ownerService.removeOwner("1").subscribe({
+      ownerService.removeOwner(content.id!).subscribe({
         next: (owner) => {
-          expect(owner).toEqual(MOCKOWNER);
+          expect(owner).toEqual(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
-      const errorItem: ErrorItem = {
+      const content: Owner = ALLOWNER[0];
+      const error: ErrorItem = {
         instance: "/api/owner/1",
         status: 404,
       };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
-        json: async () => errorItem,
+        json: async () => error,
       });
-      ownerService.removeOwner("1").subscribe({
+      ownerService.removeOwner(content.id!).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err).toEqual(errorItem);
+          expect(err).toEqual(error);
         },
       });
     });

@@ -1,7 +1,4 @@
-export interface PetItem {
-  value: string;
-  text: string;
-}
+import type { PetItem } from "./pet.type";
 
 export interface Owner {
   id?: string;

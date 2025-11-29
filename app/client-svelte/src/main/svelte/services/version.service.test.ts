@@ -12,7 +12,6 @@ describe("VersionService", () => {
         host: "localhost:5050",
       },
     } as any;
-
     fetchMock = vi.fn();
     global.fetch = fetchMock;
     versionService = new VersionService();
