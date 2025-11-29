@@ -1,10 +1,10 @@
-import { map, Observable, from, switchMap, throwError } from "rxjs";
-import type { ErrorItem } from "../types/error.type";
+import { map, Observable, from, switchMap } from "rxjs";
 import type { Vet, VetItem } from "../types/vet.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
+import { BaseService } from "./base.service";
 
-export class VetService {
+export class VetService extends BaseService {
   public loadAllVet(query: string = ""): Observable<Vet[]> {
     const path = [backendUrl(), "api", "vet" + query].join("/");
     return from(
@@ -16,39 +16,9 @@ export class VetService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<{ content: Vet[] }>),
       tapLog("GET", path),
       map((body: { content: Vet[] }) => body.content)
-    );
-  }
-
-  public loadOneVet(id: string): Observable<Vet> {
-    const path = [backendUrl(), "api", "vet", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
-      tapLog("GET", path)
     );
   }
 
@@ -63,16 +33,25 @@ export class VetService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<{ content: VetItem[] }>),
       tapLog("GET", path),
       map((body: { content: VetItem[] }) => body.content)
+    );
+  }
+
+  public loadOneVet(id: string): Observable<Vet> {
+    const path = [backendUrl(), "api", "vet", id].join("/");
+    return from(
+      fetch(path, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+    ).pipe(
+      switchMap(this.mapResponseToObservableJson<Vet>),
+      tapLog("GET", path)
     );
   }
 
@@ -89,14 +68,7 @@ export class VetService {
         body: JSON.stringify(vet),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Vet>),
       tapLog("POST", path, vet)
     );
   }
@@ -114,14 +86,7 @@ export class VetService {
         body: JSON.stringify(vet),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Vet>),
       tapLog("PUT", path, vet)
     );
   }
@@ -137,14 +102,7 @@ export class VetService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Vet>),
       tapLog("DELETE", path)
     );
   }

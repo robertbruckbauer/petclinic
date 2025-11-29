@@ -1,10 +1,10 @@
-import { map, Observable, from, switchMap, throwError } from "rxjs";
-import type { ErrorItem } from "../types/error.type";
+import { map, Observable, from, switchMap } from "rxjs";
 import type { Pet, PetItem } from "../types/pet.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
+import { BaseService } from "./base.service";
 
-export class PetService {
+export class PetService extends BaseService {
   public loadAllPet(query: string = ""): Observable<Pet[]> {
     const path = [backendUrl(), "api", "pet" + query].join("/");
     return from(
@@ -16,39 +16,9 @@ export class PetService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<{ content: Pet[] }>),
       tapLog("GET", path),
       map((body: { content: Pet[] }) => body.content)
-    );
-  }
-
-  public loadOnePet(id: string): Observable<Pet> {
-    const path = [backendUrl(), "api", "pet", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
-      tapLog("GET", path)
     );
   }
 
@@ -63,16 +33,25 @@ export class PetService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<{ content: PetItem[] }>),
       tapLog("GET", path),
       map((body: { content: PetItem[] }) => body.content)
+    );
+  }
+
+  public loadOnePet(id: string): Observable<Pet> {
+    const path = [backendUrl(), "api", "pet", id].join("/");
+    return from(
+      fetch(path, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+    ).pipe(
+      switchMap(this.mapResponseToObservableJson<Pet>),
+      tapLog("GET", path)
     );
   }
 
@@ -89,14 +68,7 @@ export class PetService {
         body: JSON.stringify(pet),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Pet>),
       tapLog("POST", path, pet)
     );
   }
@@ -114,14 +86,7 @@ export class PetService {
         body: JSON.stringify(pet),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Pet>),
       tapLog("PUT", path, pet)
     );
   }
@@ -137,14 +102,7 @@ export class PetService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Pet>),
       tapLog("DELETE", path)
     );
   }

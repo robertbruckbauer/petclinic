@@ -1,10 +1,10 @@
-import { map, Observable, from, switchMap, throwError } from "rxjs";
-import type { ErrorItem } from "../types/error.type";
+import { map, Observable, from, switchMap } from "rxjs";
 import type { Owner, OwnerItem } from "../types/owner.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
+import { BaseService } from "./base.service";
 
-export class OwnerService {
+export class OwnerService extends BaseService {
   public loadAllOwner(query: string = ""): Observable<Owner[]> {
     const path = [backendUrl(), "api", "owner" + query].join("/");
     return from(
@@ -16,39 +16,9 @@ export class OwnerService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<{ content: Owner[] }>),
       tapLog("GET", path),
       map((body: { content: Owner[] }) => body.content)
-    );
-  }
-
-  public loadOneOwner(id: string): Observable<Owner> {
-    const path = [backendUrl(), "api", "owner", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
-      tapLog("GET", path)
     );
   }
 
@@ -63,16 +33,25 @@ export class OwnerService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<{ content: OwnerItem[] }>),
       tapLog("GET", path),
       map((body: { content: OwnerItem[] }) => body.content)
+    );
+  }
+
+  public loadOneOwner(id: string): Observable<Owner> {
+    const path = [backendUrl(), "api", "owner", id].join("/");
+    return from(
+      fetch(path, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+    ).pipe(
+      switchMap(this.mapResponseToObservableJson<Owner>),
+      tapLog("GET", path)
     );
   }
 
@@ -89,14 +68,7 @@ export class OwnerService {
         body: JSON.stringify(owner),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Owner>),
       tapLog("POST", path, owner)
     );
   }
@@ -114,14 +86,7 @@ export class OwnerService {
         body: JSON.stringify(owner),
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Owner>),
       tapLog("PUT", path, owner)
     );
   }
@@ -137,14 +102,7 @@ export class OwnerService {
         },
       })
     ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(res.json());
-        }
-        return from(res.json()).pipe(
-          switchMap((error: ErrorItem) => throwError(() => error))
-        );
-      }),
+      switchMap(this.mapResponseToObservableJson<Owner>),
       tapLog("DELETE", path)
     );
   }
