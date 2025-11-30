@@ -73,7 +73,7 @@
         oncreate?.(json);
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -85,7 +85,7 @@
         onupdate?.(json);
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }

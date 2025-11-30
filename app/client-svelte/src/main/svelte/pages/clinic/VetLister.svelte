@@ -25,7 +25,7 @@
           loadAllVet();
         },
         error: (err) => {
-          toast.push(err.detail || err.toString());
+          toast.push(err);
         },
       });
     } finally {
@@ -96,7 +96,7 @@
         allVet = json;
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -107,7 +107,7 @@
         onUpdateVet(json);
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -121,7 +121,7 @@
         onRemoveVet(json);
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }

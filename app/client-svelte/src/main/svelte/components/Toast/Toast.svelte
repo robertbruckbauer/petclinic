@@ -2,18 +2,10 @@
   import { fade, fly } from "svelte/transition";
   import { toast } from "./stores.js";
   import ToastItem from "./ToastItem.svelte";
-
-  let { options = {}, target = "default" } = $props();
-
-  $effect(() => {
-    toast._init(target, options);
-  });
-
-  const allItem = $derived($toast.filter((i: any) => i.target === target));
 </script>
 
 <ul class="_toastContainer">
-  {#each allItem as item (item.id)}
+  {#each $toast as item (item.id)}
     <li in:fly={{ x: 256 }} out:fade>
       <ToastItem {item} />
     </li>
