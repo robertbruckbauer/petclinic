@@ -120,7 +120,7 @@ describe("VisitService", () => {
     });
   });
 
-  describe("patchVisit", () => {
+  describe("mutateVisit", () => {
     it("should patch visit successfully", () => {
       const content: Visit = ALLVISIT[0];
       const patch = { text: "Updated checkup" };
@@ -128,7 +128,7 @@ describe("VisitService", () => {
         ok: true,
         json: async () => ({ ...content, ...patch }),
       });
-      visitService.patchVisit(content.id!, patch).subscribe({
+      visitService.mutateVisit(content.id!, patch).subscribe({
         next: (visit) => {
           expect(visit.text).toEqual("Updated checkup");
         },

@@ -54,7 +54,7 @@
   }
 
   function updateVisit() {
-    visitService.updatePatch(newVisit.id, newVisit).subscribe({
+    visitService.mutateVisit(newVisit.id, newVisit).subscribe({
       next: (json) => {
         visible = false;
         onupdate?.(json);

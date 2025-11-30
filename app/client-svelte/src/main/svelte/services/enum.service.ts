@@ -1,41 +1,27 @@
-import { Observable, map, switchMap } from "rxjs";
+import { Observable } from "rxjs";
 import type { EnumItem } from "../types/enum.type";
-import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
 import { BaseService } from "./base.service";
 
 export class EnumService extends BaseService {
   public loadAllEnum(art: string): Observable<EnumItem[]> {
     const path = [backendUrl(), "api", "enum", art].join("/");
-    return this.restApiGet(path).pipe(
-      switchMap(this.mapResponseToObservable<{ content: EnumItem[] }>),
-      map((body: { content: EnumItem[] }) => body.content),
-      tapLog("GET", path)
-    );
+    return this.restApiGetAll(path);
   }
 
   public createEnum(art: string, item: EnumItem): Observable<EnumItem> {
     const path = [backendUrl(), "api", "enum", art].join("/");
-    return this.restApiPost(path, item).pipe(
-      switchMap(this.mapResponseToObservable<EnumItem>),
-      tapLog("POST", path, item)
-    );
+    return this.restApiPost(path, item);
   }
 
   public updateEnum(art: string, item: EnumItem): Observable<EnumItem> {
     const path = [backendUrl(), "api", "enum", art, item.code].join("/");
-    return this.restApiPut(path, item).pipe(
-      switchMap(this.mapResponseToObservable<EnumItem>),
-      tapLog("PUT", path, item)
-    );
+    return this.restApiPut(path, item);
   }
 
   public removeEnum(art: string, code: string | number): Observable<EnumItem> {
     const path = [backendUrl(), "api", "enum", art, code].join("/");
-    return this.restApiDelete(path).pipe(
-      switchMap(this.mapResponseToObservable<EnumItem>),
-      tapLog("DELETE", path)
-    );
+    return this.restApiDelete(path);
   }
 }
 

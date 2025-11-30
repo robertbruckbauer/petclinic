@@ -1,16 +1,12 @@
-import { Observable, switchMap } from "rxjs";
+import { Observable } from "rxjs";
 import type { Version } from "../types/version.type";
-import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
 import { BaseService } from "./base.service";
 
 export class VersionService extends BaseService {
   public version(): Observable<Version> {
     const path = [backendUrl(), "version"].join("/");
-    return this.restApiGet(path).pipe(
-      switchMap(this.mapResponseToObservable<Version>),
-      tapLog("GET", path)
-    );
+    return this.restApiGet(path);
   }
 
   public apiExplorerUrl(): string {
