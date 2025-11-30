@@ -64,12 +64,10 @@
   function createVet() {
     vetService.createVet(newVet).subscribe({
       next: (json) => {
-        console.log(["createVet", newVet, json]);
         visible = false;
         oncreate?.(json);
       },
       error: (err) => {
-        console.log(["createVet", newVet, err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -78,12 +76,10 @@
   function updateVet() {
     vetService.updateVet(newVet.id, newVet).subscribe({
       next: (json) => {
-        console.log(["updateVet", newVet, json]);
         visible = false;
         onupdate?.(json);
       },
       error: (err) => {
-        console.log(["updateVet", newVet, err]);
         toast.push(err.detail || err.toString());
       },
     });

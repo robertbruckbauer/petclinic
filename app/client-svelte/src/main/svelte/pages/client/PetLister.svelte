@@ -27,10 +27,8 @@
       ownerService.loadAllOwner("?sort=name,asc").subscribe({
         next: (json) => {
           allOwnerItem = json.map(mapOwnerToOwnerItem);
-          console.log(["onMount", allOwnerItem]);
         },
         error: (err) => {
-          console.log(["onMount", err]);
           toast.push(err.detail || err.toString());
         },
       });
@@ -40,16 +38,11 @@
             value: e.value,
             text: e.name,
           }));
-          console.log(["onMount", allSpeciesEnum]);
         },
         error: (err) => {
-          console.log(["onMount", err]);
           toast.push(err.detail || err.toString());
         },
       });
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
     } finally {
       loading = false;
     }

@@ -14,11 +14,9 @@
   onMount(async () => {
     versionService.version().subscribe({
       next: (json) => {
-        console.log(["version", json]);
         version = json.version;
       },
       error: (err) => {
-        console.log(["version", err]);
         toast.push(err.detail || err.toString());
       },
     });

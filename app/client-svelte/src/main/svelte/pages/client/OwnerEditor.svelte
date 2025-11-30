@@ -65,12 +65,10 @@
   function createOwner() {
     ownerService.createOwner(newOwner).subscribe({
       next: (json) => {
-        console.log(["createOwner", newOwner, json]);
         visible = false;
         oncreate?.(json);
       },
       error: (err) => {
-        console.log(["createOwner", newOwner, err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -79,12 +77,10 @@
   function updateOwner() {
     ownerService.updateOwner(newOwner.id, newOwner).subscribe({
       next: (json) => {
-        console.log(["updateOwner", newOwner, json]);
         visible = false;
         onupdate?.(json);
       },
       error: (err) => {
-        console.log(["updateOwner", newOwner, err]);
         toast.push(err.detail || err.toString());
       },
     });

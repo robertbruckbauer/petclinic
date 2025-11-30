@@ -25,10 +25,8 @@
       ownerService.loadAllOwner("?sort=name,asc").subscribe({
         next: (json) => {
           allVetItem = json.map(mapVetToVetItem);
-          console.log(["onMount", allVetItem]);
         },
         error: (err) => {
-          console.log(["onMount", err]);
           toast.push(err.detail || err.toString());
         },
       });
@@ -38,17 +36,12 @@
             value: e.value,
             text: e.name,
           }));
-          console.log(["onMount", allSpeciesEnum]);
         },
         error: (err) => {
-          console.log(["onMount", err]);
           toast.push(err.detail || err.toString());
         },
       });
       loadAllOwner();
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
     } finally {
       loading = false;
     }
@@ -148,12 +141,9 @@
     const query = ownerSortParameter() + ownerFilterParameter();
     ownerService.loadAllOwner(query).subscribe({
       next: (json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllOwner", query, msg]);
         allOwner = json;
       },
       error: (err) => {
-        console.log(["loadAllOwner", query, err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -164,12 +154,9 @@
     const query = "?sort=date,desc&pet.owner.id=" + ownerId;
     visitService.loadAllVisit(query).subscribe({
       next: (json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllVisit", query, msg]);
         allOwnerVisit = json;
       },
       error: (err) => {
-        console.log(["loadAllVisit", query, err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -181,11 +168,9 @@
     if (!confirm("Delete owner '" + hint + "' permanently?")) return;
     ownerService.removeOwner(_owner.id).subscribe({
       next: (json) => {
-        console.log(["removeOwner", _owner, json]);
         onRemoveOwner(json);
       },
       error: (err) => {
-        console.log(["removeOwner", _owner, err]);
         toast.push(err.detail || err.toString());
       },
     });

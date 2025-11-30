@@ -25,13 +25,9 @@
           loadAllVet();
         },
         error: (err) => {
-          console.log(["onMount", err]);
           toast.push(err.detail || err.toString());
         },
       });
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
     } finally {
       loading = false;
     }
@@ -97,12 +93,9 @@
     const query = vetSortParameter() + vetFilterParameter();
     vetService.loadAllVet(query).subscribe({
       next: (json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllVet", query, msg]);
         allVet = json;
       },
       error: (err) => {
-        console.log(["loadAllVet", query, err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -111,11 +104,9 @@
   function updateVet(_vet) {
     vetService.updateVet(_vet.id, _vet).subscribe({
       next: (json) => {
-        console.log(["updateVet", _vet, json]);
         onUpdateVet(json);
       },
       error: (err) => {
-        console.log(["updateVet", _vet, err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -127,11 +118,9 @@
     if (!confirm("Delete vet '" + hint + "' permanently?")) return;
     vetService.removeVet(_vet.id).subscribe({
       next: (json) => {
-        console.log(["removeVet", _vet, json]);
         onRemoveVet(json);
       },
       error: (err) => {
-        console.log(["removeVet", _vet, err]);
         toast.push(err.detail || err.toString());
       },
     });
