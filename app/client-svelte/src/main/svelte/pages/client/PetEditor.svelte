@@ -69,12 +69,10 @@
   function createPet() {
     petService.createPet(newPet).subscribe({
       next: (json) => {
-        console.log(["createPet", newPet, json]);
         visible = false;
         oncreate?.(json);
       },
       error: (err) => {
-        console.log(["createPet", newPet, err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -83,12 +81,10 @@
   function updatePet() {
     petService.updatePet(newPet.id, newPet).subscribe({
       next: (json) => {
-        console.log(["updatePet", newPet, json]);
         visible = false;
         onupdate?.(json);
       },
       error: (err) => {
-        console.log(["updatePet", newPet, err]);
         toast.push(err.detail || err.toString());
       },
     });

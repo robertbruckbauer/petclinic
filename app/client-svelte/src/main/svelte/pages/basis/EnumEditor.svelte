@@ -75,13 +75,11 @@
   function createItem() {
     enumService.createEnum(art, newItem).subscribe({
       next: (json) => {
-        console.log(["createItem", newItem, json]);
         visible = false;
         oncreate?.(json);
       },
       error: (err) => {
-        console.log(["createItem", newItem, err]);
-        toast.push(err.toString());
+        toast.push(err.detail || err.toString());
       },
     });
   }
@@ -89,13 +87,11 @@
   function updateItem() {
     enumService.updateEnum(art, newItem).subscribe({
       next: (json) => {
-        console.log(["updateItem", newItem, json]);
         visible = false;
         onupdate?.(json);
       },
       error: (err) => {
-        console.log(["updateItem", newItem, err]);
-        toast.push(err.toString());
+        toast.push(err.detail || err.toString());
       },
     });
   }

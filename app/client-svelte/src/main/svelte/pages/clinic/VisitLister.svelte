@@ -21,10 +21,8 @@
       vetService.loadAllVet("?sort=name,asc").subscribe({
         next: (json) => {
           allVetItem = json.map(mapVetToVetItem);
-          console.log(["onMount", allVetItem]);
         },
         error: (err) => {
-          console.log(["onMount", err]);
           toast.push(err.detail || err.toString());
         },
       });
@@ -34,17 +32,12 @@
             value: e.id,
             text: e.name,
           }));
-          console.log(["onMount", allSpeciesEnum]);
         },
         error: (err) => {
-          console.log(["onMount", err]);
           toast.push(err.detail || err.toString());
         },
       });
       loadAllVisit();
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
     } finally {
       loading = false;
     }
@@ -106,11 +99,9 @@
   function loadAllVisit() {
     visitService.loadAllVisit("?sort=date,desc").subscribe({
       next: (json) => {
-        console.log(["loadAllVisit", json]);
         allVisit = json.sort(dateComparator);
       },
       error: (err) => {
-        console.log(["loadAllVisit", err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -121,11 +112,9 @@
     if (!confirm("Delete visit at '" + hint + "' permanently?")) return;
     visitService.removeVisit(_visit.id).subscribe({
       next: (json) => {
-        console.log(["removeVisit", _visit, json]);
         loadAllVisit();
       },
       error: (err) => {
-        console.log(["removeVisit", _visit, err]);
         toast.push(err.detail || err.toString());
       },
     });

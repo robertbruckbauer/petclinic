@@ -15,10 +15,8 @@
     petService.loadOnePet(id).subscribe({
       next: (json) => {
         pet = json;
-        console.log(["onMount", pet]);
       },
       error: (err) => {
-        console.log(["onMount", err]);
         toast.push(err.detail || err.toString());
       },
     });

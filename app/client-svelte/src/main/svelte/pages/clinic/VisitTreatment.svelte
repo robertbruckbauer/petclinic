@@ -50,12 +50,10 @@
   function createVisit() {
     visitService.createVisit(newVisit).subscribe({
       next: (json) => {
-        console.log(["createVisit", newVisit, json]);
         visible = false;
         oncreate?.(json);
       },
       error: (err) => {
-        console.log(["createVisit", newVisit, err]);
         toast.push(err.detail || err.toString());
       },
     });

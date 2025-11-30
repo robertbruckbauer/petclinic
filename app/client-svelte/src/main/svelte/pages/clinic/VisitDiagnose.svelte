@@ -56,12 +56,10 @@
   function updateVisit() {
     visitService.updatePatch(newVisit.id, newVisit).subscribe({
       next: (json) => {
-        console.log(["updateVisit", newVisit, json]);
         visible = false;
         onupdate?.(json);
       },
       error: (err) => {
-        console.log(["updateVisit", newVisit, err]);
         toast.push(err.detail || err.toString());
       },
     });

@@ -15,10 +15,8 @@
     vetService.loadOneVet(id).subscribe({
       next: (json) => {
         vet = json;
-        console.log(["onMount", vet]);
       },
       error: (err) => {
-        console.log(["onMount", err]);
         toast.push(err.detail || err.toString());
       },
     });

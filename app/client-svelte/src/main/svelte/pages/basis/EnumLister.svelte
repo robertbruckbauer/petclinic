@@ -76,8 +76,6 @@
   function loadAllItem() {
     enumService.loadAllEnum(art).subscribe({
       next: (json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllItem", art, msg]);
         newItemCode = Math.max(...json.map((e) => e.code)) + 1;
         allItem = json.filter((e) => {
           if (!itemFilter) return true;
@@ -90,8 +88,7 @@
         });
       },
       error: (err) => {
-        console.log(["loadAllItem", art, err]);
-        toast.push(err.toString());
+        toast.push(err.detail || err.toString());
       },
     });
   }
@@ -102,12 +99,10 @@
     if (!confirm("Delete enum '" + hint + "' permanently?")) return;
     enumService.removeEnum(art, _item.code).subscribe({
       next: (json) => {
-        console.log(["removeItem", _item, json]);
         onRemoveItem(json);
       },
       error: (err) => {
-        console.log(["removeItem", _item, err]);
-        toast.push(err.toString());
+        toast.push(err.detail || err.toString());
       },
     });
   }
