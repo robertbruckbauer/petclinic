@@ -9,17 +9,16 @@
 
   let apiGraphiql = versionService.apiGraphiqlUrl();
 
-  let versionHtml = $state("<span>loading ..</span>");
+  let version = $state("-");
 
   onMount(async () => {
     versionService.version().subscribe({
-      next: (res) => {
-        res.text().then((html) => {
-          versionHtml = html;
-        });
+      next: (json) => {
+        console.log(["version", json]);
+        version = json.version;
       },
       error: (err) => {
-        console.log(err);
+        console.log(["version", err]);
         toast.push(err.detail || err.toString());
       },
     });
@@ -36,13 +35,7 @@
   </fieldset>
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">APP-Version</legend>
-    <div class="text-2xl">
-      {#if versionHtml}
-        {@html versionHtml}
-      {:else}
-        -
-      {/if}
-    </div>
+    <div class="text-2xl">{version}</div>
   </fieldset>
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">API-Explorer</legend>

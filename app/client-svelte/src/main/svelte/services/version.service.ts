@@ -1,25 +1,14 @@
-import { Observable, from, switchMap, throwError } from "rxjs";
+import { Observable, switchMap } from "rxjs";
+import type { Version } from "../types/version.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
+import { BaseService } from "./base.service";
 
-export class VersionService {
-  public version(): Observable<Response> {
+export class VersionService extends BaseService {
+  public version(): Observable<Version> {
     const path = [backendUrl(), "version"].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "text/html",
-        },
-      })
-    ).pipe(
-      switchMap((res) => {
-        if (res.ok) {
-          return from(Promise.resolve(res));
-        }
-        return throwError(() => new Error(`${path} failed with ${res.status}`));
-      }),
+    return this.restApiGet(path).pipe(
+      switchMap(this.mapResponseToObservable<Version>),
       tapLog("GET", path)
     );
   }
