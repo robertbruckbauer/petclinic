@@ -1,4 +1,4 @@
-import { map, Observable, from, switchMap } from "rxjs";
+import { Observable, map, switchMap } from "rxjs";
 import type { Visit } from "../types/visit.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
@@ -7,103 +7,49 @@ import { BaseService } from "./base.service";
 export class VisitService extends BaseService {
   public loadAllVisit(query: string = ""): Observable<Visit[]> {
     const path = [backendUrl(), "api", "visit" + query].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<{ content: Visit[] }>),
-      tapLog("GET", path),
-      map((body: { content: Visit[] }) => body.content)
+    return this.restApiGet(path).pipe(
+      switchMap(this.mapResponseToObservable<{ content: Visit[] }>),
+      map((body: { content: Visit[] }) => body.content),
+      tapLog("GET", path)
     );
   }
 
   public createVisit(visit: Visit): Observable<Visit> {
     const path = [backendUrl(), "api", "visit"].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(visit),
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Visit>),
+    return this.restApiPost(path, visit).pipe(
+      switchMap(this.mapResponseToObservable<Visit>),
       tapLog("POST", path, visit)
     );
   }
 
   public loadOneVisit(id: string): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Visit>),
+    return this.restApiGet(path).pipe(
+      switchMap(this.mapResponseToObservable<Visit>),
       tapLog("GET", path)
     );
   }
 
   public updateVisit(id: string, visit: Visit): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(visit),
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Visit>),
+    return this.restApiPut(path, visit).pipe(
+      switchMap(this.mapResponseToObservable<Visit>),
       tapLog("PUT", path, visit)
     );
   }
 
   public patchVisit(id: string, patch: Partial<Visit>): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/merge-patch+json",
-        },
-        body: JSON.stringify(patch),
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Visit>),
+    return this.restApiPatch(path, patch).pipe(
+      switchMap(this.mapResponseToObservable<Visit>),
       tapLog("PATCH", path, patch)
     );
   }
 
   public removeVisit(id: string): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Visit>),
+    return this.restApiDelete(path).pipe(
+      switchMap(this.mapResponseToObservable<Visit>),
       tapLog("DELETE", path)
     );
   }

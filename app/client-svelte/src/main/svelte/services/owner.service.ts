@@ -7,102 +7,50 @@ import { BaseService } from "./base.service";
 export class OwnerService extends BaseService {
   public loadAllOwner(query: string = ""): Observable<Owner[]> {
     const path = [backendUrl(), "api", "owner" + query].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<{ content: Owner[] }>),
-      tapLog("GET", path),
-      map((body: { content: Owner[] }) => body.content)
+    return this.restApiGet(path).pipe(
+      switchMap(this.mapResponseToObservable<{ content: Owner[] }>),
+      map((body: { content: Owner[] }) => body.content),
+      tapLog("GET", path)
     );
   }
 
   public loadAllOwnerItem(): Observable<OwnerItem[]> {
     const path = [backendUrl(), "api", "owner", "item"].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<{ content: OwnerItem[] }>),
-      tapLog("GET", path),
-      map((body: { content: OwnerItem[] }) => body.content)
+    return this.restApiGet(path).pipe(
+      switchMap(this.mapResponseToObservable<{ content: OwnerItem[] }>),
+      map((body: { content: OwnerItem[] }) => body.content),
+      tapLog("GET", path)
     );
   }
 
   public loadOneOwner(id: string): Observable<Owner> {
     const path = [backendUrl(), "api", "owner", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Owner>),
+    return this.restApiGet(path).pipe(
+      switchMap(this.mapResponseToObservable<Owner>),
       tapLog("GET", path)
     );
   }
 
   public createOwner(owner: Owner): Observable<Owner> {
     const path = [backendUrl(), "api", "owner"].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(owner),
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Owner>),
+    return this.restApiPost(path, owner).pipe(
+      switchMap(this.mapResponseToObservable<Owner>),
       tapLog("POST", path, owner)
     );
   }
 
   public updateOwner(id: string, owner: Owner): Observable<Owner> {
     const path = [backendUrl(), "api", "owner", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(owner),
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Owner>),
+    return this.restApiPut(path, owner).pipe(
+      switchMap(this.mapResponseToObservable<Owner>),
       tapLog("PUT", path, owner)
     );
   }
 
   public removeOwner(id: string): Observable<Owner> {
     const path = [backendUrl(), "api", "owner", id].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap(this.mapResponseToObservableJson<Owner>),
+    return this.restApiDelete(path).pipe(
+      switchMap(this.mapResponseToObservable<Owner>),
       tapLog("DELETE", path)
     );
   }

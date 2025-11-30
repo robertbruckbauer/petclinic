@@ -1,111 +1,39 @@
-import { map, Observable, from, switchMap, throwError } from "rxjs";
-import { type EnumItem } from "../types/enum.type";
-import { type ErrorItem } from "../types/error.type";
+import { Observable, map, switchMap } from "rxjs";
+import type { EnumItem } from "../types/enum.type";
 import { tapLog } from "../utils/log";
 import { backendUrl } from "../router/router";
+import { BaseService } from "./base.service";
 
-export class EnumService {
+export class EnumService extends BaseService {
   public loadAllEnum(art: string): Observable<EnumItem[]> {
     const path = [backendUrl(), "api", "enum", art].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap((res) => {
-        const json$ = from(res.json());
-        if (res.ok) {
-          return json$;
-        } else {
-          return json$.pipe(
-            switchMap((err: ErrorItem) => throwError(() => err))
-          );
-        }
-      }),
-      tapLog("GET", path),
-      map((body: { content: EnumItem[] }) => body.content)
+    return this.restApiGet(path).pipe(
+      switchMap(this.mapResponseToObservable<{ content: EnumItem[] }>),
+      map((body: { content: EnumItem[] }) => body.content),
+      tapLog("GET", path)
     );
   }
 
   public createEnum(art: string, item: EnumItem): Observable<EnumItem> {
     const path = [backendUrl(), "api", "enum", art].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(item),
-      })
-    ).pipe(
-      switchMap((res) => {
-        const json$ = from(res.json());
-        if (res.ok) {
-          return json$;
-        } else {
-          return json$.pipe(
-            switchMap((err: ErrorItem) => throwError(() => err))
-          );
-        }
-      }),
+    return this.restApiPost(path, item).pipe(
+      switchMap(this.mapResponseToObservable<EnumItem>),
       tapLog("POST", path, item)
     );
   }
 
   public updateEnum(art: string, item: EnumItem): Observable<EnumItem> {
     const path = [backendUrl(), "api", "enum", art, item.code].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(item),
-      })
-    ).pipe(
-      switchMap((res) => {
-        const json$ = from(res.json());
-        if (res.ok) {
-          return json$;
-        } else {
-          return json$.pipe(
-            switchMap((err: ErrorItem) => throwError(() => err))
-          );
-        }
-      }),
+    return this.restApiPut(path, item).pipe(
+      switchMap(this.mapResponseToObservable<EnumItem>),
       tapLog("PUT", path, item)
     );
   }
 
   public removeEnum(art: string, code: string | number): Observable<EnumItem> {
     const path = [backendUrl(), "api", "enum", art, code].join("/");
-    return from(
-      fetch(path, {
-        mode: "cors",
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-    ).pipe(
-      switchMap((res) => {
-        const json$ = from(res.json());
-        if (res.ok) {
-          return json$;
-        } else {
-          return json$.pipe(
-            switchMap((err: ErrorItem) => throwError(() => err))
-          );
-        }
-      }),
+    return this.restApiDelete(path).pipe(
+      switchMap(this.mapResponseToObservable<EnumItem>),
       tapLog("DELETE", path)
     );
   }

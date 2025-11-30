@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { VersionService } from "./version.service";
+import type { Version } from "../types/version.type";
+import type { ErrorItem } from "../types/error.type";
+
+const VERSION = {
+  version: "1.2.0",
+};
 
 describe("VersionService", () => {
   let versionService: VersionService;
@@ -23,26 +29,32 @@ describe("VersionService", () => {
 
   describe("version", () => {
     it("should load version successfully", () => {
-      const mockResponse = new Response("1.0.0", { status: 200 });
-      fetchMock.mockResolvedValue(mockResponse);
-
+      const content: Version = VERSION;
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => content,
+      });
       versionService.version().subscribe({
         next: (response) => {
-          expect(response).toBe(mockResponse);
+          expect(response).toBe(content);
         },
       });
     });
 
     it("should handle errors gracefully", () => {
+      const error: ErrorItem = {
+        instance: "/version",
+        status: 404,
+      };
       fetchMock.mockResolvedValue({
         ok: false,
         status: 404,
+        json: async () => error,
       });
-
       versionService.version().subscribe({
         error: (err) => {
           expect(err).toBeDefined();
-          expect(err.message).toContain("404");
+          expect(err).toEqual(error);
         },
       });
     });
