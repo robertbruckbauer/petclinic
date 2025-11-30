@@ -1,0 +1,43 @@
+import { Observable } from "rxjs";
+import type { Owner, OwnerItem } from "../types/owner.type";
+import { backendUrl } from "../router/router";
+import { BaseService } from "./base.service";
+
+export class OwnerService extends BaseService {
+  public loadAllOwner(query: string = ""): Observable<Owner[]> {
+    const path = [backendUrl(), "api", "owner" + query].join("/");
+    return this.restApiGetAll(path);
+  }
+
+  public loadAllOwnerItem(): Observable<OwnerItem[]> {
+    const path = [backendUrl(), "api", "owner", "item"].join("/");
+    return this.restApiGetAll(path);
+  }
+
+  public loadOneOwner(id: string): Observable<Owner> {
+    const path = [backendUrl(), "api", "owner", id].join("/");
+    return this.restApiGet(path);
+  }
+
+  public createOwner(owner: Owner): Observable<Owner> {
+    const path = [backendUrl(), "api", "owner"].join("/");
+    return this.restApiPost(path, owner);
+  }
+
+  public updateOwner(id: string, owner: Owner): Observable<Owner> {
+    const path = [backendUrl(), "api", "owner", id].join("/");
+    return this.restApiPut(path, owner);
+  }
+
+  public removeOwner(id: string): Observable<Owner> {
+    const path = [backendUrl(), "api", "owner", id].join("/");
+    return this.restApiDelete(path);
+  }
+}
+
+export function mapOwnerToOwnerItem(value: Owner): OwnerItem {
+  return {
+    value: value.id!,
+    text: value.name + ", " + value.address,
+  };
+}

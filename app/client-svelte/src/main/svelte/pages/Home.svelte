@@ -1,25 +1,25 @@
 <script>
-  import * as restApi from "../services/rest.js";
+  import { VersionService } from "../services/version.service";
   import { onMount } from "svelte";
   import { toast } from "../components/Toast";
 
-  let apiExplorer = restApi.apiExplorerUrl();
+  const versionService = new VersionService();
 
-  let apiGraphiql = restApi.apiGraphiqlUrl();
+  let apiExplorer = versionService.apiExplorerUrl();
 
-  let versionHtml = $state("<span>loading ..</span>");
+  let apiGraphiql = versionService.apiGraphiqlUrl();
+
+  let version = $state("-");
 
   onMount(async () => {
-    restApi
-      .version()
-      .then((res) => res.text())
-      .then((html) => {
-        versionHtml = html;
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.push(err.toString());
-      });
+    versionService.version().subscribe({
+      next: (json) => {
+        version = json.version;
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   });
 </script>
 
@@ -33,13 +33,7 @@
   </fieldset>
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">APP-Version</legend>
-    <div class="text-2xl">
-      {#if versionHtml}
-        {@html versionHtml}
-      {:else}
-        -
-      {/if}
-    </div>
+    <div class="text-2xl">{version}</div>
   </fieldset>
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">API-Explorer</legend>

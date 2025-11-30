@@ -1,10 +1,12 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { VetService } from "../../services/vet.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import TextField from "../../components/TextField";
   import Toggle from "../../components/Toggle";
+
+  const vetService = new VetService();
 
   let {
     autofocus = true,
@@ -60,31 +62,27 @@
   }
 
   function createVet() {
-    restApi
-      .createValue("/api/vet", newVet)
-      .then((json) => {
-        console.log(["createVet", newVet, json]);
+    vetService.createVet(newVet).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createVet", newVet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function updateVet() {
-    restApi
-      .updatePatch("/api/vet" + "/" + newVet.id, newVet)
-      .then((json) => {
-        console.log(["updateVet", newVet, json]);
+    vetService.updateVet(newVet.id, newVet).subscribe({
+      next: (json) => {
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
-        console.log(["updateVet", newVet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

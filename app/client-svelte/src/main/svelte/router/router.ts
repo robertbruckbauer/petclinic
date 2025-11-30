@@ -197,5 +197,16 @@ export function navigate(path: string, replace: boolean = false): void {
   handleRouteChange();
 }
 
+/**
+ * Get the backend URL by replacing the frontend port (5050) with backend port (8080)
+ */
+export function backendUrl(): string {
+  return (
+    window.location.protocol +
+    "//" +
+    window.location.host.replace("5050", "8080")
+  );
+}
+
 // Export for testing
 export { findMatchingRoute, extractParams, pathToRegex, handleRouteChange };

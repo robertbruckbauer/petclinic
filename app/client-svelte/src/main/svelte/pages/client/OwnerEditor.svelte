@@ -1,9 +1,11 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { OwnerService } from "../../services/owner.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import TextField from "../../components/TextField";
+
+  const ownerService = new OwnerService();
 
   let {
     autofocus = true,
@@ -61,31 +63,27 @@
   }
 
   function createOwner() {
-    restApi
-      .createValue("/api/owner", newOwner)
-      .then((json) => {
-        console.log(["createOwner", newOwner, json]);
+    ownerService.createOwner(newOwner).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createOwner", newOwner, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function updateOwner() {
-    restApi
-      .updatePatch("/api/owner" + "/" + newOwner.id, newOwner)
-      .then((json) => {
-        console.log(["updateOwner", newOwner, json]);
+    ownerService.updateOwner(newOwner.id, newOwner).subscribe({
+      next: (json) => {
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
-        console.log(["updateOwner", newOwner, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 
