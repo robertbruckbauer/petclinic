@@ -23,7 +23,7 @@
           allVetItem = json.map(mapVetToVetItem);
         },
         error: (err) => {
-          toast.push(err.detail || err.toString());
+          toast.push(err);
         },
       });
       enumService.loadAllEnum("species").subscribe({
@@ -34,7 +34,7 @@
           }));
         },
         error: (err) => {
-          toast.push(err.detail || err.toString());
+          toast.push(err);
         },
       });
       loadAllVisit();
@@ -102,7 +102,7 @@
         allVisit = json.sort(dateComparator);
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -115,7 +115,7 @@
         loadAllVisit();
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }

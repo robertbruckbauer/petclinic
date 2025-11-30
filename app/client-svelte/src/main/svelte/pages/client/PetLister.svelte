@@ -29,7 +29,7 @@
           allOwnerItem = json.map(mapOwnerToOwnerItem);
         },
         error: (err) => {
-          toast.push(err.detail || err.toString());
+          toast.push(err);
         },
       });
       enumService.loadAllEnum("species").subscribe({
@@ -40,7 +40,7 @@
           }));
         },
         error: (err) => {
-          toast.push(err.detail || err.toString());
+          toast.push(err);
         },
       });
     } finally {
@@ -108,7 +108,7 @@
       },
       error: (err) => {
         console.log(["loadAllPet", query, err]);
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -124,7 +124,7 @@
       },
       error: (err) => {
         console.log(["removePet", _pet, err]);
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }

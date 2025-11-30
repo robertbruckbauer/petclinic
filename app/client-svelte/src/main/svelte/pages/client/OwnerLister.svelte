@@ -27,7 +27,7 @@
           allVetItem = json.map(mapVetToVetItem);
         },
         error: (err) => {
-          toast.push(err.detail || err.toString());
+          toast.push(err);
         },
       });
       enumService.loadAllEnum("species").subscribe({
@@ -38,7 +38,7 @@
           }));
         },
         error: (err) => {
-          toast.push(err.detail || err.toString());
+          toast.push(err);
         },
       });
       loadAllOwner();
@@ -144,7 +144,7 @@
         allOwner = json;
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -157,7 +157,7 @@
         allOwnerVisit = json;
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -171,7 +171,7 @@
         onRemoveOwner(json);
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }

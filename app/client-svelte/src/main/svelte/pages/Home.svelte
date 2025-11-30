@@ -17,7 +17,7 @@
         version = json.version;
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   });

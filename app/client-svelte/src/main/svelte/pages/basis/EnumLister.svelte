@@ -88,7 +88,7 @@
         });
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
@@ -102,7 +102,7 @@
         onRemoveItem(json);
       },
       error: (err) => {
-        toast.push(err.detail || err.toString());
+        toast.push(err);
       },
     });
   }
