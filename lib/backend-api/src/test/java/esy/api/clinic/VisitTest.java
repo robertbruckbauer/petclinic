@@ -3,6 +3,8 @@ package esy.api.clinic;
 import esy.api.client.Pet;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Month;
 import java.util.UUID;
@@ -83,6 +85,42 @@ class VisitTest {
         assertEquals(2021, value.getDate().getYear());
         assertEquals(Month.APRIL, value.getDate().getMonth());
         assertEquals(22, value.getDate().getDayOfMonth());
+        assertNull(value.getTime());
         assertFalse(value.getText().isBlank());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "00:00",
+            "23:59",
+            "24:00"
+    })
+    void jsonTime(final String time) {
+        final var value = Visit.parseJson("""
+                        {
+                            "date":"2021-04-22",
+                            "time":"%s",
+                            "text":"Lorem tempus."
+                        }
+                        """.formatted(time));
+        assertDoesNotThrow(value::verify);
+        assertNotNull(value.getTime());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "00",
+            "24:01",
+            "23:59:01"
+    })
+    void jsonTimeConstraint(final String time) {
+        assertThrows(IllegalArgumentException.class, () ->
+                Visit.parseJson("""
+                        {
+                            "date":"2021-04-22",
+                            "time":"%s",
+                            "text":"Lorem tempus."
+                        }
+                        """.formatted(time)));
     }
 }

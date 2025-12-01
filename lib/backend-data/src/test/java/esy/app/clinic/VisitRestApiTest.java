@@ -1,5 +1,6 @@
 package esy.app.clinic;
 
+import esy.api.clinic.Visit;
 import esy.app.EsyBackendConfiguration;
 import esy.app.client.OwnerRepository;
 import esy.app.client.PetRepository;
@@ -22,6 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -189,7 +192,7 @@ class VisitRestApiTest {
     @Test
     @Order(31)
     void patchApiVisitDate() throws Exception {
-        final var date = "2021-04-24";
+        final var date = Visit.DATE_FORMATTER.format(LocalDate.of(2021, 4, 24));
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/visit/" + uuid)
@@ -217,6 +220,35 @@ class VisitRestApiTest {
 
     @Test
     @Order(32)
+    void patchApiVisitTime() throws Exception {
+        final var time = Visit.TIME_FORMATTER.format(LocalTime.of(10, 42));
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
+        mockMvc.perform(patch("/api/visit/" + uuid)
+                        .content("""
+                                {
+                                    "time":"%s"
+                                }
+                                """.formatted(time))
+                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .string("ETag", "\"2\""))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.time")
+                        .value(time));
+    }
+
+    @Test
+    @Order(33)
     void patchApiVisitText() throws Exception {
         final var text = "At vero eos";
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
@@ -237,7 +269,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(header()
-                        .string("ETag", "\"2\""))
+                        .string("ETag", "\"3\""))
                 .andExpect(jsonPath("$.id")
                         .value(uuid.toString()))
                 .andExpect(jsonPath("$.text")
@@ -245,7 +277,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(33)
+    @Order(34)
     void patchApiVisitPet() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -253,56 +285,6 @@ class VisitRestApiTest {
                         .content("""
                                 {
                                     "pet":"/api/pet/c2222222-2222-beef-dead-beefdeadbeef"
-                                }
-                                """)
-                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isOk())
-                .andExpect(content()
-                        .contentType("application/json"))
-                .andExpect(header()
-                        .exists("Vary"))
-                .andExpect(header()
-                        .string("ETag", "\"3\""))
-                .andExpect(jsonPath("$.id")
-                        .value(uuid.toString()))
-                .andExpect(jsonPath("$.petItem.value")
-                        .value("c2222222-2222-beef-dead-beefdeadbeef"))
-                .andExpect(jsonPath("$.petItem.text")
-                        .value("Cat 'Tom'"))
-                .andExpect(jsonPath("$.vetItem.value")
-                        .value("d1111111-1111-beef-dead-beefdeadbeef"));
-    }
-
-    @Test
-    @Order(34)
-    void getApiVisitPet() throws Exception {
-        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
-        assertTrue(visitRepository.findById(uuid).isPresent());
-        mockMvc.perform(get("/api/visit/" + uuid + "/pet")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isOk())
-                .andExpect(content()
-                        .contentType("application/json"))
-                .andExpect(jsonPath("$.id")
-                        .value("c2222222-2222-beef-dead-beefdeadbeef"))
-                .andExpect(jsonPath("$.name")
-                        .value("Tom"));
-    }
-
-    @Test
-    @Order(35)
-    void patchApiVisitVet() throws Exception {
-        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
-        assertTrue(visitRepository.findById(uuid).isPresent());
-        mockMvc.perform(patch("/api/visit/" + uuid)
-                        .content("""
-                                {
-                                    "vet":"/api/vet/d2222222-2222-beef-dead-beefdeadbeef"
                                 }
                                 """)
                         .contentType(MediaType.parseMediaType("application/merge-patch+json"))
@@ -323,11 +305,61 @@ class VisitRestApiTest {
                 .andExpect(jsonPath("$.petItem.text")
                         .value("Cat 'Tom'"))
                 .andExpect(jsonPath("$.vetItem.value")
-                        .value("d2222222-2222-beef-dead-beefdeadbeef"));
+                        .value("d1111111-1111-beef-dead-beefdeadbeef"));
+    }
+
+    @Test
+    @Order(35)
+    void getApiVisitPet() throws Exception {
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/visit/" + uuid + "/pet")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(jsonPath("$.id")
+                        .value("c2222222-2222-beef-dead-beefdeadbeef"))
+                .andExpect(jsonPath("$.name")
+                        .value("Tom"));
     }
 
     @Test
     @Order(36)
+    void patchApiVisitVet() throws Exception {
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
+        mockMvc.perform(patch("/api/visit/" + uuid)
+                        .content("""
+                                {
+                                    "vet":"/api/vet/d2222222-2222-beef-dead-beefdeadbeef"
+                                }
+                                """)
+                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .string("ETag", "\"5\""))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.petItem.value")
+                        .value("c2222222-2222-beef-dead-beefdeadbeef"))
+                .andExpect(jsonPath("$.petItem.text")
+                        .value("Cat 'Tom'"))
+                .andExpect(jsonPath("$.vetItem.value")
+                        .value("d2222222-2222-beef-dead-beefdeadbeef"));
+    }
+
+    @Test
+    @Order(37)
     void getApiVisitVet() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -376,7 +408,7 @@ class VisitRestApiTest {
     @Order(41)
     void getApiVisitById() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
-        assertTrue(visitRepository.findById(uuid).isPresent());
+        final var value = visitRepository.findById(uuid).orElseThrow();
         mockMvc.perform(get("/api/visit/" + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -387,11 +419,15 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(header()
-                        .string("ETag", "\"4\""))
+                        .string("ETag", "\"5\""))
                 .andExpect(jsonPath("$.id")
-                        .value(uuid.toString()))
+                        .value(value.getId().toString()))
                 .andExpect(jsonPath("$.date")
-                        .value("2021-04-24"));
+                        .value(Visit.DATE_FORMATTER.format(value.getDate())))
+                .andExpect(jsonPath("$.time")
+                        .value(Visit.TIME_FORMATTER.format(value.getTime())))
+                .andExpect(jsonPath("$.text")
+                        .value(value.getText()));
     }
 
     @Test

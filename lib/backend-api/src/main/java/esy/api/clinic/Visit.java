@@ -1,6 +1,7 @@
 package esy.api.clinic;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.api.client.OwnerItem;
@@ -10,9 +11,13 @@ import esy.json.JsonJpaEntity;
 import esy.json.JsonMapper;
 import lombok.Getter;
 import lombok.NonNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -25,11 +30,25 @@ import java.util.UUID;
 })
 public final class Visit extends JsonJpaEntity<Visit> {
 
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
+    public static final String TIME_PATTERN = "HH:mm";
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
+
     // tag::properties[]
-    @Column(name = "date")
+    @Column(name = "date", columnDefinition = "DATE")
     @Getter
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_PATTERN)
+    @NotNull
     private LocalDate date;
+
+    @Column(name = "time", columnDefinition = "TIME")
+    @Getter
+    @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIME_PATTERN)
+    private LocalTime time;
 
     @Column(name = "text")
     @Getter
@@ -56,6 +75,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
     Visit() {
         super();
         this.date = LocalDate.of(2000, 1, 1);
+        this.time = null;
         this.text = "";
         this.pet = null;
         this.vet = null;
@@ -64,6 +84,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
     Visit(@NonNull final Long version, @NonNull final UUID id) {
         super(version, id);
         this.date = LocalDate.of(2000, 1, 1);
+        this.time = null;
         this.text = "";
         this.pet = null;
         this.vet = null;
@@ -82,8 +103,9 @@ public final class Visit extends JsonJpaEntity<Visit> {
         if (that == null) {
             return false;
         }
-        return this.date.equals(that.date) &&
-                this.text.equals(that.text) &&
+        return Objects.equals(this.date, that.date) &&
+                Objects.equals(this.time, that.time) &&
+                Objects.equals(this.text, that.text) &&
                 Objects.equals(this.pet, that.pet) &&
                 Objects.equals(this.vet, that.vet);
     }
@@ -100,6 +122,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         }
         final var value = new Visit(getVersion(), id);
         value.date = this.date;
+        value.time = this.time;
         value.text = this.text;
         value.pet = this.pet;
         value.vet = this.vet;
