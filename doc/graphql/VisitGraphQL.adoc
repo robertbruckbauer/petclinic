@@ -3,6 +3,8 @@
 :graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
 = Visit GraphQL API
 
+NOTE: The GraphQL schema includes Pet and Vet types with corresponding controllers (PetGraphqlController, VetGraphqlController) and queries (allPet, petById, allVet, vetById, vetByName), but no documentation files exist for these APIs. Create PetGraphQL.adoc and VetGraphQL.adoc following the template structure from SpringGraphQL.adoc to complete the documentation set.
+
 GraphQL API for querying veterinary treatments during a visit in the pet clinic application.
 It provides query operations to retrieve all visits, filter visits by date, and find visits associated with specific pets or veterinarians.
 
@@ -15,7 +17,7 @@ The main GraphQL type representing a veterinary treatment.
 .Schema Definition
 [source,graphql,options="nowrap"]
 ----
-include::{graphqldir}/Visit.gqls[]
+include::{graphqldir}/visit.gqls[]
 ----
 
 The `Visit` type corresponds to the entity class defined in the backend API:
@@ -30,9 +32,15 @@ Each visit represents a veterinary treatment with a date, associated pet, attend
 Both the pet and vet relationships are optional.
 All fields in the visit can be nullable.
 
+NOTE: The Java entity marks `date` field with @NotNull (required), but the GraphQL schema shows it as nullable (`date: LocalDate`). Verify whether the schema should use `date: LocalDate!` to match the entity constraint and ensure data consistency.
+
 The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
 
+NOTE: The schema also uses custom scalar type `LocalTime` for the time field, but this is not documented. Per template rules: "If the schema uses a custom scalar type, document the type and its mapping to a Java type." Add documentation that `LocalTime` maps to Java's `java.time.LocalTime` type for representing time of day without timezone.
+
 == Queries
+
+NOTE: According to the template, queries should be organized as: \"Collection queries\" (returning lists) first, then \"Object queries\" (returning single objects). The Visit API only has collection queries (all return lists), so the current structure is correct. However, consider adding a \"Collection queries\" subsection header for clarity and consistency with template guidelines.
 
 === `allVisit`
 

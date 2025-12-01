@@ -3,6 +3,8 @@
 :graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
 = Enum GraphQL API
 
+NOTE: The GraphQL schema includes Pet and Vet types with corresponding controllers (PetGraphqlController, VetGraphqlController) and queries (allPet, petById, allVet, vetById, vetByName), but no documentation files exist for these APIs. Create PetGraphQL.adoc and VetGraphQL.adoc following the template structure from SpringGraphQL.adoc to complete the documentation set.
+
 GraphQL API for querying configurable enumerations in the pet clinic application.
 It provides a query operation to retrieve enumeration values organized by discriminator.
 Each enumeration type is identified by a discriminator and contains ordered items with unique numeric codes, names, and display texts.
@@ -37,6 +39,8 @@ Within each discriminator group, codes and names must be unique.
 NOTE: The GraphQL schema defines `code` as String, but the Java entity uses Long. Verify that the GraphQL resolver properly handles the type conversion between String and Long for the code field.
 
 == Queries
+
+NOTE: The Enum API only has one collection query (allEnum returns a list). According to the template, this should be under a \"Collection queries\" subsection for consistency with template guidelines, even though there's only one query.
 
 === `allEnum`
 
