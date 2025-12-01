@@ -97,6 +97,8 @@ include::{restdocdir}/patch-api-vet-name/response-body.adoc[]
 
 ****
 
+NOTE: The allSkill field is an @ElementCollection (not a relation like @ManyToOne), which is treated as a collection of simple values. Template rules state: "Describe operations for attributes with only the first example." Since allSkill behaves like an attribute (collection stored in a separate table but not an entity relation), and snippet patch-api-vet-skill exists, clarify whether @ElementCollection should be treated as an attribute (showing only name example) or documented separately. Based on standard interpretation, @ElementCollection is not a relation, so current documentation showing only the name example is correct per template.
+
 This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
@@ -104,8 +106,6 @@ This operation reports `Bad Request` or code 400 if the data was not processed.
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
-
-NOTE: Document the skill PATCH operation with a separate example if snippet exists for patch-api-vet-skill.
 
 === `GET /api/vet`
 

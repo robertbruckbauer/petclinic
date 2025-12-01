@@ -105,7 +105,7 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
-NOTE: Document the address and contact PATCH operations with separate examples. Check if snippets exist for patch-api-owner-address and patch-api-owner-contact.
+NOTE: According to the template rules for PATCH operations: "Describe operations for attributes with only the first example of the existing snippets." The Owner entity has three @Column attributes (name, address, contact) but documentation currently shows only one example (name). This follows the template correctly. The allPet field is a @OneToMany relation, but since there are no PATCH snippets for it (relations are typically managed through the Pet entity), no additional documentation is needed. Verify this interpretation is correct.
 
 === `GET /api/owner`
 

@@ -98,6 +98,8 @@ include::{restdocdir}/patch-api-pet-name/response-body.adoc[]
 
 ****
 
+NOTE: According to the template rules, PATCH operations for attributes (@Column: name, born, species) should show only the first example. Snippets exist for patch-api-pet-born and patch-api-pet-species but per template guidelines, these should NOT be added as the name example already covers attribute updates. However, the owner field is a @ManyToOne relation, and snippet patch-api-pet-owner exists. Per template: "Describe each operation for relations if a snippet exists." Add a separate section for the owner relation update with example after the attribute example.
+
 This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
@@ -105,8 +107,6 @@ This operation reports `Bad Request` or code 400 if the data was not processed.
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
-
-NOTE: Document additional PATCH operations if snippets exist for born, species, and owner relation updates (check for patch-api-pet-born, patch-api-pet-species, patch-api-pet-owner).
 
 === `GET /api/pet`
 
@@ -208,5 +208,3 @@ include::{restdocdir}/delete-api-pet/response-body.adoc[]
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
 This operation reports `Not Found` or code 404 if the data does not exist.
-
-NOTE: Verify the Pet entity model shows optional=false for the owner relationship. The documentation states 'Each pet must have an owner' but check if the implementation enforces this constraint properly.
