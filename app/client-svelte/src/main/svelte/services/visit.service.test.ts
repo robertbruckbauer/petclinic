@@ -112,7 +112,7 @@ describe("VisitService", () => {
         ok: true,
         json: async () => content,
       });
-      visitService.updateVisit(content.id!, content).subscribe({
+      visitService.updateVisit(content).subscribe({
         next: (visit) => {
           expect(visit).toEqual(content);
         },

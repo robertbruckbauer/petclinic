@@ -9,18 +9,18 @@ export class VisitService extends BaseService {
     return this.restApiGetAll(path);
   }
 
-  public createVisit(visit: Visit): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit"].join("/");
-    return this.restApiPost(path, visit);
-  }
-
   public loadOneVisit(id: string): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
     return this.restApiGet(path);
   }
 
-  public updateVisit(id: string, visit: Visit): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit", id].join("/");
+  public createVisit(visit: Visit): Observable<Visit> {
+    const path = [backendUrl(), "api", "visit"].join("/");
+    return this.restApiPost(path, visit);
+  }
+
+  public updateVisit(visit: Visit): Observable<Visit> {
+    const path = [backendUrl(), "api", "visit", visit.id].join("/");
     return this.restApiPut(path, visit);
   }
 
