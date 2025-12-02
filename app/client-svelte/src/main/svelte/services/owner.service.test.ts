@@ -164,7 +164,7 @@ describe("OwnerService", () => {
         ok: true,
         json: async () => content,
       });
-      ownerService.updateOwner(content.id!, content).subscribe({
+      ownerService.updateOwner(content).subscribe({
         next: (owner) => {
           expect(owner).toEqual(content);
         },
@@ -182,7 +182,7 @@ describe("OwnerService", () => {
         status: 404,
         json: async () => error,
       });
-      ownerService.updateOwner(content.id!, content).subscribe({
+      ownerService.updateOwner(content).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
           expect(err).toEqual(error);

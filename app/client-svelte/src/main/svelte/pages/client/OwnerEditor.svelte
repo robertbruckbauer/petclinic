@@ -75,7 +75,7 @@
   }
 
   function updateOwner() {
-    ownerService.updateOwner(newOwner.id, newOwner).subscribe({
+    ownerService.updateOwner(newOwner).subscribe({
       next: (json) => {
         visible = false;
         onupdate?.(json);
