@@ -74,7 +74,7 @@
   }
 
   function updateVet() {
-    vetService.updateVet(newVet.id, newVet).subscribe({
+    vetService.updateVet(newVet).subscribe({
       next: (json) => {
         visible = false;
         onupdate?.(json);

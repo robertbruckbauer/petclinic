@@ -102,7 +102,7 @@
   }
 
   function updateVet(_vet) {
-    vetService.updateVet(_vet.id, _vet).subscribe({
+    vetService.updateVet(_vet).subscribe({
       next: (json) => {
         onUpdateVet(json);
       },

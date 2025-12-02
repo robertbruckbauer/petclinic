@@ -123,7 +123,7 @@ describe("VetService", () => {
         ok: true,
         json: async () => content,
       });
-      vetService.updateVet(content.id!, content).subscribe({
+      vetService.updateVet(content).subscribe({
         next: (vet) => {
           expect(vet).toEqual(content);
         },

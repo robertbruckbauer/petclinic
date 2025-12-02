@@ -24,8 +24,8 @@ export class VetService extends BaseService {
     return this.restApiPost(path, vet);
   }
 
-  public updateVet(id: string, vet: Vet): Observable<Vet> {
-    const path = [backendUrl(), "api", "vet", id].join("/");
+  public updateVet(vet: Vet): Observable<Vet> {
+    const path = [backendUrl(), "api", "vet", vet.id].join("/");
     return this.restApiPut(path, vet);
   }
 
