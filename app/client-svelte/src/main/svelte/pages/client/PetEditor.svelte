@@ -79,7 +79,7 @@
   }
 
   function updatePet() {
-    petService.updatePet(newPet.id, newPet).subscribe({
+    petService.updatePet(newPet).subscribe({
       next: (json) => {
         visible = false;
         onupdate?.(json);
