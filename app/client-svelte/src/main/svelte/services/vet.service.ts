@@ -4,14 +4,16 @@ import { backendUrl } from "../router/router";
 import { BaseService } from "./base.service";
 
 export class VetService extends BaseService {
-  public loadAllVet(query: string = ""): Observable<Vet[]> {
-    const path = [backendUrl(), "api", "vet" + query].join("/");
-    return this.restApiGetAll(path);
+  public loadAllVet(search: Record<string, string> = {}): Observable<Vet[]> {
+    const path = [backendUrl(), "api", "vet"].join("/");
+    return this.restApiGetAll(path, search);
   }
 
-  public loadAllVetItem(): Observable<VetItem[]> {
+  public loadAllVetItem(
+    search: Record<string, string> = {}
+  ): Observable<VetItem[]> {
     const path = [backendUrl(), "api", "vet", "item"].join("/");
-    return this.restApiGetAll(path);
+    return this.restApiGetAll(path, search);
   }
 
   public loadOneVet(id: string): Observable<Vet> {

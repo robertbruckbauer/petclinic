@@ -4,14 +4,14 @@ import { backendUrl } from "../router/router";
 import { BaseService } from "./base.service";
 
 export class PetService extends BaseService {
-  public loadAllPet(query: string = ""): Observable<Pet[]> {
-    const path = [backendUrl(), "api", "pet" + query].join("/");
-    return this.restApiGetAll(path);
+  public loadAllPet(search: Record<string, string> = {}): Observable<Pet[]> {
+    const path = [backendUrl(), "api", "pet"].join("/");
+    return this.restApiGetAll(path, search);
   }
 
   public loadAllPetItem(owner: string): Observable<PetItem[]> {
     const path = [backendUrl(), "api", "pet", "item", owner].join("/");
-    return this.restApiGetAll(path);
+    return this.restApiGetAll(path, { sort: "name,asc" });
   }
 
   public loadOnePet(id: string): Observable<Pet> {

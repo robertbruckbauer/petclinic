@@ -4,14 +4,18 @@ import { backendUrl } from "../router/router";
 import { BaseService } from "./base.service";
 
 export class OwnerService extends BaseService {
-  public loadAllOwner(query: string = ""): Observable<Owner[]> {
-    const path = [backendUrl(), "api", "owner" + query].join("/");
-    return this.restApiGetAll(path);
+  public loadAllOwner(
+    search: Record<string, string> = {}
+  ): Observable<Owner[]> {
+    const path = [backendUrl(), "api", "owner"].join("/");
+    return this.restApiGetAll(path, search);
   }
 
-  public loadAllOwnerItem(): Observable<OwnerItem[]> {
+  public loadAllOwnerItem(
+    search: Record<string, string> = {}
+  ): Observable<OwnerItem[]> {
     const path = [backendUrl(), "api", "owner", "item"].join("/");
-    return this.restApiGetAll(path);
+    return this.restApiGetAll(path, search);
   }
 
   public loadOneOwner(id: string): Observable<Owner> {

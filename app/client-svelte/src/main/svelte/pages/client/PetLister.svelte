@@ -24,7 +24,8 @@
   onMount(async () => {
     try {
       loading = true;
-      ownerService.loadAllOwner("?sort=name,asc").subscribe({
+      const search = { sort: "name,asc" };
+      ownerService.loadAllOwner(search).subscribe({
         next: (json) => {
           allOwnerItem = json.map(mapOwnerToOwnerItem);
         },
@@ -43,6 +44,7 @@
           toast.push(err);
         },
       });
+      loadAllPet();
     } finally {
       loading = false;
     }
@@ -97,17 +99,14 @@
   }
 
   function loadAllPet() {
-    const query = "?owner.id=" + petOwnerId;
-    petService.loadAllPet(query).subscribe({
+    const search = { "owner.id": petOwnerId };
+    petService.loadAllPet(search).subscribe({
       next: (json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllPet", query, msg]);
         allPet = json;
         // make that owner persistent
         $storedOwner.id = petOwnerId;
       },
       error: (err) => {
-        console.log(["loadAllPet", query, err]);
         toast.push(err);
       },
     });

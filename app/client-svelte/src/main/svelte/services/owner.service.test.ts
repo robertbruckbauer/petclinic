@@ -56,6 +56,24 @@ describe("OwnerService", () => {
       });
     });
 
+    it("should load owners with search parameters successfully", () => {
+      const content: Owner[] = ALLOWNER;
+      const search = { sort: "name,asc" };
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ content: content }),
+      });
+      ownerService.loadAllOwner(search).subscribe({
+        next: (allOwner) => {
+          expect(allOwner).toEqual(content);
+          expect(fetchMock).toHaveBeenCalledWith(
+            "http://localhost:8080/api/owner?sort=name%2Casc",
+            expect.anything()
+          );
+        },
+      });
+    });
+
     it("should handle errors gracefully", () => {
       const error: ErrorItem = {
         instance: "/api/owner",
@@ -70,6 +88,21 @@ describe("OwnerService", () => {
         error: (err) => {
           expect(err).toBeDefined();
           expect(err).toEqual(error);
+        },
+      });
+    });
+  });
+
+  describe("loadAllOwnerItem", () => {
+    it("should load owner items successfully", () => {
+      const content: OwnerItem[] = ALLOWNER.map(mapOwnerToOwnerItem);
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => ({ content: content }),
+      });
+      ownerService.loadAllOwnerItem().subscribe({
+        next: (allItem) => {
+          expect(allItem).toEqual(content);
         },
       });
     });
@@ -103,21 +136,6 @@ describe("OwnerService", () => {
         error: (err) => {
           expect(err).toBeDefined();
           expect(err).toEqual(error);
-        },
-      });
-    });
-  });
-
-  describe("loadAllOwnerItem", () => {
-    it("should load owner items successfully", () => {
-      const content: OwnerItem[] = ALLOWNER.map(mapOwnerToOwnerItem);
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ content: [content] }),
-      });
-      ownerService.loadAllOwnerItem().subscribe({
-        next: (allItem) => {
-          expect(allItem).toEqual([content]);
         },
       });
     });

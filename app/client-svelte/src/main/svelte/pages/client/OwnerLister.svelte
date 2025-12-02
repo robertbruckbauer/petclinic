@@ -22,7 +22,8 @@
   onMount(async () => {
     try {
       loading = true;
-      ownerService.loadAllOwner("?sort=name,asc").subscribe({
+      const search = { sort: "name,asc" };
+      ownerService.loadAllOwner(search).subscribe({
         next: (json) => {
           allVetItem = json.map(mapVetToVetItem);
         },
@@ -97,15 +98,6 @@
     ownerEditorCreate || ownerEditorUpdate || petCreateEditor
   );
 
-  let ownerFilter = $state("");
-  function ownerFilterParameter() {
-    if (!ownerFilter) return "";
-    return "&name=" + encodeURIComponent(ownerFilter);
-  }
-  function ownerSortParameter() {
-    return "?sort=name";
-  }
-
   function onOwnerFilterClicked(_event) {
     _event.preventDefault();
     try {
@@ -137,9 +129,11 @@
     _owner.allPetItem = _owner.allPetItem.toSpliced(0, 0, _petItem);
   }
 
+  let ownerFilter = $state("");
   function loadAllOwner() {
-    const query = ownerSortParameter() + ownerFilterParameter();
-    ownerService.loadAllOwner(query).subscribe({
+    const search = { sort: "name,asc" };
+    if (ownerFilter) search.name = ownerFilter;
+    ownerService.loadAllOwner(search).subscribe({
       next: (json) => {
         allOwner = json;
       },
@@ -151,8 +145,8 @@
 
   let allOwnerVisit = $state([]);
   function loadAllVisit() {
-    const query = "?sort=date,desc&pet.owner.id=" + ownerId;
-    visitService.loadAllVisit(query).subscribe({
+    const search = { sort: "date,desc", "pet.owner.id": ownerId };
+    visitService.loadAllVisit(search).subscribe({
       next: (json) => {
         allOwnerVisit = json;
       },

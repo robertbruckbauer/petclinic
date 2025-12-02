@@ -18,7 +18,8 @@
   onMount(async () => {
     try {
       loading = true;
-      vetService.loadAllVet("?sort=name,asc").subscribe({
+      const search = { sort: "name,asc" };
+      vetService.loadAllVet(search).subscribe({
         next: (json) => {
           allVetItem = json.map(mapVetToVetItem);
         },
@@ -97,7 +98,8 @@
   const dateComparator = (e1, e2) => e1.date.localeCompare(e2.date);
 
   function loadAllVisit() {
-    visitService.loadAllVisit("?sort=date,desc").subscribe({
+    const search = { sort: "date,desc" };
+    visitService.loadAllVisit(search).subscribe({
       next: (json) => {
         allVisit = json.sort(dateComparator);
       },

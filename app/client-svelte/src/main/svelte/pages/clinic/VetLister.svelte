@@ -57,15 +57,6 @@
 
   const vetEditorDisabled = $derived(vetEditorCreate || vetEditorUpdate);
 
-  let vetFilter = $state("");
-  function vetFilterParameter() {
-    if (!vetFilter) return "";
-    return "&name=" + encodeURIComponent(vetFilter);
-  }
-  function vetSortParameter() {
-    return "?sort=name";
-  }
-
   function onVetFilterClicked(_event) {
     _event.preventDefault();
     try {
@@ -89,22 +80,13 @@
     if (index > -1) allVet = allVet.toSpliced(index, 1);
   }
 
+  let vetFilter = $state("");
   function loadAllVet() {
-    const query = vetSortParameter() + vetFilterParameter();
-    vetService.loadAllVet(query).subscribe({
+    const search = { sort: "name,asc" };
+    if (vetFilter) search.name = vetFilter;
+    vetService.loadAllVet(search).subscribe({
       next: (json) => {
         allVet = json;
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
-
-  function updateVet(_vet) {
-    vetService.updateVet(_vet).subscribe({
-      next: (json) => {
-        onUpdateVet(json);
       },
       error: (err) => {
         toast.push(err);
@@ -236,7 +218,7 @@
           {/if}
         {:else}
           <tr>
-            <td class="px-2" colspan="3">Keine Vetn</td>
+            <td class="px-2" colspan="3">Keine Vet</td>
           </tr>
         {/each}
       </tbody>

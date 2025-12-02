@@ -4,9 +4,11 @@ import { backendUrl } from "../router/router";
 import { BaseService } from "./base.service";
 
 export class VisitService extends BaseService {
-  public loadAllVisit(query: string = ""): Observable<Visit[]> {
-    const path = [backendUrl(), "api", "visit" + query].join("/");
-    return this.restApiGetAll(path);
+  public loadAllVisit(
+    search: Record<string, string> = {}
+  ): Observable<Visit[]> {
+    const path = [backendUrl(), "api", "visit"].join("/");
+    return this.restApiGetAll(path, search);
   }
 
   public loadOneVisit(id: string): Observable<Visit> {

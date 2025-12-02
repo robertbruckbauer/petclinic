@@ -71,21 +71,6 @@ describe("VetService", () => {
     });
   });
 
-  describe("loadOneVet", () => {
-    it("should load one vet successfully", () => {
-      const content: Vet = ALLVET[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
-      vetService.loadOneVet(content.id!).subscribe({
-        next: (vet) => {
-          expect(vet).toEqual(content);
-        },
-      });
-    });
-  });
-
   describe("loadAllVetItem", () => {
     it("should load vet items successfully", () => {
       const content: VetItem[] = ALLVET.map(mapVetToVetItem);
@@ -96,6 +81,21 @@ describe("VetService", () => {
       vetService.loadAllVetItem().subscribe({
         next: (allItem) => {
           expect(allItem).toEqual(content);
+        },
+      });
+    });
+  });
+
+  describe("loadOneVet", () => {
+    it("should load one vet successfully", () => {
+      const content: Vet = ALLVET[0];
+      fetchMock.mockResolvedValue({
+        ok: true,
+        json: async () => content,
+      });
+      vetService.loadOneVet(content.id!).subscribe({
+        next: (vet) => {
+          expect(vet).toEqual(content);
         },
       });
     });
