@@ -1,4 +1,5 @@
 import { vi, beforeEach } from "vitest";
+import '@angular/compiler';
 
 const mockWindow = {
   location: {

@@ -1,44 +1,78 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { catchError, map, Observable, tap } from "rxjs";
 import { backendUrl } from "../app.routes";
 import { type Visit } from "../types/visit.type";
-import { tapLog } from "../utils/log";
-import { map } from "rxjs";
+import { BaseService } from "./base.service";
 
 @Injectable()
-export class VisitService {
-  constructor(private httpClient: HttpClient) {}
+export class VisitService extends BaseService {
+  constructor(private httpClient: HttpClient) {
+    super();
+  }
 
-  public loadAllVisit(params: HttpParams | undefined = undefined) {
+  public loadAllVisit(
+    search: Record<string, string> = {}
+  ): Observable<Visit[]> {
     const path = [backendUrl(), "api", "visit"].join("/");
+    const params = new HttpParams({ fromObject: search });
     return this.httpClient.get<{ content: Visit[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content)
+      catchError(this.handleError(path)),
+      map((body) => body.content),
+      tap((body) => {
+        console.log([["GET", path].join(" "), body]);
+      })
     );
   }
 
-  public loadVisit(id: string) {
+  public loadVisit(id: string): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
-    return this.httpClient.get<Visit>(path).pipe(tapLog("GET", path));
+    return this.httpClient.get<Visit>(path).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["GET", path].join(" "), body]);
+      })
+    );
   }
 
-  public createVisit(value: Visit) {
+  public createVisit(value: Visit): Observable<Visit> {
     const path = [backendUrl(), "api", "visit"].join("/");
-    return this.httpClient
-      .post<Visit>(path, value)
-      .pipe(tapLog("POST", path, value));
+    return this.httpClient.post<Visit>(path, value).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["POST", path].join(" "), value, body]);
+      })
+    );
   }
 
-  public updateVisit(value: Visit) {
+  public updateVisit(value: Visit): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", value.id].join("/");
-    const headers = { "Content-Type": "application/merge-patch+json" };
-    return this.httpClient
-      .patch<Visit>(path, value, { headers })
-      .pipe(tapLog("PATCH", path, value));
+    return this.httpClient.put<Visit>(path, value).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["PUT", path].join(" "), value, body]);
+      })
+    );
   }
 
-  public removeVisit(id: string) {
+  public mutateVisit(id: string, value: Visit): Observable<Visit> {
     const path = [backendUrl(), "api", "visit", id].join("/");
-    return this.httpClient.delete<Visit>(path).pipe(tapLog("DELETE", path));
+    const headers = { "Content-Type": "application/merge-patch+json" };
+    return this.httpClient.patch<Visit>(path, value, { headers }).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["PATCH", path].join(" "), value, body]);
+      })
+    );
+  }
+
+  public removeVisit(id: string): Observable<Visit> {
+    const path = [backendUrl(), "api", "visit", id].join("/");
+    return this.httpClient.delete<Visit>(path).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["DELETE", path].join(" "), body]);
+      })
+    );
   }
 }

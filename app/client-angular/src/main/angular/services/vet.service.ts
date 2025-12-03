@@ -1,19 +1,25 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { catchError, map, Observable, tap } from "rxjs";
 import { backendUrl } from "../app.routes";
 import { type VetItem, type Vet } from "../types/vet.type";
-import { tapLog } from "../utils/log";
-import { map, Observable } from "rxjs";
+import { BaseService } from "./base.service";
 
 @Injectable()
-export class VetService {
-  constructor(private httpClient: HttpClient) {}
+export class VetService extends BaseService {
+  constructor(private httpClient: HttpClient) {
+    super();
+  }
 
-  public loadAllVet(params: HttpParams | undefined = undefined) {
+  public loadAllVet(search: Record<string, string> = {}): Observable<Vet[]> {
     const path = [backendUrl(), "api", "vet"].join("/");
+    const params = new HttpParams({ fromObject: search });
     return this.httpClient.get<{ content: Vet[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content)
+      catchError(this.handleError(path)),
+      map((body) => body.content),
+      tap((body) => {
+        console.log([["GET", path].join(" "), body]);
+      })
     );
   }
 
@@ -21,29 +27,43 @@ export class VetService {
     const params = new HttpParams().set("sort", "name,asc");
     const path = [backendUrl(), "api", "vet"].join("/");
     return this.httpClient.get<{ content: Vet[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content.map(mapVetToVetItem))
+      catchError(this.handleError(path)),
+      map((body) => body.content.map(mapVetToVetItem)),
+      tap((body) => {
+        console.log([["GET", path].join(" "), body]);
+      })
     );
   }
 
-  public createVet(value: Vet) {
+  public createVet(value: Vet): Observable<Vet> {
     const path = [backendUrl(), "api", "vet"].join("/");
-    return this.httpClient
-      .post<Vet>(path, value)
-      .pipe(tapLog("POST", path, value));
+    return this.httpClient.post<Vet>(path, value).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["GET", path].join(" "), value, body]);
+      })
+    );
   }
 
-  public updateVet(value: Vet) {
+  public updateVet(value: Vet): Observable<Vet> {
     const path = [backendUrl(), "api", "vet", value.id].join("/");
     const headers = { "Content-Type": "application/merge-patch+json" };
-    return this.httpClient
-      .patch<Vet>(path, value, { headers })
-      .pipe(tapLog("PATCH", path, value));
+    return this.httpClient.patch<Vet>(path, value, { headers }).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["PATCH", path].join(" "), value, body]);
+      })
+    );
   }
 
-  public removeVet(id: string) {
+  public removeVet(id: string): Observable<Vet> {
     const path = [backendUrl(), "api", "vet", id].join("/");
-    return this.httpClient.delete<Vet>(path).pipe(tapLog("DELETE", path));
+    return this.httpClient.delete<Vet>(path).pipe(
+      catchError(this.handleError(path)),
+      tap((body) => {
+        console.log([["DELETE", path].join(" "), body]);
+      })
+    );
   }
 }
 

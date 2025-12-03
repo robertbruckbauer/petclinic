@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { of, throwError } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
 import { EnumService } from "./enum.service";
 import { type EnumItem } from "../types/enum.type";
+import { ErrorItem } from "../types/error.type";
 
 const ALLSPECIES: EnumItem[] = [
   {
@@ -50,14 +52,22 @@ describe("EnumService", () => {
     });
 
     it("should handle errors gracefully", () => {
-      const notFoundError = {
+      const error: ErrorItem = {
+        instance: "/api/enum/species",
         status: 404,
-        statusText: "Not Found",
       };
-      httpClientMock.get.mockReturnValue(throwError(() => notFoundError));
+      httpClientMock.get.mockReturnValue(
+        throwError(
+          () =>
+            new HttpErrorResponse({
+              error: error,
+              status: error.status,
+            })
+        )
+      );
       enumService.loadAllEnum("species").subscribe({
         error: (err) => {
-          expect(err).toBe(notFoundError);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -75,14 +85,22 @@ describe("EnumService", () => {
     });
 
     it("should handle errors gracefully", () => {
-      const notFoundError = {
+      const error: ErrorItem = {
+        instance: "/api/enum/species",
         status: 404,
-        statusText: "Not Found",
       };
-      httpClientMock.post.mockReturnValue(throwError(() => notFoundError));
+      httpClientMock.post.mockReturnValue(
+        throwError(
+          () =>
+            new HttpErrorResponse({
+              error: error,
+              status: error.status,
+            })
+        )
+      );
       enumService.createEnum("species", ALLSPECIES[0]).subscribe({
         error: (err) => {
-          expect(err).toBe(notFoundError);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -100,14 +118,22 @@ describe("EnumService", () => {
     });
 
     it("should handle errors gracefully", () => {
-      const notFoundError = {
+      const error: ErrorItem = {
+        instance: "/api/enum/species",
         status: 404,
-        statusText: "Not Found",
       };
-      httpClientMock.put.mockReturnValue(throwError(() => notFoundError));
+      httpClientMock.put.mockReturnValue(
+        throwError(
+          () =>
+            new HttpErrorResponse({
+              error: error,
+              status: error.status,
+            })
+        )
+      );
       enumService.updateEnum("species", ALLSPECIES[0]).subscribe({
         error: (err) => {
-          expect(err).toBe(notFoundError);
+          expect(err).toEqual(error);
         },
       });
     });
@@ -125,14 +151,22 @@ describe("EnumService", () => {
     });
 
     it("should handle errors gracefully", () => {
-      const notFoundError = {
+      const error: ErrorItem = {
+        instance: "/api/enum/species",
         status: 404,
-        statusText: "Not Found",
       };
-      httpClientMock.delete.mockReturnValue(throwError(() => notFoundError));
+      httpClientMock.delete.mockReturnValue(
+        throwError(
+          () =>
+            new HttpErrorResponse({
+              error: error,
+              status: error.status,
+            })
+        )
+      );
       enumService.removeEnum("species", 0).subscribe({
         error: (err) => {
-          expect(err).toBe(notFoundError);
+          expect(err).toEqual(error);
         },
       });
     });

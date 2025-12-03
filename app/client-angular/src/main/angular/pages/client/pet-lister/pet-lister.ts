@@ -8,7 +8,6 @@ import {
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { CommonModule } from "@angular/common";
-import { HttpParams } from "@angular/common/http";
 import {
   FormControl,
   FormGroup,
@@ -111,10 +110,8 @@ export class PetListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const params = new HttpParams()
-      .set("sort", "name,asc")
-      .set("owner.id", this.ownerId());
-    const subscription = this.petService.loadAllPet(params).subscribe({
+    const search = { sort: "name,asc", "owner.id": this.ownerId() };
+    const subscription = this.petService.loadAllPet(search).subscribe({
       next: (allPet) => {
         this.allPet.set(allPet);
       },
