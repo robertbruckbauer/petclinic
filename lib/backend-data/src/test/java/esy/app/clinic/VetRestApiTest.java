@@ -248,16 +248,43 @@ class VetRestApiTest {
                         .exists("Vary"))
                 .andExpect(jsonPath("$.content")
                         .isArray())
-                .andExpect(jsonPath("$.content[0]")
-                        .exists())
-                .andExpect(jsonPath("$.content[1]")
-                        .exists())
+                .andExpect(jsonPath("$.content[0].text")
+                        .value("Bea Musterfrau"))
+                .andExpect(jsonPath("$.content[1].text")
+                        .value("Max Mustermann"))
                 .andExpect(jsonPath("$.content[2]")
                         .doesNotExist());
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Max",
+            "Max Mustermann",
+            "Mustermann"
+    })
     @Order(42)
+    void getApiVetItemFiltered(final String name) throws Exception {
+        assertEquals(2, vetRepository.count());
+        mockMvc.perform(get("/api/vet/search/findAllItem")
+                        .queryParam("name", name)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0].text")
+                        .value("Max Mustermann"))
+                .andExpect(jsonPath("$.content[1]")
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(43)
     void getApiVetById() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -286,7 +313,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(43)
+    @Order(44)
     void getApiVetByIdNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
         assertFalse(vetRepository.findById(uuid).isPresent());
