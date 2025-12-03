@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { of } from "rxjs";
 import { mapOwnerToOwnerItem, OwnerService } from "./owner.service";
 import type { Owner, OwnerItem } from "../types/owner.type";
 
@@ -23,18 +24,17 @@ const ALLOWNER = [
 
 describe("OwnerService", () => {
   let ownerService: OwnerService;
-  let fetchMock: any;
+  let httpClientMock: any;
 
   beforeEach(() => {
-    global.window = {
-      location: {
-        protocol: "http:",
-        host: "localhost:5050",
-      },
-    } as any;
-    fetchMock = vi.fn();
-    global.fetch = fetchMock;
-    ownerService = new OwnerService();
+    httpClientMock = {
+      get: vi.fn(),
+      post: vi.fn(),
+      put: vi.fn(),
+      patch: vi.fn(),
+      delete: vi.fn(),
+    };
+    ownerService = new OwnerService(httpClientMock);
   });
 
   it("should be created", () => {
@@ -44,10 +44,7 @@ describe("OwnerService", () => {
   describe("loadAllOwner", () => {
     it("should load owners successfully", () => {
       const content: Owner[] = ALLOWNER;
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ content: content }),
-      });
+      httpClientMock.get.mockReturnValue(of({ content: content }));
       ownerService.loadAllOwner().subscribe({
         next: (allOwner) => {
           expect(allOwner).toEqual(content);
@@ -58,16 +55,15 @@ describe("OwnerService", () => {
     it("should load owners with search parameters successfully", () => {
       const content: Owner[] = ALLOWNER;
       const search = { sort: "name,asc" };
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ content: content }),
-      });
+      httpClientMock.get.mockReturnValue(of({ content: content }));
       ownerService.loadAllOwner(search).subscribe({
         next: (allOwner) => {
           expect(allOwner).toEqual(content);
-          expect(fetchMock).toHaveBeenCalledWith(
-            "http://localhost:8080/api/owner?sort=name%2Casc",
-            expect.anything()
+          expect(httpClientMock.get).toHaveBeenCalledWith(
+            expect.stringContaining("/api/owner"),
+            expect.objectContaining({
+              params: expect.anything(),
+            })
           );
         },
       });
@@ -77,10 +73,7 @@ describe("OwnerService", () => {
   describe("loadAllOwnerItem", () => {
     it("should load owner items successfully", () => {
       const content: OwnerItem[] = ALLOWNER.map(mapOwnerToOwnerItem);
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ content: content }),
-      });
+      httpClientMock.get.mockReturnValue(of({ content: content }));
       ownerService.loadAllOwnerItem().subscribe({
         next: (allItem) => {
           expect(allItem).toEqual(content);
@@ -92,10 +85,7 @@ describe("OwnerService", () => {
   describe("loadOneOwner", () => {
     it("should load one owner successfully", () => {
       const content: Owner = ALLOWNER[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.get.mockReturnValue(of(content));
       ownerService.loadOneOwner(content.id!).subscribe({
         next: (owner) => {
           expect(owner).toEqual(content);
@@ -107,10 +97,7 @@ describe("OwnerService", () => {
   describe("createOwner", () => {
     it("should create owner successfully", () => {
       const content: Owner = ALLOWNER[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.post.mockReturnValue(of(content));
       ownerService.createOwner(content).subscribe({
         next: (owner) => {
           expect(owner).toEqual(content);
@@ -119,14 +106,11 @@ describe("OwnerService", () => {
     });
   });
 
-  describe("updateOwner", () => {
-    it("should update owner successfully", () => {
+  describe("mutateOwner", () => {
+    it("should mutate owner successfully", () => {
       const content: Owner = ALLOWNER[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
-      ownerService.updateOwner(content).subscribe({
+      httpClientMock.patch.mockReturnValue(of(content));
+      ownerService.mutateOwner(content.id!, content).subscribe({
         next: (owner) => {
           expect(owner).toEqual(content);
         },
@@ -137,10 +121,7 @@ describe("OwnerService", () => {
   describe("removeOwner", () => {
     it("should remove owner successfully", () => {
       const content: Owner = ALLOWNER[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.delete.mockReturnValue(of(content));
       ownerService.removeOwner(content.id!).subscribe({
         next: (owner) => {
           expect(owner).toEqual(content);

@@ -12,7 +12,7 @@
   let version = $state("-");
 
   onMount(async () => {
-    versionService.version().subscribe({
+    versionService.loadVersion().subscribe({
       next: (json) => {
         version = json.version;
       },
@@ -42,7 +42,7 @@
         class="underline text-blue-600 break-all"
         href="{apiExplorer}/index.html#uri=/api"
         target="_blank"
-        >{apiExplorer}
+        >{apiExplorer.pathname}
       </a>
     </div>
   </fieldset>
@@ -53,7 +53,7 @@
         class="underline text-blue-600 break-all"
         href="{apiGraphiql}?path=/api/graphql"
         target="_blank"
-        >{apiGraphiql}
+        >{apiGraphiql.pathname}
       </a>
     </div>
   </fieldset>

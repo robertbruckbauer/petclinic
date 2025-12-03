@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { of } from "rxjs";
 import { VisitService } from "./visit.service";
 import { type Visit } from "../types/visit.type";
 
@@ -23,18 +24,17 @@ const ALLVISIT = [
 
 describe("VisitService", () => {
   let visitService: VisitService;
-  let fetchMock: any;
+  let httpClientMock: any;
 
   beforeEach(() => {
-    global.window = {
-      location: {
-        protocol: "http:",
-        host: "localhost:5050",
-      },
-    } as any;
-    fetchMock = vi.fn();
-    global.fetch = fetchMock;
-    visitService = new VisitService();
+    httpClientMock = {
+      get: vi.fn(),
+      post: vi.fn(),
+      put: vi.fn(),
+      patch: vi.fn(),
+      delete: vi.fn(),
+    };
+    visitService = new VisitService(httpClientMock);
   });
 
   it("should be created", () => {
@@ -44,10 +44,7 @@ describe("VisitService", () => {
   describe("loadAllVisit", () => {
     it("should load visits successfully", () => {
       const content: Visit[] = ALLVISIT;
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ content: content }),
-      });
+      httpClientMock.get.mockReturnValue(of({ content: content }));
       visitService.loadAllVisit().subscribe({
         next: (allVisit) => {
           expect(allVisit).toEqual(content);
@@ -59,10 +56,7 @@ describe("VisitService", () => {
   describe("loadOneVisit", () => {
     it("should load one visit successfully", () => {
       const content: Visit = ALLVISIT[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.get.mockReturnValue(of(content));
       visitService.loadOneVisit(content.id!).subscribe({
         next: (visit) => {
           expect(visit).toEqual(content);
@@ -74,10 +68,7 @@ describe("VisitService", () => {
   describe("createVisit", () => {
     it("should create visit successfully", () => {
       const content: Visit = ALLVISIT[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.post.mockReturnValue(of(content));
       visitService.createVisit(content).subscribe({
         next: (visit) => {
           expect(visit).toEqual(content);
@@ -89,10 +80,7 @@ describe("VisitService", () => {
   describe("updateVisit", () => {
     it("should update visit successfully", () => {
       const content: Visit = ALLVISIT[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.put.mockReturnValue(of(content));
       visitService.updateVisit(content).subscribe({
         next: (visit) => {
           expect(visit).toEqual(content);
@@ -105,10 +93,7 @@ describe("VisitService", () => {
     it("should patch visit successfully", () => {
       const content: Visit = ALLVISIT[0];
       const patch = { text: "Updated checkup" };
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ ...content, ...patch }),
-      });
+      httpClientMock.patch.mockReturnValue(of({ ...content, ...patch }));
       visitService.mutateVisit(content.id!, patch).subscribe({
         next: (visit) => {
           expect(visit.text).toEqual(patch.text);
@@ -120,10 +105,7 @@ describe("VisitService", () => {
   describe("removeVisit", () => {
     it("should remove visit successfully", () => {
       const content: Visit = ALLVISIT[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.delete.mockReturnValue(of(content));
       visitService.removeVisit(content.id!).subscribe({
         next: (visit) => {
           expect(visit).toEqual(content);

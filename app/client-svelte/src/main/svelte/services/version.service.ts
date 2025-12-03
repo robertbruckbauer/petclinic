@@ -1,19 +1,18 @@
 import { Observable } from "rxjs";
 import type { Version } from "../types/version.type";
-import { backendUrl } from "../router/router";
-import { BaseService } from "./base.service";
+import { BackendService } from "./backend.service";
 
-export class VersionService extends BaseService {
-  public version(): Observable<Version> {
-    const path = [backendUrl(), "version"].join("/");
+export class VersionService extends BackendService {
+  public loadVersion(): Observable<Version> {
+    const path = "/version";
     return this.restApiGet(path);
   }
 
-  public apiExplorerUrl(): string {
-    return backendUrl() + "/api/explorer";
+  public apiExplorerUrl(): URL {
+    return new URL("api/explorer", this.backendUrl());
   }
 
-  public apiGraphiqlUrl(): string {
-    return backendUrl() + "/api/graphiql";
+  public apiGraphiqlUrl(): URL {
+    return new URL("api/graphiql", this.backendUrl());
   }
 }

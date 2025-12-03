@@ -27,21 +27,31 @@ describe("VersionService", () => {
     expect(versionService).toBeTruthy();
   });
 
-  describe("version", () => {
+  it("should return correct API explorer URL", () => {
+    const url = versionService.apiExplorerUrl();
+    expect(url.toString()).toBe("http://localhost:8080/api/explorer");
+  });
+
+  it("should return correct API GraphiQL URL", () => {
+    const url = versionService.apiGraphiqlUrl();
+    expect(url.toString()).toBe("http://localhost:8080/api/graphiql");
+  });
+
+  describe("loadVersion", () => {
     it("should load version successfully", () => {
       const content: Version = VERSION;
       fetchMock.mockResolvedValue({
         ok: true,
         json: async () => content,
       });
-      versionService.version().subscribe({
-        next: (response) => {
-          expect(response).toBe(content);
+      versionService.loadVersion().subscribe({
+        next: (body) => {
+          expect(body).toBe(content);
         },
       });
     });
 
-    it("should handle errors gracefully", () => {
+    it("should handle backend errors gracefully", () => {
       const error: ErrorItem = {
         instance: "/version",
         status: 404,
@@ -51,26 +61,26 @@ describe("VersionService", () => {
         status: 404,
         json: async () => error,
       });
-      versionService.version().subscribe({
-        error: (err) => {
-          expect(err).toBeDefined();
-          expect(err).toEqual(error);
+      versionService.loadVersion().subscribe({
+        error: (body) => {
+          expect(body.instance).toBe(error.instance);
+          expect(body.status).toBe(error.status);
         },
       });
     });
-  });
 
-  describe("helper methods", () => {
-    it("should return correct API explorer URL", () => {
-      expect(versionService.apiExplorerUrl()).toBe(
-        "http://localhost:8080/api/explorer"
-      );
-    });
-
-    it("should return correct API GraphiQL URL", () => {
-      expect(versionService.apiGraphiqlUrl()).toBe(
-        "http://localhost:8080/api/graphiql"
-      );
+    it("should handle network errors gracefully", () => {
+      const error: ErrorItem = {
+        instance: "/version",
+        status: 0,
+      };
+      fetchMock.mockRejectedValueOnce(new TypeError("Failed to fetch"));
+      versionService.loadVersion().subscribe({
+        error: (body) => {
+          expect(body.instance).toBe(error.instance);
+          expect(body.status).toBe(error.status);
+        },
+      });
     });
   });
 });

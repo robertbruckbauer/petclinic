@@ -22,7 +22,16 @@ describe("VersionService", () => {
 
   it("should be created", () => {
     expect(versionService).toBeTruthy();
-    expect(versionService["httpClient"]).toBeDefined();
+  });
+
+  it("should return correct API explorer URL", () => {
+    const url = versionService.apiExplorerUrl();
+    expect(url.toString()).toBe("http://localhost:8080/api/explorer");
+  });
+
+  it("should return correct API GraphiQL URL", () => {
+    const url = versionService.apiGraphiqlUrl();
+    expect(url.toString()).toBe("http://localhost:8080/api/graphiql");
   });
 
   describe("loadVersion", () => {
@@ -35,7 +44,7 @@ describe("VersionService", () => {
       });
     });
 
-    it("should handle errors gracefully", () => {
+    it("should handle backend errors gracefully", () => {
       const error: ErrorItem = {
         instance: "/version",
         status: 404,
@@ -50,8 +59,31 @@ describe("VersionService", () => {
         )
       );
       versionService.loadVersion().subscribe({
-        error: (err) => {
-          expect(err).toBe(error);
+        error: (body) => {
+          expect(body.instance).toBe(error.instance);
+          expect(body.status).toBe(error.status);
+        },
+      });
+    });
+
+    it("should handle network errors gracefully", () => {
+      const error: ErrorItem = {
+        instance: "/version",
+        status: 0,
+      };
+      httpClientMock.get.mockReturnValue(
+        throwError(
+          () =>
+            new HttpErrorResponse({
+              error: "Network failure",
+              status: 0,
+            })
+        )
+      );
+      versionService.loadVersion().subscribe({
+        error: (body) => {
+          expect(body.instance).toBe(error.instance);
+          expect(body.status).toBe(error.status);
         },
       });
     });

@@ -1,38 +1,37 @@
 import { Observable } from "rxjs";
 import type { Vet, VetItem } from "../types/vet.type";
-import { backendUrl } from "../router/router";
-import { BaseService } from "./base.service";
+import { BackendService } from "./backend.service";
 
-export class VetService extends BaseService {
+export class VetService extends BackendService {
   public loadAllVet(search: Record<string, string> = {}): Observable<Vet[]> {
-    const path = [backendUrl(), "api", "vet"].join("/");
+    const path = ["api", "vet"].join("/");
     return this.restApiGetAll(path, search);
   }
 
   public loadAllVetItem(
     search: Record<string, string> = {}
   ): Observable<VetItem[]> {
-    const path = [backendUrl(), "api", "vet", "item"].join("/");
+    const path = ["api", "vet", "item"].join("/");
     return this.restApiGetAll(path, search);
   }
 
   public loadOneVet(id: string): Observable<Vet> {
-    const path = [backendUrl(), "api", "vet", id].join("/");
+    const path = ["api", "vet", id].join("/");
     return this.restApiGet(path);
   }
 
   public createVet(vet: Vet): Observable<Vet> {
-    const path = [backendUrl(), "api", "vet"].join("/");
+    const path = ["api", "vet"].join("/");
     return this.restApiPost(path, vet);
   }
 
   public updateVet(vet: Vet): Observable<Vet> {
-    const path = [backendUrl(), "api", "vet", vet.id].join("/");
+    const path = ["api", "vet", vet.id].join("/");
     return this.restApiPut(path, vet);
   }
 
   public removeVet(id: string): Observable<Vet> {
-    const path = [backendUrl(), "api", "vet", id].join("/");
+    const path = ["api", "vet", id].join("/");
     return this.restApiDelete(path);
   }
 }

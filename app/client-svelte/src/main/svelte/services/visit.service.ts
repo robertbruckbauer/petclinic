@@ -1,38 +1,37 @@
 import { Observable } from "rxjs";
 import type { Visit } from "../types/visit.type";
-import { backendUrl } from "../router/router";
-import { BaseService } from "./base.service";
+import { BackendService } from "./backend.service";
 
-export class VisitService extends BaseService {
+export class VisitService extends BackendService {
   public loadAllVisit(
     search: Record<string, string> = {}
   ): Observable<Visit[]> {
-    const path = [backendUrl(), "api", "visit"].join("/");
+    const path = ["api", "visit"].join("/");
     return this.restApiGetAll(path, search);
   }
 
   public loadOneVisit(id: string): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit", id].join("/");
+    const path = ["api", "visit", id].join("/");
     return this.restApiGet(path);
   }
 
   public createVisit(visit: Visit): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit"].join("/");
+    const path = ["api", "visit"].join("/");
     return this.restApiPost(path, visit);
   }
 
   public updateVisit(visit: Visit): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit", visit.id].join("/");
+    const path = ["api", "visit", visit.id].join("/");
     return this.restApiPut(path, visit);
   }
 
   public mutateVisit(id: string, patch: Partial<Visit>): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit", id].join("/");
+    const path = ["api", "visit", id].join("/");
     return this.restApiPatch(path, patch);
   }
 
   public removeVisit(id: string): Observable<Visit> {
-    const path = [backendUrl(), "api", "visit", id].join("/");
+    const path = ["api", "visit", id].join("/");
     return this.restApiDelete(path);
   }
 }

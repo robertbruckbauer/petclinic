@@ -1,36 +1,35 @@
 import { Observable } from "rxjs";
 import type { Pet, PetItem } from "../types/pet.type";
-import { backendUrl } from "../router/router";
-import { BaseService } from "./base.service";
+import { BackendService } from "./backend.service";
 
-export class PetService extends BaseService {
+export class PetService extends BackendService {
   public loadAllPet(search: Record<string, string> = {}): Observable<Pet[]> {
-    const path = [backendUrl(), "api", "pet"].join("/");
+    const path = ["api", "pet"].join("/");
     return this.restApiGetAll(path, search);
   }
 
-  public loadAllPetItem(owner: string): Observable<PetItem[]> {
-    const path = [backendUrl(), "api", "pet", "item", owner].join("/");
-    return this.restApiGetAll(path, { sort: "name,asc" });
+  public loadAllPetItem(): Observable<PetItem[]> {
+    const path = ["api", "pet", "search", "findAllItem"].join("/");
+    return this.restApiGetAll(path, {});
   }
 
   public loadOnePet(id: string): Observable<Pet> {
-    const path = [backendUrl(), "api", "pet", id].join("/");
+    const path = ["api", "pet", id].join("/");
     return this.restApiGet(path);
   }
 
   public createPet(pet: Pet): Observable<Pet> {
-    const path = [backendUrl(), "api", "pet"].join("/");
+    const path = ["api", "pet"].join("/");
     return this.restApiPost(path, pet);
   }
 
   public updatePet(pet: Pet): Observable<Pet> {
-    const path = [backendUrl(), "api", "pet", pet.id].join("/");
+    const path = ["api", "pet", pet.id].join("/");
     return this.restApiPut(path, pet);
   }
 
   public removePet(id: string): Observable<Pet> {
-    const path = [backendUrl(), "api", "pet", id].join("/");
+    const path = ["api", "pet", id].join("/");
     return this.restApiDelete(path);
   }
 }

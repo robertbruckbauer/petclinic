@@ -72,7 +72,7 @@ export class OwnerEditorComponent implements OnInit {
       });
     } else {
       const subscription = this.ownerService
-        .updateOwner({
+        .mutateOwner(this.owner().id!, {
           ...this.owner(),
           name: this.form.value.name!,
           address: this.form.value.address!,

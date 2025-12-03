@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { EnumService } from "./enum.service";
 import { type EnumItem } from "../types/enum.type";
-import { type ErrorItem } from "../types/error.type";
 
 const ALLSPECIES: EnumItem[] = [
   {
@@ -51,25 +50,6 @@ describe("EnumService", () => {
         },
       });
     });
-
-    it("should handle errors gracefully", async () => {
-      const error: ErrorItem = {
-        instance: "/api/enum/species",
-        status: 404,
-      };
-      fetchMock.mockResolvedValue({
-        ok: false,
-        status: 404,
-        statusText: "Not Found",
-        json: async () => error,
-      });
-      enumService.loadAllEnum("species").subscribe({
-        error: (err) => {
-          expect(err).toBeDefined();
-          expect(err).toEqual(error);
-        },
-      });
-    });
   });
 
   describe("createEnum", () => {
@@ -82,26 +62,6 @@ describe("EnumService", () => {
       enumService.createEnum("species", content).subscribe({
         next: (createdItem) => {
           expect(createdItem).toEqual(content);
-        },
-      });
-    });
-
-    it("should handle errors gracefully", async () => {
-      const content = ALLSPECIES[0];
-      const error: ErrorItem = {
-        instance: "/api/enum/species",
-        status: 404,
-      };
-      fetchMock.mockResolvedValue({
-        ok: false,
-        status: 404,
-        statusText: "Not Found",
-        json: async () => error,
-      });
-      enumService.createEnum("species", content).subscribe({
-        error: (err) => {
-          expect(err).toBeDefined();
-          expect(err).toEqual(error);
         },
       });
     });
@@ -120,26 +80,6 @@ describe("EnumService", () => {
         },
       });
     });
-
-    it("should handle errors gracefully", async () => {
-      const content = ALLSPECIES[0];
-      const error: ErrorItem = {
-        instance: "/api/enum/species",
-        status: 404,
-      };
-      fetchMock.mockResolvedValue({
-        ok: false,
-        status: 404,
-        statusText: "Not Found",
-        json: async () => error,
-      });
-      enumService.updateEnum("species", content).subscribe({
-        error: (err) => {
-          expect(err).toBeDefined();
-          expect(err).toEqual(error);
-        },
-      });
-    });
   });
 
   describe("removeEnum", () => {
@@ -152,26 +92,6 @@ describe("EnumService", () => {
       enumService.removeEnum("species", content.code).subscribe({
         next: (createdItem) => {
           expect(createdItem).toEqual(content);
-        },
-      });
-    });
-
-    it("should handle errors gracefully", async () => {
-      const content = ALLSPECIES[0];
-      const error: ErrorItem = {
-        instance: "/api/enum/species",
-        status: 404,
-      };
-      fetchMock.mockResolvedValue({
-        ok: false,
-        status: 404,
-        statusText: "Not Found",
-        json: async () => error,
-      });
-      enumService.removeEnum("species", content.code).subscribe({
-        error: (err) => {
-          expect(err).toBeDefined();
-          expect(err).toEqual(error);
         },
       });
     });

@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { of } from "rxjs";
 import { mapPetToPetItem, PetService } from "./pet.service";
 import type { Pet, PetItem } from "../types/pet.type";
 
@@ -23,18 +24,17 @@ const ALLPET = [
 
 describe("PetService", () => {
   let petService: PetService;
-  let fetchMock: any;
+  let httpClientMock: any;
 
   beforeEach(() => {
-    global.window = {
-      location: {
-        protocol: "http:",
-        host: "localhost:5050",
-      },
-    } as any;
-    fetchMock = vi.fn();
-    global.fetch = fetchMock;
-    petService = new PetService();
+    httpClientMock = {
+      get: vi.fn(),
+      post: vi.fn(),
+      put: vi.fn(),
+      patch: vi.fn(),
+      delete: vi.fn(),
+    };
+    petService = new PetService(httpClientMock);
   });
 
   it("should be created", () => {
@@ -44,10 +44,7 @@ describe("PetService", () => {
   describe("loadAllPet", () => {
     it("should load pets successfully", () => {
       const content: Pet[] = ALLPET;
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ content: content }),
-      });
+      httpClientMock.get.mockReturnValue(of({ content: content }));
       petService.loadAllPet().subscribe({
         next: (allPet) => {
           expect(allPet).toEqual(content);
@@ -59,10 +56,7 @@ describe("PetService", () => {
   describe("loadAllPetItem", () => {
     it("should load pet items successfully", () => {
       const content: PetItem[] = ALLPET.map(mapPetToPetItem);
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => ({ content: content }),
-      });
+      httpClientMock.get.mockReturnValue(of({ content: content }));
       petService.loadAllPetItem().subscribe({
         next: (allItem) => {
           expect(allItem).toEqual(content);
@@ -74,10 +68,7 @@ describe("PetService", () => {
   describe("loadOnePet", () => {
     it("should load one pet successfully", () => {
       const content: Pet = ALLPET[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.get.mockReturnValue(of(content));
       petService.loadOnePet(content.id!).subscribe({
         next: (pet) => {
           expect(pet).toEqual(content);
@@ -89,10 +80,7 @@ describe("PetService", () => {
   describe("createPet", () => {
     it("should create pet successfully", () => {
       const content: Pet = ALLPET[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.post.mockReturnValue(of(content));
       petService.createPet(content).subscribe({
         next: (pet) => {
           expect(pet).toEqual(content);
@@ -101,14 +89,11 @@ describe("PetService", () => {
     });
   });
 
-  describe("updatePet", () => {
-    it("should update pet successfully", () => {
+  describe("mutatePet", () => {
+    it("should mutate pet successfully", () => {
       const content: Pet = ALLPET[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
-      petService.updatePet(content).subscribe({
+      httpClientMock.patch.mockReturnValue(of(content));
+      petService.mutatePet(content.id!, content).subscribe({
         next: (pet) => {
           expect(pet).toEqual(content);
         },
@@ -119,10 +104,7 @@ describe("PetService", () => {
   describe("removePet", () => {
     it("should remove pet successfully", () => {
       const content: Pet = ALLPET[0];
-      fetchMock.mockResolvedValue({
-        ok: true,
-        json: async () => content,
-      });
+      httpClientMock.delete.mockReturnValue(of(content));
       petService.removePet(content.id!).subscribe({
         next: (pet) => {
           expect(pet).toEqual(content);

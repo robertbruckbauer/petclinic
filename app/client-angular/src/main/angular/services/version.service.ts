@@ -1,23 +1,25 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { catchError, tap } from "rxjs";
-import { backendUrl } from "../app.routes";
+import { Observable } from "rxjs";
 import { type Version } from "../types/version.type";
-import { BaseService } from "./base.service";
+import { BackendService } from "./backend.service";
 
 @Injectable()
-export class VersionService extends BaseService {
-  constructor(private httpClient: HttpClient) {
-    super();
+export class VersionService extends BackendService {
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
   }
 
-  public loadVersion() {
-    const path = backendUrl() + "/version";
-    return this.httpClient.get<Version>(path).pipe(
-      catchError(this.handleError(path)),
-      tap((body) => {
-        console.log([["GET", path].join(" "), body]);
-      })
-    );
+  public loadVersion(): Observable<Version> {
+    const path = "/version";
+    return this.restApiGet(path);
+  }
+
+  public apiExplorerUrl(): URL {
+    return new URL("api/explorer", this.backendUrl());
+  }
+
+  public apiGraphiqlUrl(): URL {
+    return new URL("api/graphiql", this.backendUrl());
   }
 }

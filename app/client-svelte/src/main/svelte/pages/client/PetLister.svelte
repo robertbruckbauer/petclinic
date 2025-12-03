@@ -99,7 +99,7 @@
   }
 
   function loadAllPet() {
-    const search = { "owner.id": petOwnerId };
+    const search = { sort: "name,asc", "owner.id": petOwnerId };
     petService.loadAllPet(search).subscribe({
       next: (json) => {
         allPet = json;
