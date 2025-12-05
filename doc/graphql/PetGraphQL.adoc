@@ -1,0 +1,75 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Pet GraphQL API
+
+GraphQL API for querying pets in the pet clinic application.
+It provides query operations to retrieve all pets or individual pets by identifier.
+
+== Schema
+
+=== Pet
+
+The main GraphQL type representing a pet managed by this API.
+
+.Schema Definition
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/pet.gqls[]
+----
+
+The `Pet` type corresponds to the entity class defined in the backend API:
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
+----
+
+Each pet represents an animal owned by a client in the pet clinic.
+The pet requires a valid name, species, and birth date.
+Each pet must have an owner.
+
+The `owner` field uses batch loading via `@BatchMapping` in the `OwnerGraphqlController` to efficiently load owner relationships and avoid N+1 query problems.
+All owners for a batch of pets are loaded in a single database query.
+
+== Queries
+
+=== Collection queries
+
+==== `allPet`
+
+This query returns all pets in the system.
+It loads all pet entities in a single database query.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allPet: [Pet]
+----
+
+*Returns:*
+
+A list of all `Pet` objects.
+Returns an empty list if no pets exist.
+
+=== Object queries
+
+==== `petById`
+
+This query returns a single pet by its unique identifier.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+petById(id: ID): Pet
+----
+
+*Arguments:*
+
+`id` (ID)::
+The unique identifier of the pet to retrieve.
+
+*Returns:*
+
+The `Pet` object with the specified ID, or `null` if no pet with that ID exists.
