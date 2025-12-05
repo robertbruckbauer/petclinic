@@ -82,7 +82,9 @@ This operation reports `Conflict` or code 409 if the data is incomplete or is in
 === `PATCH /api/owner/{id}`
 
 This operation partially updates an existing _Owner_ entity.
-The following example shows the update of the name.
+You can update individual properties without affecting other properties.
+
+==== `name` attribute
 
 ****
 
@@ -105,7 +107,7 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
-NOTE: According to the template rules for PATCH operations: "Describe operations for attributes with only the first example of the existing snippets." The Owner entity has three @Column attributes (name, address, contact) but documentation currently shows only one example (name). This follows the template correctly. The allPet field is a @OneToMany relation, but since there are no PATCH snippets for it (relations are typically managed through the Pet entity), no additional documentation is needed. Verify this interpretation is correct.
+TIP: The description of attributes other than name are ommitted for simplicity because they are following the same pattern.
 
 === `GET /api/owner`
 

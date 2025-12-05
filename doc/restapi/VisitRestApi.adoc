@@ -80,26 +80,9 @@ This operation reports `Conflict` or code 409 if the data is incomplete, invalid
 === `PATCH /api/visit/{id}`
 
 This operation partially updates an existing _Visit_ entity.
-You can update individual fields like `date`, `text`, `pet`, or `vet` without affecting other properties.
+You can update individual properties without affecting other properties.
 
-NOTE: According to template rules, PATCH operations for attributes (@Column: date, time, text) should show only the first example. Currently, this section shows multiple attribute examples (date, text) which violates the rule "Describe operations for attributes with only the first example." Keep only the date example for attributes. Then separately document the relations: pet and vet (@ManyToOne) each with their own subsection since template states "Describe each operation for relations if a snippet exists." Restructure to show: one attribute example (date), then separate sections for pet relation and vet relation.
-
-==== Update date
-
-****
-
-.Command
-include::{restdocdir}/patch-api-visit-date/curl-request.adoc[]
-
-.Request
-include::{restdocdir}/patch-api-visit-date/http-request.adoc[]
-
-.Response
-include::{restdocdir}/patch-api-visit-date/response-body.adoc[]
-
-****
-
-==== Update text
+==== `text` attribute
 
 ****
 
@@ -114,7 +97,17 @@ include::{restdocdir}/patch-api-visit-text/response-body.adoc[]
 
 ****
 
-==== Update pet relation
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint.
+
+TIP: The description of attributes other than text are ommitted for simplicity because they are following the same pattern.
+
+==== `pet` relation
 
 ****
 
@@ -129,7 +122,15 @@ include::{restdocdir}/patch-api-visit-pet/response-body.adoc[]
 
 ****
 
-==== Update vet relation
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+This operation reports `Conflict` or code 409 if this relation already exists.
+
+==== `vet` relation
 
 ****
 
@@ -150,7 +151,7 @@ This operation reports `Bad Request` or code 400 if the data was not processed.
 
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
-This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint (duplicate visit for same pet on same date).
+This operation reports `Conflict` or code 409 if this relation already exists.
 
 === `GET /api/visit`
 
