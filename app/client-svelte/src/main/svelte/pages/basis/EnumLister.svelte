@@ -1,5 +1,5 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { EnumService } from "../../services/enum.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast/index.js";
   import Icon from "../../components/Icon/index.js";
@@ -71,12 +71,11 @@
     if (index > -1) allItem = allItem.toSpliced(index, 1);
   }
 
+  const enumService = new EnumService();
+
   function loadAllItem() {
-    restApi
-      .loadAllValue("/api/enum/" + art)
-      .then((json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllItem", art, msg]);
+    enumService.loadAllEnum(art).subscribe({
+      next: (json) => {
         newItemCode = Math.max(...json.map((e) => e.code)) + 1;
         allItem = json.filter((e) => {
           if (!itemFilter) return true;
@@ -87,27 +86,25 @@
             return true;
           }
         });
-      })
-      .catch((err) => {
-        console.log(["loadAllItem", art, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function removeItem(_item) {
     const text = _item.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete enum '" + hint + "' permanently?")) return;
-    restApi
-      .removeValue("/api/enum/" + art + "/" + _item.code)
-      .then((json) => {
-        console.log(["removeItem", _item, json]);
+    enumService.removeEnum(art, _item.code).subscribe({
+      next: (json) => {
         onRemoveItem(json);
-      })
-      .catch((err) => {
-        console.log(["removeItem", _item, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

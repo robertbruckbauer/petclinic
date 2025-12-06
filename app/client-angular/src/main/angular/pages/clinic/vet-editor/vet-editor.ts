@@ -72,7 +72,7 @@ export class VetEditorComponent implements OnInit {
       });
     } else {
       const subscription = this.vetService
-        .updateVet({
+        .mutateVet(this.vet().id!, {
           ...this.vet(),
           name: this.form.value.name!,
           allSkill: this.form.value.allSkill!,

@@ -7,7 +7,6 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HttpParams } from "@angular/common/http";
 import {
   FormControl,
   FormGroup,
@@ -81,10 +80,10 @@ export class VisitListerComponent implements OnInit {
   allVetItem = signal<VetItem[]>([]);
   ngOnInit() {
     this.loading.set(true);
-    const params = new HttpParams().set("sort", "date,asc");
+    const search = { sort: "date,asc" };
     const subscription = forkJoin({
       allVetItem: this.vetService.loadAllVetItem(),
-      allVisit: this.visitService.loadAllVisit(params),
+      allVisit: this.visitService.loadAllVisit(search),
     }).subscribe({
       next: (value) => {
         this.allVetItem.set(value.allVetItem);
@@ -101,8 +100,8 @@ export class VisitListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const params = new HttpParams().set("sort", "date,desc");
-    const subscription = this.visitService.loadAllVisit(params).subscribe({
+    const search = { sort: "date,desc" };
+    const subscription = this.visitService.loadAllVisit(search).subscribe({
       next: (allVisit) => {
         this.allVisit.set(allVisit);
       },

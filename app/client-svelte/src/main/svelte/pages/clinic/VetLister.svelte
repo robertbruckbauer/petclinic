@@ -1,5 +1,6 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { VetService } from "../../services/vet.service";
+  import { EnumService } from "../../services/enum.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast/index.js";
   import Circle from "../../components/Spinner/index.js";
@@ -7,20 +8,26 @@
   import TextField from "../../components/TextField/index.js";
   import VetEditor from "./VetEditor.svelte";
 
+  const vetService = new VetService();
+  const enumService = new EnumService();
+
   let allSkillEnum = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
-      allSkillEnum = await restApi.loadAllValue("/api/enum/skill");
-      allSkillEnum = allSkillEnum.map((e) => ({
-        value: e.value,
-        text: e.name,
-      }));
-      loadAllVet();
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
+      enumService.loadAllEnum("skill").subscribe({
+        next: (json) => {
+          allSkillEnum = json.map((e) => ({
+            value: e.value,
+            text: e.name,
+          }));
+          loadAllVet();
+        },
+        error: (err) => {
+          toast.push(err);
+        },
+      });
     } finally {
       loading = false;
     }
@@ -50,15 +57,6 @@
 
   const vetEditorDisabled = $derived(vetEditorCreate || vetEditorUpdate);
 
-  let vetFilter = $state("");
-  function vetFilterParameter() {
-    if (!vetFilter) return "";
-    return "&name=" + encodeURIComponent(vetFilter);
-  }
-  function vetSortParameter() {
-    return "?sort=name";
-  }
-
   function onVetFilterClicked(_event) {
     _event.preventDefault();
     try {
@@ -82,48 +80,32 @@
     if (index > -1) allVet = allVet.toSpliced(index, 1);
   }
 
+  let vetFilter = $state("");
   function loadAllVet() {
-    const query = vetSortParameter() + vetFilterParameter();
-    restApi
-      .loadAllValue("/api/vet" + query)
-      .then((json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllVet", query, msg]);
+    const search = { sort: "name,asc" };
+    if (vetFilter) search.name = vetFilter;
+    vetService.loadAllVet(search).subscribe({
+      next: (json) => {
         allVet = json;
-      })
-      .catch((err) => {
-        console.log(["loadAllVet", query, err]);
-        toast.push(err.toString());
-      });
-  }
-
-  function updateVet(_vet) {
-    restApi
-      .updatePatch("/api/vet/" + _vet.id, _vet)
-      .then((json) => {
-        console.log(["updateVet", _vet, json]);
-        onUpdateVet(json);
-      })
-      .catch((err) => {
-        console.log(["updateVet", _vet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function removeVet(_vet) {
     const text = _vet.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete vet '" + hint + "' permanently?")) return;
-    restApi
-      .removeValue("/api/vet/" + _vet.id)
-      .then((json) => {
-        console.log(["removeVet", _vet, json]);
+    vetService.removeVet(_vet.id).subscribe({
+      next: (json) => {
         onRemoveVet(json);
-      })
-      .catch((err) => {
-        console.log(["removeVet", _vet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 
@@ -236,7 +218,7 @@
           {/if}
         {:else}
           <tr>
-            <td class="px-2" colspan="3">Keine Vetn</td>
+            <td class="px-2" colspan="3">Keine Vet</td>
           </tr>
         {/each}
       </tbody>

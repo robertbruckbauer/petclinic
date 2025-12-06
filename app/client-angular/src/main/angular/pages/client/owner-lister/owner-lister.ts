@@ -7,7 +7,6 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HttpParams } from "@angular/common/http";
 import {
   FormControl,
   FormGroup,
@@ -99,10 +98,10 @@ export class OwnerListerComponent implements OnInit {
   allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
     this.loading.set(true);
-    const params = new HttpParams().set("sort", "name,asc");
+    const search = { sort: "name,asc" };
     const subscription = forkJoin({
       allSpeciesEnum: this.enumService.loadAllEnum("species"),
-      allOwner: this.ownerService.loadAllOwner(params),
+      allOwner: this.ownerService.loadAllOwner(search),
     }).subscribe({
       next: (value) => {
         this.allSpeciesEnum.set(value.allSpeciesEnum);
@@ -119,10 +118,8 @@ export class OwnerListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const params = new HttpParams()
-      .set("sort", "name,asc")
-      .set("name", this.filterForm.value.criteria!);
-    const subscription = this.ownerService.loadAllOwner(params).subscribe({
+    const search = { sort: "name,asc", name: this.filterForm.value.criteria! };
+    const subscription = this.ownerService.loadAllOwner(search).subscribe({
       next: (allOwner) => {
         this.allOwner.set(allOwner);
       },

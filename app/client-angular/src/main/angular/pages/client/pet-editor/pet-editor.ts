@@ -74,7 +74,7 @@ export class PetEditorComponent implements OnInit {
       });
     } else {
       const subscription = this.petService
-        .updatePet({
+        .mutatePet(this.pet().id!, {
           ...this.pet(),
           name: this.form.value.name!,
           born: this.form.value.born!,

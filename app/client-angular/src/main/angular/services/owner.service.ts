@@ -1,49 +1,45 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { backendUrl } from "../app.routes";
+import { HttpClient } from "@angular/common/http";
+import { Observable, map } from "rxjs";
 import { type OwnerItem, type Owner } from "../types/owner.type";
-import { tapLog } from "../utils/log";
-import { map, Observable } from "rxjs";
+import { BackendService } from "./backend.service";
 
 @Injectable()
-export class OwnerService {
-  constructor(private httpClient: HttpClient) {}
+export class OwnerService extends BackendService {
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
+  }
 
-  public loadAllOwner(params: HttpParams | undefined = undefined) {
-    const path = [backendUrl(), "api", "owner"].join("/");
-    return this.httpClient.get<{ content: Owner[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content)
-    );
+  public loadAllOwner(
+    search: Record<string, string> = {}
+  ): Observable<Owner[]> {
+    const path = ["api", "owner"].join("/");
+    return this.restApiGetAll(path, search);
   }
 
   public loadAllOwnerItem(): Observable<OwnerItem[]> {
-    const params = new HttpParams().set("sort", "name,asc");
-    const path = [backendUrl(), "api", "owner"].join("/");
-    return this.httpClient.get<{ content: Owner[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content.map(mapOwnerToOwnerItem))
-    );
+    const path = ["api", "owner", "search", "findAllItem"].join("/");
+    return this.restApiGetAll(path, {});
   }
 
-  public createOwner(value: Owner) {
-    const path = [backendUrl(), "api", "owner"].join("/");
-    return this.httpClient
-      .post<Owner>(path, value)
-      .pipe(tapLog("POST", path, value));
+  public loadOneOwner(id: string): Observable<Owner> {
+    const path = ["api", "owner", id].join("/");
+    return this.restApiGet(path);
   }
 
-  public updateOwner(value: Owner) {
-    const path = [backendUrl(), "api", "owner", value.id].join("/");
-    const headers = { "Content-Type": "application/merge-patch+json" };
-    return this.httpClient
-      .patch<Owner>(path, value, { headers })
-      .pipe(tapLog("PATCH", path, value));
+  public createOwner(value: Owner): Observable<Owner> {
+    const path = ["api", "owner"].join("/");
+    return this.restApiPost(path, value);
   }
 
-  public removeOwner(id: string) {
-    const path = [backendUrl(), "api", "owner", id].join("/");
-    return this.httpClient.delete<Owner>(path).pipe(tapLog("DELETE", path));
+  public mutateOwner(id: string, value: Partial<Owner>): Observable<Owner> {
+    const path = ["api", "owner", id].join("/");
+    return this.restApiPatch(path, value);
+  }
+
+  public removeOwner(id: string): Observable<Owner> {
+    const path = ["api", "owner", id].join("/");
+    return this.restApiDelete(path);
   }
 }
 

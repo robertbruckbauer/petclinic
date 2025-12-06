@@ -4,52 +4,36 @@ const defaults = {
   duration: 60000,
   initial: 1,
   next: 0,
-  dismissable: true,
 };
 
 const createToast = () => {
   const { subscribe, update } = writable([]);
   let count = 0;
-  const options = {};
-  const _obj = (obj) => obj instanceof Object;
-  const push = (msg, opts = {}) => {
-    const param = {
-      target: "default",
-      ...(_obj(msg) ? msg : { ...opts, msg }),
-    };
-    const conf = options[param.target] || {};
+  const push = (err) => {
     const entry = {
       ...defaults,
-      ...conf,
-      ...param,
+      msg: err.detail || err.toString(),
       id: ++count,
     };
-    update((n) => [entry, ...n]);
+    update((allEntry) => [entry, ...allEntry]);
     return count;
   };
   const pop = (id) => {
-    update((n) => {
-      if (!n.length || id === 0) return [];
-      if (_obj(id)) return n.filter((i) => id(i));
-      const target = id || Math.max(...n.map((i) => i.id));
-      return n.filter((i) => i.id !== target);
+    update((allEntry) => {
+      if (!allEntry.length || id === 0) return [];
+      return allEntry.filter((entry) => entry.id !== id);
     });
   };
-  const set = (id, opts = {}) => {
-    const param = _obj(id) ? { ...id } : { ...opts, id };
-    update((n) => {
-      const idx = n.findIndex((i) => i.id === param.id);
-      if (idx > -1) {
-        n[idx] = { ...n[idx], ...param };
+  const set = (id) => {
+    update((allEntry) => {
+      const entryIndex = allEntry.findIndex((entry) => entry.id === id);
+      if (entryIndex > -1) {
+        allEntry[entryIndex] = { ...allEntry[entryIndex], id };
       }
-      return n;
+      return allEntry;
     });
   };
-  const _init = (target = "default", opts = {}) => {
-    options[target] = opts;
-    return options;
-  };
-  return { subscribe, push, pop, set, _init };
+  return { subscribe, push, pop, set };
 };
 
 export const toast = createToast();

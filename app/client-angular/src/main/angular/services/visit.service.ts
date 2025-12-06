@@ -1,44 +1,44 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { backendUrl } from "../app.routes";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 import { type Visit } from "../types/visit.type";
-import { tapLog } from "../utils/log";
-import { map } from "rxjs";
+import { BackendService } from "./backend.service";
 
 @Injectable()
-export class VisitService {
-  constructor(private httpClient: HttpClient) {}
-
-  public loadAllVisit(params: HttpParams | undefined = undefined) {
-    const path = [backendUrl(), "api", "visit"].join("/");
-    return this.httpClient.get<{ content: Visit[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content)
-    );
+export class VisitService extends BackendService {
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
   }
 
-  public loadVisit(id: string) {
-    const path = [backendUrl(), "api", "visit", id].join("/");
-    return this.httpClient.get<Visit>(path).pipe(tapLog("GET", path));
+  public loadAllVisit(
+    search: Record<string, string> = {}
+  ): Observable<Visit[]> {
+    const path = ["api", "visit"].join("/");
+    return this.restApiGetAll(path, search);
   }
 
-  public createVisit(value: Visit) {
-    const path = [backendUrl(), "api", "visit"].join("/");
-    return this.httpClient
-      .post<Visit>(path, value)
-      .pipe(tapLog("POST", path, value));
+  public loadOneVisit(id: string): Observable<Visit> {
+    const path = ["api", "visit", id].join("/");
+    return this.restApiGet(path);
   }
 
-  public updateVisit(value: Visit) {
-    const path = [backendUrl(), "api", "visit", value.id].join("/");
-    const headers = { "Content-Type": "application/merge-patch+json" };
-    return this.httpClient
-      .patch<Visit>(path, value, { headers })
-      .pipe(tapLog("PATCH", path, value));
+  public createVisit(value: Visit): Observable<Visit> {
+    const path = ["api", "visit"].join("/");
+    return this.restApiPost(path, value);
   }
 
-  public removeVisit(id: string) {
-    const path = [backendUrl(), "api", "visit", id].join("/");
-    return this.httpClient.delete<Visit>(path).pipe(tapLog("DELETE", path));
+  public updateVisit(value: Visit): Observable<Visit> {
+    const path = ["api", "visit", value.id].join("/");
+    return this.restApiPut(path, value);
+  }
+
+  public mutateVisit(id: string, value: Partial<Visit>): Observable<Visit> {
+    const path = ["api", "visit", id].join("/");
+    return this.restApiPatch(path, value);
+  }
+
+  public removeVisit(id: string): Observable<Visit> {
+    const path = ["api", "visit", id].join("/");
+    return this.restApiDelete(path);
   }
 }

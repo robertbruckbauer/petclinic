@@ -1,10 +1,12 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { PetService } from "../../services/pet.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import Select from "../../components/Select";
   import TextField from "../../components/TextField";
+
+  const petService = new PetService();
 
   let {
     autofocus = true,
@@ -36,8 +38,7 @@
     newPetBorn = pet.born;
   });
   const newPet = $derived({
-    id: pet.id,
-    version: pet.version,
+    ...pet,
     owner: "/api/owner/" + ownerId,
     species: newPetSpecies,
     name: newPetName,
@@ -65,31 +66,27 @@
   }
 
   function createPet() {
-    restApi
-      .createValue("/api/pet", newPet)
-      .then((json) => {
-        console.log(["createPet", newPet, json]);
+    petService.createPet(newPet).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createPet", newPet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function updatePet() {
-    restApi
-      .updatePatch("/api/pet" + "/" + newPet.id, newPet)
-      .then((json) => {
-        console.log(["updatePet", newPet, json]);
+    petService.updatePet(newPet).subscribe({
+      next: (json) => {
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
-        console.log(["updatePet", newPet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

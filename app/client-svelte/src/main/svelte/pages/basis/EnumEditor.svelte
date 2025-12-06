@@ -1,5 +1,5 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { EnumService } from "../../services/enum.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast/index.js";
   import Button from "../../components/Button/index.js";
@@ -38,8 +38,7 @@
     newItemText = item.text;
   });
   const newItem = $derived({
-    id: item.id,
-    version: item.version,
+    ...item,
     code: newItemCode,
     name: newItemName,
     text: newItemText,
@@ -70,32 +69,30 @@
     oncancel?.();
   }
 
+  const enumService = new EnumService();
+
   function createItem() {
-    restApi
-      .createValue("/api/enum/" + art, newItem)
-      .then((json) => {
-        console.log(["createItem", newItem, json]);
+    enumService.createEnum(art, newItem).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createItem", newItem, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function updateItem() {
-    restApi
-      .updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
-      .then((json) => {
-        console.log(["updateItem", newItem, json]);
+    enumService.updateEnum(art, newItem).subscribe({
+      next: (json) => {
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
-        console.log(["updateItem", newItem, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

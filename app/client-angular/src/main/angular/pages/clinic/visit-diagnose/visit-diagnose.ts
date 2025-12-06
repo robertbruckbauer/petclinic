@@ -80,7 +80,7 @@ export class VisitDiagnoseComponent implements OnInit {
       });
     } else {
       const subscription = this.visitService
-        .updateVisit({
+        .mutateVisit(this.visit().id!, {
           ...this.visit(),
           text: this.form.value.text!,
           vetItem: undefined, // vetItem is invalid

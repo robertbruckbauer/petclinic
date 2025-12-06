@@ -1,9 +1,11 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { VisitService } from "../../services/visit.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import TextField from "../../components/TextField";
+
+  const visitService = new VisitService();
 
   let {
     autofocus = true,
@@ -46,17 +48,15 @@
   }
 
   function createVisit() {
-    restApi
-      .createValue("/api/visit", newVisit)
-      .then((json) => {
-        console.log(["createVisit", newVisit, json]);
+    visitService.createVisit(newVisit).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createVisit", newVisit, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

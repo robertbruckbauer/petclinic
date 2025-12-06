@@ -6,7 +6,6 @@ import {
   input,
   signal,
 } from "@angular/core";
-import { HttpParams } from "@angular/common/http";
 import { RouterLink } from "@angular/router";
 import { VisitService } from "../../../services/visit.service";
 import { type Owner } from "../../../types/owner.type";
@@ -28,10 +27,8 @@ export class VisitOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.loading.set(true);
-    const params = new HttpParams()
-      .set("sort", "date,desc")
-      .set("pet.owner.id", this.owner().id!);
-    const subscription = this.visitService.loadAllVisit(params).subscribe({
+    const search = { sort: "date,desc", "pet.owner.id": this.owner().id! };
+    const subscription = this.visitService.loadAllVisit(search).subscribe({
       next: (allVisit) => {
         this.allVisit.set(allVisit);
       },

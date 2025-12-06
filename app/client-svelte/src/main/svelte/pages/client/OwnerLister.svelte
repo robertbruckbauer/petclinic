@@ -1,5 +1,8 @@
 <script>
-  import * as restApi from "../../services/rest.js";
+  import { OwnerService } from "../../services/owner.service";
+  import { EnumService } from "../../services/enum.service";
+  import { mapVetToVetItem } from "../../services/vet.service";
+  import { VisitService } from "../../services/visit.service";
   import { onMount } from "svelte";
   import { toast } from "../../components/Toast/index.js";
   import Circle from "../../components/Spinner/index.js";
@@ -9,28 +12,37 @@
   import PetEditor from "./PetEditor.svelte";
   import VisitCardLister from "../clinic/VisitCardLister.svelte";
 
+  const ownerService = new OwnerService();
+  const enumService = new EnumService();
+  const visitService = new VisitService();
+
   let allVetItem = $state([]);
   let allSpeciesEnum = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
-      allVetItem = await restApi.loadAllValue("/api/owner?sort=name,asc");
-      allVetItem = allVetItem.map((e) => ({
-        value: e.id,
-        text: e.name,
-      }));
-      console.log(["onMount", allVetItem]);
-      allSpeciesEnum = await restApi.loadAllValue("/api/enum/species");
-      allSpeciesEnum = allSpeciesEnum.map((e) => ({
-        value: e.value,
-        text: e.name,
-      }));
-      console.log(["onMount", allSpeciesEnum]);
+      const search = { sort: "name,asc" };
+      ownerService.loadAllOwner(search).subscribe({
+        next: (json) => {
+          allVetItem = json.map(mapVetToVetItem);
+        },
+        error: (err) => {
+          toast.push(err);
+        },
+      });
+      enumService.loadAllEnum("species").subscribe({
+        next: (json) => {
+          allSpeciesEnum = json.map((e) => ({
+            value: e.value,
+            text: e.name,
+          }));
+        },
+        error: (err) => {
+          toast.push(err);
+        },
+      });
       loadAllOwner();
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
     } finally {
       loading = false;
     }
@@ -86,15 +98,6 @@
     ownerEditorCreate || ownerEditorUpdate || petCreateEditor
   );
 
-  let ownerFilter = $state("");
-  function ownerFilterParameter() {
-    if (!ownerFilter) return "";
-    return "&name=" + encodeURIComponent(ownerFilter);
-  }
-  function ownerSortParameter() {
-    return "?sort=name";
-  }
-
   function onOwnerFilterClicked(_event) {
     _event.preventDefault();
     try {
@@ -126,51 +129,45 @@
     _owner.allPetItem = _owner.allPetItem.toSpliced(0, 0, _petItem);
   }
 
+  let ownerFilter = $state("");
   function loadAllOwner() {
-    const query = ownerSortParameter() + ownerFilterParameter();
-    restApi
-      .loadAllValue("/api/owner" + query)
-      .then((json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllOwner", query, msg]);
+    const search = { sort: "name,asc" };
+    if (ownerFilter) search.name = ownerFilter;
+    ownerService.loadAllOwner(search).subscribe({
+      next: (json) => {
         allOwner = json;
-      })
-      .catch((err) => {
-        console.log(["loadAllOwner", query, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   let allOwnerVisit = $state([]);
   function loadAllVisit() {
-    const query = "?sort=date,desc&pet.owner.id=" + ownerId;
-    restApi
-      .loadAllValue("/api/visit" + query)
-      .then((json) => {
-        const msg = import.meta.env.DEV ? json : json.length;
-        console.log(["loadAllVisit", query, msg]);
+    const search = { sort: "date,desc", "pet.owner.id": ownerId };
+    visitService.loadAllVisit(search).subscribe({
+      next: (json) => {
         allOwnerVisit = json;
-      })
-      .catch((err) => {
-        console.log(["loadAllVisit", query, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function removeOwner(_owner) {
     const text = _owner.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete owner '" + hint + "' permanently?")) return;
-    restApi
-      .removeValue("/api/owner/" + _owner.id)
-      .then((json) => {
-        console.log(["removeOwner", _owner, json]);
+    ownerService.removeOwner(_owner.id).subscribe({
+      next: (json) => {
         onRemoveOwner(json);
-      })
-      .catch((err) => {
-        console.log(["removeOwner", _owner, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

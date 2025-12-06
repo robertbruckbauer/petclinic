@@ -31,7 +31,7 @@ export class VisitViewerComponent implements OnInit {
   ngOnInit(): void {
     this.loading.set(true);
     const subscription = forkJoin({
-      visit: this.visitService.loadVisit(this.visitId()),
+      visit: this.visitService.loadOneVisit(this.visitId()),
       allVetItem: this.vetService.loadAllVetItem(),
     }).subscribe({
       next: (value) => {

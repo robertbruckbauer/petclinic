@@ -3,14 +3,6 @@ import { HelpComponent } from "./pages/help/help";
 import { HomeComponent } from "./pages/home/home";
 import { VersionService } from "./services/version.service";
 
-export const backendUrl = () => {
-  return (
-    window.location.protocol +
-    "//" +
-    window.location.host.replace("5052", "8080")
-  );
-};
-
 export const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "home" },
   { path: "help", component: HelpComponent },

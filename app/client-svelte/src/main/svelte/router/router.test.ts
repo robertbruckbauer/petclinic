@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { get } from "svelte/store";
-import type { RouteParams, SvelteComponent, ActiveRoute } from "./router";
+import type { SvelteComponent, ActiveRoute } from "./router";
 
 const mockWindow = {
   location: { pathname: "/", origin: "http://localhost:5050" },
@@ -252,14 +252,13 @@ describe("Router", () => {
 
     it("should not start router multiple times", () => {
       startRouter();
-      startRouter(); // Second call should be ignored
+      startRouter();
 
-      // Should only be called once
       expect(mockWindow.addEventListener).toHaveBeenCalledTimes(1);
     });
 
     it("should handle stopping router when not started", () => {
-      stopRouter(); // Should not throw
+      stopRouter();
 
       expect(mockWindow.removeEventListener).not.toHaveBeenCalled();
     });

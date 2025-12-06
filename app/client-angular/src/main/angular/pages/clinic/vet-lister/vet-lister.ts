@@ -7,7 +7,6 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HttpParams } from "@angular/common/http";
 import {
   FormControl,
   FormGroup,
@@ -65,10 +64,10 @@ export class VetListerComponent implements OnInit {
   allSkillEnum = signal<EnumItem[]>([]);
   ngOnInit() {
     this.loading.set(true);
-    const params = new HttpParams().set("sort", "name,asc");
+    const search = { sort: "name,asc" };
     const subscription = forkJoin({
       allSkillEnum: this.enumService.loadAllEnum("skill"),
-      allVet: this.vetService.loadAllVet(params),
+      allVet: this.vetService.loadAllVet(search),
     }).subscribe({
       next: (value) => {
         this.allSkillEnum.set(value.allSkillEnum);
@@ -85,10 +84,8 @@ export class VetListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const params = new HttpParams()
-      .set("sort", "name,asc")
-      .set("name", this.filterForm.value.criteria!);
-    const subscription = this.vetService.loadAllVet(params).subscribe({
+    const search = { sort: "name,asc", name: this.filterForm.value.criteria! };
+    const subscription = this.vetService.loadAllVet(search).subscribe({
       next: (allVet) => {
         this.allVet.set(allVet);
       },
