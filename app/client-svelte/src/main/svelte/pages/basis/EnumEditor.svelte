@@ -38,8 +38,7 @@
     newItemText = item.text;
   });
   const newItem = $derived({
-    id: item.id,
-    version: item.version,
+    ...item,
     code: newItemCode,
     name: newItemName,
     text: newItemText,

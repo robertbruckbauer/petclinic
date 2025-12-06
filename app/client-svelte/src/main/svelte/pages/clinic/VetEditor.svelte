@@ -35,8 +35,7 @@
     newVetAllSkill = vet.allSkill || [];
   });
   const newVet = $derived({
-    id: vet.id,
-    version: vet.version,
+    ...vet,
     name: newVetName,
     allSkill: newVetAllSkill,
   });

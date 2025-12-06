@@ -35,8 +35,7 @@
     newOwnerContact = owner.contact;
   });
   const newOwner = $derived({
-    id: owner.id,
-    version: owner.version,
+    ...owner,
     name: newOwnerName,
     address: newOwnerAddress,
     contact: newOwnerContact,

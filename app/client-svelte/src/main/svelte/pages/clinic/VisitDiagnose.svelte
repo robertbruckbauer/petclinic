@@ -30,8 +30,7 @@
   let newVisitText = $derived(visit.text);
   let newVisitVetItem = $derived(visit.vetItem);
   const newVisit = $derived({
-    id: visit.id,
-    version: visit.version,
+    ...visit,
     text: newVisitText,
     vetItem: newVisitVetItem,
     vet: "/api/vet/" + newVisitVetItem.value,

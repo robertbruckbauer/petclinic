@@ -38,8 +38,7 @@
     newPetBorn = pet.born;
   });
   const newPet = $derived({
-    id: pet.id,
-    version: pet.version,
+    ...pet,
     owner: "/api/owner/" + ownerId,
     species: newPetSpecies,
     name: newPetName,
