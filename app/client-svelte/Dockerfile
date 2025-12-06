@@ -1,4 +1,4 @@
-FROM node:22-alpine@sha256:9632533eda8061fc1e9960cfb3f8762781c07a00ee7317f5dc0e13c05e15166f
+FROM node:24-alpine@sha256:682368d8253e0c3364b803956085c456a612d738bd635926d73fa24db3ce53d7
 ENV TZ=Europe/Vienna
 RUN apk add --no-cache tzdata
 WORKDIR /client
