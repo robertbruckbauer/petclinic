@@ -11,7 +11,7 @@
     ...elementProps
   } = $props();
 
-  let element;
+  let element: HTMLTextAreaElement;
   export function focus() {
     element?.focus();
   }
