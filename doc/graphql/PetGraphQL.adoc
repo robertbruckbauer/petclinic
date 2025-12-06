@@ -27,8 +27,10 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[inde
 ----
 
 Each pet represents an animal owned by a client in the pet clinic.
-The pet requires a valid name, species, and birth date.
+The pet requires a valid name and species.
 Each pet must have an owner.
+
+NOTE: The documentation previously mentioned "birth date" as a required field, but the GraphQL schema does not include a `born` field. The Java entity `Pet` has a `born` property (LocalDate), but it is not exposed in the GraphQL schema defined in pet.gqls. If birth date should be queryable via GraphQL, add `born: LocalDate` to the Pet type in pet.gqls.
 
 The `owner` field uses batch loading via `@BatchMapping` in the `OwnerGraphqlController` to efficiently load owner relationships and avoid N+1 query problems.
 All owners for a batch of pets are loaded in a single database query.
@@ -64,6 +66,8 @@ This query returns a single pet by its unique identifier.
 ----
 petById(id: ID): Pet
 ----
+
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `petById(id: ID!): Pet`. Update query.gqls to add the non-null marker.
 
 *Arguments:*
 

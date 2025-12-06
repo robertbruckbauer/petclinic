@@ -53,7 +53,7 @@ allEnum(art: String): [Enum]
 `art` (String)::
 The discriminator that identifies the enumeration type (e.g., "species", "skill").
 
-NOTE: The GraphQL schema shows `art` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. Verify whether the parameter should be mandatory in the schema: `allEnum(art: String!): [Enum]`
+NOTE: The GraphQL schema shows `art` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allEnum(art: String!): [Enum]`. Update query.gqls to add the non-null marker.
 
 *Returns:*
 

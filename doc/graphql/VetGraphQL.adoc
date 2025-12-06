@@ -62,6 +62,8 @@ This query returns a single vet by their unique identifier.
 vetById(id: ID): Vet
 ----
 
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `vetById(id: ID!): Vet`. Update query.gqls to add the non-null marker.
+
 *Arguments:*
 
 `id` (ID)::
@@ -81,6 +83,8 @@ The query uses exact name matching (case-sensitive).
 ----
 vetByName(name: String): Vet
 ----
+
+NOTE: The GraphQL schema shows `name` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `vetByName(name: String!): Vet`. Update query.gqls to add the non-null marker.
 
 *Arguments:*
 

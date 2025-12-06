@@ -59,6 +59,8 @@ This query returns a single owner by unique identifier.
 ownerById(id: ID): Owner
 ----
 
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `ownerById(id: ID!): Owner`. Update query.gqls to add the non-null marker.
+
 *Arguments:*
 
 `id` (ID)::
@@ -77,6 +79,8 @@ This query returns a single owner by unique name.
 ----
 ownerByName(name: String): Owner
 ----
+
+NOTE: The GraphQL schema shows `name` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `ownerByName(name: String!): Owner`. Update query.gqls to add the non-null marker.
 
 *Arguments:*
 

@@ -26,11 +26,12 @@ The `Visit` type corresponds to the entity class defined in the backend API:
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
 ----
 
-Each visit represents a veterinary treatment with a date, associated pet, attending veterinarian, and visit diagnosis text.
+Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and visit diagnosis text.
 Both the pet and vet relationships are optional.
-All fields in the visit can be nullable.
 
-The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
+NOTE: The GraphQL schema shows the `date` field as nullable (`date: LocalDate`), but the Java entity has `@NotNull` annotation on the date field. Consider whether the schema should be updated to `date: LocalDate!` to match the entity constraint.
+
+The schema uses custom scalar types `LocalDate` and `LocalTime` which map to Java's `java.time.LocalDate` and `java.time.LocalTime` types for representing calendar dates and times of day.
 
 == Queries
 
@@ -59,6 +60,8 @@ This query returns all visits scheduled for a specific date.
 allVisitAt(date: LocalDate): [Visit]
 ----
 
+NOTE: The GraphQL schema shows `date` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allVisitAt(date: LocalDate!): [Visit]`. Update query.gqls to add the non-null marker.
+
 *Arguments:*
 
 `date` (LocalDate)::
@@ -79,6 +82,8 @@ This query returns all visits for a specific pet.
 allVisitByPetId(id: ID): [Visit]
 ----
 
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allVisitByPetId(id: ID!): [Visit]`. Update query.gqls to add the non-null marker.
+
 *Arguments:*
 
 `id` (ID)::
@@ -98,6 +103,8 @@ This query returns all visits attended by a specific veterinarian.
 ----
 allVisitByVetId(id: ID): [Visit]
 ----
+
+NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allVisitByVetId(id: ID!): [Visit]`. Update query.gqls to add the non-null marker.
 
 *Arguments:*
 
