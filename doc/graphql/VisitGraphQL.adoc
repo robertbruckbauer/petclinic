@@ -27,11 +27,15 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[in
 ----
 
 Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and visit diagnosis text.
-Both the pet and vet relationships are optional.
+The date attribute is required.
+The time attribute is optional because the time of treatment is not always known at the time the visit is created.
+The pet relation is optional because visits can be created as placeholders for veterinarians on duty.
+The vet relation is optional because the veterinarian on duty is not always known at the time the visit is created.
+The text attribute is optional because a veterinarian enters the diagnosis at the end of treatment.
 
-NOTE: The GraphQL schema shows the `date` field as nullable (`date: LocalDate`), but the Java entity has `@NotNull` annotation on the date field. Consider whether the schema should be updated to `date: LocalDate!` to match the entity constraint.
+The schema uses custom scalar type `LocalDate` which map to Java's `java.time.LocalDate` type for representing calendar dates.
 
-The schema uses custom scalar types `LocalDate` and `LocalTime` which map to Java's `java.time.LocalDate` and `java.time.LocalTime` types for representing calendar dates and times of day.
+The schema uses custom scalar type `LocalTime` which map to Java's  `java.time.LocalTime` type for representing times of day.
 
 == Queries
 
