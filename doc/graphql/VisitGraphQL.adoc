@@ -57,14 +57,12 @@ This query returns all visits scheduled for a specific date.
 .Query Definition
 [source,graphql,options="nowrap"]
 ----
-allVisitAt(date: LocalDate): [Visit]
+allVisitAt(date: LocalDate!): [Visit]
 ----
-
-NOTE: The GraphQL schema shows `date` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allVisitAt(date: LocalDate!): [Visit]`. Update query.gqls to add the non-null marker.
 
 *Arguments:*
 
-`date` (LocalDate)::
+`date` (LocalDate, required)::
 The date to filter visits by (e.g., "2024-12-25").
 
 *Returns:*
@@ -79,14 +77,12 @@ This query returns all visits for a specific pet.
 .Query Definition
 [source,graphql,options="nowrap"]
 ----
-allVisitByPetId(id: ID): [Visit]
+allVisitByPetId(id: ID!): [Visit]
 ----
-
-NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allVisitByPetId(id: ID!): [Visit]`. Update query.gqls to add the non-null marker.
 
 *Arguments:*
 
-`id` (ID)::
+`id` (ID, required)::
 The unique identifier of the pet (UUID format).
 
 *Returns:*
@@ -101,14 +97,12 @@ This query returns all visits attended by a specific veterinarian.
 .Query Definition
 [source,graphql,options="nowrap"]
 ----
-allVisitByVetId(id: ID): [Visit]
+allVisitByVetId(id: ID!): [Visit]
 ----
-
-NOTE: The GraphQL schema shows `id` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allVisitByVetId(id: ID!): [Visit]`. Update query.gqls to add the non-null marker.
 
 *Arguments:*
 
-`id` (ID)::
+`id` (ID, required)::
 The unique identifier of the veterinarian (UUID format).
 
 *Returns:*

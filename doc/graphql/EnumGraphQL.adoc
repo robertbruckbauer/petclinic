@@ -45,15 +45,13 @@ Since enumeration lists are typically small (< 100 items per discriminator), no 
 .Query Definition
 [source,graphql,options="nowrap"]
 ----
-allEnum(art: String): [Enum]
+allEnum(art: String!): [Enum]
 ----
 
 *Arguments:*
 
-`art` (String)::
+`art` (String, required)::
 The discriminator that identifies the enumeration type (e.g., "species", "skill").
-
-NOTE: The GraphQL schema shows `art` parameter without `!` (non-null marker), but the controller implementation uses `@NonNull`. The schema should be updated to match the implementation: `allEnum(art: String!): [Enum]`. Update query.gqls to add the non-null marker.
 
 *Returns:*
 
