@@ -2,13 +2,13 @@
   let {
     label = undefined,
     title = undefined,
-    value,
+    value = $bindable(),
     ...elementProps
   } = $props();
 
   let valueInternal = $state(value);
   $effect(() => {
-    valueInternal = value ? value : "";
+    valueInternal = value;
   });
 </script>
 

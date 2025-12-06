@@ -13,7 +13,7 @@
     ...elementProps
   } = $props();
 
-  let element;
+  let element: HTMLSelectElement;
   export function focus() {
     element?.focus();
   }

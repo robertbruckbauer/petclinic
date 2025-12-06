@@ -10,7 +10,7 @@
     ...elementProps
   } = $props();
 
-  let element;
+  let element: HTMLButtonElement;
   export function focus() {
     element?.focus();
   }
