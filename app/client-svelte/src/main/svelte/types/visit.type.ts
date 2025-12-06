@@ -6,11 +6,10 @@ export interface Visit {
   id?: string;
   version: number;
   date: string;
-  text: string;
+  text?: string;
   ownerItem?: OwnerItem;
-  owner?: string;
   petItem?: PetItem;
-  pet?: string;
+  pet?: string | null;
   vetItem?: VetItem;
-  vet?: string;
+  vet?: string | null;
 }

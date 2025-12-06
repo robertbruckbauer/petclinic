@@ -8,9 +8,8 @@ export interface Visit {
   date: string;
   text: string;
   ownerItem?: OwnerItem;
-  owner?: string;
   petItem?: PetItem;
-  pet?: string;
+  pet?: string | null;
   vetItem?: VetItem;
-  vet?: string;
+  vet?: string | null;
 }
