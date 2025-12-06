@@ -99,6 +99,23 @@ include::{restdocdir}/patch-api-vet-name/response-body.adoc[]
 
 ****
 
+TIP: The description of attributes other than name are omitted for simplicity because they are following the same pattern.
+
+==== `allSkill` collection
+
+****
+
+.Command
+include::{restdocdir}/patch-api-vet-skill/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-vet-skill/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-vet-skill/response-body.adoc[]
+
+****
+
 This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
@@ -106,8 +123,6 @@ This operation reports `Bad Request` or code 400 if the data was not processed.
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
-
-TIP: The description of attributes other than name are omitted for simplicity because they are following the same pattern.
 
 === `GET /api/vet`
 
