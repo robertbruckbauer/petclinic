@@ -1,7 +1,7 @@
 :includedir: ../..
 :relrootdir: ../..
 :restdocdir: {includedir}/lib/backend-data/build/generated-snippets
-= Base-API
+= Base REST API
 
 REST-API for general application operations, e.g., health probes or version queries.
 
@@ -18,7 +18,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/Version.java[indent=
 
 === `GET /`
 
-This operation returns no data and *always* reports `Not found` or code 404.
+This operation returns no data and always reports `Not Found` or code 404.
 
 === `GET /home`
 
@@ -26,7 +26,7 @@ This operation returns no data and always reports `Ok` or code 200.
 
 === `GET /healthz`
 
-This operation returns no data and *always* reports `Ok` or code 200.
+This operation returns no data and always reports `Ok` or code 200.
 
 === `GET /actuator/health`
 

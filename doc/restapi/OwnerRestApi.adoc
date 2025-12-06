@@ -1,7 +1,7 @@
 :includedir: ../..
 :relrootdir: ../..
 :restdocdir: {includedir}/lib/backend-data/build/generated-snippets
-= Owner-API
+= Owner REST API
 
 REST-API for managing pet owners acting as clients in the pet clinic application.
 It provides standard CRUD operations and a search endpoint that returns items.
@@ -53,7 +53,7 @@ This operation reports `Created` or code 201 if the object was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the name already exists, data is incomplete or invalid.
+This operation reports `Conflict` or code 409 if the name already exists, data is incomplete, or is invalid.
 
 === `PUT /api/owner/{id}`
 
@@ -82,7 +82,9 @@ This operation reports `Conflict` or code 409 if the data is incomplete or is in
 === `PATCH /api/owner/{id}`
 
 This operation partially updates an existing _Owner_ entity.
-The following example shows the update of the name.
+You can update individual properties without affecting other properties.
+
+==== `name` attribute
 
 ****
 
@@ -101,9 +103,11 @@ This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Not found` or code 404 if the entity does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+
+TIP: The description of attributes other than name are omitted for simplicity because they are following the same pattern.
 
 === `GET /api/owner`
 
@@ -181,7 +185,7 @@ include::{restdocdir}/get-api-owner-by-id/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
 
 === `DELETE /api/owner/{id}`
 
@@ -202,4 +206,4 @@ include::{restdocdir}/delete-api-owner/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.

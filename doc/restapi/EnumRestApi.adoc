@@ -1,11 +1,11 @@
 :includedir: ../..
 :relrootdir: ../..
 :restdocdir: {includedir}/lib/backend-data/build/generated-snippets
-= Enum-API
+= Enum REST API
 
 REST-API for managing configurable enumerations in the pet clinic application.
-It provides operations to create, update, and retrieve enumeration values organized by discriminator.
-Each enumeration type is identified by a discriminator and contains ordered items with unique numeric codes, names, and display texts.
+It provides operations to create, update, and retrieve enumeration values organized by art (discriminator).
+Each enumeration type is identified by an art (discriminator) and contains ordered items with unique numeric codes, names, and display texts.
 
 TIP: This API uses a custom controller, not the standard endpoints provided by Spring Data REST. 
 
@@ -17,8 +17,11 @@ The main entity of an _Enum_ managed by this controller for persistence.
 The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each enum represents an extensible enumeration item.
 Enums are organized by discriminator for logical grouping (e.g., "SPECIES", "SKILL").
-Within each discriminator group, codes and names must be unique.
-Codes are numeric.
+Within each discriminator group, numeric codes and names must be unique.
+
+TIP: The discriminator is called `art`.
+This is a historical flaw.
+For clarity we use the term _discriminator_ instead.
 
 .Entity
 [source,java,options="nowrap"]
@@ -38,7 +41,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/info/EnumItem.java[i
 
 === `POST /api/enum/{art}`
 
-This operation creates a new _Enum_ entity for a discriminator.
+This operation creates a new _Enum_ entity for an discriminator.
 Response is of type _EnumItem_.
 
 ****
@@ -62,7 +65,7 @@ This operation reports `Conflict` or code 409 if the object already exists.
 
 === `PUT /api/enum/{art}/{code}`
 
-This operation updates an existing _Enum_ entity for a discriminator and code.
+This operation updates an existing _Enum_ entity for an discriminator and code.
 Response is of type _EnumItem_.
 
 ****
@@ -80,13 +83,13 @@ include::{restdocdir}/put-api-enum/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the object was successfully updated.
 
-This operation reports `Not found` or code 404 if the enum does not exist.
+This operation reports `Not Found` or code 404 if the enum does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
 === `GET /api/enum/{art}`
 
-This operation returns all persisted _Enum_ entities for a discriminator ordered by code.
+This operation returns all persisted _Enum_ entities for an discriminator ordered by code.
 Response is a collection of type _EnumItem_.
 
 ****
@@ -107,7 +110,7 @@ The result can be empty if no enums exist for the discriminator.
 
 === `DELETE /api/enum/{art}/{code}`
 
-This operation deletes a single persisted _Enum_ entity for a discriminator and code.
+This operation deletes a single persisted _Enum_ entity for an discriminator and code.
 Response is of type _EnumItem_.
 
 ****
@@ -125,4 +128,4 @@ include::{restdocdir}/delete-api-enum/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
-This operation reports `Not found` or code 404 if the enum does not exist.
+This operation reports `Not Found` or code 404 if the enum does not exist.

@@ -1,0 +1,59 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Enum GraphQL API
+
+GraphQL API for querying configurable enumerations in the pet clinic application.
+It provides a query operation to retrieve enumeration values organized by discriminator.
+Each enumeration type is identified by a discriminator and contains ordered items with unique numeric codes, names, and display texts.
+
+TIP: This API provides read-only access to enumerations.
+For create, update, and delete operations, use the REST API.
+
+== Schema
+
+=== Enum
+
+The main GraphQL type representing an enumeration item managed by this API.
+
+.Schema Definition
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/enum.gqls[]
+----
+
+The `Enum` type corresponds to the entity class defined in the backend API:
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/info/Enum.java[indent=0,tags=properties]
+----
+
+Each enum represents an extensible enumeration item.
+Enums are organized by discriminator for logical grouping (e.g., "SPECIES", "SKILL").
+Within each discriminator group, codes and names must be unique.
+
+== Queries
+
+=== `allEnum`
+
+This query returns all enumeration items for a specific discriminator type.
+It loads all enumerations for a given discriminator in a single database query.
+Since enumeration lists are typically small (< 100 items per discriminator), no pagination is implemented.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allEnum(art: String!): [Enum]
+----
+
+*Arguments:*
+
+`art` (String, required)::
+The discriminator that identifies the enumeration type (e.g., "species", "skill").
+
+*Returns:*
+
+A list of `Enum` objects matching the specified discriminator, ordered by code.
+Returns an empty list if no enumerations exist for the given discriminator.

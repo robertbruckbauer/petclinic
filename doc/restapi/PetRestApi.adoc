@@ -1,7 +1,7 @@
 :includedir: ../..
 :relrootdir: ../..
 :restdocdir: {includedir}/lib/backend-data/build/generated-snippets
-= Pet-API
+= Pet REST API
 
 REST-API for managing pets in the pet clinic application.
 It provides standard CRUD operations and a search endpoint that returns items.
@@ -53,7 +53,7 @@ This operation reports `Created` or code 201 if the object was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the name for the given owner already exists, data is incomplete or invalid.
+This operation reports `Conflict` or code 409 if the name for the given owner already exists, data is incomplete, or is invalid.
 
 === `PUT /api/pet/{id}`
 
@@ -83,7 +83,9 @@ This operation reports `Conflict` or code 409 if the data is incomplete or is in
 === `PATCH /api/pet/{id}`
 
 This operation partially updates an existing _Pet_ entity.
-The following example shows the update of the name.
+You can update individual properties without affecting other properties.
+
+==== `name` attribute
 
 ****
 
@@ -98,11 +100,28 @@ include::{restdocdir}/patch-api-pet-name/response-body.adoc[]
 
 ****
 
+TIP: The description of attributes other than name are omitted for simplicity because they are following the same pattern.
+
+==== `owner` relation
+
+****
+
+.Command
+include::{restdocdir}/patch-api-pet-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-pet-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-pet-owner/response-body.adoc[]
+
+****
+
 This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Not found` or code 404 if the entity does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
 
@@ -184,7 +203,7 @@ include::{restdocdir}/get-api-pet-by-id/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
 
 === `DELETE /api/pet/{id}`
 
@@ -205,4 +224,4 @@ include::{restdocdir}/delete-api-pet/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.

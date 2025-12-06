@@ -1,0 +1,92 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Vet GraphQL API
+
+GraphQL API for querying veterinarians in the pet clinic application.
+It provides query operations to retrieve all vets, individual vets by identifier, or vets by name.
+
+== Schema
+
+=== Vet
+
+The main GraphQL type representing a veterinarian managed by this API.
+
+.Schema Definition
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/vet.gqls[]
+----
+
+The `Vet` type corresponds to the entity class defined in the backend API:
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
+----
+
+Each vet represents a veterinarian working at the pet clinic.
+The vet requires a valid name and has a set of skills (stored as an `@ElementCollection`).
+Skills are represented as a list of strings in the GraphQL schema.
+
+== Queries
+
+=== Collection queries
+
+==== `allVet`
+
+This query returns all veterinarians in the system.
+It loads all vet entities in a single database query.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allVet: [Vet]
+----
+
+*Returns:*
+
+A list of all `Vet` objects.
+Returns an empty list if no vets exist.
+
+=== Object queries
+
+==== `vetById`
+
+This query returns a single vet by their unique identifier.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+vetById(id: ID!): Vet
+----
+
+*Arguments:*
+
+`id` (ID, required)::
+The unique identifier of the vet to retrieve.
+
+*Returns:*
+
+The `Vet` object with the specified ID, or `null` if no vet with that ID exists.
+
+==== `vetByName`
+
+This query returns a single vet by their name.
+The query uses exact name matching (case-sensitive).
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+vetByName(name: String!): Vet
+----
+
+*Arguments:*
+
+`name` (String, required)::
+The name of the vet to retrieve (exact match).
+
+*Returns:*
+
+The `Vet` object with the specified name, or `null` if no vet with that name exists.

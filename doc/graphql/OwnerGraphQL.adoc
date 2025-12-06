@@ -1,0 +1,88 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Owner GraphQL API
+
+GraphQL API for querying pet owners in the pet clinic application.
+It provides query operations to retrieve all owners, find owners by identifier or name, and navigate the owner-pet relationship.
+
+== Schema
+
+=== Owner
+
+The main GraphQL type representing a pet owner who acts as a client in the pet clinic.
+
+.Schema Definition
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/owner.gqls[]
+----
+
+The `Owner` type corresponds to the entity class defined in the backend API:
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
+----
+
+Each owner represents a pet clinic client who can own multiple pets.
+The owner requires a valid name and address.
+
+The `allPet` field uses batch loading via `@BatchMapping` to efficiently load pets for multiple owners.
+This optimization avoids N+1 query problems by collecting all owner IDs from the current batch, executing a single query (`findAllByOwnerIdIn`) to fetch all related pets, and then grouping them by owner for the GraphQL response.
+
+== Queries
+
+=== `allOwner`
+
+This query returns all pet owners in the system.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allOwner: [Owner]
+----
+
+*Returns:*
+
+A list of all `Owner` objects.
+Returns an empty list if no owners exist.
+
+=== `ownerById`
+
+This query returns a single owner by unique identifier.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+ownerById(id: ID!): Owner
+----
+
+*Arguments:*
+
+`id` (ID, required)::
+The unique identifier of the owner (UUID format).
+
+*Returns:*
+
+An `Owner` object if found, or null if no owner exists with the given identifier.
+
+=== `ownerByName`
+
+This query returns a single owner by unique name.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+ownerByName(name: String!): Owner
+----
+
+*Arguments:*
+
+`name` (String, required)::
+The unique name of the owner (exact match, case-sensitive).
+
+*Returns:*
+
+An `Owner` object if found, or null if no owner exists with the given name.

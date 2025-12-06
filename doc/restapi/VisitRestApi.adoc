@@ -1,7 +1,7 @@
 :includedir: ../..
 :relrootdir: ../..
 :restdocdir: {includedir}/lib/backend-data/build/generated-snippets
-= Visit-API
+= Visit REST API
 
 REST-API for managing veterinary visits in the pet clinic application.
 It provides standard CRUD operations, partial updates via PATCH, and advanced query capabilities for filtering visits by date, pet, veterinarian, and text content.
@@ -24,6 +24,8 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[in
 ----
 
 No simplified representation of a _Visit_ exists.
+
+NOTE: The unique constraint `@UniqueConstraint(columnNames = {"date","pet_id"})` in SQL databases typically allows multiple NULL values in the `pet_id` column, meaning multiple visits can exist with the same date when pet is NULL. This behavior may not align with the business requirement described as "placeholder visits for vets on duty". Consider: (1) Should pet be mandatory instead of optional? (2) Should there be a separate flag or mechanism for placeholder visits? (3) Or is the current behavior intentional to allow multiple placeholder visits per date?
 
 == Operations
 
@@ -78,9 +80,9 @@ This operation reports `Conflict` or code 409 if the data is incomplete, invalid
 === `PATCH /api/visit/{id}`
 
 This operation partially updates an existing _Visit_ entity.
-You can update individual fields like `date`, `text`, `pet`, or `vet` without affecting other properties.
+You can update individual properties without affecting other properties.
 
-==== Update date
+==== `date` attribute
 
 ****
 
@@ -95,22 +97,17 @@ include::{restdocdir}/patch-api-visit-date/response-body.adoc[]
 
 ****
 
-==== Update text
+This operation reports `Ok` or code 200 if the object was successfully updated.
 
-****
+This operation reports `Bad Request` or code 400 if the data was not processed.
 
-.Command
-include::{restdocdir}/patch-api-visit-text/curl-request.adoc[]
+This operation reports `Not Found` or code 404 if the entity does not exist.
 
-.Request
-include::{restdocdir}/patch-api-visit-text/http-request.adoc[]
+This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint.
 
-.Response
-include::{restdocdir}/patch-api-visit-text/response-body.adoc[]
+TIP: The description of attributes other than date are omitted for simplicity because they are following the same pattern.
 
-****
-
-==== Update pet relation
+==== `pet` relation
 
 ****
 
@@ -125,7 +122,15 @@ include::{restdocdir}/patch-api-visit-pet/response-body.adoc[]
 
 ****
 
-==== Update vet relation
+This operation reports `Ok` or code 200 if the object was successfully updated.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+This operation reports `Conflict` or code 409 if this relation already exists.
+
+==== `vet` relation
 
 ****
 
@@ -144,9 +149,9 @@ This operation reports `Ok` or code 200 if the object was successfully updated.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Not found` or code 404 if the entity does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
 
-This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint (duplicate visit for same pet on same date).
+This operation reports `Conflict` or code 409 if this relation already exists.
 
 === `GET /api/visit`
 
@@ -210,7 +215,7 @@ include::{restdocdir}/get-api-visit-by-id/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
 
 === `DELETE /api/visit/{id}`
 
@@ -231,4 +236,4 @@ include::{restdocdir}/delete-api-visit/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully deleted.
 
-This operation reports `Not found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the data does not exist.
