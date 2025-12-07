@@ -7,7 +7,7 @@
   import type { EnumItem } from "../../types/enum.type";
   import type { OwnerItem } from "../../types/owner.type";
   import type { Pet } from "../../types/pet.type";
-  import { storedOwner } from "../../stores/owner.js";
+  import { storedOwner } from "../../stores/owner.store";
   import { toast } from "../../components/Toast/index.js";
   import Circle from "../../components/Spinner/index.js";
   import Icon from "../../components/Icon/index.js";
@@ -55,7 +55,7 @@
 
   let petEditorCreate = $state(false);
   function onPetEditorCreateClicked() {
-    petEditorCreate = true;
+    petEditorCreate = petOwnerId !== undefined;
     petEditorUpdate = false;
     visitEditorCreate = false;
   }
@@ -167,9 +167,9 @@
       </thead>
       <tbody>
         {#if petEditorCreate}
-          {@const pet = {
+          {@const pet: Pet = {
             version: 0,
-            ownerItem: { value: petOwnerId, text: "" },
+            ownerItem: { value: petOwnerId!, text: "" },
             name: "",
             born: "",
             species: "",
