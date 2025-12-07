@@ -3,7 +3,9 @@
 
   let { path = "*", children } = $props();
 
-  register({ path });
+  $effect(() => {
+    register({ path });
+  });
 </script>
 
 {#if $activeRoute.path === path}
