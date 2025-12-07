@@ -1,13 +1,19 @@
-<script>
-  import { EnumService } from "../../services/enum.service";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { take } from "rxjs";
+  import { EnumService } from "../../services/enum.service";
+  import type { EnumItem } from "../../types/enum.type";
   import { toast } from "../../components/Toast/index.js";
   import Icon from "../../components/Icon/index.js";
   import TextField from "../../components/TextField/index.js";
   import Circle from "../../components/Spinner/index.js";
   import EnumEditor from "./EnumEditor.svelte";
 
-  let { art } = $props();
+  interface Props {
+    art: "species" | "skill";
+  }
+
+  let { art }: Props = $props();
 
   let loading = $state(true);
   onMount(async () => {
@@ -15,19 +21,17 @@
       loading = true;
       loadAllItem();
     } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
+      toast.push(err);
     } finally {
       loading = false;
     }
   });
 
-  let newItemCode = $state(0);
-  let itemCode = $state();
-  function onItemClicked(_item) {
+  let itemCode = $state(0);
+  function onItemClicked(_item: EnumItem) {
     itemCode = _item.code;
   }
-  function onItemRemoveClicked(_item) {
+  function onItemRemoveClicked(_item: EnumItem) {
     itemCode = _item.code;
     removeItem(_item);
   }
@@ -39,7 +43,7 @@
   }
 
   let itemEditorUpdate = $state(false);
-  function onItemEditorUpdateClicked(_item) {
+  function onItemEditorUpdateClicked(_item: EnumItem) {
     itemEditorCreate = false;
     itemEditorUpdate = true;
     itemCode = _item.code;
@@ -47,64 +51,75 @@
 
   const itemEditorDisabled = $derived(itemEditorCreate || itemEditorUpdate);
 
+  let allItem: EnumItem[] = $state([]);
+  function afterCreateItem(_item: EnumItem) {
+    allItem = [_item, ...allItem];
+  }
+  function afterUpdateItem(_item: EnumItem) {
+    allItem = allItem.map((e) => (e.code === _item.code ? _item : e));
+  }
+  function afterRemoveItem(_item: EnumItem) {
+    allItem = allItem.filter((e) => e.code !== _item.code);
+  }
+
+  const newItemCode = $derived(Math.max(...allItem.map((e) => e.code)) + 1);
+
   let itemFilter = $state("");
-  function onItemFilterClicked(_event) {
+  function onItemFilterClicked(_event: Event) {
     _event.preventDefault();
     try {
       loading = true;
       loadAllItem();
+    } catch (err) {
+      toast.push(err);
     } finally {
       loading = false;
     }
   }
 
-  let allItem = $state([]);
-  function onCreateItem(_item) {
-    allItem = allItem.toSpliced(0, 0, _item);
-  }
-  function onUpdateItem(_item) {
-    let index = allItem.findIndex((e) => e.code === _item.code);
-    if (index > -1) allItem = allItem.toSpliced(index, 1, _item);
-  }
-  function onRemoveItem(_item) {
-    let index = allItem.findIndex((e) => e.code === _item.code);
-    if (index > -1) allItem = allItem.toSpliced(index, 1);
-  }
+  const allItemFiltered = $derived(
+    allItem.filter((e) => {
+      if (!itemFilter) return true;
+      if (e.name.toLowerCase().startsWith(itemFilter.toLowerCase())) {
+        return true;
+      }
+      if (e.text.toLowerCase().startsWith(itemFilter.toLowerCase())) {
+        return true;
+      }
+    })
+  );
 
   const enumService = new EnumService();
 
   function loadAllItem() {
-    enumService.loadAllEnum(art).subscribe({
-      next: (json) => {
-        newItemCode = Math.max(...json.map((e) => e.code)) + 1;
-        allItem = json.filter((e) => {
-          if (!itemFilter) return true;
-          if (e.name.toLowerCase().startsWith(itemFilter.toLowerCase())) {
-            return true;
-          }
-          if (e.text.toLowerCase().startsWith(itemFilter.toLowerCase())) {
-            return true;
-          }
-        });
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
+    enumService
+      .loadAllEnum(art)
+      .pipe(take(1))
+      .subscribe({
+        next: (json) => {
+          allItem = json;
+        },
+        error: (err) => {
+          toast.push(err);
+        },
+      });
   }
 
-  function removeItem(_item) {
+  function removeItem(_item: EnumItem) {
     const text = _item.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete enum '" + hint + "' permanently?")) return;
-    enumService.removeEnum(art, _item.code).subscribe({
-      next: (json) => {
-        onRemoveItem(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
+    enumService
+      .removeEnum(art, _item.code)
+      .pipe(take(1))
+      .subscribe({
+        next: (json) => {
+          afterRemoveItem(json);
+        },
+        error: (err) => {
+          toast.push(err);
+        },
+      });
   }
 </script>
 
@@ -154,18 +169,19 @@
       </thead>
       <tbody>
         {#if itemEditorCreate}
+          {@const item = { version: 0, code: newItemCode, name: "", text: "" }}
           <tr>
             <td class="border-l-4 px-2" colspan="4">
               <EnumEditor
                 bind:visible={itemEditorCreate}
-                oncreate={onCreateItem}
+                oncreate={afterCreateItem}
                 {art}
-                code={newItemCode}
+                {item}
               />
             </td>
           </tr>
         {/if}
-        {#each allItem as item, i}
+        {#each allItemFiltered as item, i}
           <tr
             onclick={(e) => onItemClicked(item)}
             title={item.text}
@@ -207,9 +223,8 @@
               <td class="border-l-4 px-2" colspan="4">
                 <EnumEditor
                   bind:visible={itemEditorUpdate}
-                  onupdate={onUpdateItem}
+                  onupdate={afterUpdateItem}
                   {art}
-                  code={item.code}
                   {item}
                 />
               </td>

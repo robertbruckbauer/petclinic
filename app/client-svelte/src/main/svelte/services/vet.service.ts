@@ -11,7 +11,7 @@ export class VetService extends BackendService {
   public loadAllVetItem(
     search: Record<string, string> = {}
   ): Observable<VetItem[]> {
-    const path = ["api", "vet", "item"].join("/");
+    const path = ["api", "vet", "search", "findAllItem"].join("/");
     return this.restApiGetAll(path, search);
   }
 

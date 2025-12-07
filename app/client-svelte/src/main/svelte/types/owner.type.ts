@@ -6,7 +6,8 @@ export interface Owner {
   name: string;
   address: string;
   contact: string;
-  allPetItem: PetItem[];
+  allPetItem?: PetItem[];
+  allPet?: string[];
 }
 
 export interface OwnerItem {

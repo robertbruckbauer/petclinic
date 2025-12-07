@@ -64,11 +64,17 @@ export class OwnerListerComponent implements OnInit {
       return allOwner.filter((owner) => owner.id !== newOwner.id);
     });
   }
+
   afterCreatePet(newPet: Pet, newOwner: Owner) {
     this.allOwner.update((allOwner) => {
       return allOwner.map((owner) => {
         if (newOwner.id === owner.id) {
-          owner.allPetItem.push(mapPetToPetItem(newPet));
+          const petItem = mapPetToPetItem(newPet);
+          if (owner.allPetItem) {
+            owner.allPetItem = [petItem, ...owner.allPetItem!];
+          } else {
+            owner.allPetItem = [petItem];
+          }
         }
         return owner;
       });

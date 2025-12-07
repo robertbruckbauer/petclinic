@@ -1,43 +1,45 @@
-<script>
-  import { VetService } from "../../services/vet.service";
-  import { EnumService } from "../../services/enum.service";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { forkJoin } from "rxjs";
+  import { EnumService } from "../../services/enum.service";
+  import { VetService } from "../../services/vet.service";
+  import type { EnumItem } from "../../types/enum.type";
+  import type { Vet } from "../../types/vet.type";
   import { toast } from "../../components/Toast/index.js";
   import Circle from "../../components/Spinner/index.js";
   import Icon from "../../components/Icon/index.js";
   import TextField from "../../components/TextField/index.js";
   import VetEditor from "./VetEditor.svelte";
 
-  const vetService = new VetService();
   const enumService = new EnumService();
+  const vetService = new VetService();
 
-  let allSkillEnum = $state([]);
+  let allSkillEnum: EnumItem[] = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
-      enumService.loadAllEnum("skill").subscribe({
-        next: (json) => {
-          allSkillEnum = json.map((e) => ({
-            value: e.value,
-            text: e.name,
-          }));
-          loadAllVet();
+      forkJoin({
+        allSkillEnum: enumService.loadAllEnum("skill"),
+      }).subscribe({
+        next: (value) => {
+          allSkillEnum = value.allSkillEnum;
         },
         error: (err) => {
           toast.push(err);
         },
       });
+      loadAllVet();
     } finally {
       loading = false;
     }
   });
 
   let vetId = $state();
-  function onVetClicked(_vet) {
+  function onVetClicked(_vet: Vet) {
     vetId = _vet.id;
   }
-  function onVetRemoveClicked(_vet) {
+  function onVetRemoveClicked(_vet: Vet) {
     vetId = _vet.id;
     removeVet(_vet);
   }
@@ -49,7 +51,7 @@
   }
 
   let vetEditorUpdate = $state(false);
-  function onVetEditorUpdateClicked(_vet) {
+  function onVetEditorUpdateClicked(_vet: Vet) {
     vetId = _vet.id;
     vetEditorUpdate = true;
     vetEditorCreate = false;
@@ -57,7 +59,7 @@
 
   const vetEditorDisabled = $derived(vetEditorCreate || vetEditorUpdate);
 
-  function onVetFilterClicked(_event) {
+  function onVetFilterClicked(_event: Event) {
     _event.preventDefault();
     try {
       loading = true;
@@ -67,23 +69,20 @@
     }
   }
 
-  let allVet = $state([]);
-  function onCreateVet(_vet) {
-    allVet = allVet.toSpliced(0, 0, _vet);
+  let allVet: Vet[] = $state([]);
+  function onCreateVet(_vet: Vet) {
+    allVet = [_vet, ...allVet];
   }
-  function onUpdateVet(_vet) {
-    let index = allVet.findIndex((e) => e.id === _vet.id);
-    if (index > -1) allVet = allVet.toSpliced(index, 1, _vet);
+  function onUpdateVet(_vet: Vet) {
+    allVet = allVet.map((e) => (e.id === _vet.id ? _vet : e));
   }
-  function onRemoveVet(_vet) {
-    let index = allVet.findIndex((e) => e.id === _vet.id);
-    if (index > -1) allVet = allVet.toSpliced(index, 1);
+  function onRemoveVet(_vet: Vet) {
+    allVet = allVet.filter((e) => e.id !== _vet.id);
   }
 
   let vetFilter = $state("");
   function loadAllVet() {
-    const search = { sort: "name,asc" };
-    if (vetFilter) search.name = vetFilter;
+    const search = { sort: "name,asc", name: vetFilter ? vetFilter : "%" };
     vetService.loadAllVet(search).subscribe({
       next: (json) => {
         allVet = json;
@@ -94,11 +93,11 @@
     });
   }
 
-  function removeVet(_vet) {
+  function removeVet(_vet: Vet) {
     const text = _vet.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete vet '" + hint + "' permanently?")) return;
-    vetService.removeVet(_vet.id).subscribe({
+    vetService.removeVet(_vet.id!).subscribe({
       next: (json) => {
         onRemoveVet(json);
       },
@@ -152,12 +151,18 @@
       </thead>
       <tbody>
         {#if vetEditorCreate}
+          {@const vet: Vet = {
+              version: 0,
+              name: "",
+              allSkill: [],
+            }}
           <tr>
             <td class="px-2" colspan="3">
               <VetEditor
                 bind:visible={vetEditorCreate}
                 oncreate={onCreateVet}
                 {allSkillEnum}
+                {vet}
               />
             </td>
           </tr>

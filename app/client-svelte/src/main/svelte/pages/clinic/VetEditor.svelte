@@ -1,6 +1,8 @@
-<script>
-  import { VetService } from "../../services/vet.service";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { VetService } from "../../services/vet.service";
+  import type { EnumItem } from "../../types/enum.type";
+  import type { Vet } from "../../types/vet.type";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import TextField from "../../components/TextField";
@@ -8,28 +10,39 @@
 
   const vetService = new VetService();
 
+  interface Props {
+    autofocus?: boolean;
+    autoscroll?: boolean;
+    visible: boolean;
+    allSkillEnum: EnumItem[];
+    vet: Vet;
+    oncancel?: undefined | (() => void);
+    oncreate?: undefined | ((vet: Vet) => void);
+    onupdate?: undefined | ((vet: Vet) => void);
+  }
+
   let {
     autofocus = true,
     autoscroll = true,
     visible = $bindable(false),
-    vet = {},
     allSkillEnum,
+    vet = {} as Vet,
     oncancel = undefined,
     oncreate = undefined,
     onupdate = undefined,
-  } = $props();
+  }: Props = $props();
 
   let clicked = $state(false);
-  let focusOn;
-  let bottomDiv;
+  let focusOn: any;
+  let bottomDiv: HTMLElement;
   onMount(async () => {
     console.log(["onMount", autofocus, autoscroll]);
     if (autofocus) focusOn.focus();
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
-  let newVetName = $state();
-  let newVetAllSkill = $state([]);
+  let newVetName = $state("");
+  let newVetAllSkill = $state([] as string[]);
   $effect(() => {
     newVetName = vet.name;
     newVetAllSkill = vet.allSkill || [];
@@ -40,7 +53,7 @@
     allSkill: newVetAllSkill,
   });
 
-  function handleSubmit(_event) {
+  function handleSubmit(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -54,7 +67,7 @@
     }
   }
 
-  function handleCancel(_event) {
+  function handleCancel(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();

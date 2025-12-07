@@ -1,9 +1,13 @@
-<script>
-  import { OwnerService } from "../../services/owner.service";
-  import { EnumService } from "../../services/enum.service";
-  import { mapVetToVetItem } from "../../services/vet.service";
-  import { VisitService } from "../../services/visit.service";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { forkJoin } from "rxjs";
+  import { EnumService } from "../../services/enum.service";
+  import { OwnerService } from "../../services/owner.service";
+  import { VisitService } from "../../services/visit.service";
+  import type { EnumItem } from "../../types/enum.type";
+  import type { Owner } from "../../types/owner.type";
+  import type { Pet, PetItem } from "../../types/pet.type";
+  import type { Visit } from "../../types/visit.type";
   import { toast } from "../../components/Toast/index.js";
   import Circle from "../../components/Spinner/index.js";
   import Icon from "../../components/Icon/index.js";
@@ -12,31 +16,20 @@
   import PetEditor from "./PetEditor.svelte";
   import VisitCardLister from "../clinic/VisitCardLister.svelte";
 
-  const ownerService = new OwnerService();
   const enumService = new EnumService();
+  const ownerService = new OwnerService();
   const visitService = new VisitService();
 
-  let allVetItem = $state([]);
-  let allSpeciesEnum = $state([]);
+  let allSpeciesEnum: EnumItem[] = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
-      const search = { sort: "name,asc" };
-      ownerService.loadAllOwner(search).subscribe({
-        next: (json) => {
-          allVetItem = json.map(mapVetToVetItem);
-        },
-        error: (err) => {
-          toast.push(err);
-        },
-      });
-      enumService.loadAllEnum("species").subscribe({
-        next: (json) => {
-          allSpeciesEnum = json.map((e) => ({
-            value: e.value,
-            text: e.name,
-          }));
+      forkJoin({
+        allSpeciesEnum: enumService.loadAllEnum("species"),
+      }).subscribe({
+        next: (value) => {
+          allSpeciesEnum = value.allSpeciesEnum;
         },
         error: (err) => {
           toast.push(err);
@@ -48,11 +41,11 @@
     }
   });
 
-  let ownerId = $state();
-  function onOwnerClicked(_owner) {
+  let ownerId: string | undefined = $state();
+  function onOwnerClicked(_owner: Owner) {
     ownerId = _owner.id;
   }
-  function onOwnerRemoveClicked(_owner) {
+  function onOwnerRemoveClicked(_owner: Owner) {
     ownerId = _owner.id;
     removeOwner(_owner);
   }
@@ -66,7 +59,7 @@
   }
 
   let ownerEditorUpdate = $state(false);
-  function onOwnerEditorUpdateClicked(_owner) {
+  function onOwnerEditorUpdateClicked(_owner: Owner) {
     ownerId = _owner.id;
     ownerEditorCreate = false;
     ownerEditorUpdate = true;
@@ -75,7 +68,7 @@
   }
 
   let visitLister = $state(false);
-  function onVisitListerClicked(_owner) {
+  function onVisitListerClicked(_owner: Owner) {
     ownerId = _owner.id;
     ownerEditorCreate = false;
     ownerEditorUpdate = false;
@@ -85,7 +78,7 @@
   }
 
   let petCreateEditor = $state(false);
-  function onPetCreateEditorClicked(_owner) {
+  function onPetCreateEditorClicked(_owner: Owner) {
     ownerId = _owner.id;
     ownerEditorCreate = false;
     ownerEditorUpdate = false;
@@ -98,7 +91,7 @@
     ownerEditorCreate || ownerEditorUpdate || petCreateEditor
   );
 
-  function onOwnerFilterClicked(_event) {
+  function onOwnerFilterClicked(_event: Event) {
     _event.preventDefault();
     try {
       loading = true;
@@ -108,31 +101,32 @@
     }
   }
 
-  let allOwner = $state([]);
-  function onCreateOwner(_owner) {
-    allOwner = allOwner.toSpliced(0, 0, _owner);
+  let allOwner: Owner[] = $state([]);
+  function onCreateOwner(_owner: Owner) {
+    allOwner = [_owner, ...allOwner];
   }
-  function onUpdateOwner(_owner) {
-    let index = allOwner.findIndex((e) => e.id === _owner.id);
-    if (index > -1) allOwner = allOwner.toSpliced(index, 1, _owner);
+  function onUpdateOwner(_owner: Owner) {
+    allOwner = allOwner.map((e) => (e.id === _owner.id ? _owner : e));
   }
-  function onRemoveOwner(_owner) {
-    let index = allOwner.findIndex((e) => e.id === _owner.id);
-    if (index > -1) allOwner = allOwner.toSpliced(index, 1);
+  function onRemoveOwner(_owner: Owner) {
+    allOwner = allOwner.filter((e) => e.id !== _owner.id);
   }
 
-  function onCreatePet(_owner, _pet) {
-    const _petItem = {
-      value: _pet.id,
+  function onCreatePet(_owner: Owner, _pet: Pet) {
+    const _petItem: PetItem = {
+      value: _pet.id!,
       text: _pet.species + " '" + _pet.name + "'",
     };
-    _owner.allPetItem = _owner.allPetItem.toSpliced(0, 0, _petItem);
+    if (_owner.allPetItem) {
+      _owner.allPetItem = [_petItem, ..._owner.allPetItem!];
+    } else {
+      _owner.allPetItem = [_petItem];
+    }
   }
 
   let ownerFilter = $state("");
   function loadAllOwner() {
-    const search = { sort: "name,asc" };
-    if (ownerFilter) search.name = ownerFilter;
+    const search = { sort: "name,asc", name: ownerFilter ? ownerFilter : "%" };
     ownerService.loadAllOwner(search).subscribe({
       next: (json) => {
         allOwner = json;
@@ -143,24 +137,28 @@
     });
   }
 
-  let allOwnerVisit = $state([]);
+  let allOwnerVisit: Visit[] = $state([]);
   function loadAllVisit() {
-    const search = { sort: "date,desc", "pet.owner.id": ownerId };
-    visitService.loadAllVisit(search).subscribe({
-      next: (json) => {
-        allOwnerVisit = json;
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
+    if (ownerId) {
+      const search = { sort: "date,desc", "pet.owner.id": ownerId };
+      visitService.loadAllVisit(search).subscribe({
+        next: (json) => {
+          allOwnerVisit = json;
+        },
+        error: (err) => {
+          toast.push(err);
+        },
+      });
+    } else {
+      allOwnerVisit = [];
+    }
   }
 
-  function removeOwner(_owner) {
+  function removeOwner(_owner: Owner) {
     const text = _owner.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
     if (!confirm("Delete owner '" + hint + "' permanently?")) return;
-    ownerService.removeOwner(_owner.id).subscribe({
+    ownerService.removeOwner(_owner.id!).subscribe({
       next: (json) => {
         onRemoveOwner(json);
       },
@@ -214,11 +212,18 @@
       </thead>
       <tbody>
         {#if ownerEditorCreate}
+          {@const owner: Owner = {
+              version: 0,
+              name: "",
+              address: "",
+              contact: "",
+            }}
           <tr>
             <td class="border-l-4 px-2" colspan="3">
               <OwnerEditor
                 bind:visible={ownerEditorCreate}
                 oncreate={onCreateOwner}
+                {owner}
               />
             </td>
           </tr>
@@ -289,13 +294,20 @@
             </tr>
           {/if}
           {#if petCreateEditor && ownerId === owner.id}
+            {@const pet: Pet = {
+              version: 0,
+              ownerItem: { value: ownerId!, text: "" },
+              name: "",
+              born: "",
+              species: "",
+            }}
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <PetEditor
                   bind:visible={petCreateEditor}
                   oncreate={(pet) => onCreatePet(owner, pet)}
                   {allSpeciesEnum}
-                  ownerId={owner.id}
+                  {pet}
                 />
               </td>
             </tr>

@@ -1,6 +1,9 @@
-<script>
-  import { PetService } from "../../services/pet.service";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { PetService } from "../../services/pet.service";
+  import type { EnumItem } from "../../types/enum.type";
+  import type { OwnerItem } from "../../types/owner.type";
+  import type { Pet } from "../../types/pet.type";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import Select from "../../components/Select";
@@ -8,44 +11,56 @@
 
   const petService = new PetService();
 
+  interface Props {
+    autofocus?: boolean;
+    autoscroll?: boolean;
+    visible: boolean;
+    allSpeciesEnum: EnumItem[];
+    pet: Pet;
+    oncancel?: undefined | (() => void);
+    oncreate?: undefined | ((pet: Pet) => void);
+    onupdate?: undefined | ((pet: Pet) => void);
+  }
+
   let {
     autofocus = true,
     autoscroll = true,
     visible = $bindable(false),
     allSpeciesEnum,
-    ownerId,
-    pet = {},
+    pet = {} as Pet,
     oncancel = undefined,
     oncreate = undefined,
     onupdate = undefined,
-  } = $props();
+  }: Props = $props();
 
   let clicked = $state(false);
-  let focusOn;
-  let bottomDiv;
+  let focusOn: any;
+  let bottomDiv: HTMLElement;
   onMount(async () => {
     console.log(["onMount", autofocus, autoscroll]);
     if (autofocus) focusOn.focus();
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
-  let newPetSpecies = $state();
-  let newPetName = $state();
-  let newPetBorn = $state();
+  let newPetOwnerItem = $state({} as OwnerItem);
+  let newPetSpecies = $state("");
+  let newPetName = $state("");
+  let newPetBorn = $state("");
   $effect(() => {
+    newPetOwnerItem = pet.ownerItem!;
     newPetSpecies = pet.species;
     newPetName = pet.name;
     newPetBorn = pet.born;
   });
-  const newPet = $derived({
+  const newPet: Pet = $derived({
     ...pet,
-    owner: "/api/owner/" + ownerId,
+    owner: "/api/owner/" + newPetOwnerItem.value,
     species: newPetSpecies,
     name: newPetName,
     born: newPetBorn,
   });
 
-  function handleSubmit(_event) {
+  function handleSubmit(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -59,7 +74,7 @@
     }
   }
 
-  function handleCancel(_event) {
+  function handleCancel(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
@@ -96,8 +111,7 @@
       <Select
         bind:this={focusOn}
         bind:value={newPetSpecies}
-        valueGetter={(v) => v?.value}
-        allItem={allSpeciesEnum}
+        allItem={allSpeciesEnum.map((e) => e.name)}
         label="Species"
         placeholder="Choose species"
       />
