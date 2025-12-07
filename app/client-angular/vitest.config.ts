@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   test: {
     include: ['src/main/angular/**/*.test.ts'],
-    environment: 'jsdom',
+    environment: 'node',
     globals: true,
     reporters: ['default', 'junit'],
     outputFile: {
