@@ -1,6 +1,6 @@
-<script>
-  import { VersionService } from "../services/version.service";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { VersionService } from "../services/version.service";
   import { toast } from "../components/Toast";
 
   const versionService = new VersionService();
