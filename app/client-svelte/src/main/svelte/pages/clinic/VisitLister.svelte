@@ -1,70 +1,71 @@
-<script>
-  import * as restApi from "../../services/rest.js";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { EnumService } from "../../services/enum.service";
+  import { VetService } from "../../services/vet.service";
+  import { VisitService } from "../../services/visit.service";
+  import type { EnumItem } from "../../types/enum.type";
+  import type { VetItem } from "../../types/vet.type";
+  import type { Visit } from "../../types/visit.type";
   import { toast } from "../../components/Toast";
   import Circle from "../../components/Spinner";
   import Icon from "../../components/Icon";
   import VisitDiagnose from "./VisitDiagnose.svelte";
+  import { forkJoin } from "rxjs";
 
-  let allVetItem = $state([]);
-  let allSpeciesEnum = $state([]);
+  const visitService = new VisitService();
+  const vetService = new VetService();
+  const enumService = new EnumService();
+
+  let allVetItem: VetItem[] = $state([]);
+  let allSpeciesEnum: EnumItem[] = $state([]);
   let loading = $state(true);
   onMount(async () => {
     try {
       loading = true;
-      allVetItem = await restApi.loadAllValue("/api/vet?sort=name,asc");
-      allVetItem = allVetItem.map((e) => ({
-        value: e.id,
-        text: e.name,
-      }));
-      console.log(["onMount", allVetItem]);
-      allSpeciesEnum = await restApi.loadAllValue("/api/enum/species");
-      allSpeciesEnum = allSpeciesEnum.map((e) => ({
-        value: e.id,
-        text: e.name,
-      }));
-      console.log(["onMount", allSpeciesEnum]);
+      forkJoin({
+        allVetItem: vetService.loadAllVetItem(),
+        allSpeciesEnum: enumService.loadAllEnum("species"),
+      }).subscribe({
+        next: (value) => {
+          allVetItem = value.allVetItem;
+          allSpeciesEnum = value.allSpeciesEnum;
+        },
+        error: (err) => {
+          toast.push(err);
+        },
+      });
       loadAllVisit();
-    } catch (err) {
-      console.log(["onMount", err]);
-      toast.push(err.toString());
     } finally {
       loading = false;
     }
   });
 
-  let visitId = $state();
-  function onVisitClicked(_visit) {
+  let visitId: string | undefined = $state();
+  function onVisitClicked(_visit: Visit) {
     visitId = _visit.id;
   }
-  function onVisitRemoveClicked(_visit) {
+  function onVisitRemoveClicked(_visit: Visit) {
     visitId = _visit.id;
     removeVisit(_visit);
   }
 
   let visitEditorUpdate = $state(false);
-  function onVisitEditorUpdateClicked(_visit) {
+  function onVisitEditorUpdateClicked(_visit: Visit) {
     visitId = _visit.id;
     visitEditorUpdate = true;
   }
 
   const visitEditorDisabled = $derived(visitEditorUpdate);
 
-  let allVisit = $state([]);
-  function onCreateVisit(_visit) {
-    allVisit = allVisit.toSpliced(0, 0, _visit).sort(dateComparator);
+  let allVisit: Visit[] = $state([]);
+  function onCreateVisit(_visit: Visit) {
+    allVisit = [_visit, ...allVisit];
   }
-  function onUpdateVisit(_visit) {
-    let index = allVisit.findIndex((e) => e.id === _visit.id);
-    if (index > -1) {
-      allVisit = allVisit.toSpliced(index, 1, _visit).sort(dateComparator);
-    }
+  function onUpdateVisit(_visit: Visit) {
+    allVisit = allVisit.map((e) => (e.id === _visit.id ? _visit : e));
   }
-  function onRemoveVisit(_visit) {
-    let index = allVisit.findIndex((e) => e.id === _visit.id);
-    if (index > -1) {
-      allVisit = allVisit.toSpliced(index, 1);
-    }
+  function onRemoveVisit(_visit: Visit) {
+    allVisit = allVisit.filter((e) => e.id !== _visit.id);
   }
 
   /**
@@ -73,7 +74,7 @@
    *
    * @param _index from #each
    */
-  function isSwimlaneChange(_index) {
+  function isSwimlaneChange(_index: number) {
     if (_index) {
       return allVisit[_index - 1].date !== allVisit[_index].date;
     } else {
@@ -82,36 +83,34 @@
   }
 
   /**
-   * Comparator for a date ordered array.
+   * Comparator for a date ordered swimlanes.
    */
-  const dateComparator = (e1, e2) => e1.date.localeCompare(e2.date);
+  const dateComparator = (e1: Visit, e2: Visit) =>
+    e1.date.localeCompare(e2.date);
 
   function loadAllVisit() {
-    restApi
-      .loadAllValue("/api/visit?sort=date,desc")
-      .then((json) => {
-        console.log(["loadAllVisit", json]);
+    const search = { sort: "date,desc" };
+    visitService.loadAllVisit(search).subscribe({
+      next: (json) => {
         allVisit = json.sort(dateComparator);
-      })
-      .catch((err) => {
-        console.log(["loadAllVisit", err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
-  function removeVisit(_visit) {
+  function removeVisit(_visit: Visit) {
     const hint = _visit.date;
     if (!confirm("Delete visit at '" + hint + "' permanently?")) return;
-    restApi
-      .removeValue("/api/visit/" + _visit.id)
-      .then((json) => {
-        console.log(["removeVisit", _visit, json]);
+    visitService.removeVisit(_visit.id!).subscribe({
+      next: (json) => {
         loadAllVisit();
-      })
-      .catch((err) => {
-        console.log(["removeVisit", _visit, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 
@@ -152,13 +151,13 @@
             class:border-l-2={visitId === visit.id}
           >
             <td class="px-2 py-3 text-left table-cell">
-              {visit.ownerItem.text}
+              {visit.ownerItem!.text}
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {visit.petItem.text}
+              {visit.petItem!.text}
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {visit.vetItem.text}
+              {visit.vetItem!.text}
             </td>
             <td class="px-2 py-3 table-cell">
               <div

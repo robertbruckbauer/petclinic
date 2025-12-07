@@ -1,50 +1,66 @@
-<script>
-  import * as restApi from "../../services/rest.js";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { PetService } from "../../services/pet.service";
+  import type { EnumItem } from "../../types/enum.type";
+  import type { OwnerItem } from "../../types/owner.type";
+  import type { Pet } from "../../types/pet.type";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import Select from "../../components/Select";
   import TextField from "../../components/TextField";
+
+  const petService = new PetService();
+
+  interface Props {
+    autofocus?: boolean;
+    autoscroll?: boolean;
+    visible: boolean;
+    allSpeciesEnum: EnumItem[];
+    pet: Pet;
+    oncancel?: undefined | (() => void);
+    oncreate?: undefined | ((pet: Pet) => void);
+    onupdate?: undefined | ((pet: Pet) => void);
+  }
 
   let {
     autofocus = true,
     autoscroll = true,
     visible = $bindable(false),
     allSpeciesEnum,
-    ownerId,
-    pet = {},
+    pet = {} as Pet,
     oncancel = undefined,
     oncreate = undefined,
     onupdate = undefined,
-  } = $props();
+  }: Props = $props();
 
   let clicked = $state(false);
-  let focusOn;
-  let bottomDiv;
+  let focusOn: any;
+  let bottomDiv: HTMLElement;
   onMount(async () => {
     console.log(["onMount", autofocus, autoscroll]);
     if (autofocus) focusOn.focus();
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
-  let newPetSpecies = $state();
-  let newPetName = $state();
-  let newPetBorn = $state();
+  let newPetOwnerItem = $state({} as OwnerItem);
+  let newPetSpecies = $state("");
+  let newPetName = $state("");
+  let newPetBorn = $state("");
   $effect(() => {
+    newPetOwnerItem = pet.ownerItem!;
     newPetSpecies = pet.species;
     newPetName = pet.name;
     newPetBorn = pet.born;
   });
-  const newPet = $derived({
-    id: pet.id,
-    version: pet.version,
-    owner: "/api/owner/" + ownerId,
+  const newPet: Pet = $derived({
+    ...pet,
+    owner: "/api/owner/" + newPetOwnerItem.value,
     species: newPetSpecies,
     name: newPetName,
     born: newPetBorn,
   });
 
-  function handleSubmit(_event) {
+  function handleSubmit(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -58,38 +74,34 @@
     }
   }
 
-  function handleCancel(_event) {
+  function handleCancel(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
   }
 
   function createPet() {
-    restApi
-      .createValue("/api/pet", newPet)
-      .then((json) => {
-        console.log(["createPet", newPet, json]);
+    petService.createPet(newPet).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createPet", newPet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function updatePet() {
-    restApi
-      .updatePatch("/api/pet" + "/" + newPet.id, newPet)
-      .then((json) => {
-        console.log(["updatePet", newPet, json]);
+    petService.updatePet(newPet).subscribe({
+      next: (json) => {
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
-        console.log(["updatePet", newPet, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 
@@ -99,8 +111,7 @@
       <Select
         bind:this={focusOn}
         bind:value={newPetSpecies}
-        valueGetter={(v) => v?.value}
-        allItem={allSpeciesEnum}
+        allItem={allSpeciesEnum.map((e) => e.name)}
         label="Species"
         placeholder="Choose species"
       />

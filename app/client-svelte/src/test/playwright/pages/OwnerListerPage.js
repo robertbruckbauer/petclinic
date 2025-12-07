@@ -59,7 +59,7 @@ export class OwnerListerPage {
     await expect(editButton).toBeEnabled();
     await editButton.click();
     const speciesSelect = this.page.getByLabel("Species");
-    await speciesSelect.selectOption("0");
+    await speciesSelect.selectOption("Cat");
     await speciesSelect.press("Tab");
     const nameField = this.page.getByRole("textbox", { name: "Name" });
     await nameField.click();

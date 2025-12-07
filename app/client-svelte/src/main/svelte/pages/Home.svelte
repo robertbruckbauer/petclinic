@@ -1,25 +1,25 @@
-<script>
-  import * as restApi from "../services/rest.js";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { VersionService } from "../services/version.service";
   import { toast } from "../components/Toast";
 
-  let apiExplorer = restApi.apiExplorerUrl();
+  const versionService = new VersionService();
 
-  let apiGraphiql = restApi.apiGraphiqlUrl();
+  let apiExplorer = versionService.apiExplorerUrl();
 
-  let versionHtml = $state("<span>loading ..</span>");
+  let apiGraphiql = versionService.apiGraphiqlUrl();
+
+  let version = $state("-");
 
   onMount(async () => {
-    restApi
-      .version()
-      .then((res) => res.text())
-      .then((html) => {
-        versionHtml = html;
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.push(err.toString());
-      });
+    versionService.loadVersion().subscribe({
+      next: (json) => {
+        version = json.version;
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   });
 </script>
 
@@ -33,13 +33,7 @@
   </fieldset>
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">APP-Version</legend>
-    <div class="text-2xl">
-      {#if versionHtml}
-        {@html versionHtml}
-      {:else}
-        -
-      {/if}
-    </div>
+    <div class="text-2xl">{version}</div>
   </fieldset>
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">API-Explorer</legend>
@@ -48,7 +42,7 @@
         class="underline text-blue-600 break-all"
         href="{apiExplorer}/index.html#uri=/api"
         target="_blank"
-        >{apiExplorer}
+        >{apiExplorer.pathname}
       </a>
     </div>
   </fieldset>
@@ -59,7 +53,7 @@
         class="underline text-blue-600 break-all"
         href="{apiGraphiql}?path=/api/graphql"
         target="_blank"
-        >{apiGraphiql}
+        >{apiGraphiql.pathname}
       </a>
     </div>
   </fieldset>

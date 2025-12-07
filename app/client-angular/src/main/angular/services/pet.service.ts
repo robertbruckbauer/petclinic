@@ -1,49 +1,43 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { backendUrl } from "../app.routes";
+import { HttpClient } from "@angular/common/http";
+import { Observable, map } from "rxjs";
 import { type PetItem, type Pet } from "../types/pet.type";
-import { tapLog } from "../utils/log";
-import { map, Observable } from "rxjs";
+import { BackendService } from "./backend.service";
 
 @Injectable()
-export class PetService {
-  constructor(private httpClient: HttpClient) {}
+export class PetService extends BackendService {
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
+  }
 
-  public loadAllPet(params: HttpParams | undefined = undefined) {
-    const path = [backendUrl(), "api", "pet"].join("/");
-    return this.httpClient.get<{ content: Pet[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content)
-    );
+  public loadAllPet(search: Record<string, string> = {}): Observable<Pet[]> {
+    const path = ["api", "pet"].join("/");
+    return this.restApiGetAll(path, search);
   }
 
   public loadAllPetItem(): Observable<PetItem[]> {
-    const params = new HttpParams().set("sort", "name,asc");
-    const path = [backendUrl(), "api", "pet"].join("/");
-    return this.httpClient.get<{ content: Pet[] }>(path, { params }).pipe(
-      tapLog("GET", path),
-      map((body) => body.content.map(mapPetToPetItem))
-    );
+    const path = ["api", "pet", "search", "findAllItem"].join("/");
+    return this.restApiGetAll(path, {});
   }
 
-  public createPet(value: Pet) {
-    const path = [backendUrl(), "api", "pet"].join("/");
-    return this.httpClient
-      .post<Pet>(path, value)
-      .pipe(tapLog("POST", path, value));
+  public loadOnePet(id: string): Observable<Pet> {
+    const path = ["api", "pet", id].join("/");
+    return this.restApiGet(path);
   }
 
-  public updatePet(value: Pet) {
-    const path = [backendUrl(), "api", "pet", value.id].join("/");
-    const headers = { "Content-Type": "application/merge-patch+json" };
-    return this.httpClient
-      .patch<Pet>(path, value, { headers })
-      .pipe(tapLog("PATCH", path, value));
+  public createPet(value: Pet): Observable<Pet> {
+    const path = ["api", "pet"].join("/");
+    return this.restApiPost(path, value);
   }
 
-  public removePet(id: string) {
-    const path = [backendUrl(), "api", "pet", id].join("/");
-    return this.httpClient.delete<Pet>(path).pipe(tapLog("DELETE", path));
+  public mutatePet(id: string, value: Partial<Pet>): Observable<Pet> {
+    const path = ["api", "pet", id].join("/");
+    return this.restApiPatch(path, value);
+  }
+
+  public removePet(id: string): Observable<Pet> {
+    const path = ["api", "pet", id].join("/");
+    return this.restApiDelete(path);
   }
 }
 

@@ -1,10 +1,24 @@
-<script>
-  import * as restApi from "../../services/rest.js";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { VisitService } from "../../services/visit.service";
+  import type { VetItem } from "../../types/vet.type";
+  import type { Visit } from "../../types/visit.type";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import Select from "../../components/Select";
   import TextArea from "../../components/TextArea";
+
+  const visitService = new VisitService();
+
+  interface Props {
+    autofocus?: boolean;
+    autoscroll?: boolean;
+    visible: boolean;
+    allVetItem: VetItem[];
+    visit: Visit;
+    oncancel?: undefined | (() => void);
+    onupdate?: undefined | ((visit: Visit) => void);
+  }
 
   let {
     autofocus = true,
@@ -14,11 +28,11 @@
     visit,
     oncancel = undefined,
     onupdate = undefined,
-  } = $props();
+  }: Props = $props();
 
   let clicked = $state(false);
-  let focusOn;
-  let bottomDiv;
+  let focusOn: any;
+  let bottomDiv: HTMLElement;
   onMount(async () => {
     console.log(["onMount", autofocus, autoscroll]);
     if (autofocus) focusOn.focus();
@@ -28,14 +42,13 @@
   let newVisitText = $derived(visit.text);
   let newVisitVetItem = $derived(visit.vetItem);
   const newVisit = $derived({
-    id: visit.id,
-    version: visit.version,
+    ...visit,
     text: newVisitText,
     vetItem: newVisitVetItem,
-    vet: "/api/vet/" + newVisitVetItem.value,
+    vet: newVisitVetItem ? "/api/vet/" + newVisitVetItem.value : undefined,
   });
 
-  function handleSubmit(_event) {
+  function handleSubmit(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -45,24 +58,22 @@
     }
   }
 
-  function handleCancel(_event) {
+  function handleCancel(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
   }
 
   function updateVisit() {
-    restApi
-      .updatePatch("/api/visit/" + newVisit.id, newVisit)
-      .then((json) => {
-        console.log(["updateVisit", newVisit, json]);
+    visitService.mutateVisit(newVisit.id!, newVisit).subscribe({
+      next: (json) => {
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
-        console.log(["updateVisit", newVisit, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

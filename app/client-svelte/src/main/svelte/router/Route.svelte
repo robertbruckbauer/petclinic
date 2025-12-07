@@ -3,7 +3,9 @@
 
   let { path = "*", component = null, ...restProps } = $props();
 
-  register({ path, component });
+  $effect(() => {
+    register({ path, component });
+  });
 
   const params = $derived(
     $activeRoute.path === path ? $activeRoute.params : {}

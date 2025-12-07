@@ -7,7 +7,6 @@ import {
   signal,
 } from "@angular/core";
 import { VersionService } from "../../services/version.service";
-import { backendUrl } from "../../app.routes";
 
 @Component({
   selector: "app-home",
@@ -17,22 +16,22 @@ import { backendUrl } from "../../app.routes";
 })
 export class HomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  private restApi = inject(VersionService);
+  private versionService = inject(VersionService);
 
-  apiExplorer = signal<string>("/api/explorer");
+  apiExplorer = signal<URL>(new URL(this.versionService.apiExplorerUrl()));
   apiExplorerHref = computed<string>(
-    () => backendUrl() + this.apiExplorer() + "/index.html#uri=/api"
+    () => this.apiExplorer() + "/index.html#uri=/api"
   );
 
-  apiGraphiql = signal<string>("/api/graphiql");
+  apiGraphiql = signal<URL>(new URL(this.versionService.apiGraphiqlUrl()));
   apiGraphiqlHref = computed<string>(
-    () => backendUrl() + this.apiGraphiql() + "?path=/api/graphql"
+    () => this.apiGraphiql() + "?path=/api/graphql"
   );
 
   version = signal("-");
 
   ngOnInit() {
-    const subscription = this.restApi.loadVersion().subscribe({
+    const subscription = this.versionService.loadVersion().subscribe({
       next: (res) => {
         this.version.set(res.version);
       },

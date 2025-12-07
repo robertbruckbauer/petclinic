@@ -1,101 +1,103 @@
-<script>
-  import * as restApi from "../../services/rest.js";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { EnumService } from "../../services/enum.service";
+  import type { EnumItem } from "../../types/enum.type";
   import { toast } from "../../components/Toast/index.js";
   import Button from "../../components/Button/index.js";
   import TextField from "../../components/TextField/index.js";
   import TextArea from "../../components/TextArea/index.js";
 
+  interface Props {
+    autofocus?: boolean;
+    autoscroll?: boolean;
+    visible: boolean;
+    art: "species" | "skill";
+    item: EnumItem;
+    oncancel?: undefined | (() => void);
+    oncreate?: undefined | ((item: EnumItem) => void);
+    onupdate?: undefined | ((item: EnumItem) => void);
+  }
+
   let {
     autofocus = true,
     autoscroll = true,
     visible = $bindable(false),
-    item = {},
     art,
-    code,
+    item = {} as EnumItem,
     oncancel = undefined,
     oncreate = undefined,
     onupdate = undefined,
-  } = $props();
+  }: Props = $props();
 
   let clicked = $state(false);
-  let focusOn;
-  let bottomDiv;
+  let focusOn: any;
+  let bottomDiv: HTMLElement;
   onMount(async () => {
     console.log(["onMount", autofocus, autoscroll]);
     if (autofocus) focusOn.focus();
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
-  let newItemCode = $state();
+  let newItemCode = $state(0);
+  let newItemName = $state("");
+  let newItemText = $state("");
   $effect(() => {
-    newItemCode = code;
-  });
-  let newItemName = $state();
-  let newItemText = $state();
-  $effect(() => {
+    newItemCode = item.code;
     newItemName = item.name;
     newItemText = item.text;
   });
-  const newItem = $derived({
-    id: item.id,
-    version: item.version,
+  const newItem: EnumItem = $derived({
+    ...item,
     code: newItemCode,
     name: newItemName,
     text: newItemText,
   });
 
-  $effect(() => {
-    $inspect(code).with(console.trace);
-    $inspect(item).with(console.trace);
-  });
-
-  function handleSubmit(_event) {
+  function handleSubmit(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
-      if (item.code) {
-        updateItem();
-      } else {
+      if (oncreate !== undefined) {
         createItem();
+      }
+      if (onupdate !== undefined) {
+        updateItem();
       }
     } finally {
       clicked = false;
     }
   }
 
-  function handleCancel(_event) {
+  function handleCancel(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
   }
 
+  const enumService = new EnumService();
+
   function createItem() {
-    restApi
-      .createValue("/api/enum/" + art, newItem)
-      .then((json) => {
-        console.log(["createItem", newItem, json]);
+    enumService.createEnum(art, newItem).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createItem", newItem, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 
   function updateItem() {
-    restApi
-      .updateValue("/api/enum/" + art + "/" + newItem.code, newItem)
-      .then((json) => {
-        console.log(["updateItem", newItem, json]);
+    enumService.updateEnum(art, newItem).subscribe({
+      next: (json) => {
         visible = false;
         onupdate?.(json);
-      })
-      .catch((err) => {
-        console.log(["updateItem", newItem, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 
@@ -108,8 +110,8 @@
           required
           type="number"
           label="Code"
-          placeholder="Bitte einen Code eingeben"
-          disabled={item.id}
+          placeholder="Enter a code"
+          disabled={onupdate !== undefined}
         />
       </div>
       <div class="w-full">
@@ -118,7 +120,7 @@
           bind:value={newItemName}
           required
           label="Name"
-          placeholder="Bitte einen Namen eingeben"
+          placeholder="Enter a name"
         />
       </div>
     </div>

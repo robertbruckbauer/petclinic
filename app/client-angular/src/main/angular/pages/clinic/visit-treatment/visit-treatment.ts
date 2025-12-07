@@ -72,7 +72,7 @@ export class VisitTreatmentComponent implements OnInit {
       });
     } else {
       const subscription = this.visitService
-        .updateVisit({
+        .mutateVisit(this.visit().id!, {
           ...this.visit(),
           date: this.form.value.date!,
         })

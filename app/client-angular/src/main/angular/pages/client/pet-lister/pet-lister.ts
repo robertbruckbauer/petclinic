@@ -8,7 +8,6 @@ import {
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { CommonModule } from "@angular/common";
-import { HttpParams } from "@angular/common/http";
 import {
   FormControl,
   FormGroup,
@@ -53,21 +52,27 @@ export class PetListerComponent implements OnInit {
   ownerId = computed(() => this.filterFormValue().ownerId!);
 
   allPet = signal<Pet[]>([]);
+  // tag::afterCreate[]
   afterCreatePet(newPet: Pet) {
     this.allPet.update((allPet) => {
       return [newPet, ...allPet];
     });
   }
+  // end::afterCreate[]
+  // tag::afterUpdate[]
   afterUpdatePet(newPet: Pet) {
     this.allPet.update((allPet) => {
       return allPet.map((pet) => (pet.id === newPet.id ? newPet : pet));
     });
   }
+  // end::afterUpdate[]
+  // tag::afterRemove[]
   afterRemovePet(newPet: Pet) {
     this.allPet.update((allPet) => {
       return allPet.filter((pet) => pet.id !== newPet.id);
     });
   }
+  // end::afterRemove[]
 
   newPet = computed<Pet>(() => {
     return {
@@ -91,6 +96,7 @@ export class PetListerComponent implements OnInit {
   allSpeciesEnum = signal<EnumItem[]>([]);
   allOwnerItem = signal<OwnerItem[]>([]);
   ngOnInit() {
+    // tag::init[]
     this.loading.set(true);
     const subscription = forkJoin({
       allSpeciesEnum: this.enumService.loadAllEnum("species"),
@@ -107,14 +113,14 @@ export class PetListerComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+    // end::init[]
   }
 
+  // tag::filter[]
   onFilterClicked() {
     this.loading.set(true);
-    const params = new HttpParams()
-      .set("sort", "name,asc")
-      .set("owner.id", this.ownerId());
-    const subscription = this.petService.loadAllPet(params).subscribe({
+    const search = { sort: "name,asc", "owner.id": this.ownerId() };
+    const subscription = this.petService.loadAllPet(search).subscribe({
       next: (allPet) => {
         this.allPet.set(allPet);
       },
@@ -126,6 +132,7 @@ export class PetListerComponent implements OnInit {
       subscription.unsubscribe();
     });
   }
+  // end::filter[]
 
   petId = signal<string | undefined>(undefined); // no pet selected
   onPetClicked(pet: Pet) {
@@ -165,6 +172,7 @@ export class PetListerComponent implements OnInit {
     () => this.ownerId() === "" || this.petFilterDisabled()
   );
 
+  // tag::remove[]
   onPetRemoveClicked(pet: Pet) {
     this.petId.set(undefined); // no pet selected
     const text = [pet.species, pet.name].join(" ");
@@ -183,4 +191,5 @@ export class PetListerComponent implements OnInit {
       subscription.unsubscribe();
     });
   }
+  // end::remove[]
 }

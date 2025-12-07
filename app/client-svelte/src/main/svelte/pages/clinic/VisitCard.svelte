@@ -1,18 +1,23 @@
-<script>
+<script lang="ts">
+  import type { Visit } from "../../types/visit.type";
   import Text from "../../components/Text";
   import TextArea from "../../components/TextArea";
 
-  let { visit } = $props();
+  interface Props {
+    visit: Visit;
+  }
 
-  let newVisitPetName = $state();
-  let newVisitDate = $state();
-  let newVisitText = $state();
-  let newVisitVetName = $state();
+  let { visit }: Props = $props();
+
+  let newVisitPetName = $state("");
+  let newVisitDate = $state("");
+  let newVisitText = $state("");
+  let newVisitVetName = $state("");
   $effect(() => {
-    newVisitPetName = visit.petItem?.text;
-    newVisitDate = visit.date;
-    newVisitText = visit.text;
-    newVisitVetName = visit.vetItem?.text;
+    newVisitPetName = visit.petItem!.text;
+    newVisitDate = visit.date!;
+    newVisitText = visit.text!;
+    newVisitVetName = visit.vetItem!.text;
   });
 </script>
 

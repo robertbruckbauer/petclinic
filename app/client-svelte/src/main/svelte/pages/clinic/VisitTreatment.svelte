@@ -1,9 +1,22 @@
-<script>
-  import * as restApi from "../../services/rest.js";
+<script lang="ts">
   import { onMount } from "svelte";
+  import { VisitService } from "../../services/visit.service";
+  import type { Pet } from "../../types/pet.type";
+  import type { Visit } from "../../types/visit.type";
   import { toast } from "../../components/Toast";
   import Button from "../../components/Button";
   import TextField from "../../components/TextField";
+
+  const visitService = new VisitService();
+
+  interface Props {
+    autofocus?: boolean;
+    autoscroll?: boolean;
+    visible: boolean;
+    pet: Pet;
+    oncancel?: undefined | (() => void);
+    oncreate?: undefined | ((visit: Visit) => void);
+  }
 
   let {
     autofocus = true,
@@ -12,24 +25,25 @@
     pet,
     oncancel = undefined,
     oncreate = undefined,
-  } = $props();
+  }: Props = $props();
 
   let clicked = $state(false);
-  let focusOn;
-  let bottomDiv;
+  let focusOn: any;
+  let bottomDiv: HTMLElement;
   onMount(async () => {
     console.log(["onMount", autofocus, autoscroll]);
     if (autofocus) focusOn.focus();
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
-  let newVisitDate = $state();
-  const newVisit = $derived({
+  let newVisitDate = $state("");
+  const newVisit: Visit = $derived({
+    version: 0,
     pet: "/api/pet/" + pet.id,
     date: newVisitDate,
   });
 
-  function handleSubmit(_event) {
+  function handleSubmit(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -39,24 +53,22 @@
     }
   }
 
-  function handleCancel(_event) {
+  function handleCancel(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
   }
 
   function createVisit() {
-    restApi
-      .createValue("/api/visit", newVisit)
-      .then((json) => {
-        console.log(["createVisit", newVisit, json]);
+    visitService.createVisit(newVisit).subscribe({
+      next: (json) => {
         visible = false;
         oncreate?.(json);
-      })
-      .catch((err) => {
-        console.log(["createVisit", newVisit, err]);
-        toast.push(err.toString());
-      });
+      },
+      error: (err) => {
+        toast.push(err);
+      },
+    });
   }
 </script>
 

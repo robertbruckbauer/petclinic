@@ -114,7 +114,7 @@ function findMatchingRoute(pathname: string): RouteMatch | null {
 /**
  * Handle route changes and update the active route store
  */
-function handleRouteChange(): void {
+export function handleRouteChange(): void {
   const pathname = window.location.pathname;
   const match = findMatchingRoute(pathname);
 
@@ -196,6 +196,3 @@ export function navigate(path: string, replace: boolean = false): void {
   // Trigger route change
   handleRouteChange();
 }
-
-// Export for testing
-export { findMatchingRoute, extractParams, pathToRegex, handleRouteChange };
