@@ -1,7 +1,7 @@
 package esy.api.info;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import esy.json.JsonJpaItem;
+import esy.rest.JsonJpaItem;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;

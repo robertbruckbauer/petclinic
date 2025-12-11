@@ -1,4 +1,4 @@
-package esy.json;
+package esy.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
