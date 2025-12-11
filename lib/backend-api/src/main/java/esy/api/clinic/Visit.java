@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.api.client.OwnerItem;
 import esy.api.client.Pet;
 import esy.api.client.PetItem;
-import esy.json.JsonJpaEntity;
-import esy.json.JsonJpaMapper;
+import esy.rest.JsonJpaEntity;
+import esy.rest.JsonJpaMapper;
 import lombok.Getter;
 import lombok.NonNull;
 

@@ -1,4 +1,4 @@
-package esy.json;
+package esy.rest;
 
 import com.jayway.jsonpath.ReadContext;
 import com.jayway.jsonpath.TypeRef;

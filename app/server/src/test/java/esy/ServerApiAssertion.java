@@ -10,7 +10,7 @@ import esy.api.client.Pet;
 import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
 import esy.api.info.Enum;
-import esy.json.JsonJpaMapper;
+import esy.rest.JsonJpaMapper;
 import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
