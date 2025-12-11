@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.json.JsonJpaEntity;
-import esy.json.JsonMapper;
-
+import esy.json.JsonJpaMapper;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
@@ -148,10 +147,10 @@ public final class Enum extends JsonJpaEntity<Enum> {
 
     @Override
     public String writeJson() {
-        return new JsonMapper().writeJson(this);
+        return new JsonJpaMapper().writeJson(this);
     }
 
     public static Enum parseJson(@NonNull final String json) {
-        return new JsonMapper().parseJson(json, Enum.class);
+        return new JsonJpaMapper().parseJson(json, Enum.class);
     }
 }

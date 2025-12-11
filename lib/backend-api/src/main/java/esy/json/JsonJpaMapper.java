@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class JsonMapper {
+public class JsonJpaMapper {
 
     // tag::configure[]
     public static ObjectMapper configure(@NonNull final ObjectMapper mapper) {
@@ -52,12 +52,12 @@ public class JsonMapper {
     }
 
     /**
-     * Erzeugt einen {@link JsonReader} mit allen Elementen einer JSON-Struktur.
+     * Erzeugt einen {@link JsonJpaReader} mit allen Elementen einer JSON-Struktur.
      *
      * @param json JSON
-     * @return {@link JsonReader}
+     * @return {@link JsonJpaReader}
      */
-    public JsonReader parseJsonPath(@NonNull final String json) {
+    public JsonJpaReader parseJsonPath(@NonNull final String json) {
         if (json.isBlank()) {
             throw new IllegalArgumentException("json structure is blank");
         }
@@ -68,7 +68,7 @@ public class JsonMapper {
                     .jsonProvider(new JacksonJsonProvider(mapper))
                     .mappingProvider(new JacksonMappingProvider(mapper))
                     .build();
-            return new JsonReader(JsonPath.using(jsonConfiguration).parse(json));
+            return new JsonJpaReader(JsonPath.using(jsonConfiguration).parse(json));
         } catch (final JsonPathException e) {
             throw new IllegalArgumentException(e.toString(), e);
         }

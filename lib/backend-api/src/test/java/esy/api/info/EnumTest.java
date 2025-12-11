@@ -1,8 +1,6 @@
 package esy.api.info;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import esy.api.client.Pet;
-import esy.json.JsonMapper;
+import esy.json.JsonJpaMapper;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -104,7 +102,7 @@ class EnumTest {
         assertEquals(name, value.getName());
         assertEquals("A " + name, value.getText());
 
-        final var json = new JsonMapper().parseJsonNode(value.writeJson());
+        final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
         assertEquals(0, json.at("/version").asLong());
     }
 

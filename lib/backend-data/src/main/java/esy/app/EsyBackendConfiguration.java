@@ -7,7 +7,7 @@ import esy.EsyBackendRoot;
 import esy.EsyEntityRoot;
 import esy.auth.Cors;
 import esy.json.JsonJpaEntity;
-import esy.json.JsonMapper;
+import esy.json.JsonJpaMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -138,7 +138,7 @@ public class EsyBackendConfiguration implements EsyBackendAware {
 
             @Override
             public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, final CorsRegistry registry) {
-                // apply defaults
+                // apply REST defaults
                 configuration.setBasePath(API_PATH);
                 configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
                 // create JSON with content (not _embedded)
@@ -155,8 +155,8 @@ public class EsyBackendConfiguration implements EsyBackendAware {
 
             @Override
             public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {
-                // apply defaults
-                JsonMapper.configure(mapper);
+                // apply JSON defaults
+                JsonJpaMapper.configure(mapper);
             }
         };
     }

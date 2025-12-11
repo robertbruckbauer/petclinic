@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.json.JsonJpaEntity;
-import esy.json.JsonMapper;
+import esy.json.JsonJpaMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -107,10 +107,10 @@ public final class Vet extends JsonJpaEntity<Vet> {
 
     @Override
     public String writeJson() {
-        return new JsonMapper().writeJson(this);
+        return new JsonJpaMapper().writeJson(this);
     }
 
     public static Vet parseJson(@NonNull final String json) {
-        return new JsonMapper().parseJson(json, Vet.class);
+        return new JsonJpaMapper().parseJson(json, Vet.class);
     }
 }

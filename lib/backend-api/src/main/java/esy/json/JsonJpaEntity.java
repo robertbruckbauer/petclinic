@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonWithId<T> {
+public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJpaWithId<T> {
 
     /**
      * Aktuelle Version der Daten.
