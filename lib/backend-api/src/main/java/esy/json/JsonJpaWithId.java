@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 import java.util.UUID;
 
-public interface JsonWithId<S> {
+public interface JsonJpaWithId<S> {
 
     /**
      * Erzeugt eine neue Instanz mit neuer UUID. Alle

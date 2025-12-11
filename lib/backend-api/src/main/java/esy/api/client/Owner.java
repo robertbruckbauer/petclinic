@@ -3,7 +3,7 @@ package esy.api.client;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.json.JsonJpaEntity;
-import esy.json.JsonMapper;
+import esy.json.JsonJpaMapper;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -121,10 +121,10 @@ public final class Owner extends JsonJpaEntity<Owner> {
 
     @Override
     public String writeJson() {
-        return new JsonMapper().writeJson(this);
+        return new JsonJpaMapper().writeJson(this);
     }
 
     public static Owner parseJson(@NonNull final String json) {
-        return new JsonMapper().parseJson(json, Owner.class);
+        return new JsonJpaMapper().parseJson(json, Owner.class);
     }
 }
