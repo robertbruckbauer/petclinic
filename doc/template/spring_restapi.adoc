@@ -62,6 +62,32 @@ Take in account the mapping from exceptions to status codes:
 include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendRestControllerAdvice.java[indent=0,tags=resolveStatus]
 ----
 
+Create a description for at least the following status codes depending on the operation:
+
+`POST` operation::
+This operation reports `Created` or code 201 if the entity was successfully created.
+This operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Conflict` or code 409 if the entity already exists or data is incomplete.
+
+`PUT` operation::
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+This operation reports `Created` or code 201 if the entity was successfully created.
+This operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
+
+`PATCH` operation::
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+This operation reports `Not Found` or code 404 if the entity does not exist.
+This operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
+
+`GET` operation::
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+`DELETE` operation::
+This operation reports `Ok` or code 200 if the entity was successfully deleted.
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
 Let included snippets be a major part of the documentation.
 Use snippets for the `curl` command with title `Command`.
 Use snippets for the request body with title `Request`.

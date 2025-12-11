@@ -49,11 +49,11 @@ include::{restdocdir}/post-api-owner/response-body.adoc[]
 
 ****
 
-This operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the name already exists, data is incomplete, or is invalid.
+This operation reports `Conflict` or code 409 if the name already exists or data is incomplete.
 
 === `PUT /api/owner/{id}`
 
@@ -71,13 +71,13 @@ include::{restdocdir}/put-api-owner/http-request.adoc[]
 include::{restdocdir}/put-api-owner/response-body.adoc[]
 
 ****
-This operation reports `Ok` or code 200 if the object was successfully updated.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
 
-This operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
 
 === `PATCH /api/owner/{id}`
 
@@ -99,13 +99,13 @@ include::{restdocdir}/patch-api-owner-name/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the object was successfully updated.
-
-This operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
 
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
-This operation reports `Conflict` or code 409 if the data is incomplete or is invalid.
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
 
 TIP: The description of attributes other than name are omitted for simplicity because they are following the same pattern.
 
@@ -204,6 +204,6 @@ include::{restdocdir}/delete-api-owner/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the data was successfully deleted.
+This operation reports `Ok` or code 200 if the entity was successfully deleted.
 
-This operation reports `Not Found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.

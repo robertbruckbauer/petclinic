@@ -57,11 +57,11 @@ include::{restdocdir}/post-api-enum/response-body.adoc[]
 
 ****
 
-This operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the object already exists.
+This operation reports `Conflict` or code 409 if the code or name already exists for the discriminator or data is incomplete.
 
 === `PUT /api/enum/{art}/{code}`
 
@@ -81,11 +81,15 @@ include::{restdocdir}/put-api-enum/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the object was successfully updated.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Not Found` or code 404 if the enum does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
 
 === `GET /api/enum/{art}`
 
@@ -126,6 +130,6 @@ include::{restdocdir}/delete-api-enum/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the data was successfully deleted.
+This operation reports `Ok` or code 200 if the entity was successfully deleted.
 
-This operation reports `Not Found` or code 404 if the enum does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
