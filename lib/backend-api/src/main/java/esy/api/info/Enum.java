@@ -2,8 +2,8 @@ package esy.api.info;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import esy.json.JsonJpaEntity;
-import esy.json.JsonJpaMapper;
+import esy.rest.JsonJpaEntity;
+import esy.rest.JsonJpaMapper;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;

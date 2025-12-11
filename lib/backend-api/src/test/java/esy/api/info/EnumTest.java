@@ -1,6 +1,6 @@
 package esy.api.info;
 
-import esy.json.JsonJpaMapper;
+import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

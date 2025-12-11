@@ -1,7 +1,7 @@
 package esy;
 
 import com.microsoft.playwright.Playwright;
-import esy.json.JsonJpaMapper;
+import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
