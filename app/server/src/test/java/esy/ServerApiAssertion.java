@@ -10,7 +10,7 @@ import esy.api.client.Pet;
 import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
 import esy.api.info.Enum;
-import esy.json.JsonMapper;
+import esy.json.JsonJpaMapper;
 import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServerApiAssertion {
 
-    private final JsonMapper jsonMapper = new JsonMapper();
+    private final JsonJpaMapper jsonMapper = new JsonJpaMapper();
 
     private final APIRequestContext context;
 
