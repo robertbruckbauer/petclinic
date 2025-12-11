@@ -4,7 +4,7 @@
 
 .Augment Code
 ----
-Check all adoc files in @doc/restapi. Use @doc/template/SpringRestApi.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in @lib/backend-api and @lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
+Check all adoc files in @doc/restapi. Use @doc/template/spring_restapi.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in @lib/backend-api and @lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
 ----
 
 .GitHub Copilot
@@ -12,7 +12,7 @@ Check all adoc files in @doc/restapi. Use @doc/template/SpringRestApi.adoc as te
 Add directory doc/restapi to the context.
 Add directory lib/backend-api to the context.
 Add directory lib/backend-data to the context.
-Check all adoc files in doc/restapi. Use #file:doc/template/SpringRestApi.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in lib/backend-api and lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
+Check all adoc files in doc/restapi. Use #file:doc/template/spring_restapi.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in lib/backend-api and lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
 ----
 
 The agent fixes minor issues like typos.
@@ -20,11 +20,27 @@ For all other issues, the agent adds a comment with hints and instructions to fi
 Go through all adoc files and resolve the issues manually with the help of the hints and instructions or use the prompts to let the agent fix the issue.
 Revert hints and instructions if you disagree with the agents analysis.
 
+== Create new REST API documentation
+
+.Augment Code
+----
+Create @doc/restapi/owner_restapi.adoc with a documentation for the REST API implemented in @OwnerGraphqlController.java and @owner.gqls from @lib/backend-data. Strictly follow the structure and instructions in @doc/template/spring_graphql.adoc.
+----
+
+.GitHub Copilot
+----
+Create #file:doc/restapi/owner_restapi.adoc with a documentation for the REST API implemented in #file:OwnerGraphqlController.java and #file:owner.gqls. Strictly follow the structure and instructions in #file:doc/template/spring_graphql.adoc.
+----
+
+Replace `owner` with the name of the entity.
+The agent creates a new documentation based on the structure and instructions in the template.
+
+
 == Sanity Check of GraphQL API documentation
 
 .Augment Code
 ----
-Check all adoc files in @doc/graphql. Use @doc/template/SpringGraphQL.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in @lib/backend-api and @lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
+Check all adoc files in @doc/graphql. Use @doc/template/spring_graphql.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in @lib/backend-api and @lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
 ----
 
 .GitHub Copilot
@@ -32,7 +48,7 @@ Check all adoc files in @doc/graphql. Use @doc/template/SpringGraphQL.adoc as te
 Add directory doc/restapi to the context.
 Add directory lib/backend-api to the context.
 Add directory lib/backend-data to the context.
-Check all adoc files in doc/graphql. Use #file:doc/template/SpringGraphQL.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in lib/backend-api and lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
+Check all adoc files in doc/graphql. Use #file:doc/template/spring_graphql.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in lib/backend-api and lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
 ----
 
 The agent fixes minor issues like typos.
@@ -44,12 +60,13 @@ Revert hints and instructions if you disagree with the agents analysis.
 
 .Augment Code
 ----
-Create @doc/graphql/OwnerGraphQL.adoc with a documentation for the GraphQL implemented in @OwnerGraphqlController.java and @owner.gqls from @lib/backend-data. Follow the structure and instructions in @doc/template/SpringGraphQL.adoc.
+Create @doc/graphql/owner_graphql.adoc with a documentation for the GraphQL API implemented in @OwnerGraphqlController.java and @owner.gqls from @lib/backend-data. Strictly follow the structure and instructions in @doc/template/spring_graphql.adoc.
 ----
 
 .GitHub Copilot
 ----
-Create #file:doc/graphql/OwnerGraphQL.adoc with a documentation for the GraphQL implemented in #file:OwnerGraphqlController.java and #file:owner.gqls. Follow the structure and instructions in #file:doc/template/SpringGraphQL.adoc.
+Create #file:doc/graphql/owner_graphql.adoc with a documentation for the GraphQL API implemented in #file:OwnerGraphqlController.java and #file:owner.gqls. Strictly follow the structure and instructions in #file:doc/template/spring_graphql.adoc.
 ----
 
+Replace `owner` with the name of the entity.
 The agent creates a new documentation based on the structure and instructions in the template.

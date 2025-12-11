@@ -26,19 +26,20 @@ A base service provides generic REST operation implementations with error handli
 
 ==== `destroyRef`
 
-A reference to a `DestroyRef` instance for cleanup, e.g. rxJs subscriptions.
+A private reference to a `DestroyRef` instance for cleanup, e.g. rxJs subscriptions.
 
 ==== `entityService`
 
-A reference to the domain-specific service for HTTP communication with REST operations.
+A private reference to a domain-specific service for HTTP communication with REST operations.
+You may use more than one service, e.g. for loading extra data used for selection.
 
-NOTE: Replace _entity_ with the name of the entity, e.g. `petService`.
+TIP: Replace _entity_ with the name of the entity, e.g. `petService`.
 
 ==== `entity`
 
 The entity to be edited.
 
-NOTE: Replace _entity_ with the name of the entity, e.g. `pet`.
+TIP: Replace _entity_ with the name of the entity, e.g. `pet`.
 
 ==== `mode`
 
