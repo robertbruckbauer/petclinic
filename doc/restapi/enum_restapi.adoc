@@ -41,7 +41,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/info/EnumItem.java[i
 
 === `POST /api/enum/{art}`
 
-This operation creates a new _Enum_ entity for an discriminator.
+This operation creates a new _Enum_ entity for a discriminator.
 Response is of type _EnumItem_.
 
 ****
@@ -57,15 +57,15 @@ include::{restdocdir}/post-api-enum/response-body.adoc[]
 
 ****
 
-This operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the object already exists.
+This operation reports `Conflict` or code 409 if the code or name already exists for the discriminator or data is incomplete.
 
 === `PUT /api/enum/{art}/{code}`
 
-This operation updates an existing _Enum_ entity for an discriminator and code.
+This operation updates an existing _Enum_ entity for a discriminator and code.
 Response is of type _EnumItem_.
 
 ****
@@ -81,15 +81,19 @@ include::{restdocdir}/put-api-enum/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the object was successfully updated.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Not Found` or code 404 if the enum does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
+
 === `GET /api/enum/{art}`
 
-This operation returns all persisted _Enum_ entities for an discriminator ordered by code.
+This operation returns all persisted _Enum_ entities for a discriminator ordered by code.
 Response is a collection of type _EnumItem_.
 
 ****
@@ -110,7 +114,7 @@ The result can be empty if no enums exist for the discriminator.
 
 === `DELETE /api/enum/{art}/{code}`
 
-This operation deletes a single persisted _Enum_ entity for an discriminator and code.
+This operation deletes a single persisted _Enum_ entity for a discriminator and code.
 Response is of type _EnumItem_.
 
 ****
@@ -126,6 +130,6 @@ include::{restdocdir}/delete-api-enum/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the data was successfully deleted.
+This operation reports `Ok` or code 200 if the entity was successfully deleted.
 
-This operation reports `Not Found` or code 404 if the enum does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.

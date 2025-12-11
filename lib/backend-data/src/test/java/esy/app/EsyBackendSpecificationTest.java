@@ -18,7 +18,11 @@ public class EsyBackendSpecificationTest {
 
     static <T> void assertRestApiFor(final Class<T> clazz) {
         final var root = "../".repeat(2);
-        final var path = Paths.get(root, "doc", "restapi", "%sRestApi.adoc".formatted(clazz.getSimpleName()));
+        final var name = clazz
+                .getSimpleName()
+                .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
+                .toLowerCase();
+        final var path = Paths.get(root, "doc", "restapi", "%s_restapi.adoc".formatted(name));
         assertTrue(Files.exists(path), path.toString());
     }
 
@@ -33,7 +37,11 @@ public class EsyBackendSpecificationTest {
 
     static <T> void assertGraphQLFor(final Class<T> clazz) {
         final var root = "../".repeat(2);
-        final var path = Paths.get(root, "doc", "graphql", "%sGraphQL.adoc".formatted(clazz.getSimpleName()));
+        final var name = clazz
+                .getSimpleName()
+                .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
+                .toLowerCase();
+        final var path = Paths.get(root, "doc", "graphql", "%s_graphql.adoc".formatted(name));
         assertTrue(Files.exists(path), path.toString());
     }
 

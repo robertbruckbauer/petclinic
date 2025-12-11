@@ -46,11 +46,11 @@ include::{restdocdir}/post-api-visit/response-body.adoc[]
 
 ****
 
-This operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data already exists, is incomplete, or is invalid.
+This operation reports `Conflict` or code 409 if the entity already exists or data is incomplete.
 
 === `PUT /api/visit/{id}`
 
@@ -69,13 +69,13 @@ include::{restdocdir}/put-api-visit/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the object was successfully updated.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
 
-This operation reports `Created` or code 201 if the object was successfully created.
+This operation reports `Created` or code 201 if the entity was successfully created.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint (duplicate visit for same pet on same date).
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
 
 === `PATCH /api/visit/{id}`
 
@@ -97,13 +97,13 @@ include::{restdocdir}/patch-api-visit-date/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the object was successfully updated.
-
-This operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
 
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
-This operation reports `Conflict` or code 409 if the data is incomplete, invalid, or violates the unique constraint.
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
 
 TIP: The description of attributes other than date are omitted for simplicity because they are following the same pattern.
 
@@ -122,13 +122,13 @@ include::{restdocdir}/patch-api-visit-pet/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the object was successfully updated.
-
-This operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
 
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
-This operation reports `Conflict` or code 409 if this relation already exists.
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if this relation already exists or the entity is outdated (invalid ETag).
 
 ==== `vet` relation
 
@@ -145,13 +145,13 @@ include::{restdocdir}/patch-api-visit-vet/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the object was successfully updated.
-
-This operation reports `Bad Request` or code 400 if the data was not processed.
+This operation reports `Ok` or code 200 if the entity was successfully updated.
 
 This operation reports `Not Found` or code 404 if the entity does not exist.
 
-This operation reports `Conflict` or code 409 if this relation already exists.
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if this relation already exists or the entity is outdated (invalid ETag).
 
 === `GET /api/visit`
 
@@ -234,6 +234,6 @@ include::{restdocdir}/delete-api-visit/response-body.adoc[]
 
 ****
 
-This operation reports `Ok` or code 200 if the data was successfully deleted.
+This operation reports `Ok` or code 200 if the entity was successfully deleted.
 
-This operation reports `Not Found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
