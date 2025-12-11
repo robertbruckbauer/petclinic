@@ -1,4 +1,4 @@
-package esy.json;
+package esy.rest;
 
 import lombok.NonNull;
 
