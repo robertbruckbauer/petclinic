@@ -9,11 +9,11 @@ import { RouterLink, RouterOutlet } from "@angular/router";
 })
 export class App {
   protected menuVisible = signal(false);
-  onMenuToggle(event: MouseEvent) {
+  onMenuToggle(event: Event) {
     event.stopPropagation();
     this.menuVisible.update((value) => !value);
   }
-  onMenuClose(event: MouseEvent) {
+  onMenuClose(event: Event) {
     event.stopPropagation();
     this.menuVisible.set(false);
   }
