@@ -4,25 +4,17 @@
   <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
     <div class="flex flex-row gap-2 items-center pb-2 pr-2">
       <select
+        formControlName="ownerId"
         aria-label="Filter"
         class="select w-full"
         [class.pointer-events-none]="petFilterDisabled()"
-        formControlName="ownerId"
         (change)="onFilterClicked()"
       >
-        <option disabled selected>Choose an owner</option>
+        <option value="" disabled selected>Choose an owner</option>
         @for (ownerItem of allOwnerItem(); track ownerItem.value) {
           <option [value]="ownerItem.value">{{ ownerItem.text }}</option>
         }
       </select>
-      <button
-        type="submit"
-        title="Filter items"
-        class="btn btn-circle btn-outline"
-        [disabled]="petFilterDisabled()"
-      >
-        <span class="material-icons">search</span>
-      </button>
     </div>
   </form>
   @if (loading()) {

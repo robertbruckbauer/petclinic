@@ -3,16 +3,16 @@
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Diagnose</legend>
       <textarea
+        formControlName="text"
         aria-label="Diagnose"
         class="textarea w-full"
         placeholder="Enter a diagnose"
-        formControlName="text"
       ></textarea>
     </fieldset>
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Vet</legend>
-      <select aria-label="Vet" class="select w-full" formControlName="vet">
-        <option disabled selected>Choose a vet</option>
+      <select formControlName="vet" aria-label="Vet" class="select w-full">
+        <option value="" disabled selected>Choose a vet</option>
         @for (vetItem of allVetItem(); track vetItem.value) {
           <option [value]="vetItem.value">{{ vetItem.text }}</option>
         }

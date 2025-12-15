@@ -9,10 +9,6 @@ export class OwnerListerPage {
   }
 
   path = "/owner";
-  ownerName = "Zzz" + chance.word({ syllables: 3 });
-  address = "Planet Erde";
-  contact = "Brieftaube";
-  petName = "Zzz" + chance.word({ syllables: 1 });
 
   async goto() {
     await this.page.goto("/");
@@ -23,73 +19,146 @@ export class OwnerListerPage {
 
   async createOwner() {
     await expect(this.page).toHaveURL(this.path);
+    const ownerName = "Zzz" + chance.word({ syllables: 3 });
+    const address = "Planet Erde";
+    const contact = "Brieftaube";
+    // Add
     const row = this.page.locator("th");
     const addButton = row.getByRole("button", { name: "add", exact: true });
     await expect(addButton).toBeEnabled();
     await addButton.click();
-    const nameField = this.page.getByRole("textbox", { name: "Name" });
-    await nameField.click();
-    await nameField.fill(this.ownerName);
-    await nameField.press("Tab");
-    const addressField = this.page.getByRole("textbox", { name: "Address" });
-    await addressField.click();
-    await addressField.fill(this.address);
-    await addressField.press("Tab");
-    const contactField = this.page.getByRole("textbox", { name: "Contact" });
-    await contactField.click();
-    await contactField.fill(this.contact);
-    await contactField.press("Tab");
+    // Name
+    const nameInput = this.page.locator('[aria-label="Name"]');
+    await expect(nameInput).toHaveValue("");
+    await nameInput.fill(ownerName);
+    await nameInput.press("Tab");
+    await expect(nameInput).toHaveValue(ownerName);
+    // Address
+    const addressInput = this.page.locator('[aria-label="Address"]');
+    await expect(addressInput).toHaveValue("");
+    await addressInput.fill(address);
+    await addressInput.press("Tab");
+    await expect(addressInput).toHaveValue(address);
+    // Contact
+    const contactInput = this.page.locator('[aria-label="Contact"]');
+    await expect(contactInput).toHaveValue("");
+    await contactInput.fill(contact);
+    await contactInput.press("Tab");
+    await expect(contactInput).toHaveValue(contact);
+    // Ok
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
-    return this.ownerName;
+    return ownerName;
   }
 
-  async createPet() {
+  async filterOwner(ownerName) {
     await expect(this.page).toHaveURL(this.path);
     const filterInput = this.page.locator('[aria-label="Filter"]');
-    await filterInput.fill(this.ownerName);
+    await filterInput.fill(ownerName);
     await filterInput.press("Enter");
+    await filterInput.press("Tab");
+  }
+
+  async showVisit(ownerName, petName) {
+    await this.filterOwner(ownerName);
+    const row = this.page.getByRole("table").getByRole("row").nth(1);
+    await row.waitFor({ state: "visible" });
+    // List on
+    const visitButton = row.getByRole("button", { name: "list", exact: true });
+    await expect(visitButton).toBeEnabled();
+    await visitButton.click();
+    // Card
+    const card = this.page.getByRole("table").getByRole("row").nth(2);
+    const petInput = card.locator('[aria-label="Pet"]');
+    await expect(await petInput.inputValue()).toContain(petName);
+    const vetInput = card.locator('[aria-label="Vet"]');
+    await expect(vetInput).not.toHaveValue("");
+    const treatmentInput = card.locator('[aria-label="Treatment"]');
+    await expect(treatmentInput).not.toHaveValue("");
+    const diagnoseInput = card.locator('[aria-label="Diagnose"]');
+    await expect(diagnoseInput).not.toHaveValue("");
+    const editButton = card.getByRole("link", { name: "Edit", exact: true });
+    await expect(editButton).toBeEnabled();
+    // List off
+    await expect(visitButton).toBeEnabled();
+    await visitButton.click();
+  }
+
+  async createPet(ownerName, species, born) {
+    const petName = "Zzz" + chance.word({ syllables: 1 });
+    await this.filterOwner(ownerName);
     const row = this.page
       .getByRole("table")
       .getByRole("row")
-      .filter({ hasText: this.ownerName });
+      .filter({ hasText: ownerName });
     await row.waitFor({ state: "visible" });
+    // Edit
     const editButton = row.getByRole("button", { name: "pets", exact: true });
     await expect(editButton).toBeEnabled();
     await editButton.click();
-    const speciesSelect = this.page.getByLabel("Species");
-    await speciesSelect.selectOption("Cat");
+    // Species
+    const speciesSelect = this.page.locator('[aria-label="Species"]');
+    await expect(speciesSelect).toHaveValue("");
+    await speciesSelect.selectOption(species);
     await speciesSelect.press("Tab");
-    const nameField = this.page.getByRole("textbox", { name: "Name" });
-    await nameField.click();
-    await nameField.fill(this.petName);
-    await nameField.press("Tab");
-    const bornField = this.page.getByRole("textbox", { name: "Born" });
-    await bornField.fill("2022-03-22");
-    await bornField.press("Tab");
+    await expect(speciesSelect).toHaveValue(species);
+    // Name
+    const nameInput = this.page.locator('[aria-label="Name"]');
+    await expect(nameInput).toHaveValue("");
+    await nameInput.fill(petName);
+    await nameInput.press("Tab");
+    await expect(nameInput).toHaveValue(petName);
+    // Born
+    const bornInput = this.page.locator('[aria-label="Born"]');
+    await expect(bornInput).toHaveValue("");
+    await bornInput.fill(born);
+    await bornInput.press("Tab");
+    await expect(bornInput).toHaveValue(born);
+    // Ok
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
-    return this.petName;
+    return petName;
   }
 
-  async deleteOwner() {
-    await this.page.once("dialog", (dialog) => dialog.accept());
-    await expect(this.page).toHaveURL(this.path);
-    const filterInput = this.page.locator('[aria-label="Filter"]');
-    await filterInput.fill(this.ownerName);
-    await filterInput.press("Enter");
+  async updateAddress(ownerName) {
+    const address = "Planet Mars";
+    await this.filterOwner(ownerName);
     const row = this.page
       .getByRole("table")
       .getByRole("row")
-      .filter({ hasText: this.ownerName });
+      .filter({ hasText: ownerName });
     await row.waitFor({ state: "visible" });
+    // Edit
+    const editButton = row.getByRole("button", { name: "edit", exact: true });
+    await expect(editButton).toBeEnabled();
+    await editButton.click();
+    // Addreess
+    const addressInput = this.page.locator('[aria-label="Address"]');
+    await expect(addressInput).not.toHaveValue(address);
+    await addressInput.fill(address);
+    await addressInput.press("Tab");
+    await expect(addressInput).toHaveValue(address);
+    // Ok
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
+  }
+
+  async deleteOwner(ownerName) {
+    await this.filterOwner(ownerName);
+    // Delete
+    const row = this.page
+      .getByRole("table")
+      .getByRole("row")
+      .filter({ hasText: ownerName });
     const deleteButton = row.getByRole("button", {
       name: "delete",
       exact: true,
     });
     await expect(deleteButton).toBeEnabled();
+    await this.page.once("dialog", (dialog) => dialog.accept());
     await deleteButton.click();
   }
 }

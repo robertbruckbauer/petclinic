@@ -38,7 +38,7 @@ export class EnumListerPage {
     // Code
     const codeInput = this.page.locator('[aria-label="Code"]');
     await expect(codeInput).not.toBeEmpty();
-    await expect(codeInput).toHaveAttribute("readonly", "");
+    await expect(codeInput).not.toHaveAttribute("readonly", "");
     // Name
     const nameInput = this.page.locator('[aria-label="Name"]');
     await expect(nameInput).toBeEmpty();
@@ -76,6 +76,10 @@ export class EnumListerPage {
     const editButton = row.getByRole("button", { name: "edit", exact: true });
     await expect(editButton).toBeEnabled();
     await editButton.click();
+    // Code
+    const codeInput = this.page.locator('[aria-label="Code"]');
+    await expect(codeInput).not.toBeEmpty();
+    await expect(codeInput).toHaveAttribute("readonly", "");
     // Text
     const textInput = this.page.locator('[aria-label="Text"]');
     await expect(textInput).not.toHaveValue(text);

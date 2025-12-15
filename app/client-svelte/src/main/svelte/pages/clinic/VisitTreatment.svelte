@@ -1,11 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../../components/Toast";
   import { VisitService } from "../../services/visit.service";
   import type { Pet } from "../../types/pet.type";
   import type { Visit } from "../../types/visit.type";
-  import { toast } from "../../components/Toast";
-  import Button from "../../components/Button";
-  import TextField from "../../components/TextField";
 
   const visitService = new VisitService();
 
@@ -43,7 +41,7 @@
     date: newVisitDate,
   });
 
-  function handleSubmit(_event: Event) {
+  function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -53,7 +51,7 @@
     }
   }
 
-  function handleCancel(_event: Event) {
+  function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
@@ -72,28 +70,27 @@
   }
 </script>
 
-<div class="flex flex-col">
-  <form onsubmit={handleSubmit}>
-    <div class="w-full">
-      <TextField
+<form onsubmit={onSubmitClicked}>
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-48">
+      <legend class="fieldset-legend">Treatment</legend>
+      <input
         bind:this={focusOn}
         bind:value={newVisitDate}
+        aria-label="Treatment"
         type="date"
-        required
-        label="Treatment"
+        class="input w-full"
         placeholder="Choose a date"
       />
-    </div>
-    <div class="py-4 flex flex-row gap-1 items-baseline">
-      <div class="flex-initial">
-        <Button type="submit">Ok</Button>
-      </div>
-      <div class="flex-initial">
-        <Button type="button" onclick={handleCancel}>Abbrechen</Button>
-      </div>
-    </div>
-  </form>
-</div>
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onCancelClicked}>
+      Cancel
+    </button>
+  </div>
+</form>
 
 <div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 

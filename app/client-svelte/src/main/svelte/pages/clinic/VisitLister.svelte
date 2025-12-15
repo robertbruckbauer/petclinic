@@ -1,16 +1,14 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { forkJoin } from "rxjs";
+  import { toast } from "../../components/Toast";
   import { EnumService } from "../../services/enum.service";
   import { VetService } from "../../services/vet.service";
   import { VisitService } from "../../services/visit.service";
   import type { EnumItem } from "../../types/enum.type";
   import type { VetItem } from "../../types/vet.type";
   import type { Visit } from "../../types/visit.type";
-  import { toast } from "../../components/Toast";
-  import Circle from "../../components/Spinner";
-  import Icon from "../../components/Icon";
   import VisitDiagnose from "./VisitDiagnose.svelte";
-  import { forkJoin } from "rxjs";
 
   const visitService = new VisitService();
   const vetService = new VetService();
@@ -40,31 +38,31 @@
     }
   });
 
-  let visitId: string | undefined = $state();
+  let visitId = $state("");
   function onVisitClicked(_visit: Visit) {
-    visitId = _visit.id;
+    visitId = _visit.id!;
   }
   function onVisitRemoveClicked(_visit: Visit) {
-    visitId = _visit.id;
+    visitId = _visit.id!;
     removeVisit(_visit);
   }
 
   let visitEditorUpdate = $state(false);
   function onVisitEditorUpdateClicked(_visit: Visit) {
-    visitId = _visit.id;
+    visitId = _visit.id!;
     visitEditorUpdate = true;
   }
 
   const visitEditorDisabled = $derived(visitEditorUpdate);
 
   let allVisit: Visit[] = $state([]);
-  function onCreateVisit(_visit: Visit) {
+  function afterCreateVisit(_visit: Visit) {
     allVisit = [_visit, ...allVisit];
   }
-  function onUpdateVisit(_visit: Visit) {
+  function afterUpdateVisit(_visit: Visit) {
     allVisit = allVisit.map((e) => (e.id === _visit.id ? _visit : e));
   }
-  function onRemoveVisit(_visit: Visit) {
+  function afterRemoveVisit(_visit: Visit) {
     allVisit = allVisit.filter((e) => e.id !== _visit.id);
   }
 
@@ -105,7 +103,7 @@
     if (!confirm("Delete visit at '" + hint + "' permanently?")) return;
     visitService.removeVisit(_visit.id!).subscribe({
       next: (json) => {
-        loadAllVisit();
+        afterRemoveVisit(json);
       },
       error: (err) => {
         toast.push(err);
@@ -115,10 +113,11 @@
 </script>
 
 <h1>Visit</h1>
+
 <div class="flex flex-col gap-1 ml-2 mr-2">
   {#if loading}
-    <div class="h-screen flex justify-center items-center">
-      <Circle size="60" unit="px" duration="1s" />
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
     </div>
   {:else}
     <table class="table-fixed">
@@ -133,7 +132,7 @@
           <th class="px-2 py-3 text-left w-2/6 table-cell">
             <span class="text-gray-600">Vet</span>
           </th>
-          <th class="px-2 py-3 w-16"> </th>
+          <th class="px-2 py-3 w-16"></th>
         </tr>
       </thead>
       <tbody>
@@ -141,7 +140,7 @@
           {#if isSwimlaneChange(i)}
             <tr class="bg-gray-100">
               <td class="px-2 py-3" colspan="4">
-                <span class="h-5 text-center text-xl">{visit.date}</span>
+                <span class="h-5 text-xl">{visit.date}</span>
               </td>
             </tr>
           {/if}
@@ -151,32 +150,34 @@
             class:border-l-2={visitId === visit.id}
           >
             <td class="px-2 py-3 text-left table-cell">
-              {visit.ownerItem!.text}
+              {visit.ownerItem?.text}
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {visit.petItem!.text}
+              {visit.petItem?.text}
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {visit.vetItem!.text}
+              {visit.vetItem?.text}
             </td>
             <td class="px-2 py-3 table-cell">
               <div
                 class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
               >
-                <Icon
-                  onclick={() => onVisitRemoveClicked(visit)}
+                <button
                   title="Delete a visit"
+                  class="btn btn-circle btn-outline"
+                  onclick={() => onVisitRemoveClicked(visit)}
                   disabled={visitEditorDisabled}
-                  name="delete"
-                  outlined
-                />
-                <Icon
-                  onclick={() => onVisitEditorUpdateClicked(visit)}
+                >
+                  <span class="material-icons">delete</span>
+                </button>
+                <button
                   title="Edit visit details"
+                  class="btn btn-circle btn-outline"
+                  onclick={() => onVisitEditorUpdateClicked(visit)}
                   disabled={visitEditorDisabled}
-                  name="edit"
-                  outlined
-                />
+                >
+                  <span class="material-icons">edit</span>
+                </button>
               </div>
             </td>
           </tr>
@@ -184,8 +185,8 @@
             <tr>
               <td class="border-l-4 px-4" colspan="4">
                 <VisitDiagnose
+                  onupdate={afterUpdateVisit}
                   bind:visible={visitEditorUpdate}
-                  onupdate={loadAllVisit}
                   {allVetItem}
                   {visit}
                 />
@@ -194,7 +195,7 @@
           {/if}
         {:else}
           <tr>
-            <td class="px-2 py-3" colspan="4">No visits</td>
+            <td class="px-2" colspan="3">No visits</td>
           </tr>
         {/each}
       </tbody>

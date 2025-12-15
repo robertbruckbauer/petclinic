@@ -4,12 +4,12 @@
   <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
     <div class="flex flex-row gap-2 items-center pb-2 pr-2">
       <input
+        formControlName="criteria"
         aria-label="Filter"
         type="text"
         class="input input-bordered w-full"
         [readonly]="vetFilterDisabled()"
         placeholder="Enter filter critria"
-        formControlName="criteria"
       />
       <button
         type="submit"

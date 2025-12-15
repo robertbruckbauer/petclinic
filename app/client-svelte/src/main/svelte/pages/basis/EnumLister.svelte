@@ -1,12 +1,9 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, untrack } from "svelte";
   import { take } from "rxjs";
-  import { EnumService } from "../../services/enum.service";
+  import { toast } from "../../components/Toast";
+  import { EnumService, filterByCriteria } from "../../services/enum.service";
   import type { EnumItem } from "../../types/enum.type";
-  import { toast } from "../../components/Toast/index.js";
-  import Icon from "../../components/Icon/index.js";
-  import TextField from "../../components/TextField/index.js";
-  import Circle from "../../components/Spinner/index.js";
   import EnumEditor from "./EnumEditor.svelte";
 
   interface Props {
@@ -49,7 +46,9 @@
     itemCode = _item.code;
   }
 
-  const itemEditorDisabled = $derived(itemEditorCreate || itemEditorUpdate);
+  const itemFilterDisabled = $derived(itemEditorCreate || itemEditorUpdate);
+
+  const itemEditorDisabled = $derived(itemFilterDisabled);
 
   let allItem: EnumItem[] = $state([]);
   function afterCreateItem(_item: EnumItem) {
@@ -77,17 +76,10 @@
     }
   }
 
-  const allItemFiltered = $derived(
-    allItem.filter((e) => {
-      if (!itemFilter) return true;
-      if (e.name.toLowerCase().startsWith(itemFilter.toLowerCase())) {
-        return true;
-      }
-      if (e.text.toLowerCase().startsWith(itemFilter.toLowerCase())) {
-        return true;
-      }
-    })
-  );
+  // do not update on criteria change
+  const allItemFiltered = $derived.by(() => {
+    return allItem.filter(filterByCriteria(untrack(() => itemFilter)));
+  });
 
   const enumService = new EnumService();
 
@@ -124,46 +116,54 @@
 </script>
 
 <h1>{art.toUpperCase()}</h1>
+
 <div class="flex flex-col gap-1 ml-2 mr-2">
   <form onsubmit={onItemFilterClicked}>
-    <div class="flex flex-row gap-1 items-center pr-2">
-      <div class="w-full">
-        <TextField
-          bind:value={itemFilter}
-          label="Filter"
-          placeholder="Bitte Filterkriterien eingeben"
-        />
-      </div>
-      <div class="w-min">
-        <Icon type="submit" name="search" outlined />
-      </div>
+    <div class="flex flex-row gap-2 items-center pb-2 pr-2">
+      <input
+        bind:value={itemFilter}
+        aria-label="Filter"
+        type="text"
+        class="input w-full"
+        readonly={itemFilterDisabled}
+        placeholder="Enter filter critria"
+      />
+      <button
+        type="submit"
+        title="Filter items"
+        class="btn btn-circle btn-outline"
+        disabled={itemEditorDisabled}
+      >
+        <span class="material-icons">search</span>
+      </button>
     </div>
   </form>
   {#if loading}
-    <div class="h-screen flex justify-center items-center">
-      <Circle size="60" unit="px" duration="1s" />
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
     </div>
   {:else}
     <table class="table-fixed">
       <thead class="justify-between">
         <tr class="bg-gray-200">
-          <th class="px-2 py-3 text-left w-1/4 table-cell">
+          <th class="px-2 py-3 text-left table-cell w-1/4 sm:w-1/8">
             <span class="text-gray-600">Code</span>
           </th>
-          <th class="px-2 py-3 text-left w-1/4 table-cell">
+          <th class="px-2 py-3 text-left table-cell w-3/4 sm:w-3/8">
             <span class="text-gray-600">Name</span>
           </th>
-          <th class="px-2 py-3 text-left w-1/2 table-cell">
+          <th class="px-2 py-3 text-left hidden sm:table-cell sm:w-full">
             <span class="text-gray-600">Text</span>
           </th>
-          <th class="px-2 py-3 text-right w-0 table-cell">
-            <Icon
-              onclick={() => onItemEditorCreateClicked()}
-              disabled={itemEditorDisabled}
+          <th class="px-2 py-3 text-right table-cell">
+            <button
               title="Add a new item"
-              name="add"
-              outlined
-            />
+              class="btn btn-circle btn-outline"
+              onclick={onItemEditorCreateClicked}
+              disabled={itemEditorDisabled}
+            >
+              <span class="material-icons">add</span>
+            </button>
           </th>
         </tr>
       </thead>
@@ -173,8 +173,8 @@
           <tr>
             <td class="border-l-4 px-2" colspan="4">
               <EnumEditor
-                bind:visible={itemEditorCreate}
                 oncreate={afterCreateItem}
+                bind:visible={itemEditorCreate}
                 {art}
                 {item}
               />
@@ -183,8 +183,8 @@
         {/if}
         {#each allItemFiltered as item, i}
           <tr
-            onclick={(e) => onItemClicked(item)}
             title={item.text}
+            onclick={() => onItemClicked(item)}
             class:border-l-2={itemCode === item.code}
             class:bg-gray-100={i % 2 === 1}
           >
@@ -194,27 +194,29 @@
             <td class="px-2 py-3 text-left table-cell">
               <span>{item.name}</span>
             </td>
-            <td class="px-2 py-3 text-left table-cell">
+            <td class="px-2 py-3 text-left hidden sm:table-cell">
               <span>{item.text}</span>
             </td>
-            <td class="px-2 py-3 table-cell">
+            <td class="px-2 py-3 text-right table-cell">
               <div
                 class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
               >
-                <Icon
+                <button
+                  title="Delete an item"
+                  class="btn btn-circle btn-outline"
                   onclick={() => onItemRemoveClicked(item)}
                   disabled={itemEditorDisabled}
-                  title="Delete an item"
-                  name="delete"
-                  outlined
-                />
-                <Icon
+                >
+                  <span class="material-icons">delete</span>
+                </button>
+                <button
+                  title="Edit an item"
+                  class="btn btn-circle btn-outline"
                   onclick={() => onItemEditorUpdateClicked(item)}
                   disabled={itemEditorDisabled}
-                  title="Edit an item"
-                  name="edit"
-                  outlined
-                />
+                >
+                  <span class="material-icons">edit</span>
+                </button>
               </div>
             </td>
           </tr>
@@ -222,8 +224,8 @@
             <tr>
               <td class="border-l-4 px-2" colspan="4">
                 <EnumEditor
-                  bind:visible={itemEditorUpdate}
                   onupdate={afterUpdateItem}
+                  bind:visible={itemEditorUpdate}
                   {art}
                   {item}
                 />

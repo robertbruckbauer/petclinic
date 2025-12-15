@@ -17,10 +17,38 @@ export class VisitListerPage {
     await this.page.waitForURL(this.path);
   }
 
-  async deleteVisit(visitAt, ownerName, petName) {
-    await this.page.once("dialog", (dialog) => dialog.accept());
+  async updateDiagnose(ownerName, petName) {
+    const text = chance.sentence();
     const row = this.page
-      .locator("tr", { hasText: petName })
+      .locator("tr")
+      .filter({ hasText: petName })
+      .filter({ hasText: ownerName });
+    await row.waitFor({ state: "visible" });
+    const editButton = row.getByRole("button", { name: "edit", exact: true });
+    await expect(editButton).toBeEnabled();
+    await editButton.click();
+    // Text
+    const textInput = this.page.locator('[aria-label="Diagnose"]');
+    await expect(textInput).toHaveValue("");
+    await textInput.fill(text);
+    await textInput.press("Tab");
+    expect(textInput).toHaveValue(text);
+    // Vet
+    const vetSelect = this.page.locator('[aria-label="Vet"]');
+    await expect(vetSelect).toHaveValue("");
+    await vetSelect.selectOption({ index: 1 });
+    await vetSelect.press("Tab");
+    await expect(vetSelect).not.toHaveValue("");
+    // Ok
+    const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
+    await expect(okButton).toBeEnabled();
+    await okButton.click();
+  }
+
+  async deleteVisit(ownerName, petName) {
+    const row = this.page
+      .locator("tr")
+      .filter({ hasText: petName })
       .filter({ hasText: ownerName });
     await row.waitFor({ state: "visible" });
     const deleteButton = row.getByRole("button", {
@@ -28,6 +56,7 @@ export class VisitListerPage {
       exact: true,
     });
     await expect(deleteButton).toBeEnabled();
+    await this.page.once("dialog", (dialog) => dialog.accept());
     await deleteButton.click();
   }
 }

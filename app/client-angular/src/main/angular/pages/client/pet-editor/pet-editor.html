@@ -3,11 +3,11 @@
     <fieldset class="fieldset w-full sm:w-1/4">
       <legend class="fieldset-legend">Species</legend>
       <select
+        formControlName="species"
         aria-label="Species"
         class="select w-full"
-        formControlName="species"
       >
-        <option disabled selected>Choose a species</option>
+        <option value="" disabled selected>Choose a species</option>
         @for (speciesEnum of allSpeciesEnum(); track speciesEnum.code) {
           <option [value]="speciesEnum.name" [title]="speciesEnum.text">
             {{ speciesEnum.name }}
@@ -18,21 +18,21 @@
     <fieldset class="fieldset w-full sm:w-2/4">
       <legend class="fieldset-legend">Name</legend>
       <input
+        formControlName="name"
         aria-label="Name"
         type="text"
         class="input input-bordered w-full"
         placeholder="Enter a name"
-        formControlName="name"
       />
     </fieldset>
     <fieldset class="fieldset w-full sm:w-1/4">
       <legend class="fieldset-legend">Born</legend>
       <input
+        formControlName="born"
         aria-label="Born"
         type="date"
         class="input input-bordered w-full"
         placeholder="Enter a date"
-        formControlName="born"
       />
     </fieldset>
   </div>

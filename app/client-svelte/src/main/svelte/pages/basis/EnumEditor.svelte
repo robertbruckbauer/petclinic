@@ -1,11 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../../components/Toast";
   import { EnumService } from "../../services/enum.service";
   import type { EnumItem } from "../../types/enum.type";
-  import { toast } from "../../components/Toast/index.js";
-  import Button from "../../components/Button/index.js";
-  import TextField from "../../components/TextField/index.js";
-  import TextArea from "../../components/TextArea/index.js";
 
   interface Props {
     autofocus?: boolean;
@@ -53,7 +50,7 @@
     text: newItemText,
   });
 
-  function handleSubmit(_event: Event) {
+  function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -68,7 +65,7 @@
     }
   }
 
-  function handleCancel(_event: Event) {
+  function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
@@ -101,45 +98,47 @@
   }
 </script>
 
-<form onsubmit={handleSubmit}>
-  <div class="flex flex-col gap-1">
+<form onsubmit={onSubmitClicked}>
+  <div class="flex flex-col gap-2 pt-4">
     <div class="w-full flex flex-row gap-1 items-baseline">
-      <div class="w-1/6">
-        <TextField
+      <fieldset class="fieldset w-24">
+        <legend class="fieldset-legend">Code</legend>
+        <input
           bind:value={newItemCode}
-          required
+          aria-label="Code"
           type="number"
-          label="Code"
+          class="input w-full text-center"
+          readonly={onupdate !== undefined}
           placeholder="Enter a code"
-          disabled={onupdate !== undefined}
         />
-      </div>
-      <div class="w-full">
-        <TextField
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Name</legend>
+        <input
           bind:this={focusOn}
           bind:value={newItemName}
-          required
-          label="Name"
+          aria-label="Name"
+          type="text"
+          class="input w-full"
           placeholder="Enter a name"
         />
-      </div>
+      </fieldset>
     </div>
-    <div class="w-full">
-      <TextArea
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Text</legend>
+      <textarea
         bind:value={newItemText}
-        required
-        label="Text"
-        placeholder="Bitte einen Text eingeben"
-      />
-    </div>
+        aria-label="Text"
+        class="textarea w-full"
+        placeholder="Enter a text"
+      ></textarea>
+    </fieldset>
   </div>
-  <div class="py-4 flex flex-row gap-1 items-baseline">
-    <div class="flex-initial">
-      <Button type="submit">Ok</Button>
-    </div>
-    <div class="flex-initial">
-      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
-    </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onCancelClicked}>
+      Cancel
+    </button>
   </div>
 </form>
 

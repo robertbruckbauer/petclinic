@@ -1,13 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../../components/Toast";
   import { PetService } from "../../services/pet.service";
   import type { EnumItem } from "../../types/enum.type";
   import type { OwnerItem } from "../../types/owner.type";
   import type { Pet } from "../../types/pet.type";
-  import { toast } from "../../components/Toast";
-  import Button from "../../components/Button";
-  import Select from "../../components/Select";
-  import TextField from "../../components/TextField";
 
   const petService = new PetService();
 
@@ -60,7 +57,7 @@
     born: newPetBorn,
   });
 
-  function handleSubmit(_event: Event) {
+  function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -74,7 +71,7 @@
     }
   }
 
-  function handleCancel(_event: Event) {
+  function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
@@ -105,40 +102,50 @@
   }
 </script>
 
-<form onsubmit={handleSubmit}>
-  <div class="flex flex-col gap-1">
-    <div class="w-full lg:w-1/4">
-      <Select
+<form onsubmit={onSubmitClicked}>
+  <div class="flex flex-col sm:flex-row gap-2 pt-4">
+    <fieldset class="fieldset w-full sm:w-1/4">
+      <legend class="fieldset-legend">Species</legend>
+      <select
         bind:this={focusOn}
         bind:value={newPetSpecies}
-        allItem={allSpeciesEnum.map((e) => e.name)}
-        label="Species"
-        placeholder="Choose species"
-      />
-    </div>
-    <div class="w-full lg:w-2/4">
-      <TextField
+        aria-label="Species"
+        class="select w-full"
+      >
+        <option value="" disabled selected>Choose a species</option>
+        {#each allSpeciesEnum as speciesEnum}
+          <option value={speciesEnum.name} title={speciesEnum.text}>
+            {speciesEnum.name}
+          </option>
+        {/each}
+      </select>
+    </fieldset>
+    <fieldset class="fieldset w-full sm:w-2/4">
+      <legend class="fieldset-legend">Name</legend>
+      <input
         bind:value={newPetName}
-        label="Name"
-        placeholder="Insert a name"
+        aria-label="Name"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter a name"
       />
-    </div>
-    <div class="w-full lg:w-1/4">
-      <TextField
+    </fieldset>
+    <fieldset class="fieldset w-full sm:w-1/4">
+      <legend class="fieldset-legend">Born</legend>
+      <input
         bind:value={newPetBorn}
+        aria-label="Born"
         type="date"
-        label="Born"
-        placeholder="Insert a date"
+        class="input input-bordered w-full"
+        placeholder="Enter a date"
       />
-    </div>
+    </fieldset>
   </div>
-  <div class="py-4 flex flex-row gap-1 items-baseline">
-    <div class="flex-initial">
-      <Button type="submit">Ok</Button>
-    </div>
-    <div class="flex-initial">
-      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
-    </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onCancelClicked}>
+      Cancel
+    </button>
   </div>
 </form>
 

@@ -162,7 +162,7 @@ export class OwnerListerComponent implements OnInit {
   }
 
   petEditorCreate = signal(false);
-  onPetCreateEditorClicked(owner: Owner) {
+  onPetEditorCreateClicked(owner: Owner) {
     this.ownerId.set(owner.id);
     this.ownerEditorCreate.set(false);
     this.ownerEditorUpdate.set(false);

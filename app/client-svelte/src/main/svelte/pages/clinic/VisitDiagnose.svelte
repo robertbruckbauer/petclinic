@@ -1,12 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../../components/Toast";
   import { VisitService } from "../../services/visit.service";
   import type { VetItem } from "../../types/vet.type";
   import type { Visit } from "../../types/visit.type";
-  import { toast } from "../../components/Toast";
-  import Button from "../../components/Button";
-  import Select from "../../components/Select";
-  import TextArea from "../../components/TextArea";
 
   const visitService = new VisitService();
 
@@ -40,15 +37,15 @@
   });
 
   let newVisitText = $derived(visit.text);
-  let newVisitVetItem = $derived(visit.vetItem);
+  let newVisitVetId = $derived(visit.vetItem?.value);
   const newVisit = $derived({
     ...visit,
     text: newVisitText,
-    vetItem: newVisitVetItem,
-    vet: newVisitVetItem ? "/api/vet/" + newVisitVetItem.value : undefined,
+    vetItem: undefined, // vetItem is invalid
+    vet: newVisitVetId ? "/api/vet/" + newVisitVetId : undefined,
   });
 
-  function handleSubmit(_event: Event) {
+  function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -58,7 +55,7 @@
     }
   }
 
-  function handleCancel(_event: Event) {
+  function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
@@ -77,36 +74,35 @@
   }
 </script>
 
-<div class="flex flex-col">
-  <form onsubmit={handleSubmit}>
-    <div class="w-full">
-      <TextArea
+<form onsubmit={onSubmitClicked}>
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Diagnose</legend>
+      <textarea
         bind:this={focusOn}
         bind:value={newVisitText}
-        required
-        label="Diagnosis"
-        placeholder="Insert diagnosis"
-      />
-    </div>
-    <div class="full">
-      <Select
-        bind:value={newVisitVetItem}
-        allItem={allVetItem}
-        required
-        label="Vet"
-        placeholder="Choose vet"
-      />
-    </div>
-    <div class="py-4 flex flex-row gap-1 items-baseline">
-      <div class="flex-initial">
-        <Button type="submit">Ok</Button>
-      </div>
-      <div class="flex-initial">
-        <Button type="button" onclick={handleCancel}>Abbrechen</Button>
-      </div>
-    </div>
-  </form>
-</div>
+        aria-label="Diagnose"
+        class="textarea w-full"
+        placeholder="Enter a diagnose"
+      ></textarea>
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Vet</legend>
+      <select bind:value={newVisitVetId} aria-label="Vet" class="select w-full">
+        <option value="" disabled selected>Choose a vet</option>
+        {#each allVetItem as vetItem}
+          <option value={vetItem.value}>{vetItem.text}</option>
+        {/each}
+      </select>
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onCancelClicked}>
+      Cancel
+    </button>
+  </div>
+</form>
 
 <div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 

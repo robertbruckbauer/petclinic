@@ -14,6 +14,7 @@
   import VetLister from "./pages/clinic/VetLister.svelte";
   import VetViewer from "./pages/clinic/VetViewer.svelte";
   import VisitLister from "./pages/clinic/VisitLister.svelte";
+  import VisitViewer from "./pages/clinic/VisitViewer.svelte";
 
   let menuVisible = $state(false);
   function onMenuToggle(event: Event) {
@@ -124,6 +125,7 @@
       <Route path="/pet" component={PetLister} />
       <Route path="/pet/:id" component={PetViewer} />
       <Route path="/visit" component={VisitLister} />
+      <Route path="/visit/:id" component={VisitViewer} />
       <Route path="/vet" component={VetLister} />
       <Route path="/vet/:id" component={VetViewer} />
       <Route path="/enum/skill" component={EnumLister} art="skill" />

@@ -1,12 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../../components/Toast";
   import { VetService } from "../../services/vet.service";
   import type { EnumItem } from "../../types/enum.type";
   import type { Vet } from "../../types/vet.type";
-  import { toast } from "../../components/Toast";
-  import Button from "../../components/Button";
-  import TextField from "../../components/TextField";
-  import Toggle from "../../components/Toggle";
 
   const vetService = new VetService();
 
@@ -53,7 +50,7 @@
     allSkill: newVetAllSkill,
   });
 
-  function handleSubmit(_event: Event) {
+  function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
@@ -67,7 +64,7 @@
     }
   }
 
-  function handleCancel(_event: Event) {
+  function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
@@ -98,29 +95,42 @@
   }
 </script>
 
-<form onsubmit={handleSubmit}>
-  <div class="flex flex-col gap-1">
-    <TextField
-      bind:this={focusOn}
-      bind:value={newVetName}
-      required
-      label="Name"
-      placeholder="Bitte einen Namen eingeben"
-    />
-    <Toggle
-      bind:allValue={newVetAllSkill}
-      allItem={allSkillEnum}
-      label="Skills"
-      placeholder="Insert skills"
-    />
+<form onsubmit={onSubmitClicked}>
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Name</legend>
+      <input
+        bind:this={focusOn}
+        bind:value={newVetName}
+        aria-label="Name"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter a name"
+      />
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Skills</legend>
+      <select
+        bind:value={newVetAllSkill}
+        aria-label="Skills"
+        multiple
+        size={allSkillEnum.length}
+        class="select w-full"
+        placeholder="Choose skills"
+      >
+        {#each allSkillEnum as skillEnum}
+          <option value={skillEnum.name} title={skillEnum.text}
+            >{skillEnum.name}</option
+          >
+        {/each}
+      </select>
+    </fieldset>
   </div>
-  <div class="py-4 flex flex-row gap-1 items-baseline">
-    <div class="flex-initial">
-      <Button type="submit">Ok</Button>
-    </div>
-    <div class="flex-initial">
-      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
-    </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onCancelClicked}>
+      Cancel
+    </button>
   </div>
 </form>
 

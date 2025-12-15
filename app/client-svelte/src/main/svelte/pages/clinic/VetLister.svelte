@@ -1,14 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { forkJoin } from "rxjs";
+  import { toast } from "../../components/Toast/index.js";
   import { EnumService } from "../../services/enum.service";
   import { VetService } from "../../services/vet.service";
   import type { EnumItem } from "../../types/enum.type";
   import type { Vet } from "../../types/vet.type";
-  import { toast } from "../../components/Toast/index.js";
-  import Circle from "../../components/Spinner/index.js";
-  import Icon from "../../components/Icon/index.js";
-  import TextField from "../../components/TextField/index.js";
   import VetEditor from "./VetEditor.svelte";
 
   const enumService = new EnumService();
@@ -35,31 +32,34 @@
     }
   });
 
-  let vetId = $state();
+  let vetId = $state("");
   function onVetClicked(_vet: Vet) {
-    vetId = _vet.id;
+    vetId = _vet.id!;
   }
   function onVetRemoveClicked(_vet: Vet) {
-    vetId = _vet.id;
+    vetId = _vet.id!;
     removeVet(_vet);
   }
 
   let vetEditorCreate = $state(false);
   function onVetEditorCreateClicked() {
+    vetId = "";
     vetEditorCreate = true;
     vetEditorUpdate = false;
   }
 
   let vetEditorUpdate = $state(false);
   function onVetEditorUpdateClicked(_vet: Vet) {
-    vetId = _vet.id;
+    vetId = _vet.id!;
     vetEditorUpdate = true;
     vetEditorCreate = false;
   }
 
-  const vetEditorDisabled = $derived(vetEditorCreate || vetEditorUpdate);
+  const vetFilterDisabled = $derived(vetEditorCreate || vetEditorUpdate);
 
-  function onVetFilterClicked(_event: Event) {
+  const vetEditorDisabled = $derived(vetFilterDisabled);
+
+  function onFilterClicked(_event: Event) {
     _event.preventDefault();
     try {
       loading = true;
@@ -70,13 +70,13 @@
   }
 
   let allVet: Vet[] = $state([]);
-  function onCreateVet(_vet: Vet) {
+  function afterCreateVet(_vet: Vet) {
     allVet = [_vet, ...allVet];
   }
-  function onUpdateVet(_vet: Vet) {
+  function afterUpdateVet(_vet: Vet) {
     allVet = allVet.map((e) => (e.id === _vet.id ? _vet : e));
   }
-  function onRemoveVet(_vet: Vet) {
+  function afterRemoveVet(_vet: Vet) {
     allVet = allVet.filter((e) => e.id !== _vet.id);
   }
 
@@ -99,7 +99,7 @@
     if (!confirm("Delete vet '" + hint + "' permanently?")) return;
     vetService.removeVet(_vet.id!).subscribe({
       next: (json) => {
-        onRemoveVet(json);
+        afterRemoveVet(json);
       },
       error: (err) => {
         toast.push(err);
@@ -108,25 +108,32 @@
   }
 </script>
 
-<h1 title="Liste der Vetn, ggfs. gefiltert, jedes Element editierbar">Vet</h1>
+<h1>Vet</h1>
+
 <div class="flex flex-col gap-1 ml-2 mr-2">
-  <form onsubmit={onVetFilterClicked}>
-    <div class="flex flex-row gap-1 items-center pr-2">
-      <div class="w-full">
-        <TextField
-          bind:value={vetFilter}
-          label="Filter"
-          placeholder="Bitte Filterkriterien eingeben"
-        />
-      </div>
-      <div class="w-min">
-        <Icon type="submit" name="search" outlined />
-      </div>
+  <form onsubmit={onFilterClicked}>
+    <div class="flex flex-row gap-2 items-center pb-2 pr-2">
+      <input
+        bind:value={vetFilter}
+        aria-label="Filter"
+        type="text"
+        class="input input-bordered w-full"
+        readonly={vetFilterDisabled}
+        placeholder="Enter filter critria"
+      />
+      <button
+        type="submit"
+        title="Filter items"
+        class="btn btn-circle btn-outline"
+        disabled={vetFilterDisabled}
+      >
+        <span class="material-icons">search</span>
+      </button>
     </div>
   </form>
   {#if loading}
-    <div class="h-screen flex justify-center items-center">
-      <Circle size="60" unit="px" duration="1s" />
+    <div class="h-screen flex justify-center items-start">
+      <span class="loading loading-spinner loading-xl"></span>
     </div>
   {:else}
     <table class="table-fixed">
@@ -139,13 +146,14 @@
             <span class="text-gray-600">Skills</span>
           </th>
           <th class="px-2 py-3 text-right w-0 table-cell">
-            <Icon
-              onclick={() => onVetEditorCreateClicked()}
+            <button
+              title="Add a new vet"
+              class="btn btn-circle btn-outline"
+              onclick={onVetEditorCreateClicked}
               disabled={vetEditorDisabled}
-              title="Vet hinzufügen"
-              name="add"
-              outlined
-            />
+            >
+              <span class="material-icons">add</span>
+            </button>
           </th>
         </tr>
       </thead>
@@ -159,8 +167,8 @@
           <tr>
             <td class="px-2" colspan="3">
               <VetEditor
+                oncreate={afterCreateVet}
                 bind:visible={vetEditorCreate}
-                oncreate={onCreateVet}
                 {allSkillEnum}
                 {vet}
               />
@@ -175,9 +183,7 @@
             class:bg-gray-100={i % 2 === 1}
           >
             <td class="px-2 py-3 text-left table-cell">
-              <div class="text-sm underline text-blue-600">
-                <a href={"/vet/" + vet.id}>{vet.name}</a>
-              </div>
+              <span>{vet.name}</span>
             </td>
             <td class="px-2 py-3 text-left table-cell">
               {#each vet.allSkill as skill}
@@ -192,20 +198,22 @@
               <div
                 class="grid grid-cols-1 md:grid-cols-2 items-center gap-1 w-max"
               >
-                <Icon
+                <button
+                  title="Delete a vet"
+                  class="btn btn-circle btn-outline"
                   onclick={() => onVetRemoveClicked(vet)}
                   disabled={vetEditorDisabled}
-                  title="Vet löschen"
-                  name="delete"
-                  outlined
-                />
-                <Icon
+                >
+                  <span class="material-icons">delete</span>
+                </button>
+                <button
+                  title="Edit a vet"
+                  class="btn btn-circle btn-outline"
                   onclick={() => onVetEditorUpdateClicked(vet)}
                   disabled={vetEditorDisabled}
-                  title="Vet bearbeiten"
-                  name="edit"
-                  outlined
-                />
+                >
+                  <span class="material-icons">edit</span>
+                </button>
               </div>
             </td>
           </tr>
@@ -213,8 +221,8 @@
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <VetEditor
+                  onupdate={afterUpdateVet}
                   bind:visible={vetEditorUpdate}
-                  onupdate={onUpdateVet}
                   {allSkillEnum}
                   {vet}
                 />
@@ -223,7 +231,7 @@
           {/if}
         {:else}
           <tr>
-            <td class="px-2" colspan="3">Keine Vet</td>
+            <td class="px-2" colspan="3">No vets</td>
           </tr>
         {/each}
       </tbody>
