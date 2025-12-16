@@ -6,15 +6,23 @@
   let { item }: { item: ToastEntry } = $props();
 
   // read item values once at initialization
-  // svelte-ignore state_referenced_locally
-  const progress = new Tween(item.initial, {
-    duration: item.duration,
-    easing: linear,
-  });
-  // svelte-ignore state_referenced_locally
-  let next = $state(item.initial);
-  // svelte-ignore state_referenced_locally
-  let prev = $state(item.initial);
+  const progress = new Tween(
+    // svelte-ignore state_referenced_locally
+    item.initial,
+    {
+      // svelte-ignore state_referenced_locally
+      duration: item.duration,
+      easing: linear,
+    }
+  );
+  let next = $state(
+    // svelte-ignore state_referenced_locally
+    item.initial
+  );
+  let prev = $state(
+    // svelte-ignore state_referenced_locally
+    item.initial
+  );
   let paused = $state(false);
 
   const onKey = (_event: KeyboardEvent) => {

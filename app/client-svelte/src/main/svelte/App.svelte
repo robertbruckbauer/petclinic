@@ -30,6 +30,8 @@
 <div class="relative h-screen">
   <header class="z-1 fixed top-0 left-0 right-0 navbar bg-base-100 shadow-sm">
     <div class="navbar-start">
+      <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
       <details class="dropdown" bind:open={menuVisible} onclick={onMenuToggle}>
         <summary
           tabindex="0"
