@@ -100,7 +100,6 @@ export class PetListerComponent implements OnInit {
   allSpeciesEnum = signal<EnumItem[]>([]);
   allOwnerItem = signal<OwnerItem[]>([]);
   ngOnInit() {
-    // tag::init[]
     this.loading.set(true);
     const subscription = forkJoin({
       allSpeciesEnum: this.enumService.loadAllEnum("species"),
@@ -120,12 +119,11 @@ export class PetListerComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
-    // end::init[]
   }
 
-  // tag::filter[]
   onFilterClicked() {
     this.loading.set(true);
+    // tag::loadAll[]
     const search = { sort: "name,asc", "owner.id": this.ownerId() };
     const subscription = this.petService.loadAllPet(search).subscribe({
       next: (allPet) => {
@@ -138,11 +136,11 @@ export class PetListerComponent implements OnInit {
         this.toast.push(err);
       },
     });
+    // end::loadAll[]
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
   }
-  // end::filter[]
 
   petId = signal<string | undefined>(undefined); // no pet selected
   onPetClicked(pet: Pet) {

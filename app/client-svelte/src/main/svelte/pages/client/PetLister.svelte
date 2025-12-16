@@ -89,18 +89,25 @@
   }
 
   let allPet: Pet[] = $state([]);
+  // tag::afterCreate[]
   function afterCreatePet(_pet: Pet) {
     allPet = [_pet, ...allPet];
   }
+  // end::afterCreate[]
+  // tag::afterUpdate[]
   function afterUpdatePet(_pet: Pet) {
     allPet = allPet.map((e) => (e.id === _pet.id ? _pet : e));
   }
+  // end::afterUpdate[]
+  // tag::afterRemove[]
   function afterRemovePet(_pet: Pet) {
     allPet = allPet.filter((e) => e.id !== _pet.id);
   }
+  // end::afterRemove[]
 
   function loadAllPet() {
     if (petOwnerId) {
+      // tag::loadAll[]
       const search = { sort: "name,asc", "owner.id": petOwnerId };
       petService.loadAllPet(search).subscribe({
         next: (json) => {
@@ -112,11 +119,13 @@
           toast.push(err);
         },
       });
+      // end::loadAll[]
     } else {
       allPet = [];
     }
   }
 
+  // tag::remove[]
   function removePet(_pet: Pet) {
     const text = _pet.name;
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
@@ -132,6 +141,7 @@
       },
     });
   }
+  // end::remove[]
 </script>
 
 <h1>Pet</h1>

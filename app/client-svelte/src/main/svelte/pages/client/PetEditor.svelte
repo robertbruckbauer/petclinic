@@ -39,6 +39,7 @@
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
+  // tag::form[]
   let newPetOwnerItem = $state({} as OwnerItem);
   let newPetSpecies = $state("");
   let newPetName = $state("");
@@ -49,6 +50,9 @@
     newPetName = pet.name;
     newPetBorn = pet.born;
   });
+  // end::form[]
+
+  // tag::init[]
   const newPet: Pet = $derived({
     ...pet,
     owner: "/api/owner/" + newPetOwnerItem.value,
@@ -56,7 +60,9 @@
     name: newPetName,
     born: newPetBorn,
   });
+  // end::init[]
 
+  // tag::submit[]
   function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
@@ -70,13 +76,17 @@
       clicked = false;
     }
   }
+  // end::submit[]
 
+  // tag::cancel[]
   function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
   }
+  // end::cancel[]
 
+  // tag::create[]
   function createPet() {
     petService.createPet(newPet).subscribe({
       next: (json) => {
@@ -88,7 +98,9 @@
       },
     });
   }
+  // end::create[]
 
+  // tag::update[]
   function updatePet() {
     petService.updatePet(newPet).subscribe({
       next: (json) => {
@@ -100,6 +112,7 @@
       },
     });
   }
+  // end::update[]
 </script>
 
 <form onsubmit={onSubmitClicked}>

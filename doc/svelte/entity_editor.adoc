@@ -6,15 +6,11 @@ An entity editor is a user interface component for managing properties of a sing
 
 == Architecture overview
 
-The lister component is a standalone Angular component with reactive state management using signals for efficient state management and change detection.
+The lister component is a Svelte component with reactive state management using runes for efficient state management and change detection.
 It consists of the following building blocks:
 
-**Template**::
-The Angular template defines the UI structure and data binding.
-It uses DaisyUI and Tailwind for styling and responsive design with mobile first approach.
-
 **Component**::
-The Angular component manages UI state and user interactions.
+The component defines the UI structure and data binding and manages UI state and user interactions.
 
 **Service**::
 The domain-specific service handles HTTP communication with REST operations.
@@ -23,10 +19,6 @@ A base service provides generic REST operation implementations with error handli
 == Implementation details
 
 === Component properties
-
-==== `destroyRef`
-
-A private reference to a `DestroyRef` instance for cleanup, e.g. rxJs subscriptions.
 
 ==== `entityService`
 
@@ -37,32 +29,48 @@ TIP: Replace _entity_ with the name of the entity, e.g. `petService`.
 
 ==== `entity`
 
-The entity to be edited.
+A property of entity to be edited.
 
 TIP: Replace _entity_ with the name of the entity, e.g. `pet`.
 
-==== `mode`
-
-The mode of the editor, either `create` or `update`.
-
 ==== `visible`
 
-A signal tracking the visibility of the editor.
+A state tracking the visibility of the editor.
 
-==== `form`
+==== `oncreate`
 
-A reactive form group for capturing entity properties.
+An event callback invoked on successfull creation of the entity.
+The changed entity is an argument for the callback.
+
+==== `onupdate`
+
+An event callback invoked on successfull mutation of the entity.
+The changed entity is an argument for the callback.
+
+==== `oncancel`
+
+An event published if the edit operation is cancelled.
+The entity is unchanged.
 
 === Component lifecylce
 
 ==== populate form
 
-`ngOnInit` populates the form with the current entity properties.
+An effect populates the states for editable property of the entity.
 
-.Example from pet-editor
+.Example from PetEditor
 [source,ts,options="nowrap"]
 ----
-include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-editor\pet-editor.ts[indent=0,tags=init]
+include::{includedir}/app\client-svelte\src\main\svelte\pages\client\PetEditor.svelte[indent=0,tags=form]
+----
+
+A derived state computes a new entity with changed properties.
+The original entity provides `id` and `version` for mutations.
+
+.Example from PetEditor
+[source,ts,options="nowrap"]
+----
+include::{includedir}/app\client-svelte\src\main\svelte\pages\client\PetEditor.svelte[indent=0,tags=init]
 ----
 
 ==== create an entity
@@ -70,16 +78,16 @@ include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-edito
 `onSubmitClicked` creates a new entity with new values from the form and hides the editor.
 When the service operation completes successfully, the `create` event is emitted with the  entity returned from the service.
 
-.Example from pet-editor
+.Example from PetEditor
 [source,ts,options="nowrap"]
 ----
-include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-editor\pet-editor.ts[indent=0,tags=create]
+include::{includedir}/app\client-svelte\src\main\svelte\pages\client\PetEditor.svelte[indent=0,tags=create]
 ----
 
 When the service operation fails, a toast with the error message is displayed and the editor remains visible.
 
 Siehe 
-xref:{relrootdir}/doc/angular/entity_service.adoc[Entity Service]
+xref:{relrootdir}/doc/svelte/entity_service.adoc[Entity Service]
 für mehr Informationen.
 
 ==== update an entity
@@ -87,24 +95,24 @@ für mehr Informationen.
 `onSubmitClicked` updates an existing entity with new values from the form and hides the editor.
 When the service operation completes successfully, the `update` event is emitted with the  entity returned from the service.
 
-.Example from pet-editor
+.Example from PetEditor
 [source,ts,options="nowrap"]
 ----
-include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-editor\pet-editor.ts[indent=0,tags=update]
+include::{includedir}/app\client-svelte\src\main\svelte\pages\client\PetEditor.svelte[indent=0,tags=update]
 ----
 
 When the service operation fails, a toast with the error message is displayed and the editor remains visible.
 
 Siehe 
-xref:{relrootdir}/doc/angular/entity_service.adoc[Entity Service]
+xref:{relrootdir}/doc/svelte/entity_service.adoc[Entity Service]
 für mehr Informationen.
 
 ==== cancel editing
 
 `onCancelClicked` emits the `cancel` event with the current entity and hides the editor.
 
-.Example from pet-editor
+.Example from PetEditor
 [source,ts,options="nowrap"]
 ----
-include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-editor\pet-editor.ts[indent=0,tags=cancel]
+include::{includedir}/app\client-svelte\src\main\svelte\pages\client\PetEditor.svelte[indent=0,tags=cancel]
 ----
