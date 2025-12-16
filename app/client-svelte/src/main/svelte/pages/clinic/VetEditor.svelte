@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { toast } from "../../components/Toast";
+  import { toast } from "../../controls/Toast";
   import { VetService } from "../../services/vet.service";
   import type { EnumItem } from "../../types/enum.type";
   import type { Vet } from "../../types/vet.type";

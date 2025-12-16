@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { forkJoin } from "rxjs";
-  import { toast } from "../../components/Toast";
+  import { toast } from "../../controls/Toast";
   import { VisitService } from "../../services/visit.service";
   import type { Visit } from "../../types/visit.type";
   import type { Vet } from "../../types/vet.type";

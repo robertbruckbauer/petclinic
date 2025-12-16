@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { toast } from "../../components/Toast";
+  import { toast } from "../../controls/Toast";
   import { VisitService } from "../../services/visit.service";
   import type { Pet } from "../../types/pet.type";
   import type { Visit } from "../../types/visit.type";

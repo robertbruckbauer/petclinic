@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { forkJoin } from "rxjs";
-  import { toast } from "../../components/Toast";
+  import { toast } from "../../controls/Toast";
   import { EnumService } from "../../services/enum.service";
   import { VetService } from "../../services/vet.service";
   import type { EnumItem } from "../../types/enum.type";

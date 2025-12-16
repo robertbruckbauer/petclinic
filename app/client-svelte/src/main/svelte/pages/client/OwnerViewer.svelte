@@ -3,7 +3,7 @@
   import { forkJoin } from "rxjs";
   import { OwnerService } from "../../services/owner.service";
   import type { Owner } from "../../types/owner.type";
-  import { toast } from "../../components/Toast";
+  import { toast } from "../../controls/Toast";
   import OwnerEditor from "./OwnerEditor.svelte";
 
   const ownerService = new OwnerService();

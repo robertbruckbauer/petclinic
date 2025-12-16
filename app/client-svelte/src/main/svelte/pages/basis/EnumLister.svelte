@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
   import { take } from "rxjs";
-  import { toast } from "../../components/Toast";
+  import { toast } from "../../controls/Toast";
   import { EnumService, filterByCriteria } from "../../services/enum.service";
   import type { EnumItem } from "../../types/enum.type";
   import EnumEditor from "./EnumEditor.svelte";

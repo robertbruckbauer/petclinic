@@ -1,6 +1,6 @@
 <script lang="ts">
   import "./index.css";
-  import Toast from "./components/Toast";
+  import Toast from "./controls/Toast";
   import Router from "./router/Router.svelte";
   import Route from "./router/Route.svelte";
   import RouteNotFound from "./router/RouteNotFound.svelte";

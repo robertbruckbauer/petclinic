@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { toast } from "../components/Toast";
+  import { toast } from "../controls/Toast";
   import { VersionService } from "../services/version.service";
 
   const versionService = new VersionService();
