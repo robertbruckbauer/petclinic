@@ -69,7 +69,7 @@
             (click)="onVetClicked(vet)"
           >
             <td class="px-2 py-3 text-left table-cell">
-              <span>{{ vet.name }}</span>
+              <a [routerLink]="['/vet', vet.id]">{{ vet.name }}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
               @for (skill of vet.allSkill; track skill) {

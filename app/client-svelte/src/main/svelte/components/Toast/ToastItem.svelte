@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { tweened } from "svelte/motion";
+  import { Tween } from "svelte/motion";
   import { linear } from "svelte/easing";
   import { toast } from "./stores.js";
 
   let { item } = $props();
 
-  const progress = tweened(item.initial, {
+  const progress = new Tween(item.initial, {
     duration: item.duration,
     easing: linear,
   });
@@ -25,7 +25,7 @@
   };
 
   const autoclose = () => {
-    if ($progress === 1 || $progress === 0) {
+    if (progress.current === 1 || progress.current === 0) {
       toast.pop(item.id);
     }
   };
@@ -34,15 +34,15 @@
   $effect(() => {
     if (next !== item.next) {
       next = item.next;
-      prev = $progress;
+      prev = progress.current;
       paused = false;
       progress.set(next).then(autoclose);
     }
   });
 
   const pause = () => {
-    if (!paused && $progress !== next) {
-      progress.set($progress, { duration: 0 });
+    if (!paused && progress.current !== next) {
+      progress.set(progress.current, { duration: 0 });
       paused = true;
     }
   };
@@ -50,7 +50,7 @@
   const resume = () => {
     if (paused) {
       const d = item.duration;
-      const duration = d - d * (($progress - prev) / (next - prev));
+      const duration = d - d * ((progress.current - prev) / (next - prev));
       progress.set(next, { duration }).then(autoclose);
       paused = false;
     }
@@ -75,7 +75,9 @@
   >
     <span>✕</span>
   </div>
-  <progress class="_toastBar bg-transparent" value={$progress}>&nbsp;</progress>
+  <progress class="_toastBar bg-transparent" value={progress.current}
+    >&nbsp;</progress
+  >
 </div>
 
 <style>

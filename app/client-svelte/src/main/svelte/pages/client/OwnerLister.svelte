@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { forkJoin } from "rxjs";
-  import { toast } from "../../components/Toast/index.js";
+  import { toast } from "../../components/Toast";
   import { EnumService } from "../../services/enum.service";
   import {
     mapOwnerToOwnerItem,
@@ -221,7 +221,7 @@
             class:bg-gray-100={i % 2 === 1}
           >
             <td class="px-2 py-3 text-left table-cell">
-              <span>{owner.name}</span>
+              <a href={"/owner/" + owner.id}>{owner.name}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
               <div class="flex flex-col text-sm">

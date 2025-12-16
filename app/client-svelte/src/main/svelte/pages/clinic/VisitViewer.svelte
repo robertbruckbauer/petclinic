@@ -4,6 +4,7 @@
   import { toast } from "../../components/Toast";
   import { VisitService } from "../../services/visit.service";
   import type { Visit } from "../../types/visit.type";
+  import type { Vet } from "../../types/vet.type";
 
   const visitService = new VisitService();
 

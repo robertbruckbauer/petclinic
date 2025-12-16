@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { forkJoin } from "rxjs";
-  import { toast } from "../../components/Toast/index.js";
+  import { toast } from "../../components/Toast";
   import { EnumService } from "../../services/enum.service";
   import { VetService } from "../../services/vet.service";
   import type { EnumItem } from "../../types/enum.type";
@@ -183,7 +183,7 @@
             class:bg-gray-100={i % 2 === 1}
           >
             <td class="px-2 py-3 text-left table-cell">
-              <span>{vet.name}</span>
+              <a href={"/vet/" + vet.id}>{vet.name}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
               {#each vet.allSkill as skill}

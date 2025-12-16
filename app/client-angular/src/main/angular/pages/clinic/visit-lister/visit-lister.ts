@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { VetService } from "../../../services/vet.service";
 import { VisitService } from "../../../services/visit.service";
@@ -22,7 +23,12 @@ import { VisitDiagnoseComponent } from "../visit-diagnose/visit-diagnose";
 
 @Component({
   selector: "app-visit-lister",
-  imports: [CommonModule, ReactiveFormsModule, VisitDiagnoseComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+    VisitDiagnoseComponent,
+  ],
   templateUrl: "./visit-lister.html",
   styles: ``,
 })

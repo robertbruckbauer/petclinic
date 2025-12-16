@@ -49,7 +49,8 @@
     <div class="h-screen flex justify-center items-start">
       <span class="loading loading-spinner loading-xl"></span>
     </div>
-  {:else}
+  {/if}
+  {#if owner.id}
     <OwnerEditor
       visible={true}
       oncancel={onCancel}

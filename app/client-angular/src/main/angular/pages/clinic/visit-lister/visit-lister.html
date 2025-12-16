@@ -36,13 +36,19 @@
             (click)="onVisitClicked(visit)"
           >
             <td class="px-2 py-3 text-left table-cell">
-              {{ visit.ownerItem?.text }}
+              <a [routerLink]="['/owner', visit.ownerItem?.value]">{{
+                visit.ownerItem?.text
+              }}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {{ visit.petItem?.text }}
+              <a [routerLink]="['/visit', visit.id]">{{
+                visit.petItem?.text
+              }}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {{ visit.vetItem?.text }}
+              <a [routerLink]="['/vet', visit.vetItem?.value]">{{
+                visit.vetItem?.text
+              }}</a>
             </td>
             <td class="px-2 py-3 table-cell">
               <div

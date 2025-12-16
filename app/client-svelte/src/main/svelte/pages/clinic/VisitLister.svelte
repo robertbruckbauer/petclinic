@@ -150,13 +150,15 @@
             class:border-l-2={visitId === visit.id}
           >
             <td class="px-2 py-3 text-left table-cell">
-              {visit.ownerItem?.text}
+              <a href={"/owner/" + visit.ownerItem?.value}
+                >{visit.ownerItem?.text}</a
+              >
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {visit.petItem?.text}
+              <a href={"/visit/" + visit.id}>{visit.petItem?.text}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              {visit.vetItem?.text}
+              <a href={"/vet/" + visit.vetItem?.value}>{visit.vetItem?.text}</a>
             </td>
             <td class="px-2 py-3 table-cell">
               <div

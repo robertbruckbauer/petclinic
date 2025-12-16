@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { forkJoin } from "rxjs";
-  import { toast } from "../../components/Toast/index.js";
+  import { toast } from "../../components/Toast";
   import { storedOwner } from "../../stores/owner.store";
   import { EnumService } from "../../services/enum.service";
   import { OwnerService } from "../../services/owner.service";
@@ -210,7 +210,7 @@
               <span>{pet.species}</span>
             </td>
             <td class="px-2 py-3 text-left table-cell">
-              <span>{pet.name}</span>
+              <a href={"/pet/" + pet.id}>{pet.name}</a>
             </td>
             <td class="px-2 py-3 table-cell">
               <div

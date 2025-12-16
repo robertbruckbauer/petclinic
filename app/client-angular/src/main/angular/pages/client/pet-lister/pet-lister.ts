@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
@@ -29,6 +30,7 @@ import { VisitTreatmentComponent } from "../../clinic/visit-treatment/visit-trea
   selector: "app-pet-lister",
   imports: [
     CommonModule,
+    RouterLink,
     ReactiveFormsModule,
     PetEditorComponent,
     VisitTreatmentComponent,

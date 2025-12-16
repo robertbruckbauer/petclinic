@@ -68,7 +68,7 @@
             (click)="onOwnerClicked(owner)"
           >
             <td class="px-2 py-3 text-left table-cell">
-              <span>{{ owner.name }}</span>
+              <a [routerLink]="['/owner', owner.id]">{{ owner.name }}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
               <div class="flex flex-col text-sm">

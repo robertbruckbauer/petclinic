@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { EnumService } from "../../../services/enum.service";
 import { VetService } from "../../../services/vet.service";
@@ -22,7 +23,7 @@ import { VetEditorComponent } from "../vet-editor/vet-editor";
 
 @Component({
   selector: "app-vet-lister",
-  imports: [CommonModule, ReactiveFormsModule, VetEditorComponent],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, VetEditorComponent],
   templateUrl: "./vet-lister.html",
   styles: ``,
 })
