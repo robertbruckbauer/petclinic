@@ -15,6 +15,7 @@ import {
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { Toast } from "../../../controls/toast/toast";
 import { VetService } from "../../../services/vet.service";
 import { VisitService } from "../../../services/visit.service";
 import { type VetItem } from "../../../types/vet.type";
@@ -34,6 +35,7 @@ import { VisitDiagnoseComponent } from "../visit-diagnose/visit-diagnose";
 })
 export class VisitListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private vetService = inject(VetService);
   private visitService = inject(VisitService);
   loading = signal(false);
@@ -98,6 +100,9 @@ export class VisitListerComponent implements OnInit {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
@@ -113,6 +118,9 @@ export class VisitListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {
@@ -156,6 +164,9 @@ export class VisitListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {

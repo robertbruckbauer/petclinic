@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { Toast } from "../../../controls/toast/toast";
 import { VisitService } from "../../../services/visit.service";
 import { type VetItem } from "../../../types/vet.type";
 import { type Visit } from "../../../types/visit.type";
@@ -26,6 +27,7 @@ import { type Visit } from "../../../types/visit.type";
 })
 export class VisitDiagnoseComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private visitService = inject(VisitService);
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
@@ -74,6 +76,9 @@ export class VisitDiagnoseComponent implements OnInit {
             this.createEmitter.emit(value);
             this.visible.set(false);
           },
+          error: (err) => {
+            this.toast.push(err);
+          },
         });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
@@ -90,6 +95,9 @@ export class VisitDiagnoseComponent implements OnInit {
           next: (value) => {
             this.updateEmitter.emit(value);
             this.visible.set(false);
+          },
+          error: (err) => {
+            this.toast.push(err);
           },
         });
       this.destroyRef.onDestroy(() => {

@@ -15,6 +15,7 @@ import {
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
 import { mapPetToPetItem } from "../../../services/pet.service";
@@ -40,6 +41,7 @@ import { VisitOverviewComponent } from "../../clinic/visit-overview/visit-overvi
 })
 export class OwnerListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private enumService = inject(EnumService);
   private ownerService = inject(OwnerService);
   loading = signal(false);
@@ -118,6 +120,9 @@ export class OwnerListerComponent implements OnInit {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
@@ -133,6 +138,9 @@ export class OwnerListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {
@@ -203,6 +211,9 @@ export class OwnerListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {

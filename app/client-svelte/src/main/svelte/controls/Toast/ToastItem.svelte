@@ -3,48 +3,48 @@
   import { linear } from "svelte/easing";
   import { toast, type ToastEntry } from "./stores.js";
 
-  let { item }: { item: ToastEntry } = $props();
+  let { entry }: { entry: ToastEntry } = $props();
 
   // read item values once at initialization
   const progress = new Tween(
     // svelte-ignore state_referenced_locally
-    item.initial,
+    entry.initial,
     {
       // svelte-ignore state_referenced_locally
-      duration: item.duration,
+      duration: entry.duration,
       easing: linear,
     }
   );
   let next = $state(
     // svelte-ignore state_referenced_locally
-    item.initial
+    entry.initial
   );
   let prev = $state(
     // svelte-ignore state_referenced_locally
-    item.initial
+    entry.initial
   );
   let paused = $state(false);
 
   const onKey = (_event: KeyboardEvent) => {
     if (_event.key === "Escape") {
-      toast.pop(item.id);
+      toast.pop(entry.id);
     }
   };
 
   const onClose = () => {
-    toast.pop(item.id);
+    toast.pop(entry.id);
   };
 
   const autoclose = () => {
     if (progress.current === 1 || progress.current === 0) {
-      toast.pop(item.id);
+      toast.pop(entry.id);
     }
   };
 
   // Watch for changes in item.next
   $effect(() => {
-    if (next !== item.next) {
-      next = item.next;
+    if (next !== entry.next) {
+      next = entry.next;
       prev = progress.current;
       paused = false;
       progress.set(next).then(autoclose);
@@ -60,7 +60,7 @@
 
   const resume = () => {
     if (paused) {
-      const d = item.duration;
+      const d = entry.duration;
       const duration = d - d * ((progress.current - prev) / (next - prev));
       progress.set(next, { duration }).then(autoclose);
       paused = false;
@@ -75,7 +75,7 @@
   onmouseleave={resume}
 >
   <div role="status" class="_toastMsg">
-    {@html item.msg}
+    {@html entry.message}
   </div>
   <div
     class="_toastBtn"

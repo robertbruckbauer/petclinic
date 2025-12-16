@@ -13,8 +13,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { EnumItem } from "../../../types/enum.type";
+import { Toast } from "../../../controls/toast/toast";
 import { VetService } from "../../../services/vet.service";
+import { type EnumItem } from "../../../types/enum.type";
 import { type Vet } from "../../../types/vet.type";
 
 @Component({
@@ -25,6 +26,7 @@ import { type Vet } from "../../../types/vet.type";
 })
 export class VetEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private vetService = inject(VetService);
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
@@ -66,6 +68,9 @@ export class VetEditorComponent implements OnInit {
             this.visible.set(false);
             this.form.reset();
           },
+          error: (err) => {
+            this.toast.push(err);
+          },
         });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
@@ -82,6 +87,9 @@ export class VetEditorComponent implements OnInit {
             this.updateEmitter.emit(value);
             this.visible.set(false);
             this.form.reset();
+          },
+          error: (err) => {
+            this.toast.push(err);
           },
         });
       this.destroyRef.onDestroy(() => {

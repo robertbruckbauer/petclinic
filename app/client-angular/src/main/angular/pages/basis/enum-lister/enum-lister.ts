@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { Toast } from "../../../controls/toast/toast";
 import { EnumService, filterByCriteria } from "../../../services/enum.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { EnumEditorComponent } from "../enum-editor/enum-editor";
@@ -26,6 +27,7 @@ import { EnumEditorComponent } from "../enum-editor/enum-editor";
 })
 export class EnumListerComponent {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private enumService = inject(EnumService);
   art = input.required<string>();
   loading = signal(false);
@@ -81,6 +83,9 @@ export class EnumListerComponent {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
@@ -126,6 +131,9 @@ export class EnumListerComponent {
         },
         complete: () => {
           this.loading.set(false);
+        },
+        error: (err) => {
+          this.toast.push(err);
         },
       });
     this.destroyRef.onDestroy(() => {

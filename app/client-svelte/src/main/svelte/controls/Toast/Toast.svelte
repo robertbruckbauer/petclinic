@@ -5,9 +5,9 @@
 </script>
 
 <ul class="_toastContainer">
-  {#each $toast as item (item.id)}
+  {#each $toast as entry (entry.id)}
     <li in:fly={{ x: 256 }} out:fade>
-      <ToastItem {item} />
+      <ToastItem {entry} />
     </li>
   {/each}
 </ul>

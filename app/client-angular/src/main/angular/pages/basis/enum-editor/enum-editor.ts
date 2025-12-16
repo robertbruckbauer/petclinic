@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { type EnumItem } from "../../../types/enum.type";
 
@@ -24,6 +25,7 @@ import { type EnumItem } from "../../../types/enum.type";
 })
 export class EnumEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private enumService = inject(EnumService);
   art = input.required<string>();
   mode = input.required<"create" | "update">();
@@ -66,6 +68,9 @@ export class EnumEditorComponent implements OnInit {
             this.visible.set(false);
             this.form.reset();
           },
+          error: (err) => {
+            this.toast.push(err);
+          },
         });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
@@ -82,6 +87,9 @@ export class EnumEditorComponent implements OnInit {
             this.updateEmitter.emit(item);
             this.visible.set(false);
             this.form.reset();
+          },
+          error: (err) => {
+            this.toast.push(err);
           },
         });
       this.destroyRef.onDestroy(() => {

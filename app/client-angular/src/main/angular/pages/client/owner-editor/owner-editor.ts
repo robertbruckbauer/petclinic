@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { Toast } from "../../../controls/toast/toast";
 import { OwnerService } from "../../../services/owner.service";
 import { type Owner } from "../../../types/owner.type";
 
@@ -24,6 +25,7 @@ import { type Owner } from "../../../types/owner.type";
 })
 export class OwnerEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private ownerService = inject(OwnerService);
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
@@ -66,6 +68,9 @@ export class OwnerEditorComponent implements OnInit {
             this.visible.set(false);
             this.form.reset();
           },
+          error: (err) => {
+            this.toast.push(err);
+          },
         });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
@@ -83,6 +88,9 @@ export class OwnerEditorComponent implements OnInit {
             this.updateEmitter.emit(value);
             this.visible.set(false);
             this.form.reset();
+          },
+          error: (err) => {
+            this.toast.push(err);
           },
         });
       this.destroyRef.onDestroy(() => {

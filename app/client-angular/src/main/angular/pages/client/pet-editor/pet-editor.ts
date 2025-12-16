@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { Toast } from "../../../controls/toast/toast";
 import { PetService } from "../../../services/pet.service";
 import { type EnumItem } from "../../../types/enum.type";
 import { type Pet } from "../../../types/pet.type";
@@ -25,6 +26,7 @@ import { type Pet } from "../../../types/pet.type";
 })
 export class PetEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private petService = inject(PetService);
   mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
@@ -73,6 +75,9 @@ export class PetEditorComponent implements OnInit {
             this.visible.set(false);
             this.form.reset();
           },
+          error: (err) => {
+            this.toast.push(err);
+          },
         });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
@@ -92,6 +97,9 @@ export class PetEditorComponent implements OnInit {
             this.updateEmitter.emit(value);
             this.visible.set(false);
             this.form.reset();
+          },
+          error: (err) => {
+            this.toast.push(err);
           },
         });
       this.destroyRef.onDestroy(() => {

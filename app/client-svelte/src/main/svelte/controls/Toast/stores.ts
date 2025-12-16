@@ -1,8 +1,8 @@
 import { writable } from "svelte/store";
 
 export interface ToastEntry {
-  msg: string;
   id: number;
+  message: string;
   duration: number;
   initial: number;
   next: number;
@@ -18,10 +18,10 @@ const createToast = () => {
   const { subscribe, update } = writable<ToastEntry[]>([]);
   let count = 0;
 
-  const push = (err: { detail?: string; toString: () => string }): number => {
+  const push = (cause: any): number => {
     const entry: ToastEntry = {
       ...defaults,
-      msg: err.detail || err.toString(),
+      message: cause.detail || cause.toString(),
       id: ++count,
     };
     update((allEntry) => [entry, ...allEntry]);

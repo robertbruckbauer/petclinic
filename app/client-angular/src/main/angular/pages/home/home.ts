@@ -6,6 +6,7 @@ import {
   inject,
   signal,
 } from "@angular/core";
+import { Toast } from "../../controls/toast/toast";
 import { VersionService } from "../../services/version.service";
 
 @Component({
@@ -16,6 +17,7 @@ import { VersionService } from "../../services/version.service";
 })
 export class HomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private versionService = inject(VersionService);
 
   apiExplorer = signal<URL>(new URL(this.versionService.apiExplorerUrl()));
@@ -35,6 +37,7 @@ export class HomeComponent implements OnInit {
       next: (res) => {
         this.version.set(res.version);
       },
+      error: (err) => this.toast.push(err),
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
