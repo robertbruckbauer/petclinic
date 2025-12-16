@@ -1,16 +1,19 @@
 <script lang="ts">
   import { Tween } from "svelte/motion";
   import { linear } from "svelte/easing";
-  import { toast } from "./stores.js";
+  import { toast, type ToastEntry } from "./stores.js";
 
-  let { item } = $props();
+  let { item }: { item: ToastEntry } = $props();
 
+  // read item values once at initialization
+  // svelte-ignore state_referenced_locally
   const progress = new Tween(item.initial, {
     duration: item.duration,
     easing: linear,
   });
-
+  // svelte-ignore state_referenced_locally
   let next = $state(item.initial);
+  // svelte-ignore state_referenced_locally
   let prev = $state(item.initial);
   let paused = $state(false);
 
