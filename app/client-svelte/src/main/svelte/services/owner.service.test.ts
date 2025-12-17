@@ -119,16 +119,17 @@ describe("OwnerService", () => {
     });
   });
 
-  describe("updateOwner", () => {
-    it("should update owner successfully", () => {
+  describe("mutateOwner", () => {
+    it("should mutate owner successfully", () => {
       const content: Owner = ALLOWNER[0];
+      const patch = { name: "Updated name" };
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => content,
+        json: async () => ({ ...content, ...patch }),
       });
-      ownerService.updateOwner(content).subscribe({
+      ownerService.mutateOwner(content.id!, content).subscribe({
         next: (owner) => {
-          expect(owner).toEqual(content);
+          expect(owner.name).toEqual(patch.name);
         },
       });
     });

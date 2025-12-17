@@ -48,7 +48,6 @@
           <tr>
             <td class="border-l-4 px-2" colspan="3">
               <app-pet-editor
-                mode="create"
                 (create)="afterCreatePet($event)"
                 [(visible)]="petEditorCreate"
                 [allSpeciesEnum]="allSpeciesEnum()"
@@ -105,7 +104,6 @@
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <app-visit-treatment
-                  mode="create"
                   [(visible)]="treatmentCreate"
                   [visit]="newTreatment()"
                 />
@@ -116,7 +114,6 @@
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <app-pet-editor
-                  mode="update"
                   (update)="afterUpdatePet($event)"
                   [(visible)]="petEditorUpdate"
                   [allSpeciesEnum]="allSpeciesEnum()"

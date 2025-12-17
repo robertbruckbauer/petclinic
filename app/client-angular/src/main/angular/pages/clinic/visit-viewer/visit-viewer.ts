@@ -53,6 +53,6 @@ export class VisitViewerComponent implements OnInit {
   }
 
   get title() {
-    return this.visit()?.petItem?.text + " on " + this.visit()?.date;
+    return "of " + this.visit()?.petItem?.text + " on " + this.visit()?.date;
   }
 }

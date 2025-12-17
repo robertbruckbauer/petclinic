@@ -14,6 +14,7 @@
     allVetItem: VetItem[];
     visit: Visit;
     oncancel?: undefined | (() => void);
+    oncreate?: undefined | ((visit: Visit) => void);
     onupdate?: undefined | ((visit: Visit) => void);
   }
 
@@ -24,6 +25,7 @@
     allVetItem,
     visit,
     oncancel = undefined,
+    oncreate = undefined,
     onupdate = undefined,
   }: Props = $props();
 
@@ -37,10 +39,13 @@
   });
 
   let newVisitText = $derived(visit.text);
+  let newVisitPetId = $derived(visit.petItem?.value);
   let newVisitVetId = $derived(visit.vetItem?.value);
   const newVisit = $derived({
     ...visit,
     text: newVisitText,
+    petItem: undefined, // petItem is invalid
+    pet: newVisitPetId ? "/api/pet/" + newVisitPetId : undefined,
     vetItem: undefined, // vetItem is invalid
     vet: newVisitVetId ? "/api/vet/" + newVisitVetId : undefined,
   });
@@ -49,7 +54,27 @@
     _event.preventDefault();
     try {
       clicked = true;
-      updateVisit();
+      if (visit.id) {
+        visitService.mutateVisit(newVisit.id!, newVisit).subscribe({
+          next: (json) => {
+            visible = false;
+            onupdate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+      } else {
+        visitService.createVisit(newVisit).subscribe({
+          next: (json) => {
+            visible = false;
+            oncreate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+      }
     } finally {
       clicked = false;
     }
@@ -59,18 +84,6 @@
     _event.preventDefault();
     visible = false;
     oncancel?.();
-  }
-
-  function updateVisit() {
-    visitService.mutateVisit(newVisit.id!, newVisit).subscribe({
-      next: (json) => {
-        visible = false;
-        onupdate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
   }
 </script>
 

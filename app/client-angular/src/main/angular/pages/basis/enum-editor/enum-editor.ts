@@ -55,13 +55,14 @@ export class EnumEditorComponent implements OnInit {
   createEmitter = output<EnumItem>({ alias: "create" });
   updateEmitter = output<EnumItem>({ alias: "update" });
   onSubmitClicked() {
+    const newEnum = {
+      ...this.item(),
+      name: this.form.value.name!,
+      text: this.form.value.text!,
+    };
     if (this.mode() === "create") {
       const subscription = this.enumService
-        .createEnum(this.art(), {
-          ...this.item(),
-          name: this.form.value.name!,
-          text: this.form.value.text!,
-        })
+        .createEnum(this.art(), newEnum)
         .subscribe({
           next: (item) => {
             this.createEmitter.emit(item);
@@ -77,11 +78,7 @@ export class EnumEditorComponent implements OnInit {
       });
     } else {
       const subscription = this.enumService
-        .updateEnum(this.art(), {
-          ...this.item(),
-          name: this.form.value.name!,
-          text: this.form.value.text!,
-        })
+        .updateEnum(this.art(), newEnum)
         .subscribe({
           next: (item) => {
             this.updateEmitter.emit(item);

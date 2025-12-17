@@ -55,9 +55,25 @@
     try {
       clicked = true;
       if (owner.id) {
-        updateOwner();
+        ownerService.mutateOwner(owner.id, newOwner).subscribe({
+          next: (json) => {
+            visible = false;
+            onupdate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
       } else {
-        createOwner();
+        ownerService.createOwner(newOwner).subscribe({
+          next: (json) => {
+            visible = false;
+            oncreate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
       }
     } finally {
       clicked = false;
@@ -68,30 +84,6 @@
     _event.preventDefault();
     visible = false;
     oncancel?.();
-  }
-
-  function createOwner() {
-    ownerService.createOwner(newOwner).subscribe({
-      next: (json) => {
-        visible = false;
-        oncreate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
-
-  function updateOwner() {
-    ownerService.updateOwner(newOwner).subscribe({
-      next: (json) => {
-        visible = false;
-        onupdate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
   }
 </script>
 

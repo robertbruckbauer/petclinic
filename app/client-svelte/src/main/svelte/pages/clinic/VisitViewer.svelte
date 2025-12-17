@@ -35,7 +35,7 @@
   });
 </script>
 
-<h1>{visit?.petItem?.text + " on " + visit.date}</h1>
+<h1>Visit of {visit?.petItem?.text + " on " + visit.date}</h1>
 <div class="flex flex-col gap-1 ml-2 mr-2">
   {#if loading}
     <div class="h-screen flex justify-center items-start">

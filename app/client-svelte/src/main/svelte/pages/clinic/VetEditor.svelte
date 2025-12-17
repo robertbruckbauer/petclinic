@@ -55,9 +55,25 @@
     try {
       clicked = true;
       if (vet.id) {
-        updateVet();
+        vetService.mutateVet(vet.id, newVet).subscribe({
+          next: (json) => {
+            visible = false;
+            onupdate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
       } else {
-        createVet();
+        vetService.createVet(newVet).subscribe({
+          next: (json) => {
+            visible = false;
+            oncreate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
       }
     } finally {
       clicked = false;
@@ -68,30 +84,6 @@
     _event.preventDefault();
     visible = false;
     oncancel?.();
-  }
-
-  function createVet() {
-    vetService.createVet(newVet).subscribe({
-      next: (json) => {
-        visible = false;
-        oncreate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
-
-  function updateVet() {
-    vetService.updateVet(newVet).subscribe({
-      next: (json) => {
-        visible = false;
-        onupdate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
   }
 </script>
 

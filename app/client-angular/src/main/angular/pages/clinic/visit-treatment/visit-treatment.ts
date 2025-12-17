@@ -27,7 +27,6 @@ export class VisitTreatmentComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private toast = inject(Toast);
   private visitService = inject(VisitService);
-  mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
   visit = input.required<Visit>();
   form = new FormGroup({
@@ -57,12 +56,13 @@ export class VisitTreatmentComponent implements OnInit {
   createEmitter = output<Visit>({ alias: "create" });
   updateEmitter = output<Visit>({ alias: "update" });
   onSubmitClicked() {
-    if (this.mode() === "create") {
+    const newVisit = {
+      ...this.visit(),
+      date: this.form.value.date!,
+    };
+    if (this.visit().id) {
       const subscription = this.visitService
-        .createVisit({
-          ...this.visit(),
-          date: this.form.value.date!,
-        })
+        .mutateVisit(this.visit().id!, newVisit)
         .subscribe({
           next: (value) => {
             this.createEmitter.emit(value);
@@ -76,20 +76,15 @@ export class VisitTreatmentComponent implements OnInit {
         subscription.unsubscribe();
       });
     } else {
-      const subscription = this.visitService
-        .mutateVisit(this.visit().id!, {
-          ...this.visit(),
-          date: this.form.value.date!,
-        })
-        .subscribe({
-          next: (value) => {
-            this.updateEmitter.emit(value);
-            this.visible.set(false);
-          },
-          error: (err) => {
-            this.toast.push(err);
-          },
-        });
+      const subscription = this.visitService.createVisit(newVisit).subscribe({
+        next: (value) => {
+          this.createEmitter.emit(value);
+          this.visible.set(false);
+        },
+        error: (err) => {
+          this.toast.push(err);
+        },
+      });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });

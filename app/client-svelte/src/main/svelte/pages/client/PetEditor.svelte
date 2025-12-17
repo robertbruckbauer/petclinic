@@ -62,57 +62,47 @@
   });
   // end::init[]
 
-  // tag::submit[]
   function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
       if (pet.id) {
-        updatePet();
+        // tag::update[]
+        petService.mutatePet(pet.id, newPet).subscribe({
+          next: (json) => {
+            visible = false;
+            onupdate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+        // end::update[]
       } else {
-        createPet();
+        // tag::create[]
+        petService.createPet(newPet).subscribe({
+          next: (json) => {
+            visible = false;
+            oncreate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+        // end::create[]
       }
     } finally {
       clicked = false;
     }
   }
-  // end::submit[]
 
-  // tag::cancel[]
   function onCancelClicked(_event: Event) {
     _event.preventDefault();
+    // tag::cancel[]
     visible = false;
     oncancel?.();
+    // end::cancel[]
   }
-  // end::cancel[]
-
-  // tag::create[]
-  function createPet() {
-    petService.createPet(newPet).subscribe({
-      next: (json) => {
-        visible = false;
-        oncreate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
-  // end::create[]
-
-  // tag::update[]
-  function updatePet() {
-    petService.updatePet(newPet).subscribe({
-      next: (json) => {
-        visible = false;
-        onupdate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
-  // end::update[]
 </script>
 
 <form onsubmit={onSubmitClicked}>

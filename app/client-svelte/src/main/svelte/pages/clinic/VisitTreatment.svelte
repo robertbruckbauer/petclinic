@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
   import { toast } from "../../controls/Toast";
   import { VisitService } from "../../services/visit.service";
-  import type { Pet } from "../../types/pet.type";
   import type { Visit } from "../../types/visit.type";
 
   const visitService = new VisitService();
@@ -11,18 +10,20 @@
     autofocus?: boolean;
     autoscroll?: boolean;
     visible: boolean;
-    pet: Pet;
+    visit: Visit;
     oncancel?: undefined | (() => void);
     oncreate?: undefined | ((visit: Visit) => void);
+    onupdate?: undefined | ((visit: Visit) => void);
   }
 
   let {
     autofocus = true,
     autoscroll = true,
     visible = $bindable(false),
-    pet,
+    visit,
     oncancel = undefined,
     oncreate = undefined,
+    onupdate = undefined,
   }: Props = $props();
 
   let clicked = $state(false);
@@ -35,9 +36,11 @@
   });
 
   let newVisitDate = $state("");
+  let newVisitPetId = $derived(visit.petItem?.value);
   const newVisit: Visit = $derived({
-    version: 0,
-    pet: "/api/pet/" + pet.id,
+    ...visit,
+    petItem: undefined, // petItem is invalid
+    pet: newVisitPetId ? "/api/pet/" + newVisitPetId : undefined,
     date: newVisitDate,
   });
 
@@ -45,7 +48,27 @@
     _event.preventDefault();
     try {
       clicked = true;
-      createVisit();
+      if (visit.id) {
+        visitService.mutateVisit(newVisit.id!, newVisit).subscribe({
+          next: (json) => {
+            visible = false;
+            onupdate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+      } else {
+        visitService.createVisit(newVisit).subscribe({
+          next: (json) => {
+            visible = false;
+            oncreate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+      }
     } finally {
       clicked = false;
     }
@@ -55,18 +78,6 @@
     _event.preventDefault();
     visible = false;
     oncancel?.();
-  }
-
-  function createVisit() {
-    visitService.createVisit(newVisit).subscribe({
-      next: (json) => {
-        visible = false;
-        oncreate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
   }
 </script>
 

@@ -64,7 +64,7 @@ An effect populates the states for editable property of the entity.
 include::{includedir}/app\client-svelte\src\main\svelte\pages\client\PetEditor.svelte[indent=0,tags=form]
 ----
 
-A derived state computes a new entity with changed properties.
+A derived state computes a new entity with editable properties of the editor.
 The original entity provides `id` and `version` for mutations.
 
 .Example from PetEditor
@@ -93,7 +93,10 @@ für mehr Informationen.
 ==== update an entity
 
 `onSubmitClicked` updates an existing entity with new values from the form and hides the editor.
-When the service operation completes successfully, the `update` event is emitted with the  entity returned from the service.
+Use the `update` operation if you want to update every property of the entity to the values of this editor and clear all properties not handled in this editor.
+Use the `mutate` operation if you want to update only values of this editor and do not update others.
+When the service operation completes successfully, the `update` event is emitted with the entity returned from the service.
+
 
 .Example from PetEditor
 [source,ts,options="nowrap"]

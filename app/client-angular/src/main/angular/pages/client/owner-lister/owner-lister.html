@@ -52,7 +52,6 @@
           <tr>
             <td class="border-l-4 px-2" colspan="3">
               <app-owner-editor
-                mode="create"
                 (create)="afterCreateOwner($event)"
                 [(visible)]="ownerEditorCreate"
                 [owner]="newOwner()"
@@ -128,7 +127,6 @@
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <app-pet-editor
-                  mode="create"
                   (create)="afterCreatePet($event, owner)"
                   [(visible)]="petEditorCreate"
                   [allSpeciesEnum]="allSpeciesEnum()"
@@ -141,7 +139,6 @@
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <app-owner-editor
-                  mode="update"
                   (update)="afterUpdateOwner($event)"
                   [(visible)]="ownerEditorUpdate"
                   [owner]="owner"

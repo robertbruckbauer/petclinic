@@ -28,7 +28,6 @@ export class PetEditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private toast = inject(Toast);
   private petService = inject(PetService);
-  mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
   allSpeciesEnum = input.required<EnumItem[]>();
   pet = input.required<Pet>();
@@ -39,9 +38,9 @@ export class PetEditorComponent implements OnInit {
   });
 
   ngOnInit() {
-    // tag::init[]
+    // tag::form[]
     this.form.patchValue(this.pet());
-    // end::init[]
+    // end::form[]
   }
 
   get isSubmittable() {
@@ -60,38 +59,18 @@ export class PetEditorComponent implements OnInit {
   createEmitter = output<Pet>({ alias: "create" });
   updateEmitter = output<Pet>({ alias: "update" });
   onSubmitClicked() {
-    if (this.mode() === "create") {
-      // tag::create[]
-      const subscription = this.petService
-        .createPet({
-          ...this.pet(),
-          name: this.form.value.name!,
-          born: this.form.value.born!,
-          species: this.form.value.species!,
-        })
-        .subscribe({
-          next: (value) => {
-            this.createEmitter.emit(value);
-            this.visible.set(false);
-            this.form.reset();
-          },
-          error: (err) => {
-            this.toast.push(err);
-          },
-        });
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
-      });
-      // end::create[]
-    } else {
+    // tag::init[]
+    const newPet = {
+      ...this.pet(),
+      name: this.form.value.name!,
+      born: this.form.value.born!,
+      species: this.form.value.species!,
+    };
+    // end::init[]
+    if (this.pet().id) {
       // tag::update[]
       const subscription = this.petService
-        .mutatePet(this.pet().id!, {
-          ...this.pet(),
-          name: this.form.value.name!,
-          born: this.form.value.born!,
-          species: this.form.value.species!,
-        })
+        .mutatePet(this.pet().id!, newPet)
         .subscribe({
           next: (value) => {
             this.updateEmitter.emit(value);
@@ -102,10 +81,26 @@ export class PetEditorComponent implements OnInit {
             this.toast.push(err);
           },
         });
+      // end::update[]
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });
-      // end::update[]
+    } else {
+      // tag::create[]
+      const subscription = this.petService.createPet(newPet).subscribe({
+        next: (value) => {
+          this.createEmitter.emit(value);
+          this.visible.set(false);
+          this.form.reset();
+        },
+        error: (err) => {
+          this.toast.push(err);
+        },
+      });
+      // end::create[]
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
     }
   }
 }

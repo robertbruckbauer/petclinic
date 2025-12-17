@@ -5,10 +5,11 @@
   import { storedOwner } from "../../stores/owner.store";
   import { EnumService } from "../../services/enum.service";
   import { OwnerService } from "../../services/owner.service";
-  import { PetService } from "../../services/pet.service";
+  import { mapPetToPetItem, PetService } from "../../services/pet.service";
   import type { EnumItem } from "../../types/enum.type";
   import type { OwnerItem } from "../../types/owner.type";
   import type { Pet } from "../../types/pet.type";
+  import type { Visit } from "../../types/visit.type";
   import PetEditor from "./PetEditor.svelte";
   import VisitTreatment from "../clinic/VisitTreatment.svelte";
 
@@ -254,9 +255,10 @@
             </td>
           </tr>
           {#if visitTreatementCreate && petId === pet.id}
+            {@const visit: Visit = {version: 0, petItem: mapPetToPetItem(pet), date: ""}}
             <tr>
               <td class="border-l-4 px-2" colspan="4">
-                <VisitTreatment bind:visible={visitTreatementCreate} {pet} />
+                <VisitTreatment bind:visible={visitTreatementCreate} {visit} />
               </td>
             </tr>
           {/if}

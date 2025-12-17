@@ -25,9 +25,9 @@ export class OwnerService extends BackendService {
     return this.restApiPost(path, owner);
   }
 
-  public updateOwner(owner: Owner): Observable<Owner> {
-    const path = ["api", "owner", owner.id].join("/");
-    return this.restApiPut(path, owner);
+  public mutateOwner(id: string, value: Partial<Owner>): Observable<Owner> {
+    const path = ["api", "owner", id].join("/");
+    return this.restApiPatch(path, value);
   }
 
   public removeOwner(id: string): Observable<Owner> {

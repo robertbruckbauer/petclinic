@@ -20,11 +20,6 @@ export class VisitService extends BackendService {
     return this.restApiPost(path, visit);
   }
 
-  public updateVisit(visit: Visit): Observable<Visit> {
-    const path = ["api", "visit", visit.id].join("/");
-    return this.restApiPut(path, visit);
-  }
-
   public mutateVisit(id: string, patch: Partial<Visit>): Observable<Visit> {
     const path = ["api", "visit", id].join("/");
     return this.restApiPatch(path, patch);

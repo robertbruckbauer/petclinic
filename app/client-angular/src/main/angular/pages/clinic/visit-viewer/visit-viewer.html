@@ -7,9 +7,8 @@
     </div>
   } @else {
     @if (visit()) {
-      <app-visit-treatment mode="update" [visible]="true" [visit]="visit()!" />
+      <app-visit-treatment [visible]="true" [visit]="visit()!" />
       <app-visit-diagnose
-        mode="update"
         [visible]="true"
         [allVetItem]="allVetItem()"
         [visit]="visit()!"
