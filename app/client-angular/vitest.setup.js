@@ -1,4 +1,4 @@
-import { vi, beforeEach } from "vitest";
+import { vi, afterEach, beforeEach } from "vitest";
 import '@angular/compiler';
 
 const mockWindow = {
@@ -14,4 +14,8 @@ const mockWindow = {
 
 beforeEach(() => {
   vi.stubGlobal("window", mockWindow);
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals?.();
 });
