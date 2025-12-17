@@ -36,10 +36,3 @@ export function filterByCriteria(criteria: string | null | undefined) {
     return true;
   };
 }
-
-export function compareEnumItem(
-  item1: EnumItem | null,
-  item2: EnumItem | null
-): boolean {
-  return item1?.code === item2?.code;
-}

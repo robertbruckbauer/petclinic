@@ -77,18 +77,6 @@ describe("VisitService", () => {
     });
   });
 
-  describe("updateVisit", () => {
-    it("should update visit successfully", () => {
-      const content: Visit = ALLVISIT[0];
-      httpClientMock.put.mockReturnValue(of(content));
-      visitService.updateVisit(content).subscribe({
-        next: (visit) => {
-          expect(visit).toEqual(content);
-        },
-      });
-    });
-  });
-
   describe("mutateVisit", () => {
     it("should patch visit successfully", () => {
       const content: Visit = ALLVISIT[0];

@@ -1,10 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../../controls/Toast";
   import { OwnerService } from "../../services/owner.service";
   import type { Owner } from "../../types/owner.type";
-  import { toast } from "../../components/Toast";
-  import Button from "../../components/Button";
-  import TextField from "../../components/TextField";
 
   const ownerService = new OwnerService();
 
@@ -52,86 +50,82 @@
     contact: newOwnerContact,
   });
 
-  function handleSubmit(_event: Event) {
+  function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
       if (owner.id) {
-        updateOwner();
+        ownerService.mutateOwner(owner.id, newOwner).subscribe({
+          next: (json) => {
+            visible = false;
+            onupdate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
       } else {
-        createOwner();
+        ownerService.createOwner(newOwner).subscribe({
+          next: (json) => {
+            visible = false;
+            oncreate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
       }
     } finally {
       clicked = false;
     }
   }
 
-  function handleCancel(_event: Event) {
+  function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
   }
-
-  function createOwner() {
-    ownerService.createOwner(newOwner).subscribe({
-      next: (json) => {
-        visible = false;
-        oncreate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
-
-  function updateOwner() {
-    ownerService.updateOwner(newOwner).subscribe({
-      next: (json) => {
-        visible = false;
-        onupdate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
 </script>
 
-<form onsubmit={handleSubmit}>
-  <div class="flex flex-col gap-1">
-    <div class="w-full">
-      <TextField
+<form onsubmit={onSubmitClicked}>
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Name</legend>
+      <input
         bind:this={focusOn}
         bind:value={newOwnerName}
-        required
-        label="Name"
-        placeholder="Insert a name"
+        aria-label="Name"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter a name"
       />
-    </div>
-    <div class="w-full">
-      <TextField
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Address</legend>
+      <input
         bind:value={newOwnerAddress}
-        required
-        label="Address"
-        placeholder="Insert a text"
+        aria-label="Address"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter an address"
       />
-    </div>
-    <div class="w-full">
-      <TextField
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Contact</legend>
+      <input
         bind:value={newOwnerContact}
-        required
-        label="Contact"
-        placeholder="Insert a text"
+        aria-label="Contact"
+        type="text"
+        class="input input-bordered w-full"
+        placeholder="Enter a contact"
       />
-    </div>
+    </fieldset>
   </div>
-  <div class="py-4 flex flex-row gap-1 items-baseline">
-    <div class="flex-initial">
-      <Button type="submit">Ok</Button>
-    </div>
-    <div class="flex-initial">
-      <Button type="button" onclick={handleCancel}>Abbrechen</Button>
-    </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onCancelClicked}>
+      Cancel
+    </button>
   </div>
 </form>
 

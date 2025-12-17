@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { Toast } from "../../../controls/toast/toast";
 import { VisitService } from "../../../services/visit.service";
 import { type VetItem } from "../../../types/vet.type";
 import { type Visit } from "../../../types/visit.type";
@@ -26,8 +27,8 @@ import { type Visit } from "../../../types/visit.type";
 })
 export class VisitDiagnoseComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private visitService = inject(VisitService);
-  mode = input.required<"create" | "update">();
   visible = model.required<boolean>();
   allVetItem = input.required<VetItem[]>();
   visit = input.required<Visit>();
@@ -61,37 +62,37 @@ export class VisitDiagnoseComponent implements OnInit {
   createEmitter = output<Visit>({ alias: "create" });
   updateEmitter = output<Visit>({ alias: "update" });
   onSubmitClicked() {
-    if (this.mode() === "create") {
+    const newVisit = {
+      ...this.visit(),
+      text: this.form.value.text!,
+      vetItem: undefined, // vetItem is invalid
+      vet: "/api/vet/" + this.form.value.vet!,
+    };
+    if (this.visit().id) {
       const subscription = this.visitService
-        .createVisit({
-          ...this.visit(),
-          text: this.form.value.text!,
-          vetItem: undefined, // vetItem is invalid
-          vet: "/api/vet/" + this.form.value.vet!,
-        })
+        .mutateVisit(this.visit().id!, newVisit)
         .subscribe({
           next: (value) => {
             this.createEmitter.emit(value);
             this.visible.set(false);
+          },
+          error: (err) => {
+            this.toast.push(err);
           },
         });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });
     } else {
-      const subscription = this.visitService
-        .mutateVisit(this.visit().id!, {
-          ...this.visit(),
-          text: this.form.value.text!,
-          vetItem: undefined, // vetItem is invalid
-          vet: "/api/vet/" + this.form.value.vet!,
-        })
-        .subscribe({
-          next: (value) => {
-            this.updateEmitter.emit(value);
-            this.visible.set(false);
-          },
-        });
+      const subscription = this.visitService.createVisit(newVisit).subscribe({
+        next: (value) => {
+          this.createEmitter.emit(value);
+          this.visible.set(false);
+        },
+        error: (err) => {
+          this.toast.push(err);
+        },
+      });
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
       });

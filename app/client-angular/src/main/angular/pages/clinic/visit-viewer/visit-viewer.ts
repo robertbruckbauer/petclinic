@@ -7,6 +7,7 @@ import {
   signal,
 } from "@angular/core";
 import { forkJoin } from "rxjs";
+import { Toast } from "../../../controls/toast/toast";
 import { VetService } from "../../../services/vet.service";
 import { VisitService } from "../../../services/visit.service";
 import { type VetItem } from "../../../types/vet.type";
@@ -22,6 +23,7 @@ import { VisitTreatmentComponent } from "../visit-treatment/visit-treatment";
 })
 export class VisitViewerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private vetService = inject(VetService);
   private visitService = inject(VisitService);
   loading = signal(false);
@@ -41,6 +43,9 @@ export class VisitViewerComponent implements OnInit {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
@@ -48,6 +53,6 @@ export class VisitViewerComponent implements OnInit {
   }
 
   get title() {
-    return this.visit()?.petItem?.text + " on " + this.visit()?.date;
+    return "of " + this.visit()?.petItem?.text + " on " + this.visit()?.date;
   }
 }

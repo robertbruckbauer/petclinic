@@ -13,7 +13,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
 import { mapPetToPetItem } from "../../../services/pet.service";
@@ -28,6 +30,7 @@ import { VisitOverviewComponent } from "../../clinic/visit-overview/visit-overvi
   selector: "app-owner-lister",
   imports: [
     CommonModule,
+    RouterLink,
     ReactiveFormsModule,
     OwnerEditorComponent,
     PetEditorComponent,
@@ -38,6 +41,7 @@ import { VisitOverviewComponent } from "../../clinic/visit-overview/visit-overvi
 })
 export class OwnerListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private enumService = inject(EnumService);
   private ownerService = inject(OwnerService);
   loading = signal(false);
@@ -116,6 +120,9 @@ export class OwnerListerComponent implements OnInit {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
@@ -131,6 +138,9 @@ export class OwnerListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {
@@ -162,7 +172,7 @@ export class OwnerListerComponent implements OnInit {
   }
 
   petEditorCreate = signal(false);
-  onPetCreateEditorClicked(owner: Owner) {
+  onPetEditorCreateClicked(owner: Owner) {
     this.ownerId.set(owner.id);
     this.ownerEditorCreate.set(false);
     this.ownerEditorUpdate.set(false);
@@ -201,6 +211,9 @@ export class OwnerListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {

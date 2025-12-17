@@ -1,11 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../../controls/Toast";
   import { VisitService } from "../../services/visit.service";
-  import type { Pet } from "../../types/pet.type";
   import type { Visit } from "../../types/visit.type";
-  import { toast } from "../../components/Toast";
-  import Button from "../../components/Button";
-  import TextField from "../../components/TextField";
 
   const visitService = new VisitService();
 
@@ -13,18 +10,20 @@
     autofocus?: boolean;
     autoscroll?: boolean;
     visible: boolean;
-    pet: Pet;
+    visit: Visit;
     oncancel?: undefined | (() => void);
     oncreate?: undefined | ((visit: Visit) => void);
+    onupdate?: undefined | ((visit: Visit) => void);
   }
 
   let {
     autofocus = true,
     autoscroll = true,
     visible = $bindable(false),
-    pet,
+    visit,
     oncancel = undefined,
     oncreate = undefined,
+    onupdate = undefined,
   }: Props = $props();
 
   let clicked = $state(false);
@@ -37,63 +36,72 @@
   });
 
   let newVisitDate = $state("");
+  let newVisitPetId = $derived(visit.petItem?.value);
   const newVisit: Visit = $derived({
-    version: 0,
-    pet: "/api/pet/" + pet.id,
+    ...visit,
+    petItem: undefined, // petItem is invalid
+    pet: newVisitPetId ? "/api/pet/" + newVisitPetId : undefined,
     date: newVisitDate,
   });
 
-  function handleSubmit(_event: Event) {
+  function onSubmitClicked(_event: Event) {
     _event.preventDefault();
     try {
       clicked = true;
-      createVisit();
+      if (visit.id) {
+        visitService.mutateVisit(newVisit.id!, newVisit).subscribe({
+          next: (json) => {
+            visible = false;
+            onupdate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+      } else {
+        visitService.createVisit(newVisit).subscribe({
+          next: (json) => {
+            visible = false;
+            oncreate?.(json);
+          },
+          error: (err) => {
+            toast.push(err);
+          },
+        });
+      }
     } finally {
       clicked = false;
     }
   }
 
-  function handleCancel(_event: Event) {
+  function onCancelClicked(_event: Event) {
     _event.preventDefault();
     visible = false;
     oncancel?.();
   }
-
-  function createVisit() {
-    visitService.createVisit(newVisit).subscribe({
-      next: (json) => {
-        visible = false;
-        oncreate?.(json);
-      },
-      error: (err) => {
-        toast.push(err);
-      },
-    });
-  }
 </script>
 
-<div class="flex flex-col">
-  <form onsubmit={handleSubmit}>
-    <div class="w-full">
-      <TextField
+<form onsubmit={onSubmitClicked}>
+  <div class="flex flex-col gap-2 pt-4">
+    <fieldset class="fieldset w-48">
+      <legend class="fieldset-legend">Treatment</legend>
+      <input
         bind:this={focusOn}
         bind:value={newVisitDate}
+        aria-label="Treatment"
         type="date"
-        required
-        label="Treatment"
+        class="input w-full"
         placeholder="Choose a date"
       />
-    </div>
-    <div class="py-4 flex flex-row gap-1 items-baseline">
-      <div class="flex-initial">
-        <Button type="submit">Ok</Button>
-      </div>
-      <div class="flex-initial">
-        <Button type="button" onclick={handleCancel}>Abbrechen</Button>
-      </div>
-    </div>
-  </form>
-</div>
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onCancelClicked}>
+      Cancel
+    </button>
+  </div>
+</form>
 
 <div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 

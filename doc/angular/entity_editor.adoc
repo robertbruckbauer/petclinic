@@ -62,6 +62,14 @@ A reactive form group for capturing entity properties.
 .Example from pet-editor
 [source,ts,options="nowrap"]
 ----
+include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-editor\pet-editor.ts[indent=0,tags=form]
+----
+
+`onSubmitClicked` creates a new versio of the entity with editable properties of the editor.
+
+.Example from pet-editor
+[source,ts,options="nowrap"]
+----
 include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-editor\pet-editor.ts[indent=0,tags=init]
 ----
 
@@ -78,9 +86,15 @@ include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-edito
 
 When the service operation fails, a toast with the error message is displayed and the editor remains visible.
 
+Siehe 
+xref:{relrootdir}/doc/angular/entity_service.adoc[Entity Service]
+für mehr Informationen.
+
 ==== update an entity
 
 `onSubmitClicked` updates an existing entity with new values from the form and hides the editor.
+Use the `update` operation if you want to update every property of the entity to the values of this editor and clear all properties not handled in this editor.
+Use the `mutate` operation if you want to update only values of this editor and do not update others.
 When the service operation completes successfully, the `update` event is emitted with the  entity returned from the service.
 
 .Example from pet-editor
@@ -90,6 +104,10 @@ include::{includedir}/app\client-angular\src\main\angular\pages\client\pet-edito
 ----
 
 When the service operation fails, a toast with the error message is displayed and the editor remains visible.
+
+Siehe 
+xref:{relrootdir}/doc/angular/entity_service.adoc[Entity Service]
+für mehr Informationen.
 
 ==== cancel editing
 

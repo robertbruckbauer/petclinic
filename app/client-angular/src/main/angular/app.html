@@ -108,15 +108,26 @@
       >
     </div>
     <div class="navbar-end">
-      <a class="link" (click)="onMenuClose($event)" routerLink="/help">?</a>
+      <a
+        (click)="onMenuClose($event)"
+        routerLink="/help"
+        class="btn btn-ghost text-xl"
+        >?</a
+      >
     </div>
   </header>
 
   <main class="z-2 py-16 h-full overflow-auto">
+    <toast-list />
     <router-outlet />
   </main>
 
   <footer class="z-1 fixed bottom-0 left-0 right-0 dock">
-    <a (click)="onMenuClose($event)" routerLink="/help">Impressum</a>
+    <a
+      (click)="onMenuClose($event)"
+      routerLink="/help"
+      class="btn btn-ghost text-xl"
+      >Impressum</a
+    >
   </footer>
 </div>

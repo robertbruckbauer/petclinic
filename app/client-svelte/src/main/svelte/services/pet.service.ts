@@ -23,9 +23,9 @@ export class PetService extends BackendService {
     return this.restApiPost(path, pet);
   }
 
-  public updatePet(pet: Pet): Observable<Pet> {
-    const path = ["api", "pet", pet.id].join("/");
-    return this.restApiPut(path, pet);
+  public mutatePet(id: string, value: Partial<Pet>): Observable<Pet> {
+    const path = ["api", "pet", id].join("/");
+    return this.restApiPatch(path, value);
   }
 
   public removePet(id: string): Observable<Pet> {

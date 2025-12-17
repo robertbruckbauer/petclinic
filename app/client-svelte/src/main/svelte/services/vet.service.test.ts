@@ -97,16 +97,17 @@ describe("VetService", () => {
     });
   });
 
-  describe("updateVet", () => {
-    it("should update vet successfully", () => {
+  describe("mutateVet", () => {
+    it("should patch vet successfully", () => {
       const content: Vet = ALLVET[0];
+      const patch = { name: "Updated name" };
       fetchMock.mockResolvedValue({
         ok: true,
-        json: async () => content,
+        json: async () => ({ ...content, ...patch }),
       });
-      vetService.updateVet(content).subscribe({
+      vetService.mutateVet(content.id!, patch).subscribe({
         next: (vet) => {
-          expect(vet).toEqual(content);
+          expect(vet.name).toEqual(patch.name);
         },
       });
     });

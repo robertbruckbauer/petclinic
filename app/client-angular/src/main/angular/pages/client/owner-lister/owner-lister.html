@@ -4,12 +4,12 @@
   <form [formGroup]="filterForm" (ngSubmit)="onFilterClicked()">
     <div class="flex flex-row gap-2 items-center pb-2 pr-2">
       <input
+        formControlName="criteria"
         aria-label="Filter"
         type="text"
         class="input input-bordered w-full"
         [readonly]="ownerFilterDisabled()"
         placeholder="Enter filter critria"
-        formControlName="criteria"
       />
       <button
         type="submit"
@@ -52,7 +52,6 @@
           <tr>
             <td class="border-l-4 px-2" colspan="3">
               <app-owner-editor
-                mode="create"
                 (create)="afterCreateOwner($event)"
                 [(visible)]="ownerEditorCreate"
                 [owner]="newOwner()"
@@ -68,7 +67,7 @@
             (click)="onOwnerClicked(owner)"
           >
             <td class="px-2 py-3 text-left table-cell">
-              <span>{{ owner.name }}</span>
+              <a [routerLink]="['/owner', owner.id]">{{ owner.name }}</a>
             </td>
             <td class="px-2 py-3 text-left table-cell">
               <div class="flex flex-col text-sm">
@@ -93,7 +92,7 @@
                 <button
                   title="Add a new pet"
                   class="btn btn-circle btn-outline"
-                  (click)="onPetCreateEditorClicked(owner)"
+                  (click)="onPetEditorCreateClicked(owner)"
                   [disabled]="ownerEditorDisabled()"
                 >
                   <span class="material-icons">pets</span>
@@ -128,7 +127,6 @@
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <app-pet-editor
-                  mode="create"
                   (create)="afterCreatePet($event, owner)"
                   [(visible)]="petEditorCreate"
                   [allSpeciesEnum]="allSpeciesEnum()"
@@ -141,7 +139,6 @@
             <tr>
               <td class="border-l-4 px-2" colspan="3">
                 <app-owner-editor
-                  mode="update"
                   (update)="afterUpdateOwner($event)"
                   [(visible)]="ownerEditorUpdate"
                   [owner]="owner"

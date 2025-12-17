@@ -109,10 +109,11 @@ describe("OwnerService", () => {
   describe("mutateOwner", () => {
     it("should mutate owner successfully", () => {
       const content: Owner = ALLOWNER[0];
-      httpClientMock.patch.mockReturnValue(of(content));
+      const patch = { name: "Updated name" };
+      httpClientMock.patch.mockReturnValue(of({ ...content, ...patch }));
       ownerService.mutateOwner(content.id!, content).subscribe({
         next: (owner) => {
-          expect(owner).toEqual(content);
+          expect(owner.name).toEqual(patch.name);
         },
       });
     });

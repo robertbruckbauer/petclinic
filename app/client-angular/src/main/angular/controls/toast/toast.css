@@ -1,0 +1,75 @@
+@keyframes flyIn {
+  from {
+    transform: translateX(256px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+._toastContainer {
+  top: 1.5rem;
+  right: 2rem;
+  bottom: auto;
+  left: auto;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  pointer-events: none;
+  z-index: 99;
+}
+._toastListItem {
+  animation: flyIn 300ms ease-out;
+}
+._toastItem {
+  width: 20rem;
+  height: auto;
+  min-height: 3.5rem;
+  margin: 0 0 0.5rem 0;
+  padding: 0;
+  border: none;
+  border-radius: 0.125rem;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  will-change: transform, opacity;
+  pointer-events: auto;
+}
+._toastMsg {
+  padding: 0.75rem 0.5rem;
+  flex: 1 1 0%;
+  white-space: pre-line;
+  word-break: break-all;
+}
+._toastBtn {
+  width: 2rem;
+  height: 100%;
+  font: 1rem sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+}
+._toastBar {
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  position: absolute;
+  display: block;
+  border: none;
+  pointer-events: none;
+}
+._toastBar::-webkit-progress-value {
+  background: rgba(33, 150, 243, 0.75);
+}
+._toastBar::-moz-progress-bar {
+  background: rgba(33, 150, 243, 0.75);
+}

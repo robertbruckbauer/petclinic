@@ -4,11 +4,17 @@ import { EnumService } from "../../services/enum.service";
 import { PetService } from "../../services/pet.service";
 import { VisitService } from "../../services/visit.service";
 import { OwnerListerComponent } from "./owner-lister/owner-lister";
+import { OwnerViewerComponent } from "./owner-viewer/owner-viewer";
 
 export const routes: Routes = [
   {
     path: "",
     component: OwnerListerComponent,
     providers: [EnumService, OwnerService, PetService, VisitService],
+  },
+  {
+    path: ":ownerId",
+    component: OwnerViewerComponent,
+    providers: [],
   },
 ];

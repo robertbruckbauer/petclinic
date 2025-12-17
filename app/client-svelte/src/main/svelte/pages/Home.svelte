@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { toast } from "../controls/Toast";
   import { VersionService } from "../services/version.service";
-  import { toast } from "../components/Toast";
 
   const versionService = new VersionService();
 
@@ -23,7 +23,6 @@
   });
 </script>
 
-<h1>Info</h1>
 <div class="flex flex-col ml-2 mr-2 space-y-2">
   <fieldset class="p-4 border-2 space-y-2">
     <legend class="text-xs">APP-Banner</legend>

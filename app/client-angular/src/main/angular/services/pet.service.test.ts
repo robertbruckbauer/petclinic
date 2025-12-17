@@ -92,10 +92,11 @@ describe("PetService", () => {
   describe("mutatePet", () => {
     it("should mutate pet successfully", () => {
       const content: Pet = ALLPET[0];
-      httpClientMock.patch.mockReturnValue(of(content));
+      const patch = { name: "Updated name" };
+      httpClientMock.patch.mockReturnValue(of({ ...content, ...patch }));
       petService.mutatePet(content.id!, content).subscribe({
         next: (pet) => {
-          expect(pet).toEqual(content);
+          expect(pet.name).toEqual(patch.name);
         },
       });
     });

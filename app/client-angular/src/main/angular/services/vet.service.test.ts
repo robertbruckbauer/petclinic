@@ -88,10 +88,11 @@ describe("VetService", () => {
   describe("mutateVet", () => {
     it("should mutate vet successfully", () => {
       const content: Vet = ALLVET[0];
-      httpClientMock.patch.mockReturnValue(of(content));
+      const patch = { name: "Updated name" };
+      httpClientMock.patch.mockReturnValue(of({ ...content, ...patch }));
       vetService.mutateVet(content.id!, content).subscribe({
         next: (vet) => {
-          expect(vet).toEqual(content);
+          expect(vet.name).toEqual(patch.name);
         },
       });
     });

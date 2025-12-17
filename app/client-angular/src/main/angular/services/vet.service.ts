@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable, map } from "rxjs";
+import { Observable } from "rxjs";
 import { type VetItem, type Vet } from "../types/vet.type";
 import { BackendService } from "./backend.service";
 
@@ -46,11 +46,4 @@ export function mapVetToVetItem(value: Vet): VetItem {
     value: value.id!,
     text: value.name,
   };
-}
-
-export function compareVetItem(
-  item1: VetItem | null,
-  item2: VetItem | null
-): boolean {
-  return item1?.value === item2?.value;
 }

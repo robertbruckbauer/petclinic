@@ -36,6 +36,7 @@ export abstract class BackendService {
     );
   }
 
+  // tag::restApiGetAll[]
   protected restApiGetAll<T>(
     path: string,
     search: Record<string, string>
@@ -59,7 +60,9 @@ export abstract class BackendService {
       })
     );
   }
+  // end::restApiGetAll[]
 
+  // tag::restApiGet[]
   protected restApiGet<T>(path: string): Observable<T> {
     const url = new URL(path, this.backendUrl());
     return from(
@@ -78,7 +81,9 @@ export abstract class BackendService {
       })
     );
   }
+  // end::restApiGet[]
 
+  // tag::restApiPost[]
   protected restApiPost<T>(path: string, reqBody: T): Observable<T> {
     const url = new URL(path, this.backendUrl());
     return from(
@@ -99,7 +104,9 @@ export abstract class BackendService {
       })
     );
   }
+  // end::restApiPost[]
 
+  // tag::restApiPut[]
   protected restApiPut<T>(path: string, reqBody: T): Observable<T> {
     const url = new URL(path, this.backendUrl());
     return from(
@@ -120,7 +127,9 @@ export abstract class BackendService {
       })
     );
   }
+  // end::restApiPut[]
 
+  // tag::restApiPatch[]
   protected restApiPatch<T>(path: string, reqBody: Partial<T>): Observable<T> {
     const url = new URL(path, this.backendUrl());
     return from(
@@ -141,7 +150,9 @@ export abstract class BackendService {
       })
     );
   }
+  // end::restApiPatch[]
 
+  // tag::restApiDelete[]
   protected restApiDelete<T>(path: string): Observable<T> {
     const url = new URL(path, this.backendUrl());
     return from(
@@ -160,4 +171,5 @@ export abstract class BackendService {
       })
     );
   }
+  // end::restApiDelete[]
 }

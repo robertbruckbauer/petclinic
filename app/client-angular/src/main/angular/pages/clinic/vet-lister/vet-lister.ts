@@ -13,7 +13,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { VetService } from "../../../services/vet.service";
 import { type EnumItem } from "../../../types/enum.type";
@@ -22,12 +24,13 @@ import { VetEditorComponent } from "../vet-editor/vet-editor";
 
 @Component({
   selector: "app-vet-lister",
-  imports: [CommonModule, ReactiveFormsModule, VetEditorComponent],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, VetEditorComponent],
   templateUrl: "./vet-lister.html",
   styles: ``,
 })
 export class VetListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private enumService = inject(EnumService);
   private vetService = inject(VetService);
   loading = signal(false);
@@ -76,6 +79,9 @@ export class VetListerComponent implements OnInit {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
@@ -91,6 +97,9 @@ export class VetListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {
@@ -135,6 +144,9 @@ export class VetListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {

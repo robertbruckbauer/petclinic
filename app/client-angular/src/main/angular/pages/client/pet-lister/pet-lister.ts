@@ -14,7 +14,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
 import { PetService } from "../../../services/pet.service";
@@ -29,6 +31,7 @@ import { VisitTreatmentComponent } from "../../clinic/visit-treatment/visit-trea
   selector: "app-pet-lister",
   imports: [
     CommonModule,
+    RouterLink,
     ReactiveFormsModule,
     PetEditorComponent,
     VisitTreatmentComponent,
@@ -38,6 +41,7 @@ import { VisitTreatmentComponent } from "../../clinic/visit-treatment/visit-trea
 })
 export class PetListerComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private toast = inject(Toast);
   private enumService = inject(EnumService);
   private ownerService = inject(OwnerService);
   private petService = inject(PetService);
@@ -96,7 +100,6 @@ export class PetListerComponent implements OnInit {
   allSpeciesEnum = signal<EnumItem[]>([]);
   allOwnerItem = signal<OwnerItem[]>([]);
   ngOnInit() {
-    // tag::init[]
     this.loading.set(true);
     const subscription = forkJoin({
       allSpeciesEnum: this.enumService.loadAllEnum("species"),
@@ -109,16 +112,18 @@ export class PetListerComponent implements OnInit {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
-    // end::init[]
   }
 
-  // tag::filter[]
   onFilterClicked() {
     this.loading.set(true);
+    // tag::loadAll[]
     const search = { sort: "name,asc", "owner.id": this.ownerId() };
     const subscription = this.petService.loadAllPet(search).subscribe({
       next: (allPet) => {
@@ -127,12 +132,15 @@ export class PetListerComponent implements OnInit {
       complete: () => {
         this.loading.set(false);
       },
+      error: (err) => {
+        this.toast.push(err);
+      },
     });
+    // end::loadAll[]
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
   }
-  // end::filter[]
 
   petId = signal<string | undefined>(undefined); // no pet selected
   onPetClicked(pet: Pet) {
@@ -185,6 +193,9 @@ export class PetListerComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+      error: (err) => {
+        this.toast.push(err);
       },
     });
     this.destroyRef.onDestroy(() => {

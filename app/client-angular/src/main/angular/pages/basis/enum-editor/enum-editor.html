@@ -4,31 +4,32 @@
       <fieldset class="fieldset w-24">
         <legend class="fieldset-legend">Code</legend>
         <input
+          formControlName="code"
           aria-label="Code"
           type="number"
           class="input w-full text-center"
-          formControlName="code"
-          readonly
+          [readonly]="mode() === 'update'"
+          placeholder="Enter a code"
         />
       </fieldset>
       <fieldset class="fieldset w-full">
         <legend class="fieldset-legend">Name</legend>
         <input
+          formControlName="name"
           aria-label="Name"
           type="text"
           class="input w-full"
           placeholder="Enter a name"
-          formControlName="name"
         />
       </fieldset>
     </div>
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Text</legend>
       <textarea
+        formControlName="text"
         aria-label="Text"
         class="textarea w-full"
         placeholder="Enter a text"
-        formControlName="text"
       ></textarea>
     </fieldset>
   </div>

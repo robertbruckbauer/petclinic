@@ -3,22 +3,22 @@
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Name</legend>
       <input
+        formControlName="name"
         aria-label="Name"
         type="text"
         class="input input-bordered w-full"
         placeholder="Enter a name"
-        formControlName="name"
       />
     </fieldset>
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Skills</legend>
       <select
+        formControlName="allSkill"
         aria-label="Skills"
         multiple
         [size]="allSkillEnum().length"
         class="select w-full"
         placeholder="Choose skills"
-        formControlName="allSkill"
       >
         @for (skillEnum of allSkillEnum(); track skillEnum.code) {
           <option [value]="skillEnum.name">{{ skillEnum.name }}</option>
