@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable, map } from "rxjs";
+import { Observable } from "rxjs";
 import { type OwnerItem, type Owner } from "../types/owner.type";
 import { BackendService } from "./backend.service";
 
@@ -48,11 +48,4 @@ export function mapOwnerToOwnerItem(value: Owner): OwnerItem {
     value: value.id!,
     text: value.name + ", " + value.address,
   };
-}
-
-export function compareOwnerItem(
-  item1: OwnerItem | null,
-  item2: OwnerItem | null
-): boolean {
-  return item1?.value === item2?.value;
 }

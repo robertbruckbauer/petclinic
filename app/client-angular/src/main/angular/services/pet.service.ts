@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable, map } from "rxjs";
+import { Observable } from "rxjs";
 import { type PetItem, type Pet } from "../types/pet.type";
 import { BackendService } from "./backend.service";
 
@@ -46,11 +46,4 @@ export function mapPetToPetItem(value: Pet): PetItem {
     value: value.id!,
     text: value.species + " " + value.name,
   };
-}
-
-export function comparePetItem(
-  item1: PetItem | null,
-  item2: PetItem | null
-): boolean {
-  return item1?.value === item2?.value;
 }
