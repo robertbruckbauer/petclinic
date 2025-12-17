@@ -80,9 +80,9 @@
         </fieldset>
         <fieldset class="fieldset w-full">
           <legend class="fieldset-legend">Diagnose</legend>
-          <textarea aria-label="Diagnose" class="textarea w-full" readonly>
-            {visit.text}</textarea
-          >
+          <textarea aria-label="Diagnose" class="textarea w-full" readonly
+            >{visit.text}
+          </textarea>
         </fieldset>
         <a class="btn" href={"/visit/" + visit.id}>Edit</a>
       </div>
