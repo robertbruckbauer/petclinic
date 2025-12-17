@@ -2,7 +2,7 @@ plugins {
     id 'base'
 }
 
-tasks.register('deployUp') {
+tasks.register('testerUp') {
     mustRunAfter ':app:client-angular:buildImage'
     mustRunAfter ':app:client-svelte:buildImage'
     mustRunAfter ':app:server:buildImage'
@@ -16,7 +16,7 @@ tasks.register('deployUp') {
     }
 }
 
-tasks.register('deployStop') {
+tasks.register('testerStop') {
     doLast {
         exec {            
             workingDir "${projectDir}"
@@ -26,7 +26,7 @@ tasks.register('deployStop') {
     }
 }
 
-tasks.register('deployDown') {
+tasks.register('testerDown') {
     doLast {
         exec {
             workingDir "${projectDir}"
