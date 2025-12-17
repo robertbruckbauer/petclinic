@@ -24,6 +24,40 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
     depends_on:
       - postgres17
+  redpanda:
+    hostname: redpanda
+    image: redpandadata/redpanda:latest
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - "1G"
+      - --reserve-memory
+      - "0M"
+      - --node-id
+      - "0"      
+      - --check=false # Skip system check
+    ports:
+      - "9092:9092" # Kafka API
+      - "9644:9644" # Admin API
+    healthcheck:
+      test:
+        ["CMD-SHELL", "rpk cluster health || exit 1"]
+      interval: 2s
+      timeout: 1s
+      retries: 30
+  redpanda-console:
+    hostname: redpanda-console
+    image: redpandadata/console:latest
+    depends_on:
+      - redpanda
+    environment:
+      KAFKA_BROKERS: redpanda:9092
+    ports:
+      - "9645:8080"
   postgres17:
     hostname: postgres17
     image: postgres:17@sha256:0b6428e8c09651398137d2b3308a6ad87e73ac15fc38729891c16d942e947d3d
@@ -37,8 +71,8 @@ services:
       - POSTGRES_PASSWORD=P@ssw0rd
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U sa -d postgres -h localhost"]
-      interval: 5s
-      timeout: 3s
+      interval: 2s
+      timeout: 1s
       retries: 30
 volumes:
   postgres17:
