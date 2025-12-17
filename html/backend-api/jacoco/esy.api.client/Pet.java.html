@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,16 +24,20 @@ import java.util.UUID;
 })
 public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
 
+    // tag::properties[]
+    @NotBlank
     @Column(name = &quot;name&quot;)
     @Getter
     @JsonProperty
     private String name;
 
+    @NotNull
     @Column(name = &quot;born&quot;)
     @Getter
     @JsonProperty
     private LocalDate born;
 
+    @NotBlank
     @Column(name = &quot;species&quot;)
     @Getter
     @JsonProperty
@@ -45,89 +51,90 @@ public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
     @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Owner owner;
+    // end::properties[]
 
     Pet() {
-<span class="fc" id="L50">        super();</span>
-<span class="fc" id="L51">        this.name = &quot;&quot;;</span>
-<span class="fc" id="L52">        this.born = LocalDate.of(2000, 1, 1);</span>
-<span class="fc" id="L53">        this.species = &quot;&quot;;</span>
-<span class="fc" id="L54">        this.owner = null;</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L57">        super();</span>
+<span class="fc" id="L58">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L59">        this.born = LocalDate.of(2000, 1, 1);</span>
+<span class="fc" id="L60">        this.species = &quot;&quot;;</span>
+<span class="fc" id="L61">        this.owner = null;</span>
+<span class="fc" id="L62">    }</span>
 
-<span class="pc bpc" id="L57" title="2 of 4 branches missed.">    Pet(@NonNull final Long version, @NonNull final UUID id) {</span>
-<span class="fc" id="L58">        super(version, id);</span>
-<span class="fc" id="L59">        this.name = &quot;&quot;;</span>
-<span class="fc" id="L60">        this.born = LocalDate.of(2000, 1, 1);</span>
-<span class="fc" id="L61">        this.species = &quot;&quot;;</span>
-<span class="fc" id="L62">        this.owner = null;</span>
-<span class="fc" id="L63">    }</span>
+<span class="pc bpc" id="L64" title="2 of 4 branches missed.">    Pet(@NonNull final Long version, @NonNull final UUID id) {</span>
+<span class="fc" id="L65">        super(version, id);</span>
+<span class="fc" id="L66">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L67">        this.born = LocalDate.of(2000, 1, 1);</span>
+<span class="fc" id="L68">        this.species = &quot;&quot;;</span>
+<span class="fc" id="L69">        this.owner = null;</span>
+<span class="fc" id="L70">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L67">        return super.toString() + &quot;,name='&quot; + name + &quot;'&quot;;</span>
+<span class="fc" id="L74">        return super.toString() + &quot;,name='&quot; + name + &quot;'&quot;;</span>
     }
 
     @Override
     public boolean isEqual(final Pet that) {
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (this == that) {</span>
-<span class="fc" id="L73">            return true;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (this == that) {</span>
+<span class="fc" id="L80">            return true;</span>
         }
-<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (that == null) {</span>
-<span class="fc" id="L76">            return false;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (that == null) {</span>
+<span class="fc" id="L83">            return false;</span>
         }
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        return this.name.equals(that.name) &amp;&amp;</span>
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">                this.born.equals(that.born) &amp;&amp;</span>
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">                this.species.equals(that.species) &amp;&amp;</span>
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">                Objects.equals(this.owner, that.owner);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        return this.name.equals(that.name) &amp;&amp;</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                this.born.equals(that.born) &amp;&amp;</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">                this.species.equals(that.species) &amp;&amp;</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">                Objects.equals(this.owner, that.owner);</span>
     }
 
     @Override
     public Pet verify() {
         // Check if name is valid
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (name.isBlank()) {</span>
-<span class="fc" id="L88">            throw new IllegalArgumentException(&quot;name is blank&quot;);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (name.isBlank()) {</span>
+<span class="fc" id="L95">            throw new IllegalArgumentException(&quot;name is blank&quot;);</span>
         }
         // Check if species is valid
-<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (species.isBlank()) {</span>
-<span class="fc" id="L92">            throw new IllegalArgumentException(&quot;species is blank&quot;);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (species.isBlank()) {</span>
+<span class="fc" id="L99">            throw new IllegalArgumentException(&quot;species is blank&quot;);</span>
         }
-<span class="fc" id="L94">        return this;</span>
+<span class="fc" id="L101">        return this;</span>
     }
 
     @Override
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">    public Pet withId(@NonNull final UUID id) {</span>
-<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
-<span class="fc" id="L100">            return this;</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">    public Pet withId(@NonNull final UUID id) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
+<span class="fc" id="L107">            return this;</span>
         }
-<span class="fc" id="L102">        final var value = new Pet(getVersion(), id);</span>
-<span class="fc" id="L103">        value.name = this.name;</span>
-<span class="fc" id="L104">        value.born = this.born;</span>
-<span class="fc" id="L105">        value.species = this.species;</span>
-<span class="fc" id="L106">        value.owner = this.owner;</span>
-<span class="fc" id="L107">        return value;</span>
+<span class="fc" id="L109">        final var value = new Pet(getVersion(), id);</span>
+<span class="fc" id="L110">        value.name = this.name;</span>
+<span class="fc" id="L111">        value.born = this.born;</span>
+<span class="fc" id="L112">        value.species = this.species;</span>
+<span class="fc" id="L113">        value.owner = this.owner;</span>
+<span class="fc" id="L114">        return value;</span>
     }
 
     @JsonAnyGetter
     private Map&lt;String, Object&gt; extraJson() {
-<span class="nc" id="L112">        final var allExtra = new HashMap&lt;String, Object&gt;();</span>
-<span class="nc" id="L113">        allExtra.put(&quot;version&quot;, getVersion());</span>
-<span class="nc" id="L114">        allExtra.put(&quot;ownerItem&quot;, OwnerItem.fromValue(owner));</span>
-<span class="nc" id="L115">        return allExtra;</span>
+<span class="nc" id="L119">        final var allExtra = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L120">        allExtra.put(&quot;version&quot;, getVersion());</span>
+<span class="nc" id="L121">        allExtra.put(&quot;ownerItem&quot;, OwnerItem.fromValue(owner));</span>
+<span class="nc" id="L122">        return allExtra;</span>
     }
 
     @JsonIgnore
-<span class="nc bnc" id="L119" title="All 2 branches missed.">    public Pet setOwner(@NonNull final Owner owner) {</span>
-<span class="nc" id="L120">        this.owner = owner;</span>
-<span class="nc" id="L121">        return this;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">    public Pet setOwner(@NonNull final Owner owner) {</span>
+<span class="nc" id="L127">        this.owner = owner;</span>
+<span class="nc" id="L128">        return this;</span>
     }
 
     @Override
     public String writeJson() {
-<span class="nc" id="L126">        return new JsonMapper().writeJson(this);</span>
+<span class="nc" id="L133">        return new JsonMapper().writeJson(this);</span>
     }
 
-<span class="pc bpc" id="L129" title="1 of 2 branches missed.">    public static Pet parseJson(@NonNull final String json) {</span>
-<span class="fc" id="L130">        return new JsonMapper().parseJson(json, Pet.class);</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">    public static Pet parseJson(@NonNull final String json) {</span>
+<span class="fc" id="L137">        return new JsonMapper().parseJson(json, Pet.class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

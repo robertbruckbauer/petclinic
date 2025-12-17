@@ -51,12 +51,12 @@ public class EnumRestController {
     }
 
     @DeleteMapping(&quot;/enum/{art}/{code}&quot;)
-    public ResponseEntity&lt;Enum&gt; deleteEnum(@PathVariable(&quot;art&quot;) final String art, @PathVariable(&quot;code&quot;) final Long code) {
-<span class="nc" id="L55">        final var value = enumRepository.findByCode(art, code)</span>
-<span class="nc" id="L56">                .orElseThrow(() -&gt;</span>
-<span class="nc" id="L57">                        new DataRetrievalFailureException(&quot;Enum(&quot; + art + &quot;, &quot; + code + &quot;) not found&quot;));</span>
-<span class="nc" id="L58">        enumRepository.delete(value);</span>
-<span class="nc" id="L59">        return ResponseEntity.status(HttpStatus.OK).body(value);</span>
+    public ResponseEntity&lt;EnumItem&gt; deleteEnum(@PathVariable(&quot;art&quot;) final String art, @PathVariable(&quot;code&quot;) final Long code) {
+<span class="fc" id="L55">        final var value = enumRepository.findByCode(art, code)</span>
+<span class="fc" id="L56">                .orElseThrow(() -&gt;</span>
+<span class="fc" id="L57">                        new DataRetrievalFailureException(&quot;Enum(&quot; + art + &quot;, &quot; + code + &quot;) not found&quot;));</span>
+<span class="fc" id="L58">        enumRepository.delete(value);</span>
+<span class="fc" id="L59">        return ResponseEntity.status(HttpStatus.OK).body(new EnumItem(value));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

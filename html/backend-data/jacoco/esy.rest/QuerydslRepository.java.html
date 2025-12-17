@@ -56,11 +56,11 @@ public interface QuerydslRepository&lt;V extends JsonJpaEntity&lt;V&gt;, T exten
      * Uses {@link StringPath#likeIgnoreCase(String)} for a value having a character {@code %}.
      * Uses {@link StringPath#containsIgnoreCase(String)} otherwise.
      */
-<span class="nc bnc" id="L59" title="All 4 branches missed.">    default BooleanExpression stringContainsOrLikeIgnoreCaseBinding(@NonNull final StringPath path, @NonNull final String value) {</span>
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (value.contains(&quot;%&quot;)) {</span>
+<span class="pc bpc" id="L59" title="2 of 4 branches missed.">    default BooleanExpression stringContainsOrLikeIgnoreCaseBinding(@NonNull final StringPath path, @NonNull final String value) {</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (value.contains(&quot;%&quot;)) {</span>
 <span class="nc" id="L61">            return path.likeIgnoreCase(value);</span>
         } else {
-<span class="nc" id="L63">            return path.containsIgnoreCase(value);</span>
+<span class="fc" id="L63">            return path.containsIgnoreCase(value);</span>
         }
     }
 }

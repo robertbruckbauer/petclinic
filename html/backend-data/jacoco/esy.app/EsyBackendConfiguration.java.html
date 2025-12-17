@@ -144,17 +144,20 @@ public class EsyBackendConfiguration implements EsyBackendAware {
                 // create JSON with content (not _embedded)
 <span class="fc" id="L145">                configuration.setDefaultMediaType(MediaType.APPLICATION_JSON);</span>
 <span class="fc" id="L146">                configuration.useHalAsDefaultJsonMediaType(false);</span>
+<span class="fc" id="L147">                configuration.setReturnBodyOnCreate(true);</span>
+<span class="fc" id="L148">                configuration.setReturnBodyOnUpdate(true);</span>
+<span class="fc" id="L149">                configuration.setReturnBodyOnDelete(true);</span>
                 // expose id for value objects
-<span class="fc" id="L148">                applyJsonConfiguration(configuration);</span>
+<span class="fc" id="L151">                applyJsonConfiguration(configuration);</span>
                 // apply CORS settings
-<span class="fc" id="L150">                applyCorsConfiguration(registry);</span>
-<span class="fc" id="L151">            }</span>
+<span class="fc" id="L153">                applyCorsConfiguration(registry);</span>
+<span class="fc" id="L154">            }</span>
 
             @Override
-<span class="pc bpc" id="L154" title="1 of 2 branches missed.">            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {</span>
                 // apply defaults
-<span class="fc" id="L156">                JsonMapper.configure(mapper);</span>
-<span class="fc" id="L157">            }</span>
+<span class="fc" id="L159">                JsonMapper.configure(mapper);</span>
+<span class="fc" id="L160">            }</span>
         };
     }
 }

@@ -15,6 +15,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class OwnerItem implements JsonJpaItem&lt;UUID&gt; {
 
+    // tag::properties[]
     @Transient
     @Getter
     @JsonProperty
@@ -24,35 +25,36 @@ public class OwnerItem implements JsonJpaItem&lt;UUID&gt; {
     @Getter
     @JsonProperty
     private final String text;
+    // end::properties[]
 
-<span class="fc" id="L28">    private OwnerItem() {</span>
-<span class="fc" id="L29">        this.value = null;</span>
-<span class="fc" id="L30">        this.text = &quot;&quot;;</span>
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L30">    private OwnerItem() {</span>
+<span class="fc" id="L31">        this.value = null;</span>
+<span class="fc" id="L32">        this.text = &quot;&quot;;</span>
+<span class="fc" id="L33">    }</span>
 
-<span class="pc bpc" id="L33" title="1 of 2 branches missed.">    private OwnerItem(@NonNull final Owner value) {</span>
-<span class="fc" id="L34">        this.value = value.getId();</span>
-<span class="fc" id="L35">        this.text = value.getName();</span>
-<span class="fc" id="L36">    }</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">    private OwnerItem(@NonNull final Owner value) {</span>
+<span class="fc" id="L36">        this.value = value.getId();</span>
+<span class="fc" id="L37">        this.text = value.getName();</span>
+<span class="fc" id="L38">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L40">        return text;</span>
+<span class="fc" id="L42">        return text;</span>
     }
 
     public static OwnerItem fromValue(final Owner value) {
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (value != null) {</span>
-<span class="fc" id="L45">            return new OwnerItem(value);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (value != null) {</span>
+<span class="fc" id="L47">            return new OwnerItem(value);</span>
         } else {
-<span class="fc" id="L47">            return new OwnerItem();</span>
+<span class="fc" id="L49">            return new OwnerItem();</span>
         }
     }
 
     public static OwnerItem fromValue(final Pet value) {
-<span class="nc bnc" id="L52" title="All 4 branches missed.">        if (value != null &amp;&amp; value.getOwner() != null) {</span>
-<span class="nc" id="L53">            return new OwnerItem(value.getOwner());</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        if (value != null &amp;&amp; value.getOwner() != null) {</span>
+<span class="nc" id="L55">            return new OwnerItem(value.getOwner());</span>
         } else {
-<span class="nc" id="L55">            return new OwnerItem();</span>
+<span class="nc" id="L57">            return new OwnerItem();</span>
         }
     }
 }
