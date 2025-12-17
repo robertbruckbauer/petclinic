@@ -1,4 +1,4 @@
-package esy.json;
+package esy.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonWithId<T> {
+public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJpaWithId<T> {
 
     /**
      * Aktuelle Version der Daten.

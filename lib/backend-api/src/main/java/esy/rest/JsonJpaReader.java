@@ -1,4 +1,4 @@
-package esy.json;
+package esy.rest;
 
 import com.jayway.jsonpath.ReadContext;
 import com.jayway.jsonpath.TypeRef;
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class JsonReader {
+public class JsonJpaReader {
 
     public static final TypeRef<List<String>> LIST_STRING_TYPE = new TypeRef<>() {
     };
