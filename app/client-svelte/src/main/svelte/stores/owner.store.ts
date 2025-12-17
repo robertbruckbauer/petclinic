@@ -1,6 +1,5 @@
 import { writable } from "svelte/store";
 
-// https://dev.to/danawoodman/svelte-quick-tip-connect-a-store-to-local-storage-4idi
 const KEY = "storedOwner";
 
 interface Payload {

@@ -4,7 +4,7 @@ import type { Version } from "../types/version.type";
 import type { ErrorItem } from "../types/error.type";
 
 const VERSION = {
-  version: "1.2.0",
+  version: "4.2",
 };
 
 describe("VersionService", () => {

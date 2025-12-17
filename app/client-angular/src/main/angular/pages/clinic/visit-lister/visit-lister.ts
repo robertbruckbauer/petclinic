@@ -3,6 +3,7 @@ import {
   DestroyRef,
   OnInit,
   computed,
+  effect,
   inject,
   signal,
 } from "@angular/core";
@@ -107,6 +108,10 @@ export class VisitListerComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+  }
+
+  constructor() {
+    effect(() => this.onFilterClicked());
   }
 
   onFilterClicked() {

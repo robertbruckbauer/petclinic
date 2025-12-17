@@ -3,6 +3,7 @@ import {
   DestroyRef,
   OnInit,
   computed,
+  effect,
   inject,
   signal,
 } from "@angular/core";
@@ -127,6 +128,10 @@ export class OwnerListerComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+  }
+
+  constructor() {
+    effect(() => this.onFilterClicked());
   }
 
   onFilterClicked() {

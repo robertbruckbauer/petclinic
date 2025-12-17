@@ -3,6 +3,7 @@ import {
   DestroyRef,
   OnInit,
   computed,
+  effect,
   inject,
   signal,
 } from "@angular/core";
@@ -20,6 +21,7 @@ import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
 import { PetService } from "../../../services/pet.service";
+import { getStoredOwner, setStoredOwner } from "../../../stores/owner.store";
 import { type EnumItem } from "../../../types/enum.type";
 import { type OwnerItem } from "../../../types/owner.type";
 import { type Pet } from "../../../types/pet.type";
@@ -48,7 +50,7 @@ export class PetListerComponent implements OnInit {
   loading = signal(false);
 
   filterForm = new FormGroup({
-    ownerId: new FormControl("", Validators.required),
+    ownerId: new FormControl(getStoredOwner().id || "", Validators.required),
   });
   filterFormValue = toSignal(this.filterForm.valueChanges, {
     initialValue: this.filterForm.value,
@@ -121,6 +123,10 @@ export class PetListerComponent implements OnInit {
     });
   }
 
+  constructor() {
+    effect(() => this.onFilterClicked());
+  }
+
   onFilterClicked() {
     this.loading.set(true);
     // tag::loadAll[]
@@ -128,6 +134,8 @@ export class PetListerComponent implements OnInit {
     const subscription = this.petService.loadAllPet(search).subscribe({
       next: (allPet) => {
         this.allPet.set(allPet);
+        // make that owner persistent
+        setStoredOwner({ id: this.ownerId() });
       },
       complete: () => {
         this.loading.set(false);

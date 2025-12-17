@@ -6,7 +6,7 @@ import { ErrorItem } from "../types/error.type";
 import { HttpErrorResponse } from "@angular/common/http";
 
 const VERSION: Version = {
-  version: "1.2.0",
+  version: "4.2",
 };
 
 describe("VersionService", () => {
