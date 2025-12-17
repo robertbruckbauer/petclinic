@@ -8,11 +8,9 @@ export class VetService extends BackendService {
     return this.restApiGetAll(path, search);
   }
 
-  public loadAllVetItem(
-    search: Record<string, string> = {}
-  ): Observable<VetItem[]> {
+  public loadAllVetItem(): Observable<VetItem[]> {
     const path = ["api", "vet", "search", "findAllItem"].join("/");
-    return this.restApiGetAll(path, search);
+    return this.restApiGetAll(path, {});
   }
 
   public loadOneVet(id: string): Observable<Vet> {
