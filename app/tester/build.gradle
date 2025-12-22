@@ -1,8 +1,18 @@
 plugins {
     id 'base'
+    id 'com.github.node-gradle.node'
 }
 
-tasks.register('deployUp') {
+assemble {
+    dependsOn 'npmInstall'
+}
+
+tasks.named("npmInstall") {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+}
+
+tasks.register('testerUp') {
     mustRunAfter ':app:client-angular:buildImage'
     mustRunAfter ':app:client-svelte:buildImage'
     mustRunAfter ':app:server:buildImage'
@@ -16,7 +26,28 @@ tasks.register('deployUp') {
     }
 }
 
-tasks.register('deployStop') {
+tasks.register('testerRunAngular', NpxTask) {
+    group 'verification'
+    mustRunAfter 'npmInstall'
+    environment = ['BASE_URL': 'http://localhost:5052']
+    command = 'playwright'
+    args = ['test']
+}
+
+tasks.register('testerRunSvelte', NpxTask) {
+    group 'verification'
+    mustRunAfter 'npmInstall'
+    environment = ['BASE_URL': 'http://localhost:5050']
+    command = 'playwright'
+    args = ['test']
+}
+
+tasks.register('testerRun') {
+    group 'verification'
+    dependsOn 'testerRunAngular', 'testerRunSvelte'
+}
+
+tasks.register('testerStop') {
     doLast {
         exec {            
             workingDir "${projectDir}"
@@ -26,7 +57,7 @@ tasks.register('deployStop') {
     }
 }
 
-tasks.register('deployDown') {
+tasks.register('testerDown') {
     doLast {
         exec {
             workingDir "${projectDir}"
@@ -38,7 +69,8 @@ tasks.register('deployDown') {
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
-    allFileWithVersion.from("Chart.yaml")
+    mustRunAfter 'npmInstall'
+    allFileWithVersion.from("Chart.yaml", "package.json", "package-lock.json")
 }
 
 tasks.register('lint') {
