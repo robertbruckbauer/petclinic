@@ -73,10 +73,18 @@ tasks.register('versionCheck', VersionCheckTask.class)  {
     allFileWithVersion.from("Chart.yaml", "package.json", "package-lock.json")
 }
 
-tasks.register('lint') {
+tasks.register('lint', NpmTask) {
     group = 'verification'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    npmCommand = ['run', 'prettierCheck']
 }
 
-tasks.register('format') {
+tasks.register('format', NpmTask) {
     group = 'build'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    npmCommand = ['run', 'prettierApply']
 }
