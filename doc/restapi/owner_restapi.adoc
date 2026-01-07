@@ -11,7 +11,14 @@ It provides standard CRUD operations and a search endpoint that returns items.
 === Owner
 
 The main entity of an _Owner_ managed by this controller for persistence.
-The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/owner.xml[]
+----
+
+The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each owner represents a pet clinic client who owns one or more pets.
 The owner requires a valid name and address.
 All other fields are optional.

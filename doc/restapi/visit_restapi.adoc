@@ -11,7 +11,14 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 === Visit
 
 The main entity of a _Visit_ managed by this controller for persistence.
-The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/visit.xml[]
+----
+
+The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each visit represents a veterinary appointment with a treatment date and time, associated pet, attending veterinarian and diagnosis text.
 Each pet can only have one treatment per date.
 The treatment time is optional because it only becomes definitive once treatment begins.

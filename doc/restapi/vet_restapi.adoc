@@ -11,7 +11,15 @@ It provides standard CRUD operations and a search endpoint that returns items.
 === Vet
 
 The main entity of a _Vet_ managed by this controller for persistence.
-The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet.xml[]
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet_skill.xml[]
+----
+
+The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each vet represents a pet clinic veterinarian.
 The vet requires a valid name and has a set of skills.
 
