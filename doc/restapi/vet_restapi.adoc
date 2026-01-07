@@ -52,7 +52,7 @@ This operation reports `Created` or code 201 if the entity was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the name already exists or data is incomplete.
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
 
 === `PUT /api/vet/{id}`
 
@@ -77,7 +77,7 @@ This operation reports `Created` or code 201 if the entity was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
 === `PATCH /api/vet/{id}`
 
@@ -105,9 +105,9 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
-TIP: The description of attributes other than name are omitted for simplicity because they are following the same pattern.
+TIP: The descriptions of attributes other than name are omitted for simplicity because they are following the same pattern.
 
 ==== `allSkill` collection
 

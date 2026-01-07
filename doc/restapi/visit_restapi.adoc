@@ -12,10 +12,12 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 
 The main entity of a _Visit_ managed by this controller for persistence.
 The entity extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each visit represents a veterinary appointment with a treatment date, associated pet, attending veterinarian, and visit diagnosis.
-Each pet can only have one visit per date (enforced by unique constraint).
+Each visit represents a veterinary appointment with a treatment date and time, associated pet, attending veterinarian and diagnosis text.
+Each pet can only have one treatment per date.
+The treatment time is optional because it only becomes definitive once treatment begins.
 The vet relationship is optional because it may not be clear who is on duty at the time the visit is created.
 The pet relationship is optional to create visits as placeholders for vets on duty.
+The diagnosis text is optional because it is only written at the end of the treatment.
 
 .Entity
 [source,java,options="nowrap"]
@@ -50,7 +52,7 @@ This operation reports `Created` or code 201 if the entity was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the entity already exists or data is incomplete.
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
 
 === `PUT /api/visit/{id}`
 
@@ -75,7 +77,7 @@ This operation reports `Created` or code 201 if the entity was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
 === `PATCH /api/visit/{id}`
 
@@ -103,9 +105,9 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
-TIP: The description of attributes other than date are omitted for simplicity because they are following the same pattern.
+TIP: The descriptions of attributes other than date are omitted for simplicity because they are following the same pattern.
 
 ==== `pet` relation
 
@@ -128,7 +130,7 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if this relation already exists or the entity is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if the unique constraint (date, pet_id) would be violated by the update or the entity is outdated (invalid ETag).
 
 ==== `vet` relation
 
@@ -151,7 +153,7 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if this relation already exists or the entity is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if the unique constraint (date, pet_id) would be violated by the update or the entity is outdated (invalid ETag).
 
 === `GET /api/visit`
 

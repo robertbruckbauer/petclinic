@@ -61,7 +61,7 @@ This operation reports `Created` or code 201 if the entity was successfully crea
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the code or name already exists for the discriminator or data is incomplete.
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
 
 === `PUT /api/enum/{art}/{code}`
 
@@ -83,13 +83,7 @@ include::{restdocdir}/put-api-enum/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the entity was successfully updated.
 
-This operation reports `Created` or code 201 if the entity was successfully created.
-
-This operation reports `Not Found` or code 404 if the enum does not exist.
-
 This operation reports `Bad Request` or code 400 if the data was not processed.
-
-This operation reports `Conflict` or code 409 if the data is incomplete or is outdated (invalid ETag).
 
 === `GET /api/enum/{art}`
 
