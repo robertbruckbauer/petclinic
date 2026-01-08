@@ -1,0 +1,22 @@
+:includedir: ../..
+:relrootdir: ../..
+= Entity definition
+
+Entities fundamental classes of an application's domain model that define the properties and methods of objects used by the backend.
+Within the class, fields are marked with specific annotations to define their storage, such as `@Column` for simple data or `@ElementCollection` for collections of data.
+They are often linked to one another through relational annotations, including `@ManyToOne`, `@OneToMany`, and `@ManyToMany`.
+
+Entities act as a bridge between the programming code and the database.
+Each entity class typically corresponds to a database table defined in a `Liquibase` script.
+
+== Schema
+
+== Properties
+
+include::{includedir}/doc/jsonjpa/entity-id.adoc[leveloffset=1]
+
+include::{includedir}/doc/jsonjpa/entity-version.adoc[leveloffset=1]
+
+== Relations
+
+== Operations

@@ -1,0 +1,22 @@
+
+= Column for a primary key
+
+[source,java,options="nowrap"]
+----
+@Id <1>
+@Column(name = "id", nullable = false) <2>
+@Getter <3>
+@JsonProperty <4> 
+private final UUID id; <5>
+----
+
+<1> The field is marked with `@Id`.
+<2> The field is marked with `@Column`.
+<3> The field is marked with `@Getter`.
+This allows the current value to be queried.
+<4> The field is marked with `@JsonProperty`.
+The value is contained in the JSON structure of the REST API.
+<5> The field has the data type `UUID`.
+The value can also be null.
+
+Generating a primary key with `UUID` has the advantage over generating a `Long` value from an `autoincrement` column or a database sequence in that the key can be generated not only in the database, but also on the server or even on the client if necessary.
