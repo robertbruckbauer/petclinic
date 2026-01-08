@@ -1,0 +1,109 @@
+= Relation of kind `ManyToOne`
+
+== Default Implementation
+
+.Required Relationship
+[source,java,options="nowrap"]
+----
+@ManyToOne(
+        fetch = FetchType.LAZY, <1>
+        optional = false <2>
+)
+@JoinColumn(
+        name = "owner_id", 
+        referencedColumnName = "id") <3>
+@Getter <4>
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) <5>
+private Owner owner; <6>
+----
+
+<1> The field is marked with `@ManyToOne` with `LAZY` fetch type.
+The parent entity is not loaded immediately; it's fetched only when accessed.
+<2> The `optional = false` indicates this relationship is required (not nullable).
+<3> The `@JoinColumn` annotation specifies the foreign key column name (`owner_id`) and the referenced column (`id`) in the parent table.
+<4> The field is marked with `@Getter`.
+This allows the parent entity to be accessed via a getter method.
+<5> The field is marked with `@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)`.
+The full parent object is only used during deserialization, not in JSON responses.
+<6> The field has the entity type of the parent (`Owner`).
+This is a mutable field due to requirements from the JPA provider.
+This field can be null during initialization but must be set before any persistence operation.
+
+.Optional relationship
+[source,java,options="nowrap"]
+----
+@ManyToOne(
+        fetch = FetchType.LAZY,
+        optional = true) <1>
+@JoinColumn(
+        name = "owner_id", 
+        referencedColumnName = "id")
+@Getter
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+private Owner owner; <2>
+----
+
+<1> The `optional = true` indicates this relationship is optional (nullable).
+<2> The field has the entity type of the parent (`Owner`).
+This is a mutable field due to requirements from the JPA provider.The field can remain null, representing the absence of a relationship.
+
+`LAZY` loading is used to load related entities only when needed; use `EAGER` if the related entity is used for serialization in the `extraJson` operation.
+
+== Relation initialization
+
+[source,java,options="nowrap"]
+----
+Pet() {
+    super();
+    this.name = "";
+    this.born = LocalDate.of(2000, 1, 1);
+    this.species = "";
+    this.owner = null; <1>
+}
+----
+
+<1> The parent reference is typically initialized to `null` and set later through setter methods.
+
+== Relation manipulation
+
+[source,java,options="nowrap"]
+----
+@JsonIgnore <1>
+public Pet setOwner(@NonNull final Owner owner) { <2>
+    this.owner = owner; <3>
+    return this; <4>
+}
+----
+
+<1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
+<2> The method accepts the parent entity and validates it is not null using `@NonNull`.
+<3> The parent reference is set.
+<4> The method returns `this` for method chaining.
+
+== Relation verification
+
+Relations participate in the `isEqual` method comparison.
+Use `Objects#equals`.
+
+Do not use relations in the `verify` operation.
+
+== Relation serialization
+
+Relations are by default *not* part of the JSON structure.
+
+Relations can be added to the JSON structure only with item classes.
+This prevents circular references and reduces payload size.
+
+[source,java,options="nowrap"]
+----
+@JsonAnyGetter <1>
+private Map<String, Object> extraJson() {
+    final var allExtra = new HashMap<String, Object>();
+    allExtra.put("version", getVersion());
+    allExtra.put("ownerItem", OwnerItem.fromValue(owner)); <2>
+    return allExtra;
+}
+----
+
+<1> The `@JsonAnyGetter` annotation includes these values in the JSON output without nesting.
+<2> The parent entity is converted to simple state transfer object.

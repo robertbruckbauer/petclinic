@@ -1,0 +1,52 @@
+= Column for type `Long`
+
+== Default Implementation
+
+[source,java,options="nowrap"]
+----
+@PositiveOrZero <1>
+@Column(name = "code") <2>
+@Getter <3>
+@JsonProperty <4>
+private Long code; <5>
+----
+
+<1> The field is marked with `@PositiveOrZero` validation constraint.
+This ensures the value is not negative (0 or greater).
+<2> The field is marked with `@Column`.
+The column name in the database is explicitly specified.
+<3> The field is marked with `@Getter`.
+This allows the current value to be queried via a getter method.
+<4> The field is marked with `@JsonProperty`.
+The value is included in the JSON structure of the REST API.
+<5> The field has the data type `Long`.
+This is a mutable field due to requirements from the JPA provider.
+
+== Property initialization
+
+`Long` properties are typically not nullable and initialized to `0L` in the constructor.
+
+== Property manipulation
+
+`Long` properties are typically not nullable and therfore only changed through REST API operations.
+
+`Long` properties are set through in the `withId()` operation during entity cloning.
+
+== Property verification
+
+`Long` properties participate in the `isEqual` method comparison.
+Use `Objects#equals`.
+
+`Long` properties use only the following validation annotations:
+
+* `@NotNull`: Value must not be null
+* `@Positive`: Value must be greater than 0
+* `@PositiveOrZero`: Value must be 0 or greater
+* `@Min(value)`: Value must be at least the specified minimum
+* `@Max(value)`: Value must not exceed the specified maximum
+
+The `verify` operation may include custom validation logic (e.g., time ranges).
+
+== Property serialization
+
+`Long` properties are by default part of the JSON structure.

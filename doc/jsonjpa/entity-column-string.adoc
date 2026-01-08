@@ -1,0 +1,49 @@
+= Column for type `String`
+
+== Default Implementation
+
+[source,java,options="nowrap"]
+----
+@NotBlank <1>
+@Column(name = "name") <2>
+@Getter <3>
+@JsonProperty <4>
+private String name; <5>
+----
+
+<1> The field is marked with `@NotBlank` validation constraint.
+This ensures the value is not null, not empty, and contains at least one non-whitespace character.
+<2> The field is marked with `@Column`.
+The column name in the database is explicitly specified.
+<3> The field is marked with `@Getter`.
+This allows the current value to be queried via a getter method.
+<4> The field is marked with `@JsonProperty`.
+The value is included in the JSON structure of the REST API.
+<5> The field has the data type `String`.
+This is a mutable field due to requirements from the JPA provider.
+
+== Property initialization
+
+`String` properties are typically not nullable and initialized to the empty string in the constructor.
+
+== Property manipulation
+
+`String` properties are typically not nullable and therfore only changed through REST API operations.
+
+`String` properties are set through in the `withId()` operation during entity cloning.
+
+== Property verification
+
+`String` properties participate in the `isEqual` method comparison.
+Use `Objects#equals`.
+
+`String` properties use only the following validation annotations:
+
+* `@NotNull`: Value must not be null
+* `@NotBlank`: Value must be not null, not empty, and contain at least one non-whitespace character.
+
+The `verify` operation may include custom validation logic (e.g., time ranges).
+
+== Property serialization
+
+`String` properties are by default part of the JSON structure.

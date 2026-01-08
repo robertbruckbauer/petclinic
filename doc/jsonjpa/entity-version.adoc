@@ -1,4 +1,6 @@
-= Column for a version property
+= Column for a version number
+
+== Default Implementation
 
 [source,java,options="nowrap"]
 ----
@@ -18,4 +20,8 @@ This allows the current value to be queried.
 The value is not included in the JSON structure of the REST API.
 However, the value is transferred to an `ETAG` header.
 <5> The field has the data type `Long`.
-It is part of the base class. This ensures that all objects have the same procedure for maintaining integrity.
+
+The property is part of the base class.
+This ensures that all objects have the same procedure for maintaining integrity.
+
+The property is use the `Long` type, but it uses the special `@Version` annotation for optimistic locking.

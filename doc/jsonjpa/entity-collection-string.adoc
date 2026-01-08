@@ -1,0 +1,72 @@
+= Collection for type `String`
+
+== Default Implementation
+
+[source,java,options="nowrap"]
+----
+@ElementCollection(
+        fetch = FetchType.EAGER) <1>
+@CollectionTable(
+        name = "vet_skill", <2>
+        joinColumns = @JoinColumn(name = "id")) <3>
+@Column(name = "skill") <4>
+@Getter <5>
+@JsonProperty <6>
+private SortedSet<String> allSkill; <7>
+----
+
+<1> The field is marked with `@ElementCollection` with `EAGER` fetch type.
+<2> The `@CollectionTable` annotation specifies the name of the separate database table that stores the collection elements.
+<3> The `joinColumns` attribute defines how the collection table references the parent entity's primary key.
+<4> The `@Column` annotation specifies the column name in the collection table for the element values.
+<5> The field is marked with `@Getter`.
+This allows the collection to be accessed via a getter method.
+<6> The field is marked with `@JsonProperty`.
+The collection is included in the JSON structure of the REST API.
+<7> The field has the data type `SortedSet<String>`.
+This is a mutable field due to requirements from the JPA provider.
+
+`EAGER` loading is used when the collection is typically needed; use `LAZY` for large collections.
+
+Use `Set` types to prevent duplicates automatically
+Use `SortedSet` when natural ordering is important.
+
+== Collection initialization
+
+[source,java,options="nowrap"]
+----
+Vet() {
+    super();
+    this.name = "";
+    this.allSkill = new TreeSet<>(); <1>
+}
+----
+
+<1> The collection is initialized as a `TreeSet` (which implements `SortedSet`) to maintain sorted order.
+
+== Collection manipulation
+
+[source,java,options="nowrap"]
+----
+@JsonIgnore <1>
+public Vet addAllSkill(@NonNull final String... text) { <2>
+    this.allSkill.addAll(List.of(text)); <3>
+    return this; <4>
+}
+----
+
+<1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
+<2> The method accepts a variable number of `String` arguments.
+<3> The strings are added to the collection.
+<4> The method returns `this` for operation chaining.
+
+== Collection verification
+
+Collections participate in the `isEqual` method comparison.
+Use `Objects#equals`.
+
+The `verify` operation may include custom validation logic.
+
+== Collection serialization
+
+Collections are by default part of the JSON structure.
