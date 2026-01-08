@@ -10,9 +10,11 @@ Take into account the names of types, fields, and query operations from the Grap
 
 In this chapter describe the schema of the API.
 Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
-There is a separate section for each GraphQL type defined in the schema.
-The title is the type name only.
+
+Add a separate section for each GraphQL type defined in the schema with the type name only as title.
 Use the include directive to reference the GraphQL schema definition files.
+Use variable `{graphqldir}` for root path.
+
 Let included schema definitions be a major part of the documentation.
 Do not repeat information from the schema in the text.
 
@@ -24,7 +26,7 @@ document the optimization strategy to avoid N+1 query problems.
 Explain how related entities are efficiently loaded in a single database query.
 
 If the schema uses a custom scalar type, document the type and its mapping to a Java type.
-Do not mention standard scalar types.
+Do not mention built-in scalar types.
 
 == Queries
 

@@ -11,14 +11,17 @@ Take in account the names, properties and methods from entity classes, repositor
 In this chapter describe the model of the API.
 Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
 
-Add the liquibase script for the database table with title `Liquibase`.
+Add the liquibase script from `resources/liquibase/v1` for the database table with title `Liquibase`.
 Use the include directive to include the xml file.
+Use variable `{includedir}` for root path.
 
 Add the java class for the entity class with title `Entity`.
 Use the include directive and tags to select only relevant properties from the code with their types and annotations.
+Use variable `{includedir}` for root path.
 
 Add a separate section for each state transfer objects that has a `properties` tag with simple class name as the title.
 Use the include directive with this tag.
+Use variable `{includedir}` for root path.
 
 Let included code fragments be a major part of the documentation.
 Do not repeat information from the code fragments in the text.
@@ -98,6 +101,7 @@ Let included snippets be a major part of the documentation.
 Use snippets for the `curl` command with title `Command`.
 Use snippets for the request body with title `Request`.
 Use snippets for the response body with title `Response`, except for `No Content` or code 204.
+Use variable `{restdocdir}` for root path.
 
 ---
 

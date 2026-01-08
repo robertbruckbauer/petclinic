@@ -90,7 +90,11 @@ include::{restdocdir}/put-api-enum/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the entity was successfully updated.
 
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
 This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
 
 === `GET /api/enum/{art}`
 

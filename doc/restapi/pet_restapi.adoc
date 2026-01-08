@@ -220,6 +220,27 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 This operation reports `Not Found` or code 404 if the data does not exist.
 
+=== `GET /api/pet/{id}/owner`
+
+This operation returns the associated _Owner_ entity for a pet.
+
+****
+
+.Command
+include::{restdocdir}/get-api-pet-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-pet-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-pet-owner/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not Found` or code 404 if the pet does not exist.
+
 === `DELETE /api/pet/{id}`
 
 This operation deletes a single persisted _Pet_ entity.
