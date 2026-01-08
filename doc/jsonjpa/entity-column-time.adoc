@@ -15,7 +15,7 @@ private LocalTime time; <6>
 <1> The field is marked with `@NotNull` validation constraint.
 <2> The field is marked with `@Column`.
 The column name in the database is explicitly specified.
-The column definition is explicitely specified as `TIME`.
+The column definition is explicitly specified as `TIME`.
 <3> The field is marked with `@Getter`.
 This allows the current value to be queried via a getter method.
 <4> The field is marked with `@JsonProperty`.
@@ -24,16 +24,16 @@ The value is included in the JSON structure of the REST API.
 <6> The field has type `LocalTime`.
 This is a mutable field due to requirements from the JPA provider.
 
-A `String` constant defines the date pattern for consistent formatting.
+A `String` constant defines the time pattern for consistent formatting.
 A `DateTimeFormatter` is created for parsing and formatting operations; use also in controller or unit tests for consistency.
 
 == Property initialization
 
-`LocalTime` properties are typically not nullable and initialized to a default date like `LocalTime.of(0, 0, 0)` in the constructor.
+`LocalTime` properties are typically not nullable and initialized to a default time like `LocalTime.of(0, 0, 0)` in the constructor.
 
 == Property manipulation
 
-`LocalTime` properties are typically not nullable and therfore only changed through REST API operations.
+`LocalTime` properties are typically not nullable and therefore only changed through REST API operations.
 
 `LocalTime` properties are set through in the `withId()` operation during entity cloning.
 
