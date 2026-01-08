@@ -2,6 +2,7 @@
 
 == Default Implementation
 
+.Entity
 [source,java,options="nowrap"]
 ----
 @Version <1>
@@ -20,6 +21,17 @@ This allows the current value to be queried.
 The value is not included in the JSON structure of the REST API.
 However, the value is transferred to an `ETAG` header.
 <5> The field has the data type `Long`.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="version" type="BIGINT" defaultValue="0"> <1>
+    <constraints nullable="false"/> <2>
+</column>
+----
+
+<1> The column type is `BIGINT` (64-bit integer) with a default value of 0.
+<2> The column is marked as NOT NULL.
 
 The property is part of the base class.
 This ensures that all objects have the same procedure for maintaining integrity.

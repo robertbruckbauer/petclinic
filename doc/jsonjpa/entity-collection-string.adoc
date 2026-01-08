@@ -2,6 +2,7 @@
 
 == Default Implementation
 
+.Entity
 [source,java,options="nowrap"]
 ----
 @ElementCollection(
@@ -30,6 +31,31 @@ This is a mutable field due to requirements from the JPA provider.
 
 Use `Set` types to prevent duplicates automatically
 Use `SortedSet` when natural ordering is important.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<createTable tableName="vet_skill"> <1>
+    <column name="id" type="UUID"> <2>
+        <constraints nullable="false"/>
+    </column>
+    <column name="skill" type="VARCHAR(512)"> <3>
+        <constraints nullable="false"/>
+    </column>
+</createTable>
+<addForeignKeyConstraint
+        constraintName="fk_vet_skill_id" <4>
+        baseTableName="vet_skill"
+        baseColumnNames="id"
+        referencedTableName="vet"
+        referencedColumnNames="id"
+/>
+----
+
+<1> A separate table is created for the collection.
+<2> The `id` column references the parent entity's primary key.
+<3> The `skill` column stores the individual string values.
+<4> A foreign key constraint ensures referential integrity with the parent table.
 
 == Collection initialization
 

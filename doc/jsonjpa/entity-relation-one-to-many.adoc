@@ -2,6 +2,7 @@
 
 == Default Implementation
 
+.Entity
 [source,java,options="nowrap"]
 ----
 @OneToMany(
@@ -27,6 +28,26 @@ This allows the collection to be accessed via a getter method.
 The collection is only used during deserialization, not in JSON responses.
 <7> The field has the data type `Set<Pet>` (or `LinkedHashSet<Pet>`).
 Using a `Set` prevents duplicate children and a `LinkedHashSet` maintains insertion order.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="owner_id" type="UUID"> <1>
+    <constraints nullable="false"/>
+</column>
+<addForeignKeyConstraint
+        constraintName="fk_pet_owner_id" <2>
+        baseTableName="pet" <3>
+        baseColumnNames="owner_id"
+        referencedTableName="owner" <4>
+        referencedColumnNames="id"
+/>
+----
+
+<1> The foreign key column is defined in the child table (the "many" side).
+<2> A named constraint ensures referential integrity.
+<3> The `baseTableName` is the child table containing the foreign key.
+<4> The `referencedTableName` is the parent table being referenced.
 
 == Relation initialization
 

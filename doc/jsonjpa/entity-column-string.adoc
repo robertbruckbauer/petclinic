@@ -2,6 +2,7 @@
 
 == Default Implementation
 
+.Entity
 [source,java,options="nowrap"]
 ----
 @NotBlank <1>
@@ -22,6 +23,19 @@ The value is included in the JSON structure of the REST API.
 <5> The field has the data type `String`.
 This is a mutable field due to requirements from the JPA provider.
 
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="name" type="VARCHAR(512)" defaultValue=""> <1>
+    <constraints nullable="false"/> <2>
+</column>
+----
+
+<1> The column type is `VARCHAR` with a maximum length with a default value.
+<2> The column is marked as NOT NULL.
+
+Omit the default value if the field is nullable.
+
 == Property initialization
 
 `String` properties are typically not nullable and initialized to the empty string in the constructor.
@@ -30,7 +44,7 @@ This is a mutable field due to requirements from the JPA provider.
 
 `String` properties are typically not nullable and therefore only changed through REST API operations.
 
-`String` properties are set through in the `withId()` operation during entity cloning.
+`String` properties are set through in the `withId` operation during entity cloning.
 
 Add a setter if a controller must be able to update a property directly.
 

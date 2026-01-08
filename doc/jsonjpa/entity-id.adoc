@@ -3,6 +3,7 @@
 
 == Default Implementation
 
+.Entity
 [source,java,options="nowrap"]
 ----
 @Id <1>
@@ -20,5 +21,16 @@ This allows the current value to be queried.
 The value is contained in the JSON structure of the REST API.
 <5> The field has the data type `UUID`.
 The value can also be null.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="id" type="UUID"> <1>
+    <constraints nullable="false" primaryKey="true"/> <2>
+</column>
+----
+
+<1> The column type is `UUID`.
+<2> The column is marked as NOT NULL and as the primary key.
 
 Generating a primary key with `UUID` has the advantage over generating a `Long` value from an `autoincrement` column or a database sequence in that the key can be generated not only in the database, but also on the server or even on the client if necessary.
