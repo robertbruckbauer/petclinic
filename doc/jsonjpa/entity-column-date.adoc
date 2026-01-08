@@ -1,0 +1,86 @@
+= Column for type `LocalDate`
+
+== Default Implementation
+
+.Entity
+[source,java,options="nowrap"]
+----
+@NotNull <1>
+@Column(name = "date", columnDefinition = "DATE") <2>
+@Getter <3>
+@JsonProperty <4>
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_PATTERN) <5>
+private LocalDate date; <6>
+----
+
+<1> The field is marked with `@NotNull` validation constraint.
+This ensures the value is not null.
+<2> The field is marked with `@Column`.
+The column name in the database is explicitly specified.
+The column definition is explicitly specified as `DATE`.
+<3> The field is marked with `@Getter`.
+This allows the current value to be queried via a getter method.
+<4> The field is marked with `@JsonProperty`.
+The value is included in the JSON structure of the REST API.
+<5> The field is marked with `@JsonFormat` to control JSON serialization format.
+The pattern constant defines the date format.
+<6> The field has type `LocalDate`.
+This is a mutable field due to requirements from the JPA provider.
+
+A `String` constant defines the date pattern for consistent formatting.
+A `DateTimeFormatter` is created for parsing and formatting operations; use also in controller or unit tests for consistency.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="date" type="DATE" defaultValueDate="2001-01-01"> <1>
+    <constraints nullable="false"/> <2>
+</column>
+----
+
+<1> The column type is `DATE` (without time component) with a default value.
+<2> The column is marked as NOT NULL.
+
+Omit the default value if the field is nullable.
+
+== Property initialization
+
+`LocalDate` properties are typically not nullable and initialized to a default date like `LocalDate.of(2000, 1, 1)` in the constructor.
+
+== Property manipulation
+
+`LocalDate` properties are typically not nullable and therefore only changed through REST API operations.
+
+`LocalDate` properties are set through in the `withId` operation during entity cloning.
+
+Add a setter if a controller must be able to update a property directly.
+
+[source,java,options="nowrap"]
+----
+@JsonIgnore <1>
+public Enum setDate(@NonNull final LocalDate date) { <2>
+    this.date = date;
+    return this; <3>
+}
+----
+
+<1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
+<2> The method accepts a `LocalDate` argument.
+<3> The method returns `this` for operation chaining.
+
+== Property verification
+
+`LocalDate` properties participate in the `isEqual` method comparison.
+Use `Objects#equals`.
+
+`LocalDate` properties use only the following validation annotations:
+
+* `@NotNull`: Value must not be null
+* `@Min(value)`: Value must be at least the specified minimum
+* `@Max(value)`: Value must not exceed the specified maximum
+
+The `verify` operation may include custom validation logic (e.g., date ranges).
+
+== Property serialization
+
+`LocalDate` properties are by default part of the JSON structure.

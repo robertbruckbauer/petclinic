@@ -1,10 +1,12 @@
 package esy.api.info;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.json.JsonJpaEntity;
 import esy.json.JsonMapper;
-import jakarta.validation.constraints.NotEmpty;
+
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NonNull;
@@ -29,7 +31,7 @@ import java.util.UUID;
 public final class Enum extends JsonJpaEntity<Enum> {
 
     // tag::properties[]
-    @NotEmpty
+    @NotBlank
     @Column(name = "art")
     @Getter
     @JsonProperty
@@ -41,13 +43,13 @@ public final class Enum extends JsonJpaEntity<Enum> {
     @JsonProperty
     private Long code;
 
-    @NotEmpty
+    @NotBlank
     @Column(name = "name")
     @Getter
     @JsonProperty
     private String name;
 
-    @NotEmpty
+    @NotBlank
     @Column(name = "text")
     @Getter
     @JsonProperty
@@ -120,21 +122,25 @@ public final class Enum extends JsonJpaEntity<Enum> {
         return allExtra;
     }
 
+    @JsonIgnore
     public Enum setArt(@NonNull final String art) {
         this.art = art;
         return this;
     }
 
+    @JsonIgnore
     public Enum setCode(@NonNull final Long code) {
         this.code = code;
         return this;
     }
 
+    @JsonIgnore
     public Enum setName(@NonNull final String name) {
         this.name = name;
         return this;
     }
 
+    @JsonIgnore
     public Enum setText(@NonNull final String text) {
         this.text = text;
         return this;

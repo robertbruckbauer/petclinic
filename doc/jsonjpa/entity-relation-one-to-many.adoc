@@ -1,0 +1,97 @@
+= Relation of kind `OneToMany`
+
+== Default Implementation
+
+.Entity
+[source,java,options="nowrap"]
+----
+@OneToMany(
+        fetch = FetchType.LAZY, <1>
+        mappedBy = "owner", <2>
+        cascade = CascadeType.ALL, <3>
+        orphanRemoval = true <4>
+)
+@Getter <5>
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) <6>
+private Set<Pet> allPet; <7>
+----
+
+<1> The field is marked with `@OneToMany` with `LAZY` fetch type.
+The collection is not loaded immediately; it's fetched only when accessed.
+<2> The `mappedBy` attribute indicates this is the inverse side of the relationship.
+It refers to the field name `owner` in the `Pet` entity.
+<3> The `cascade = CascadeType.ALL` ensures all persistence operations (persist, merge, remove, etc.) cascade to the children.
+<4> The `orphanRemoval = true` means that when a child entity is removed from the collection, it is automatically deleted from the database.
+<5> The field is marked with `@Getter`.
+This allows the collection to be accessed via a getter method.
+<6> The field is marked with `@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)`.
+The collection is only used during deserialization, not in JSON responses.
+<7> The field has the data type `Set<Pet>` (or `LinkedHashSet<Pet>`).
+Using a `Set` prevents duplicate children and a `LinkedHashSet` maintains insertion order.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="owner_id" type="UUID"> <1>
+    <constraints nullable="false"/>
+</column>
+<addForeignKeyConstraint
+        constraintName="fk_pet_owner_id" <2>
+        baseTableName="pet" <3>
+        baseColumnNames="owner_id"
+        referencedTableName="owner" <4>
+        referencedColumnNames="id"
+/>
+----
+
+<1> The foreign key column is defined in the child table (the "many" side).
+<2> A named constraint ensures referential integrity.
+<3> The `baseTableName` is the child table containing the foreign key.
+<4> The `referencedTableName` is the parent table being referenced.
+
+== Relation initialization
+
+[source,java,options="nowrap"]
+----
+Owner() {
+    super();
+    this.name = "";
+    this.address = "";
+    this.contact = "";
+    this.allPet = new LinkedHashSet<>(); <1>
+}
+----
+
+<1> The collection is initialized to avoid null pointer exceptions.
+
+== Relation manipulation
+
+== Relation verification
+
+Relations participate in the `isEqual` method comparison.
+Use `Objects#equals`.
+
+Do not use relations in the `verify` operation.
+
+== Relation serialization
+
+Relations are by default *not* part of the JSON structure.
+
+Relations can be added to the JSON structure only with item classes.
+This prevents circular references and reduces payload size.
+
+[source,java,options="nowrap"]
+----
+@JsonAnyGetter <1>
+private Map<String, Object> extraJson() {
+    final var allExtra = new HashMap<String, Object>();
+    allExtra.put("version", getVersion());
+    allExtra.put("allPetItem", allPet.stream()
+            .map(PetItem::fromValue)
+            .collect(Collectors.toSet())); <2>
+    return allExtra;
+}
+----
+
+<1> The `@JsonAnyGetter` annotation includes these values in the JSON output without nesting.
+<2> All child entities are converted to a simple state transfer object.
