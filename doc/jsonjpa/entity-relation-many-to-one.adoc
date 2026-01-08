@@ -70,15 +70,14 @@ Pet() {
 ----
 @JsonIgnore <1>
 public Pet setOwner(@NonNull final Owner owner) { <2>
-    this.owner = owner; <3>
-    return this; <4>
+    this.owner = owner;
+    return this; <3>
 }
 ----
 
 <1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
-<2> The method accepts the parent entity and validates it is not null using `@NonNull`.
-<3> The parent reference is set.
-<4> The method returns `this` for method chaining.
+<2> The method accepts the parent entity.
+<3> The method returns `this` for method chaining.
 
 == Relation verification
 

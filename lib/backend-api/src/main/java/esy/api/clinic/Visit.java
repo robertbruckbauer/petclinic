@@ -37,11 +37,11 @@ public final class Visit extends JsonJpaEntity<Visit> {
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
 
     // tag::properties[]
+    @NotNull
     @Column(name = "date", columnDefinition = "DATE")
     @Getter
     @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_PATTERN)
-    @NotNull
     private LocalDate date;
 
     @Column(name = "time", columnDefinition = "TIME")

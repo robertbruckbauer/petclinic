@@ -1,6 +1,7 @@
 package esy.api.client;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.json.JsonJpaEntity;
@@ -12,6 +13,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -24,6 +26,9 @@ import java.util.UUID;
 })
 public final class Pet extends JsonJpaEntity<Pet> {
 
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
     // tag::properties[]
     @NotBlank
     @Column(name = "name")
@@ -32,9 +37,10 @@ public final class Pet extends JsonJpaEntity<Pet> {
     private String name;
 
     @NotNull
-    @Column(name = "born")
+    @Column(name = "born", columnDefinition = "DATE")
     @Getter
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_PATTERN)
     private LocalDate born;
 
     @NotBlank

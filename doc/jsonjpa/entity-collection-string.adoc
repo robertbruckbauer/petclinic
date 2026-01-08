@@ -50,15 +50,14 @@ Vet() {
 ----
 @JsonIgnore <1>
 public Vet addAllSkill(@NonNull final String... text) { <2>
-    this.allSkill.addAll(List.of(text)); <3>
-    return this; <4>
+    this.allSkill.addAll(List.of(text));
+    return this; <3>
 }
 ----
 
 <1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
 <2> The method accepts a variable number of `String` arguments.
-<3> The strings are added to the collection.
-<4> The method returns `this` for operation chaining.
+<3> The method returns `this` for operation chaining.
 
 == Collection verification
 

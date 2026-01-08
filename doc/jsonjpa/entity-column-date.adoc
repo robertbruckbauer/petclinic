@@ -5,11 +5,11 @@
 [source,java,options="nowrap"]
 ----
 @NotNull <1>
-@Column(name = "born", columnDefinition = "DATE") <2>
+@Column(name = "date", columnDefinition = "DATE") <2>
 @Getter <3>
 @JsonProperty <4>
 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_PATTERN) <5>
-private LocalDate born; <6>
+private LocalDate date; <6>
 ----
 
 <1> The field is marked with `@NotNull` validation constraint.
@@ -38,6 +38,21 @@ A `DateTimeFormatter` is created for parsing and formatting operations; use also
 `LocalDate` properties are typically not nullable and therfore only changed through REST API operations.
 
 `LocalDate` properties are set through in the `withId()` operation during entity cloning.
+
+Add a setter if a controller must be able to update a property directly.
+
+[source,java,options="nowrap"]
+----
+@JsonIgnore <1>
+public Enum setDate(@NonNull final LocalDate date) { <2>
+    this.date = date;
+    return this; <3>
+}
+----
+
+<1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
+<2> The method accepts a `LocalDate` argument.
+<3> The method returns `this` for operation chaining.
 
 == Property verification
 

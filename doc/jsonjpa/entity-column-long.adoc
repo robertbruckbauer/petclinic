@@ -32,6 +32,21 @@ This is a mutable field due to requirements from the JPA provider.
 
 `Long` properties are set through in the `withId()` operation during entity cloning.
 
+Add a setter if a controller must be able to update a property directly.
+
+[source,java,options="nowrap"]
+----
+@JsonIgnore <1>
+public Enum setCode(@NonNull final Long code) { <2>
+    this.code = code;
+    return this; <3>
+}
+----
+
+<1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
+<2> The method accepts a `Long` argument.
+<3> The method returns `this` for operation chaining.
+
 == Property verification
 
 `Long` properties participate in the `isEqual` method comparison.
