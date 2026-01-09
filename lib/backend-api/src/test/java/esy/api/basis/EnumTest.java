@@ -101,6 +101,7 @@ class EnumTest {
         assertEquals(2L, value.getCode());
         assertEquals(name, value.getName());
         assertEquals("A " + name, value.getText());
+        assertEquals(name, value.getValue());
 
         final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
         assertEquals(0, json.at("/version").asLong());
@@ -174,10 +175,12 @@ class EnumTest {
         value.setName("X" + name);
         assertDoesNotThrow(value::verify);
         assertNotEquals(name, value.getName());
+        assertNotEquals(name, value.getValue());
 
         value.setName(name);
         assertDoesNotThrow(value::verify);
         assertEquals(name, value.getName());
+        assertEquals(name, value.getValue());
     }
 
     @Test

@@ -23,12 +23,12 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/enum.xml[
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 Each enum represents an extensible enumeration item.
-Enums are organized by discriminator for logical grouping (e.g., "SPECIES", "SKILL").
+Enums are organized by discriminator for logical grouping (e.g. "SPECIES", "SKILL").
 Within each discriminator group, numeric codes and names must be unique.
 
 TIP: The discriminator is called `art`.
 This is a historical flaw.
-For clarity we use the term _discriminator_ instead.
+For clarity we use the term discriminator instead.
 
 .Entity
 [source,java,options="nowrap"]
@@ -36,20 +36,12 @@ For clarity we use the term _discriminator_ instead.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Enum.java[indent=0,tags=properties]
 ----
 
-A simplified representation of an _Enum_ for item selection purposes.
-
-.Item
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/EnumItem.java[indent=0,tags=properties]
-----
-
 == Operations
 
 === `POST /api/enum/{art}`
 
 This operation creates a new _Enum_ entity for a discriminator.
-Response is of type _EnumItem_.
+Response is of type _Enum_.
 
 ****
 
@@ -73,7 +65,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 === `PUT /api/enum/{art}/{code}`
 
 This operation updates an existing _Enum_ entity for a discriminator and code.
-Response is of type _EnumItem_.
+Response is of type _Enum_.
 
 ****
 
@@ -99,7 +91,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 === `GET /api/enum/{art}`
 
 This operation returns all persisted _Enum_ entities for a discriminator ordered by code.
-Response is a collection of type _EnumItem_.
+Response is a collection of type _Enum_.
 
 ****
 
@@ -120,7 +112,7 @@ The result can be empty if no enums exist for the discriminator.
 === `DELETE /api/enum/{art}/{code}`
 
 This operation deletes a single persisted _Enum_ entity for a discriminator and code.
-Response is of type _EnumItem_.
+Response is of type _Enum_.
 
 ****
 
