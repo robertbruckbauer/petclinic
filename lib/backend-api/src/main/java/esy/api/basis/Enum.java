@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.rest.JsonJpaEntity;
+import esy.rest.JsonJpaItem;
 import esy.rest.JsonJpaMapper;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -24,7 +25,7 @@ import java.util.UUID;
         @UniqueConstraint(columnNames = {"art", "code"}),
         @UniqueConstraint(columnNames = {"art", "name"})
 })
-public final class Enum extends JsonJpaEntity<Enum> {
+public final class Enum extends JsonJpaEntity<Enum> implements JsonJpaItem<String> {
 
     // tag::properties[]
     @NotBlank
@@ -116,6 +117,12 @@ public final class Enum extends JsonJpaEntity<Enum> {
         final var allExtra = new HashMap<String, Object>();
         allExtra.put("version", getVersion());
         return allExtra;
+    }
+
+    @Override
+    @JsonProperty
+    public String getValue() {
+        return name;
     }
 
     @JsonIgnore
