@@ -81,15 +81,19 @@ tasks.register('buildChangelog', BuildChangelogTask.class) {
 }
 
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
-tasks.register('pagesServerApi', AsciidoctorTask) {
+tasks.register('pagesDoc', AsciidoctorTask) {
     group = 'documentation'
     description = 'Builds api documentation'
     sourceDir = file('doc')
-    sources { include '**/*.adoc' exclude 'template' }
+    sources { 
+        include '**/*.adoc'
+        exclude '**/_*.adoc'
+        exclude '**/template'
+    }
     outputDir = file('pages/html/server')
     baseDir = file('.') // == includedir
     attributes = [
-        'includedir': '.',
+        'includedir': rootProject.projectDir.absolutePath.replace('\\', '/'),
         'source-highlighter': 'coderay',
         'toc': 'left',
         'toclevels': 3,
@@ -100,15 +104,18 @@ tasks.register('pagesServerApi', AsciidoctorTask) {
         'icons': 'font'             
     ]
 }
-tasks.register('pagesServerSpec', AsciidoctorTask) {
+tasks.register('pagesLib', AsciidoctorTask) {
     group = 'documentation'
     description = 'Builds implementation specifications'
     sourceDir = file('lib')
-    sources { include '**/src/main/java/**/*.adoc' }
+    sources { 
+        include '**/*.adoc'
+        exclude '**/_*.adoc'
+    }
     outputDir = file('pages/html')
     baseDir = file('.') // == includedir
     attributes = [
-        'includedir': '.',
+        'includedir': rootProject.projectDir.absolutePath.replace('\\', '/'),
         'source-highlighter': 'coderay',
         'toc': 'left',
         'toclevels': 3,
@@ -124,7 +131,7 @@ tasks.register('pages', Task) {
     group = 'documentation'
     description = 'Builds all documentation'
     mustRunAfter 'build'
-    dependsOn 'pagesServerApi', 'pagesServerSpec'
+    dependsOn 'pagesDoc', 'pagesLib'
 }
 
 tasks.named("asciidoctor") {

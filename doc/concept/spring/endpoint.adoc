@@ -1,9 +1,11 @@
-:includedir: ../../../../../../..
-:relrootdir: ../../../../../../..
-= Specification for the Endpoints
+:includedir: ../../..
+:relrootdir: ../../..
+= Specification for endpoints
 
-The service uses a central configuration file for endpoints.
+Backend services use a central configuration file for REST and GraphQL endpoints.
 It is only read when the application starts.
+
+== Configuration
 
 .endpoint.properties
 [source,text]
@@ -18,6 +20,29 @@ A customizer bean configures `Jackson` for reading and writing JSON structures.
 ----
 include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=jacksonCustomizer,indent=0]
 ----
+
+The `JsonJpaMapper` class configures the _Jackson Object Mapper_ and provides operations for reading and writing JSON structures, e.g. `parseJson` and `writeJson`.
+
+.JsonJpaMapper
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/rest/JsonJpaMapper.java[tags=configure,indent=0]
+----
+<1> The `Jdk8Module` ensures that data types like `Optional` are correctly serialized.
+
+<2> The `JavaTimeModule` ensures that temporal data types like `LocalDate` are correctly serialized.
+
+<3> With the value `false`, it is ensured that during PATCH operations the list from the JSON structure is merged with the list from the database. +
+The behavior for lists is thus consistent with the behavior for values.
+
+<4> With the value `Include.NON_NULL` only properties with non-null values are serialized.
+
+<5> With the value `true`, temporal data types are serialized with timezone.
+
+<6> With the value `false`, temporal data types are serialized with formatted text.
+
+<7> With the value `false`, serialization is made robust. +
+Unknown properties are ignored.
 
 A configurer bean configures message converters, argument resolvers, formatters, 
 CORS, interceptors, path matching or content negotiation.
@@ -51,3 +76,11 @@ A configurer bean configures the behavior of auto-exposed REST endpoints.
 ----
 include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=repositoryRestConfigurer,indent=0]
 ----
+
+== Implementation details
+
+include::{includedir}/doc/concept/spring/_json-jpa-repository.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_querydsl-repository.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-controller.adoc[leveloffset=2]

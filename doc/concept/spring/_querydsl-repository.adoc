@@ -1,9 +1,6 @@
-:includedir: ../../../../../../..
-:relrootdir: ../../../../../../..
-:term: QuerydslRepository
-= {term}
+= QuerydslRepository
 
-The `{term}` interface extends Spring Data's QueryDSL support with custom binding methods for common query patterns.
+The `QuerydslRepository` interface extends Spring Data's QueryDSL support with custom binding methods for common query patterns.
 It provides utility methods for handling date ranges, numeric ranges and flexible string matching predicates.
 
 == Properties
@@ -21,7 +18,7 @@ Uses exact match with `eq()`.
 **Two values**::
 Creates date range query with `between()`.
 **Multiple values**::
-Uses IN clause with `in()`.
+Uses exact matches with `in()`.
 
 === longEqBetweenInBinding
 
@@ -32,7 +29,7 @@ Uses exact match with `eq()`.
 **Two values**::
 Creates numeric range query with `between()`.
 **Multiple values**::
-Uses IN clause with `in()`.
+Uses exact matches with `in()`.
 
 === stringContainsOrLikeIgnoreCaseBinding
 

@@ -1,9 +1,11 @@
-:includedir: ../../../../../../..
-:relrootdir: ../../../../../../..
-= Specification for the Database
+:includedir: ../../..
+:relrootdir: ../../..
+= Specification for the database
 
-The service uses a central configuration file for the database.
+Backend services use a central configuration file for the database.
 It is only read when the application starts.
+
+== Configuration
 
 .database.properties
 [source,text]
@@ -18,6 +20,8 @@ Since the execution order of the scripts is relevant, the scripts for the databa
 The changelog script is executed when the application starts.
 Depending on the current state of the database, scripts are executed and create new database objects.
 Scripts that have already been executed on this database are ignored.
+
+== Implementation details
 
 .liquibase/changelog.xml
 [source,text]
