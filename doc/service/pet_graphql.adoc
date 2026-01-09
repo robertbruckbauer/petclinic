@@ -32,9 +32,6 @@ Each pet must have an owner.
 
 The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
 
-The `owner` field uses batch loading via `@BatchMapping` in the `OwnerGraphqlController` to efficiently load owner relationships and avoid N+1 query problems.
-All owners for a batch of pets are loaded in a single database query.
-
 == Queries
 
 === Collection queries
