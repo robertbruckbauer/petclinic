@@ -1,6 +1,5 @@
 package esy.app;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import esy.EsyBackendAware;
 import esy.EsyBackendEntity;
 import esy.EsyBackendRoot;
@@ -11,6 +10,7 @@ import esy.rest.JsonJpaMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -100,6 +100,14 @@ public class EsyBackendConfiguration implements EsyBackendAware {
                 .forEach(configuration::exposeIdsFor);
     }
 
+    // tag::jacksonCustomizer[]
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
+        return builder -> builder.postConfigurer(JsonJpaMapper::configure);
+    }
+    // end::jacksonCustomizer[]
+
+    // tag::securityCustomizer[]
     @Bean
     public WebSecurityCustomizer securityCustomizer() {
         return web -> {
@@ -111,7 +119,9 @@ public class EsyBackendConfiguration implements EsyBackendAware {
             web.ignoring().requestMatchers(EndpointRequest.to(HealthEndpoint.class));
         };
     }
+    // end::securityCustomizer[]
 
+    // tag::securityFilterChain[]
     @Bean
     public SecurityFilterChain securityFilterChain(@NonNull final HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults());
@@ -120,7 +130,9 @@ public class EsyBackendConfiguration implements EsyBackendAware {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
+    // end::securityFilterChain[]
 
+    // tag::webMvcConfigurer[]
     @Bean
     public WebMvcConfigurer webMvcConfigurer() {
         return new WebMvcConfigurer() {
@@ -131,7 +143,9 @@ public class EsyBackendConfiguration implements EsyBackendAware {
             }
         };
     }
+    // end::webMvcConfigurer[]
 
+    // tag::repositoryRestConfigurer[]
     @Bean
     public RepositoryRestConfigurer repositoryRestConfigurer() {
         return new RepositoryRestConfigurer() {
@@ -152,12 +166,7 @@ public class EsyBackendConfiguration implements EsyBackendAware {
                 // apply CORS settings
                 applyCorsConfiguration(registry);
             }
-
-            @Override
-            public void configureJacksonObjectMapper(@NonNull final ObjectMapper mapper) {
-                // apply JSON defaults
-                JsonJpaMapper.configure(mapper);
-            }
         };
     }
+    // end::repositoryRestConfigurer[]
 }

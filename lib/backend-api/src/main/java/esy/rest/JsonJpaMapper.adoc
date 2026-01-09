@@ -3,7 +3,7 @@
 :term: JsonJpaMapper
 = {term}
 
-The {term} class is the central location for configuring Jackson for reading and writing JSON structures.
+The `{term}` class is the central location for configuring Jackson for reading and writing JSON structures.
 
 [source,java,options="nowrap"]
 ----
@@ -14,8 +14,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/rest/JsonJpaMapper.java[
 <2> The `JavaTimeModule` ensures that temporal data types like `LocalDate` are correctly serialized.
 
 <3> With the value `false`, it is ensured that during PATCH operations the list from the JSON structure is merged with the list from the database. +
-The behavior for lists is thus consistent with the behavior for values. +
-See also annotation `@JsonMerge`.
+The behavior for lists is thus consistent with the behavior for values.
 
 <4> With the value `Include.NON_NULL` only properties with non-null values are serialized.
 
@@ -26,6 +25,6 @@ See also annotation `@JsonMerge`.
 <7> With the value `false`, serialization is made robust. +
 Unknown properties are ignored.
 
-This method initializes the _Jackson Object Mapper_.
-It is used in the `EndpointConfiguration` class to uniformly define behavior in the _Spring Framework_.
-It is used in classes like `JsonJpaEntity` to implement `parseJson` and `writeJson` operations.
+This method initializes the _Jackson Object Mapper_ for JSON structures.
+It is used in entity classes like `JsonJpaEntity` to implement `parseJson` and `writeJson` operations.
+It is used in the backend configuration class to uniformly define behavior for the serialization of JSON structures.
