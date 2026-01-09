@@ -1,4 +1,4 @@
-package esy.api.info;
+package esy.api.basis;
 
 import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.Tag;
@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class EnumTest {
 
-    Enum createWithName(final String name) {
-        return Enum.parseJson("""
+    esy.api.basis.Enum createWithName(final String name) {
+        return esy.api.basis.Enum.parseJson("""
                 {
                     "art":"QUELLE",
                     "name":"%1$s",
@@ -34,7 +34,7 @@ class EnumTest {
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiche UUID
-        final var clone = Enum.parseJson(value.writeJson());
+        final var clone = esy.api.basis.Enum.parseJson(value.writeJson());
         assertTrue(clone.isEqual(value));
         assertEquals(clone.hashCode(), value.hashCode());
         assertEquals(clone.toString(), value.toString());
@@ -82,7 +82,7 @@ class EnumTest {
                 "\"text\": \"A " + name + "\"," +
                 line +
                 "}";
-        final var value = Enum.parseJson(json);
+        final var value = esy.api.basis.Enum.parseJson(json);
         assertDoesNotThrow(value::verify);
         assertNotNull(value.getId());
         assertEquals("QUELLE", value.getArt());

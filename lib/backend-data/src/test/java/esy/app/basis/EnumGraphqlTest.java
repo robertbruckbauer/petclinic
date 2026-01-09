@@ -1,6 +1,6 @@
-package esy.app.info;
+package esy.app.basis;
 
-import esy.api.info.Enum;
+import esy.api.basis.Enum;
 import esy.app.EsyGraphqlConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

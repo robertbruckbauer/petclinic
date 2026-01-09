@@ -1,7 +1,7 @@
-package esy.app.info;
+package esy.app.basis;
 
-import esy.api.info.Enum;
-import esy.api.info.QEnum;
+import esy.api.basis.Enum;
+import esy.api.basis.QEnum;
 import esy.rest.JsonJpaRepository;
 import esy.rest.QuerydslRepository;
 import lombok.NonNull;

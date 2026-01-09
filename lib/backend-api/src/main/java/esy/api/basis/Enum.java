@@ -1,4 +1,4 @@
-package esy.api.info;
+package esy.api.basis;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,9 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * Pflegbare Aufzählung.
- */
 @Entity
 @Table(name = "enum", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"id"}),

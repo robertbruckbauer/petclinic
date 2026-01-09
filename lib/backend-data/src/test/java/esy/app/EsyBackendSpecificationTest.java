@@ -4,7 +4,7 @@ import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
-import esy.api.info.Enum;
+import esy.api.basis.Enum;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 

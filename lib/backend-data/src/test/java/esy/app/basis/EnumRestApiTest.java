@@ -1,4 +1,4 @@
-package esy.app.info;
+package esy.app.basis;
 
 import esy.app.EsyBackendConfiguration;
 import org.junit.jupiter.api.*;

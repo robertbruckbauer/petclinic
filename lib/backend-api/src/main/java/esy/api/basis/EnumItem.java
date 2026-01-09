@@ -1,4 +1,4 @@
-package esy.api.info;
+package esy.api.basis;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.rest.JsonJpaItem;

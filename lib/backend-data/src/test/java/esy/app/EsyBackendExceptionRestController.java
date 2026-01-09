@@ -1,7 +1,7 @@
 package esy.app;
 
 import esy.api.Version;
-import esy.api.info.Enum;
+import esy.api.basis.Enum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.dao.DataIntegrityViolationException;

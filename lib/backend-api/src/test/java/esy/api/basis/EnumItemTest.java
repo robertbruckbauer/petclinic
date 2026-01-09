@@ -1,4 +1,4 @@
-package esy.api.info;
+package esy.api.basis;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class EnumItemTest {
 
-    Enum createWithName(final String name) {
+    esy.api.basis.Enum createWithName(final String name) {
         return Enum.parseJson("""
                 {
                     "art":"QUELLE",

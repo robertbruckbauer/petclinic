@@ -1,6 +1,6 @@
-package esy.app.info;
+package esy.app.basis;
 
-import esy.api.info.Enum;
+import esy.api.basis.Enum;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
