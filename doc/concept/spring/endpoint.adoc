@@ -40,21 +40,10 @@ The `JsonJpaMapper` class configures the _Jackson Object Mapper_ and provides op
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/rest/JsonJpaMapper.java[tags=configure,indent=0]
 ----
-<1> The `Jdk8Module` ensures that data types like `Optional` are correctly serialized.
-
-<2> The `JavaTimeModule` ensures that temporal data types like `LocalDate` are correctly serialized.
-
-<3> With the value `false`, it is ensured that during PATCH operations the list from the JSON structure is merged with the list from the database. +
+<1> With the value `false`, it is ensured that during PATCH operations the list from the JSON structure is merged with the list from the database. +
 The behavior for lists is thus consistent with the behavior for values.
 
-<4> With the value `Include.NON_NULL` only properties with non-null values are serialized.
-
-<5> With the value `true`, temporal data types are serialized with timezone.
-
-<6> With the value `false`, temporal data types are serialized with formatted text.
-
-<7> With the value `false`, serialization is made robust. +
-Unknown properties are ignored.
+<2> Disable exception for unknown properties for robust serialization following the tolerant reader pattern.
 
 A configurer bean configures message converters, argument resolvers, formatters, 
 CORS, interceptors, path matching or content negotiation.
