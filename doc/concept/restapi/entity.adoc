@@ -1,6 +1,6 @@
-:includedir: ../..
-:relrootdir: ../..
-= Entity definition
+:includedir: ../../..
+:relrootdir: ../../..
+= Entity specification
 
 Entities are fundamental classes of an application's domain model that define the properties and methods of objects used by the backend.
 Within the class, fields are marked with specific annotations to define their storage, such as `@Column` for simple data or `@ElementCollection` for collections of data.
@@ -13,17 +13,17 @@ Entities act as a definition for the JSON serialization in the REST API.
 
 == Properties
 
-include::{includedir}/doc/jsonjpa/entity-id.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-id.adoc[leveloffset=2]
 
-include::{includedir}/doc/jsonjpa/entity-version.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-version.adoc[leveloffset=2]
 
-include::{includedir}/doc/jsonjpa/entity-column-string.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-column-string.adoc[leveloffset=2]
 
-include::{includedir}/doc/jsonjpa/entity-column-long.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-column-long.adoc[leveloffset=2]
 
-include::{includedir}/doc/jsonjpa/entity-column-date.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-column-date.adoc[leveloffset=2]
 
-include::{includedir}/doc/jsonjpa/entity-column-time.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-column-time.adoc[leveloffset=2]
 
 == Collections
 
@@ -34,7 +34,7 @@ Collections with `@ElementCollection` are simpler than `@OneToMany` relationship
 * The elements are completely dependent on the parent entity lifecycle.
 * No bidirectional navigation from element to parent is needed.
 
-include::{includedir}/doc/jsonjpa/entity-collection-string.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-collection-string.adoc[leveloffset=2]
 
 == Relations
 
@@ -44,9 +44,9 @@ This is the owning side of the relationship, meaning the foreign key column is s
 A `@OneToMany` relationship represents an association where one parent entity owns a collection of related child entities.
 This is typically the inverse side of a `@ManyToOne` relationship and is used with bidirectional mappings.
 
-include::{includedir}/doc/jsonjpa/entity-relation-many-to-one.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-relation-many-to-one.adoc[leveloffset=2]
 
-include::{includedir}/doc/jsonjpa/entity-relation-one-to-many.adoc[leveloffset=2]
+include::{includedir}/doc/concept/restapi/entity-relation-one-to-many.adoc[leveloffset=2]
 
 == Operations
 
