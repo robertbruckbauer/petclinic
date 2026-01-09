@@ -9,8 +9,8 @@ import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
-import esy.api.info.Enum;
-import esy.json.JsonMapper;
+import esy.api.basis.Enum;
+import esy.rest.JsonJpaMapper;
 import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServerApiAssertion {
 
-    private final JsonMapper jsonMapper = new JsonMapper();
+    private final JsonJpaMapper jsonMapper = new JsonJpaMapper();
 
     private final APIRequestContext context;
 
@@ -65,7 +65,7 @@ public class ServerApiAssertion {
                 (api) -> api.get("/api/enum/skill"),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    return jsonMapper.parseJsonContent(res.text(), esy.api.info.Enum.class);
+                    return jsonMapper.parseJsonContent(res.text(), Enum.class);
                 });
         assertFalse(allEnum.isEmpty());
         final var allEnumName = allEnum.stream().map(Enum::getName).toList();
@@ -79,7 +79,7 @@ public class ServerApiAssertion {
                 (api) -> api.get("/api/enum/species"),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    return jsonMapper.parseJsonContent(res.text(), esy.api.info.Enum.class);
+                    return jsonMapper.parseJsonContent(res.text(), Enum.class);
                 });
         assertFalse(allEnum.isEmpty());
         final var allEnumName = allEnum.stream().map(Enum::getName).toList();

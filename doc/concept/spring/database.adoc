@@ -1,0 +1,30 @@
+:includedir: ../../..
+:relrootdir: ../../..
+= Specification for the database
+
+Backend services use a central configuration file for the database.
+It is only read when the application starts.
+
+== Configuration
+
+.database.properties
+[source,text]
+----
+include::{includedir}/lib/backend-data/src/main/resources/database.properties[]
+----
+
+The service uses _Liquibase_ for creating and migrating the database.
+DDL statements are scripted in a special XML format.
+Each database object has its own script.
+Since the execution order of the scripts is relevant, the scripts for the database objects are combined into a changelog script.
+The changelog script is executed when the application starts.
+Depending on the current state of the database, scripts are executed and create new database objects.
+Scripts that have already been executed on this database are ignored.
+
+== Implementation details
+
+.liquibase/changelog.xml
+[source,text]
+----
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/changelog.xml[]
+----

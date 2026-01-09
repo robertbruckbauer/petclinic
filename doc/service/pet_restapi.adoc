@@ -1,0 +1,263 @@
+:includedir: ../..
+:relrootdir: ../..
+:restdocdir: {includedir}/lib/backend-data/build/generated-snippets
+= Pet REST API
+
+REST-API for managing pets in the pet clinic application.
+It provides standard CRUD operations and a search endpoint that returns items.
+
+== Model
+
+=== Pet
+
+The main entity of a _Pet_ managed by this controller for persistence.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/pet.xml[]
+----
+
+The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+Each pet represents an animal owned by a client and can have multiple veterinary visits.
+The pet requires a valid name, species, and birth date.
+Each pet must have an owner.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
+----
+
+A simplified representation of a _Pet_ for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `POST /api/pet`
+
+This operation creates a new _Pet_ entity.
+
+****
+
+.Command
+include::{restdocdir}/post-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/post-api-pet/http-request.adoc[]
+
+.Response
+include::{restdocdir}/post-api-pet/response-body.adoc[]
+
+****
+
+This operation reports `Created` or code 201 if the entity was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
+
+=== `PUT /api/pet/{id}`
+
+This operation updates an existing _Pet_ entity or creates a new one.
+
+****
+
+.Command
+include::{restdocdir}/put-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/put-api-pet/http-request.adoc[]
+
+.Response
+include::{restdocdir}/put-api-pet/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Created` or code 201 if the entity was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
+
+=== `PATCH /api/pet/{id}`
+
+This operation partially updates an existing _Pet_ entity.
+You can update individual properties without affecting other properties.
+
+==== `name` attribute
+
+****
+
+.Command
+include::{restdocdir}/patch-api-pet-name/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-pet-name/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-pet-name/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
+
+TIP: The descriptions of attributes other than name are omitted for simplicity because they are following the same pattern.
+
+==== `owner` relation
+
+****
+
+.Command
+include::{restdocdir}/patch-api-pet-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-pet-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-pet-owner/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
+
+=== `GET /api/pet`
+
+This operation returns all persisted _Pet_ entities.
+
+It supports advanced query parameters for filtering and sorting, e.g.
+
+`?name=Max`::
+Find pets with name containing "Max" (case-insensitive)
+`?name=Max%`::
+Find pets with name starting with "Max" (case-insensitive)
+`?species=dog`::
+Find pets with species containing "dog" (case-insensitive)
+`?owner.name=Smith`::
+Find pets whose owner's name contains "Smith" (case-insensitive)
+
+It supports sorting and pagination, e.g.
+
+`?sort=name,asc`::
+Sort pets by name in ascending order
+`?sort=born,desc`::
+Sort pets by birth date in descending order
+`?size=10&page=1`::
+Find 10 pets on page 1
+
+****
+
+.Command
+include::{restdocdir}/get-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-pet/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-pet/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/pet/search/findAllItem`
+
+This operation returns all persisted _Pet_ entities as simplified _PetItem_ objects for selection purposes.
+The items are sorted by name in ascending order.
+
+****
+
+.Command
+include::{restdocdir}/get-api-pet-item/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-pet-item/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-pet-item/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/pet/{id}`
+
+This operation returns a single persisted _Pet_ entity.
+
+****
+
+.Command
+include::{restdocdir}/get-api-pet-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-pet-by-id/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-pet-by-id/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not Found` or code 404 if the data does not exist.
+
+=== `GET /api/pet/{id}/owner`
+
+This operation returns the associated _Owner_ entity for a pet.
+
+****
+
+.Command
+include::{restdocdir}/get-api-pet-owner/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-pet-owner/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-pet-owner/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not Found` or code 404 if the pet does not exist.
+
+=== `DELETE /api/pet/{id}`
+
+This operation deletes a single persisted _Pet_ entity.
+
+****
+
+.Command
+include::{restdocdir}/delete-api-pet/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/delete-api-pet/http-request.adoc[]
+
+.Response
+include::{restdocdir}/delete-api-pet/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully deleted.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.

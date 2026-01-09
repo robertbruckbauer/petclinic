@@ -1,0 +1,68 @@
+:includedir: ../../..
+:relrootdir: ../../..
+= Specification for entities
+
+Entities are fundamental classes of an application's domain model that define the properties and methods of objects used by the backend.
+Within the class, fields are marked with specific annotations to define their storage, such as `@Column` for simple data or `@ElementCollection` for collections of data.
+They are often linked to one another through relational annotations, including `@ManyToOne`, `@OneToMany`, and `@ManyToMany`.
+
+Entities act as a bridge between the programming code and the database.
+Each entity class typically corresponds to a database table defined in a `Liquibase` script.
+
+Entities act as a definition for the JSON serialization in the REST endpoints.
+
+== Properties
+
+include::{includedir}/doc/concept/spring/_json-jpa-id.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-version.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-column-string.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-column-long.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-column-date.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-column-time.adoc[leveloffset=2]
+
+== Collections
+
+Collections with `@ElementCollection` are simpler than `@OneToMany` relationships when:
+
+* The collection contains basic types (e.g. `String`, `Long` or enumerations) rather than entities.
+* The elements don't need their own identity (no separate ID column).
+* The elements are completely dependent on the parent entity lifecycle.
+* No bidirectional navigation from element to parent is needed.
+
+include::{includedir}/doc/concept/spring/_json-jpa-collection-string.adoc[leveloffset=2]
+
+== Relations
+
+A `@ManyToOne` relationship represents an association where multiple child entities can reference a single parent entity.
+This is the owning side of the relationship, meaning the foreign key column is stored in the child entity's table.
+
+A `@OneToMany` relationship represents an association where one parent entity owns a collection of related child entities.
+This is typically the inverse side of a `@ManyToOne` relationship and is used with bidirectional mappings.
+
+include::{includedir}/doc/concept/spring/_json-jpa-relation-many-to-one.adoc[leveloffset=2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-relation-one-to-many.adoc[leveloffset=2]
+
+== Operations
+
+Entities implement several key operations for lifecycle management and data integrity:
+
+**verify()**::
+Validates entity state before persistence, checking business rules and constraints.
+
+**withId()**::
+Creates a copy of the entity with a different ID while preserving all other properties.
+
+**isEqual()**::
+Compares entity content (excluding primary key and version) to determine logical equality.
+
+**toString()**::
+Provides a string representation for logging and debugging.
+
+**extraJson()**::
+Customizes JSON serialization through `@JsonAnyGetter` to include derived or transformed data.

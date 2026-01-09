@@ -4,7 +4,7 @@ import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
-import esy.api.info.Enum;
+import esy.api.basis.Enum;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ public class EsyBackendSpecificationTest {
                 .getSimpleName()
                 .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
                 .toLowerCase();
-        final var path = Paths.get(root, "doc", "restapi", "%s_restapi.adoc".formatted(name));
+        final var path = Paths.get(root, "doc", "service", "%s_restapi.adoc".formatted(name));
         assertTrue(Files.exists(path), path.toString());
     }
 
@@ -41,7 +41,7 @@ public class EsyBackendSpecificationTest {
                 .getSimpleName()
                 .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
                 .toLowerCase();
-        final var path = Paths.get(root, "doc", "graphql", "%s_graphql.adoc".formatted(name));
+        final var path = Paths.get(root, "doc", "service", "%s_graphql.adoc".formatted(name));
         assertTrue(Files.exists(path), path.toString());
     }
 

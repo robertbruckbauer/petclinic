@@ -1,7 +1,7 @@
 package esy;
 
 import com.microsoft.playwright.Playwright;
-import esy.json.JsonMapper;
+import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ public class ServerRunnerTest {
 			final var req = playwright.request().newContext();
 			final var res = req.get(toBackendUrl("/actuator/health"));
 			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-			final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+			final var jsonReader = new JsonJpaMapper().parseJsonPath(res.text());
 			assertEquals("UP", jsonReader.read("$.status"));
 			assertEquals("liveness", jsonReader.read("$.groups[0]"));
 			assertEquals("readiness", jsonReader.read("$.groups[1]"));
@@ -58,7 +58,7 @@ public class ServerRunnerTest {
 			final var req = playwright.request().newContext();
 			final var res = req.get(toBackendUrl("/version"));
 			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-			final var jsonReader = new JsonMapper().parseJsonPath(res.text());
+			final var jsonReader = new JsonJpaMapper().parseJsonPath(res.text());
 			assertNotNull(jsonReader.read("$.major"));
 			assertNotNull(jsonReader.read("$.minor"));
 			assertNotNull(jsonReader.read("$.version"));
