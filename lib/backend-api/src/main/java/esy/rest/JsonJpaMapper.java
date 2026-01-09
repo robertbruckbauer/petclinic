@@ -1,20 +1,11 @@
 package esy.rest;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.JsonPathException;
-import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
-import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import lombok.NonNull;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -24,60 +15,33 @@ import java.util.stream.Stream;
 public class JsonJpaMapper {
 
     // tag::configure[]
-    public static ObjectMapper configure(@NonNull final ObjectMapper mapper) {
-        return mapper
-                .registerModule(new Jdk8Module()) // <1>
-                .registerModule(new JavaTimeModule()) // <2>
-                .setDefaultMergeable(false) // <3>
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL) // <4>
-                .configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, true) // <5>
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) // <6>
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // <7>
+    public static JsonMapper.Builder configure(@NonNull final JsonMapper.Builder builder) {
+        return builder
+                .defaultMergeable(false) // <1>
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES); // <2>
     }
     // end::configure[]
 
     /**
-     * Erzeugt eine JSON-Struktur für ein Value-Objekt.
+     * Writes a JSON structure for a value object.
      *
-     * @param value Value-Objekt
-     * @return JSON
+     * @param value value object
+     * @return JSON structure
      */
     public <T> String writeJson(@NonNull final T value) {
         try {
-            final var mapper = configure(new ObjectMapper());
+            final var builder = JsonMapper.builder();
+            final var mapper = configure(builder).build();
             return mapper.writeValueAsString(value);
-        } catch (final JsonProcessingException e) {
+        } catch (final JacksonException e) {
             throw new IllegalArgumentException(e.toString(), e);
         }
     }
 
     /**
-     * Erzeugt einen {@link JsonJpaReader} mit allen Elementen einer JSON-Struktur.
+     * Parses a JSON structure and creates a {@link JsonNode}.
      *
-     * @param json JSON
-     * @return {@link JsonJpaReader}
-     */
-    public JsonJpaReader parseJsonPath(@NonNull final String json) {
-        if (json.isBlank()) {
-            throw new IllegalArgumentException("json structure is blank");
-        }
-        try {
-            final var mapper = configure(new ObjectMapper());
-            // Use jackson for parsing and type mapping
-            final var jsonConfiguration = Configuration.builder()
-                    .jsonProvider(new JacksonJsonProvider(mapper))
-                    .mappingProvider(new JacksonMappingProvider(mapper))
-                    .build();
-            return new JsonJpaReader(JsonPath.using(jsonConfiguration).parse(json));
-        } catch (final JsonPathException e) {
-            throw new IllegalArgumentException(e.toString(), e);
-        }
-    }
-
-    /**
-     * Erzeugt einen {@link JsonNode} mit allen Elementen einer JSON-Struktur.
-     *
-     * @param json JSON
+     * @param json JSON structure
      * @return {@link JsonNode}
      */
     public JsonNode parseJsonNode(@NonNull final String json) {
@@ -85,17 +49,18 @@ public class JsonJpaMapper {
             throw new IllegalArgumentException("json structure is blank");
         }
         try {
-            final var mapper = configure(new ObjectMapper());
+            final var builder = JsonMapper.builder();
+            final var mapper = configure(builder).build();
             return mapper.readTree(json);
-        } catch (final JsonProcessingException e) {
+        } catch (final JacksonException e) {
             throw new IllegalArgumentException(e.toString(), e);
         }
     }
 
     /**
-     * Erzeugt eine {@link Map} mit allen Elementen einer JSON-Struktur.
+     * Parses a JSON structure and creates a {@link Map}.
      *
-     * @param json JSON
+     * @param json JSON structure
      * @return {@link Map}
      */
     public Map<String, Object> parseJsonMap(@NonNull final String json) {
@@ -103,50 +68,54 @@ public class JsonJpaMapper {
             throw new IllegalArgumentException("json structure is blank");
         }
         try {
-            final var mapper = configure(new ObjectMapper());
+            final var builder = JsonMapper.builder();
+            final var mapper = configure(builder).build();
             final var typeRef = new TypeReference<Map<String, Object>>() {};
             return mapper.readValue(json, typeRef);
-        } catch (final JsonProcessingException e) {
+        } catch (final JacksonException e) {
             throw new IllegalArgumentException(e.toString(), e);
         }
     }
 
     /**
-     * Erzeugt ein Value-Objekt aus einer JSON-Struktur.
+     * Parses a JSON structure and creates a value object.
      *
-     * @param json JSON
-     * @param type Value-Klasse
-     * @return Value-Objekt
+     * @param json JSON structure
+     * @param type value type
+     * @param patcher {@link Consumer} for patches
+     * @return value object
      */
     @SafeVarargs
     public final <T> T parseJson(@NonNull final String json, @NonNull final Class<T> type, @NonNull final Consumer<T>... patcher) {
         try {
-            final var mapper = configure(new ObjectMapper());
+            final var builder = JsonMapper.builder();
+            final var mapper = configure(builder).build();
             final var value = mapper.readValue(json, type);
             Stream.of(patcher).forEach(p -> p.accept(value));
             return value;
-        } catch (final JsonProcessingException e) {
+        } catch (final JacksonException e) {
             throw new IllegalArgumentException(e.toString(), e);
         }
     }
 
     /**
-     * Erzeugt eine Liste von Value-Objekten aus einer Liste von JSON-Strukturen.
+     * Parses a JSON structure and creates a list of value objects.
      *
-     * @param json JSON
-     * @param type Value-Klasse
-     * @return Value-Objekte
+     * @param json JSON structure
+     * @param type value type
+     * @return list of value objects
      */
     @SafeVarargs
     @SuppressWarnings("unchecked") // no other solution
     public final <T> List<T> parseJsonContent(@NonNull final String json, @NonNull final Class<T> type, @NonNull final Consumer<T>... patcher) {
         try {
-            final var mapper = configure(new ObjectMapper());
+            final var builder = JsonMapper.builder();
+            final var mapper = configure(builder).build();
             final var mappedType = mapper.getTypeFactory().constructParametricType(JsonJpaCollectionModel.class, type);
-            final var allValue = ((JsonJpaCollectionModel<T>)mapper.readValue(json, mappedType)).getContent();
+            final var allValue = ((JsonJpaCollectionModel<T>) mapper.readValue(json, mappedType)).getContent();
             Stream.of(patcher).forEach(p -> allValue.forEach(value -> p.accept(value)));
             return allValue;
-        } catch (final JsonProcessingException e) {
+        } catch (final JacksonException e) {
             throw new IllegalArgumentException(e.toString(), e);
         }
     }
