@@ -119,7 +119,9 @@
 
 <div class="h-0" bind:this={bottomDiv}>&nbsp;</div>
 
-<details>
-  <summary>JSON</summary>
-  <pre>{JSON.stringify(newVisit, null, 2)}</pre>
-</details>
+{#if import.meta.env.DEV}
+  <details>
+    <summary>JSON</summary>
+    <pre>{JSON.stringify(newVisit, null, 2)}</pre>
+  </details>
+{/if}
