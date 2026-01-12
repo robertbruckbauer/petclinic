@@ -30,21 +30,27 @@ jobs:
           fetch-depth: 0
 
       # https://github.com/actions/setup-node
+      # tag::setup-node[]
       - uses: actions/setup-node@v5
         with:
           node-version: "24"
+      # end::setup-node[]
 
       # https://github.com/actions/setup-java
+      # tag::setup-java[]
       - uses: actions/setup-java@v5
         with:
           distribution: "temurin"
           java-version: "21"
           cache: "gradle"
+      # end::setup-java[]
 
       # https://github.com/gradle/actions
+      # tag::setup-gradle[]
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.14"
+      # end::setup-gradle[]
 
       - name: Check Version
         run: gradle versionTag versionCheck
