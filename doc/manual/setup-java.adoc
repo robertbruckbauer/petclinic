@@ -6,7 +6,7 @@ This manual specifies the java version and related configurations for this repos
 The project uses only versions with long-term support.
 Java is used for the backend server application and for build tooling and tasks.
 
-== Compiler
+== Build
 
 .build.gradle
 [source,gradle]
@@ -16,8 +16,6 @@ include::{includedir}/build.gradle[tag=setup-java,indent=0]
 
 This configuration sets the java version required to compile the source code (sourceCompatibility) and to run the compiled bytecode (targetCompatibility) for all java based gradle subprojects.
 
-== Container
-
 .build.gradle
 [source,gradle]
 ----
@@ -25,6 +23,7 @@ include::{includedir}/app/server/build.gradle[tag=setup-java,indent=0]
 ----
 
 The Paketo buildpack configuration in the `bootBuildImage` task specifies the java version for the container runtime.
+It uses a distribution provided by Liberica.
 
 == Github
 
@@ -35,4 +34,4 @@ include::{includedir}/.github/workflows/build.yml[tag=setup-java,indent=0]
 ----
 
 The GitHub actions workflow configures java for automated builds and tests.
-It uses distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).
+It uses a distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).
