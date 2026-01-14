@@ -1,6 +1,6 @@
 :includedir: ../..
 :relrootdir: ../..
-= Setup Java
+= Setup java
 
 This manual specifies the java version and related configurations for this repository.
 The project uses only versions with long-term support.
@@ -35,3 +35,11 @@ include::{includedir}/.github/workflows/build.yml[tag=setup-java,indent=0]
 
 The GitHub actions workflow configures java for automated builds and tests.
 It uses a distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).
+
+.devcontainer.json
+[source,gradle]
+----
+include::{includedir}/.devcontainer/devcontainer.json[tag=setup-java,indent=0]
+----
+
+The Github devcontainer adds the java feature.
