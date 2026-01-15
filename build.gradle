@@ -34,11 +34,13 @@ allprojects {
 }
 
 subprojects {
+    // tag::setup-java[]
     plugins.withType(JavaPlugin).configureEach {
         compileJava.options.encoding = 'UTF-8'
         java.sourceCompatibility = JavaVersion.VERSION_21
         java.targetCompatibility = JavaVersion.VERSION_21
     }
+    // end::setup-java[]
     tasks.withType(Test).tap {
         configureEach {
             useJUnitPlatform {

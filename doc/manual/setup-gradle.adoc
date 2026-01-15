@@ -1,0 +1,34 @@
+:includedir: ../..
+:relrootdir: ../..
+= Setup gradle
+
+This manual specifies the gradle version and related configurations for this repository.
+Gradle depends on xref:{relrootdir}/doc/manual/setup-java.adoc[java].
+
+== Build
+
+.gradle-wrapper.properties
+[source,gradle]
+----
+include::{includedir}/gradle/wrapper/gradle-wrapper.properties[]
+----
+
+This configuration sets the gradle version required to run build tasks locally.
+
+== Github
+
+.build.yml
+[source,gradle]
+----
+include::{includedir}/.github/workflows/build.yml[tag=setup-gradle,indent=0]
+----
+
+The GitHub actions workflow configures gradle for automated builds and tests.
+
+.devcontainer.json
+[source,gradle]
+----
+include::{includedir}/.devcontainer/devcontainer.json[tag=setup-gradle,indent=0]
+----
+
+The Github devcontainer adds the gradle feature.

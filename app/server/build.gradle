@@ -79,10 +79,12 @@ bootBuildImage {
     enabled = true
     imageName = SERVER_IMAGE + ":" + SERVER_TAG
     tags = [SERVER_IMAGE + ":" + VERSION]
+    // tag::setup-java[]
     environment = [
         "BP_JVM_VERSION":"21.*",
         "BP_SPRING_CLOUD_BINDINGS_DISABLED":"true"
     ]
+    // end::setup-java[]
 }
 
 tasks.register('buildImage') {
