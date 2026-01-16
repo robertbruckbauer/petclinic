@@ -9,8 +9,10 @@ import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.health.actuate.endpoint.HealthEndpoint;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
+import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -27,8 +29,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 
 
 import static org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
@@ -102,8 +102,8 @@ public class EsyBackendConfiguration implements EsyBackendAware {
 
     // tag::jacksonCustomizer[]
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
-        return builder -> builder.postConfigurer(JsonJpaMapper::configure);
+    public JsonMapperBuilderCustomizer jacksonCustomizer() {
+        return JsonJpaMapper::configure;
     }
     // end::jacksonCustomizer[]
 
@@ -123,7 +123,7 @@ public class EsyBackendConfiguration implements EsyBackendAware {
 
     // tag::securityFilterChain[]
     @Bean
-    public SecurityFilterChain securityFilterChain(@NonNull final HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(@NonNull final HttpSecurity http) {
         http.cors(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement(customizer -> customizer
@@ -151,7 +151,7 @@ public class EsyBackendConfiguration implements EsyBackendAware {
         return new RepositoryRestConfigurer() {
 
             @Override
-            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, final CorsRegistry registry) {
+            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, @NonNull final CorsRegistry registry) {
                 // apply REST defaults
                 configuration.setBasePath(API_PATH);
                 configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
