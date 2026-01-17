@@ -47,23 +47,25 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
  * @see <a href="https://www.baeldung.com/the-persistence-layer-with-spring-and-jpa">A Guide to JPA with Spring</a>
  * @see <a href="https://thorben-janssen.com/tutorials">Tutorials von Thorben Jansen</a>
  * @see <a href="https://vladmihalcea.com/tutorials">Tutorials von Vlad Mihalcea</a> */
+// tag::configuration[]
 @Configuration
-@ComponentScan(
-        basePackages = {EsyBackendRoot.PACKAGE_NAME})
-@EntityScan(
-        basePackages = {EsyEntityRoot.PACKAGE_NAME},
-        basePackageClasses = {EsyBackendEntity.class})
 @PropertySource(
         ignoreResourceNotFound = false,
         value = "classpath:database.properties")
 @PropertySource(
         ignoreResourceNotFound = false,
         value = "classpath:endpoint.properties")
+@EntityScan(
+        basePackages = {EsyEntityRoot.PACKAGE_NAME},
+        basePackageClasses = {EsyBackendEntity.class})
+@ComponentScan(
+        basePackages = {EsyBackendRoot.PACKAGE_NAME})
 @EnableJpaRepositories(
         basePackages = {EsyBackendRoot.PACKAGE_NAME})
 @EnableTransactionManagement
 @EnableScheduling
 @RequiredArgsConstructor
+// end::configuration[]
 public class EsyBackendConfiguration implements EsyBackendAware {
 
     /**

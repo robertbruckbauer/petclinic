@@ -25,9 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ContextConfiguration(classes = EsyBackendConfiguration.class)
 @Transactional
-@Rollback(false)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Rollback(true)
 public class EnumRepositoryTest {
+
+    static final String ENUM_ART = "TEST";
 
     @Autowired
     private DataSource dataSource;
@@ -45,7 +46,6 @@ public class EnumRepositoryTest {
     private EnumRepository enumRepository;
 
     @Test
-    @Order(0)
     void context() {
         assertNotNull(dataSource);
         assertNotNull(jdbcTemplate);
@@ -53,8 +53,6 @@ public class EnumRepositoryTest {
         assertNotNull(transactionTemplate);
         assertNotNull(enumRepository);
     }
-
-    static final String ENUM_ART = "TEST";
 
     Enum createWithName(final String name, final Long code) {
         final var json = """
@@ -70,15 +68,11 @@ public class EnumRepositoryTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "JIRA",
-            "JIRA Cloud",
-            "TEST",
             "Äpfel",
             "Öl",
             "Übel",
             "Spaß"
     })
-    @Order(1)
     void saveEnum(final String name) {
         final var code = enumRepository.count(ENUM_ART);
         final var value0 = createWithName(name, code);
@@ -89,8 +83,7 @@ public class EnumRepositoryTest {
         assertEquals(name, value0.getName());
         assertEquals("A " + name, value0.getText());
 
-        final var value1 = transactionTemplate.execute(status ->
-                enumRepository.save(value0));
+        final var value1 = enumRepository.save(value0);
         assertNotNull(value1);
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
@@ -99,30 +92,34 @@ public class EnumRepositoryTest {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Test
-    @Order(2)
     void saveEnumUniqueKeyConstraint() {
-        assertEquals(7, enumRepository.count(ENUM_ART));
-        assertThrows(DataIntegrityViolationException.class, () ->
-                transactionTemplate.execute(status ->
-                        enumRepository.save(createWithName("JIRA", 8L))));
-        assertThrows(DataIntegrityViolationException.class, () ->
-                transactionTemplate.execute(status ->
-                        enumRepository.save(createWithName("ARIJ", 1L))));
+        final var code = 1L;
+        final var name = "JIRA";
+        final var value = enumRepository.save(createWithName(name, code));
+        try {
+            assertThrows(DataIntegrityViolationException.class, () ->
+                    transactionTemplate.execute(status ->
+                            enumRepository.save(createWithName(name, 8L))));
+            assertThrows(DataIntegrityViolationException.class, () ->
+                    transactionTemplate.execute(status ->
+                            enumRepository.save(createWithName("ARIJ", code))));
+        } finally {
+            enumRepository.delete(value);
+        }
     }
 
     @Test
-    @Order(3)
     void findEnum() {
-        assertEquals(7, enumRepository.count(ENUM_ART));
-        final var value = enumRepository.findAll(ENUM_ART).getFirst();
-        assertEquals(value, enumRepository.findByCode(ENUM_ART, 0L).orElseThrow());
-        assertEquals(value, enumRepository.findByName(ENUM_ART, "JIRA").orElseThrow());
+        final var code = 1L;
+        final var name = "JIRA";
+        final var value = enumRepository.save(createWithName(name, code));
+        assertEquals(value, enumRepository.findByCode(ENUM_ART, code).orElseThrow());
+        assertEquals(value, enumRepository.findByName(ENUM_ART, name).orElseThrow());
         assertTrue(enumRepository.existsById(value.getId()));
         assertTrue(enumRepository.findById(value.getId()).orElseThrow().isEqual(value));
     }
 
     @Test
-    @Order(4)
     void findEnumNoElement() {
         final var uuid = UUID.randomUUID();
         assertFalse(enumRepository.existsById(uuid));
@@ -130,28 +127,16 @@ public class EnumRepositoryTest {
     }
 
     @Test
-    @Order(5)
     void findAll() {
-        assertEquals(7, enumRepository.count(ENUM_ART));
+        final var value1 = enumRepository.save(createWithName("JIRA", 1L));
+        final var value2 = enumRepository.save(createWithName("WIKI", 2L));
+        final var value3 = enumRepository.save(createWithName("TEST", 3L));
+        assertEquals(3, enumRepository.count(ENUM_ART));
         final var allValue = enumRepository.findAll(ENUM_ART);
-        assertEquals(7, allValue.size());
-        assertEquals("JIRA", allValue.get(0).getName());
-        assertEquals("JIRA Cloud", allValue.get(1).getName());
-        assertEquals("TEST", allValue.get(2).getName());
-        assertEquals("Äpfel", allValue.get(3).getName());
-        assertEquals("Öl", allValue.get(4).getName());
-        assertEquals("Übel", allValue.get(5).getName());
-        assertEquals("Spaß", allValue.get(6).getName());
-        assertTrue(allValue.removeAll(enumRepository.findAll()));
+        assertEquals(3, allValue.size());
+        assertTrue(allValue.remove(value1));
+        assertTrue(allValue.remove(value2));
+        assertTrue(allValue.remove(value3));
         assertTrue(allValue.isEmpty());
-    }
-
-    @Test
-    @Order(99)
-    void deleteAll() {
-        assertEquals(7, enumRepository.count(ENUM_ART));
-        enumRepository.findAll(ENUM_ART).forEach(e ->
-                enumRepository.delete(e));
-        assertEquals(0, enumRepository.count(ENUM_ART));
     }
 }

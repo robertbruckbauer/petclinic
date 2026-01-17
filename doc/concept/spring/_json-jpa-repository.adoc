@@ -46,3 +46,12 @@ void delete(T entity);
 ----
 
 This operation deletes a record.
+
+== Tests
+
+The test approach relies on the concept of component integration with `@SpringBootTest` and verifies database operations with an embedded database.
+Liquibase applies all changelog scripts so tables, constraints, indexes, etc. exist.
+
+Tests are isolated using `@Transactional` and `@Rollback(true)`.
+Each test builds its own state.
+Changes must not persist between tests.
