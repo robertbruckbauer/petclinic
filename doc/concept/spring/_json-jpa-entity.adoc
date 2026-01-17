@@ -13,17 +13,17 @@ Entities act as a definition for the JSON serialization in the REST endpoints.
 
 == Properties
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-id.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-entity-id.adoc[leveloffset=+2]
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-version.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-entity-version.adoc[leveloffset=+2]
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-column-string.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-entity-column-string.adoc[leveloffset=+2]
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-column-long.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-entity-column-long.adoc[leveloffset=+2]
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-column-date.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-entity-column-date.adoc[leveloffset=+2]
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-column-time.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-entity-column-time.adoc[leveloffset=+2]
 
 == Collections
 
@@ -34,7 +34,7 @@ Collections with `@ElementCollection` are simpler than `@OneToMany` relationship
 * The elements are completely dependent on the parent entity lifecycle.
 * No bidirectional navigation from element to parent is needed.
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-collection-string.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-entity-collection-string.adoc[leveloffset=+2]
 
 == Relations
 
@@ -44,9 +44,22 @@ This is the owning side of the relationship, meaning the foreign key column is s
 A `@OneToMany` relationship represents an association where one parent entity owns a collection of related child entities.
 This is typically the inverse side of a `@ManyToOne` relationship and is used with bidirectional mappings.
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-relation-many-to-one.adoc[leveloffset=2]
+The Fetch type determines when JPA loads related entities, directly impacting query count, memory usage and response time.
 
-include::{includedir}/doc/concept/spring/_json-jpa-entity-relation-one-to-many.adoc[leveloffset=2]
+Use EAGER fetch when the relationship
+
+* is accessed in `extraJson`, `verify` or `isEqual`.
+* is accessed in most use cases.
+* is small and inexpensive to load.
+
+Use LAZY fetch otherwise.
+
+In addition, JPA entity relationships in rest endpoints provided by _Spring Data REST_ prevent automatic serialization of entity relationships.
+This approach avoids common pitfalls with the fetch type like circular references, lazy loading exceptions, and performance issues through accidental over-fetching.
+
+include::{includedir}/doc/concept/spring/_json-jpa-entity-relation-many-to-one.adoc[leveloffset=+2]
+
+include::{includedir}/doc/concept/spring/_json-jpa-entity-relation-one-to-many.adoc[leveloffset=+2]
 
 == Operations
 
@@ -55,43 +68,58 @@ The following techniques support this design approach.
 
 . Change identity without mutating the original object using the `withId` semantics.
 
-. Minimize muatating setter, i.e. provide setter only for properties that must be changed in a controller.
+. Minimize mutating setter, i.e. provide setter only for properties that must be changed in a controller.
 JPA and Jackson can still use reflection to set fields directly.
 
 . Initialization with JSON structures only, i.e. logic and tests use the same method for creating entities.
 Use package visibility for constructors.
 
-Entities implement several key operations for lifecycle management and data integrity:
+However, certain scenarios require mutable fields with setter methods for programmatic updates:
 
-**equals**::
+- Controllers need to establish relationships
+
+- Controllers require field updates when a field value must be computed
+
+- Controllers with batch operations need efficient updates
+
+Keep setters simple and focused.
+Validation belongs in `verify`.
+Always mark setters with `@JsonIgnore` and return `this` for method chaining.
+
+Entities use _Jakarta Bean Validation_ annotations to enforce data integrity at the entity level.
+These constraints are validated automatically before persistence operations through the `verify` method and JPA lifecycle callbacks.
+
+Entities implement several key operations for lifecycle management and data integrity (in alphabetical order):
+
+equals::
 Compares ID and version properties only to determine identity equality.
-May not be overidden by subclasses.
+May not be overridden by subclasses.
 
-**extraJson**::
+extraJson::
 Customizes JSON serialization through `@JsonAnyGetter` to include derived or transformed data.
 May be customized by subclasses.
 
-**hashCode**::
+hashCode::
 Uses ID and version properties only.
-May not be overidden by subclasses.
+May not be overridden by subclasses.
 
-**isEqual**::
+isEqual::
 Compares all properties except ID and version to determine semantic equality.
 Must be implemented by subclasses.
 
-**isPersisted**::
+isPersisted::
 Returns true after saved to database.
-May not be overidden by subclasses.
+May not be overridden by subclasses.
 
-**toString**::
+toString::
 Provides a string representation for logging and debugging.
 May be customized by subclasses.
 
-**verify**::
-Validates entity state before persistence, checking business rules and constraints and throws a `IllegalArgumentException` if entity state is invalid.
+verify::
+Validates entity state before persistence and throws a `IllegalArgumentException` if entity state is invalid.
 May be customized by subclasses.
 
-**withId**::
+withId::
 Creates a copy of the entity with a different ID while preserving all other properties.
 Must be implemented by subclasses.
 
