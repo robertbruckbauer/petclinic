@@ -206,3 +206,50 @@ include::{includedir}/lib/backend-data/src/main/java/esy/rest/JsonJpaRestControl
 This operation returns a callback method for a `TransactionTemplate` in a concrete implementation.
 The callback method is executed *after* deleting a relation in this record.
 The callback method expects a `Void`.
+
+== Tests
+
+The test approach relies on the concept of component integration with `@SpringBootTest` and verifies rest endpoints with an embedded database.
+Liquibase applies all changelog scripts so tables, constraints, indexes, etc. exist.
+
+Tests automatically generate documentation snippets configured in `@BeforeEach` with pretty-printed JSON structures.
+
+Tests are strictly ordered using `@TestMethodOrder` with `@Order` annotations.
+Each test builds upon previous test state.
+Changes persist between tests and are cleaned up at the end of the suite.
+
+.Consequences
+****
+[.lead]
+Positive:
+
+Minimal lines of code::
+Single precondition, single cleanup, no repeated inserts.
+
+Fast execution::
+Avoids per-test database setup and repeated cleanup.
+
+Realistic narrative::
+Order matches how the API is used; snippet generation is naturally story-driven.
+
+Reduced duplication::
+Shared state reused across steps.
+
+[.lead]
+Negative:
+
+Failure cascades::
+If an early step fails, many later tests will fail too (reduced signal quality).
+
+lower isolation::
+Tests cannot be reliably executed individually.
+
+Harder parallelization::
+Ordered tests limit parallel execution and sharding.
+
+Hidden state coupling::
+Later assertions may fail due to earlier setup issues rather than endpoint logic.
+****
+
+We accept these consequences because this test level serves as a scenario-based component integration test focused on the correct interaction of endpoints across the resource lifecycle and on producing stable documentation snippets.
+See also test approach for entities and repositories.

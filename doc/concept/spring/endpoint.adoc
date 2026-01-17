@@ -2,16 +2,32 @@
 :relrootdir: ../../..
 = Specification for endpoints
 
+== Configuration overview
+
 Backend services use a central configuration file for REST and GraphQL endpoints.
 It is only read when the application starts.
-
-== Configuration
 
 .endpoint.properties
 [source,text]
 ----
 include::{includedir}/lib/backend-data/src/main/resources/endpoint.properties[]
 ----
+
+Backend services use the autoconfiguration capabilities provides by _Spring Boot_.
+
+.configuration
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=configuration,indent=0]
+----
+
+A `@ComponentScan` annotation tells Spring where to look for controller components.
+
+The `@EnableJpaRepositories` annotation activates the repository support.
+
+The `@EnableTransactionManagement` annotation activates the transaction support.
+
+The `@EnableScheduling` annotation activates the scheduled task execution capability.
 
 A customizer bean configures `Jackson` for reading and writing JSON structures.
 
@@ -83,4 +99,4 @@ include::{includedir}/doc/concept/spring/_json-jpa-repository.adoc[leveloffset=2
 
 include::{includedir}/doc/concept/spring/_querydsl-repository.adoc[leveloffset=2]
 
-include::{includedir}/doc/concept/spring/_json-jpa-controller.adoc[leveloffset=2]
+include::{includedir}/doc/concept/spring/_json-jpa-rest-controller.adoc[leveloffset=2]
