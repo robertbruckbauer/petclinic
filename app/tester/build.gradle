@@ -1,0 +1,90 @@
+plugins {
+    id 'base'
+    id 'com.github.node-gradle.node'
+}
+
+assemble {
+    dependsOn 'npmInstall'
+}
+
+tasks.named("npmInstall") {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+}
+
+tasks.register('testerUp') {
+    mustRunAfter ':app:client-angular:buildImage'
+    mustRunAfter ':app:client-svelte:buildImage'
+    mustRunAfter ':app:server:buildImage'
+    doLast {
+        println '\nDeploying with latest'
+        exec {
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'up', '--detach', '--no-build'
+        }
+    }
+}
+
+tasks.register('testerRunAngular', NpxTask) {
+    group 'verification'
+    mustRunAfter 'npmInstall'
+    environment = ['BASE_URL': 'http://localhost:5052']
+    command = 'playwright'
+    args = ['test']
+}
+
+tasks.register('testerRunSvelte', NpxTask) {
+    group 'verification'
+    mustRunAfter 'npmInstall'
+    environment = ['BASE_URL': 'http://localhost:5050']
+    command = 'playwright'
+    args = ['test']
+}
+
+tasks.register('testerRun') {
+    group 'verification'
+    dependsOn 'testerRunAngular', 'testerRunSvelte'
+}
+
+tasks.register('testerStop') {
+    doLast {
+        exec {            
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'stop'
+        }
+    }
+}
+
+tasks.register('testerDown') {
+    doLast {
+        exec {
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'down'
+        }
+    }
+}
+
+tasks.register('versionCheck', VersionCheckTask.class)  {
+    group 'verification'
+    mustRunAfter 'npmInstall'
+    allFileWithVersion.from("Chart.yaml", "package.json", "package-lock.json")
+}
+
+tasks.register('lint', NpmTask) {
+    group = 'verification'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    npmCommand = ['run', 'prettierCheck']
+}
+
+tasks.register('format', NpmTask) {
+    group = 'build'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    npmCommand = ['run', 'prettierApply']
+}
