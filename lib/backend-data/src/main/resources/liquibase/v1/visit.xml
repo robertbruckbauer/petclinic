@@ -54,4 +54,10 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="3" author="robert">
+        <comment>Enable replica identity for Debezium</comment>
+        <sql dbms="postgresql">
+            ALTER TABLE visit REPLICA IDENTITY FULL;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
