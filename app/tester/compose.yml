@@ -1,4 +1,28 @@
 services:
+  tester:
+    hostname: tester
+    image: ${COMPOSE_PROJECT_NAME}/tester
+    ports:
+      - 9090:9090
+    environment:
+      - PORT=9090
+      - BACKEND_URL=http://server:8080
+      - CONNECT_URL=http://debezium:8083
+      - POSTGRES_HOST=postgres17
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=postgres
+      - KAFKA_BROKERS=redpanda:9643
+    volumes:
+      - ./build:/app/build
+    depends_on:
+      server:
+        condition: service_started
+      debezium:
+        condition: service_started
+      redpanda:
+        condition: service_healthy
   client-angular:
     hostname: client-angular
     image: ${COMPOSE_PROJECT_NAME}/client-angular
