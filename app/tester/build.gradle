@@ -67,6 +67,41 @@ tasks.register('testerDown') {
     }
 }
 
+import java.util.Optional;
+ext.TESTER_NAME = Optional.ofNullable(System.getenv("TESTER_NAME"))
+        .orElse(rootProject.name + "-" + project.name)
+ext.TESTER_IMAGE = Optional.ofNullable(System.getenv("TESTER_IMAGE"))
+            .orElse(rootProject.name + "/" + project.name)
+ext.TESTER_TAG = Optional.ofNullable(System.getenv("TESTER_TAG"))
+            .orElse('latest')
+
+// https://docs.docker.com/reference/cli/docker/build/
+// https://docs.docker.com/reference/cli/docker/image/tag/
+tasks.register('buildImage') {
+    group = 'build'
+    mustRunAfter 'build'
+    enabled = true
+    doLast {
+        String image1 = TESTER_IMAGE + ":" + TESTER_TAG;
+        String image2 = TESTER_IMAGE + ":" + VERSION;
+        exec {
+            workingDir "${projectDir}"
+            executable 'docker'
+            args 'build', '.', '-t', image1
+        }
+        if (image1 != image2) {
+            exec {
+                workingDir "${projectDir}"
+                executable 'docker'
+                args 'tag', image1, image2
+            }
+            println 'Built image to docker daemon as ' + image1 + ", " + image2
+        } else {
+            println 'Built image to docker daemon as ' + image1
+        }
+    }
+}
+
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group 'verification'
     mustRunAfter 'npmInstall'
