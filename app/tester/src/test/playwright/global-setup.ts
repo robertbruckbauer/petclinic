@@ -27,6 +27,20 @@ async function globalSetup() {
     } else {
       const json = (await response.json()) as ErrorResponse;
       console.warn(`[GlobalSetup] ${json.error}`);
+
+      // If setup failed, try to clean up by calling teardown
+      console.log("[GlobalSetup] Attempting cleanup via teardown...");
+      try {
+        await fetch(`${TESTER_URL}/teardown`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+        console.log("[GlobalSetup] Cleanup completed. Please retry the tests.");
+      } catch (teardownError) {
+        console.error(`[GlobalSetup] Cleanup failed:`, teardownError);
+      }
+
+      throw new Error(`Setup failed: ${json.error}`);
     }
   } catch (error) {
     console.error(`[GlobalSetup] ${error}`);
