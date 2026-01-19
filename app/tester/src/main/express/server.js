@@ -79,11 +79,18 @@ function initDatabase(id) {
 }
 
 /**
+ * Build Debezium connector name
+ */
+function buildConnectorName(id) {
+  return `petclinic-connector-${id}`;
+}
+
+/**
  * Build Debezium connector configuration
  */
 function buildConnectorConfig(id) {
   return {
-    name: `petclinic-connector-${id}`,
+    name: `${buildConnectorName(id)}`,
     config: {
       "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
       "tasks.max": "1",
@@ -117,42 +124,27 @@ function buildConnectorConfig(id) {
 }
 
 /**
- * Create or update Debezium connector
+ * Create Debezium connector
  */
 async function createConnector(id) {
   const connectorConfig = buildConnectorConfig(id);
-  const connectorName = connectorConfig.name;
-
   console.log("[Connector] Creating Debezium connector...");
 
   try {
-    // Try updating existing connector
-    const updateResponse = await fetch(
-      `${CONNECT_URL}/connectors/${connectorName}/config`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(connectorConfig.config),
-      }
-    );
+    const createResponse = await fetch(`${CONNECT_URL}/connectors`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(connectorConfig),
+    });
 
-    if (!updateResponse.ok) {
-      // Try creating it instead
-      const createResponse = await fetch(`${CONNECT_URL}/connectors`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(connectorConfig),
-      });
-
-      if (!createResponse.ok) {
-        const errorText = await createResponse.text();
-        throw new Error(
-          `Failed to create connector: ${createResponse.status} ${errorText}`
-        );
-      }
+    if (!createResponse.ok) {
+      const errorText = await createResponse.text();
+      throw new Error(
+        `Failed to create connector: ${createResponse.status} ${errorText}`
+      );
     }
 
-    console.log("[Connector] Debezium connector created/updated");
+    console.log("[Connector] Debezium connector created");
   } catch (error) {
     console.error("[Connector] Error creating connector:", error);
     throw error;
@@ -163,8 +155,7 @@ async function createConnector(id) {
  * Delete Debezium connector
  */
 async function deleteConnector(id) {
-  const connectorName = `petclinic-connector-${id}`;
-
+  const connectorName = buildConnectorName(id);
   console.log("[Connector] Deleting Debezium connector...");
 
   try {
@@ -172,7 +163,7 @@ async function deleteConnector(id) {
       method: "DELETE",
     });
 
-    if (response.ok) {
+    if (response.ok || response.status === 404) {
       console.log("[Connector] Connector deleted successfully");
     } else {
       console.warn(
