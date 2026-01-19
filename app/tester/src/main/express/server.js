@@ -6,6 +6,14 @@ import { mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+/**
+ * @typedef {import('../types/setup.js').SetupResponse} SetupResponse
+ * @typedef {import('../types/teardown.js').TeardownResponse} TeardownResponse
+ * @typedef {import('../types/log.js').LogResponse} LogResponse
+ * @typedef {import('../types/error.js').ErrorResponse} ErrorResponse
+ * @typedef {import('../types/log.js').LogRequest} LogRequest
+ */
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -24,7 +32,7 @@ const KAFKA_BROKERS = process.env.KAFKA_BROKERS || "redpanda:9643";
 
 // Global state
 let runId = null;
-let db = null;
+let sqlite = null;
 let kafka = null;
 let consumer = null;
 let consumerRunning = false;
@@ -34,18 +42,20 @@ let consumerRunning = false;
  */
 function initDatabase(id) {
   const buildDir = join(__dirname, "..", "..", "..", "build");
-  const dbPath = join(buildDir, `${id}.sqlite`);
+  const sqlitePath = join(buildDir, `${id}.sqlite`);
 
-  console.log(`[DB] Initializing database at ${dbPath}`);
+  console.log(`[DB] Initializing database at ${sqlitePath}`);
+  console.log(`[DB] __dirname: ${__dirname}`);
+  console.log(`[DB] buildDir: ${buildDir}`);
 
-  const database = new DatabaseSync(dbPath);
+  const database = new DatabaseSync(sqlitePath);
 
   // Create CDC events table
   database.exec(`
-    CREATE TABLE IF NOT EXISTS cdc_events (
+    CREATE TABLE IF NOT EXISTS petclinic_cdc (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       timestamp TEXT NOT NULL,
-      key_id TEXT NOT NULL,
+      entity_id TEXT NOT NULL,
       operation TEXT NOT NULL,
       table_name TEXT NOT NULL,
       before_data TEXT,
@@ -55,7 +65,7 @@ function initDatabase(id) {
 
   // Create use case log table
   database.exec(`
-    CREATE TABLE IF NOT EXISTS use_case_log (
+    CREATE TABLE IF NOT EXISTS petclinic_log (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       timestamp TEXT NOT NULL,
       test_name TEXT NOT NULL,
@@ -218,7 +228,7 @@ async function startConsumer(id, database) {
 
         // Store in database
         const stmt = database.prepare(`
-          INSERT INTO cdc_events (timestamp, key_id, operation, table_name, before_data, after_data)
+          INSERT INTO petclinic_cdc (timestamp, entity_id, operation, table_name, before_data, after_data)
           VALUES (?, ?, ?, ?, ?, ?)
         `);
 
@@ -249,13 +259,19 @@ async function startConsumer(id, database) {
 async function stopConsumer() {
   if (consumer && consumerRunning) {
     console.log("[Kafka] Stopping consumer...");
-    await consumer.disconnect();
     consumerRunning = false;
+    await consumer.stop();
+    await consumer.disconnect();
+    consumer = null;
     console.log("[Kafka] Consumer stopped");
   }
+  kafka = null;
 }
 
-// Endpoint: POST /setup
+/**
+ * Endpoint: POST /setup
+ * @returns {Promise<SetupResponse | ErrorResponse>}
+ */
 app.post("/setup", async (req, res) => {
   try {
     if (runId) {
@@ -269,11 +285,17 @@ app.post("/setup", async (req, res) => {
     console.log(`[Setup] Generated RUN-ID: ${runId}`);
 
     // Ensure build directory exists
-    const buildDir = join(__dirname, "..", "..", "..", "..", "build");
-    await mkdir(buildDir, { recursive: true });
+    const buildDir = join(__dirname, "..", "..", "..", "build");
+    console.log(`[Setup] Creating build directory: ${buildDir}`);
+    try {
+      await mkdir(buildDir, { recursive: true });
+    } catch (mkdirError) {
+      console.error(`[Setup] Error creating build directory:`, mkdirError);
+      throw mkdirError;
+    }
 
     // Initialize database
-    db = initDatabase(runId);
+    sqlite = initDatabase(runId);
 
     // Create Debezium connector
     await createConnector(runId);
@@ -282,7 +304,7 @@ app.post("/setup", async (req, res) => {
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
     // Start Kafka consumer
-    await startConsumer(runId, db);
+    await startConsumer(runId, sqlite);
 
     // Wait for consumer to settle
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -295,10 +317,14 @@ app.post("/setup", async (req, res) => {
   }
 });
 
-// Endpoint: POST /log
+/**
+ * Endpoint: POST /log
+ * @param {LogRequest} req.body
+ * @returns {Promise<LogResponse | ErrorResponse>}
+ */
 app.post("/log", async (req, res) => {
   try {
-    if (!runId || !db) {
+    if (!runId || !sqlite) {
       return res
         .status(400)
         .json({ error: "Setup not called yet. Call /setup first." });
@@ -312,8 +338,8 @@ app.post("/log", async (req, res) => {
       });
     }
 
-    const stmt = db.prepare(`
-      INSERT INTO use_case_log (timestamp, test_name, entity_type, entity_id)
+    const stmt = sqlite.prepare(`
+      INSERT INTO petclinic_log (timestamp, test_name, entity_type, entity_id)
       VALUES (?, ?, ?, ?)
     `);
 
@@ -329,7 +355,10 @@ app.post("/log", async (req, res) => {
   }
 });
 
-// Endpoint: POST /teardown
+/**
+ * Endpoint: POST /teardown
+ * @returns {Promise<TeardownResponse | ErrorResponse>}
+ */
 app.post("/teardown", async (req, res) => {
   try {
     if (!runId) {
@@ -344,10 +373,10 @@ app.post("/teardown", async (req, res) => {
     await stopConsumer();
 
     // Close database
-    if (db) {
-      db.close();
+    if (sqlite) {
+      sqlite.close();
       console.log("[Teardown] Database closed");
-      db = null;
+      sqlite = null;
     }
 
     // Delete Debezium connector
