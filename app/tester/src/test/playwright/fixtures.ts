@@ -1,4 +1,7 @@
 import { test as base } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { TESTER_URL } from "./global-env.js";
 
 /**
  * Helper function to log entity operations to the tester service
@@ -8,10 +11,8 @@ async function logEntity(
   entityType: string,
   entityId: string
 ) {
-  const testerUrl = process.env.TESTER_URL || "http://localhost:9090";
-
   try {
-    const response = await fetch(`${testerUrl}/log`, {
+    const response = await fetch(`${TESTER_URL}/log`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -29,17 +30,28 @@ async function logEntity(
   }
 }
 
-/**
- * Extended test fixture with entity logging capability
- */
 export const test = base.extend<{
   logEntity: (entityType: string, entityId: string) => Promise<void>;
+  runId: string;
+  sqliteFile: string;
 }>({
   logEntity: async ({}, use, testInfo) => {
     const boundLogEntity = (entityType: string, entityId: string) =>
       logEntity(testInfo.title, entityType, entityId);
-
     await use(boundLogEntity);
+  },
+
+  runId: async ({}, use) => {
+    const buildDir = join(process.cwd(), "build");
+    const runIdFile = join(buildDir, "run.id");
+    const runId = readFileSync(runIdFile, "utf-8").trim();
+    await use(runId);
+  },
+
+  sqliteFile: async ({ runId }, use) => {
+    const buildDir = join(process.cwd(), "build");
+    const sqliteFile = join(buildDir, `${runId}.sqlite`);
+    await use(sqliteFile);
   },
 });
 
