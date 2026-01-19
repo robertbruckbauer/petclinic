@@ -1,28 +1,25 @@
-/**
- * Global teardown for Playwright tests.
- * Invokes the tester service /teardown endpoint to clean up the test environment.
- */
+import { TESTER_URL } from "./global-env.js";
+import type { TeardownResponse } from "../../main/types/teardown.js";
+import type { ErrorResponse } from "../../main/types/error.js";
+
 async function globalTeardown() {
-  const testerUrl = process.env.TESTER_URL || "http://localhost:9090";
-
-  console.log("[GlobalTeardown] Calling tester service /teardown endpoint...");
-
   try {
-    const response = await fetch(`${testerUrl}/teardown`, {
+    const url = `${TESTER_URL}/teardown`;
+    console.log(`[GlobalTeardown] URL=${url}`);
+    const response = await fetch(`${url}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      console.warn(`[GlobalTeardown] Teardown warning: ${error.error}`);
+    if (response.ok) {
+      const json = (await response.json()) as TeardownResponse;
+      console.log(`[GlobalTeardown] RUN-ID=${json.runId}`);
+    } else {
+      const json = (await response.json()) as ErrorResponse;
+      console.warn(`[GlobalTeardown] ${json.error}`);
       return;
     }
-
-    const result = await response.json();
-    console.log(`[GlobalTeardown] Teardown complete. RUN-ID: ${result.runId}`);
   } catch (error) {
-    console.error("[GlobalTeardown] Error:", error);
+    console.error(`[GlobalTeardown] ${error}`);
   }
 }
 

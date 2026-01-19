@@ -1,37 +1,35 @@
 import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+import { dirname, join } from "node:path";
+import { writeFileSync, mkdirSync } from "node:fs";
+import { TESTER_URL } from "./global-env.js";
+import type { SetupResponse } from "../../main/types/setup.js";
+import type { ErrorResponse } from "../../main/types/error.js";
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/**
- * Global setup for Playwright tests.
- * Invokes the tester service /setup endpoint to initialize the test environment.
- */
 async function globalSetup() {
-  const testerUrl = process.env.TESTER_URL || "http://localhost:9090";
-
-  console.log("[GlobalSetup] Calling tester service /setup endpoint...");
-
   try {
-    const response = await fetch(`${testerUrl}/setup`, {
+    const url = `${TESTER_URL}/setup`;
+    console.log(`[GlobalSetup] URL=${url}`);
+    const response = await fetch(`${url}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`Setup failed: ${error.error}`);
+    if (response.ok) {
+      const json = (await response.json()) as SetupResponse;
+      const buildDir = join(__dirname, "..", "..", "..", "build");
+      mkdirSync(buildDir, { recursive: true });
+      const runIdFile = join(buildDir, "run.id");
+      writeFileSync(runIdFile, json.runId, "utf-8");
+      console.log(`[GlobalSetup] RUN-ID=${json.runId}`);
+    } else {
+      const json = (await response.json()) as ErrorResponse;
+      console.warn(`[GlobalSetup] ${json.error}`);
     }
-
-    const result = await response.json();
-    console.log(`[GlobalSetup] Setup complete. RUN-ID: ${result.runId}`);
-
-    // Store RUN-ID for tests
-    process.env.RUN_ID = result.runId;
   } catch (error) {
-    console.error("[GlobalSetup] Error:", error);
+    console.error(`[GlobalSetup] ${error}`);
     throw error;
   }
 }

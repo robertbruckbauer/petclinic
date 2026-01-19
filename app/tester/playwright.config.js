@@ -30,7 +30,7 @@ export default defineConfig({
     {
       name: 'assert',
       testMatch: '**/*.spec.ts',
-      use: { ...devices['Desktop Chrome'] },
+      dependencies: ['tester'],
     },
   ],
 });
