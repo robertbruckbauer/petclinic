@@ -4,6 +4,10 @@ import type { ErrorResponse } from "../../main/types/error.js";
 
 async function globalTeardown() {
   try {
+    // Wait for CDC events to propagate through Debezium and Kafka
+    console.log("[GlobalTeardown] Waiting for CDC events to be captured...");
+    await new Promise((resolve) => setTimeout(resolve, 30000));
+
     const url = `${TESTER_URL}/teardown`;
     console.log(`[GlobalTeardown] URL=${url}`);
     const response = await fetch(`${url}`, {
