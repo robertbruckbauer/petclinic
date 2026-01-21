@@ -40,7 +40,7 @@ let consumerRunning = false;
 /**
  * Initialize SQLite database with schema
  */
-function initDatabase(id) {
+function createDatabase(id) {
   const buildDir = join(__dirname, "..", "..", "..", "build");
   const sqlitePath = join(buildDir, `${id}.sqlite`);
 
@@ -56,8 +56,8 @@ function initDatabase(id) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       timestamp TEXT NOT NULL,
       entity_id TEXT NOT NULL,
+      entity_type TEXT NOT NULL,
       operation TEXT NOT NULL,
-      table_name TEXT NOT NULL,
       before_data TEXT,
       after_data TEXT
     )
@@ -88,7 +88,7 @@ function buildConnectorName(id) {
 /**
  * Build Debezium connector configuration
  */
-function buildConnectorConfig(id) {
+function buildConnectorConfig(id, topicName) {
   return {
     name: `${buildConnectorName(id)}`,
     config: {
@@ -110,7 +110,7 @@ function buildConnectorConfig(id) {
       "transforms.route.type":
         "org.apache.kafka.connect.transforms.RegexRouter",
       "transforms.route.regex": "petclinic\\.public\\.(.*)",
-      "transforms.route.replacement": "petclinic.all",
+      "transforms.route.replacement": topicName,
       "transforms.addHeader.type":
         "org.apache.kafka.connect.transforms.InsertHeader",
       "transforms.addHeader.header": "X-RUN-ID",
@@ -126,8 +126,8 @@ function buildConnectorConfig(id) {
 /**
  * Create Debezium connector
  */
-async function createConnector(id) {
-  const connectorConfig = buildConnectorConfig(id);
+async function createConnector(id, topicName) {
+  const connectorConfig = buildConnectorConfig(id, topicName);
   console.log("[Connector] Creating Debezium connector...");
 
   try {
@@ -176,9 +176,51 @@ async function deleteConnector(id) {
 }
 
 /**
+ * Create topic using Admin API
+ */
+async function createTopic(id, topicName) {
+  console.log(`[Kafka] Creating ${topicName} topic...`);
+
+  const kafka = new Kafka({
+    clientId: `tester-admin-${id}`,
+    brokers: KAFKA_BROKERS.split(","),
+  });
+
+  const admin = kafka.admin();
+
+  try {
+    await admin.connect();
+    console.log("[Kafka] Admin connected");
+
+    await admin.createTopics({
+      topics: [
+        {
+          topic: topicName,
+          numPartitions: 1,
+          replicationFactor: 1,
+        },
+      ],
+    });
+
+    console.log(`[Kafka] Topic ${topicName} created`);
+  } catch (error) {
+    // Ignore if topic already exists
+    if (error.message && error.message.includes("already exists")) {
+      console.log(`[Kafka] Topic ${topicName} already exists`);
+    } else {
+      console.error("[Kafka] Error creating topic:", error);
+      throw error;
+    }
+  } finally {
+    await admin.disconnect();
+    console.log("[Kafka] Admin disconnected");
+  }
+}
+
+/**
  * Start Kafka consumer
  */
-async function startConsumer(id, database) {
+async function startConsumer(id, database, topicName) {
   console.log("[Kafka] Starting consumer...");
 
   kafka = new Kafka({
@@ -189,23 +231,36 @@ async function startConsumer(id, database) {
   consumer = kafka.consumer({ groupId: `tester-group-${id}` });
 
   await consumer.connect();
-  await consumer.subscribe({ topic: "petclinic.all", fromBeginning: true });
+  await consumer.subscribe({
+    topic: topicName,
+    fromBeginning: true,
+  });
 
   consumerRunning = true;
 
   consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
       try {
+        console.log(
+          `[Kafka] Received message from topic: ${topic}, partition: ${partition}`
+        );
+
         // Check for X-RUN-ID header
         const headers = message.headers || {};
         const messageRunId = headers["X-RUN-ID"]?.toString();
 
+        console.log(`[Kafka] Message RUN-ID: ${messageRunId}, Expected: ${id}`);
+
         if (messageRunId !== id) {
+          console.log(`[Kafka] Skipping message - RUN-ID mismatch`);
           return; // Skip messages not for this run
         }
 
         const key = JSON.parse(message.key.toString());
         const value = JSON.parse(message.value.toString());
+
+        console.log(`[Kafka] Message key:`, key);
+        console.log(`[Kafka] Message value payload:`, value.payload);
 
         const keyId = key.id;
         const operation = value.payload.op;
@@ -217,17 +272,21 @@ async function startConsumer(id, database) {
           ? JSON.stringify(value.payload.after)
           : null;
 
+        console.log(
+          `[Kafka] Storing CDC event: entity_id=${keyId}, entity_type=${tableName}, operation=${operation}`
+        );
+
         // Store in database
         const stmt = database.prepare(`
-          INSERT INTO petclinic_cdc (timestamp, entity_id, operation, table_name, before_data, after_data)
+          INSERT INTO petclinic_cdc (timestamp, entity_id, entity_type, operation, before_data, after_data)
           VALUES (?, ?, ?, ?, ?, ?)
         `);
 
         stmt.run(
           new Date().toISOString(),
           keyId,
-          operation,
           tableName,
+          operation,
           beforeData,
           afterData
         );
@@ -237,6 +296,7 @@ async function startConsumer(id, database) {
         );
       } catch (error) {
         console.error("[Kafka] Error processing message:", error);
+        console.error("[Kafka] Message:", message);
       }
     },
   });
@@ -286,19 +346,19 @@ app.post("/setup", async (req, res) => {
     }
 
     // Initialize database
-    sqlite = initDatabase(runId);
+    sqlite = createDatabase(runId);
+
+    // Define topic name
+    const topicName = "petclinic.all";
+
+    // Create topic
+    await createTopic(runId, topicName);
 
     // Create Debezium connector
-    await createConnector(runId);
-
-    // Wait for connector to initialize
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await createConnector(runId, topicName);
 
     // Start Kafka consumer
-    await startConsumer(runId, sqlite);
-
-    // Wait for consumer to settle
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await startConsumer(runId, sqlite, topicName);
 
     console.log("[Setup] Setup complete");
     res.json({ runId, status: "success" });
