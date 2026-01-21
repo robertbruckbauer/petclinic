@@ -23,6 +23,8 @@ Each pet represents an animal owned by a client and can have multiple veterinary
 The pet requires a valid name, species, and birth date.
 Each pet must have an owner.
 
+NOTE: The entity description states 'Each pet must have an owner', but the entity code shows `@ManyToOne(optional = false)` for the owner relationship. The unique constraint `@UniqueConstraint(columnNames = {"name","owner_id"})` ensures pet names are unique per owner. Verify that this constraint allows the same pet name across different owners (which is the intended behavior) and document this behavior explicitly in the Model section.
+
 .Entity
 [source,java,options="nowrap"]
 ----
