@@ -73,27 +73,31 @@ include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendRestContr
 
 Create a description for at least the following status codes depending on the operation:
 
-`POST` operation::
+`POST` entity operation::
 This operation reports `Created` or code 201 if the entity was successfully created.
 This operation reports `Bad Request` or code 400 if the data was not processed.
 This operation reports `Conflict` or code 409 if a unique constraint would be violated.
 
-`PUT` operation::
+`PUT` entity operation::
 This operation reports `Ok` or code 200 if the entity was successfully updated.
 This operation reports `Created` or code 201 if the entity was successfully created.
 This operation reports `Bad Request` or code 400 if the data was not processed.
 This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
-`PATCH` operation::
+`PATCH` entity operation::
 This operation reports `Ok` or code 200 if the entity was successfully updated.
 This operation reports `Not Found` or code 404 if the entity does not exist.
 This operation reports `Bad Request` or code 400 if the data was not processed.
 This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
-`GET` operation::
+`GET` entity operation::
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+`GET` collection operation::
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-`DELETE` operation::
+`DELETE` entity operation::
 This operation reports `Ok` or code 200 if the entity was successfully deleted.
 This operation reports `Not Found` or code 404 if the entity does not exist.
 

@@ -137,7 +137,7 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the unique constraint (date, pet_id) would be violated by the update or the entity is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
 ==== `vet` relation
 
@@ -160,7 +160,7 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 This operation reports `Bad Request` or code 400 if the data was not processed.
 
-This operation reports `Conflict` or code 409 if the unique constraint (date, pet_id) would be violated by the update or the entity is outdated (invalid ETag).
+This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
 
 === `GET /api/visit`
 
@@ -226,7 +226,7 @@ include::{restdocdir}/get-api-visit-by-id/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-This operation reports `Not Found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
 
 === `GET /api/visit/{id}/pet`
 
