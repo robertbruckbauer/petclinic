@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -66,14 +67,14 @@ public class PetRepositoryTest {
             """.formatted(name));
     }
 
-    Owner saveOwner() {
+    Owner saveOwner(final String name) {
         return ownerRepository.save(Owner.parseJson("""
             {
-                "name":"Max Mustermann",
+                "name":"%s",
                 "address":"Bergweg 1, 5400 Hallein",
                 "contact":"+43 660 5557683"
             }
-            """));
+            """.formatted(name)));
     }
 
     @ParameterizedTest
@@ -89,7 +90,7 @@ public class PetRepositoryTest {
         assertNotNull(value0.getId());
         assertEquals(name, value0.getName());
 
-        final var owner = saveOwner();
+        final var owner = saveOwner("Max Mustermann");
         final var value1 = petRepository.save(value0.setOwner(owner));
         assertNotNull(value1);
         assertTrue(value1.isPersisted());
@@ -98,8 +99,40 @@ public class PetRepositoryTest {
     }
 
     @Test
+    void savePetWithSameNameDifferentOwners() {
+        final var owner1 = saveOwner("Max Mustermann");
+        final var owner2 = saveOwner("Mia Musterfrau");
+        final var name = "Garfield";
+        final var pet1 = petRepository.save(createWithName(name).setOwner(owner1));
+        assertNotNull(pet1);
+        assertEquals(name, pet1.getName());
+        final var pet2 = petRepository.save(createWithName(name).setOwner(owner2));
+        assertNotNull(pet2);
+        assertEquals(name, pet2.getName());
+        assertNotEquals(pet1.getId(), pet2.getId());
+        assertNotEquals(pet1.getOwner().getId(), pet2.getOwner().getId());
+    }
+
+    @Test
+    void savePetWithSameNameSameOwner() {
+        final var owner = saveOwner("Max Mustermann");
+        final var name = "Garfield";
+        final var pet1 = petRepository.save(createWithName(name).setOwner(owner));
+        assertNotNull(pet1);
+        assertEquals(name, pet1.getName());
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            final var pet2 = petRepository.save(createWithName(name).setOwner(owner));
+            assertNotNull(pet2);
+            assertEquals(name, pet2.getName());
+            assertNotEquals(pet1.getId(), pet2.getId());
+            assertEquals(pet1.getOwner().getId(), pet2.getOwner().getId());
+            petRepository.flush();
+        });
+    }
+
+    @Test
     void findPet() {
-        final var owner = saveOwner();
+        final var owner = saveOwner("Max Mustermann");
         final var name = "Odi";
         final var value = petRepository.save(createWithName(name).setOwner(owner));
         assertTrue(petRepository.existsById(value.getId()));
@@ -115,7 +148,7 @@ public class PetRepositoryTest {
 
     @Test
     void findAll() {
-        final var owner = saveOwner();
+        final var owner = saveOwner("Max Mustermann");
         final var value1 = petRepository.save(createWithName("Odi").setOwner(owner));
         final var value2 = petRepository.save(createWithName("Tom").setOwner(owner));
         final var value3 = petRepository.save(createWithName("Jerry").setOwner(owner));

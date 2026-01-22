@@ -22,6 +22,7 @@ The entity class extends `JsonJpaEntity` which provides unique identifier and ve
 Each pet represents an animal owned by a client and can have multiple veterinary visits.
 The pet requires a valid name, species, and birth date.
 Each pet must have an owner.
+Pet names are unique per owner, allowing different owners to have pets with the same name.
 
 .Entity
 [source,java,options="nowrap"]
@@ -218,7 +219,7 @@ include::{restdocdir}/get-api-pet-by-id/response-body.adoc[]
 
 This operation reports `Ok` or code 200 if the data was successfully loaded.
 
-This operation reports `Not Found` or code 404 if the data does not exist.
+This operation reports `Not Found` or code 404 if the entity does not exist.
 
 === `GET /api/pet/{id}/owner`
 
