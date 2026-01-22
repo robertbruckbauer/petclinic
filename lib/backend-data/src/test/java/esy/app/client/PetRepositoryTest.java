@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -113,13 +114,13 @@ public class PetRepositoryTest {
     }
 
     @Test
-    void savePetWithSameNameSameOwnerFails() {
+    void savePetWithSameNameSameOwner() {
         final var owner = saveOwner("Max Mustermann");
         final var name = "Garfield";
         final var pet1 = petRepository.save(createWithName(name).setOwner(owner));
         assertNotNull(pet1);
         final var pet2 = createWithName(name).setOwner(owner);
-        assertThrows(Exception.class, () -> {
+        assertThrows(DataIntegrityViolationException.class, () -> {
             petRepository.save(pet2);
             petRepository.flush();
         });
