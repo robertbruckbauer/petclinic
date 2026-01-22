@@ -105,9 +105,9 @@ public class PetRepositoryTest {
         final var name = "Garfield";
         final var pet1 = petRepository.save(createWithName(name).setOwner(owner1));
         assertNotNull(pet1);
+        assertEquals(name, pet1.getName());
         final var pet2 = petRepository.save(createWithName(name).setOwner(owner2));
         assertNotNull(pet2);
-        assertEquals(name, pet1.getName());
         assertEquals(name, pet2.getName());
         assertNotEquals(pet1.getId(), pet2.getId());
         assertNotEquals(pet1.getOwner().getId(), pet2.getOwner().getId());
@@ -119,9 +119,13 @@ public class PetRepositoryTest {
         final var name = "Garfield";
         final var pet1 = petRepository.save(createWithName(name).setOwner(owner));
         assertNotNull(pet1);
-        final var pet2 = createWithName(name).setOwner(owner);
+        assertEquals(name, pet1.getName());
         assertThrows(DataIntegrityViolationException.class, () -> {
-            petRepository.save(pet2);
+            final var pet2 = petRepository.save(createWithName(name).setOwner(owner));
+            assertNotNull(pet2);
+            assertEquals(name, pet2.getName());
+            assertNotEquals(pet1.getId(), pet2.getId());
+            assertEquals(pet1.getOwner().getId(), pet2.getOwner().getId());
             petRepository.flush();
         });
     }
