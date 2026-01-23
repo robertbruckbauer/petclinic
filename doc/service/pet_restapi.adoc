@@ -24,6 +24,8 @@ The pet requires a valid name, species, and birth date.
 Each pet must have an owner.
 Pet names are unique per owner, allowing different owners to have pets with the same name.
 
+NOTE: Verify that the `owner` relation in the Pet entity is correctly documented in all PATCH operations. The entity implementation marks owner with `optional = false`, meaning a pet must always have an owner. Ensure POST and PUT operation examples include the owner relation, and document what happens when attempting PATCH operations that would remove the owner (should fail with 400 Bad Request due to validation constraint).
+
 .Entity
 [source,java,options="nowrap"]
 ----
@@ -32,7 +34,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[inde
 
 A simplified representation of a _Pet_ for item selection purposes.
 
-.Item
+.PetItem
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
