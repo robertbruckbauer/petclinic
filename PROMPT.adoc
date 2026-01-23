@@ -2,12 +2,7 @@
 
 == Sanity Check of REST API documentation
 
-.Augment Code
-----
-Check all *_restapi.adoc files in @doc/service. Use @doc/service/template/spring_restapi.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in @lib/backend-api and @lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
-----
-
-.GitHub Copilot
+.Prompt
 ----
 Check all *_restapi.adoc files in doc/service. Use #file:doc/service/template/spring_restapi.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in lib/backend-api and lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
 ----
@@ -19,27 +14,24 @@ Revert hints and instructions if you disagree with the agents analysis.
 
 == Create new REST API documentation
 
-.Augment Code
+.Prompt
 ----
-Create @doc/service/owner_restapi.adoc with a documentation for the REST API implemented in @OwnerGraphqlController.java and @owner.gqls from @lib/backend-data. Strictly follow the structure and instructions in @doc/service/template/spring_graphql.adoc.
+The ping REST endpoints are used as a simple, lightweight way to check that the petclinic application is reachable and responsive.
+Add a new file ping_restapi.adoc to the doc/services directory.
+Use the template #file:spring_restapi.adoc and follow strictly the structure and rules for the content.
+Use #file:Ping.java as the entity class.
+Use liquibase script #file:ping.xml for the table definition.
+Use #file:PingRepository.java as the repository interface.
+Use #file:PingRestController.java as the rest api controller.
+Take in account the tests in #file:PingRestApiTest.java
 ----
 
-.GitHub Copilot
-----
-Create #file:doc/service/owner_restapi.adoc with a documentation for the REST API implemented in #file:OwnerGraphqlController.java and #file:owner.gqls. Strictly follow the structure and instructions in #file:doc/service/template/spring_graphql.adoc.
-----
-
-Replace `owner` with the name of the entity.
+Replace `ping` with the name of the entity.
 The agent creates a new documentation based on the structure and instructions in the template.
 
 == Sanity Check of GraphQL API documentation
 
-.Augment Code
-----
-Check all *_graphql.adoc files in @doc/service. Use @doc/service/template/spring_graphql.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in @lib/backend-api and @lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
-----
-
-.GitHub Copilot
+.Prompt
 ----
 Check all *_graphql.adoc files in doc/service. Use #file:doc/service/template/spring_graphql.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in lib/backend-api and lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
 ----
@@ -51,14 +43,16 @@ Revert hints and instructions if you disagree with the agents analysis.
 
 == Create new GraphQL API documentation
 
-.Augment Code
+.Prompt
 ----
-Create @doc/service/owner_graphql.adoc with a documentation for the GraphQL API implemented in @OwnerGraphqlController.java and @owner.gqls from @lib/backend-data. Strictly follow the structure and instructions in @doc/service/template/spring_graphql.adoc.
-----
-
-.GitHub Copilot
-----
-Create #file:doc/service/owner_graphql.adoc with a documentation for the GraphQL API implemented in #file:OwnerGraphqlController.java and #file:owner.gqls. Strictly follow the structure and instructions in #file:doc/service/template/spring_graphql.adoc.
+The owner GraphQL API provide query operations for owners in the petclinic application.
+Add a new file owner_graphql.adoc to the doc/services directory.
+Use the template #file:spring_graphql.adoc and follow strictly the structure and rules for the content.
+Use #file:owner.gqls as the schema definition.
+Use liquibase script #file:owner.xml for the table definition.
+Use #file:OwnerRepository.java as the repository interface.
+Use #file:OwnerGraphqlController.java as the graphql api controller.
+Take in account the tests in #file:OwnerGraphqlTest.java
 ----
 
 Replace `owner` with the name of the entity.

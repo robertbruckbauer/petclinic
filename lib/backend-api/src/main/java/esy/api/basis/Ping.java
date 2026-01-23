@@ -26,11 +26,13 @@ public class Ping extends JsonJpaEntity<Ping> {
     public static final String TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss[.SSSSSSSSS]";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
 
+    // tag::properties[]
     @Column(name = "at", columnDefinition = "TIMESTAMP")
     @Getter
     @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIME_PATTERN)
     private LocalDateTime at;
+    // end::properties[]
 
     Ping() {
         super();

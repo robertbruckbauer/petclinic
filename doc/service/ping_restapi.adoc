@@ -1,0 +1,105 @@
+:includedir: ../..
+:relrootdir: ../..
+:restdocdir: {includedir}/lib/backend-data/build/generated-snippets
+= Ping REST API
+
+REST-API for checking service reachability and responsiveness.
+It provides a simple, lightweight endpoint to verify that the petclinic application is up and running.
+The ping endpoint supports only PUT and GET operations on individual resources.
+Standard CRUD operations like POST, DELETE, and collection GET are intentionally disabled.
+
+TIP: This API uses a custom controller, not the standard endpoints provided by Spring Data REST. 
+
+== Model
+
+=== Ping
+
+The main entity of a _Ping_ managed by this controller for persistence.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/ping.xml[]
+----
+
+The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+Each ping represents a timestamp record indicating when the service was last contacted.
+The `at` property is automatically set to the current timestamp when the ping is touched.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Ping.java[indent=0,tags=properties]
+----
+
+== Operations
+
+=== `POST /api/ping`
+
+This operation is intentionally disabled and not supported.
+
+TIP: Use PUT operation with a specific ID instead.
+
+This operation reports `Method Not Allowed` or code 405 for any request.
+
+=== `PUT /api/ping/{id}`
+
+This operation creates a new _Ping_ entity or updates an existing one with the current timestamp.
+The operation requires no request body and automatically sets the timestamp to the current time.
+Response is of type _Ping_.
+
+****
+
+.Command
+include::{restdocdir}/put-api-ping/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/put-api-ping/http-request.adoc[]
+
+.Response
+include::{restdocdir}/put-api-ping/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Created` or code 201 if the entity was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+=== `GET /api/ping`
+
+This operation is intentionally disabled and not supported.
+
+TIP: Use GET operation with a specific ID instead.
+
+This operation reports `Method Not Allowed` or code 405 for any request.
+
+=== `GET /api/ping/{id}`
+
+This operation returns a single persisted _Ping_ entity.
+
+****
+
+.Command
+include::{restdocdir}/get-api-ping-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-ping-by-id/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-ping-by-id/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+=== `DELETE /api/ping/{id}`
+
+This operation is intentionally disabled and not supported.
+
+TIP: Ping records are deleted by a scheduled job depending on their age.
+
+This operation reports `Method Not Allowed` or code 405 for any request.
