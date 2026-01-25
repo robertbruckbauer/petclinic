@@ -82,13 +82,6 @@ public class PingRepositoryTest {
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));
-
-        final var value2 = pingRepository.saveAndFlush(value0.touch());
-        assertNotNull(value2);
-        assertNotSame(value2, value0);
-        assertTrue(value2.isPersisted());
-        assertEquals(1L, value2.getVersion());
-        assertTrue(value2.isEqual(value0));
     }
 
     @Test

@@ -10,12 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RestController
 @BasePathAwareController
 @RequiredArgsConstructor
 public class PingRestController {
+
+    private final Clock clock;
 
     private final PingRepository pingRepository;
 
@@ -37,10 +41,11 @@ public class PingRestController {
     }
 
     @PutMapping("/ping/{id}")
-    public ResponseEntity<EntityModel<Ping>> touchPing(@PathVariable final UUID id) {
-        final var value = pingRepository.findById(id).orElse(Ping.fromId(id));
+    public ResponseEntity<EntityModel<Ping>> updatePing(@PathVariable final UUID id) {
+        final var at = LocalDateTime.now(clock);
+        final var value = pingRepository.findById(id).orElse(Ping.fromId(id)).setAt(at);
         final var status = value.isPersisted() ? HttpStatus.OK : HttpStatus.CREATED;
-        return ResponseEntity.status(status).body(EntityModel.of(pingRepository.save(value.touch().verify())));
+        return ResponseEntity.status(status).body(EntityModel.of(pingRepository.save(value.verify())));
     }
 
     @DeleteMapping("/ping/{id}")

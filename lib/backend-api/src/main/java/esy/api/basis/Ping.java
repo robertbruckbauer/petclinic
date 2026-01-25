@@ -71,8 +71,8 @@ public class Ping extends JsonJpaEntity<Ping> {
     }
 
     @JsonIgnore
-    public Ping touch() {
-        this.at = LocalDateTime.now();
+    public Ping setAt(@NonNull final LocalDateTime at) {
+        this.at = at;
         return this;
     }
 
