@@ -1,0 +1,48 @@
+:includedir: ../../..
+:relrootdir: ../../..
+= Specification for scheduler
+
+== Configuration overview
+
+Backend services use a central configuration file for the execution of scheduled jobs.
+It is only read when the application starts.
+
+.schedule.properties
+[source,text]
+----
+include::{includedir}/lib/backend-data/src/main/resources/schedule.properties[]
+----
+
+Backend services use the autoconfiguration capabilities provides by _Spring Boot_.
+
+.configuration
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyScheduleConfiguration.java[tags=configuration,indent=0]
+----
+
+A `@PropertySource` annotation tells Spring where to find the properties file.
+
+A `@ComponentScan` annotation tells Spring where to look for controller components.
+
+The `@EnableScheduling` annotation activates the scheduled task execution capability.
+
+A Clock bean is a small but very powerful trick to make anything time-based clean, testable, and deterministic.
+
+== Implementation details
+
+=== Job
+
+A job is a ´run` method without arguments annotated with `@Scheduled`.
+The method automatically runs on a scheduled basis.
+Do not rely on the execution order.
+Exceptions must be caught and logged.
+One failure must not break future runs.
+No retries inside the job.
+
+TIP: Jobs use a single-threaded executor service by default.
+
+=== Clock
+
+All time-based logic must inject a `Clock`.
+Never call `LocalDateTime.now()` or `Instant.now()`.
