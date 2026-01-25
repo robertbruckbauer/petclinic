@@ -266,8 +266,7 @@ class EnumRestApiTest {
     @Rollback(false)
     void cleanup() {
         assertEquals(2, enumRepository.count(ENUM_ART));
-        enumRepository.findAll(ENUM_ART).forEach(e ->
-                enumRepository.delete(e));
+        enumRepository.deleteAll(enumRepository.findAll(ENUM_ART));
         enumRepository.deleteAll();
     }
 }
