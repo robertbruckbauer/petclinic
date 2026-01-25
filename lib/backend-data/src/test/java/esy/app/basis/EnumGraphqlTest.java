@@ -32,14 +32,14 @@ class EnumGraphqlTest {
     @Test
     void queryAllEnum() {
         final var art = "species";
-        final var value1 = Enum.parseJson("""
+        final var value1 = Enum.fromJson("""
                 {
                     "code": 0,
                     "name":"Cat",
                     "text":"A cat (tax. felis catus) is a domestic species of a small carnivorous mammal."
                 }
                 """);
-        final var value2 = Enum.parseJson("""
+        final var value2 = Enum.fromJson("""
                 {
                     "code": 1,
                     "name":"Dog",

@@ -17,7 +17,7 @@ public class EnumRestController {
     private final EnumRepository enumRepository;
 
     @GetMapping("/enum/{art}")
-    public ResponseEntity<CollectionModel<Enum>> enumOf(@PathVariable final String art) {
+    public ResponseEntity<CollectionModel<Enum>> findAll(@PathVariable final String art) {
         final var allEnum = enumRepository.findAll(art);
         return ResponseEntity.status(HttpStatus.OK).body(CollectionModel.of(allEnum));
     }

@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class EnumTest {
 
-    esy.api.basis.Enum createWithName(final String name) {
-        return esy.api.basis.Enum.parseJson("""
+    Enum createWithName(final String name) {
+        return Enum.fromJson("""
                 {
                     "art":"QUELLE",
                     "name":"%1$s",
@@ -34,15 +34,17 @@ class EnumTest {
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiche UUID
-        final var clone = esy.api.basis.Enum.parseJson(value.writeJson());
+        final var clone = Enum.fromJson(value.writeJson());
+        assertEquals(clone, value);
         assertTrue(clone.isEqual(value));
         assertEquals(clone.hashCode(), value.hashCode());
         assertEquals(clone.toString(), value.toString());
         // Gleicher Text
-        assertNotEquals(createWithName(name), value);
-        assertTrue(value.isEqual(createWithName(name)));
-        assertNotEquals(createWithName(name).hashCode(), value.hashCode());
-        assertNotEquals(createWithName(name).toString(), value.toString());
+        final var equal = createWithName(name);
+        assertNotEquals(equal, value);
+        assertTrue(value.isEqual(equal));
+        assertNotEquals(equal.hashCode(), value.hashCode());
+        assertNotEquals(equal.toString(), value.toString());
         // Anderer Text
         final var other = createWithName("ARIJ");
         assertNotEquals(other, value);
@@ -82,7 +84,7 @@ class EnumTest {
                 "\"text\": \"A " + name + "\"," +
                 line +
                 "}";
-        final var value = esy.api.basis.Enum.parseJson(json);
+        final var value = Enum.fromJson(json);
         assertDoesNotThrow(value::verify);
         assertNotNull(value.getId());
         assertEquals("QUELLE", value.getArt());
@@ -115,7 +117,7 @@ class EnumTest {
             "{\"text\": \" \"}"
     })
     void jsonConstraints(final String json) {
-        assertThrows(IllegalArgumentException.class, () -> Enum.parseJson(json).verify());
+        assertThrows(IllegalArgumentException.class, () -> Enum.fromJson(json).verify());
     }
 
     @Test

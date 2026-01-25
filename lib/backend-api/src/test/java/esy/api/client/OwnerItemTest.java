@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class OwnerItemTest {
 
     Owner createWithName(final String name) {
-        return Owner.parseJson("""
+        return Owner.fromJson("""
                 {
                     "name":"%s",
                     "address":"Bergweg 1, 5400 Hallein",

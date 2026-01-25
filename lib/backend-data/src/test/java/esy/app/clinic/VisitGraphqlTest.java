@@ -37,10 +37,11 @@ class VisitGraphqlTest {
 
     @Test
     void queryAllVisit() {
-        final var value = Visit.parseJson("{" +
-                "\"date\":\"2021-04-22\"," +
-                "\"text\":\"Lorem ipsum.\"" +
-                "}");
+        final var value = Visit.fromJson("""
+                {
+                    "date":"2021-04-22",
+                    "text":"Lorem ipsum."
+                }""");
         when(visitRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
@@ -64,7 +65,7 @@ class VisitGraphqlTest {
             "2021-04-30"
     })
     void queryAllVisitAt(final String date) {
-        final var value = Visit.parseJson("""
+        final var value = Visit.fromJson("""
                 {
                     "date":"%s",
                     "text":"Lorem ipsum."

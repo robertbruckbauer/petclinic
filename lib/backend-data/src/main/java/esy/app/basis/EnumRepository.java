@@ -12,7 +12,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 import java.util.Optional;
 
-@RepositoryRestResource(path = "enum", collectionResourceRel = "allEnum")
+@RepositoryRestResource(exported = false)
 public interface EnumRepository extends JsonJpaRepository<Enum>, QuerydslRepository<Enum, QEnum> {
 
     @Override

@@ -31,7 +31,7 @@ class VetGraphqlTest {
 
     @Test
     void queryAllVet() {
-        final var value = Vet.parseJson("""
+        final var value = Vet.fromJson("""
                 {
                     "name":"Tom"
                 }

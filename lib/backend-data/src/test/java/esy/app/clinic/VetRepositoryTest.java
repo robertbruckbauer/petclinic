@@ -49,7 +49,7 @@ public class VetRepositoryTest {
     }
 
     Vet createWithName(final String name) {
-        return Vet.parseJson("""
+        return Vet.fromJson("""
             {
                 "name":"%s"
             }

@@ -61,7 +61,7 @@ public class EnumRepositoryTest {
                     "text":"A %3$s"
                 }
                 """.formatted(ENUM_ART, code, name);
-        return Enum.parseJson(json);
+        return Enum.fromJson(json);
     }
 
     @ParameterizedTest

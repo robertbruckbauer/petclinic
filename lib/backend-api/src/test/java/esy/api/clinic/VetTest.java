@@ -1,7 +1,5 @@
 package esy.api.clinic;
 
-import esy.api.client.Owner;
-import esy.api.client.Pet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class VetTest {
 
 	Vet createWithName(final String name) {
-		return Vet.parseJson("""
+		return Vet.fromJson("""
                 {
                 	"name":"%s"
 				}
@@ -79,7 +77,7 @@ class VetTest {
 			"{\"name\": \"\\t\"}"
 	})
 	void jsonConstraints(final String json) {
-		assertThrows(IllegalArgumentException.class, () -> Vet.parseJson(json).verify());
+		assertThrows(IllegalArgumentException.class, () -> Vet.fromJson(json).verify());
 	}
 
 

@@ -34,7 +34,7 @@ class OwnerGraphqlTest {
 
     @Test
     void queryAllOwner() {
-        final var value = Owner.parseJson("""
+        final var value = Owner.fromJson("""
                 {
                     "name":"Tom",
                     "address":"Bergweg 1, 5400 Hallein",

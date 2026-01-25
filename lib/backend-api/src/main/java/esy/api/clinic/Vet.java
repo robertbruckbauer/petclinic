@@ -110,7 +110,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
         return new JsonJpaMapper().writeJson(this);
     }
 
-    public static Vet parseJson(@NonNull final String json) {
+    public static Vet fromJson(@NonNull final String json) {
         return new JsonJpaMapper().parseJson(json, Vet.class);
     }
 }

@@ -49,7 +49,7 @@ public class OwnerRepositoryTest {
     }
 
     Owner createWithName(final String name) {
-        return Owner.parseJson("""
+        return Owner.fromJson("""
             {
                 "name":"%s",
                 "address":"Bergweg 1, 5400 Hallein",
