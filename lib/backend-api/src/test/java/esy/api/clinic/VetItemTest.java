@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class VetItemTest {
 
     Vet createWithName(final String name) {
-        return Vet.parseJson("""
+        return Vet.fromJson("""
                 {
                     "name":"%s"
                 }

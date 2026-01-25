@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class OwnerTest {
 
 	Owner createWithName(final String name) {
-		return Owner.parseJson("""
+		return Owner.fromJson("""
                 {
                 	"name":"%s",
                 	"address":"Bergweg 1, 5400 Hallein",
@@ -80,6 +80,6 @@ class OwnerTest {
 			"{\"name\": \"\\t\"}"
 	})
 	void jsonConstraints(final String json) {
-		assertThrows(IllegalArgumentException.class, () -> Owner.parseJson(json).verify());
+		assertThrows(IllegalArgumentException.class, () -> Owner.fromJson(json).verify());
 	}
 }

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EnumTest {
 
     Enum createWithName(final String name) {
-        return Enum.parseJson("""
+        return Enum.fromJson("""
                 {
                     "art":"QUELLE",
                     "name":"%1$s",
@@ -34,7 +34,7 @@ class EnumTest {
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
         // Gleiche UUID
-        final var clone = Enum.parseJson(value.writeJson());
+        final var clone = Enum.fromJson(value.writeJson());
         assertEquals(clone, value);
         assertTrue(clone.isEqual(value));
         assertEquals(clone.hashCode(), value.hashCode());
@@ -84,7 +84,7 @@ class EnumTest {
                 "\"text\": \"A " + name + "\"," +
                 line +
                 "}";
-        final var value = Enum.parseJson(json);
+        final var value = Enum.fromJson(json);
         assertDoesNotThrow(value::verify);
         assertNotNull(value.getId());
         assertEquals("QUELLE", value.getArt());
@@ -117,7 +117,7 @@ class EnumTest {
             "{\"text\": \" \"}"
     })
     void jsonConstraints(final String json) {
-        assertThrows(IllegalArgumentException.class, () -> Enum.parseJson(json).verify());
+        assertThrows(IllegalArgumentException.class, () -> Enum.fromJson(json).verify());
     }
 
     @Test

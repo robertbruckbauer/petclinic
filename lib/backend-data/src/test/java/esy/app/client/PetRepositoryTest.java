@@ -55,7 +55,7 @@ public class PetRepositoryTest {
     }
 
     Pet createWithName(final String name) {
-        return Pet.parseJson("""
+        return Pet.fromJson("""
             {
                 "name":"%s",
                 "born":"2021-04-22",
@@ -65,7 +65,7 @@ public class PetRepositoryTest {
     }
 
     Owner saveOwner(final String name) {
-        return ownerRepository.save(Owner.parseJson("""
+        return ownerRepository.save(Owner.fromJson("""
             {
                 "name":"%s",
                 "address":"Bergweg 1, 5400 Hallein",

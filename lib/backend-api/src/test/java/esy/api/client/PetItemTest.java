@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PetItemTest {
 
     Pet createWithName(final String name) {
-        return Pet.parseJson("""
+        return Pet.fromJson("""
                 {
                     "name":"%s",
                     "born":"2021-04-22",

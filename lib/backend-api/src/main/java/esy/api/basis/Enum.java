@@ -154,7 +154,7 @@ public final class Enum extends JsonJpaEntity<Enum> implements JsonJpaItem<Strin
         return new JsonJpaMapper().writeJson(this);
     }
 
-    public static Enum parseJson(@NonNull final String json) {
+    public static Enum fromJson(@NonNull final String json) {
         return new JsonJpaMapper().parseJson(json, Enum.class);
     }
 }

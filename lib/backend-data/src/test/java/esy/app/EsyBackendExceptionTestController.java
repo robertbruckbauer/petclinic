@@ -84,7 +84,7 @@ public class EsyBackendExceptionTestController {
 
     @GetMapping("/etagDoesntMatchException")
     public ResponseEntity<Void> etagDoesntMatchException(@RequestBody final String cause) {
-        final var value = Enum.parseJson("{}");
+        final var value = Enum.fromJson("{}");
         throw new ETagDoesntMatchException(value, ETag.NO_ETAG);
     }
 

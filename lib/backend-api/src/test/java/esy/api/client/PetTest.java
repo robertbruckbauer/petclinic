@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PetTest {
 
 	Pet createWithName(final String name) {
-		return Pet.parseJson("""
+		return Pet.fromJson("""
                 {
                 	"name":"%s",
                 	"born":"2021-04-22",
@@ -88,6 +88,6 @@ class PetTest {
 			"{\"species\":\"\\n\", \"name\":\"Tom\"}"
 	})
 	void jsonConstraints(final String json) {
-		assertThrows(IllegalArgumentException.class, () -> Pet.parseJson(json).verify());
+		assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
 	}
 }

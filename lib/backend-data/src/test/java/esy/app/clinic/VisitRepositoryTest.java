@@ -49,7 +49,7 @@ public class VisitRepositoryTest {
     }
 
     Visit createWithText(final String text) {
-        return Visit.parseJson("""
+        return Visit.fromJson("""
             {
                 "date":"2021-04-22",
                 "time":"13:27",

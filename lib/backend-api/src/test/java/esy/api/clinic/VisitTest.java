@@ -15,20 +15,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class VisitTest {
 
     Visit createWithText(final String text) {
-        return Visit.parseJson("""
+        return Visit.fromJson("""
                         {
                             "date":"2021-04-22",
                             "text":"%s"
                         }
                         """.formatted(text))
-                .setPet(Pet.parseJson("""
+                .setPet(Pet.fromJson("""
                         {
                             "id":"deadbeef-dead-beef-dead-deadbeefdead",
                             "name":"Tom",
                             "born":"2020-12-24",
                             "species":"Cat"
                         }"""))
-                .setVet(Vet.parseJson("""
+                .setVet(Vet.fromJson("""
                         {
                             "id":"deadbeef-dead-beef-dead-deadbeefdead",
                             "name":"John Cleese"
@@ -96,7 +96,7 @@ class VisitTest {
             "24:00"
     })
     void jsonTime(final String time) {
-        final var value = Visit.parseJson("""
+        final var value = Visit.fromJson("""
                         {
                             "date":"2021-04-22",
                             "time":"%s",
@@ -115,7 +115,7 @@ class VisitTest {
     })
     void jsonTimeConstraint(final String time) {
         assertThrows(IllegalArgumentException.class, () ->
-                Visit.parseJson("""
+                Visit.fromJson("""
                         {
                             "date":"2021-04-22",
                             "time":"%s",

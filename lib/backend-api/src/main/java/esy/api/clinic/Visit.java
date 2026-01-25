@@ -155,7 +155,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         return new JsonJpaMapper().writeJson(this);
     }
 
-    public static Visit parseJson(@NonNull final String json) {
+    public static Visit fromJson(@NonNull final String json) {
         return new JsonJpaMapper().parseJson(json, Visit.class);
     }
 }

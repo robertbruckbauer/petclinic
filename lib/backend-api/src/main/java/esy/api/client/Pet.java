@@ -139,7 +139,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
         return new JsonJpaMapper().writeJson(this);
     }
 
-    public static Pet parseJson(@NonNull final String json) {
+    public static Pet fromJson(@NonNull final String json) {
         return new JsonJpaMapper().parseJson(json, Pet.class);
     }
 }

@@ -124,7 +124,7 @@ public final class Owner extends JsonJpaEntity<Owner> {
         return new JsonJpaMapper().writeJson(this);
     }
 
-    public static Owner parseJson(@NonNull final String json) {
+    public static Owner fromJson(@NonNull final String json) {
         return new JsonJpaMapper().parseJson(json, Owner.class);
     }
 }

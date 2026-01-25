@@ -85,21 +85,21 @@ public class ServerTestset implements CommandLineRunner {
 
     private Map<String, Enum> createAllEnumSkill() {
         return Stream.of(
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 0,
                                     "name":"Radiology",
                                     "text":"Radiology is the medical discipline that uses medical imaging to diagnose and treat diseases within the bodies of animals and humans"
                                 }
                                 """),
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 1,
                                     "name":"Dentistry",
                                     "text":"Dentistry is a branch of medicine that consists of the study, diagnosis, prevention, and treatment of diseases, disorders, and conditions of the oral cavity (the mouth)."
                                 }
                                 """),
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 2,
                                     "name":"Surgery",
@@ -113,35 +113,35 @@ public class ServerTestset implements CommandLineRunner {
 
     private Map<String, Enum> createAllEnumSpecies() {
         return Stream.of(
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 0,
                                     "name":"Cat",
                                     "text":"A cat (tax. felis catus) is a domestic species of a small carnivorous mammal."
                                 }
                                 """),
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 1,
                                     "name":"Dog",
                                     "text":"A dog (tax. canis familiaris) is a domesticated descendant of the wolf."
                                 }
                                 """),
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 2,
                                     "name":"Rat",
                                     "text":"A rat (tax. rattus) is a family of various medium-sized, long-tailed rodents."
                                 }
                                 """),
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 3,
                                     "name":"Pig",
                                     "text":"A pig (tax. sus domesticus) is an omnivorous, domesticated even-toed hoofed mammal."
                                 }
                                 """),
-                        Enum.parseJson("""
+                        Enum.fromJson("""
                                 {
                                     "code": 4,
                                     "name":"Bird",
@@ -155,28 +155,28 @@ public class ServerTestset implements CommandLineRunner {
 
     private Map<String, Owner> createAllOwner() {
         return Stream.of(
-                        Owner.parseJson("""
+                        Owner.fromJson("""
                                 {
                                     "name":"Thomas Mann",
                                     "address":"110 W. Liberty St.",
                                     "contact":"+43 660 5551023"
                                 }
                                 """),
-                        Owner.parseJson("""
+                        Owner.fromJson("""
                                 {
                                     "name":"Stefan Zweig",
                                     "address":"638 Cardinal Ave.",
                                     "contact":"+43 660 5551749"
                                 }
                                 """),
-                        Owner.parseJson("""
+                        Owner.fromJson("""
                                 {
                                     "name":"Wolfgang A. Mozart",
                                     "address":"2387 S. Fair Way",
                                     "contact":"+43 660 5552765"
                                 }
                                 """),
-                        Owner.parseJson("""
+                        Owner.fromJson("""
                                 {
                                     "name":"Arthur Conan Doyle",
                                     "address":"1450 Oak Blvd.",
@@ -189,7 +189,7 @@ public class ServerTestset implements CommandLineRunner {
 
     private Map<String, Pet> createAllPet(final Map<String, Owner> allOwner) {
         return Stream.of(
-                        Pet.parseJson("""
+                        Pet.fromJson("""
                                         {
                                             "name":"Tom",
                                             "born":"2021-04-01",
@@ -197,7 +197,7 @@ public class ServerTestset implements CommandLineRunner {
                                         }
                                         """)
                                 .setOwner(allOwner.get("Thomas Mann")),
-                        Pet.parseJson("""
+                        Pet.fromJson("""
                                         {
                                             "name":"Odi",
                                             "born":"2021-04-02",
@@ -205,7 +205,7 @@ public class ServerTestset implements CommandLineRunner {
                                         }
                                         """)
                                 .setOwner(allOwner.get("Thomas Mann")),
-                        Pet.parseJson("""
+                        Pet.fromJson("""
                                         {
                                             "name":"Fox",
                                             "born":"2021-04-03",
@@ -219,31 +219,31 @@ public class ServerTestset implements CommandLineRunner {
 
     private Map<String, Vet> createAllVet() {
         return Stream.of(
-                        Vet.parseJson("""
+                        Vet.fromJson("""
                                 {
                                     "name":"Graham Chapman",
                                     "allSkill":["Surgery","Radiology"]
                                 }
                                 """),
-                        Vet.parseJson("""
+                        Vet.fromJson("""
                                 {
                                     "name":"John Cleese",
                                     "allSkill":["Surgery"]
                                 }
                                 """),
-                        Vet.parseJson("""
+                        Vet.fromJson("""
                                 {
                                     "name":"Terry Gilliam",
                                     "allSkill":["Dentistry","Radiology"]
                                 }
                                 """),
-                        Vet.parseJson("""
+                        Vet.fromJson("""
                                 {
                                     "name":"Eric Idle",
                                     "allSkill":["Dentistry"]
                                 }
                                 """),
-                        Vet.parseJson("""
+                        Vet.fromJson("""
                                 {
                                     "name":"Terry Jones",
                                     "allSkill":[]
@@ -255,7 +255,7 @@ public class ServerTestset implements CommandLineRunner {
 
     private List<Visit> createAllVisit(Map<String, Pet> allPet, Map<String, Vet> allVet) {
         return Stream.of(
-                        Visit.parseJson("""
+                        Visit.fromJson("""
                                         {
                                             "date":"2021-04-21",
                                             "text":"%s"
@@ -263,7 +263,7 @@ public class ServerTestset implements CommandLineRunner {
                                         """.formatted(allLoremIpsum.get(0)))
                                 .setPet(allPet.get("Tom"))
                                 .setVet(allVet.get("Graham Chapman")),
-                        Visit.parseJson("""
+                        Visit.fromJson("""
                                         {
                                             "date":"2021-04-21",
                                             "text":"%s"
@@ -271,7 +271,7 @@ public class ServerTestset implements CommandLineRunner {
                                         """.formatted(allLoremIpsum.get(1)))
                                 .setPet(allPet.get("Odi"))
                                 .setVet(allVet.get("Graham Chapman")),
-                        Visit.parseJson("""
+                        Visit.fromJson("""
                                         {
                                             "date":"2021-04-22",
                                             "text":"%s"
@@ -279,7 +279,7 @@ public class ServerTestset implements CommandLineRunner {
                                         """.formatted(allLoremIpsum.get(2)))
                                 .setPet(allPet.get("Odi"))
                                 .setVet(allVet.get("John Cleese")),
-                        Visit.parseJson("""
+                        Visit.fromJson("""
                                         {
                                             "date":"2021-04-23",
                                             "text":"%s"
@@ -287,7 +287,7 @@ public class ServerTestset implements CommandLineRunner {
                                         """.formatted(allLoremIpsum.get(3)))
                                 .setPet(allPet.get("Odi"))
                                 .setVet(allVet.get("Terry Gilliam")),
-                        Visit.parseJson("""
+                        Visit.fromJson("""
                                         {
                                             "date":"2021-04-24",
                                             "text":"%s"
@@ -295,7 +295,7 @@ public class ServerTestset implements CommandLineRunner {
                                         """.formatted(allLoremIpsum.get(4)))
                                 .setPet(allPet.get("Odi"))
                                 .setVet(allVet.get("Eric Idle")),
-                        Visit.parseJson("""
+                        Visit.fromJson("""
                                         {
                                             "date":"2021-04-24",
                                             "text":"%s"

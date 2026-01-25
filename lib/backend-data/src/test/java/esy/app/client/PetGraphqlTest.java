@@ -31,7 +31,7 @@ class PetGraphqlTest {
 
     @Test
     void queryAllPet() {
-        final var value = Pet.parseJson("""
+        final var value = Pet.fromJson("""
                 {
                     "name":"Tom",
                     "born":"2021-04-22",

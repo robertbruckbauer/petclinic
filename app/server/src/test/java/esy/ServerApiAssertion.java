@@ -106,7 +106,7 @@ public class ServerApiAssertion {
                                 """.formatted(name, address, contact))),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.CREATED.value()));
-                    final var json = Owner.parseJson(res.text());
+                    final var json = Owner.fromJson(res.text());
                     assertNotNull(json.getId());
                     assertEquals(name, json.getName());
                     assertEquals(address, json.getAddress());
@@ -120,7 +120,7 @@ public class ServerApiAssertion {
                 (api) -> api.delete("/api/owner/%s".formatted(owner.getId())),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    final var json = Owner.parseJson(res.text());
+                    final var json = Owner.fromJson(res.text());
                     assertEquals(owner.getId(), json.getId());
                     return null;
                 });
@@ -150,7 +150,7 @@ public class ServerApiAssertion {
                                     """.formatted(owner.getAddress()))),
                     (res) -> {
                         assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                        final var json = Owner.parseJson(res.text());
+                        final var json = Owner.fromJson(res.text());
                         assertEquals(owner.getId(), json.getId());
                         assertNotEquals(owner.getAddress(), json.getAddress());
                         return json.getId();
@@ -165,7 +165,7 @@ public class ServerApiAssertion {
                                     """.formatted(owner.getContact()))),
                     (res) -> {
                         assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                        final var json = Owner.parseJson(res.text());
+                        final var json = Owner.fromJson(res.text());
                         assertEquals(owner.getId(), json.getId());
                         assertNotEquals(owner.getContact(), json.getContact());
                         return json.getId();
@@ -191,7 +191,7 @@ public class ServerApiAssertion {
                                 """.formatted(owner.getId(), name, species, born))),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.CREATED.value()));
-                    final var json = Pet.parseJson(res.text());
+                    final var json = Pet.fromJson(res.text());
                     assertNull(json.getOwner());
                     assertNotNull(json.getId());
                     assertEquals(name, json.getName());
@@ -206,7 +206,7 @@ public class ServerApiAssertion {
                 (api) -> api.delete("/api/pet/%s".formatted(pet.getId())),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    final var json = Pet.parseJson(res.text());
+                    final var json = Pet.fromJson(res.text());
                     assertEquals(pet.getId(), json.getId());
                     return null;
                 });
@@ -233,7 +233,7 @@ public class ServerApiAssertion {
                             (api) -> api.get("/api/pet/%s/owner".formatted(pet.getId())),
                             (res) -> {
                                 assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                                final var json = Owner.parseJson(res.text());
+                                final var json = Owner.fromJson(res.text());
                                 assertEquals(owner.getId(), json.getId());
                                 return json.getId();
                             });
@@ -247,7 +247,7 @@ public class ServerApiAssertion {
                                             """.formatted(pet.getBorn().plusDays(1L)))),
                             (res) -> {
                                 assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                                final var json = Pet.parseJson(res.text());
+                                final var json = Pet.fromJson(res.text());
                                 assertEquals(pet.getId(), json.getId());
                                 assertNotEquals(pet.getBorn(), json.getBorn());
                                 return json.getId();
@@ -274,7 +274,7 @@ public class ServerApiAssertion {
                                 """.formatted(name, skill))),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.CREATED.value()));
-                    final var json = Vet.parseJson(res.text());
+                    final var json = Vet.fromJson(res.text());
                     assertNotNull(json.getId());
                     assertEquals(name, json.getName());
                     assertTrue(json.getAllSkill().contains(skill));
@@ -287,7 +287,7 @@ public class ServerApiAssertion {
                 (api) -> api.delete("/api/vet/%s".formatted(vet.getId())),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    final var json = Vet.parseJson(res.text());
+                    final var json = Vet.fromJson(res.text());
                     assertEquals(vet.getId(), json.getId());
                     return null;
                 });
@@ -318,7 +318,7 @@ public class ServerApiAssertion {
                                         """)),
                         (res) -> {
                             assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                            final var json = Vet.parseJson(res.text());
+                            final var json = Vet.fromJson(res.text());
                             assertEquals(vet.getId(), json.getId());
                             assertTrue(json.getAllSkill().isEmpty());
                             return json.getId();
@@ -334,7 +334,7 @@ public class ServerApiAssertion {
                 (api) -> api.delete("/api/visit/%s".formatted(visit.getId())),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                    final var json = Visit.parseJson(res.text());
+                    final var json = Visit.fromJson(res.text());
                     assertEquals(visit.getId(), json.getId());
                     return null;
                 });
@@ -352,7 +352,7 @@ public class ServerApiAssertion {
                                 }""".formatted(pet.getId(), vet.getId(), date))),
                 (res) -> {
                     assertThat(res.status(), equalTo(HttpStatus.CREATED.value()));
-                    final var json = Visit.parseJson(res.text());
+                    final var json = Visit.fromJson(res.text());
                     assertNull(json.getPet());
                     assertNull(json.getVet());
                     assertNotNull(json.getId());
@@ -391,7 +391,7 @@ public class ServerApiAssertion {
                     (api) -> api.get("/api/visit/%s/pet".formatted(visit.getId())),
                     (res) -> {
                         assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                        final var json = Pet.parseJson(res.text());
+                        final var json = Pet.fromJson(res.text());
                         assertEquals(pet.getId(), json.getId());
                         return json.getId();
                     });
@@ -399,7 +399,7 @@ public class ServerApiAssertion {
                     (api) -> api.get("/api/visit/%s/vet".formatted(visit.getId())),
                     (res) -> {
                         assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                        final var json = Vet.parseJson(res.text());
+                        final var json = Vet.fromJson(res.text());
                         assertEquals(vet.getId(), json.getId());
                         return json.getId();
                     });
@@ -413,7 +413,7 @@ public class ServerApiAssertion {
                                         """.formatted(visitText))),
                     (res) -> {
                         assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                        final var json = Visit.parseJson(res.text());
+                        final var json = Visit.fromJson(res.text());
                         assertEquals(visit.getId(), json.getId());
                         assertEquals(visitDate, json.getDate());
                         assertEquals(visitText, json.getText());
