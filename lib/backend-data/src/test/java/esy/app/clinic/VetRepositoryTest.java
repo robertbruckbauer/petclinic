@@ -1,7 +1,6 @@
 package esy.app.clinic;
 
 import esy.api.clinic.Vet;
-import esy.app.EsyBackendConfiguration;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -22,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("slow")
 @SpringBootTest
-@ContextConfiguration(classes = EsyBackendConfiguration.class)
 @Transactional
 @Rollback(true)
 public class VetRepositoryTest {

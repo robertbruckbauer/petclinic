@@ -34,14 +34,16 @@ public class EsyBackendConfigurationTest {
 		assertNotNull(context);
 		assertNotNull(publisher);
 		assertNotNull(resourceLoader);
-		assertNotNull(context.getBean(EsyBackendConfiguration.class));
+		assertNotNull(context.getBean(EsyEndpointConfiguration.class));
+		assertNotNull(context.getBean(EsyDatabaseConfiguration.class));
 		assertNotNull(context.getBean(EsyGraphqlConfiguration.class));
+		assertNotNull(context.getBean(EsySecurityConfiguration.class));
 		assertNotNull(context.getBean(CollectionModelProcessor.class));
 	}
 
 	@Test
 	void corsRegsitry() {
-		final var classUnderTest = new EsyBackendConfiguration();
+		final var classUnderTest = new EsyEndpointConfiguration();
 		final var corsRegistry = new CorsRegistry();
 		assertDoesNotThrow(() -> classUnderTest.applyCorsConfiguration(corsRegistry));
 	}

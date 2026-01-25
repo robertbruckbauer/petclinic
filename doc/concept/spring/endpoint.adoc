@@ -18,23 +18,19 @@ Backend services use the autoconfiguration capabilities provides by _Spring Boot
 .configuration
 [source,java,options="nowrap"]
 ----
-include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=configuration,indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyEndpointConfiguration.java[tags=configuration,indent=0]
 ----
 
+A `@PropertySource` annotation tells Spring where to find the properties file.
+
 A `@ComponentScan` annotation tells Spring where to look for controller components.
-
-The `@EnableJpaRepositories` annotation activates the repository support.
-
-The `@EnableTransactionManagement` annotation activates the transaction support.
-
-The `@EnableScheduling` annotation activates the scheduled task execution capability.
 
 A customizer bean configures `Jackson` for reading and writing JSON structures.
 
 .jacksonCustomizer
 [source,java,options="nowrap"]
 ----
-include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=jacksonCustomizer,indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyEndpointConfiguration.java[tags=jacksonCustomizer,indent=0]
 ----
 
 The `JsonJpaMapper` class configures the _Jackson Object Mapper_ and provides operations for reading and writing JSON structures, e.g. `parseJson` and `writeJson`.
@@ -66,7 +62,7 @@ CORS, interceptors, path matching or content negotiation.
 .webMvcConfigurer
 [source,java,options="nowrap"]
 ----
-include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=webMvcConfigurer,indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyEndpointConfiguration.java[tags=webMvcConfigurer,indent=0]
 ----
 
 A customizer bean configures security for static resources and actuator health endpoints for the REST endpoints.
@@ -74,7 +70,7 @@ A customizer bean configures security for static resources and actuator health e
 .securityCustomizer
 [source,java,options="nowrap"]
 ----
-include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=securityCustomizer,indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsySecurityConfiguration.java[tags=securityCustomizer,indent=0]
 ----
 
 A customizer bean configures security filters for the REST endpoints.
@@ -82,7 +78,7 @@ A customizer bean configures security filters for the REST endpoints.
 .securityFilterChain
 [source,java,options="nowrap"]
 ----
-include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=securityFilterChain,indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsySecurityConfiguration.java[tags=securityFilterChain,indent=0]
 ----
 
 A configurer bean configures the behavior of auto-exposed REST endpoints.
@@ -90,7 +86,7 @@ A configurer bean configures the behavior of auto-exposed REST endpoints.
 .repositoryRestConfigurer
 [source,java,options="nowrap"]
 ----
-include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyBackendConfiguration.java[tags=repositoryRestConfigurer,indent=0]
+include::{includedir}/lib/backend-data/src/main/java/esy/app/EsyEndpointConfiguration.java[tags=repositoryRestConfigurer,indent=0]
 ----
 
 == Implementation details

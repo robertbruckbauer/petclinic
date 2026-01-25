@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
-public class EsyBackendExceptionRestController {
+public class EsyBackendExceptionTestController {
 
     @GetMapping("/badJson")
     public ResponseEntity<Version> badJson(@RequestBody final Version body) {

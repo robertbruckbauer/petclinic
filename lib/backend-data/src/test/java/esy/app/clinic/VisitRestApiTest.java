@@ -1,7 +1,6 @@
 package esy.app.clinic;
 
 import esy.api.clinic.Visit;
-import esy.app.EsyBackendConfiguration;
 import esy.app.client.OwnerRepository;
 import esy.app.client.PetRepository;
 import org.junit.jupiter.api.*;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,7 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Tag("slow")
 @SpringBootTest
-@ContextConfiguration(classes = EsyBackendConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
