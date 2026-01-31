@@ -59,7 +59,7 @@ export const test = base.extend<{
 
   queryAllEvent: async ({ sqliteFile }, use) => {
     const query = (testName: string): CdcEvent[] => {
-      const db = new DatabaseSync(sqliteFile, { readOnly: true });
+      const db = new DatabaseSync(sqliteFile);
       try {
         const logStmt = db.prepare(`
           SELECT entity_id, entity_type
