@@ -5,6 +5,7 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import logger from "./logger.js";
 
 /**
  * @typedef {import('../types/setup.js').SetupResponse} SetupResponse
@@ -44,9 +45,9 @@ function createDatabase(id) {
   const buildDir = join(__dirname, "..", "..", "..", "build");
   const sqlitePath = join(buildDir, `${id}.sqlite`);
 
-  console.log(`[DB] Initializing database at ${sqlitePath}`);
-  console.log(`[DB] __dirname: ${__dirname}`);
-  console.log(`[DB] buildDir: ${buildDir}`);
+  logger.info("Database", `Initializing database at ${sqlitePath}`);
+  logger.info("Database", `__dirname: ${__dirname}`);
+  logger.info("Database", `buildDir: ${buildDir}`);
 
   const database = new DatabaseSync(sqlitePath);
 
@@ -74,7 +75,7 @@ function createDatabase(id) {
     )
   `);
 
-  console.log("[DB] Database schema created");
+  logger.info("Database", "Database schema created");
   return database;
 }
 
@@ -129,7 +130,7 @@ function buildConnectorConfig(id, topicName) {
  */
 async function createConnector(id, topicName) {
   const connectorConfig = buildConnectorConfig(id, topicName);
-  console.log("[Connector] Creating Debezium connector...");
+  logger.info("Connector", "Creating Debezium connector...");
 
   try {
     const createResponse = await fetch(`${CONNECT_URL}/connectors`, {
@@ -145,9 +146,9 @@ async function createConnector(id, topicName) {
       );
     }
 
-    console.log("[Connector] Debezium connector created");
+    logger.info("Connector", "Debezium connector created");
   } catch (error) {
-    console.error("[Connector] Error creating connector:", error);
+    logger.error("Connector", "Error creating connector:", error);
     throw error;
   }
 }
@@ -157,7 +158,7 @@ async function createConnector(id, topicName) {
  */
 async function deleteConnector(id) {
   const connectorName = buildConnectorName(id);
-  console.log("[Connector] Deleting Debezium connector...");
+  logger.info("Connector", "Deleting Debezium connector...");
 
   try {
     const response = await fetch(`${CONNECT_URL}/connectors/${connectorName}`, {
@@ -165,14 +166,15 @@ async function deleteConnector(id) {
     });
 
     if (response.ok || response.status === 404) {
-      console.log("[Connector] Connector deleted successfully");
+      logger.info("Connector", "Connector deleted successfully");
     } else {
-      console.warn(
-        `[Connector] Failed to delete connector: ${response.status}`
+      logger.warn(
+        "Connector",
+        `Failed to delete connector: ${response.status}`
       );
     }
   } catch (error) {
-    console.error("[Connector] Error deleting connector:", error);
+    logger.error("Connector", "Error deleting connector:", error);
   }
 }
 
@@ -181,7 +183,7 @@ async function deleteConnector(id) {
  */
 async function waitForConnector(id, maxWaitMs = 30000, pollIntervalMs = 500) {
   const connectorName = buildConnectorName(id);
-  console.log("[Connector] Waiting for connector to be ready...");
+  logger.info("Connector", "Waiting for connector to be ready...");
 
   const startTime = Date.now();
   while (Date.now() - startTime < maxWaitMs) {
@@ -196,15 +198,16 @@ async function waitForConnector(id, maxWaitMs = 30000, pollIntervalMs = 500) {
           status.connector?.state === "RUNNING" &&
           status.tasks?.[0]?.state === "RUNNING"
         ) {
-          console.log("[Connector] Connector is ready");
+          logger.info("Connector", "Connector is ready");
           return true;
         }
-        console.log(
-          `[Connector] Status: connector=${status.connector?.state}, task=${status.tasks?.[0]?.state}`
+        logger.info(
+          "Connector",
+          `Status: connector=${status.connector?.state}, task=${status.tasks?.[0]?.state}`
         );
       }
     } catch (error) {
-      console.log("[Connector] Polling connector status...");
+      logger.debug("Connector", "Polling connector status...");
     }
 
     await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
@@ -217,7 +220,7 @@ async function waitForConnector(id, maxWaitMs = 30000, pollIntervalMs = 500) {
  * Send ping kill message to stop consumer
  */
 async function sendPingKillMessage(id) {
-  console.log(`[Ping] Sending kill message with id: ${id}`);
+  logger.info("Consumer", `Sending kill message with id: ${id}`);
 
   try {
     const response = await fetch(`${BACKEND_URL}/api/ping/${id}`, {
@@ -232,9 +235,9 @@ async function sendPingKillMessage(id) {
       );
     }
 
-    console.log("[Ping] Kill message sent successfully");
+    logger.info("Consumer", "Kill message sent successfully");
   } catch (error) {
-    console.error("[Ping] Error sending kill message:", error);
+    logger.error("Consumer", "Error sending kill message:", error);
     throw error;
   }
 }
@@ -243,7 +246,7 @@ async function sendPingKillMessage(id) {
  * Create topic using Admin API
  */
 async function createTopic(id, topicName) {
-  console.log(`[Kafka] Creating ${topicName} topic...`);
+  logger.info("Consumer", `Creating ${topicName} topic...`);
 
   const kafka = new Kafka({
     clientId: `tester-admin-${id}`,
@@ -254,7 +257,7 @@ async function createTopic(id, topicName) {
 
   try {
     await admin.connect();
-    console.log("[Kafka] Admin connected");
+    logger.info("Consumer", "Admin connected");
 
     await admin.createTopics({
       topics: [
@@ -266,18 +269,18 @@ async function createTopic(id, topicName) {
       ],
     });
 
-    console.log(`[Kafka] Topic ${topicName} created`);
+    logger.info("Consumer", `Topic ${topicName} created`);
   } catch (error) {
     // Ignore if topic already exists
     if (error.message && error.message.includes("already exists")) {
-      console.log(`[Kafka] Topic ${topicName} already exists`);
+      logger.info("Consumer", `Topic ${topicName} already exists`);
     } else {
-      console.error("[Kafka] Error creating topic:", error);
+      logger.error("Consumer", "Error creating topic:", error);
       throw error;
     }
   } finally {
     await admin.disconnect();
-    console.log("[Kafka] Admin disconnected");
+    logger.info("Consumer", "Admin disconnected");
   }
 }
 
@@ -285,7 +288,7 @@ async function createTopic(id, topicName) {
  * Start Kafka consumer
  */
 async function startConsumer(id, database, topicName) {
-  console.log("[Kafka] Starting consumer...");
+  logger.info("Consumer", "Starting consumer...");
 
   kafka = new Kafka({
     clientId: `tester-${id}`,
@@ -305,38 +308,42 @@ async function startConsumer(id, database, topicName) {
   consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
       try {
-        console.log(
-          `[Kafka] Received message from topic: ${topic}, partition: ${partition}`
+        logger.debug(
+          "Consumer",
+          `Received message from topic: ${topic}, partition: ${partition}`
         );
 
         // Check for X-RUN-ID header
         const headers = message.headers || {};
         const messageRunId = headers["X-RUN-ID"]?.toString();
 
-        console.log(`[Kafka] Message RUN-ID: ${messageRunId}, Expected: ${id}`);
+        logger.debug(
+          "Consumer",
+          `Message RUN-ID: ${messageRunId}, Expected: ${id}`
+        );
 
         if (messageRunId !== id) {
-          console.log(`[Kafka] Skipping message - RUN-ID mismatch`);
+          logger.debug("Consumer", `Skipping message - RUN-ID mismatch`);
           return; // Skip messages not for this run
         }
 
         // Handle null key (shouldn't happen with Debezium, but be safe)
         if (!message.key) {
-          console.log(`[Kafka] Skipping message with null key`);
+          logger.debug("Consumer", `Skipping message with null key`);
           return;
         }
 
         // Handle null value (tombstone message for compacted topics)
         if (!message.value) {
-          console.log(`[Kafka] Skipping tombstone message`);
+          logger.debug("Consumer", `Skipping tombstone message`);
           return;
         }
 
         const key = JSON.parse(message.key.toString());
         const value = JSON.parse(message.value.toString());
 
-        console.log(`[Kafka] Message key:`, key);
-        console.log(`[Kafka] Message value:`, value);
+        logger.debug("Consumer", `Message key:`, key);
+        logger.debug("Consumer", `Message value:`, value);
 
         // Extract fields - Debezium format without schema wrapper
         const keyId = key.id;
@@ -346,18 +353,25 @@ async function startConsumer(id, database, topicName) {
         const afterData = value.after ? JSON.stringify(value.after) : null;
 
         if (!keyId || !operation || !tableName) {
-          console.warn(`[Kafka] Invalid message structure, skipping`);
+          logger.warn("Consumer", `Invalid message structure, skipping`);
           return;
         }
 
-        console.log(
-          `[Kafka] Processing CDC event: entity_id=${keyId}, entity_type=${tableName}, operation=${operation}`
+        logger.info(
+          "Consumer",
+          `Processing CDC event: entity_id=${keyId}, entity_type=${tableName}, operation=${operation}`
         );
 
         // Check if this is a ping kill message
         if (tableName === "ping" && keyId === id) {
-          console.log(`[Kafka] Received ping kill message for RUN-ID: ${id}`);
-          console.log("[Kafka] Waiting 2 seconds for pending messages...");
+          logger.info(
+            "Consumer",
+            `Received ping kill message for RUN-ID: ${id}`
+          );
+          logger.info(
+            "KConsumerafka",
+            "Waiting 2 seconds for pending messages..."
+          );
 
           // Mark consumer as shutting down immediately
           consumerRunning = false;
@@ -365,7 +379,7 @@ async function startConsumer(id, database, topicName) {
           // Wait a bit to allow any in-flight CDC events to be processed
           setTimeout(async () => {
             await consumer.stop();
-            console.log("[Kafka] Consumer stopped by kill message");
+            logger.info("Consumer", "Consumer stopped by kill message");
           }, 2000);
 
           // Don't store ping events in CDC table
@@ -387,17 +401,18 @@ async function startConsumer(id, database, topicName) {
           afterData
         );
 
-        console.log(
-          `[Kafka] Stored CDC event: ${tableName}.${keyId} (${operation})`
+        logger.info(
+          "Consumer",
+          `Stored CDC event: ${tableName}.${keyId} (${operation})`
         );
       } catch (error) {
-        console.error("[Kafka] Error processing message:", error);
-        console.error("[Kafka] Message:", message);
+        logger.error("Consumer", "Error processing message:", error);
+        logger.error("Consumer", "Message:", message);
       }
     },
   });
 
-  console.log("[Kafka] Consumer started");
+  logger.info("Consumer", "Consumer started");
 }
 
 /**
@@ -405,12 +420,12 @@ async function startConsumer(id, database, topicName) {
  */
 async function stopConsumer() {
   if (consumer && consumerRunning) {
-    console.log("[Kafka] Stopping consumer...");
+    logger.info("Consumer", "Stopping consumer...");
     consumerRunning = false;
     await consumer.stop();
     await consumer.disconnect();
     consumer = null;
-    console.log("[Kafka] Consumer stopped");
+    logger.info("Consumer", "Consumer stopped");
   }
   kafka = null;
 }
@@ -429,15 +444,15 @@ app.post("/setup", async (req, res) => {
 
     // Generate unique RUN-ID
     runId = randomUUID();
-    console.log(`[Setup] Generated RUN-ID: ${runId}`);
+    logger.info("Setup", `Generated RUN-ID: ${runId}`);
 
     // Ensure build directory exists
     const buildDir = join(__dirname, "..", "..", "..", "build");
-    console.log(`[Setup] Creating build directory: ${buildDir}`);
+    logger.info("Setup", `Creating build directory: ${buildDir}`);
     try {
       await mkdir(buildDir, { recursive: true });
     } catch (mkdirError) {
-      console.error(`[Setup] Error creating build directory:`, mkdirError);
+      logger.error("Setup", `Error creating build directory:`, mkdirError);
       throw mkdirError;
     }
 
@@ -459,10 +474,10 @@ app.post("/setup", async (req, res) => {
     // Start Kafka consumer
     await startConsumer(runId, sqlite, topicName);
 
-    console.log("[Setup] Setup complete");
+    logger.info("Setup", "Setup complete");
     res.json({ runId, status: "success" });
   } catch (error) {
-    console.error("[Setup] Error:", error);
+    logger.error("Setup", "Error:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -495,12 +510,13 @@ app.post("/log", async (req, res) => {
 
     stmt.run(new Date().toISOString(), testName, entityType, entityId);
 
-    console.log(
-      `[Log] Logged use case: ${testName} - ${entityType}#${entityId}`
+    logger.info(
+      "Log",
+      `Logged use case: ${testName} - ${entityType}#${entityId}`
     );
     res.json({ status: "success" });
   } catch (error) {
-    console.error("[Log] Error:", error);
+    logger.error("Log", "Error:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -517,7 +533,7 @@ app.post("/teardown", async (req, res) => {
         .json({ error: "Setup not called yet. Nothing to tear down." });
     }
 
-    console.log(`[Teardown] Starting teardown for RUN-ID: ${runId}`);
+    logger.info("Teardown", `Starting teardown for RUN-ID: ${runId}`);
 
     // Send ping kill message
     await sendPingKillMessage(runId);
@@ -531,10 +547,10 @@ app.post("/teardown", async (req, res) => {
     }
 
     if (consumerRunning) {
-      console.warn("[Teardown] Consumer did not stop in time, forcing stop");
+      logger.warn("Teardown", "Consumer did not stop in time, forcing stop");
       await stopConsumer();
     } else {
-      console.log("[Teardown] Consumer stopped successfully");
+      logger.info("Teardown", "Consumer stopped successfully");
       // Wait a bit more for the setTimeout to complete the disconnect
       await new Promise((resolve) => setTimeout(resolve, 2500));
 
@@ -549,7 +565,7 @@ app.post("/teardown", async (req, res) => {
     // Close database
     if (sqlite) {
       sqlite.close();
-      console.log("[Teardown] Database closed");
+      logger.info("Teardown", "Database closed");
       sqlite = null;
     }
 
@@ -559,10 +575,10 @@ app.post("/teardown", async (req, res) => {
     const completedRunId = runId;
     runId = null;
 
-    console.log("[Teardown] Teardown complete");
+    logger.info("Teardown", "Teardown complete");
     res.json({ runId: completedRunId, status: "success" });
   } catch (error) {
-    console.error("[Teardown] Error:", error);
+    logger.error("Teardown", "Error:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -578,5 +594,5 @@ app.get("/health", (req, res) => {
 
 const PORT = process.env.PORT || 9090;
 app.listen(PORT, () => {
-  console.log(`[Server] Tester service listening on port ${PORT}`);
+  logger.info("Server", `Tester service listening on port ${PORT}`);
 });

@@ -70,7 +70,6 @@ export const test = base.extend<{
         const log = logStmt.get(testName) as
           | { entity_id: string; entity_type: string }
           | undefined;
-        console.log(["queryAllEvent", log]);
 
         if (log) {
           const cdcStmt = db.prepare(`
