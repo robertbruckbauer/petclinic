@@ -102,7 +102,8 @@ function buildConnectorConfig(id, topicName) {
       "database.server.name": "petclinic",
       "topic.prefix": "petclinic",
       "snapshot.mode": "never",
-      "table.include.list": "public.owner,public.pet,public.vet,public.visit",
+      "table.include.list":
+        "public.enum,public.ping,public.owner,public.pet,public.vet,public.visit",
       "slot.name": `petclinic_slot_${id.replace(/-/g, "_")}`,
       "plugin.name": "pgoutput",
       "publication.name": `petclinic_pub_${id.replace(/-/g, "_")}`,
@@ -172,6 +173,69 @@ async function deleteConnector(id) {
     }
   } catch (error) {
     console.error("[Connector] Error deleting connector:", error);
+  }
+}
+
+/**
+ * Wait for Debezium connector to be ready
+ */
+async function waitForConnector(id, maxWaitMs = 30000, pollIntervalMs = 500) {
+  const connectorName = buildConnectorName(id);
+  console.log("[Connector] Waiting for connector to be ready...");
+
+  const startTime = Date.now();
+  while (Date.now() - startTime < maxWaitMs) {
+    try {
+      const response = await fetch(
+        `${CONNECT_URL}/connectors/${connectorName}/status`
+      );
+
+      if (response.ok) {
+        const status = await response.json();
+        if (
+          status.connector?.state === "RUNNING" &&
+          status.tasks?.[0]?.state === "RUNNING"
+        ) {
+          console.log("[Connector] Connector is ready");
+          return true;
+        }
+        console.log(
+          `[Connector] Status: connector=${status.connector?.state}, task=${status.tasks?.[0]?.state}`
+        );
+      }
+    } catch (error) {
+      console.log("[Connector] Polling connector status...");
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+  }
+
+  throw new Error("Connector did not become ready in time");
+}
+
+/**
+ * Send ping kill message to stop consumer
+ */
+async function sendPingKillMessage(id) {
+  console.log(`[Ping] Sending kill message with id: ${id}`);
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/ping/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to send ping kill message: ${response.status} ${errorText}`
+      );
+    }
+
+    console.log("[Ping] Kill message sent successfully");
+  } catch (error) {
+    console.error("[Ping] Error sending kill message:", error);
+    throw error;
   }
 }
 
@@ -256,25 +320,57 @@ async function startConsumer(id, database, topicName) {
           return; // Skip messages not for this run
         }
 
+        // Handle null key (shouldn't happen with Debezium, but be safe)
+        if (!message.key) {
+          console.log(`[Kafka] Skipping message with null key`);
+          return;
+        }
+
+        // Handle null value (tombstone message for compacted topics)
+        if (!message.value) {
+          console.log(`[Kafka] Skipping tombstone message`);
+          return;
+        }
+
         const key = JSON.parse(message.key.toString());
         const value = JSON.parse(message.value.toString());
 
         console.log(`[Kafka] Message key:`, key);
-        console.log(`[Kafka] Message value payload:`, value.payload);
+        console.log(`[Kafka] Message value:`, value);
 
+        // Extract fields - Debezium format without schema wrapper
         const keyId = key.id;
-        const operation = value.payload.op;
-        const tableName = value.payload.source.table;
-        const beforeData = value.payload.before
-          ? JSON.stringify(value.payload.before)
-          : null;
-        const afterData = value.payload.after
-          ? JSON.stringify(value.payload.after)
-          : null;
+        const operation = value.op;
+        const tableName = value.source?.table;
+        const beforeData = value.before ? JSON.stringify(value.before) : null;
+        const afterData = value.after ? JSON.stringify(value.after) : null;
+
+        if (!keyId || !operation || !tableName) {
+          console.warn(`[Kafka] Invalid message structure, skipping`);
+          return;
+        }
 
         console.log(
-          `[Kafka] Storing CDC event: entity_id=${keyId}, entity_type=${tableName}, operation=${operation}`
+          `[Kafka] Processing CDC event: entity_id=${keyId}, entity_type=${tableName}, operation=${operation}`
         );
+
+        // Check if this is a ping kill message
+        if (tableName === "ping" && keyId === id) {
+          console.log(`[Kafka] Received ping kill message for RUN-ID: ${id}`);
+          console.log("[Kafka] Waiting 2 seconds for pending messages...");
+
+          // Mark consumer as shutting down immediately
+          consumerRunning = false;
+
+          // Wait a bit to allow any in-flight CDC events to be processed
+          setTimeout(async () => {
+            await consumer.stop();
+            console.log("[Kafka] Consumer stopped by kill message");
+          }, 2000);
+
+          // Don't store ping events in CDC table
+          return;
+        }
 
         // Store in database
         const stmt = database.prepare(`
@@ -357,6 +453,9 @@ app.post("/setup", async (req, res) => {
     // Create Debezium connector
     await createConnector(runId, topicName);
 
+    // Wait for connector to be ready
+    await waitForConnector(runId);
+
     // Start Kafka consumer
     await startConsumer(runId, sqlite, topicName);
 
@@ -420,8 +519,32 @@ app.post("/teardown", async (req, res) => {
 
     console.log(`[Teardown] Starting teardown for RUN-ID: ${runId}`);
 
-    // Stop Kafka consumer
-    await stopConsumer();
+    // Send ping kill message
+    await sendPingKillMessage(runId);
+
+    // Wait for consumer to stop (max 5 seconds)
+    const maxWait = 5000;
+    const pollInterval = 100;
+    const startTime = Date.now();
+    while (consumerRunning && Date.now() - startTime < maxWait) {
+      await new Promise((resolve) => setTimeout(resolve, pollInterval));
+    }
+
+    if (consumerRunning) {
+      console.warn("[Teardown] Consumer did not stop in time, forcing stop");
+      await stopConsumer();
+    } else {
+      console.log("[Teardown] Consumer stopped successfully");
+      // Wait a bit more for the setTimeout to complete the disconnect
+      await new Promise((resolve) => setTimeout(resolve, 2500));
+
+      // Disconnect consumer
+      if (consumer) {
+        await consumer.disconnect();
+        consumer = null;
+        kafka = null;
+      }
+    }
 
     // Close database
     if (sqlite) {
