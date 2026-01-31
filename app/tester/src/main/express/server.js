@@ -368,15 +368,12 @@ async function startConsumer(id, database, topicName) {
             "Consumer",
             `Received ping kill message for RUN-ID: ${id}`
           );
-          logger.info(
-            "KConsumerafka",
-            "Waiting 2 seconds for pending messages..."
-          );
 
           // Mark consumer as shutting down immediately
           consumerRunning = false;
 
           // Wait a bit to allow any in-flight CDC events to be processed
+          logger.info("Consumer", "Waiting 2 seconds for pending messages...");
           setTimeout(async () => {
             await consumer.stop();
             logger.info("Consumer", "Consumer stopped by kill message");
