@@ -1,11 +1,9 @@
 import { test, expect } from "./fixtures";
-import { BACKEND_URL } from "./global-env.js";
+import { BACKEND_URL, CASE_OWNER_BASIC_CRUD } from "./global-env.js";
 import { Owner } from "../../main/types/owner.type.js";
 
 test.describe("Phase 1 - Owner Management", () => {
-  test("should create and delete an owner via REST API", async ({
-    logEntity,
-  }) => {
+  test(CASE_OWNER_BASIC_CRUD, async ({ logEntity }) => {
     const createResponse = await fetch(`${BACKEND_URL}/api/owner`, {
       method: "POST",
       headers: {
@@ -28,6 +26,6 @@ test.describe("Phase 1 - Owner Management", () => {
     });
     expect(deleteResponse.status).toBe(200);
 
-    await logEntity("should create and delete an owner via REST API", ownerId);
+    await logEntity("owner", ownerId);
   });
 });
