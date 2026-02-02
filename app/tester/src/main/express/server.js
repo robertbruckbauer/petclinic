@@ -2,7 +2,7 @@ import express from "express";
 import { randomUUID } from "node:crypto";
 import { Kafka } from "kafkajs";
 import { DatabaseSync } from "node:sqlite";
-import { mkdir } from "node:fs/promises";
+import { mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import logger from "./logger.js";
@@ -38,17 +38,24 @@ let kafka = null;
 let consumer = null;
 let consumerRunning = false;
 
+function createDirectory(id) {
+  const buildDir = join(__dirname, "..", "..", "..", "build");
+  try {
+    mkdirSync(buildDir, { recursive: true });
+    logger.info("Directory", `buildDir: ${buildDir}`);
+    return buildDir;
+  } catch (mkdirError) {
+    logger.error("Directory", `Error creating build directory:`, mkdirError);
+    throw mkdirError;
+  }
+}
+
 /**
  * Initialize SQLite database with schema
  */
-function createDatabase(id) {
-  const buildDir = join(__dirname, "..", "..", "..", "build");
+function createDatabase(id, buildDir) {
   const sqlitePath = join(buildDir, `${id}.sqlite`);
-
   logger.info("Database", `Initializing database at ${sqlitePath}`);
-  logger.info("Database", `__dirname: ${__dirname}`);
-  logger.info("Database", `buildDir: ${buildDir}`);
-
   const database = new DatabaseSync(sqlitePath);
 
   // Create CDC events table
@@ -371,7 +378,9 @@ async function startConsumer(id, database, topicName) {
 
           // Mark consumer as shutting down immediately
           consumerRunning = false;
+        }
 
+        if (!consumerRunning) {
           // Wait a bit to allow any in-flight CDC events to be processed
           logger.info("Consumer", "Waiting 2 seconds for pending messages...");
           setTimeout(async () => {
@@ -428,51 +437,182 @@ async function stopConsumer() {
 }
 
 /**
+ * Perform setup operations
+ * @returns {Promise<string>} - The generated runId
+ */
+async function performSetup() {
+  // Generate unique RUN-ID
+  runId = randomUUID();
+  logger.info("Setup", `Generated RUN-ID: ${runId}`);
+
+  // Ensure build directory exists
+  const buildDir = createDirectory(runId);
+
+  // Initialize database
+  sqlite = createDatabase(runId, buildDir);
+
+  // Define topic name
+  const topicName = "petclinic.all";
+
+  // Create topic
+  await createTopic(runId, topicName);
+
+  // Create Debezium connector
+  await createConnector(runId, topicName);
+
+  // Wait for connector to be ready
+  await waitForConnector(runId);
+
+  // Start Kafka consumer
+  await startConsumer(runId, sqlite, topicName);
+
+  logger.info("Setup", "Setup complete");
+  return runId;
+}
+
+/**
+ * Perform teardown cleanup operations
+ * @param {string} scope - Logging scope (e.g., "Setup", "Teardown")
+ * @param {boolean} graceful - Whether to handle errors gracefully
+ * @returns {Promise<string>} - The runId that was torn down
+ */
+async function performTeardown(scope, graceful = true) {
+  const currentRunId = runId;
+  if (!currentRunId) {
+    logger.info(scope, "No active session to tear down");
+    return null;
+  }
+
+  logger.info(scope, `Starting teardown for RUN-ID: ${currentRunId}`);
+
+  // Send ping kill message
+  try {
+    await sendPingKillMessage(currentRunId);
+  } catch (pingError) {
+    const message = `Error sending ping kill message${graceful ? " (continuing anyway)" : ""}:`;
+    if (graceful) {
+      logger.warn(scope, message, pingError);
+    } else {
+      logger.error(scope, message, pingError);
+      throw pingError;
+    }
+  }
+
+  // Wait for consumer to stop (max 5 seconds)
+  const maxWait = 5000;
+  const pollInterval = 100;
+  const startTime = Date.now();
+  while (consumerRunning && Date.now() - startTime < maxWait) {
+    await new Promise((resolve) => setTimeout(resolve, pollInterval));
+  }
+
+  if (consumerRunning) {
+    logger.warn(scope, "Consumer did not stop in time, forcing stop");
+    try {
+      await stopConsumer();
+    } catch (stopError) {
+      const message = `Error stopping consumer${graceful ? " (continuing anyway)" : ""}:`;
+      if (graceful) {
+        logger.warn(scope, message, stopError);
+      } else {
+        logger.error(scope, message, stopError);
+        throw stopError;
+      }
+    }
+  } else {
+    logger.info(scope, "Consumer stopped successfully");
+    // Wait a bit more for the setTimeout to complete the disconnect
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+
+    // Disconnect consumer
+    if (consumer) {
+      try {
+        await consumer.disconnect();
+        consumer = null;
+        kafka = null;
+      } catch (disconnectError) {
+        const message = `Error disconnecting consumer${graceful ? " (continuing anyway)" : ""}:`;
+        if (graceful) {
+          logger.warn(scope, message, disconnectError);
+          consumer = null;
+          kafka = null;
+        } else {
+          logger.error(scope, message, disconnectError);
+          throw disconnectError;
+        }
+      }
+    }
+  }
+
+  // Close database
+  if (sqlite) {
+    try {
+      sqlite.close();
+      logger.info(scope, "Database closed");
+      sqlite = null;
+    } catch (dbError) {
+      const message = `Error closing database${graceful ? " (continuing anyway)" : ""}:`;
+      if (graceful) {
+        logger.warn(scope, message, dbError);
+        sqlite = null;
+      } else {
+        logger.error(scope, message, dbError);
+        throw dbError;
+      }
+    }
+  }
+
+  // Delete Debezium connector
+  try {
+    await deleteConnector(currentRunId);
+  } catch (connectorError) {
+    const message = `Error deleting connector${graceful ? " (continuing anyway)" : ""}:`;
+    if (graceful) {
+      logger.warn(scope, message, connectorError);
+    } else {
+      logger.error(scope, message, connectorError);
+      throw connectorError;
+    }
+  }
+
+  runId = null;
+  logger.info(scope, `Teardown complete for RUN-ID: ${currentRunId}`);
+  return currentRunId;
+}
+
+/**
  * Endpoint: POST /setup
  * @returns {Promise<SetupResponse | ErrorResponse>}
  */
 app.post("/setup", async (req, res) => {
   try {
+    // If setup already called, automatically teardown first
     if (runId) {
-      return res
-        .status(400)
-        .json({ error: "Setup already called. Call /teardown first." });
+      logger.warn(
+        "Setup",
+        `Setup already called with RUN-ID: ${runId}. Performing automatic teardown first.`
+      );
+
+      try {
+        await performTeardown("Setup", false);
+      } catch (teardownError) {
+        logger.error(
+          "Setup",
+          "Error during automatic teardown:",
+          teardownError
+        );
+      } finally {
+        // Reset state anyway to allow setup to proceed
+        runId = null;
+        sqlite = null;
+        consumer = null;
+        kafka = null;
+        consumerRunning = false;
+      }
     }
 
-    // Generate unique RUN-ID
-    runId = randomUUID();
-    logger.info("Setup", `Generated RUN-ID: ${runId}`);
-
-    // Ensure build directory exists
-    const buildDir = join(__dirname, "..", "..", "..", "build");
-    logger.info("Setup", `Creating build directory: ${buildDir}`);
-    try {
-      await mkdir(buildDir, { recursive: true });
-    } catch (mkdirError) {
-      logger.error("Setup", `Error creating build directory:`, mkdirError);
-      throw mkdirError;
-    }
-
-    // Initialize database
-    sqlite = createDatabase(runId);
-
-    // Define topic name
-    const topicName = "petclinic.all";
-
-    // Create topic
-    await createTopic(runId, topicName);
-
-    // Create Debezium connector
-    await createConnector(runId, topicName);
-
-    // Wait for connector to be ready
-    await waitForConnector(runId);
-
-    // Start Kafka consumer
-    await startConsumer(runId, sqlite, topicName);
-
-    logger.info("Setup", "Setup complete");
-    res.json({ runId, status: "success" });
+    const newRunId = await performSetup();
+    res.json({ runId: newRunId, status: "success" });
   } catch (error) {
     logger.error("Setup", "Error:", error);
     res.status(500).json({ error: error.message });
@@ -524,55 +664,16 @@ app.post("/log", async (req, res) => {
  */
 app.post("/teardown", async (req, res) => {
   try {
-    if (!runId) {
-      return res
-        .status(400)
-        .json({ error: "Setup not called yet. Nothing to tear down." });
+    const completedRunId = await performTeardown("Teardown", true);
+
+    if (completedRunId === null) {
+      return res.status(200).json({
+        runId: null,
+        status: "success",
+        message: "No active session to tear down",
+      });
     }
 
-    logger.info("Teardown", `Starting teardown for RUN-ID: ${runId}`);
-
-    // Send ping kill message
-    await sendPingKillMessage(runId);
-
-    // Wait for consumer to stop (max 5 seconds)
-    const maxWait = 5000;
-    const pollInterval = 100;
-    const startTime = Date.now();
-    while (consumerRunning && Date.now() - startTime < maxWait) {
-      await new Promise((resolve) => setTimeout(resolve, pollInterval));
-    }
-
-    if (consumerRunning) {
-      logger.warn("Teardown", "Consumer did not stop in time, forcing stop");
-      await stopConsumer();
-    } else {
-      logger.info("Teardown", "Consumer stopped successfully");
-      // Wait a bit more for the setTimeout to complete the disconnect
-      await new Promise((resolve) => setTimeout(resolve, 2500));
-
-      // Disconnect consumer
-      if (consumer) {
-        await consumer.disconnect();
-        consumer = null;
-        kafka = null;
-      }
-    }
-
-    // Close database
-    if (sqlite) {
-      sqlite.close();
-      logger.info("Teardown", "Database closed");
-      sqlite = null;
-    }
-
-    // Delete Debezium connector
-    await deleteConnector(runId);
-
-    const completedRunId = runId;
-    runId = null;
-
-    logger.info("Teardown", "Teardown complete");
     res.json({ runId: completedRunId, status: "success" });
   } catch (error) {
     logger.error("Teardown", "Error:", error);
