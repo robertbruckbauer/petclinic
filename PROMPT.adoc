@@ -4,12 +4,18 @@
 
 .Prompt
 ----
-Check all *_restapi.adoc files in doc/service. Use #file:doc/service/template/spring_restapi.adoc as template for the overall structure of an adoc file. Strictly follow rules from the template for the sanity check. Fix typos. Compare the description in the adoc files with the implementation in lib/backend-api and lib/backend-data. Find potential errors but only add prompts in the adoc file with hints for improving the description or instructions on how to fix the issue. Write instructions in such a way that they can be used as prompt for fixing the error. Use the `NOTE` admonition to mark each prompt. Take in account previously added `NOTE` admonitions regarding this error and update them. Only add `NOTE` admonitions if changes are recommended.
+@copilot check rest api documentation
 ----
 
-The agent fixes minor issues like typos.
-For all other issues, the agent adds a comment with hints and instructions to fix the issue.
-Go through all adoc files and resolve the issues manually with the help of the hints and instructions or use the prompts to let the agent fix the issue.
+The agent reviews all related implementation files and ensures all REST API documentation are up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
+Revert hints and instructions if you disagree with the agents analysis.
+
+.Prompt
+----
+@copilot check rest api documentation for PR
+----
+
+The agent reviews implementation files changed in a PR and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 Revert hints and instructions if you disagree with the agents analysis.
 
 == Create new REST API documentation

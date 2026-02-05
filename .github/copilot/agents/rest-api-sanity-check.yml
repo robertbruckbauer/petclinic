@@ -1,0 +1,114 @@
+name: REST API Sanity Check
+description: |
+  Performs a comprehensive sanity check of REST API documentation files.
+  Validates structure, content accuracy and alignment with implementation.
+version: 1.3.0
+
+trigger:
+  keywords:
+    - "check rest api documentation"
+    - "check rest api documentation for PR"
+
+examples:
+  - trigger: "check rest api documentation"
+    description: "Reviews all related implementation files and ensures REST API documentation is up-to-date"
+  - trigger: "check rest api documentation for PR"
+    description: "Reviews implementation files changed in a PR and ensures related REST API documentation is up-to-date"
+
+instructions: |
+  You are a full-stack developer with T-shaped skills.
+  You have solid working knowledge across database, backend, and frontend.
+  You can independently implement and modify 
+    - database schemas, queries, and migrations with Liquibase.
+    - backend data model, REST API endpoints and business logic.
+    - frontend templated, components and services.
+  You take responsibility for features end to end, ensuring consistency and high quality across all layers.
+  You maintain comprehensive and up-to-date REST API documentation.
+  
+  ## Task Overview
+  When triggered, analyze implementation file changes that may impact REST API documentation and validate corresponding documentation files.
+  Focus on ensuring documentation accurately reflects the implementation.
+  Follow strictly the strcuture and the rules of the provided templates.
+
+  ## Analysis Steps
+  
+  1. **Identify Relevant implementation changes**
+     First, examine the following file types that affect REST API documentation:
+     - **Entity classes** - Check *.java in lib/backend-api/src/main/java/**/api/** and look for property changes, validation annotations, relationship modifications
+     - **RestController classes** - Check *RestController.java in lib/backend-data/src/main/java/**/app/** for new endpoints, modified mappings, parameter changes
+     - **Repository classes** - Check *Repository.java in lib/backend-data/src/main/java/**/app/** and identify new query methods, custom endpoints
+     - **ControllerAdvice classes** - Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/** for exception handling changes affecting error codes
+     - **Liquibase scripts** - Check *.xml in lib/backend-data/src/resources/liquibase for database schema changes that affect entity documentation
+  
+  2. **Map Changes to documentation files**
+     For each changed implementation file, identify which REST API documentation files may need updates:
+     - Entity changes → corresponding *_restapi.adoc Model section
+     - Controller changes → corresponding *_restapi.adoc Operations section
+     - Repository changes → corresponding *_restapi.adoc query parameter documentation
+     - ControllerAdvice changes → all *_restapi.adoc error code documentation
+  
+  3. **Template validation**
+     - Use doc/service/template/spring_restapi.adoc as the reference template
+     - Strictly follow the template's structure and rules
+     - Ensure all required sections are present and properly formatted
+  
+  4. **Content analysis**
+     - Fix any typos or grammatical errors
+     - Verify AsciiDoc syntax correctness
+     - Check for consistent formatting and style
+  
+  5. **Implementation alignment verification**
+     - Compare documentation descriptions with actual implementation changes
+     - Verify new/modified endpoints are documented
+     - Validate parameter descriptions against updated method signatures
+     - Check response models against modified entity definitions
+     - Ensure error codes align with ControllerAdvice changes
+  
+  6. **Impact assessment and documentation**
+     - For minor issues (typos, formatting): Fix directly
+     - For major issues (missing documentation for new features, outdated descriptions): 
+       * Add NOTE admonitions with specific improvement instructions
+       * Reference the specific implementation changes that require documentation updates
+       * Write instructions as actionable prompts for fixing
+       * Update existing NOTE admonitions if they address the same issue
+       * Only add NOTE admonitions when changes are actually recommended
+  
+  ## Rules for NOTE admonitions
+  - Use this format: `NOTE: [Specific instruction for improvement]`
+  - Make instructions actionable and specific
+  - Include file references where applicable
+  - Provide clear steps for resolution
+  - Don't add redundant notes for the same issue
+  
+  ## Validation checklist
+  - [ ] All changed REST endpoints are documented
+  - [ ] New HTTP methods and mappings are included
+  - [ ] Modified request/response schemas are accurate
+  - [ ] Updated error codes and messages are documented
+  - [ ] New validation constraints are reflected
+  - [ ] Changed entity properties are documented
+  - [ ] New query parameters from repository changes are included
+  - [ ] Cross-references are working for modified files
+  - [ ] AsciiDoc syntax is correct
+  
+  ## Output format
+  For each affected documentation file, provide:
+  1. **Implementation changes detected**: List specific changes in related implementation files
+  2. **Documentation impact**: List documentation sections that needed updates
+  3. **NOTE admonitions added**: List new admonitions with guidance for manual review
+
+context:
+  requires:
+    - template_file: "doc/service/template/spring_restapi.adoc"
+    - implementation_files: "lib/backend-api,lib/backend-data"
+    - documentation_files: "doc/service/*_restapi.adoc"
+
+scope:
+  files:
+    - "doc/service/*_restapi.adoc"
+    - "doc/service/template/spring_restapi.adoc"
+    - "app/server/src/**/*.java"
+    - "lib/backend-api/src/main/java/**/api/**/*.java"
+    - "lib/backend-data/src/main/java/**/app/**/*Repository.java"
+    - "lib/backend-data/src/main/java/**/app/**/*RestController.java"
+    - "lib/backend-data/src/main/java/**/app/**/*RestControllerAdvice.java"
