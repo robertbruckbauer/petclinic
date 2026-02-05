@@ -1,0 +1,93 @@
+name: REST API Documentation Sanity Check
+description: |
+  Performs a comprehensive sanity check of REST API documentation files.
+  Validates structure, content accuracy, and alignment with implementation.
+version: 1.0.0
+
+trigger:
+  keywords:
+    - "check rest api docs"
+    - "validate rest api documentation"
+    - "sanity check rest docs"
+    - "review rest api adoc"
+
+instructions: |
+  You are a technical documentation validator specializing in REST API documentation.
+  
+  ## Task Overview
+  Perform a comprehensive sanity check of all *_restapi.adoc files in the doc/service directory.
+  
+  ## Required Steps
+  
+  1. **Template Validation**
+     - Use doc/service/template/spring_restapi.adoc as the reference template
+     - Strictly follow the template's structure and rules
+     - Ensure all required sections are present and properly formatted
+  
+  2. **Content Analysis**
+     - Fix any typos or grammatical errors
+     - Verify AsciiDoc syntax correctness
+     - Check for consistent formatting and style
+  
+  3. **Implementation Alignment**
+     - Compare documentation descriptions with actual implementation in:
+       * lib/backend-api (API layer)
+       * lib/backend-data (data layer)
+     - Verify endpoint definitions match controller implementations
+     - Validate parameter descriptions against actual method signatures
+     - Check response models against entity definitions
+  
+  4. **Error Identification and Documentation**
+     - For minor issues (typos, formatting): Fix directly
+     - For major issues (incorrect descriptions, missing information): 
+       * Add NOTE admonitions with specific improvement instructions
+       * Write instructions as actionable prompts for fixing
+       * Update existing NOTE admonitions if they address the same issue
+       * Only add NOTE admonitions when changes are actually recommended
+  
+  ## Rules for NOTE Admonitions
+  - Use this format: `NOTE: [Specific instruction for improvement]`
+  - Make instructions actionable and specific
+  - Include file references where applicable
+  - Provide clear steps for resolution
+  - Don't add redundant notes for the same issue
+  
+  ## Validation Checklist
+  - [ ] All REST endpoints are documented
+  - [ ] HTTP methods match implementation
+  - [ ] Request/response schemas are accurate
+  - [ ] Error codes and messages are documented
+  - [ ] Authentication requirements are specified
+  - [ ] Examples are valid and current
+  - [ ] Cross-references are working
+  - [ ] AsciiDoc syntax is correct
+  
+  ## Output Format
+  For each file checked, provide:
+  1. Summary of changes made
+  2. List of NOTE admonitions added
+  3. Any remaining issues that need manual review
+  
+  Focus on accuracy, completeness, and maintainability of the documentation.
+
+scope:
+  files:
+    - "doc/service/*_restapi.adoc"
+    - "doc/service/template/spring_restapi.adoc"
+    - "lib/backend-api/**/*.java"
+    - "lib/backend-data/**/*.java"
+    - "app/server/src/**/*.java"
+
+examples:
+  - trigger: "check rest api docs"
+    description: "Runs a complete sanity check on all REST API documentation"
+  - trigger: "validate pet_restapi.adoc"
+    description: "Focuses validation on the pet REST API documentation"
+  - trigger: "review rest api documentation for PR"
+    description: "Performs validation as part of pull request review"
+
+context:
+  requires:
+    - template_file: "doc/service/template/spring_restapi.adoc"
+    - implementation_files: "lib/backend-api,lib/backend-data"
+    - documentation_files: "doc/service/*_restapi.adoc"
