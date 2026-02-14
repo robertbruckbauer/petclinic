@@ -20,18 +20,11 @@ The agent reviews implementation files changed in a PR and ensures related REST 
 
 .Prompt
 ----
-The ping REST endpoints are used as a simple, lightweight way to check that the petclinic application is reachable and responsive.
-Add a new file ping_restapi.adoc to the doc/services directory.
-Use the template #file:spring_restapi.adoc and follow strictly the structure and rules for the content.
-Use #file:Ping.java as the entity class.
-Use liquibase script #file:ping.xml for the table definition.
-Use #file:PingRepository.java as the repository interface.
-Use #file:PingRestController.java as the rest api controller.
-Take in account the tests in #file:PingRestApiTest.java
+@copilot create rest api documentation for owner endpoints
 ----
 
-Replace `ping` with the name of the entity.
-The agent creates a new documentation based on the structure and instructions in the template.
+The agent reviews implementation files for all REST API endpoints for the given main entity and creates a new documentation following structure and instructions of the template.
+Replace `owner` with the name of the main entity.
 
 == Sanity Check of GraphQL API documentation
 
