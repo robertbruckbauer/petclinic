@@ -8,11 +8,11 @@ const config = {
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-test-ignore */
   testIgnore: "**/*Page.js",
   /* Maximum time one test can run for. */
-  timeout: process.env.PWDEBUG ? 0 : 30000,
+  timeout: process.env.PWDEBUG ? 0 : 5000,
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-expect */
   expect: {
     /* Maximum time expect() should wait for the condition to be met. */
-    timeout: 5000,
+    timeout: 1000,
   },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
