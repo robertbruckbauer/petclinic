@@ -28,15 +28,14 @@ module.exports = {
   prHourlyLimit: 0,
   // https://docs.renovatebot.com/configuration-options/#rebasewhen
   rebaseWhen: "behind-base-branch",
-  // https://docs.renovatebot.com/configuration-options/#ignoredeps  
+  // https://docs.renovatebot.com/configuration-options/#ignoredeps
   ignoreDeps: [
     // Ignore Playwright java dependency - will be updated manually when the javascript version is updated
-    "com.microsoft.playwright:playwright"
+    "com.microsoft.playwright:playwright",
   ],
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
-
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
       matchManagers: ["gradle"],
@@ -55,6 +54,11 @@ module.exports = {
       matchFileNames: ["app/**/compose*.yml"],
       matchUpdateTypes: ["major"],
       pinDigests: true,
+    },
+    // https://docs.renovatebot.com/modules/manager/npm/
+    {
+      matchManagers: ["npm"],
+      postUpdateOptions: ["npmInstallTwice"],
     },
     // https://docs.renovatebot.com/modules/datasource/docker/
     {
