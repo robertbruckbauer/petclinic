@@ -33,7 +33,7 @@ Replace `owner` with the name of the main entity.
 @copilot check graphql api documentation
 ----
 
-The agent reviews implementation files for all GraphQL API endpoints and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
+The agent reviews implementation files for all GraphQL API operations and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
 .Prompt
 ----
@@ -46,15 +46,8 @@ The agent reviews implementation files changed in a PR and ensures related Graph
 
 .Prompt
 ----
-The owner GraphQL API provide query operations for owners in the petclinic application.
-Add a new file owner_graphql.adoc to the doc/services directory.
-Use the template #file:spring_graphql.adoc and follow strictly the structure and rules for the content.
-Use #file:owner.gqls as the schema definition.
-Use liquibase script #file:owner.xml for the table definition.
-Use #file:OwnerRepository.java as the repository interface.
-Use #file:OwnerGraphqlController.java as the graphql api controller.
-Take in account the tests in #file:OwnerGraphqlTest.java
+@copilot create graphql api documentation for owner operations
 ----
 
-Replace `owner` with the name of the entity.
-The agent creates a new documentation based on the structure and instructions in the template.
+The agent reviews implementation files for all GraphQL API operations for the given main entity and creates a new documentation following structure and instructions of the template.
+Replace `owner` with the name of the main entity.

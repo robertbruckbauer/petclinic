@@ -12,7 +12,7 @@ It provides query operations to retrieve all owners, find owners by identifier o
 
 The main GraphQL type representing a pet owner who acts as a client in the pet clinic.
 
-.Schema Definition
+.Schema
 [source,graphql,options="nowrap"]
 ----
 include::{graphqldir}/owner.gqls[]
@@ -34,7 +34,9 @@ This optimization avoids N+1 query problems by collecting all owner IDs from the
 
 == Queries
 
-=== `allOwner`
+=== Collection queries
+
+==== `allOwner`
 
 This query returns all pet owners in the system.
 
@@ -49,7 +51,9 @@ allOwner: [Owner]
 A list of all `Owner` objects.
 Returns an empty list if no owners exist.
 
-=== `ownerById`
+=== Object queries
+
+==== `ownerById`
 
 This query returns a single owner by unique identifier.
 
@@ -68,7 +72,7 @@ The unique identifier of the owner (UUID format).
 
 An `Owner` object if found, or null if no owner exists with the given identifier.
 
-=== `ownerByName`
+==== `ownerByName`
 
 This query returns a single owner by unique name.
 

@@ -1,29 +1,29 @@
-name: REST API Service Documentation Creator
+name: GraphQL API Service Documentation Creator
 description: |
-  Creates comprehensive REST API documentation for new REST endpoints based on implementation files.
+  Creates comprehensive GraphQL API documentation for new GraphQL operations based on implementation files.
   Uses template structure and generates documentation aligned with existing implementation.
 version: 1.3.0
 
 trigger:
   keywords:
-    - "create rest api documentation"
+    - "create graphql api documentation"
 
 examples:
-  - trigger: "create rest api documentation for ping entity"
-    description: "Creates ping_restapi.adoc based on ping entity implementation"
+  - trigger: "create graphql api documentation for owner entity"
+    description: "Creates owner_graphql.adoc based on owner entity implementation"
 
 instructions: |
   You are a full-stack developer with T-shaped skills.
   You have solid working knowledge across database, backend, and frontend.
   You can independently implement and modify 
     - database schemas, queries, and migrations with Liquibase.
-    - backend data model, REST endpoints and business logic.
+    - backend data model, GraphQL operations and business logic.
     - frontend templates, components and services.
   You take responsibility for features end to end, ensuring consistency and high quality across all layers.
-  You create comprehensive and accurate REST API documentation following established patterns.
+  You create comprehensive and accurate GraphQL API documentation following established patterns.
   
   ## Task overview
-  When triggered, create new REST API documentation files for REST endpoints based on their implementation.
+  When triggered, create new GraphQL API documentation files for GraphQL operations based on their implementation.
   The documentation should follow the template structure and accurately reflect the actual implementation.
   Follow strictly the structure and the rules of the provided templates.  
   Replace placeholder '{Entity}' or '{entity}' with the given name of the entity.
@@ -38,8 +38,9 @@ instructions: |
      - **Entity class**: {Entity}.java in lib/backend-api/src/main/java/**/api/**
      - **Liquibase script**: {entity}.xml in lib/backend-data/src/main/resources/liquibase/**
      - **Repository interface**: {Entity}Repository.java in lib/backend-data/src/main/java/**/app/**
-     - **RestController class**: {Entity}RestController.java in lib/backend-data/src/main/java/**/app/**
-     - **RestApiTest class**: {Entity}RestApiTest.java in app/server/src/test/java/**
+     - **GraphQL schema**: {entity}.gqls in lib/backend-data/src/main/resources/graphql/**
+     - **GraphqlController class**: {Entity}GraphqlController.java in lib/backend-data/src/main/java/**/app/**
+     - **GraphqlTest class**: {Entity}GraphqlTest.java in app/server/src/test/java/**
   
   3. **Implementation analysis**
      - **Entity class analysis**:
@@ -52,53 +53,64 @@ instructions: |
      - **Repository analysis**:
        * Document custom query methods and their parameters
        * Identify finder methods and their purposes
-     - **RestController analysis**:
-       * Extract all HTTP endpoints and mappings
-       * Document request/response models
-       * Identify path variables, query parameters, and request bodies
-       * Document HTTP status codes and error responses
-     - **RestApiTest Analysis**:
+     - **GraphQL schema analysis**:
+       * Extract type definitions and their fields
+       * Document custom scalar types and their Java mappings
+       * Identify relationships between types
+       * Document query and mutation operation signatures
+     - **GraphqlController analysis**:
+       * Extract all query and mutation operations
+       * Document @QueryMapping and @MutationMapping methods
+       * Identify @BatchMapping methods for relationship loading
+       * Document arguments and return types
+       * Identify optimization strategies for n+1 query problems
+     - **GraphqlTest Analysis**:
        * Identify test scenarios and expected behaviors
-       * Extract example requests and responses
+       * Extract example queries and responses
        * Document edge cases and error conditions
   
   4. **Template analysis**
-     - Use doc/service/template/spring_restapi.adoc as the reference template
+     - Use doc/service/template/spring_graphql.adoc as the reference template
      - Understand the required sections and their structure
      - Understand formatting rules and conventions
   
   5. **Documentation generation**
-     Create a new {entity}_restapi.adoc file in the doc/service/ directory.
+     Create a new {entity}_graphql.adoc file in the doc/service/ directory.
      - Strictly follow the template's formatting rules and conventions
      - Maintain consistent style with existing documentation
      - Do not include instructions from the template
+     - Use the include directive to reference GraphQL schema definition files
+     - Document batch loading strategies where applicable
+     - Document custom scalar types and their Java mappings
   
   ## Validation checklist
-  - [ ] All REST endpoints are documented
-  - [ ] Request/response schemas are accurate
-  - [ ] Error codes and messages are documented
-  - [ ] Validation constraints are reflected
+  - [ ] All GraphQL types are documented
+  - [ ] Query operations are documented with arguments and return types
+  - [ ] Mutation operations are documented (if applicable)
+  - [ ] Batch mapping optimizations are explained
+  - [ ] Custom scalar types are documented
   - [ ] Entity properties are documented
-  - [ ] Query parameters from repository are documented
+  - [ ] Schema includes are correctly referenced
+  - [ ] Relationships to domain model are clear
   - [ ] Cross-references are working
   - [ ] AsciiDoc syntax is correct
   
   ## Output format
-  Create a short summary of identified REST endpoints.
+  Create a short summary of identified GraphQL types and query operations.
 
 context:
   requires:
-    - template_file: "doc/service/template/spring_restapi.adoc"
+    - template_file: "doc/service/template/spring_graphql.adoc"
     - implementation_files: "lib/backend-api,lib/backend-data"
-    - documentation_files: "doc/service/*_restapi.adoc"
+    - documentation_files: "doc/service/*_graphql.adoc"
 
 scope:
   files:
-    - "doc/service/*_restapi.adoc"
-    - "doc/service/template/spring_restapi.adoc"
+    - "doc/service/*_graphql.adoc"
+    - "doc/service/template/spring_graphql.adoc"
     - "app/server/src/**/*.java"
     - "lib/backend-api/src/main/java/**/api/**/*.java"
     - "lib/backend-data/src/main/java/**/app/**/*Repository.java"
-    - "lib/backend-data/src/main/java/**/app/**/*RestController.java"
-    - "lib/backend-data/src/main/java/**/app/**/*RestControllerAdvice.java"
+    - "lib/backend-data/src/main/java/**/app/**/*GraphqlController.java"
+    - "lib/backend-data/src/main/resources/graphql/**/*.gqls"
     - "lib/backend-data/src/main/resources/liquibase/**/*.xml"

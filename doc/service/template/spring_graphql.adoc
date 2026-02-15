@@ -11,9 +11,16 @@ Take into account the names of types, fields, and query operations from the Grap
 In this chapter describe the schema of the API.
 Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
 
-Add a separate section for each GraphQL type defined in the schema with the type name only as block title.
-Use the include directive to reference the GraphQL schema definition files.
+In this chapter describe the model of the API.
+Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
+
+Add the schema definition from `resources/graphql` with a source block and title `Schema`.
+Use the include directive to include the file.
 Use variable `{graphqldir}` for root path.
+
+Add the java class for the main entity class with a source block and title `Entity`.
+Use the include directive and tags to select only relevant properties from the code with their types and annotations.
+Use variable `{includedir}` for root path.
 
 Let included schema definitions be a major part of the documentation.
 Do not repeat information from the schema in the text.

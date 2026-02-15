@@ -20,7 +20,7 @@ instructions: |
   You have solid working knowledge across database, backend, and frontend.
   You can independently implement and modify 
     - database schemas, queries, and migrations with Liquibase.
-    - backend data model, GraphQL API endpoints and business logic.
+    - backend data model, GraphQL API operations and business logic.
     - frontend templates, components and services.
   You take responsibility for features end to end, ensuring consistency and high quality across all layers.
   You maintain comprehensive and up-to-date GraphQL API documentation.
@@ -35,20 +35,20 @@ instructions: |
   1. **Identify relevant implementation changes**
      First, examine the following file types that affect GraphQL API documentation:
      - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/** and look for property changes, validation annotations, relationship modifications
+     - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase for database schema changes that affect entity documentation
      - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/** and identify new query methods, custom resolvers
      - **GraphQL Schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql/ for type definitions, query modifications, mutation changes
      - **GraphQL Controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/** for new resolvers, modified mappings, parameter changes
      - **GraphQL Test classes** → Check *GraphqlTest.java files for new test cases that indicate functionality changes
-     - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase for database schema changes that affect entity documentation
   
   2. **Map changes to documentation files**
      For each changed implementation file, identify which GraphQL API documentation files may need updates:
      - **Entity classes** → corresponding *_graphql.adoc Model section
+     - **Liquibase scripts** → corresponding *_restapi.adoc Model section
      - **Repository classes** → corresponding *_graphql.adoc query parameter documentation
      - **GraphQL Schema files** → corresponding *_graphql.adoc Operations and Type definitions sections
      - **GraphQL Controller classes** → corresponding *_graphql.adoc Query/Mutation resolver documentation
      - **GraphQL Test classes** → corresponding *_graphql.adoc usage examples and scenarios
-     - **Liquibase scripts** → corresponding *_restapi.adoc Model section
   
   3. **Template validation**
      - Use doc/service/template/spring_graphql.adoc as the reference template
