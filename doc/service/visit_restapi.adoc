@@ -22,9 +22,13 @@ The entity class extends `JsonJpaEntity` which provides unique identifier and ve
 Each visit represents a veterinary appointment with a treatment date and time, associated pet, attending veterinarian and diagnosis text.
 Each pet can only have one treatment per date.
 The treatment time is optional because it only becomes definitive once treatment begins.
-The vet relationship is optional because it may not be clear who is on duty at the time the visit is created.
-The pet relationship is optional to create visits as placeholders for vets on duty.
 The diagnosis text is optional because it is only written at the end of the treatment.
+
+The vet relationship is optional.
+When a visit has no vet assigned, it may not be clear which vet is on duty at the time the visit is created.
+
+The pet relationship is optional.
+When a visit has no pet assigned, it serves as a placeholder for a vet's availability on that date.
 
 .Entity
 [source,java,options="nowrap"]
@@ -33,8 +37,6 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[in
 ----
 
 No simplified representation of a _Visit_ exists.
-
-NOTE: The unique constraint `@UniqueConstraint(columnNames = {"date","pet_id"})` in SQL databases typically allows multiple NULL values in the `pet_id` column, meaning multiple visits can exist with the same date when pet is NULL. This behavior may not align with the business requirement described as "placeholder visits for vets on duty". Consider: (1) Should pet be mandatory instead of optional? (2) Should there be a separate flag or mechanism for placeholder visits? (3) Or is the current behavior intentional to allow multiple placeholder visits per date?
 
 == Operations
 
