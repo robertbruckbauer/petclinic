@@ -1,0 +1,131 @@
+:includedir: ../../..
+:relrootdir: ../../..
+= GraphqlController
+
+A GraphQL controller implements query operations for the GraphQL API based on the GraphQL schema definitions.
+_Schema-First Design_ means GraphQL schema files (.gqls) define the API contract.
+The GraphQL Query type declares all available query operations.
+Each field maps to a `@QueryMapping` method in a controller.
+Arguments are specified in parentheses with their types.
+Arguments marked with `!` are non-nullable.
+GraphQL types define the shape of data available through the API.
+Fields marked with `!` are non-nullable.
+
+TIP: See the
+https://docs.spring.io/spring-graphql/reference[Spring GraphQL reference guide]
+and
+https://graphql.org/learn/[GraphQL specification]
+for more information.
+
+A GraphQL controller is annotated with `@Controller` and uses method-level annotations to map GraphQL operations to handler methods.
+Methods can return single objects, lists, or reactive types like `Mono` for asynchronous processing.
+Controller methods use repositories to access data and can apply QueryDSL predicates for dynamic filtering.
+
+A _Query_ operation retrieves data from the backend.
+It is defined in the GraphQL schema and mapped to a controller method with `@QueryMapping`.
+Queries support arguments for filtering, identification by ID, or custom search criteria.
+
+A _Batch Mapping_ operation resolves relationships efficiently by loading associated data in batches.
+It is mapped with `@BatchMapping` and receives a list of parent objects, returning a map that associates each parent with its children.
+This pattern prevents N+1 query problems by fetching related entities in a single database query.
+
+_Custom Scalars_ extend GraphQL's built-in type system to support Java types.
+They are registered in the runtime wiring configuration and handle serialization, deserialization, and validation.
+
+_Transactions_ ensure data consistency by wrapping query operations in a transactional context.
+The `@Transactional` annotation manages database sessions and ensures proper resource cleanup.
+
+== Properties
+
+=== Repository
+
+Each GraphQL controller depends on one or more repository instances to access entity data.
+Multiple repositories may be injected when a controller needs to resolve relationships across entities.
+Controllers use constructor-based dependency injection with `@RequiredArgsConstructor` annotation to initialize repository dependencies.
+
+== Operations
+
+=== Query Collection Operation
+
+A query collection operation retrieves multiple records of an entity type.
+They trigger batch mapping operations when requested.
+
+The method is annotated with `@QueryMapping` and `@Transactional` to ensure consistent read operations within a database transaction.
+
+The method name follows the pattern `all<EntityName>` or `all<EntityName>By<Criteria>`.
+
+The method always returns a collection type defined in the GraphQL schema as an array.
+
+Without criteria::
+Delegates to the repository's `findAll()` method to retrieve all records.
+
+With filtering criteria::
+Constructs a QueryDSL `Predicate` using the generated Q-class to filter records based on method arguments.
+The `@Argument` annotation binds GraphQL arguments to method parameters.
+
+With ordering::
+Constructs a QueryDSL `OrderSpecifier` to define sorting criteria.
+The repository's `findAll(Predicate, OrderSpecifier)` method returns an ordered `Iterable` which is collected into a list.
+
+With relationship navigation::
+Uses QueryDSL path expressions to navigate entity relationships and filter by foreign key.
+This pattern queries through associations without explicit joins (e.g., `entity.relatedEntity.id.eq(value)`).
+
+All collection operations enforce null safety on arguments using `@NonNull` annotations.
+Custom argument names are specified with `@Argument("name")` when needed.
+
+=== Query Object Operation
+
+A query object operation retrieves a single record of an entity type.
+
+The method is annotated with `@QueryMapping` and `@Transactional` to ensure consistent read operations within a database transaction.
+
+The method name follows the pattern `<entityName>By<Criteria>` where the criteria describes the lookup field (e.g., `ownerById`, `ownerByName`).
+
+The method always returns `Optional<T>` to represent that the entity may or may not exist.
+The GraphQL schema defines the field as nullable (without `!`).
+
+The `@Argument` annotation binds the GraphQL argument to the method parameter.
+All arguments are marked `@NonNull` to enforce that they must be provided.
+The method returns an empty `Optional` if no matching record exists, which GraphQL represents as `null`.
+
+Lookup by ID::
+Delegates to the repository's `findById(UUID)` method with the ID argument.
+
+Lookup by unique field::
+Constructs a QueryDSL `Predicate` using the generated Q-class to match a specific field value.
+The repository's `findOne(Predicate)` method executes the query and returns an `Optional`.
+
+=== Batch Mapping Operation
+
+A batch mapping operation resolves relationships efficiently by loading associated data in batches.
+
+Problem:: The N+1 query problem occurs when fetching a collection of parent entities and then individually loading related entities for each parent.
+For N parents, this results in 1 query for parents + N queries for children = N+1 queries.
+
+Solution:: The batch mapping pattern collects all parent entities, loads related children in a single bulk query, and maps them back to their parents.
+
+This pattern transforms N+1 queries into 2 queries (1 for parents, 1 for all children), dramatically improving performance and reducing database load.
+
+The method is annotated with `@BatchMapping` and `@Transactional` to batch-load related entities within a database transaction.
+The method name matches the field name in the GraphQL schema that returns the related entity collection (e.g., `allPet` for a field named `allPet`).
+
+The method receives a `List<Parent>` parameter automatically populated by Spring GraphQL's `DataLoader` mechanism.
+When multiple parents are resolved in one GraphQL query, the framework batches them together and invokes this method once instead of N times.
+
+The method returns `Mono<Map<Parent, Collection<Child>>>` where:
+- `Mono` wraps the result for reactive processing
+- `Map` keys are parent entities
+- Values are collections of related child entities (`Set<T>` or `List<T>`)
+
+== Tests
+
+The test approach uses `@GraphQlTest` for focused controller testing with mocked dependencies.
+Tests verify GraphQL operations without a full application context or database.
+
+Tests configure `GraphQlTester` to execute GraphQL documents and assert on response data.
+Repository dependencies are mocked with `@MockitoBean` to isolate controller logic.
+
+Tests can verify QueryDSL predicate construction using argument captors.
+This ensures the controller builds correct queries with proper filtering and ordering.
+The captured predicates are validated by comparing their string representation.
