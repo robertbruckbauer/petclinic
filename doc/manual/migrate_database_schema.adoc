@@ -1,0 +1,39 @@
+:includedir: ../..
+:relrootdir: ../..
+= Migrate database schema
+
+Liquibase provides significant advantages for schema evolution.
+Minor changes are applied in incremental steps.
+This approach is simple, deterministic and keeps automated tests fast.
+Major changes are implemented with a consolidated Liqibase script set a schema migration executed manually directly on the database.
+
+== Minor changes
+
+Minor changes are
+
+- new tables
+- new colums in existing tables
+- new constraints in existing tables
+- new index for existing tables
+
+Minor changes are implemented incrementally with changesets.
+
+TIP: Liquibase uses a hash of each changeset's content and its file path to track whether it has already been applied.
+
+== Major changes
+
+Major changes are triggered by quality goals, e.g.
+
+Assuming a migration from database version `v1` to `v2`, then 
+
+. Copy Liquibase scripts from directory `v1` to `v2`.
+. Squash incremental changes into a single create command for every database object. 
+. Create a script to migrate the database schema using any PostgreSQL database tool.
+. Update the changelog file using the directory `v2`
+
+After the database version `v2` is completed, the new script set contains only create commands for the database objects, providing a clean foundation for future development.
+The database schema migration is independent from Liquibase, but must be executed before starting the application with the database version `v2`.
+
+TIP: Liquibase will treat the moved changesets as new and attempt to apply it again.
+The `preConditions` elements prevent the creation of existing database objects in the PostgreSQL database.
+

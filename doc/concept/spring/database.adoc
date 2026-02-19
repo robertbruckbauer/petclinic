@@ -32,6 +32,8 @@ The `@EnableTransactionManagement` annotation activates the transaction support.
 
 === Liquibase
 
+==== Changelog
+
 The service uses _Liquibase_ for creating and migrating the database.
 DDL statements are scripted in a special XML format.
 
@@ -44,6 +46,24 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/changelog.xm
 Since the execution order of the scripts is relevant, the scripts for the database objects are combined into a changelog script.
 The changelog script is executed when the application starts.
 
-Each database object has its own script.
+==== Changeset
+
+Each database object has its own script with one or more changesets.
 Depending on the current state of the database, scripts are executed and create new database objects.
 Scripts that have already been executed on this database are ignored.
+
+The `preConditions` element provides additional safety by checking the database state before executing changeSets, e.g.
+
+[source,xml]
+----
+<preConditions onFail="MARK_RAN">
+    <not><tableExists tableName="enum" /></not>
+</preConditions>
+----
+
+The `onFail="MARK_RAN"` attribute tells Liquibase to mark the changeSet as already executed if the preconditions fail, preventing errors and ensuring idempotent database migrations.
+This ensures that Liquibase only creates a table if this table does not exist.
+
+When running tests with the H2 database the same database schema may be recreated multiple times during test execution.
+
+When running the application with the PostgreSQL database, only new incremental schema changes are applied.
