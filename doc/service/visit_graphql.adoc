@@ -27,13 +27,17 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[in
 ----
 
 Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and text.
-The date attribute is required.
-The time attribute is optional because the time of treatment is not always known at the time the visit is created.
-The pet relation is optional because visits can be created as placeholders for veterinarians on duty.
-The vet relation is optional because the veterinarian on duty is not always known at the time the visit is created.
-The text attribute is optional and typically contains treatment notes or diagnosis.
+The `date` attribute is required.
+The `time` attribute is optional because the time of treatment is not always known at the time the visit is created.
+The `text` attribute is optional and typically contains treatment notes or diagnosis.
 
-NOTE: When querying `allVisit` and requesting the `pet` or `vet` fields for each result, consider adding `@BatchMapping` methods in `VisitGraphqlController` to load all related pets and vets in single database queries and avoid N+1 problems.
+The `pet` relation is optional because visits can be created as placeholders for veterinarians on duty.
+The `pet` relation uses batch loading via `@BatchMapping` to efficiently load pets for multiple visits.
+Visits without a pet assigned resolve `pet` relation as `null`.
+
+The `vet` relation is optional because the veterinarian on duty is not always known at the time the visit is created.
+The `vet` relation uses batch loading via `@BatchMapping` to efficiently load vets for multiple visits.
+Visits without a vet assigned resolve the `vet` relation as `null`.
 
 The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
 

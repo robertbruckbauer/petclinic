@@ -27,10 +27,12 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[in
 ----
 
 Each owner represents a pet clinic client who can own multiple pets.
-The owner requires a valid name and address.
+The owner requires a valid name,, address and contact information.
+The `name` attribute is required and unique.
+The `address` attribute is required.
+The `contact` attribute is required.
 
 The `allPet` field uses batch loading via `@BatchMapping` to efficiently load pets for multiple owners.
-This optimization avoids N+1 query problems by collecting all owner IDs from the current batch, executing a single query (`findAllByOwnerIdIn`) to fetch all related pets, and then grouping them by owner for the GraphQL response.
 
 == Queries
 

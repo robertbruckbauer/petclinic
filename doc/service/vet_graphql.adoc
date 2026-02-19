@@ -26,9 +26,9 @@ The `Vet` type corresponds to the entity class defined in the backend API:
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
-Each vet represents a veterinarian working at the pet clinic.
-The vet requires a valid name and has a set of skills.
-Skills are represented as a list of strings in the GraphQL schema.
+Each vet represents a veterinarian working at the pet clinic with a name and a set of skills.
+The `name` attribute is required and unique.
+The `skills` collection is a list of strings and may be empty.
 
 == Queries
 
