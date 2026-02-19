@@ -98,20 +98,3 @@ instructions: |
   
   ## Output format
   Create a short summary of identified GraphQL types and query operations.
-
-context:
-  requires:
-    - template_file: "doc/service/template/spring_graphql.adoc"
-    - implementation_files: "lib/backend-api,lib/backend-data"
-    - documentation_files: "doc/service/*_graphql.adoc"
-
-scope:
-  files:
-    - "doc/service/*_graphql.adoc"
-    - "doc/service/template/spring_graphql.adoc"
-    - "app/server/src/**/*.java"
-    - "lib/backend-api/src/main/java/**/api/**/*.java"
-    - "lib/backend-data/src/main/java/**/app/**/*Repository.java"
-    - "lib/backend-data/src/main/java/**/app/**/*GraphqlController.java"
-    - "lib/backend-data/src/main/resources/graphql/**/*.gqls"
-    - "lib/backend-data/src/main/resources/liquibase/**/*.xml"

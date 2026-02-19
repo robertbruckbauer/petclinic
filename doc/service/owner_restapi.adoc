@@ -121,7 +121,7 @@ TIP: The descriptions of attributes other than name are omitted for simplicity b
 
 This operation returns all persisted _Owner_ entities.
 
-It supports advanced query parameters for filtering and sorting, e.g.
+This operation supports advanced query parameters for filtering, e.g.
 
 `?name=Max`::
 Find owners with name containing "Max" (case-insensitive)
@@ -132,10 +132,13 @@ Find owners with address containing "Street" (case-insensitive)
 `?contact=@gmx.at`::
 Find owners with contact information containing "@gmx.at" (case-insensitive)
 
-It supports sorting and pagination, e.g.
+This operation supports sorting, e.g.
 
 `?sort=name,asc`::
 Sort owners by name in ascending order
+
+This operation supports pagination, e.g.
+
 `?size=10&page=1`::
 Find 10 owners on page 1
 
@@ -159,6 +162,15 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 This operation returns all persisted _Owner_ entities as simplified _OwnerItem_ objects for selection purposes.
 The items are sorted by name in ascending order.
 
+This operation supports advanced query parameters for filtering.
+See `GET /api/owner` for details.
+
+This operation supports sorting.
+See `GET /api/owner` for details.
+
+This operation does not support pagination.
+It always returns the full filtered result set.
+
 ****
 
 .Command
@@ -169,6 +181,21 @@ include::{restdocdir}/get-api-owner-item/http-request.adoc[]
 
 .Response
 include::{restdocdir}/get-api-owner-item/response-body.adoc[]
+
+****
+
+The following example shows a filtered request:
+
+****
+
+.Command
+include::{restdocdir}/get-api-owner-item-filtered/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-owner-item-filtered/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-owner-item-filtered/response-body.adoc[]
 
 ****
 

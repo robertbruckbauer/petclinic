@@ -103,22 +103,3 @@ instructions: |
   1. **Implementation changes detected**: List specific changes in related implementation files
   2. **Documentation impact**: List documentation sections that needed updates
   3. **NOTE admonitions added**: List new admonitions with guidance for manual review
-
-context:
-  requires:
-    - template_file: "doc/service/template/spring_graphql.adoc"
-    - implementation_files: "lib/backend-api,lib/backend-data"
-    - documentation_files: "doc/service/*_graphql.adoc"
-    - schema_files: "lib/backend-data/src/main/resources/graphql/*.gqls"
-
-scope:
-  files:
-    - "doc/service/*_graphql.adoc"
-    - "doc/service/template/spring_graphql.adoc"
-    - "app/server/src/**/*.java"
-    - "lib/backend-api/src/main/java/**/api/**/*.java"
-    - "lib/backend-data/src/main/java/**/app/**/*Repository.java"
-    - "lib/backend-data/src/main/java/**/app/**/*GraphqlController.java"
-    - "lib/backend-data/src/main/java/**/app/**/*GraphqlTest.java"
-    - "lib/backend-data/src/main/resources/graphql/*.gqls"
-    - "lib/backend-data/src/main/resources/liquibase/**/*.xml"

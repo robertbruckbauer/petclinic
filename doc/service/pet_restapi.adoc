@@ -145,7 +145,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 This operation returns all persisted _Pet_ entities.
 
-It supports advanced query parameters for filtering and sorting, e.g.
+This operation supports advanced query parameters for filtering, e.g.
 
 `?name=Max`::
 Find pets with name containing "Max" (case-insensitive)
@@ -156,12 +156,15 @@ Find pets with species containing "dog" (case-insensitive)
 `?owner.name=Smith`::
 Find pets whose owner's name contains "Smith" (case-insensitive)
 
-It supports sorting and pagination, e.g.
+This operation supports sorting, e.g.
 
 `?sort=name,asc`::
 Sort pets by name in ascending order
 `?sort=born,desc`::
 Sort pets by birth date in descending order
+
+This operation supports pagination, e.g.
+
 `?size=10&page=1`::
 Find 10 pets on page 1
 
@@ -185,6 +188,12 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 This operation returns all persisted _Pet_ entities as simplified _PetItem_ objects for selection purposes.
 The items are sorted by name in ascending order.
 
+This operation supports advanced query parameters for filtering.
+See `GET /api/pet` for details.
+
+TIP: This operation does not support pagination.
+It always returns the full filtered result set.
+
 ****
 
 .Command
@@ -195,6 +204,21 @@ include::{restdocdir}/get-api-pet-item/http-request.adoc[]
 
 .Response
 include::{restdocdir}/get-api-pet-item/response-body.adoc[]
+
+****
+
+The following example shows a filtered request:
+
+****
+
+.Command
+include::{restdocdir}/get-api-pet-item-filtered/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-pet-item-filtered/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-pet-item-filtered/response-body.adoc[]
 
 ****
 
