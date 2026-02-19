@@ -30,6 +30,8 @@ Each pet represents an animal owned by a client in the pet clinic.
 The pet requires a valid name, birth date, and species.
 Each pet must have an owner.
 
+NOTE: When querying `allPet` and requesting the `owner` field for each result, consider adding a `@BatchMapping` in `PetGraphqlController` to load all owner entities in a single database query and avoid N+1 problems.
+
 The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
 
 == Queries
