@@ -1,5 +1,6 @@
 package esy.app.client;
 
+import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.app.EsyGraphqlConfiguration;
 import org.junit.jupiter.api.*;
@@ -13,7 +14,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -29,30 +29,45 @@ class PetGraphqlTest {
     @MockitoBean
     private PetRepository petRepository;
 
+    @MockitoBean
+    private OwnerRepository ownerRepository;
+
     @Test
     void queryAllPet() {
+        final var owner = Owner.fromJson("""
+                {
+                    "name":"Alice"
+                }
+                """);
         final var value = Pet.fromJson("""
                 {
                     "name":"Tom",
                     "born":"2021-04-22",
                     "species":"Cat"
                 }
-                """);
+                """)
+                .setOwner(owner);
         when(petRepository.findAll())
                 .thenReturn(List.of(value));
+        when(ownerRepository.findAllById(any()))
+                .thenReturn(List.of(owner));
         final var data = graphQlTester
                 .document("""
-                        {allPet{name}}
+                        {allPet{name owner{name}}}
                         """)
                 .execute();
         assertNotNull(data);
-        final var allName = data.path("allPet[*].name")
+        data.path("allPet[0].name")
                 .hasValue()
-                .entityList(String.class)
-                .get();
-        assertEquals(1, allName.size());
-        assertEquals("Tom", allName.getFirst());
+                .entity(String.class)
+                .isEqualTo("Tom");
+        data.path("allPet[0].owner.name")
+                .hasValue()
+                .entity(String.class)
+                .isEqualTo("Alice");
         verify(petRepository).findAll();
         verifyNoMoreInteractions(petRepository);
+        verify(ownerRepository).findAllById(any());
+        verifyNoMoreInteractions(ownerRepository);
     }
 }
