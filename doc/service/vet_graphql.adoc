@@ -6,11 +6,15 @@
 GraphQL API for querying veterinarians in the pet clinic application.
 It provides query operations to retrieve all vets, individual vets by identifier, or vets by name.
 
-== Schema
+== Model
 
 === Vet
 
-The main GraphQL type representing a veterinarian managed by this API.
+Each vet represents a veterinarian working at the pet clinic with a name and a set of skills.
+The `name` attribute is required and unique.
+The `allSkill` collection is a list of strings and may be empty.
+
+The `Vet` type defines properties and collections.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -18,17 +22,13 @@ The main GraphQL type representing a veterinarian managed by this API.
 include::{graphqldir}/vet.gqls[]
 ----
 
-The `Vet` type corresponds to the entity class defined in the backend API:
+The `Vet` type corresponds to the entity class.
 
 .Entity
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
-
-Each vet represents a veterinarian working at the pet clinic with a name and a set of skills.
-The `name` attribute is required and unique.
-The `skills` collection is a list of strings and may be empty.
 
 == Queries
 

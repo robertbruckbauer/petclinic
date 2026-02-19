@@ -10,7 +10,12 @@ It provides standard CRUD operations and a search endpoint that returns items.
 
 === Owner
 
-The main entity of an _Owner_ managed by this controller for persistence.
+Each owner represents a pet clinic client who can own multiple pets with name, address, and contact information.
+The `name` attribute is required and unique.
+The `address` attribute is required.
+The `contact` attribute is optional.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -19,9 +24,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/owner.xml
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each owner represents a pet clinic client who owns one or more pets.
-The owner requires a valid name and address.
-All other fields are optional.
 
 .Entity
 [source,java,options="nowrap"]
@@ -29,7 +31,7 @@ All other fields are optional.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
 ----
 
-A simplified representation of an _Owner_ for item selection purposes.
+The item class is a simplified representation of an _Owner_ for item selection purposes.
 
 .OwnerItem
 [source,java,options="nowrap"]

@@ -13,7 +13,15 @@ TIP: This API uses a custom controller, not the standard endpoints provided by S
 
 === Enum
 
-The main entity of an _Enum_ managed by this controller for persistence.
+Each enum represents an extensible enumeration item.
+Enums are organized by discriminator for logical grouping (e.g. "SPECIES", "SKILL").
+Within each discriminator group, numeric codes and names must be unique.
+
+TIP: The discriminator is called `art`.
+This is a historical flaw.
+For clarity we use the term discriminator instead.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -22,13 +30,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/enum.xml[
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each enum represents an extensible enumeration item.
-Enums are organized by discriminator for logical grouping (e.g. "SPECIES", "SKILL").
-Within each discriminator group, numeric codes and names must be unique.
-
-TIP: The discriminator is called `art`.
-This is a historical flaw.
-For clarity we use the term discriminator instead.
 
 .Entity
 [source,java,options="nowrap"]

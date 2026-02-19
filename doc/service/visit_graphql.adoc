@@ -6,30 +6,14 @@
 GraphQL API for querying veterinary treatments during a visit in the pet clinic application.
 It provides query operations to retrieve all visits, filter visits by date, and find visits associated with specific pets or veterinarians.
 
-== Schema
+== Model
 
 === Visit
 
-The main GraphQL type representing a veterinary treatment.
-
-.Schema
-[source,graphql,options="nowrap"]
-----
-include::{graphqldir}/visit.gqls[]
-----
-
-The `Visit` type corresponds to the entity class defined in the backend API:
-
-.Entity
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
-----
-
 Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and text.
-The `date` attribute is required.
-The `time` attribute is optional because the time of treatment is not always known at the time the visit is created.
-The `text` attribute is optional and typically contains treatment notes or diagnosis.
+The treatment `date` is required.
+The treatment `time` is optional because it only becomes definitive once treatment begins.
+The diagnosis `text` is optional because it is only written at the end of the treatment.
 
 The `pet` relation is optional because visits can be created as placeholders for veterinarians on duty.
 The `pet` relation uses batch loading via `@BatchMapping` to efficiently load pets for multiple visits.
@@ -39,9 +23,23 @@ The `vet` relation is optional because the veterinarian on duty is not always kn
 The `vet` relation uses batch loading via `@BatchMapping` to efficiently load vets for multiple visits.
 Visits without a vet assigned resolve the `vet` relation as `null`.
 
+The `Visit` type defines properties and collections.
 The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
-
 The schema uses the custom scalar type `LocalTime` which maps to Java's `java.time.LocalTime` type for representing times of day.
+
+.Schema
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/visit.gqls[]
+----
+
+The `Visit` type corresponds to the entity class.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
+----
 
 == Queries
 

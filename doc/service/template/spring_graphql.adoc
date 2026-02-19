@@ -6,13 +6,18 @@
 In this preamble write a brief summary of the model and queries of this controller.
 Take into account the names of types, fields, and query operations from the GraphQL schema definition and names, properties and methods from entity classes, repository interfaces, controller classes and unit tests.
 
-== Schema
-
-In this chapter describe the schema of the API.
-Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
+== Model
 
 In this chapter describe the model of the API.
 Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
+
+If the schema definition includes relationships that use batch loading (via @BatchMapping),
+document the optimization strategy to avoid n+1 query problems.
+Explain how related entities are efficiently loaded in a single database query.
+Do not explain the n+1 query problem, just mention it.
+
+If the schema uses custom scalar types, document each type and its mapping to a Java type individually.
+Do not mention built-in scalar types.
 
 Add the schema definition from `resources/graphql` with a source block and title `Schema`.
 Use the include directive to include the file.
@@ -27,14 +32,6 @@ Do not repeat information from the schema in the text.
 
 Briefly describe the purpose of each type and its relationship to the domain model.
 Reference the corresponding entity classes where applicable.
-
-If the schema definition includes relationships that use batch loading (via @BatchMapping),
-document the optimization strategy to avoid n+1 query problems.
-Explain how related entities are efficiently loaded in a single database query.
-Do not explain the n+1 query problem, just mention it.
-
-If the schema uses custom scalar types, document each type and its mapping to a Java type individually.
-Do not mention built-in scalar types.
 
 == Queries
 

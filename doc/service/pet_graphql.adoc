@@ -6,11 +6,20 @@
 GraphQL API for querying pets in the pet clinic application.
 It provides query operations to retrieve all pets or individual pets by identifier.
 
-== Schema
+== Model
 
 === Pet
 
-The main GraphQL type representing a pet managed by this API.
+Each pet represents an animal owned by a client in the pet clinic with name, birth date and species.
+The `name` attribute is required and unique per owner, allowing different owners to have pets with the same name.
+The `born` attribute is required.
+The `species` attribute is required.
+
+The `owner` relation is required because every pet must belong to an owner.
+The `owner` relation uses batch loading via `@BatchMapping` to efficiently load owners for multiple pets.
+
+The `Pet` type defines properties and collections.
+The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -18,23 +27,13 @@ The main GraphQL type representing a pet managed by this API.
 include::{graphqldir}/pet.gqls[]
 ----
 
-The `Pet` type corresponds to the entity class defined in the backend API:
+The `Pet` type corresponds to the entity class.
 
 .Entity
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
 ----
-
-Each pet represents an animal owned by a client in the pet clinic with name, birth date and species.
-The `name` attribute is required.
-The `born` attribute is required.
-The `species` attribute is required.
-
-The `owner` relation is required because every pet must belong to an owner.
-The `owner` relation uses batch loading via `@BatchMapping` to efficiently load owners for multiple pets.
-
-The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
 
 == Queries
 

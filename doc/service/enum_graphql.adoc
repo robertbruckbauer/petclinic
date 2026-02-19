@@ -10,11 +10,19 @@ Each enumeration type is identified by a discriminator and contains ordered item
 TIP: This API provides read-only access to enumerations.
 For create, update, and delete operations, use the REST API.
 
-== Schema
+== Model
 
 === Enum
 
-The main GraphQL type representing an enumeration item managed by this API.
+Each enum represents an extensible enumeration item.
+Enums are organized by discriminator for logical grouping (e.g. "SPECIES", "SKILL").
+Within each discriminator group, numeric codes and names must be unique.
+
+TIP: The discriminator is called `art`.
+This is a historical flaw.
+For clarity we use the term discriminator instead.
+
+The `Enum` type defines properties and collections.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -22,19 +30,13 @@ The main GraphQL type representing an enumeration item managed by this API.
 include::{graphqldir}/enum.gqls[]
 ----
 
-The `Enum` type corresponds to the entity class defined in the backend API:
+The `Enum` type corresponds to the entity class.
 
 .Entity
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Enum.java[indent=0,tags=properties]
 ----
-
-Each enum represents an extensible enumeration item.
-Enums are organized by discriminator for logical grouping (e.g., "SPECIES", "SKILL").
-Within each discriminator group, codes and names must be unique.
-
-TIP: Instead of a custom `Long` type the built-in type `Int` is used for property `code`, which is sufficient.
 
 == Queries
 

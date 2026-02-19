@@ -6,11 +6,18 @@
 GraphQL API for querying pet owners in the pet clinic application.
 It provides query operations to retrieve all owners, find owners by identifier or name, and navigate the owner-pet relationship.
 
-== Schema
+== Model
 
 === Owner
 
-The main GraphQL type representing a pet owner who acts as a client in the pet clinic.
+Each owner represents a pet clinic client who can own multiple pets with name, address, and contact information.
+The `name` attribute is required and unique.
+The `address` attribute is required.
+The `contact` attribute is optional.
+
+The `allPet` relation uses batch loading via `@BatchMapping` to efficiently load pets for multiple owners.
+
+The `Owner` type defines properties and collections.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -18,21 +25,13 @@ The main GraphQL type representing a pet owner who acts as a client in the pet c
 include::{graphqldir}/owner.gqls[]
 ----
 
-The `Owner` type corresponds to the entity class defined in the backend API:
+The `Owner` type corresponds to the entity class.
 
 .Entity
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
 ----
-
-Each owner represents a pet clinic client who can own multiple pets.
-The owner requires a valid name,, address and contact information.
-The `name` attribute is required and unique.
-The `address` attribute is required.
-The `contact` attribute is required.
-
-The `allPet` field uses batch loading via `@BatchMapping` to efficiently load pets for multiple owners.
 
 == Queries
 

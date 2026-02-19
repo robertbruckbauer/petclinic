@@ -10,7 +10,15 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 
 === Visit
 
-The main entity of a _Visit_ managed by this controller for persistence.
+Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and text.
+The treatment `date` is required.
+The treatment `time` is optional because it only becomes definitive once treatment begins.
+the visit is created.
+The diagnosis `text` is optional because it is only written at the end of the treatment.
+The `pet` relation is optional because visits can be created as placeholders for veterinarians on duty.
+The `vet` relation is optional because the veterinarian on duty is not always known at the time the visit is created.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -19,16 +27,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/visit.xml
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each visit represents a veterinary appointment with a treatment date and time, associated pet, attending veterinarian and diagnosis text.
-Each pet can only have one treatment per date.
-The treatment time is optional because it only becomes definitive once treatment begins.
-The diagnosis text is optional because it is only written at the end of the treatment.
-
-The vet relationship is optional.
-When a visit has no vet assigned, it may not be clear which vet is on duty at the time the visit is created.
-
-The pet relationship is optional.
-When a visit has no pet assigned, it serves as a placeholder for a vet's availability on that date.
 
 .Entity
 [source,java,options="nowrap"]

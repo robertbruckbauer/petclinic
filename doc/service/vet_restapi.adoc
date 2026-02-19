@@ -10,7 +10,11 @@ It provides standard CRUD operations and a search endpoint that returns items.
 
 === Vet
 
-The main entity of a _Vet_ managed by this controller for persistence.
+Each vet represents a veterinarian working at the pet clinic with a name and a set of skills.
+The `name` attribute is required and unique.
+The `allSkill` collection is a list of strings and may be empty.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -20,8 +24,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet_skill
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each vet represents a pet clinic veterinarian.
-The vet requires a valid name and has a set of skills.
 
 .Entity
 [source,java,options="nowrap"]
@@ -29,7 +31,7 @@ The vet requires a valid name and has a set of skills.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
-A simplified representation of a _Vet_ for item selection purposes.
+The item class is a simplified representation of a _Vet_ for item selection purposes.
 
 .VetItem
 [source,java,options="nowrap"]
