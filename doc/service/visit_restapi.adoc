@@ -27,6 +27,12 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/visit.xml
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 
+The vet relationship is optional.
+When a visit has no vet assigned, it may not be clear which vet is on duty at the time the visit is created.
+
+The pet relationship is optional.
+When a visit has no pet assigned, it serves as a placeholder for a vet's availability on that date.
+
 .Entity
 [source,java,options="nowrap"]
 ----
