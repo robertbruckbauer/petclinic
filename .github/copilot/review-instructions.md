@@ -16,14 +16,14 @@ Never request changes for WANT findings alone; only block the PR on MUST finding
 ## REST API documentation sanity check
 
 Follow the instructions defined in `.github/copilot/agents/restapi-sanity-check.yml`.
-Add a single comment with a short summary.
+Add a single comment to the PR with a short summary of this check.
 
 ---
 
 ## GraphQL API documentation sanity check
 
 Follow the instructions defined in `.github/copilot/agents/graphql-sanity-check.yml`.
-Add a single comment with a short summary.
+Add a single comment to the PR with a short summary of this check.
 
 ---
 
