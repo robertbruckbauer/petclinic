@@ -10,7 +10,14 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 
 === Visit
 
-The main entity of a _Visit_ managed by this controller for persistence.
+Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and text.
+The treatment `date` is required.
+The treatment `time` is optional because it only becomes definitive once treatment begins and may therefore be omitted when the visit is created.
+The diagnosis `text` is optional because it is only written at the end of the treatment.
+The `pet` relation is optional because visits can be created as placeholders for veterinarians on duty.
+The `vet` relation is optional because the veterinarian on duty is not always known at the time the visit is created.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -19,12 +26,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/visit.xml
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each visit represents a veterinary appointment with a treatment date and time, associated pet, attending veterinarian and diagnosis text.
-Each pet can only have one treatment per date.
-The treatment time is optional because it only becomes definitive once treatment begins.
-The vet relationship is optional because it may not be clear who is on duty at the time the visit is created.
-The pet relationship is optional to create visits as placeholders for vets on duty.
-The diagnosis text is optional because it is only written at the end of the treatment.
 
 .Entity
 [source,java,options="nowrap"]
@@ -33,8 +34,6 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[in
 ----
 
 No simplified representation of a _Visit_ exists.
-
-NOTE: The unique constraint `@UniqueConstraint(columnNames = {"date","pet_id"})` in SQL databases typically allows multiple NULL values in the `pet_id` column, meaning multiple visits can exist with the same date when pet is NULL. This behavior may not align with the business requirement described as "placeholder visits for vets on duty". Consider: (1) Should pet be mandatory instead of optional? (2) Should there be a separate flag or mechanism for placeholder visits? (3) Or is the current behavior intentional to allow multiple placeholder visits per date?
 
 == Operations
 
@@ -166,7 +165,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 This operation returns all persisted _Visit_ entities.
 
-It supports advanced query parameters for filtering and sorting, e.g.
+This operation supports advanced query parameters for filtering, e.g.
 
 `?date=2021-04-20`::
 Find visits on a single date
@@ -185,10 +184,13 @@ Find visits with text containing "Lorem" (case-insensitive)
 `?text=Lorem%`::
 Find visits with text starting with "Lorem" (case-insensitive)
 
-It supports sorting and pagination, e.g.
+This operation supports sorting, e.g.
 
 `?sort=date,desc`::
 Sort visits by date in descending order
+
+This operation supports pagination, e.g.
+
 `?size=10&page=1`::
 Find 10 visits on page 1
 

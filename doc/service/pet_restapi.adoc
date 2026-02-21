@@ -10,7 +10,13 @@ It provides standard CRUD operations and a search endpoint that returns items.
 
 === Pet
 
-The main entity of a _Pet_ managed by this controller for persistence.
+Each pet represents an animal owned by a client in the pet clinic with name, birth date and species.
+The `name` attribute is required and unique per owner, allowing different owners to have pets with the same name.
+The `born` attribute is required.
+The `species` attribute is required.
+The `owner` relation is required because every pet must belong to an owner.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -19,12 +25,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/pet.xml[]
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each pet represents an animal owned by a client and can have multiple veterinary visits.
-The pet requires a valid name, species, and birth date.
-Each pet must have an owner.
-Pet names are unique per owner, allowing different owners to have pets with the same name.
-
-NOTE: Verify that the `owner` relation in the Pet entity is correctly documented in all PATCH operations. The entity implementation marks owner with `optional = false`, meaning a pet must always have an owner. Ensure POST and PUT operation examples include the owner relation, and document what happens when attempting PATCH operations that would remove the owner (should fail with 400 Bad Request due to validation constraint).
 
 .Entity
 [source,java,options="nowrap"]
@@ -32,7 +32,7 @@ NOTE: Verify that the `owner` relation in the Pet entity is correctly documented
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
 ----
 
-A simplified representation of a _Pet_ for item selection purposes.
+The item class is a simplified representation of a _Pet_ for item selection purposes.
 
 .PetItem
 [source,java,options="nowrap"]
@@ -147,7 +147,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 This operation returns all persisted _Pet_ entities.
 
-It supports advanced query parameters for filtering and sorting, e.g.
+This operation supports advanced query parameters for filtering, e.g.
 
 `?name=Max`::
 Find pets with name containing "Max" (case-insensitive)
@@ -158,12 +158,15 @@ Find pets with species containing "dog" (case-insensitive)
 `?owner.name=Smith`::
 Find pets whose owner's name contains "Smith" (case-insensitive)
 
-It supports sorting and pagination, e.g.
+This operation supports sorting, e.g.
 
 `?sort=name,asc`::
 Sort pets by name in ascending order
 `?sort=born,desc`::
 Sort pets by birth date in descending order
+
+This operation supports pagination, e.g.
+
 `?size=10&page=1`::
 Find 10 pets on page 1
 
@@ -187,6 +190,15 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 This operation returns all persisted _Pet_ entities as simplified _PetItem_ objects for selection purposes.
 The items are sorted by name in ascending order.
 
+This operation supports advanced query parameters for filtering.
+See `GET /api/pet` for details.
+
+This operation does not support sorting.
+The result is always sorted by name in ascending order.
+
+This operation does not support pagination.
+It always returns the full filtered result set.
+
 ****
 
 .Command
@@ -197,6 +209,21 @@ include::{restdocdir}/get-api-pet-item/http-request.adoc[]
 
 .Response
 include::{restdocdir}/get-api-pet-item/response-body.adoc[]
+
+****
+
+The following example shows a filtered request:
+
+****
+
+.Command
+include::{restdocdir}/get-api-pet-item-filtered/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-pet-item-filtered/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-pet-item-filtered/response-body.adoc[]
 
 ****
 

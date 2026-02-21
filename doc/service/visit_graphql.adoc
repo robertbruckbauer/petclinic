@@ -6,19 +6,34 @@
 GraphQL API for querying veterinary treatments during a visit in the pet clinic application.
 It provides query operations to retrieve all visits, filter visits by date, and find visits associated with specific pets or veterinarians.
 
-== Schema
+== Model
 
 === Visit
 
-The main GraphQL type representing a veterinary treatment.
+Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and text.
+The treatment `date` is required.
+The treatment `time` is optional because it only becomes definitive once treatment begins.
+The diagnosis `text` is optional because it is only written at the end of the treatment.
 
-.Schema Definition
+The `pet` relation is optional because visits can be created as placeholders for veterinarians on duty.
+The `pet` relation uses batch loading via `@BatchMapping` to efficiently load pets for multiple visits.
+Visits without a pet assigned resolve `pet` relation as `null`.
+
+The `vet` relation is optional because the veterinarian on duty is not always known at the time the visit is created.
+The `vet` relation uses batch loading via `@BatchMapping` to efficiently load vets for multiple visits.
+Visits without a vet assigned resolve the `vet` relation as `null`.
+
+The `Visit` type defines properties and collections.
+The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
+The schema uses the custom scalar type `LocalTime` which maps to Java's `java.time.LocalTime` type for representing times of day.
+
+.Schema
 [source,graphql,options="nowrap"]
 ----
 include::{graphqldir}/visit.gqls[]
 ----
 
-The `Visit` type corresponds to the entity class defined in the backend API:
+The `Visit` type corresponds to the entity class.
 
 .Entity
 [source,java,options="nowrap"]
@@ -26,20 +41,11 @@ The `Visit` type corresponds to the entity class defined in the backend API:
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
 ----
 
-Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and text.
-The date attribute is required.
-The time attribute is optional because the time of treatment is not always known at the time the visit is created.
-The pet relation is optional because visits can be created as placeholders for veterinarians on duty.
-The vet relation is optional because the veterinarian on duty is not always known at the time the visit is created.
-The text attribute is optional and typically contains treatment notes or diagnosis.
-
-The schema uses custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates.
-
-The schema uses custom scalar type `LocalTime` which maps to Java's `java.time.LocalTime` type for representing times of day.
-
 == Queries
 
-=== `allVisit`
+=== Collection queries
+
+==== `allVisit`
 
 This query returns all veterinary visits in the system.
 
@@ -54,7 +60,7 @@ allVisit: [Visit]
 A list of all `Visit` objects.
 Returns an empty list if no visits exist.
 
-=== `allVisitAt`
+==== `allVisitAt`
 
 This query returns all visits scheduled for a specific date.
 
@@ -74,7 +80,7 @@ The date to filter visits by (e.g., "2024-12-25").
 A list of `Visit` objects scheduled on the specified date, ordered by date ascending.
 Returns an empty list if no visits exist for the given date.
 
-=== `allVisitByPetId`
+==== `allVisitByPetId`
 
 This query returns all visits for a specific pet.
 
@@ -94,7 +100,7 @@ The unique identifier of the pet (UUID format).
 A list of `Visit` objects associated with the specified pet, ordered by date ascending.
 Returns an empty list if no visits exist for the given pet.
 
-=== `allVisitByVetId`
+==== `allVisitByVetId`
 
 This query returns all visits attended by a specific veterinarian.
 

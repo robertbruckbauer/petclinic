@@ -14,7 +14,10 @@ TIP: This API uses a custom controller, not the standard endpoints provided by S
 
 === Ping
 
-The main entity of a _Ping_ managed by this controller for persistence.
+Each ping represents a timestamp record indicating when the service was last contacted.
+The `at` property is automatically set to the current timestamp when the ping is touched.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -23,8 +26,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/ping.xml[
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each ping represents a timestamp record indicating when the service was last contacted.
-The `at` property is automatically set to the current timestamp when the ping is touched.
 
 .Entity
 [source,java,options="nowrap"]

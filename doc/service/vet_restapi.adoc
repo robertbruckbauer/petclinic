@@ -10,7 +10,11 @@ It provides standard CRUD operations and a search endpoint that returns items.
 
 === Vet
 
-The main entity of a _Vet_ managed by this controller for persistence.
+Each vet represents a veterinarian working at the pet clinic with a name and a set of skills.
+The `name` attribute is required and unique.
+The `allSkill` collection is a list of strings and may be empty.
+
+The liquibase script defines the database table.
 
 .Liquibase
 [source,xml,options="nowrap"]
@@ -20,8 +24,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet_skill
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
-Each vet represents a pet clinic veterinarian.
-The vet requires a valid name and has a set of skills.
 
 .Entity
 [source,java,options="nowrap"]
@@ -29,7 +31,7 @@ The vet requires a valid name and has a set of skills.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
-A simplified representation of a _Vet_ for item selection purposes.
+The item class is a simplified representation of a _Vet_ for item selection purposes.
 
 .VetItem
 [source,java,options="nowrap"]
@@ -144,7 +146,7 @@ This operation reports `Conflict` or code 409 if the entity is outdated (invalid
 
 This operation returns all persisted _Vet_ entities.
 
-It supports advanced query parameters for filtering and sorting, e.g.
+This operation supports advanced query parameters for filtering, e.g.
 
 `?name=Max`::
 Find vets with name containing "Max" (case-insensitive)
@@ -153,10 +155,13 @@ Find vets with name starting with "Max" (case-insensitive)
 `?allSkill=surgery`::
 Find vets with skills containing "surgery" (case-insensitive)
 
-It supports sorting and pagination, e.g.
+This operation supports sorting, e.g.
 
 `?sort=name,asc`::
 Sort vets by name in ascending order
+
+This operation supports pagination, e.g.
+
 `?size=10&page=1`::
 Find 10 vets on page 1
 
@@ -180,6 +185,15 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 This operation returns all persisted _Vet_ entities as simplified _VetItem_ objects for selection purposes.
 The items are sorted by name in ascending order.
 
+This operation supports advanced query parameters for filtering.
+See `GET /api/vet` for details.
+
+This operation does not support sorting.
+The result is always sorted by name in ascending order.
+
+This operation does not support pagination.
+It always returns the full filtered result set.
+
 ****
 
 .Command
@@ -190,6 +204,21 @@ include::{restdocdir}/get-api-vet-item/http-request.adoc[]
 
 .Response
 include::{restdocdir}/get-api-vet-item/response-body.adoc[]
+
+****
+
+The following example shows a filtered request:
+
+****
+
+.Command
+include::{restdocdir}/get-api-vet-item-filtered/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-vet-item-filtered/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-vet-item-filtered/response-body.adoc[]
 
 ****
 

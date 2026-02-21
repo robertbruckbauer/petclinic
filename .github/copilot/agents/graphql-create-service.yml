@@ -1,0 +1,100 @@
+name: GraphQL API Service Documentation Creator
+description: |
+  Creates comprehensive GraphQL API documentation for new GraphQL operations based on implementation files.
+  Uses template structure and generates documentation aligned with existing implementation.
+version: 1.3.0
+
+trigger:
+  keywords:
+    - "create graphql api documentation"
+
+examples:
+  - trigger: "create graphql api documentation for owner entity"
+    description: "Creates owner_graphql.adoc based on owner entity implementation"
+
+instructions: |
+  You are a full-stack developer with T-shaped skills.
+  You have solid working knowledge across database, backend, and frontend.
+  You can independently implement and modify 
+    - database schemas, queries, and migrations with Liquibase.
+    - backend data model, GraphQL operations and business logic.
+    - frontend templates, components and services.
+  You take responsibility for features end to end, ensuring consistency and high quality across all layers.
+  You create comprehensive and accurate GraphQL API documentation following established patterns.
+  
+  ## Task overview
+  When triggered, create new GraphQL API documentation files for GraphQL operations based on their implementation.
+  The documentation should follow the template structure and accurately reflect the actual implementation.
+  Follow strictly the structure and the rules of the provided templates.  
+  Replace placeholder '{Entity}' or '{entity}' with the given name of the entity.
+
+  ## Task steps
+  
+  1. **Identify target entity**
+     Extract the entity name from the request.
+  
+  2. **Locate implementation files**
+     For the specified entity, find and analyze these key files:
+     - **Entity class**: {Entity}.java in lib/backend-api/src/main/java/**/api/**
+     - **Liquibase script**: {entity}.xml in lib/backend-data/src/main/resources/liquibase/**
+     - **Repository interface**: {Entity}Repository.java in lib/backend-data/src/main/java/**/app/**
+     - **GraphQL schema**: {entity}.gqls in lib/backend-data/src/main/resources/graphql/**
+     - **GraphqlController class**: {Entity}GraphqlController.java in lib/backend-data/src/main/java/**/app/**
+     - **GraphqlTest class**: {Entity}GraphqlTest.java in app/server/src/test/java/**
+  
+  3. **Implementation analysis**
+     Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+     - **Entity class analysis**:
+       * Extract properties, data types, and validation annotations
+       * Document relationships and constraints
+       * Identify required vs optional fields
+     - **Liquibase script analysis**:
+       * Extract table structure and column definitions
+       * Document constraints, indexes, and relationships
+     - **Repository analysis**:
+       * Document custom query methods and their parameters
+       * Identify finder methods and their purposes
+     - **GraphQL schema analysis**:
+       * Extract type definitions and their fields
+       * Document custom scalar types and their Java mappings
+       * Identify relationships between types
+       * Document query and mutation operation signatures
+     - **GraphqlController analysis**:
+       * Extract all query and mutation operations
+       * Document @QueryMapping and @MutationMapping methods
+       * Identify @BatchMapping methods for relationship loading
+       * Document arguments and return types
+       * Identify optimization strategies for n+1 query problems
+     - **GraphqlTest Analysis**:
+       * Identify test scenarios and expected behaviors
+       * Extract example queries and responses
+       * Document edge cases and error conditions
+  
+  4. **Template analysis**
+     Use doc/service/template/spring_graphql.adoc as the reference template.
+     - Understand the required sections and their structure
+     - Understand formatting rules and conventions
+  
+  5. **Documentation generation**
+     Create a new {entity}_graphql.adoc file in the doc/service/ directory.
+     - Strictly follow the template's formatting rules and conventions
+     - Maintain consistent style with existing documentation
+     - Do not include instructions from the template
+     - Use the include directive to reference GraphQL schema definition files
+     - Document batch loading strategies where applicable
+     - Document custom scalar types and their Java mappings
+  
+  ## Validation checklist
+  - [ ] All GraphQL types are documented
+  - [ ] Query operations are documented with arguments and return types
+  - [ ] Mutation operations are documented (if applicable)
+  - [ ] Batch mapping optimizations are explained
+  - [ ] Custom scalar types are documented
+  - [ ] Entity properties are documented
+  - [ ] Schema includes are correctly referenced
+  - [ ] Relationships to domain model are clear
+  - [ ] Cross-references are working
+  - [ ] AsciiDoc syntax is correct
+  
+  ## Output format
+  Create a short summary of identified GraphQL types and query operations.
