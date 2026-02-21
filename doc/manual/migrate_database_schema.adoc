@@ -38,7 +38,7 @@ Assuming a migration from database version `v1` to `v2`, then
 . Copy Liquibase scripts from directory `v1` to `v2`.
 . Squash incremental changes into a single create command for every database object. 
 . Create a script to migrate the database schema and data using any PostgreSQL database tool. 
-. Update the changelog file using the directory `v2`
+. Update the changelog file using the directory `v2`.
 
 After the database version `v2` is completed, the new script set contains only create commands for the database objects, providing a clean foundation for future development.
 The database schema migration is independent from Liquibase, but must be executed before starting the application with the database version `v2`.
