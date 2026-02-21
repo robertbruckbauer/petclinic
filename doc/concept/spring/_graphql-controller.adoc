@@ -100,12 +100,12 @@ The repository's `findOne(Predicate)` method executes the query and returns an `
 
 A batch mapping operation resolves relationships efficiently by loading associated data in batches.
 
-Problem:: The N+1 query problem occurs when fetching a collection of parent entities and then individually loading related entities for each parent.
-For N parents, this results in 1 query for parents + N queries for children = N+1 queries.
+Problem:: The n+1 query problem occurs when fetching a collection of parent entities and then individually loading related entities for each parent.
+For N parents, this results in 1 query for parents + N queries for children = n+1 queries.
 
 Solution:: The batch mapping pattern collects all parent entities, loads related children in a single bulk query, and maps them back to their parents.
 
-This pattern transforms N+1 queries into 2 queries (1 for parents, 1 for all children), dramatically improving performance and reducing database load.
+This pattern transforms n+1 queries into 2 queries (1 for parents, 1 for all children), dramatically improving performance and reducing database load.
 
 The method is annotated with `@BatchMapping` and `@Transactional` to batch-load related entities within a database transaction.
 The method name matches the field name in the GraphQL schema that returns the related entity collection (e.g., `allPet` for a field named `allPet`).

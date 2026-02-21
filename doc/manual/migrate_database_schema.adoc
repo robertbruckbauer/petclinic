@@ -22,7 +22,7 @@ Minor changes are fully backward-compatible.
 A rollback of the application does not require a database rollback.
 The migrated schema continues to function correctly with the previous application version.
 
-TIP: In test stages with CI/CD automation is rollback safety essential.
+TIP: In test stages with CI/CD automation, rollback safety is essential.
 
 Minor changes are implemented incrementally with changesets.
 
@@ -30,7 +30,8 @@ TIP: Liquibase uses a hash of each changeset's content and its file path to trac
 
 == Major changes
 
-Major changes are triggered by quality goals, e.g.
+Major changes are triggered by domain evolution and quality goals, e.g. performance optimization, data consistency improvements or schema normalization.
+They are classified as major when they break backward compatibility and prevent safe application rollback without coordinated migration.
 
 Assuming a migration from database version `v1` to `v2`, then 
 
