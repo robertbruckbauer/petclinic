@@ -6,7 +6,7 @@ Liquibase provides significant advantages for schema evolution.
 Minor changes are applied in incremental steps.
 This approach is simple, deterministic and keeps automated tests fast.
 Major changes are implemented with a consolidated Liquibase script set.
-The schema and data migration executed manually directly on the database.
+The schema and data migration is executed manually directly on the database.
 
 == Minor changes
 
@@ -42,5 +42,5 @@ Assuming a migration from database version `v1` to `v2`, then
 After the database version `v2` is completed, the new script set contains only create commands for the database objects, providing a clean foundation for future development.
 The database schema migration is independent from Liquibase, but must be executed before starting the application with the database version `v2`.
 
-TIP: Liquibase will treat the moved changesets as new and attempt to apply it again.
+TIP: Liquibase will treat the moved changesets as new and attempt to apply them again.
 The `preConditions` elements prevent the creation of existing database objects in the PostgreSQL database.
