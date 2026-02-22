@@ -28,7 +28,7 @@ public abstract class VersionCheckTask extends JGitTaskBase {
                 if (file.getName().endsWith(".json")) {
                     checkVersion(JSON_VERSION_PATTERN, localTag, file);
                 }
-                if (file.getName().endsWith(".yaml")) {
+                if (file.getName().endsWith(".yaml") || file.getName().endsWith(".yml")) {
                     checkVersion(YAML_VERSION_PATTERN, localTag, file);
                 }
                 getLogger().lifecycle("'{}' matches local tag '{}'",

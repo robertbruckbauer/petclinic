@@ -20,9 +20,9 @@ public class EsyBackendSpecificationTest {
         final var root = "../".repeat(2);
         final var name = clazz
                 .getSimpleName()
-                .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
+                .replaceAll("([a-z0-9])([A-Z])", "$1-$2")
                 .toLowerCase();
-        final var path = Paths.get(root, "doc", "service", "%s_restapi.adoc".formatted(name));
+        final var path = Paths.get(root, "doc", "service", "%s-restapi.adoc".formatted(name));
         assertTrue(Files.exists(path), path.toString());
     }
 
@@ -39,18 +39,18 @@ public class EsyBackendSpecificationTest {
         final var root = "../".repeat(2);
         final var name = clazz
                 .getSimpleName()
-                .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
+                .replaceAll("([a-z0-9])([A-Z])", "$1-$2")
                 .toLowerCase();
-        final var path = Paths.get(root, "doc", "service", "%s_graphql.adoc".formatted(name));
+        final var path = Paths.get(root, "doc", "service", "%s-graphql.adoc".formatted(name));
         assertTrue(Files.exists(path), path.toString());
     }
 
     @Test
     void graphQL() {
-        //assertGraphQLFor(Enum.class);
+        assertGraphQLFor(Enum.class);
         assertGraphQLFor(Owner.class);
-        //assertGraphQLFor(Pet.class);
-        //assertGraphQLFor(Vet.class);
+        assertGraphQLFor(Pet.class);
+        assertGraphQLFor(Vet.class);
         assertGraphQLFor(Visit.class);
     }
 }

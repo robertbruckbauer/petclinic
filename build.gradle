@@ -64,6 +64,11 @@ tasks.register('versionTag', VersionTagTask.class) {
     group = 'versioning'
 }
 
+tasks.register('versionCheck', VersionCheckTask.class) {
+    group 'verification'
+    allFileWithVersion.from(fileTree('.github/copilot/agents').include('*.yml'))
+}
+
 tasks.register('versionHistory', VersionHistoryTask.class) {
     group = 'documentation'
     changelog = layout.buildDirectory.file("reports/HISTORY.md")
