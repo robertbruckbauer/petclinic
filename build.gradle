@@ -64,28 +64,36 @@ tasks.register('versionTag', VersionTagTask.class) {
     group = 'versioning'
 }
 
+// tag::versionCheck[]
 tasks.register('versionCheck', VersionCheckTask.class) {
     group 'verification'
     allFileWithVersion.from(fileTree('.github/copilot/agents').include('*.yml'))
 }
+// end::versionCheck[]
 
+// tag::versionHistory[]
 tasks.register('versionHistory', VersionHistoryTask.class) {
     group = 'documentation'
     changelog = layout.buildDirectory.file("reports/HISTORY.md")
     outputs.upToDateWhen { false }
 }
+// end::versionHistory[]
 
+// tag::versionRelease[]
 tasks.register('versionRelease', VersionReleaseTask.class) {
     group = 'documentation'
     changelog = layout.buildDirectory.file("reports/RELEASE.md")
     outputs.upToDateWhen { false }
 }
+// end::versionRelease[]
 
+// tag::buildChangelog[]
 tasks.register('buildChangelog', BuildChangelogTask.class) {
     group = 'build'
     changelog = layout.buildDirectory.file("reports/CHANGELOG.md")
     outputs.upToDateWhen { false }
 }
+// end::buildChangelog[]
 
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
 tasks.register('pages', AsciidoctorTask) {

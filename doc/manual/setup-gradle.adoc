@@ -2,8 +2,10 @@
 :relrootdir: ../..
 = Setup gradle
 
-This manual specifies the gradle version and related configurations for this repository.
-Gradle depends on xref:{relrootdir}/doc/manual/setup-java.adoc[java].
+This manual contains information on configuring Gradle in this repository.repository.
+Gradle is the main build tool in this repository.
+
+Gradle depends on a xref:{relrootdir}/doc/manual/setup-java.adoc[Java] runtime.
 
 == Build
 
@@ -13,7 +15,29 @@ Gradle depends on xref:{relrootdir}/doc/manual/setup-java.adoc[java].
 include::{includedir}/gradle/wrapper/gradle-wrapper.properties[]
 ----
 
-This configuration sets the gradle version required to run build tasks locally.
+This configuration sets the gradle version and other properties required to run build tasks locally.
+
+.settings.gradle
+[source,gradle]
+----
+include::{includedir}/settings.gradle[tags=plugins,indent=0]
+----
+
+This configuration shows plugins and their version used in build scripts.
+
+.settings.gradle
+[source,gradle]
+----
+include::{includedir}/settings.gradle[tags=repositories,indent=0]
+----
+
+This configuration shows repositories used to load dependencies.
+
+gradlePluginPortal::
+Official repository for Gradle plugins.
+
+mavenCentral::
+Public repository for Java dependencies.
 
 == Github
 
