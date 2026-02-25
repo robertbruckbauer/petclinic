@@ -8,31 +8,31 @@ tasks.register('composeUp') {
     mustRunAfter ':app:server:buildImage'
     doLast {
         println '\nDeploying with latest'
-        exec {
-            workingDir "${projectDir}"
+        providers.exec {
+            workingDir(projectDir)
             executable 'docker'
             args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'up', '--detach', '--no-build'
-        }
+        }.result.get()
     }
 }
 
 tasks.register('composeStop') {
     doLast {
-        exec {            
-            workingDir "${projectDir}"
+        providers.exec {
+            workingDir(projectDir)
             executable 'docker'
             args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'stop'
-        }
+        }.result.get()
     }
 }
 
 tasks.register('composeDown') {
     doLast {
-        exec {
-            workingDir "${projectDir}"
+        providers.exec {
+            workingDir(projectDir)
             executable 'docker'
             args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'down'
-        }
+        }.result.get()
     }
 }
 
