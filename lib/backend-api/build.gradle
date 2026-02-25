@@ -55,6 +55,9 @@ test {
 
 jacocoTestReport {
     mustRunAfter test
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: ['**/Q*.class'])
+    }))
     reports {
         csv.required = false
         html.required = true
