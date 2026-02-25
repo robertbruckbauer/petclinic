@@ -76,7 +76,7 @@ tasks.register('buildImage') {
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
-    group 'verification'
+    group = 'verification'
     mustRunAfter 'npmInstall'
     allFileWithVersion.from("package.json", "package-lock.json")
 }

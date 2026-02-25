@@ -65,7 +65,7 @@ tasks.register('versionTag', VersionTagTask.class) {
 
 // tag::versionCheck[]
 tasks.register('versionCheck', VersionCheckTask.class) {
-    group 'verification'
+    group = 'verification'
     allFileWithVersion.from(fileTree('.github/copilot/agents').include('*.yml'))
 }
 // end::versionCheck[]
