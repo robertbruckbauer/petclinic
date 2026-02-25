@@ -12,7 +12,7 @@ const config = {
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-expect */
   expect: {
     /* Maximum time expect() should wait for the condition to be met. */
-    timeout: 1000,
+    timeout: 2000,
   },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,

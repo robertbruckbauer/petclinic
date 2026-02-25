@@ -6,16 +6,16 @@ import { VetListerPage } from "./pages/VetListerPage.js";
 import { VisitListerPage } from "./pages/VisitListerPage.js";
 
 test.describe("Navigation", () => {
-  test("Root", async ({ page }) => {
+  test("Root", { timeout: 1_000 }, async ({ page }) => {
     await page.goto("/");
     await page.waitForURL("/home");
   });
-  test("Home", async ({ page }) => {
+  test("Home", { timeout: 1_000 }, async ({ page }) => {
     const path = "/home";
     await page.goto(path);
     await page.waitForURL(path);
   });
-  test("Help", async ({ page }) => {
+  test("Help", { timeout: 1_000 }, async ({ page }) => {
     const path = "/help";
     await page.goto(path);
     await page.waitForURL(path);
@@ -24,7 +24,7 @@ test.describe("Navigation", () => {
 
 test.describe("Enum", () => {
   ["Skill", "Species"].forEach((art) => {
-    test(art, async ({ page }) => {
+    test(art, { timeout: 3_000 }, async ({ page }) => {
       const enumPage = new EnumListerPage(page, art);
       await enumPage.goto();
       const name = await enumPage.createItem();
@@ -35,7 +35,7 @@ test.describe("Enum", () => {
 });
 
 test.describe("Owner", () => {
-  test("OwnerLister", async ({ page }) => {
+  test("OwnerLister", { timeout: 3_000 }, async ({ page }) => {
     const ownerPage = new OwnerListerPage(page);
     await ownerPage.goto();
     const ownerName = await ownerPage.createOwner();
@@ -45,7 +45,7 @@ test.describe("Owner", () => {
 });
 
 test.describe("Pet", () => {
-  test("PetLister", async ({ page }) => {
+  test("PetLister", { timeout: 5_000 }, async ({ page }) => {
     const ownerPage = new OwnerListerPage(page);
     await ownerPage.goto();
     const ownerName = await ownerPage.createOwner();
@@ -63,7 +63,7 @@ test.describe("Pet", () => {
 });
 
 test.describe("Vet", () => {
-  test("VetLister", async ({ page }) => {
+  test("VetLister", { timeout: 3_000 }, async ({ page }) => {
     const vetPage = new VetListerPage(page);
     await vetPage.goto();
     const vetName = await vetPage.createVet();
@@ -73,7 +73,7 @@ test.describe("Vet", () => {
 });
 
 test.describe("Visit", () => {
-  test("VisitLister", async ({ page }) => {
+  test("VisitLister", { timeout: 6_000 }, async ({ page }) => {
     const ownerPage = new OwnerListerPage(page);
     await ownerPage.goto();
     const ownerName = await ownerPage.createOwner();
