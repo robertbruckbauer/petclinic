@@ -37,7 +37,7 @@ subprojects {
     // tag::setup-java[]
     plugins.withType(JavaPlugin).configureEach {
         compileJava.options.encoding = 'UTF-8'
-        compileJava.options.compilerArgs << '-Xlint:all,-serial,-processing'
+        compileJava.options.compilerArgs << '-Xlint:all,-serial,-processing,-classfile,-this-escape'
         java.sourceCompatibility = JavaVersion.VERSION_21
         java.targetCompatibility = JavaVersion.VERSION_21        
     }
