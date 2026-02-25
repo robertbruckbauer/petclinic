@@ -48,7 +48,7 @@ test {
     }
     reports {
         html.required = true
-        html.destination = file("${rootDir}/pages/html/" + project.name + "/junit5")
+        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/junit5")
     }
 }
 

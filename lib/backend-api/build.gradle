@@ -46,7 +46,7 @@ test {
     }
     reports {
         html.required = true
-        html.destination = file("${rootDir}/pages/html/" + project.name + "/junit5")
+        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/junit5")
     }
     jacoco {
         enabled = true
@@ -58,7 +58,7 @@ jacocoTestReport {
     reports {
         csv.required = false
         html.required = true
-        html.destination file("${rootDir}/pages/html/" + project.name + "/jacoco")
+        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/jacoco")
         xml.required = true
     }
 }
