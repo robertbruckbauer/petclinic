@@ -57,17 +57,18 @@ tasks.register('buildImage') {
     doLast {
         String image1 = CLIENT_IMAGE + ":" + CLIENT_TAG;
         String image2 = CLIENT_IMAGE + ":" + VERSION;
-        exec {
-            workingDir "${projectDir}"
+        println 'Building image ' + image1
+        providers.exec {
+            workingDir(projectDir)
             executable 'docker'
             args 'build', '.', '-t', image1
-        }
+        }.result.get()
         if (image1 != image2) {
-            exec {
-                workingDir "${projectDir}"
+            providers.exec {
+                workingDir(projectDir)
                 executable 'docker'
                 args 'tag', image1, image2
-            }
+            }.result.get()
             println 'Built image to docker daemon as ' + image1 + ", " + image2
         } else {
             println 'Built image to docker daemon as ' + image1
@@ -76,7 +77,7 @@ tasks.register('buildImage') {
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
-    group 'verification'
+    group = 'verification'
     mustRunAfter 'npmInstall'
     allFileWithVersion.from("package.json", "package-lock.json")
 }

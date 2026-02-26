@@ -44,11 +44,11 @@ processResources {
 
 test {
     filter {
-        failOnNoMatchingTests false
+        failOnNoMatchingTests = false
     }
     reports {
         html.required = true
-        html.destination = file("${rootDir}/pages/html/" + project.name + "/junit5")
+        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/junit5")
     }
 }
 
@@ -95,7 +95,7 @@ tasks.register('buildImage') {
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
-    group 'verification'
+    group = 'verification'
 }
 
 tasks.register('lint') {

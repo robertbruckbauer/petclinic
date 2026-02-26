@@ -37,24 +37,23 @@ subprojects {
     // tag::setup-java[]
     plugins.withType(JavaPlugin).configureEach {
         compileJava.options.encoding = 'UTF-8'
+        compileJava.options.compilerArgs << '-Xlint:all,-serial,-processing,-classfile,-this-escape'
         java.sourceCompatibility = JavaVersion.VERSION_21
-        java.targetCompatibility = JavaVersion.VERSION_21
+        java.targetCompatibility = JavaVersion.VERSION_21        
     }
     // end::setup-java[]
-    tasks.withType(Test).tap {
-        configureEach {
-            useJUnitPlatform {
-                excludeEngines 'junit-vintage'
-            }
-            systemProperty "file.encoding", "UTF-8"
-            testLogging {
-                events "passed", "skipped", "failed"
-                exceptionFormat "full"
-                showExceptions true
-                showCauses true
-                showStackTraces true
-                showStandardStreams false
-            }
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform {
+            excludeEngines 'junit-vintage'
+        }
+        systemProperty "file.encoding", "UTF-8"
+        testLogging {
+            events "passed", "skipped", "failed"
+            exceptionFormat = "full"
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+            showStandardStreams = false
         }
     }
 }
@@ -66,7 +65,7 @@ tasks.register('versionTag', VersionTagTask.class) {
 
 // tag::versionCheck[]
 tasks.register('versionCheck', VersionCheckTask.class) {
-    group 'verification'
+    group = 'verification'
     allFileWithVersion.from(fileTree('.github/copilot/agents').include('*.yml'))
 }
 // end::versionCheck[]

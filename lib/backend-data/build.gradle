@@ -45,11 +45,11 @@ dependencies {
 
 test {
     filter {
-        failOnNoMatchingTests false
+        failOnNoMatchingTests = false
     }
     reports {
         html.required = true
-        html.destination = file("${rootDir}/pages/html/" + project.name + "/junit5")
+        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/junit5")
     }
     jacoco {
         enabled = true
@@ -58,10 +58,13 @@ test {
 
 jacocoTestReport {
     mustRunAfter test
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: ['**/Q*.class'])
+    }))
     reports {
         csv.required = false
         html.required = true
-        html.destination file("${rootDir}/pages/html/" + project.name + "/jacoco")
+        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/jacoco")
         xml.required = true
     }
 }
