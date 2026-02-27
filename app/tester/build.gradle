@@ -18,31 +18,31 @@ tasks.register('testerUp') {
     mustRunAfter ':app:server:buildImage'
     doLast {
         println '\nDeploying with latest'
-        exec {
+        providers.exec {
             workingDir "${projectDir}"
             executable 'docker'
             args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'up', '--detach', '--no-build'
-        }
+        }.result.get()
     }
 }
 
 tasks.register('testerStop') {
     doLast {
-        exec {            
+        providers.exec {        
             workingDir "${projectDir}"
             executable 'docker'
             args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'stop'
-        }
+        }.result.get()
     }
 }
 
 tasks.register('testerDown') {
     doLast {
-        exec {
+        providers.exec {
             workingDir "${projectDir}"
             executable 'docker'
             args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'down'
-        }
+        }.result.get()
     }
 }
 
@@ -63,17 +63,18 @@ tasks.register('buildImage') {
     doLast {
         String image1 = TESTER_IMAGE + ":" + TESTER_TAG;
         String image2 = TESTER_IMAGE + ":" + VERSION;
-        exec {
-            workingDir "${projectDir}"
+        println 'Building image ' + image1
+        providers.exec {
+            workingDir(projectDir)
             executable 'docker'
             args 'build', '.', '-t', image1
-        }
+        }.result.get()
         if (image1 != image2) {
-            exec {
-                workingDir "${projectDir}"
+            providers.exec {
+                workingDir(projectDir)
                 executable 'docker'
                 args 'tag', image1, image2
-            }
+            }.result.get()
             println 'Built image to docker daemon as ' + image1 + ", " + image2
         } else {
             println 'Built image to docker daemon as ' + image1
@@ -82,7 +83,7 @@ tasks.register('buildImage') {
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
-    group 'verification'
+    group = 'verification'
     mustRunAfter 'npmInstall'
     allFileWithVersion.from("Chart.yaml", "package.json", "package-lock.json")
 }
