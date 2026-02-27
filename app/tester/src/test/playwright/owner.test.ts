@@ -21,6 +21,42 @@ test.describe("Phase 1 - Owner Management", () => {
     expect(owner.id).toBeDefined();
     const ownerId = owner.id!;
 
+    const patchAddressResponse = await fetch(
+      `${BACKEND_URL}/api/owner/${ownerId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/merge-patch+json",
+        },
+        body: JSON.stringify({
+          address: "456 Side Street, Springfield",
+        }),
+      }
+    );
+    expect(patchAddressResponse.status).toBe(200);
+    const ownerWithUpdatedAddress =
+      (await patchAddressResponse.json()) as Owner;
+    expect(ownerWithUpdatedAddress.address).toBe(
+      "456 Side Street, Springfield"
+    );
+
+    const patchContactResponse = await fetch(
+      `${BACKEND_URL}/api/owner/${ownerId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/merge-patch+json",
+        },
+        body: JSON.stringify({
+          contact: "5557654321",
+        }),
+      }
+    );
+    expect(patchContactResponse.status).toBe(200);
+    const ownerWithUpdatedContact =
+      (await patchContactResponse.json()) as Owner;
+    expect(ownerWithUpdatedContact.contact).toBe("5557654321");
+
     const deleteResponse = await fetch(`${BACKEND_URL}/api/owner/${ownerId}`, {
       method: "DELETE",
     });
