@@ -1,5 +1,5 @@
 /**
- * Express application for the setup and taerdown of the debezium connector
+ * Express application for the setup and teardown of the debezium connector
  * and the redpanda topic consumer and for convenience operations for the
  * sqlite database.
  */
