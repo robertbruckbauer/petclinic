@@ -121,7 +121,9 @@ class VisitRestApiTest {
                 .andExpect(jsonPath("$.date")
                         .value(date))
                 .andExpect(jsonPath("$.text")
-                        .exists());
+                        .exists())
+                .andExpect(jsonPath("$.billable")
+                        .value(false));
     }
 
     @Test
@@ -183,7 +185,9 @@ class VisitRestApiTest {
                 .andExpect(jsonPath("$.date")
                         .value(date))
                 .andExpect(jsonPath("$.text")
-                        .value(text));
+                        .value(text))
+                .andExpect(jsonPath("$.billable")
+                        .value(false));
     }
 
     @Test
@@ -374,6 +378,34 @@ class VisitRestApiTest {
     }
 
     @Test
+    @Order(38)
+    void patchApiVisitBillable() throws Exception {
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
+        mockMvc.perform(patch("/api/visit/" + uuid)
+                        .content("""
+                                {
+                                    "billable":true
+                                }
+                                """)
+                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .string("ETag", "\"6\""))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.billable")
+                        .value(true));
+    }
+
+    @Test
     @Order(40)
     void getApiVisit() throws Exception {
         assertEquals(4, visitRepository.count());
@@ -416,7 +448,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(header()
-                        .string("ETag", "\"5\""))
+                        .string("ETag", "\"6\""))
                 .andExpect(jsonPath("$.id")
                         .value(value.getId().toString()))
                 .andExpect(jsonPath("$.date")
@@ -424,7 +456,9 @@ class VisitRestApiTest {
                 .andExpect(jsonPath("$.time")
                         .value(Visit.TIME_FORMATTER.format(value.getTime())))
                 .andExpect(jsonPath("$.text")
-                        .value(value.getText()));
+                        .value(value.getText()))
+                .andExpect(jsonPath("$.billable")
+                        .value(true));
     }
 
     @Test

@@ -1,0 +1,69 @@
+= Column for type `boolean`
+
+== Default Implementation
+
+.Entity
+[source,java,options="nowrap"]
+----
+@Column(name = "flag") <1>
+@Getter <2>
+@JsonProperty <3>
+private boolean flag; <4>
+----
+
+<1> The field is marked with `@Column`.
+The column name in the database is explicitly specified.
+<2> The field is marked with `@Getter`.
+This allows the current value to be queried via a getter method.
+<3> The field is marked with `@JsonProperty`.
+The value is included in the JSON structure of the REST API.
+<4> The field has the primitive data type `boolean`.
+Using the primitive type avoids null issues.
+This is a mutable field due to requirements from the JPA provider.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="flag" type="BOOLEAN" defaultValueBoolean="false"> <1>
+    <constraints nullable="false"/> <2>
+</column>
+----
+
+<1> The column type is `BOOLEAN` with a default value of `false`.
+<2> The column is marked as NOT NULL.
+
+== Property initialization
+
+`boolean` properties are not nullable and initialized in the constructor.
+
+== Property manipulation
+
+`boolean` properties are typically only changed through REST endpoints.
+
+`boolean` properties are copied in the `withId` operation during entity cloning.
+
+Add a setter if a controller must be able to update a property directly.
+
+[source,java,options="nowrap"]
+----
+@JsonIgnore <1>
+public Entity setFlag(final boolean flag) { <2>
+    this.flag = flag;
+    return this; <3>
+}
+----
+
+<1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
+<2> The method accepts a primitive `boolean` argument.
+<3> The method returns `this` for operation chaining.
+
+== Property verification
+
+`boolean` properties participate in the `isEqual` method comparison.
+Use `==` for direct comparison.
+
+The `verify` operation may include custom validation logic.
+
+== Property serialization
+
+`boolean` properties are by default part of the JSON structure.

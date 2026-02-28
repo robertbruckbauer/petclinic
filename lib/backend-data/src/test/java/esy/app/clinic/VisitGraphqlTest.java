@@ -54,7 +54,7 @@ class VisitGraphqlTest {
         when(visitRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
-                .document("{allVisit{text}}")
+                .document("{allVisit{text billable}}")
                 .execute();
         assertNotNull(data);
         final var allText = data.path("allVisit[*].text")
@@ -63,6 +63,10 @@ class VisitGraphqlTest {
                 .get();
         assertEquals(1, allText.size());
         assertEquals("Lorem ipsum.", allText.getFirst());
+        data.path("allVisit[0].billable")
+                .hasValue()
+                .entity(Boolean.class)
+                .isEqualTo(false);
         verify(visitRepository).findAll();
         verifyNoMoreInteractions(visitRepository);
         verifyNoInteractions(petRepository);

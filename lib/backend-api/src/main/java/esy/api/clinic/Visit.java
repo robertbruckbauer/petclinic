@@ -69,6 +69,11 @@ public final class Visit extends JsonJpaEntity<Visit> {
     @Getter
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Vet vet;
+
+    @Column(name = "billable")
+    @Getter
+    @JsonProperty
+    private boolean billable;
     // end::properties[]
 
     Visit() {
@@ -78,6 +83,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         this.text = "";
         this.pet = null;
         this.vet = null;
+        this.billable = false;
     }
 
     Visit(@NonNull final Long version, @NonNull final UUID id) {
@@ -87,6 +93,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         this.text = "";
         this.pet = null;
         this.vet = null;
+        this.billable = false;
     }
 
     @Override
@@ -106,7 +113,8 @@ public final class Visit extends JsonJpaEntity<Visit> {
                 Objects.equals(this.time, that.time) &&
                 Objects.equals(this.text, that.text) &&
                 Objects.equals(this.pet, that.pet) &&
-                Objects.equals(this.vet, that.vet);
+                Objects.equals(this.vet, that.vet) &&
+                this.billable == that.billable;
     }
 
     @Override
@@ -125,6 +133,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         value.text = this.text;
         value.pet = this.pet;
         value.vet = this.vet;
+        value.billable = this.billable;
         return value;
     }
 

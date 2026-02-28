@@ -10,10 +10,11 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 
 === Visit
 
-Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, and text.
+Each visit represents a veterinary treatment with a date, time, associated pet, attending veterinarian, text, and a billable flag.
 The treatment `date` is required.
 The treatment `time` is optional because it only becomes definitive once treatment begins and may therefore be omitted when the visit is created.
 The diagnosis `text` is optional because it is only written at the end of the treatment.
+The `billable` flag indicates whether the visit is subject to billing and defaults to `false`.
 The `pet` relation is optional because visits can be created as placeholders for veterinarians on duty.
 The `vet` relation is optional because the veterinarian on duty is not always known at the time the visit is created.
 
