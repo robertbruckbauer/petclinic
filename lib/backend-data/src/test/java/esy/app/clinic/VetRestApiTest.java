@@ -100,6 +100,10 @@ class VetRestApiTest {
                 .andExpect(jsonPath("$.allSkill")
                         .isArray())
                 .andExpect(jsonPath("$.allSkill[0]")
+                        .doesNotExist())
+                .andExpect(jsonPath("$.allSpecies")
+                        .isArray())
+                .andExpect(jsonPath("$.allSpecies[0]")
                         .doesNotExist());
     }
 
@@ -151,6 +155,10 @@ class VetRestApiTest {
                 .andExpect(jsonPath("$.allSkill")
                         .isArray())
                 .andExpect(jsonPath("$.allSkill[0]")
+                        .doesNotExist())
+                .andExpect(jsonPath("$.allSpecies")
+                        .isArray())
+                .andExpect(jsonPath("$.allSpecies[0]")
                         .doesNotExist());
     }
 
@@ -217,6 +225,40 @@ class VetRestApiTest {
                 .andExpect(jsonPath("$.allSkill[1]")
                         .value("Z"))
                 .andExpect(jsonPath("$.allSkill[2]")
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(33)
+    void patchApiVetSpecies() throws Exception {
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(vetRepository.findById(uuid).isPresent());
+        mockMvc.perform(patch("/api/vet/" + uuid)
+                        .content("""
+                                {
+                                    "allSpecies":["Dog","Cat"]
+                                }
+                                """)
+                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .exists("ETag"))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.allSpecies")
+                        .isArray())
+                .andExpect(jsonPath("$.allSpecies[0]")
+                        .value("Cat"))
+                .andExpect(jsonPath("$.allSpecies[1]")
+                        .value("Dog"))
+                .andExpect(jsonPath("$.allSpecies[2]")
                         .doesNotExist());
     }
 
@@ -310,7 +352,7 @@ class VetRestApiTest {
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(header()
-                        .string("ETag", "\"3\""))
+                        .string("ETag", "\"4\""))
                 .andExpect(jsonPath("$.id")
                         .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
@@ -320,6 +362,12 @@ class VetRestApiTest {
                 .andExpect(jsonPath("$.allSkill[1]")
                         .value("Z"))
                 .andExpect(jsonPath("$.allSkill[2]")
+                        .doesNotExist())
+                .andExpect(jsonPath("$.allSpecies[0]")
+                        .value("Cat"))
+                .andExpect(jsonPath("$.allSpecies[1]")
+                        .value("Dog"))
+                .andExpect(jsonPath("$.allSpecies[2]")
                         .doesNotExist());
     }
 

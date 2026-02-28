@@ -35,18 +35,30 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @Getter
     @JsonProperty
     private SortedSet<String> allSkill;
+
+    @ElementCollection(
+            fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "vet_species",
+            joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "species")
+    @Getter
+    @JsonProperty
+    private SortedSet<String> allSpecies;
     // end::properties[]
 
     Vet() {
         super();
         this.name = "";
         this.allSkill = new TreeSet<>();
+        this.allSpecies = new TreeSet<>();
     }
 
     Vet(@NonNull final Long version, @NonNull final UUID id) {
         super(version, id);
         this.name = "";
         this.allSkill = new TreeSet<>();
+        this.allSpecies = new TreeSet<>();
     }
 
     @Override
@@ -63,7 +75,8 @@ public final class Vet extends JsonJpaEntity<Vet> {
             return false;
         }
         return this.name.equals(that.name)&&
-                this.allSkill.equals(that.allSkill);
+                this.allSkill.equals(that.allSkill)&&
+                this.allSpecies.equals(that.allSpecies);
     }
 
     @Override
@@ -83,6 +96,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
         final var value = new Vet(getVersion(), id);
         value.name = this.name;
         value.allSkill = this.allSkill;
+        value.allSpecies = this.allSpecies;
         return value;
     }
 
@@ -96,6 +110,12 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @JsonIgnore
     public Vet addAllSkill(@NonNull final String... text) {
         this.allSkill.addAll(List.of(text));
+        return this;
+    }
+
+    @JsonIgnore
+    public Vet addAllSpecies(@NonNull final String... text) {
+        this.allSpecies.addAll(List.of(text));
         return this;
     }
 

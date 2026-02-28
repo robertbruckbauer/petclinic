@@ -114,4 +114,38 @@ class VetTest {
 		assertEquals(3, value.getAllSkill().size());
 		assertEquals(Set.of("A", "B", "Z"), value.getAllSkill());
 	}
+
+	@Test
+	public void jsonSpecies() {
+		final var name = "Max Mustermann";
+		final var value = createWithName(name);
+		assertDoesNotThrow(value::verify);
+		assertNotNull(value.getId());
+		assertEquals(name, value.getName());
+
+		value.getAllSpecies().add("Cat");
+		assertDoesNotThrow(value::verify);
+		assertEquals(1, value.getAllSpecies().size());
+		assertTrue(value.getAllSpecies().contains("Cat"));
+
+		value.getAllSpecies().clear();
+		assertDoesNotThrow(value::verify);
+		assertEquals(0, value.getAllSpecies().size());
+
+		value.getAllSpecies().addAll(Set.of("Cat", "Dog"));
+		assertDoesNotThrow(value::verify);
+		assertEquals(2, value.getAllSpecies().size());
+		assertTrue(value.getAllSpecies().contains("Cat"));
+		assertTrue(value.getAllSpecies().contains("Dog"));
+
+		value.getAllSpecies().remove("Dog");
+		assertDoesNotThrow(value::verify);
+		assertEquals(1, value.getAllSpecies().size());
+		assertTrue(value.getAllSpecies().contains("Cat"));
+
+		value.getAllSpecies().clear();
+		value.addAllSpecies("Dog", "Bird", "Cat");
+		assertEquals(3, value.getAllSpecies().size());
+		assertEquals(Set.of("Bird", "Cat", "Dog"), value.getAllSpecies());
+	}
 }
