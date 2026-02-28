@@ -33,51 +33,52 @@ instructions: |
   ## Task steps
   
   1. **Identify relevant implementation changes**
-     First, examine the following file types that affect REST API documentation:
-     - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/** and look for property changes, validation annotations, relationship modifications
-     - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase for database schema changes that affect entity documentation
-     - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/** and identify new query methods, custom endpoints
-     - **RestController classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/** for new endpoints, modified mappings, parameter changes
-     - **Rest API Test classes** → Check *RestApiTest.java files for new test cases that indicate functionality changes
-     - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/** for exception handling changes affecting error codes
+    First, examine the following file types that affect REST API documentation:
+    - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/** and look for property changes, validation annotations, relationship modifications
+    - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase for database schema changes that affect entity documentation
+    - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/** and identify new query methods, custom endpoints
+    - **RestController classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/** for new endpoints, modified mappings, parameter changes
+    - **Rest API Test classes** → Check *RestApiTest.java files for new test cases that indicate functionality changes
+    - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/** for exception handling changes affecting error codes
   
   2. **Map changes to documentation files**
-     For each changed implementation file, identify which REST API documentation files may need updates:
-     - **Entity classes** → corresponding *-restapi.adoc Model section
-     - **Liquibase scripts** → corresponding *-restapi.adoc Model section
-     - **Repository classes** → corresponding *-restapi.adoc query parameter documentation
-     - **RestController classes** → corresponding *-restapi.adoc Operations section
-     - **Rest API Test classes** → corresponding *-restapi.adoc usage examples and scenarios
-     - **ControllerAdvice classes** → all *-restapi.adoc error code documentation
+    For each changed implementation file, identify which REST API documentation files may need updates:
+    - **Entity classes** → corresponding *-restapi.adoc Model section
+    - **Liquibase scripts** → corresponding *-restapi.adoc Model section
+    - **Repository classes** → corresponding *-restapi.adoc query parameter documentation
+    - **RestController classes** → corresponding *-restapi.adoc Operations section
+    - **Rest API Test classes** → corresponding *-restapi.adoc usage examples and scenarios
+    - **ControllerAdvice classes** → all *-restapi.adoc error code documentation
   
   3. **Template validation**
-     Use doc/service/template/spring-restapi.adoc as the reference template.
-     - Strictly follow the template's structure and rules
-     - Ensure all required sections are present and properly formatted
+    Use doc/service/template/spring-restapi.adoc as the reference template.
+    - Strictly follow the template's structure and rules
+    - Ensure all required sections are present and properly formatted
   
   4. **Content analysis**
-     - Fix any typos or grammatical errors
-     - Verify AsciiDoc syntax correctness
-     - Check for consistent formatting and style
+    - Fix any typos or grammatical errors
+    - Verify AsciiDoc syntax correctness
+    - Check for consistent formatting and style
   
   5. **Implementation alignment verification**
-     Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-     - Compare documentation descriptions with actual implementation changes
-     - Verify new/modified endpoints are documented
-     - Validate parameter descriptions against updated method signatures
-     - Check response models against modified entity definitions
-     - Ensure error codes align with ControllerAdvice changes
+    Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+    - Compare documentation descriptions with actual implementation changes
+    - Verify new/modified endpoints are documented
+    - Validate parameter descriptions against updated method signatures
+    - Check response models against modified entity definitions
+    - Ensure error codes align with ControllerAdvice changes
   
   6. **Impact assessment and documentation**
-     - For minor issues (typos, formatting): Fix directly
-     - For major issues (missing documentation for new features, outdated descriptions): 
-       * Add NOTE admonitions with specific improvement instructions
-       * Reference the specific implementation changes that require documentation updates
-       * Write instructions as actionable prompts for fixing
-       * Update existing NOTE admonitions if they address the same issue
-       * Only add NOTE admonitions when changes are actually recommended
+    - For minor issues (typos, formatting): Fix directly
+    - For major issues (missing documentation for new features, outdated descriptions): 
+      * Add NOTE admonitions with specific improvement instructions
+      * Reference the specific implementation changes that require documentation updates
+      * Write instructions as actionable prompts for fixing
+      * Update existing NOTE admonitions if they address the same issue
+      * Only add NOTE admonitions when changes are actually recommended
   
   ## Rules for NOTE admonitions
+  
   - Use this format: `NOTE: [Specific instruction for improvement]`
   - Make instructions actionable and specific
   - Include file references where applicable
@@ -85,6 +86,7 @@ instructions: |
   - Don't add redundant notes for the same issue
   
   ## Validation checklist
+
   - [ ] All changed REST endpoints are documented
   - [ ] New HTTP methods and mappings are included
   - [ ] Modified request/response schemas are accurate
@@ -95,7 +97,8 @@ instructions: |
   - [ ] Cross-references are working for modified files
   - [ ] AsciiDoc syntax is correct
   
-  ## Output format
+  ## Task output
+  
   For each affected documentation file, provide:
   1. **Implementation changes detected**: List specific changes in related implementation files
   2. **Documentation impact**: List documentation sections that needed updates

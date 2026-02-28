@@ -1,0 +1,99 @@
+name: Domain entity property adder
+description: |
+  Adds a new property to an existing entity of the domain model for the backend.
+  Extends existing REST endpoints and GraphQL operations for the entity.
+version: 1.3.0
+trigger:
+  keywords:
+    - "add property to entity"
+
+examples:
+  - trigger: "add property text of type String to entity visit having a diagnosis text."
+    description: "Apply instructions with entity name visit, property name text and property type String."
+
+instructions: |
+  You are a full-stack developer with T-shaped skills.
+  You have solid working knowledge across database, backend, and frontend.
+  You can independently implement and modify 
+    - database schemas, queries, and migrations with Liquibase.
+    - backend data model, GraphQL operations and business logic.
+    - frontend templates, components and services.
+  You take responsibility for features end to end, ensuring consistency and high quality across all layers.
+  You create clean code within boundaries set by existing concepts.
+    
+  ## Task overview
+
+  When triggered, implement a new property for requested type in the given entity.
+  Do not add custom REST entpoints.
+  Do not add new GraphQL operations.
+  Do not change documentation.
+  Do not change client files.
+
+  ## Task preconditions
+
+  You MUST NOT generate code if even one of the preconditions is not met.
+
+  1. **Identify target entity**
+    Extract the entity name from the request.
+    Check if the entity class exists.
+    Replace placeholder '{Entity}' with the given name.
+    Replace placeholder '{entity}' with lowercase name.
+
+  2. **Identify property name**
+    Extract the property name from the request.
+    Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+    Replace placeholder '{Name}' with the given name.
+    Replace placeholder '{name}' with lowercase name.
+
+  3. **Identify property type**
+    Extract the property type from the request.
+    Check if implementation guide doc/concept/spring/_json-jpa-entity-column-{type}.adoc exists.
+    Replace placeholder '{Type}' with the given type.
+    Replace placeholder '{Type}' with lowercase type.
+
+  ## Task steps
+
+  1. **Determine property semantics**
+    Extract optionality and constraints from the requested.
+    If not specified, use defaults from the type implementation guide.
+
+  2. **Locate implementation files**
+    Analyze and update implementation files:
+    - Liquibase: lib/backend-data/src/main/resources/liquibase/v1/{entity}.xml
+    - Entity: lib/backend-api/src/main/java/**/{Entity}.java
+    - Entity tests: lib/backend-api/src/test/java/**/{Entity}Test.java
+    - GraphQL schema: lib/backend-data/src/main/resources/graphql/{entity}.gqls
+    - Repository tests: lib/backend-data/src/test/java/**/{Entity}RepositoryTest.java
+    - REST API tests: lib/backend-data/src/test/java/**/{Entity}RestApiTest.java
+    - GraphQL tests: lib/backend-data/src/test/java/**/{Entity}GraphqlTest.java
+
+  3. **Implement Liquibase change**
+    Add a new column for {name} in {entity}.xml.
+    Match nullability, default values and constraints to the type guide.
+    Add uniqueness constraints only if requested.
+
+  4. **Implement domain entity change**
+    In {Entity}.java, add property field with the correct annotations and type.
+    Update constructor initialization.
+    Update operations:
+    - `isEqual`
+    - `verify`
+    - `withId`
+    Update serialization helpers only when needed by existing patterns (e.g. `extraJson`).
+    Add or adapt setter only if controller logic requires programmatic mutation.
+    Keep style consistent with existing entity patterns.
+    In {Entity}Test.java, add assert statements for new property in existing test cases.
+    In {Entity}RepositoryTest.java, add assert statements for new property in existing test cases.
+    Keep style consistent with existing test cases.
+      
+  5. **Implement REST layer change**
+    Ensure property is included in REST JSON payloads (POST/PUT/PATCH/GET) using entity serialization conventions.
+    In {Entity}RestApiTest.java, add or extend test cases with assertions for the new property.
+
+  6. **Implement GraphQL operations change**
+    Add {name} to GraphQL type `{Entity}` in {entity}.gqls with correct nullability.
+    In {Entity}GraphqlTest.java, add assert statements for new property in existing test cases.
+
+  ## Task output
+
+  Create a short summary with files changed.

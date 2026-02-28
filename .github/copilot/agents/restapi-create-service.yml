@@ -25,54 +25,60 @@ instructions: |
   ## Task overview
   When triggered, create new REST API documentation files for REST endpoints based on their implementation.
   The documentation should follow the template structure and accurately reflect the actual implementation.
-  Follow strictly the structure and the rules of the provided templates.  
-  Replace placeholder '{Entity}' or '{entity}' with the given name of the entity.
+  Follow strictly the structure and the rules of the provided templates.
+  
+  ## Task preconditions
+
+  You MUST NOT generate code if even one of the preconditions is not met.
+
+  1. **Identify target entity**
+    Extract the entity name from the request.
+    Check if the entity class exists.
+    Replace placeholder '{Entity}' with the given name.
+    Replace placeholder '{entity}' with lowercase name.
 
   ## Task steps
+    
+  1. **Locate implementation files**
+    For the specified entity, find and analyze these key files:
+    - **Entity class**: {Entity}.java in lib/backend-api/src/main/java/**/api/**
+    - **Liquibase script**: {entity}.xml in lib/backend-data/src/main/resources/liquibase/**
+    - **Repository interface**: {Entity}Repository.java in lib/backend-data/src/main/java/**/app/**
+    - **RestController class**: {Entity}RestController.java in lib/backend-data/src/main/java/**/app/**
+    - **RestApiTest class**: {Entity}RestApiTest.java in app/server/src/test/java/**
   
-  1. **Identify target entity**
-     Extract the entity name from the request.
+  2. **Implementation analysis**
+    Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+    - **Entity class analysis**:
+      * Extract properties, data types, and validation annotations
+      * Document relationships and constraints
+      * Identify required vs optional fields
+    - **Liquibase script analysis**:
+      * Extract table structure and column definitions
+      * Document constraints, indexes, and relationships
+    - **Repository analysis**:
+      * Document custom query methods and their parameters
+      * Identify finder methods and their purposes
+    - **RestController analysis**:
+      * Extract all HTTP endpoints and mappings
+      * Document request/response models
+      * Identify path variables, query parameters, and request bodies
+      * Document HTTP status codes and error responses
+    - **RestApiTest Analysis**:
+      * Identify test scenarios and expected behaviors
+      * Extract example requests and responses
+      * Document edge cases and error conditions
   
-  2. **Locate implementation files**
-     For the specified entity, find and analyze these key files:
-     - **Entity class**: {Entity}.java in lib/backend-api/src/main/java/**/api/**
-     - **Liquibase script**: {entity}.xml in lib/backend-data/src/main/resources/liquibase/**
-     - **Repository interface**: {Entity}Repository.java in lib/backend-data/src/main/java/**/app/**
-     - **RestController class**: {Entity}RestController.java in lib/backend-data/src/main/java/**/app/**
-     - **RestApiTest class**: {Entity}RestApiTest.java in app/server/src/test/java/**
+  3. **Template analysis**
+    Use doc/service/template/spring-restapi.adoc as the reference template.
+    - Understand the required sections and their structure
+    - Understand formatting rules and conventions
   
-  3. **Implementation analysis**
-     Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-     - **Entity class analysis**:
-       * Extract properties, data types, and validation annotations
-       * Document relationships and constraints
-       * Identify required vs optional fields
-     - **Liquibase script analysis**:
-       * Extract table structure and column definitions
-       * Document constraints, indexes, and relationships
-     - **Repository analysis**:
-       * Document custom query methods and their parameters
-       * Identify finder methods and their purposes
-     - **RestController analysis**:
-       * Extract all HTTP endpoints and mappings
-       * Document request/response models
-       * Identify path variables, query parameters, and request bodies
-       * Document HTTP status codes and error responses
-     - **RestApiTest Analysis**:
-       * Identify test scenarios and expected behaviors
-       * Extract example requests and responses
-       * Document edge cases and error conditions
-  
-  4. **Template analysis**
-     Use doc/service/template/spring-restapi.adoc as the reference template.
-     - Understand the required sections and their structure
-     - Understand formatting rules and conventions
-  
-  5. **Documentation generation**
-     Create a new {entity}-restapi.adoc file in the doc/service/ directory.
-     - Strictly follow the template's formatting rules and conventions
-     - Maintain consistent style with existing documentation
-     - Do not include instructions from the template
+  4. **Documentation generation**
+    Create a new {entity}-restapi.adoc file in the doc/service/ directory.
+    - Strictly follow the template's formatting rules and conventions
+    - Maintain consistent style with existing documentation
+    - Do not include instructions from the template
   
   ## Validation checklist
   - [ ] All REST endpoints are documented
@@ -84,5 +90,6 @@ instructions: |
   - [ ] Cross-references are working
   - [ ] AsciiDoc syntax is correct
   
-  ## Output format
+  ## Task output
+
   Create a short summary of identified REST endpoints.
