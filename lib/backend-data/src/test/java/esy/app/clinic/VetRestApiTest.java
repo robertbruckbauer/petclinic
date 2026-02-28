@@ -96,7 +96,11 @@ class VetRestApiTest {
                 .andExpect(jsonPath("$.id")
                         .isNotEmpty())
                 .andExpect(jsonPath("$.name")
-                        .value(name));
+                        .value(name))
+                .andExpect(jsonPath("$.allSkill")
+                        .isArray())
+                .andExpect(jsonPath("$.allSkill[0]")
+                        .doesNotExist());
     }
 
     @Test
@@ -143,7 +147,11 @@ class VetRestApiTest {
                 .andExpect(jsonPath("$.id")
                         .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")
-                        .value(name));
+                        .value(name))
+                .andExpect(jsonPath("$.allSkill")
+                        .isArray())
+                .andExpect(jsonPath("$.allSkill[0]")
+                        .doesNotExist());
     }
 
     @ParameterizedTest
@@ -203,7 +211,13 @@ class VetRestApiTest {
                 .andExpect(jsonPath("$.id")
                         .value(uuid.toString()))
                 .andExpect(jsonPath("$.allSkill")
-                        .isArray());
+                        .isArray())
+                .andExpect(jsonPath("$.allSkill[0]")
+                        .value("A"))
+                .andExpect(jsonPath("$.allSkill[1]")
+                        .value("Z"))
+                .andExpect(jsonPath("$.allSkill[2]")
+                        .doesNotExist());
     }
 
     @Test

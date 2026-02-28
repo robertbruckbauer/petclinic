@@ -99,12 +99,6 @@ public final class Vet extends JsonJpaEntity<Vet> {
         return this;
     }
 
-    @JsonIgnore
-    public Vet addAllSkill(@NonNull final String text, @NonNull final String regex) {
-        this.allSkill.addAll(List.of(text.split(regex)));
-        return this;
-    }
-
     @Override
     public String writeJson() {
         return new JsonJpaMapper().writeJson(this);

@@ -35,12 +35,12 @@ class VetGraphqlTest {
                 {
                     "name":"Tom"
                 }
-                """);
+                """).addAllSkill("Z", "A");
         when(vetRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
                 .document("""
-                        {allVet{name}}
+                        {allVet{name allSkill}}
                         """)
                 .execute();
         assertNotNull(data);
@@ -50,6 +50,13 @@ class VetGraphqlTest {
                 .get();
         assertEquals(1, allName.size());
         assertEquals("Tom", allName.getFirst());
+        final var allSkill = data.path("allVet[0].allSkill")
+                .hasValue()
+                .entityList(String.class)
+                .get();
+        assertEquals(2, allSkill.size());
+        assertEquals("A", allSkill.get(0));
+        assertEquals("Z", allSkill.get(1));
         verify(vetRepository).findAll();
         verifyNoMoreInteractions(vetRepository);
     }

@@ -113,15 +113,5 @@ class VetTest {
 		value.addAllSkill("A", "Z", "B");
 		assertEquals(3, value.getAllSkill().size());
 		assertEquals(Set.of("A", "B", "Z"), value.getAllSkill());
-
-		value.getAllSkill().clear();
-		value.addAllSkill("A, Z, B", ", ");
-		assertEquals(3, value.getAllSkill().size());
-		assertEquals(Set.of("A", "B", "Z"), value.getAllSkill());
-
-		value.getAllSkill().clear();
-		value.addAllSkill("A,Z;B", ",|;");
-		assertEquals(3, value.getAllSkill().size());
-		assertEquals(Set.of("A", "B", "Z"), value.getAllSkill());
 	}
 }
