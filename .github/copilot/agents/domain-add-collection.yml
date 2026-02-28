@@ -1,0 +1,110 @@
+name: Domain entity collection adder
+description: |
+  Adds a new collection to an existing entity of the domain model for the backend.
+  Extends existing REST endpoints and GraphQL operations for the entity.
+version: 1.3.0
+trigger:
+  keywords:
+    - "add collection to entity"
+
+examples:
+  - trigger: "add collection skill of type String to entity vet having skills of vets."
+    description: "Apply instructions with entity name vet, collection name skill and element type String."
+
+instructions: |
+  You are a full-stack developer with T-shaped skills.
+  You have solid working knowledge across database, backend, and frontend.
+  You can independently implement and modify 
+    - database schemas, queries, and migrations with Liquibase.
+    - backend data model, GraphQL operations and business logic.
+    - frontend templates, components and services.
+  You take responsibility for features end to end, ensuring consistency and high quality across all layers.
+  You create clean code within boundaries set by existing concepts.
+    
+  ## Task overview
+
+  When triggered, implement a new collection for the requested element type in the given entity.
+  Do not add custom REST endpoints.
+  Do not add new GraphQL operations.
+  Do not change documentation.
+  Do not change client files.
+
+  ## Task preconditions
+
+  You MUST NOT generate code if even one of the preconditions is not met.
+
+  1. **Identify target entity**
+    Extract the entity name from the request.
+    Check if the entity class exists.
+    Replace placeholder '{Entity}' with the given name.
+    Replace placeholder '{entity}' with lowercase name.
+
+  2. **Identify collection name**
+    Extract the collection element column name from the request.
+    Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+    Replace placeholder '{Name}' with the capitalized name.
+    Replace placeholder '{name}' with lowercase name.
+    The class property name is `all{Name}`.
+    The join table name is `{entity}_{name}`.
+
+  3. **Identify element type**
+    Extract the element type from the request.
+    Check if implementation guide doc/concept/spring/_json-jpa-entity-collection-{type}.adoc exists.
+    Replace placeholder '{Type}' with the given type.
+    Replace placeholder '{type}' with lowercase type.
+
+  ## Task steps
+
+  1. **Determine collection semantics**
+    Extract optionality, ordering and fetch strategy from the request.
+    If not specified, use defaults from the type implementation guide.
+
+  2. **Locate implementation files**
+    Analyze and update implementation files:
+    - Liquibase: lib/backend-data/src/main/resources/liquibase/v1/{entity}_{name}.xml
+    - Entity: lib/backend-api/src/main/java/**/{Entity}.java
+    - Entity tests: lib/backend-api/src/test/java/**/{Entity}Test.java
+    - Repository tests: lib/backend-data/src/test/java/**/{Entity}RepositoryTest.java
+    - REST API tests: lib/backend-data/src/test/java/**/{Entity}RestApiTest.java
+    - GraphQL schema: lib/backend-data/src/main/resources/graphql/{entity}.gqls
+    - GraphQL tests: lib/backend-data/src/test/java/**/{Entity}GraphqlTest.java
+
+  3. **Implement Liquibase change**
+    Create a new file lib/backend-data/src/main/resources/liquibase/v1/{entity}_{name}.xml.
+    The file creates the join table `{entity}_{name}` with:
+    - An `id` UUID column (not null) referencing the parent entity's primary key.
+    - A `{name}` column of the appropriate SQL type (not null).
+    - A foreign key constraint `fk_{entity}_{name}_id` from `{entity}_{name}.id` to `{entity}.id`.
+    Wrap the change set in a `preCondition` element that checks `tableExists tableName="{entity}_{name}"`.
+    Register the new file in lib/backend-data/src/main/resources/liquibase/changelog.xml
+    by adding
+    ```xml
+    <include file="v1/{entity}_{name}.xml" relativeToChangelogFile="true"/>
+    ```
+    directly after the existing `<include file="v1/{entity}.xml" .../>` line.
+
+  4. **Implement domain entity change**
+    In {Entity}.java, add property field with the correct annotations and type.
+    Initialize `all{Name}` in both constructors.
+    Update operations:
+    - `isEqual`
+    - `verify`
+    - `withId`
+    Add operations:
+    - `addAll{Name}`
+    Keep style consistent with existing entity patterns.
+    In {Entity}Test.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
+    In {Entity}RepositoryTest.java, add assert statements for new collection in existing test cases (including an assertion for the sort order).
+    Keep style consistent with existing test cases.
+      
+  5. **Implement REST layer change**
+    Ensure property is included in JSON payloads of POST|PUT|PATCH|GET|DELETE operations using entity serialization conventions.
+    In {Entity}RestApiTest.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
+
+  6. **Implement GraphQL operations change**
+    Add `all{Name}: [{Type}]` to GraphQL type `{Entity}` in {entity}.gqls with correct nullability.
+    In {Entity}GraphqlTest.java, add assert statements for new collection in existing test cases (including an assertion for the sort order).
+
+  ## Task output
+
+  Create a short summary with files changed.
