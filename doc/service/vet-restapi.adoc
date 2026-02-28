@@ -13,6 +13,7 @@ It provides standard CRUD operations and a search endpoint that returns items.
 Each vet represents a veterinarian working at the pet clinic with a name and a set of skills.
 The `name` attribute is required and unique.
 The `allSkill` collection is a list of strings and may be empty.
+The `allSpecies` collection is a list of strings and may be empty.
 
 The liquibase script defines the database table.
 
@@ -21,6 +22,7 @@ The liquibase script defines the database table.
 ----
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet.xml[]
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet_skill.xml[]
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet_species.xml[]
 ----
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
@@ -131,6 +133,29 @@ include::{restdocdir}/patch-api-vet-skill/http-request.adoc[]
 
 .Response
 include::{restdocdir}/patch-api-vet-skill/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if the entity is outdated (invalid ETag).
+
+==== `allSpecies` collection
+
+****
+
+.Command
+include::{restdocdir}/patch-api-vet-species/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-vet-species/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-vet-species/response-body.adoc[]
 
 ****
 
