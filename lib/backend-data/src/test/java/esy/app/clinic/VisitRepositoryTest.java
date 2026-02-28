@@ -68,6 +68,7 @@ public class VisitRepositoryTest {
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
         assertEquals(text, value0.getText());
+        assertFalse(value0.isBillable());
 
         final var value1 = visitRepository.save(value0);
         assertNotNull(value1);

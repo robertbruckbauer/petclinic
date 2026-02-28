@@ -87,6 +87,7 @@ class VisitTest {
         assertEquals(22, value.getDate().getDayOfMonth());
         assertNull(value.getTime());
         assertFalse(value.getText().isBlank());
+        assertFalse(value.isBillable());
     }
 
     @ParameterizedTest
