@@ -129,8 +129,8 @@
     <fieldset class="fieldset w-full sm:w-1/4">
       <legend class="fieldset-legend">Sex</legend>
       <select bind:value={newPetSex} aria-label="Sex" class="select w-full">
-        <option value="M">M</option>
-        <option value="F">F</option>
+        <option value="M">male</option>
+        <option value="F">female</option>
       </select>
     </fieldset>
     <fieldset class="fieldset w-full sm:w-2/4">
