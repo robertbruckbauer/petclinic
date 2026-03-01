@@ -35,6 +35,7 @@ export class PetEditorComponent implements OnInit {
     name: new FormControl("", Validators.required),
     born: new FormControl("", Validators.required),
     species: new FormControl("", Validators.required),
+    sex: new FormControl("M", Validators.required),
   });
 
   ngOnInit() {
@@ -65,6 +66,7 @@ export class PetEditorComponent implements OnInit {
       name: this.form.value.name!,
       born: this.form.value.born!,
       species: this.form.value.species!,
+      sex: this.form.value.sex!,
     };
     // end::init[]
     if (this.pet().id) {

@@ -8,6 +8,7 @@ export interface Pet {
   name: string;
   born: string;
   species: string;
+  sex: string;
 }
 
 export interface PetItem {

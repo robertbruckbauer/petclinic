@@ -11,6 +11,7 @@ const ALLPET = [
     name: "Tom",
     born: "2020-01-01",
     species: "Cat",
+    sex: "M",
   },
   {
     id: "2",
@@ -19,6 +20,7 @@ const ALLPET = [
     name: "Odi",
     born: "2020-12-31",
     species: "Dog",
+    sex: "M",
   },
 ];
 
