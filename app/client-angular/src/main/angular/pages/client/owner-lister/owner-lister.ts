@@ -15,7 +15,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { forkJoin } from "rxjs";
 import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { OwnerService } from "../../../services/owner.service";
@@ -109,18 +108,9 @@ export class OwnerListerComponent implements OnInit {
 
   allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
-    this.loading.set(true);
-    const search = { sort: "name,asc" };
-    const subscription = forkJoin({
-      allSpeciesEnum: this.enumService.loadAllEnum("species"),
-      allOwner: this.ownerService.loadAllOwner(search),
-    }).subscribe({
-      next: (value) => {
-        this.allSpeciesEnum.set(value.allSpeciesEnum);
-        this.allOwner.set(value.allOwner);
-      },
-      complete: () => {
-        this.loading.set(false);
+    const subscription = this.enumService.loadAllEnum("species").subscribe({
+      next: (allSpeciesEnum) => {
+        this.allSpeciesEnum.set(allSpeciesEnum);
       },
       error: (err) => {
         this.toast.push(err);
@@ -137,7 +127,10 @@ export class OwnerListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const search = { sort: "name,asc", name: this.filterForm.value.criteria! };
+    const search = {
+      sort: "name,asc",
+      name: this.filterForm.value.criteria || "%",
+    };
     const subscription = this.ownerService.loadAllOwner(search).subscribe({
       next: (allOwner) => {
         this.allOwner.set(allOwner);

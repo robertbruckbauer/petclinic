@@ -41,6 +41,7 @@ export class VetListerPage {
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
+    await okButton.waitFor({ state: "hidden" });
     return vetName;
   }
 
@@ -72,6 +73,7 @@ export class VetListerPage {
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
+    await okButton.waitFor({ state: "hidden" });
   }
 
   async deleteVet(vetName) {
@@ -81,6 +83,7 @@ export class VetListerPage {
       .getByRole("table")
       .getByRole("row")
       .filter({ hasText: vetName });
+    await row.waitFor({ state: "visible" });
     const deleteButton = row.getByRole("button", {
       name: "delete",
       exact: true,
@@ -88,5 +91,6 @@ export class VetListerPage {
     await expect(deleteButton).toBeEnabled();
     await this.page.once("dialog", (dialog) => dialog.accept());
     await deleteButton.click();
+    await deleteButton.waitFor({ state: "hidden" });
   }
 }

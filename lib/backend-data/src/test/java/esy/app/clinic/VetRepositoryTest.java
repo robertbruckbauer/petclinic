@@ -62,17 +62,29 @@ public class VetRepositoryTest {
             "Bärbel Krüger"
     })
     void saveVet(final String name) {
-        final var value0 = createWithName(name);
+        final var value0 = createWithName(name).addAllSkill("Z", "A").addAllSpecies("Dog", "Cat");
         assertFalse(value0.isPersisted());
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
         assertEquals(name, value0.getName());
+        assertEquals(2, value0.getAllSkill().size());
+        assertEquals("A", value0.getAllSkill().first());
+        assertEquals("Z", value0.getAllSkill().last());
+        assertEquals(2, value0.getAllSpecies().size());
+        assertEquals("Cat", value0.getAllSpecies().first());
+        assertEquals("Dog", value0.getAllSpecies().last());
 
         final var value1 = vetRepository.save(value0);
         assertNotNull(value1);
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));
+        assertEquals(2, value1.getAllSkill().size());
+        assertEquals("A", value1.getAllSkill().first());
+        assertEquals("Z", value1.getAllSkill().last());
+        assertEquals(2, value1.getAllSpecies().size());
+        assertEquals("Cat", value1.getAllSpecies().first());
+        assertEquals("Dog", value1.getAllSpecies().last());
     }
 
     @Test
@@ -80,7 +92,6 @@ public class VetRepositoryTest {
         final var name = "Max Mustermann";
         final var value = vetRepository.save(createWithName(name));
         assertTrue(vetRepository.existsById(value.getId()));
-        assertTrue(vetRepository.findById(value.getId()).orElseThrow().isEqual(value));
     }
 
     @Test

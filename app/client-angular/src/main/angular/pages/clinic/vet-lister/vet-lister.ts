@@ -15,7 +15,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { forkJoin } from "rxjs";
 import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { VetService } from "../../../services/vet.service";
@@ -67,18 +66,9 @@ export class VetListerComponent implements OnInit {
 
   allSkillEnum = signal<EnumItem[]>([]);
   ngOnInit() {
-    this.loading.set(true);
-    const search = { sort: "name,asc" };
-    const subscription = forkJoin({
-      allSkillEnum: this.enumService.loadAllEnum("skill"),
-      allVet: this.vetService.loadAllVet(search),
-    }).subscribe({
-      next: (value) => {
-        this.allSkillEnum.set(value.allSkillEnum);
-        this.allVet.set(value.allVet);
-      },
-      complete: () => {
-        this.loading.set(false);
+    const subscription = this.enumService.loadAllEnum("skill").subscribe({
+      next: (allSkillEnum) => {
+        this.allSkillEnum.set(allSkillEnum);
       },
       error: (err) => {
         this.toast.push(err);
@@ -95,7 +85,10 @@ export class VetListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const search = { sort: "name,asc", name: this.filterForm.value.criteria! };
+    const search = {
+      sort: "name,asc",
+      name: this.filterForm.value.criteria || "%",
+    };
     const subscription = this.vetService.loadAllVet(search).subscribe({
       next: (allVet) => {
         this.allVet.set(allVet);

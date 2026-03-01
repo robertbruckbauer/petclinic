@@ -78,6 +78,7 @@ export class PetListerPage {
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
+    await okButton.waitFor({ state: "hidden" });
     return petName;
   }
 
@@ -102,6 +103,7 @@ export class PetListerPage {
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
+    await okButton.waitFor({ state: "hidden" });
   }
 
   async updateBorn(ownerName, petName, born) {
@@ -125,6 +127,7 @@ export class PetListerPage {
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
+    await okButton.waitFor({ state: "hidden" });
   }
 
   async deletePet(ownerName, petName) {
@@ -142,5 +145,6 @@ export class PetListerPage {
     await expect(deleteButton).toBeEnabled();
     await this.page.once("dialog", (dialog) => dialog.accept());
     await deleteButton.click();
+    await deleteButton.waitFor({ state: "hidden" });
   }
 }
