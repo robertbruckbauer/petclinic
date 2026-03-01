@@ -55,6 +55,7 @@ export class EnumListerPage {
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
+    await okButton.waitFor({ state: "hidden" });
     return name;
   }
 
@@ -90,6 +91,7 @@ export class EnumListerPage {
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
     await okButton.click();
+    await okButton.waitFor({ state: "hidden" });
   }
 
   async deleteItem(name) {
@@ -112,5 +114,6 @@ export class EnumListerPage {
     await expect(deleteButton).toBeEnabled();
     await this.page.once("dialog", (dialog) => dialog.accept());
     await deleteButton.click();
+    await deleteButton.waitFor({ state: "hidden" });
   }
 }
