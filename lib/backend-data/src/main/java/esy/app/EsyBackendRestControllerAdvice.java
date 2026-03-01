@@ -2,7 +2,7 @@ package esy.app;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.ConcurrencyFailureException;
@@ -147,7 +147,7 @@ public class EsyBackendRestControllerAdvice extends ResponseEntityExceptionHandl
     // end::resolveStatus[]
 
     /**
-     * @see org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController
+     * @see org.springframework.boot.webmvc.autoconfigure.error.BasicErrorController
      */
     @RequestMapping("${server.error.path:/error}")
     public ResponseEntity<Object> error(final WebRequest request, final HttpServletResponse response) {

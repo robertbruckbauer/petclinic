@@ -16,8 +16,7 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("slow")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -45,10 +44,13 @@ public class ServerRunnerTest {
 			final var req = playwright.request().newContext();
 			final var res = req.get(toBackendUrl("/actuator/health"));
 			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-			final var jsonReader = new JsonJpaMapper().parseJsonPath(res.text());
-			assertEquals("UP", jsonReader.read("$.status"));
-			assertEquals("liveness", jsonReader.read("$.groups[0]"));
-			assertEquals("readiness", jsonReader.read("$.groups[1]"));
+			final var rootNode = new JsonJpaMapper().parseJsonNode(res.text());
+			assertEquals("UP",
+					rootNode.path("status").asString());
+			assertEquals("liveness",
+					rootNode.path("groups").get(0).asString());
+			assertEquals("readiness",
+					rootNode.path("groups").get(1).asString());
 		}
 	}
 
@@ -58,10 +60,10 @@ public class ServerRunnerTest {
 			final var req = playwright.request().newContext();
 			final var res = req.get(toBackendUrl("/version"));
 			assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-			final var jsonReader = new JsonJpaMapper().parseJsonPath(res.text());
-			assertNotNull(jsonReader.read("$.major"));
-			assertNotNull(jsonReader.read("$.minor"));
-			assertNotNull(jsonReader.read("$.version"));
+			final var rootNode = new JsonJpaMapper().parseJsonNode(res.text());
+			assertTrue(rootNode.hasNonNull("major"));
+			assertTrue(rootNode.hasNonNull("minor"));
+			assertTrue(rootNode.hasNonNull("version"));
 		}
 	}
 

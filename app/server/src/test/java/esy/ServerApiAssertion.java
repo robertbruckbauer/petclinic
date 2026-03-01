@@ -134,10 +134,10 @@ public class ServerApiAssertion {
                             .setQueryParam("name", owner.getName())),
                     (res) -> {
                         assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                        final var jsonReader = jsonMapper.parseJsonPath(res.text());
-                        final var allId = jsonReader.readContent("id");
-                        assertEquals(1, allId.size());
-                        assertEquals(owner.getId(), UUID.fromString(allId.getFirst()));
+                        final var rootNode = jsonMapper.parseJsonNode(res.text());
+                        final var content = rootNode.path("content");
+                        assertEquals(1, content.size());
+                        assertEquals(owner.getId(), UUID.fromString(content.get(0).path("id").asString()));
                         return null;
                     });
             doWithApi(
@@ -223,10 +223,10 @@ public class ServerApiAssertion {
                                     .setQueryParam("name", pet.getName())),
                             (res) -> {
                                 assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                                final var jsonReader = jsonMapper.parseJsonPath(res.text());
-                                final var allId = jsonReader.readContent("id");
-                                assertEquals(1, allId.size());
-                                assertEquals(pet.getId(), UUID.fromString(allId.getFirst()));
+                                final var rootNode = jsonMapper.parseJsonNode(res.text());
+                                final var content = rootNode.path("content");
+                                assertEquals(1, content.size());
+                                assertEquals(pet.getId(), UUID.fromString(content.get(0).path("id").asString()));
                                 return null;
                             });
                     doWithApi(
@@ -302,10 +302,10 @@ public class ServerApiAssertion {
                                 .setQueryParam("name", vet.getName())),
                         (res) -> {
                             assertThat(res.status(), equalTo(HttpStatus.OK.value()));
-                            final var jsonReader = jsonMapper.parseJsonPath(res.text());
-                            final var allId = jsonReader.readContent("id");
-                            assertEquals(1, allId.size());
-                            assertEquals(vet.getId(), UUID.fromString(allId.getFirst()));
+                            final var rootNode = jsonMapper.parseJsonNode(res.text());
+                            final var content = rootNode.path("content");
+                            assertEquals(1, content.size());
+                            assertEquals(vet.getId(), UUID.fromString(content.get(0).path("id").asString()));
                             return null;
                         });
                 doWithApi(

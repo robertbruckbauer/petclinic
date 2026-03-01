@@ -6,8 +6,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -266,8 +266,7 @@ class EnumRestApiTest {
     @Rollback(false)
     void cleanup() {
         assertEquals(2, enumRepository.count(ENUM_ART));
-        enumRepository.findAll(ENUM_ART).forEach(e ->
-                enumRepository.delete(e));
+        enumRepository.deleteAll(enumRepository.findAll(ENUM_ART));
         enumRepository.deleteAll();
     }
 }
