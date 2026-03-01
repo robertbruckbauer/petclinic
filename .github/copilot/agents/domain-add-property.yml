@@ -47,7 +47,8 @@ instructions: |
 
   3. **Identify property type**
     Extract the property type from the request.
-    Check if implementation guide doc/concept/spring/_json-jpa-entity-column-{type}.adoc exists.
+    For an enum type, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-enum.adoc exists.
+    For other types, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-{type}.adoc exists.
     Replace placeholder '{Type}' with the given type.
     Replace placeholder '{type}' with lowercase type.
 
@@ -59,8 +60,8 @@ instructions: |
 
   2. **Locate implementation files**
     Analyze and update implementation files:
-    - Liquibase: lib/backend-data/src/main/resources/liquibase/v1/{entity}.xml
-    - Entity: lib/backend-api/src/main/java/**/{Entity}.java
+    - Liquibase file: lib/backend-data/src/main/resources/liquibase/v1/{entity}.xml
+    - Entity class: lib/backend-api/src/main/java/**/{Entity}.java
     - Entity tests: lib/backend-api/src/test/java/**/{Entity}Test.java
     - GraphQL schema: lib/backend-data/src/main/resources/graphql/{entity}.gqls
     - Repository tests: lib/backend-data/src/test/java/**/{Entity}RepositoryTest.java
@@ -68,7 +69,8 @@ instructions: |
     - GraphQL tests: lib/backend-data/src/test/java/**/{Entity}GraphqlTest.java
 
   3. **Implement Liquibase change**
-    Add a new column for {name} in {entity}.xml.
+    In {entity}.xml, create a new change set without any preconditions.
+    Add a new column for {name}.
     Match nullability, default values and constraints to the type guide.
     Add uniqueness constraints only if requested.
 
@@ -79,16 +81,17 @@ instructions: |
     - `isEqual`
     - `verify`
     - `withId`
-    Update serialization helpers only when needed by existing patterns (e.g. `extraJson`).
-    Add or adapt setter only if controller logic requires programmatic mutation.
+    Add operations:
+    - `extraJson` (only when requested)
+    - `set{Name}` (only when requested)
     Keep style consistent with existing entity patterns.
     In {Entity}Test.java, add assert statements for new property in existing test cases.
     In {Entity}RepositoryTest.java, add assert statements for new property in existing test cases.
     Keep style consistent with existing test cases.
       
   5. **Implement REST layer change**
-    Ensure property is included in REST JSON payloads (POST/PUT/PATCH/GET) using entity serialization conventions.
-    In {Entity}RestApiTest.java, add or extend test cases with assertions for the new property.
+    Ensure property is included in JSON payloads of POST|PUT|PATCH|GET|DELETE operations using entity serialization conventions.
+    In {Entity}RestApiTest.java, add assert statements for new property in existing test cases.
 
   6. **Implement GraphQL operations change**
     Add {name} to GraphQL type `{Entity}` in {entity}.gqls with correct nullability.

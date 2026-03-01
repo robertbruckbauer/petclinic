@@ -1,0 +1,81 @@
+= Column for type `Enum`
+
+== Default Implementation
+
+.Entity
+[source,java,options="nowrap"]
+----
+@NotNull <1>
+@Column(name = "sex") <2>
+@Getter <3>
+@JsonProperty <4>
+@Enumerated(EnumType.STRING) <5>
+private Sex sex; <6>
+----
+
+<1> The field is marked with `@NotNull` validation constraint.
+This ensures the value is not null.
+<2> The field is marked with `@Column`.
+The column name in the database is explicitly specified.
+<3> The field is marked with `@Getter`.
+This allows the current value to be queried via a getter method.
+<4> The field is marked with `@JsonProperty`.
+The value is included in the JSON structure of the REST API.
+<5> The field is marked with `@Enumerated`.
+The value is the enum name as a string value.
+<6> The field has an enum data type.
+This is a mutable field due to requirements from the JPA provider.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+<column name="sex" type="VARCHAR(32)" defaultValue="M"> <1>
+    <constraints nullable="false"/> <2>
+</column>
+----
+
+<1> The column type is `VARCHAR` and stores the enum name as string value.
+Choose the length to fit your enum names.
+Use a matching default value.
+<2> The column is marked as NOT NULL.
+
+== Property initialization
+
+Enum properties are generally not nullable and initialized to a valid default enum name in the constructor.
+
+== Property manipulation
+
+Enum properties are generally not nullable and therefore only changed through REST endpoints.
+
+Enum properties are set through in the `withId` operation during entity cloning.
+
+Add a setter if a controller must be able to update a property directly.
+
+[source,java,options="nowrap"]
+----
+@JsonIgnore <1>
+public Pet setSex(@NonNull final Sex sex) { <2>
+    this.sex = sex;
+    return this; <3>
+}
+----
+
+<1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
+<2> The method accepts an enum argument.
+<3> The method returns `this` for operation chaining.
+
+== Property verification
+
+Enum properties participate in the `isEqual` method comparison.
+Use `Objects#equals`.
+
+Enum properties use only the following validation annotation:
+
+* `@NotNull`: Value must not be null.
+
+The `verify` operation may include custom validation logic when required by the domain.
+
+== Property serialization
+
+Enum properties are by default part of the JSON structure.
+Values are serialized as the enum name string.
