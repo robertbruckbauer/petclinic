@@ -61,8 +61,8 @@ instructions: |
 
   2. **Locate implementation files**
     Analyze and update implementation files:
-    - Liquibase: lib/backend-data/src/main/resources/liquibase/v1/{entity}_{name}.xml
-    - Entity: lib/backend-api/src/main/java/**/{Entity}.java
+    - Liquibase file: lib/backend-data/src/main/resources/liquibase/v1/{entity}_{name}.xml
+    - Entity class: lib/backend-api/src/main/java/**/{Entity}.java
     - Entity tests: lib/backend-api/src/test/java/**/{Entity}Test.java
     - Repository tests: lib/backend-data/src/test/java/**/{Entity}RepositoryTest.java
     - REST API tests: lib/backend-data/src/test/java/**/{Entity}RestApiTest.java
@@ -70,18 +70,13 @@ instructions: |
     - GraphQL tests: lib/backend-data/src/test/java/**/{Entity}GraphqlTest.java
 
   3. **Implement Liquibase change**
-    Create a new file lib/backend-data/src/main/resources/liquibase/v1/{entity}_{name}.xml.
+    Create a new file {entity}_{name}.xml.
     The file creates the join table `{entity}_{name}` with:
     - An `id` UUID column (not null) referencing the parent entity's primary key.
     - A `{name}` column of the appropriate SQL type (not null).
     - A foreign key constraint `fk_{entity}_{name}_id` from `{entity}_{name}.id` to `{entity}.id`.
     Wrap the change set in a `preCondition` element that checks `tableExists tableName="{entity}_{name}"`.
-    Register the new file in lib/backend-data/src/main/resources/liquibase/changelog.xml
-    by adding
-    ```xml
-    <include file="v1/{entity}_{name}.xml" relativeToChangelogFile="true"/>
-    ```
-    directly after the existing `<include file="v1/{entity}.xml" .../>` line.
+    Include the new file {entity}_{name}.xml in changelog.xml directly after the existing  file= {entity}.xml.
 
   4. **Implement domain entity change**
     In {Entity}.java, add property field with the correct annotations and type.
@@ -91,6 +86,7 @@ instructions: |
     - `verify`
     - `withId`
     Add operations:
+    - `extraJson` (only when requested)
     - `addAll{Name}`
     Keep style consistent with existing entity patterns.
     In {Entity}Test.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
