@@ -40,4 +40,11 @@
                 referencedColumnNames="id"
         />
     </changeSet>
+    <changeSet id="2" author="robert">
+        <addColumn tableName="pet">
+            <column name="sex" type="VARCHAR(32)" defaultValue="M">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

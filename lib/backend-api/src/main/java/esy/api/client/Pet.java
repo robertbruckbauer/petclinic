@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import esy.api.basis.Sex;
 import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaMapper;
 import lombok.Getter;
@@ -49,6 +50,13 @@ public final class Pet extends JsonJpaEntity<Pet> {
     @JsonProperty
     private String species;
 
+    @NotNull
+    @Column(name = "sex")
+    @Getter
+    @JsonProperty
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
+
     @ManyToOne(
             fetch = FetchType.EAGER,
             optional = false
@@ -64,6 +72,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
         this.name = "";
         this.born = LocalDate.of(2000, 1, 1);
         this.species = "";
+        this.sex = Sex.M;
         this.owner = null;
     }
 
@@ -72,6 +81,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
         this.name = "";
         this.born = LocalDate.of(2000, 1, 1);
         this.species = "";
+        this.sex = Sex.M;
         this.owner = null;
     }
 
@@ -91,6 +101,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
         return this.name.equals(that.name) &&
                 this.born.equals(that.born) &&
                 this.species.equals(that.species) &&
+                Objects.equals(this.sex, that.sex) &&
                 Objects.equals(this.owner, that.owner);
     }
 
@@ -116,6 +127,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
         value.name = this.name;
         value.born = this.born;
         value.species = this.species;
+        value.sex = this.sex;
         value.owner = this.owner;
         return value;
     }

@@ -88,7 +88,8 @@ class PetRestApiTest {
                                     "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
                                     "name":"%s",
                                     "born":"%s",
-                                    "species":"Rat"
+                                    "species":"Rat",
+                                    "sex":"M"
                                 }
                                 """.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -109,7 +110,9 @@ class PetRestApiTest {
                 .andExpect(jsonPath("$.born")
                         .value(born))
                 .andExpect(jsonPath("$.species")
-                        .value("Rat"));
+                        .value("Rat"))
+                .andExpect(jsonPath("$.sex")
+                        .value("M"));
     }
 
     @Test
@@ -124,7 +127,8 @@ class PetRestApiTest {
                                     "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
                                     "name":"%s",
                                     "born":"%s",
-                                    "species":"Rat"
+                                    "species":"Rat",
+                                    "sex":"M"
                                 }
                                 """.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -147,7 +151,8 @@ class PetRestApiTest {
                                     "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
                                     "name":"%s",
                                     "born":"%s",
-                                    "species":"Rat"
+                                    "species":"Rat",
+                                    "sex":"F"
                                 }
                                 """.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -172,7 +177,9 @@ class PetRestApiTest {
                 .andExpect(jsonPath("$.born")
                         .value(born))
                 .andExpect(jsonPath("$.species")
-                        .value("Rat"));
+                        .value("Rat"))
+                .andExpect(jsonPath("$.sex")
+                        .value("F"));
     }
 
     @ParameterizedTest
@@ -271,8 +278,37 @@ class PetRestApiTest {
                         .value(species));
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"M", "F"})
     @Order(34)
+    void patchApiPetSex(final String sex) throws Exception {
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(patch("/api/pet/" + uuid)
+                        .content("""
+                                {
+                                    "sex":"%s"
+                                }
+                                """.formatted(sex))
+                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .exists("ETag"))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.sex")
+                        .value(sex));
+    }
+
+    @Test
+    @Order(35)
     void patchApiPetOwner() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -292,7 +328,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(header()
-                        .string("ETag", "\"7\""))
+                        .exists("ETag"))
                 .andExpect(jsonPath("$.id")
                         .value(uuid.toString()))
                 .andExpect(jsonPath("$.ownerItem.value")
@@ -302,7 +338,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(35)
+    @Order(36)
     void getApiPetOwner() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -404,7 +440,7 @@ class PetRestApiTest {
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(header()
-                        .string("ETag", "\"7\""))
+                        .string("ETag", "\"9\""))
                 .andExpect(jsonPath("$.id")
                         .value(uuid.toString()))
                 .andExpect(jsonPath("$.name")

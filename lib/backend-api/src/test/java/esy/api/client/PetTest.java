@@ -1,7 +1,9 @@
 package esy.api.client;
 
+import esy.api.basis.Sex;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Month;
@@ -16,7 +18,8 @@ class PetTest {
                 {
                 	"name":"%s",
                 	"born":"2021-04-22",
-                	"species":"Cat"
+                	"species":"Cat",
+                	"sex":"M"
 				}
 				""".formatted(name));
 	}
@@ -73,6 +76,7 @@ class PetTest {
 		assertEquals(Month.APRIL, value.getBorn().getMonth());
 		assertEquals(22, value.getBorn().getDayOfMonth());
 		assertEquals("Cat", value.getSpecies());
+		assertEquals(Sex.M, value.getSex());
 	}
 
 	@ParameterizedTest
@@ -89,5 +93,20 @@ class PetTest {
 	})
 	void jsonConstraints(final String json) {
 		assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
+	}
+
+	@ParameterizedTest
+	@EnumSource(Sex.class)
+	void jsonSex(final Sex sex) {
+		final var value = Pet.fromJson("""
+                {
+                	"name":"%s",
+                	"born":"2021-04-22",
+                	"species":"Cat",
+                	"sex":"%s"
+				}
+				""".formatted(sex.getText(), sex.name()));
+		assertDoesNotThrow(value::verify);
+		assertEquals(sex, value.getSex());
 	}
 }

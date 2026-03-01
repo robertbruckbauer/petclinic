@@ -1,5 +1,6 @@
 package esy.app.client;
 
+import esy.api.basis.Sex;
 import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.app.EsyGraphqlConfiguration;
@@ -43,7 +44,8 @@ class PetGraphqlTest {
                 {
                     "name":"Tom",
                     "born":"2021-04-22",
-                    "species":"Cat"
+                    "species":"Cat",
+                    "sex":"M"
                 }
                 """)
                 .setOwner(owner);
@@ -53,7 +55,7 @@ class PetGraphqlTest {
                 .thenReturn(List.of(owner));
         final var data = graphQlTester
                 .document("""
-                        {allPet{name owner{name}}}
+                        {allPet{name sex owner{name}}}
                         """)
                 .execute();
         assertNotNull(data);
@@ -61,6 +63,10 @@ class PetGraphqlTest {
                 .hasValue()
                 .entity(String.class)
                 .isEqualTo("Tom");
+        data.path("allPet[0].sex")
+                .hasValue()
+                .entity(Sex.class)
+                .isEqualTo(Sex.M);
         data.path("allPet[0].owner.name")
                 .hasValue()
                 .entity(String.class)
