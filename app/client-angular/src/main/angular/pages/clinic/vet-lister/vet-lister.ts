@@ -95,7 +95,10 @@ export class VetListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const search = { sort: "name,asc", name: this.filterForm.value.criteria! };
+    const search = {
+      sort: "name,asc",
+      name: this.filterForm.value.criteria || "%",
+    };
     const subscription = this.vetService.loadAllVet(search).subscribe({
       next: (allVet) => {
         this.allVet.set(allVet);

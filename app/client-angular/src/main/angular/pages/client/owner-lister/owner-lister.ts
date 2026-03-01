@@ -137,7 +137,10 @@ export class OwnerListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
-    const search = { sort: "name,asc", name: this.filterForm.value.criteria! };
+    const search = {
+      sort: "name,asc",
+      name: this.filterForm.value.criteria || "%",
+    };
     const subscription = this.ownerService.loadAllOwner(search).subscribe({
       next: (allOwner) => {
         this.allOwner.set(allOwner);
