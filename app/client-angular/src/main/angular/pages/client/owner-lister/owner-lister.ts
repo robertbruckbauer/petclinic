@@ -103,6 +103,7 @@ export class OwnerListerComponent implements OnInit {
       name: "",
       born: "",
       species: "",
+      sex: "M",
     };
   });
 

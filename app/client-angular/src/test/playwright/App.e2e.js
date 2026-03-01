@@ -52,7 +52,12 @@ test.describe("Pet", () => {
     const petPage = new PetListerPage(page);
     await petPage.goto();
     await petPage.show(ownerName, []);
-    const petName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
+    const petName = await petPage.createPet(
+      ownerName,
+      "Dog",
+      "M",
+      "2022-03-09"
+    );
     await petPage.show(ownerName, [petName]);
     await petPage.updateBorn(ownerName, petName, "2023-03-09");
     await petPage.deletePet(ownerName, petName);
@@ -79,7 +84,12 @@ test.describe("Visit", () => {
     const ownerName = await ownerPage.createOwner();
     const petPage = new PetListerPage(page);
     await petPage.goto();
-    const petName = await petPage.createPet(ownerName, "Dog", "2022-03-09");
+    const petName = await petPage.createPet(
+      ownerName,
+      "Dog",
+      "M",
+      "2022-03-09"
+    );
     await petPage.createVisit(ownerName, petName, "2025-04-22");
     const visitPage = new VisitListerPage(page);
     await visitPage.goto();

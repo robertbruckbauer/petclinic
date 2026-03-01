@@ -43,7 +43,7 @@ export class PetListerPage {
     );
   }
 
-  async createPet(ownerName, species, born) {
+  async createPet(ownerName, species, sex, born) {
     const petName = "Zzz" + chance.word({ syllables: 1 });
     // Add
     await this.filterOwner(ownerName);
@@ -57,6 +57,11 @@ export class PetListerPage {
     await speciesSelect.selectOption(species);
     await speciesSelect.press("Tab");
     await expect(speciesSelect).toHaveValue(species);
+    // Sex
+    const sexSelect = this.page.locator('[aria-label="Sex"]');
+    await sexSelect.selectOption(sex);
+    await sexSelect.press("Tab");
+    await expect(sexSelect).toHaveValue(sex);
     // Name
     const nameInput = this.page.locator('[aria-label="Name"]');
     await expect(nameInput).toHaveValue("");

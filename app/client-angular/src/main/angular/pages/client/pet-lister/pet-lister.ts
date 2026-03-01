@@ -87,6 +87,7 @@ export class PetListerComponent implements OnInit {
       name: "",
       born: "",
       species: "",
+      sex: "M",
     };
   });
 

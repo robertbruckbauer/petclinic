@@ -42,11 +42,13 @@
   // tag::form[]
   let newPetOwnerItem = $state({} as OwnerItem);
   let newPetSpecies = $state("");
+  let newPetSex = $state("M");
   let newPetName = $state("");
   let newPetBorn = $state("");
   $effect(() => {
     newPetOwnerItem = pet.ownerItem!;
     newPetSpecies = pet.species;
+    newPetSex = pet.sex;
     newPetName = pet.name;
     newPetBorn = pet.born;
   });
@@ -57,6 +59,7 @@
     ...pet,
     owner: "/api/owner/" + newPetOwnerItem.value,
     species: newPetSpecies,
+    sex: newPetSex,
     name: newPetName,
     born: newPetBorn,
   });
@@ -121,6 +124,13 @@
             {speciesEnum.name}
           </option>
         {/each}
+      </select>
+    </fieldset>
+    <fieldset class="fieldset w-full sm:w-1/4">
+      <legend class="fieldset-legend">Sex</legend>
+      <select bind:value={newPetSex} aria-label="Sex" class="select w-full">
+        <option value="M">male</option>
+        <option value="F">female</option>
       </select>
     </fieldset>
     <fieldset class="fieldset w-full sm:w-2/4">

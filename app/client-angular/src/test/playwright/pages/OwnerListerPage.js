@@ -85,7 +85,7 @@ export class OwnerListerPage {
     await visitButton.click();
   }
 
-  async createPet(ownerName, species, born) {
+  async createPet(ownerName, species, sex, born) {
     const petName = "Zzz" + chance.word({ syllables: 1 });
     await this.filterOwner(ownerName);
     const row = this.page
@@ -103,6 +103,11 @@ export class OwnerListerPage {
     await speciesSelect.selectOption(species);
     await speciesSelect.press("Tab");
     await expect(speciesSelect).toHaveValue(species);
+    // Sex
+    const sexSelect = this.page.locator('[aria-label="Sex"]');
+    await sexSelect.selectOption(sex);
+    await sexSelect.press("Tab");
+    await expect(sexSelect).toHaveValue(sex);
     // Name
     const nameInput = this.page.locator('[aria-label="Name"]');
     await expect(nameInput).toHaveValue("");

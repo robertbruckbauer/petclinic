@@ -1,5 +1,6 @@
 package esy.app.client;
 
+import esy.api.basis.Sex;
 import esy.api.client.Owner;
 import esy.api.client.Pet;
 import org.junit.jupiter.api.Tag;
@@ -59,7 +60,8 @@ public class PetRepositoryTest {
             {
                 "name":"%s",
                 "born":"2021-04-22",
-                "species":"Cat"
+                "species":"Cat",
+                "sex":"M"
             }
             """.formatted(name));
     }
@@ -93,6 +95,7 @@ public class PetRepositoryTest {
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));
+        assertEquals(Sex.M, value1.getSex());
     }
 
     @Test
