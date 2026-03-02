@@ -97,11 +97,13 @@ The `equalsHashcodeToString` test verifies equality operations.
 
 The `withId` test verifies cloning.
 
-The `json{Name}` test verifies 
+The `json{Name}` test verifies the happy path, e.g.
 
 - `verify` does not throw an exception
 - correct deserialization from JSON
 - assert property value
+
+Use a parameterized tests if values are distinct.
 
 .Example from Vet entity
 [source,java,options="nowrap"]
