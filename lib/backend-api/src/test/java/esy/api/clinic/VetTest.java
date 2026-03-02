@@ -1,5 +1,6 @@
 package esy.api.clinic;
 
+import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -21,7 +22,7 @@ class VetTest {
 
 	@Test
 	void equalsHashcodeToString() {
-		final var name = "Tom";
+		final var name = "Max Mustermann";
 		final var value = createWithName(name);
 		// Identisches Objekt
 		assertEquals(value, value);
@@ -50,9 +51,23 @@ class VetTest {
 	}
 
 	@Test
+	void writeJson() {
+		final var name = "Max Mustermann";
+		final var value = createWithName(name);
+		final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
+		assertEquals(0, json.at("/version").asLong());
+		assertFalse(json.at("/id").isMissingNode());
+		assertFalse(json.at("/name").isMissingNode());
+	}
+
+	@Test
 	void withId() {
 		final var name = "Max Mustermann";
 		final var value0 = createWithName(name);
+		assertNotNull(value0.getId());
+		assertNotNull(value0.getName());
+		assertNotNull(value0.getAllSkill());
+		assertNotNull(value0.getAllSpecies());
 		final var value1 = value0.withId(value0.getId());
 		assertSame(value0, value1);
 		final var value2 = value0.withId(UUID.randomUUID());
@@ -61,25 +76,32 @@ class VetTest {
 	}
 
 	@Test
-	void json() {
-		final var name = "Max Mustermann";
-		final var value = createWithName(name);
+	void jsonName() {
+		final var name = "Mia Musterfrau";
+		final var value = Vet.fromJson("""
+                        {
+                            "name":"%s"
+                        }
+                        """.formatted(name));
 		assertDoesNotThrow(value::verify);
-		assertNotNull(value.getId());
 		assertEquals(name, value.getName());
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-			"{}",
-			"{\"name\": \"\"}",
-			"{\"name\": \" \"}",
-			"{\"name\": \"\\t\"}"
+			"",
+			" ",
+			"\\t",
+			"\\n"
 	})
-	void jsonConstraints(final String json) {
+	void jsonNameConstraints(final String text) {
+		final var json = """
+                        {
+                            "name":"%s"
+                        }
+                        """.formatted(text);
 		assertThrows(IllegalArgumentException.class, () -> Vet.fromJson(json).verify());
 	}
-
 
 	@Test
 	public void jsonSkill() {

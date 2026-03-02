@@ -1,9 +1,11 @@
 package esy.api.client;
 
+import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,9 +53,25 @@ class OwnerTest {
 	}
 
 	@Test
+	void writeJson() {
+		final var name = "Max Mustermann";
+		final var value = createWithName(name);
+		final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
+		assertEquals(0, json.at("/version").asLong());
+		assertFalse(json.at("/id").isMissingNode());
+		assertFalse(json.at("/name").isMissingNode());
+		assertFalse(json.at("/address").isMissingNode());
+		assertFalse(json.at("/contact").isMissingNode());
+	}
+
+	@Test
 	void withId() {
 		final var name = "Max Mustermann";
 		final var value0 = createWithName(name);
+		assertNotNull(value0.getId());
+		assertNotNull(value0.getName());
+		assertNotNull(value0.getAddress());
+		assertNotNull(value0.getContact());
 		final var value1 = value0.withId(value0.getId());
 		assertSame(value0, value1);
 		final var value2 = value0.withId(UUID.randomUUID());
@@ -62,24 +80,83 @@ class OwnerTest {
 	}
 
 	@Test
-	void json() {
-		final var name = "Max Mustermann";
-		final var value = createWithName(name);
+	void jsonName() {
+		final var name = "Mia Musterfrau";
+		final var value = Owner.fromJson("""
+                        {
+                            "name":"%s",
+                			"address":"Bergweg 1, 5400 Hallein"
+                        }
+                        """.formatted(name));
 		assertDoesNotThrow(value::verify);
-		assertNotNull(value.getId());
 		assertEquals(name, value.getName());
-		assertFalse(value.getAddress().isBlank());
-		assertFalse(value.getContact().isBlank());
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-			"{}",
-			"{\"name\": \"\"}",
-			"{\"name\": \" \"}",
-			"{\"name\": \"\\t\"}"
+			"",
+			" ",
+			"\\t",
+			"\\n"
 	})
-	void jsonConstraints(final String json) {
+	void jsonNameConstraints(final String text) {
+		final var json = """
+                        {
+                            "name":"%s",
+                			"address":"Bergweg 1, 5400 Hallein"
+                        }
+                        """.formatted(text);
 		assertThrows(IllegalArgumentException.class, () -> Owner.fromJson(json).verify());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Bergweg 1",
+			"Bergweg 1, 5400 Hallein",
+			"Bergweg 1, 5400 Hallein, AT"
+	})
+	void jsonAddress(final String address) {
+		final var value = Owner.fromJson("""
+                        {
+                            "name":"Jane Doe",
+                			"address":"%s"
+                        }
+                        """.formatted(address));
+		assertDoesNotThrow(value::verify);
+		assertEquals(address, value.getAddress());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"",
+			" ",
+			"\\t",
+			"\\n"
+	})
+	void jsonAddressConstraints(final String text) {
+		final var json = """
+                        {
+                            "name":"John Doe",
+                			"address":"%s"
+                        }
+                        """.formatted(text);
+		assertThrows(IllegalArgumentException.class, () -> Owner.fromJson(json).verify());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"+43 666 123456",
+			"me@we.com"
+	})
+	void jsonContact(final String contact) {
+		final var value = Owner.fromJson("""
+                        {
+                            "name":"Jane Doe",
+                			"address":"Bergweg 1, 5400 Hallein",
+                			"contact":"%s"
+                        }
+                        """.formatted(contact));
+		assertDoesNotThrow(value::verify);
+		assertEquals(contact, value.getContact());
 	}
 }
