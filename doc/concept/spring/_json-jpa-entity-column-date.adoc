@@ -84,3 +84,75 @@ The `verify` operation may include custom validation logic (e.g., date ranges).
 == Property serialization
 
 `LocalDate` properties are by default part of the JSON structure.
+
+== Tests
+
+Create test data from JSON using `fromJson` method of the entity class.
+The date value is provided as a string literal in `yyyy-MM-dd` format matching `DATE_PATTERN`.
+
+.Example from Pet entity
+[source,java,options="nowrap"]
+----
+Pet createWithName(final String name, final LocalDate born) {
+    return Pet.fromJson("""
+        {
+            "name":"%s",
+            "born":"%s",
+            "species":"Cat",
+            "sex":"M"
+        }
+        """.formatted(name, Pet.DATE_FORMATTER.format(born)));
+}
+----
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.
+
+The `json{Name}` test verifies 
+
+- `verify` does not throw an exception
+- correct deserialization from JSON
+- assert property value
+
+.Example from Pet entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@MethodSource
+void jsonBorn(final LocalDate date) {
+    final var value = Visit.fromJson("""
+        {
+            "date":"%s",
+            "text":"Lorem tempus."
+        }
+        """.formatted(Visit.DATE_FORMATTER.format(date)));
+    assertDoesNotThrow(value::verify);
+    assertEquals(date, value.getDate());
+}
+----
+
+The `json{Name}Constraints` parameterized test verifies constraints, e.g.
+
+- `verify` throws an exception
+- invalid values are rejected
+- missing values are rejected
+
+.Example from Pet entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(strings = {
+        "2022",
+        "2022-04",
+        "2022-04-32"
+})
+void jsonBornConstraints(final String text) {
+    final var json = """
+        {
+            "date":"%s"
+        }
+        """.formatted(text);
+    assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+}
+----

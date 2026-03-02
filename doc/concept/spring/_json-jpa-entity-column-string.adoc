@@ -76,3 +76,73 @@ The `verify` operation may include custom validation logic (e.g., time ranges).
 == Property serialization
 
 `String` properties are by default part of the JSON structure.
+
+== Tests
+
+Create test data from JSON using `fromJson` method of the entity class.
+
+.Example from Vet entity
+[source,java,options="nowrap"]
+----
+Vet createWithName(final String name) {
+    return Vet.fromJson("""
+        {
+            "name":"%s"
+        }
+        """.formatted(name));
+}
+----
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.
+
+The `json{Name}` test verifies 
+
+- `verify` does not throw an exception
+- correct deserialization from JSON
+- assert property value
+
+.Example from Vet entity
+[source,java,options="nowrap"]
+----
+@Test
+void jsonName() {
+    final var name = "Mia Musterfrau";
+    final var value = Vet.fromJson("""
+        {
+            "name":"%s"
+        }
+        """.formatted(name));
+    assertDoesNotThrow(value::verify);
+    assertEquals(name, value.getName());
+}
+----
+
+The `json{Name}Constraints` parameterized test verifies constraints, e.g.
+
+- `verify` throws an exception
+- invalid values are rejected
+- missing values are rejected
+
+Do not create a test if this properties has no contraints and is nullable.
+
+.Example from Vet entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(strings = {
+        "",
+        " ",
+        "\\t",
+        "\\n"
+})
+void jsonNameConstraints(final String text) {
+    final var json = """
+        {
+            "name":"%s"
+        }
+        """.formatted(text);
+    assertThrows(IllegalArgumentException.class, () -> Vet.fromJson(json).verify());
+}
+----

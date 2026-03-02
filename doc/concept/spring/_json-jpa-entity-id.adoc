@@ -33,3 +33,23 @@ The value can also be null.
 <2> The column is marked as NOT NULL and as the primary key.
 
 Generating a primary key with `UUID` has the advantage over generating a `Long` value from an `autoincrement` column or a database sequence in that the key can be generated not only in the database, but also on the server or even on the client if necessary.
+
+== Tests
+
+Create test data from JSON using `fromJson` method of the entity class.
+
+.Example from Vet entity
+[source,java,options="nowrap"]
+----
+Vet createWithName(final String name) {
+    return Vet.fromJson("""
+        {
+            "name":"%s"
+        }
+        """.formatted(name));
+}
+----
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.

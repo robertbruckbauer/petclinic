@@ -37,3 +37,23 @@ The property is part of the base class.
 This ensures that all objects have the same procedure for maintaining integrity.
 
 The property uses the `Long` type and applies the special `@Version` annotation for optimistic locking.
+
+== Tests
+
+Create test data from JSON using `fromJson` method of the entity class.
+
+.Example from Vet entity
+[source,java,options="nowrap"]
+----
+Vet createWithName(final String name) {
+    return Vet.fromJson("""
+        {
+            "name":"%s"
+        }
+        """.formatted(name));
+}
+----
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.

@@ -67,3 +67,72 @@ The `verify` operation may include custom validation logic.
 == Property serialization
 
 `boolean` properties are by default part of the JSON structure.
+
+== Tests
+
+Create test data from JSON using `fromJson` method of the entity class.
+
+.Example from Visit entity
+[source,java,options="nowrap"]
+----
+Visit createWithText(final String text) {
+    return Visit.fromJson("""
+        {
+            "date":"2021-04-22",
+            "text":"%s"
+        }
+        """.formatted(text))
+        .setPet(Pet.fromJson(...))
+        .setVet(Vet.fromJson(...))
+}
+----
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.
+
+The `json{Name}` parameterized test verifies 
+
+- `verify` does not throw an exception
+- correct deserialization from JSON
+- assert property value
+
+.Example from Visit entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(booleans =  {true, false})
+void jsonBillable(final boolean billable) {
+    final var value = Visit.fromJson("""
+        {
+            "billable":"%b"
+        }
+        """.formatted(billable));
+    assertDoesNotThrow(value::verify);
+    assertEquals(billable, value.isBillable());
+}
+----
+
+The `json{Name}Constraints` parameterized test verifies constraints, e.g.
+
+- `verify` throws an exception
+- invalid values are rejected
+- missing values are rejected
+
+.Example from Vet entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(strings = {
+        "JA",
+        "NEIN",
+})
+void jsonBillableConstraints(final String text) {
+    final var json = """
+        {
+            "billable":"%s"
+        }
+        """.formatted(text);
+    assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+}
+----

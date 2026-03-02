@@ -79,3 +79,71 @@ The `verify` operation may include custom validation logic (e.g., time ranges).
 == Property serialization
 
 `Long` properties are by default part of the JSON structure.
+
+== Tests
+
+Create test data from JSON using `fromJson` method of the entity class.
+
+.Example from Enum entity
+[source,java,options="nowrap"]
+----
+Enum createWithName(final String name) {
+    return Enum.fromJson("""
+        {
+            "art":"QUELLE",
+            "name":"%1$s",
+            "code":"2",
+            "text":"A %1$s"
+        }
+        """.formatted(name));
+}
+----
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.
+
+The `json{Name}` test verifies 
+
+- `verify` does not throw an exception
+- correct deserialization from JSON
+- assert property value
+
+.Example from Enum entity
+[source,java,options="nowrap"]
+----
+@Test
+void jsonCode() {
+    final var name = "JIRA";
+    final var value = createWithName(name);
+    assertDoesNotThrow(value::verify);
+    assertEquals(2L, value.getCode());
+}
+----
+
+The `json{Name}Constraints` parameterized test verifies constraints, e.g.
+
+- `verify` throws an exception
+- invalid values are rejected
+- missing values are rejected
+
+Do not create a test if this properties has no contraints and is nullable.
+
+.Example from Enum entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(strings = {
+        "",
+        "-1"
+})
+void jsonCodeConstraints(final String text) {
+    final var json = """
+                    {
+                        "code":"%s"
+                    }
+                    """.formatted(text);
+    assertThrows(IllegalArgumentException.class, () -> Enum.fromJson(json).verify());
+}
+----
+

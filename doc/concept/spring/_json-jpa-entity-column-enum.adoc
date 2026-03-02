@@ -79,3 +79,77 @@ The `verify` operation may include custom validation logic when required by the 
 
 Enum properties are by default part of the JSON structure.
 Values are serialized as the enum name string.
+
+== Tests
+
+Create test data from JSON using `fromJson` method of the entity class.
+
+.Example from Pet entity
+[source,java,options="nowrap"]
+----
+Pet createWithName(final String name, final LocalDate born) {
+    return Pet.fromJson("""
+        {
+            "name":"%s",
+            "born":"%s",
+            "species":"Cat",
+            "sex":"M"
+        }
+        """.formatted(name, Pet.DATE_FORMATTER.format(born)));
+}
+----
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.
+
+The `json{Name}` parameterized test verifies 
+
+- `verify` does not throw an exception
+- correct deserialization from JSON
+- assert property value
+
+.Example from Pet entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@EnumSource(Sex.class)
+void jsonSex(final Sex sex) {
+    final var value = Pet.fromJson("""
+            {
+                "name":"%s",
+                "born":"2021-04-22",
+                "species":"Cat",
+                "sex":"%s"
+            }
+            """.formatted(sex.getText(), sex.name()));
+    assertDoesNotThrow(value::verify);
+    assertEquals(sex, value.getSex());
+}
+----
+
+The `json{Name}Constraints` parameterized test verifies constraints, e.g.
+
+- `verify` throws an exception
+- invalid values are rejected
+- missing values are rejected
+
+.Example from Pet entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(strings = {
+        "2022",
+        "2022-04",
+        "2022-04-32"
+})
+void jsonBornConstraints(final String text) {
+    final var json = """
+        {
+            "date":"%s"
+        }
+        """.formatted(text);
+    assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+}
+----
+
