@@ -40,19 +40,9 @@ The property uses the `Long` type and applies the special `@Version` annotation 
 
 == Tests
 
-Create test data from JSON using `fromJson` method of the entity class.
+=== `{Entity}Test`
 
-.Example from Vet entity
-[source,java,options="nowrap"]
-----
-Vet createWithName(final String name) {
-    return Vet.fromJson("""
-        {
-            "name":"%s"
-        }
-        """.formatted(name));
-}
-----
+Create test data from JSON using `fromJson` method of entity classes.
 
 The `equalsHashcodeToString` test verifies equality operations.
 

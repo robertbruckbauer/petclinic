@@ -82,22 +82,9 @@ The `verify` operation may include custom validation logic (e.g., time ranges).
 
 == Tests
 
-Create test data from JSON using `fromJson` method of the entity class.
+=== `{Entity}Test`
 
-.Example from Enum entity
-[source,java,options="nowrap"]
-----
-Enum createWithName(final String name) {
-    return Enum.fromJson("""
-        {
-            "art":"QUELLE",
-            "name":"%1$s",
-            "code":"2",
-            "text":"A %1$s"
-        }
-        """.formatted(name));
-}
-----
+Create test data from JSON using `fromJson` method of entity classes.
 
 The `equalsHashcodeToString` test verifies equality operations.
 

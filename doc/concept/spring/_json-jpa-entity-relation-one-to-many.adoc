@@ -95,3 +95,13 @@ private Map<String, Object> extraJson() {
 
 <1> The `@JsonAnyGetter` annotation includes these values in the JSON output without nesting.
 <2> All child entities are converted to a simple state transfer object.
+
+== Tests
+
+=== `{Entity}Test`
+
+Create test data from JSON using `fromJson` method of entity classes.
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.

@@ -18,14 +18,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class PetTest {
 
     Pet createWithName(final String name, final LocalDate born) {
-        return Pet.fromJson("""
+        final var owner = Owner.fromJson("""
                 {
-                	"name":"%s",
-                	"born":"%s",
-                	"species":"Cat",
-                	"sex":"M"
+                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                    "name":"Max Mustermann",
+                    "address":"Bergweg 1, 5400 Hallein"
                 }
-                """.formatted(name, Pet.DATE_FORMATTER.format(born)));
+                """);
+        return Pet.fromJson("""
+                        {
+                        	"name":"%s",
+                        	"born":"%s",
+                        	"species":"Cat",
+                        	"sex":"M"
+                        }
+                        """.formatted(name, Pet.DATE_FORMATTER.format(born)))
+                .setOwner(owner);
     }
 
     @Test
@@ -69,6 +77,7 @@ class PetTest {
         assertFalse(json.at("/born").isMissingNode());
         assertFalse(json.at("/species").isMissingNode());
         assertFalse(json.at("/sex").isMissingNode());
+        assertTrue(json.at("/owner").isMissingNode());
     }
 
     @Test
@@ -80,6 +89,7 @@ class PetTest {
         assertNotNull(value0.getBorn());
         assertNotNull(value0.getSpecies());
         assertNotNull(value0.getSex());
+        assertNotNull(value0.getOwner());
         final var value1 = value0.withId(value0.getId());
         assertSame(value0, value1);
         final var value2 = value0.withId(UUID.randomUUID());

@@ -1,5 +1,6 @@
 package esy.api.clinic;
 
+import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.Tag;
@@ -19,6 +20,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class VisitTest {
 
     Visit createWithText(final String text) {
+        final var owner = Owner.fromJson("""
+                {
+                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                    "name":"John Cleese"
+                }""");
+        final var pet = Pet.fromJson("""
+                {
+                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                    "name":"Tom",
+                    "born":"2020-12-24",
+                    "species":"Cat"
+                }""");
+        final var vet = Vet.fromJson("""
+                {
+                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                    "name":"John Cleese"
+                }""");
         return Visit.fromJson("""
                         {
                             "date":"2021-04-22",
@@ -26,18 +44,8 @@ class VisitTest {
                             "text":"%s"
                         }
                         """.formatted(text))
-                .setPet(Pet.fromJson("""
-                        {
-                            "id":"deadbeef-dead-beef-dead-deadbeefdead",
-                            "name":"Tom",
-                            "born":"2020-12-24",
-                            "species":"Cat"
-                        }"""))
-                .setVet(Vet.fromJson("""
-                        {
-                            "id":"deadbeef-dead-beef-dead-deadbeefdead",
-                            "name":"John Cleese"
-                        }"""));
+                .setPet(pet.setOwner(owner))
+                .setVet(vet);
     }
 
     @Test

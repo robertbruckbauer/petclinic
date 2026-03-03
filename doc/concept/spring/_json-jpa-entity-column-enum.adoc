@@ -82,22 +82,9 @@ Values are serialized as the enum name string.
 
 == Tests
 
-Create test data from JSON using `fromJson` method of the entity class.
+=== `{Entity}Test`
 
-.Example from Pet entity
-[source,java,options="nowrap"]
-----
-Pet createWithName(final String name, final LocalDate born) {
-    return Pet.fromJson("""
-        {
-            "name":"%s",
-            "born":"%s",
-            "species":"Cat",
-            "sex":"M"
-        }
-        """.formatted(name, Pet.DATE_FORMATTER.format(born)));
-}
-----
+Create test data from JSON using `fromJson` method of entity classes.
 
 The `equalsHashcodeToString` test verifies equality operations.
 
@@ -116,13 +103,13 @@ The `json{Name}` parameterized test verifies the happy path, e.g.
 @EnumSource(Sex.class)
 void jsonSex(final Sex sex) {
     final var value = Pet.fromJson("""
-            {
-                "name":"%s",
-                "born":"2021-04-22",
-                "species":"Cat",
-                "sex":"%s"
-            }
-            """.formatted(sex.getText(), sex.name()));
+        {
+            "name":"Odi",
+            "born":"2007-03-09",
+            "species":"Dog",
+            "sex":"%s"
+        }
+        """.formatted(sex.name()));
     assertDoesNotThrow(value::verify);
     assertEquals(sex, value.getSex());
 }
@@ -139,17 +126,19 @@ The `json{Name}Constraints` parameterized test verifies constraints, e.g.
 ----
 @ParameterizedTest
 @ValueSource(strings = {
-        "2022",
-        "2022-04",
-        "2022-04-32"
+        "",
+        "X"
 })
-void jsonBornConstraints(final String text) {
+void jsonSexConstraints(final String text) {
     final var json = """
         {
-            "date":"%s"
+            "name":"Odi",
+            "born":"2007-03-09",
+            "species":"Dog",
+            "sex":"%s"
         }
         """.formatted(text);
-    assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+    assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
 }
 ----
 

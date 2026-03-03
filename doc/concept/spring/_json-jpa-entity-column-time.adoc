@@ -85,23 +85,10 @@ The `verify` operation may include custom validation logic (e.g., time ranges).
 
 == Tests
 
-Create test data from JSON using `fromJson` method of the entity class.
-The date value is provided as a string literal in `HH:mm` format matching `TIME_PATTERN`.
+=== `{Entity}Test`
 
-.Example from Visit entity
-[source,java,options="nowrap"]
-----
-Visit createWithText(final String text) {
-    return Visit.fromJson("""
-        {
-            "date":"2021-04-22",
-            "text":"%s"
-        }
-        """.formatted(text))
-        .setPet(Pet.fromJson(...))
-        .setVet(Vet.fromJson(...))
-}
-----
+Create test data from JSON using `fromJson` method of entity classes.
+The date value is provided as a string literal in `HH:mm` format matching `TIME_PATTERN`.
 
 The `equalsHashcodeToString` test verifies equality operations.
 
