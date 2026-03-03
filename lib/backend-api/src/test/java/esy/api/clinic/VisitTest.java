@@ -105,6 +105,7 @@ class VisitTest {
         final var text = "Lorem Ipsum.";
         final var value = Visit.fromJson("""
                         {
+                            "date":"2021-04-22",
                             "text":"%s"
                         }
                         """.formatted(text));
@@ -117,6 +118,8 @@ class VisitTest {
     void jsonBillable(final boolean billable) {
         final var value = Visit.fromJson("""
                         {
+                            "date":"2021-04-22",
+                            "text":"Lorem Ipsum.",
                             "billable":"%b"
                         }
                         """.formatted(billable));
@@ -132,6 +135,8 @@ class VisitTest {
     void jsonBillableConstraints(final String text) {
         final var json = """
                         {
+                            "date":"2021-04-22",
+                            "text":"Lorem Ipsum.",
                             "billable":"%s"
                         }
                         """.formatted(text);
@@ -151,7 +156,8 @@ class VisitTest {
     void jsonDate(final LocalDate date) {
         final var value = Visit.fromJson("""
                         {
-                            "date":"%s"
+                            "date":"%s",
+                            "text":"Lorem Ipsum."
                         }
                         """.formatted(Visit.DATE_FORMATTER.format(date)));
         assertDoesNotThrow(value::verify);
@@ -167,7 +173,8 @@ class VisitTest {
     void jsonDateConstraints(final String text) {
         final var json = """
                         {
-                            "date":"%s"
+                            "date":"%s",
+                            "text":"Lorem Ipsum."
                         }
                         """.formatted(text);
         assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
@@ -175,7 +182,7 @@ class VisitTest {
 
     static Stream<LocalTime> jsonTime() {
         return Stream.of(
-                LocalTime.of(00, 00, 00),
+                LocalTime.of(0, 0, 0),
                 LocalTime.of(13, 45, 37),
                 LocalTime.of(23, 59, 59)
         );
@@ -187,7 +194,8 @@ class VisitTest {
         final var value = Visit.fromJson("""
                         {
                             "date":"2021-04-22",
-                            "time":"%s"
+                            "time":"%s",
+                            "text":"Lorem Ipsum."
                         }
                         """.formatted(Visit.TIME_FORMATTER.format(time)));
         assertDoesNotThrow(value::verify);
@@ -206,7 +214,8 @@ class VisitTest {
         final var json = """
                         {
                             "date":"2021-04-22",
-                            "time":"%s"
+                            "time":"%s",
+                            "text":"Lorem Ipsum."
                         }
                         """.formatted(text);
         assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());

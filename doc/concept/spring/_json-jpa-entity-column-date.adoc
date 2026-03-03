@@ -123,8 +123,7 @@ The `json{Name}` parameterized test verifies the happy path, e.g.
 void jsonBorn(final LocalDate date) {
     final var value = Visit.fromJson("""
         {
-            "date":"%s",
-            "text":"Lorem tempus."
+            "date":"%s"
         }
         """.formatted(Visit.DATE_FORMATTER.format(date)));
     assertDoesNotThrow(value::verify);

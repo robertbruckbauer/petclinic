@@ -112,7 +112,10 @@ class PetTest {
     void jsonNameConstraints(final String text) {
         final var json = """
                         {
-                            "name":"%s"
+                            "name":"%s",
+                            "born":"2007-03-09",
+                            "species":"Cat",
+                            "sex":"M"
                         }
                         """.formatted(text);
         assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
@@ -131,8 +134,10 @@ class PetTest {
     void jsonBorn(final LocalDate date) {
         final var value = Visit.fromJson("""
                         {
+                            "name":"Tom",
                             "date":"%s",
-                            "text":"Lorem tempus."
+                            "species":"Cat",
+                            "sex":"M"
                         }
                         """.formatted(Visit.DATE_FORMATTER.format(date)));
         assertDoesNotThrow(value::verify);
@@ -148,7 +153,10 @@ class PetTest {
     void jsonBornConstraints(final String text) {
         final var json = """
                         {
-                            "date":"%s"
+                            "name":"Tom",
+                            "date":"%s",
+                            "species":"Cat",
+                            "sex":"M"
                         }
                         """.formatted(text);
         assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
@@ -179,7 +187,10 @@ class PetTest {
     void jsonSpeciesConstraints(final String text) {
         final var json = """
                         {
-                            "species":"%s"
+                            "name":"Jerry",
+                            "born":"2007-03-09",
+                            "species":"%s",
+                            "sex":"M"
                         }
                         """.formatted(text);
         assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
@@ -189,13 +200,13 @@ class PetTest {
     @EnumSource(Sex.class)
     void jsonSex(final Sex sex) {
         final var value = Pet.fromJson("""
-                {
-                    "name":"%s",
-                    "born":"2021-04-22",
-                    "species":"Cat",
-                    "sex":"%s"
-                }
-                """.formatted(sex.getText(), sex.name()));
+                        {
+                            "name":"Odi",
+                            "born":"2007-03-09",
+                            "species":"Dog",
+                            "sex":"%s"
+                        }
+                        """.formatted(sex.name()));
         assertDoesNotThrow(value::verify);
         assertEquals(sex, value.getSex());
     }
@@ -208,6 +219,9 @@ class PetTest {
     void jsonSexConstraints(final String text) {
         final var json = """
                         {
+                            "name":"Odi",
+                            "born":"2007-03-09",
+                            "species":"Dog",
                             "sex":"%s"
                         }
                         """.formatted(text);
