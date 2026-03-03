@@ -1,6 +1,6 @@
 = Column for type `String`
 
-== Default Implementation
+== Default implementation
 
 .Entity
 [source,java,options="nowrap"]
@@ -77,9 +77,7 @@ The `verify` operation may include custom validation logic (e.g., time ranges).
 
 `String` properties are by default part of the JSON structure.
 
-== Tests
-
-=== `{Entity}Test`
+== `<Entity>Test` approach
 
 Create test data from JSON using `fromJson` method of entity classes.
 
@@ -87,7 +85,7 @@ The `equalsHashcodeToString` test verifies equality operations.
 
 The `withId` test verifies cloning.
 
-The `json{Name}` test verifies the happy path, e.g.
+The `json<Name>` test verifies the happy path, e.g.
 
 - `verify` does not throw an exception
 - correct deserialization from JSON
@@ -111,7 +109,7 @@ void jsonName() {
 }
 ----
 
-The `json{Name}Constraints` parameterized test verifies constraints, e.g.
+The `json<Name>Constraints` parameterized test verifies constraints, e.g.
 
 - `verify` throws an exception
 - invalid values are rejected
@@ -139,26 +137,49 @@ void jsonNameConstraints(final String text) {
 }
 ----
 
-=== `{Entity}RepositoryTest`
-
-Assert property value in `save{Entity}` test.
+== `<Entity>RepositoryTest` approach
 
 .Example pseudo code
 [source,text,options="nowrap"]
 ----
 @Test
-void save{Entity}() {
+void save<Entity>() {
     final var value0 = create...(...);
     assertFalse(value0.isPersisted());
     assertEquals(0L, value0.getVersion());
     assertNotNull(value0.getId());
-    assertNotNull(value0.get{Name}());
+    assertNotNull(value0.get<Name>());
 
-    final var value1 = {entity}Repository.save(value0);
+    final var value1 = <entity>Repository.save(value0);
     assertNotNull(value1); 
     assertNotSame(value0, value1); 
     assertTrue(value1.isPersisted());
     assertEquals(0L, value1.getVersion());
     assertTrue(value1.isEqual(value0));
+}
+----
+
+== `<Entity>GraphqlTest` approach
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void queryAll<Entity>() {
+    final var value = <Entity>.fromJson(...);
+    when(<entity>Repository.findAll())
+            .thenReturn(List.of(value));
+    final var data = graphQlTester
+            .document("""
+                    {all<Entity>{<name>}}
+                    """)
+            .execute();
+    assertNotNull(data);
+    data.path("all<Entity>[0].<name>")
+            .hasValue()
+            .entity(<Type>.class)
+            .isEqualTo(...);
+    verify(<entity>Repository).findAll();
+    verifyNoMoreInteractions(<entity>Repository);
 }
 ----

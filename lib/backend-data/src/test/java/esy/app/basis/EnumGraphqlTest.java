@@ -13,7 +13,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -54,13 +53,10 @@ class EnumGraphqlTest {
                         """.formatted(art))
                 .execute();
         assertNotNull(data);
-        final var allName = data.path("allEnum[*].name")
+        data.path("allEnum[*].name")
                 .hasValue()
                 .entityList(String.class)
-                .get();
-        assertEquals(2, allName.size());
-        assertEquals("Cat", allName.get(0));
-        assertEquals("Dog", allName.get(1));
+                .containsExactly("Cat", "Dog");
         verify(enumRepository).findAll(art);
         verifyNoMoreInteractions(enumRepository);
     }

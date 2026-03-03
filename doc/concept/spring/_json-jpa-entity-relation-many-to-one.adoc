@@ -1,6 +1,6 @@
 = Relation of kind `ManyToOne`
 
-== Default Implementation
+== Default implementation
 
 .Entity - Required Relationship
 [source,java,options="nowrap"]
@@ -128,9 +128,7 @@ private Map<String, Object> extraJson() {
 <1> The `@JsonAnyGetter` annotation includes these values in the JSON output without nesting.
 <2> The parent entity is converted to simple state transfer object.
 
-== Tests
-
-=== `{Entity}Test`
+== `<Entity>Test` approach
 
 Create test data from JSON using `fromJson` method of entity classes.
 
@@ -138,26 +136,24 @@ The `equalsHashcodeToString` test verifies equality operations.
 
 The `withId` test verifies cloning.
 
-=== `{Entity}RepositoryTest`
-
-Assert relation value in `save{Entity}` test.
+== `<Entity>RepositoryTest` approach
 
 .Example pseudo code
 [source,text,options="nowrap"]
 ----
 @Test
-void save{Entity}() {
+void save<Entity>() {
     final var value0 = create...(...); <1>
     assertFalse(value0.isPersisted());
     assertEquals(0L, value0.getVersion());
-    assertNull(value0.get{Name}()); <2>
+    assertNull(value0.get<Name>()); <2>
 
-    final var value1 = {entity}Repository.save(value0.set{Name}(...)); <3>
+    final var value1 = <entity>Repository.save(value0.set<Name>(...)); <3>
     assertNotNull(value1); 
     assertNotSame(value0, value1); 
     assertTrue(value1.isPersisted());
     assertEquals(0L, value1.getVersion());
-    assertNotNull(value1.get{Name}()); <4>
+    assertNotNull(value1.get<Name>()); <4>
 }
 ----
 
@@ -165,3 +161,33 @@ void save{Entity}() {
 <2> Assert relation to be null.
 <3> Update relation and persist the instance.
 <4> Assert relation not to be null.
+
+== `<Entity>GraphqlTest` approach
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void queryAll<Entity>() {
+    final var value = <Entity>.fromJson(...);
+    when(<entity>Repository.findAll())
+            .thenReturn(List.of(value));
+    final var owner = Owner.fromJson(...);
+    when(ownerRepository.findAllById(any()))
+            .thenReturn(List.of(owner));
+    final var data = graphQlTester
+            .document("""
+                    {all<Entity>{owner(id)}}
+                    """)
+            .execute();
+    assertNotNull(data);
+    data.path("all<Entity>[0].owner.id")
+            .hasValue()
+            .entity(UUID.class)
+            .isEqualTo(owner.getId());
+    verify(<entity>Repository).findAll();
+    verifyNoMoreInteractions(<entity>Repository);
+    verify(ownerRepository).findAllById(any());
+    verifyNoMoreInteractions(ownerRepository);
+}
+----
