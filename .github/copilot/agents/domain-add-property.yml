@@ -60,13 +60,16 @@ instructions: |
 
   2. **Locate implementation files**
     Analyze and update implementation files:
-    - Liquibase file: lib/backend-data/src/main/resources/liquibase/v1/{entity}.xml
-    - Entity class: lib/backend-api/src/main/java/**/{Entity}.java
-    - Entity tests: lib/backend-api/src/test/java/**/{Entity}Test.java
-    - Repository tests: lib/backend-data/src/test/java/**/{Entity}RepositoryTest.java
-    - REST API tests: lib/backend-data/src/test/java/**/{Entity}RestApiTest.java
-    - GraphQL schema: lib/backend-data/src/main/resources/graphql/{entity}.gqls
-    - GraphQL tests: lib/backend-data/src/test/java/**/{Entity}GraphqlTest.java
+    - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
+    - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
+    - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**/{Entity}Test.java
+    - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
+    - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
+    - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
+    - **GraphQL schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql
+    - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
+    - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
+    - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
 
   3. **Implement Liquibase change**
     In {entity}.xml, create a new change set without any preconditions.
@@ -89,7 +92,7 @@ instructions: |
     In {Entity}RepositoryTest.java, add assert statements for new property in existing test cases.
     Keep style consistent with existing test cases.
       
-  5. **Implement REST layer change**
+  5. **Implement REST endpoints change**
     Ensure property is included in JSON payloads of POST|PUT|PATCH|GET|DELETE operations using entity serialization conventions.
     In {Entity}RestApiTest.java, add assert statements for new property in existing test cases.
 

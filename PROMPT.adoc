@@ -1,5 +1,16 @@
 = AI-driven development and maintenance
 
+== Sanity Check of the domain model
+
+.Prompt
+----
+@copilot check domain entities
+----
+
+The agent reviews implementation files for all domain entities and ensures REST endpoints and GraphQL operations are up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
+
+You may reduce the scope to changes files of a pull request.
+
 == Sanity Check of REST API documentation
 
 .Prompt
@@ -9,12 +20,7 @@
 
 The agent reviews implementation files for all REST API endpoints and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
-.Prompt
-----
-@copilot check rest api documentation for PR
-----
-
-The agent reviews implementation files changed in a PR and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
+You may reduce the scope to changes files of a pull request.
 
 == Create new REST API documentation
 
@@ -35,12 +41,7 @@ Replace `owner` with the name of the main entity.
 
 The agent reviews implementation files for all GraphQL API operations and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
-.Prompt
-----
-@copilot check graphql api documentation for PR
-----
-
-The agent reviews implementation files changed in a PR and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
+You may reduce the scope to changes files of a pull request.
 
 == Create new GraphQL API documentation
 

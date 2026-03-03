@@ -10,13 +10,7 @@ It provides standard CRUD operations, partial updates via PATCH, and advanced qu
 
 === Visit
 
-Each visit represents a veterinary treatment for a pet.
-The treatment `date` is required.
-The treatment `time` is optional because it only becomes definitive once treatment begins and may therefore be omitted when the visit is created.
-The diagnosis `text` is optional because it is only written at the end of the treatment.
-The `billable` flag indicates whether the visit is subject to billing and defaults to `false`.
-The `pet` relation is optional because visits can be created as placeholders for veterinarians on duty.
-The `vet` relation is optional because the veterinarian on duty is not always known at the time the visit is created.
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.adoc[]
 
 The liquibase script defines the database table.
 
@@ -28,12 +22,6 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/visit.xml
 
 The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 
-The vet relationship is optional.
-When a visit has no vet assigned, it may not be clear which vet is on duty at the time the visit is created.
-
-The pet relationship is optional.
-When a visit has no pet assigned, it serves as a placeholder for a vet's availability on that date.
-
 .Entity
 [source,java,options="nowrap"]
 ----
@@ -41,6 +29,31 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[in
 ----
 
 No simplified representation of a _Visit_ exists.
+However, visit responses include several item objects derived from related entities.
+
+The item class is a simplified representation of an _Owner_ for item selection purposes.
+
+.OwnerItem
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
+----
+
+The item class is a simplified representation of a _Pet_ for item selection purposes.
+
+.PetItem
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
+----
+
+The item class is a simplified representation of a _Vet_ for item selection purposes.
+
+.VetItem
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/VetItem.java[indent=0,tags=properties]
+----
 
 == Operations
 

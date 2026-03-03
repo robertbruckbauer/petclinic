@@ -10,11 +10,7 @@ It provides standard CRUD operations and a search endpoint that returns items.
 
 === Owner
 
-Each owner represents a pet clinic client who can own multiple pets.
-The `name` attribute is required and unique.
-The `address` attribute is required.
-The `contact` attribute is optional.
-The `allPet` relation may be empty.
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.adoc[]
 
 The liquibase script defines the database table.
 
@@ -38,6 +34,14 @@ The item class is a simplified representation of an _Owner_ for item selection p
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
+----
+
+The item class is a simplified representation of a _Pet_ for item selection purposes.
+
+.PetItem
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
 ----
 
 == Operations
