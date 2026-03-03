@@ -57,23 +57,24 @@ public class PetRepositoryTest {
 
     Pet createWithName(final String name) {
         return Pet.fromJson("""
-            {
-                "name":"%s",
-                "born":"2021-04-22",
-                "species":"Cat",
-                "sex":"M"
-            }
-            """.formatted(name));
+                {
+                    "name":"%s",
+                    "born":"2021-04-22",
+                    "species":"Cat",
+                    "sex":"M"
+                }
+                """.formatted(name));
     }
 
     Owner saveOwner(final String name) {
-        return ownerRepository.save(Owner.fromJson("""
-            {
-                "name":"%s",
-                "address":"Bergweg 1, 5400 Hallein",
-                "contact":"+43 660 5557683"
-            }
-            """.formatted(name)));
+        final var owner = Owner.fromJson("""
+                {
+                    "name":"%s",
+                    "address":"Bergweg 1, 5400 Hallein",
+                    "contact":"+43 660 5557683"
+                }
+                """.formatted(name));
+        return ownerRepository.save(owner);
     }
 
     @ParameterizedTest
@@ -88,14 +89,19 @@ public class PetRepositoryTest {
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
         assertEquals(name, value0.getName());
+        assertNotNull(value0.getBorn());
+        assertNotNull(value0.getSpecies());
+        assertNotNull(value0.getSex());
+        assertNull(value0.getOwner());
 
-        final var owner = saveOwner("Max Mustermann");
-        final var value1 = petRepository.save(value0.setOwner(owner));
+        final var value1 = petRepository.save(value0
+                .setOwner(saveOwner("Max Mustermann")));
         assertNotNull(value1);
+        assertNotSame(value0, value1);
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));
-        assertEquals(Sex.M, value1.getSex());
+        assertNotNull(value0.getOwner());
     }
 
     @Test

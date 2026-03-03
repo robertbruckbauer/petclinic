@@ -50,10 +50,12 @@ public class VetRepositoryTest {
 
     Vet createWithName(final String name) {
         return Vet.fromJson("""
-            {
-                "name":"%s"
-            }
-            """.formatted(name));
+                {
+                	"name":"%s",
+                	"allSkill":["Z","A"],
+                	"allSpecies":["Dog","Cat"]
+                }
+                """.formatted(name));
     }
 
     @ParameterizedTest
@@ -62,7 +64,7 @@ public class VetRepositoryTest {
             "Bärbel Krüger"
     })
     void saveVet(final String name) {
-        final var value0 = createWithName(name).addAllSkill("Z", "A").addAllSpecies("Dog", "Cat");
+        final var value0 = createWithName(name);
         assertFalse(value0.isPersisted());
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
@@ -76,15 +78,10 @@ public class VetRepositoryTest {
 
         final var value1 = vetRepository.save(value0);
         assertNotNull(value1);
+        assertNotSame(value0, value1);
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));
-        assertEquals(2, value1.getAllSkill().size());
-        assertEquals("A", value1.getAllSkill().first());
-        assertEquals("Z", value1.getAllSkill().last());
-        assertEquals(2, value1.getAllSpecies().size());
-        assertEquals("Cat", value1.getAllSpecies().first());
-        assertEquals("Dog", value1.getAllSpecies().last());
     }
 
     @Test

@@ -1,6 +1,11 @@
 package esy.app.clinic;
 
+import esy.api.client.Owner;
+import esy.api.client.Pet;
+import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
+import esy.app.client.OwnerRepository;
+import esy.app.client.PetRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,6 +42,15 @@ public class VisitRepositoryTest {
     private TransactionTemplate transactionTemplate;
 
     @Autowired
+    private OwnerRepository ownerRepository;
+
+    @Autowired
+    private PetRepository petRepository;
+
+    @Autowired
+    private VetRepository vetRepository;
+
+    @Autowired
     private VisitRepository visitRepository;
 
     @Test
@@ -58,6 +72,34 @@ public class VisitRepositoryTest {
             """.formatted(text));
     }
 
+    Pet savePet(final String name) {
+        final var owner = Owner.fromJson("""
+                {
+                    "name":"Max Mustermann",
+                    "address":"Bergweg 1, 5400 Hallein",
+                    "contact":"+43 660 5557683"
+                }
+                """);
+        final var pet = Pet.fromJson("""
+                {
+                    "name":"%s",
+                    "born":"2007-03-09",
+                    "species":"Cat",
+                    "sex":"M"
+                }
+                """.formatted(name));
+        return petRepository.save(pet.setOwner(ownerRepository.save(owner)));
+    }
+
+    Vet saveVet(final String name) {
+        final var vet = Vet.fromJson("""
+                {
+                    "name":"%s"
+                }
+                """.formatted(name));
+        return vetRepository.save(vet);
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {
             "Tschüss und schöne Grüße!"
@@ -68,10 +110,45 @@ public class VisitRepositoryTest {
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
         assertEquals(text, value0.getText());
+        assertNotNull(value0.getDate());
+        assertNotNull(value0.getTime());
         assertFalse(value0.isBillable());
+        assertNull(value0.getPet());
+        assertNull(value0.getVet());
 
-        final var value1 = visitRepository.save(value0);
+        final var value1 = visitRepository.save(value0
+                .setPet(savePet("Tom"))
+                .setVet(saveVet("Dr. Doolittle")));
         assertNotNull(value1);
+        assertNotSame(value0, value1);
+        assertTrue(value1.isPersisted());
+        assertEquals(0L, value1.getVersion());
+        assertTrue(value1.isEqual(value0));
+        assertNotNull(value1.getPet());
+        assertNotNull(value1.getVet());
+    }
+
+    @Test
+    void saveVisitWithPetOnly() {
+        final var value0 = createWithText("Pet only");
+        final var value1 = visitRepository.save(value0
+                .setPet(savePet("Tom")));
+        assertNotNull(value1);
+        assertNotNull(value1.getPet());
+        assertNull(value1.getVet());
+        assertTrue(value1.isPersisted());
+        assertEquals(0L, value1.getVersion());
+        assertTrue(value1.isEqual(value0));
+    }
+
+    @Test
+    void saveVisitWithVetOnly() {
+        final var value0 = createWithText("Vet only");
+        final var value1 = visitRepository.save(value0
+                .setVet(saveVet("Dr. House")));
+        assertNotNull(value1);
+        assertNull(value1.getPet());
+        assertNotNull(value1.getVet());
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));

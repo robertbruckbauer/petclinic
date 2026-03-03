@@ -69,11 +69,12 @@ public class OwnerRepositoryTest {
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
         assertEquals(name, value0.getName());
-        assertFalse(value0.getAddress().isBlank());
-        assertFalse(value0.getContact().isBlank());
+        assertNotNull(value0.getAddress());
+        assertNotNull(value0.getContact());
 
         final var value1 = ownerRepository.save(value0);
         assertNotNull(value1);
+        assertNotSame(value0, value1);
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));

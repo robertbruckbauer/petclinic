@@ -142,3 +142,27 @@ void jsonDateConstraints(final String text) {
     assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
 }
 ----
+
+=== `{Entity}RepositoryTest`
+
+Assert property value in `save{Entity}` test.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void save{Entity}() {
+    final var value0 = create...(...);
+    assertFalse(value0.isPersisted());
+    assertEquals(0L, value0.getVersion());
+    assertNotNull(value0.getId());
+    assertNotNull(value0.get{Name}());
+
+    final var value1 = {entity}Repository.save(value0);
+    assertNotNull(value1); 
+    assertNotSame(value0, value1); 
+    assertTrue(value1.isPersisted());
+    assertEquals(0L, value1.getVersion());
+    assertTrue(value1.isEqual(value0));
+}
+----

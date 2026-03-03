@@ -105,3 +105,31 @@ Create test data from JSON using `fromJson` method of entity classes.
 The `equalsHashcodeToString` test verifies equality operations.
 
 The `withId` test verifies cloning.
+
+=== `{Entity}RepositoryTest`
+
+Assert relation value in `save{Entity}` test.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void save{Entity}() {
+    final var value0 = create...(...); <1>
+    assertFalse(value0.isPersisted());
+    assertEquals(0L, value0.getVersion());
+    assertTrue(value0.getAll{Name}().isEmpty()); <2>
+
+    final var value1 = {entity}Repository.save(value0.addAll{Name}(...)); <3>
+    assertNotNull(value1); 
+    assertNotSame(value0, value1); 
+    assertTrue(value1.isPersisted());
+    assertEquals(0L, value1.getVersion());
+    assertFalse(value0.getAll{Name}().isEmpty()); <4>
+}
+----
+
+<1> Create an new instance of this entity class with required properties set.
+<2> Assert relation to be empty.
+<3> Update relation and persist the instance.
+<4> Assert relation not to be empty.

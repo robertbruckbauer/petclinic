@@ -144,3 +144,30 @@ The `json{Name}Constraints` parameterized test verifies constraints, e.g.
 - invalid values are rejected
 
 Do not create a test if this properties has no contraints and can be empty.
+
+=== `{Entity}RepositoryTest`
+
+Assert collection elements in `save{Entity}` test.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void save{Entity}() {
+    final var value0 = create...(...);
+    assertFalse(value0.isPersisted());
+    assertEquals(0L, value0.getVersion());
+    assertNotNull(value0.getId());
+    assertEquals(2, value0.getAll{Name}().size());
+    assertEquals(..., value0.getAll{Name}().first());
+    assertEquals(..., value0.getAll{Name}().last());
+
+    final var value1 = {entity}Repository.save(value0);
+    assertNotNull(value1); 
+    assertNotSame(value0, value1); 
+    assertTrue(value1.isPersisted());
+    assertEquals(0L, value1.getVersion());
+    assertTrue(value1.isEqual(value0));
+}
+----
+
