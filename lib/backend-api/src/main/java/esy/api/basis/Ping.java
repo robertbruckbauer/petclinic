@@ -1,5 +1,6 @@
 package esy.api.basis;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +15,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -68,6 +71,13 @@ public class Ping extends JsonJpaEntity<Ping> {
         final var value = new Ping(getVersion(), id);
         value.at = this.at;
         return value;
+    }
+
+    @JsonAnyGetter
+    private Map<String, Object> extraJson() {
+        final var allExtra = new HashMap<String, Object>();
+        allExtra.put("version", getVersion());
+        return allExtra;
     }
 
     @JsonIgnore

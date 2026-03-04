@@ -12,18 +12,12 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJpaWithId<T> {
 
-    /**
-     * Aktuelle Version der Daten.
-     */
     @Version
     @Column(name = "version", nullable = false)
     @Getter
-    @JsonProperty
+    @JsonIgnore
     private final Long version;
 
-    /**
-     * Eindeutige ID der Daten.
-     */
     @Id
     @Column(name = "id", nullable = false)
     @Getter
