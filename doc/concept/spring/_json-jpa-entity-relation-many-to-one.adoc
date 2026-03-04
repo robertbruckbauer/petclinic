@@ -65,7 +65,8 @@ This is a mutable field due to requirements from the JPA provider.The field can 
 ----
 
 <1> The foreign key column is defined in the child table.
-<2> The `nullable="false"` constraint enforces required relationships. Use `nullable="true"` for optional relationships.
+<2> The `nullable="false"` constraint enforces required relationships.
+Use `nullable="true"` for optional relationships.
 <3> A named constraint makes it easier to identify in database tools.
 <4> The `baseTableName` is the child table containing the foreign key.
 <5> The `referencedTableName` is the parent table being referenced.
@@ -191,3 +192,94 @@ void queryAll<Entity>() {
     verifyNoMoreInteractions(ownerRepository);
 }
 ----
+
+== `<Entity>RestapiTest` approach
+
+Update existing `postApi<Entity>` test.
+The test verifies the happy path of the POST entity operation.
+Add a value for the new relation in the payload for the request.
+Assert the value of the new property in the response.
+
+Update existing `postApi<Entity>Conflict` test.
+The test verifies the primary key conflict of the POST entity operation.
+Add a value for the new relation in the payload for the request.
+Assert the conflict status.
+
+Update existing `putApi<Entity>` test.
+The test verifies the happy path of the PUT entity operation.
+Add a value for the new property in the payload for the request.
+Assert the value of the new relation in the response.
+
+Add `patchApi<Entity><Name>` test.
+The test verifies the happy path of the PATCH entity operation for the new relation.
+Use the primary key from the `putApi<Entity>` test.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+@Order(31)
+void patchApi<Entity><Name>() throws Exception {
+    final var uuid = UUID.fromString(...);
+    assertTrue(<entity>Repository.findById(uuid).isPresent());
+    mockMvc.perform(patch("/api/<entity>/" + uuid)
+                    .content("""
+                            {
+                                "owner":"/api/owner/b2222222-2222-beef-dead-beefdeadbeef" <1>
+                            }
+                            """)
+                    .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                    .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status()
+                    .isOk())
+            .andExpect(content()
+                    .contentType("application/json"))
+            .andExpect(header()
+                    .exists("Vary"))
+            .andExpect(header()
+                    .exists("ETag"))
+            .andExpect(jsonPath("$.id")
+                    .value(uuid.toString()))
+            .andExpect(jsonPath("$.ownerItem.value") <2>
+                    .value("b2222222-2222-beef-dead-beefdeadbeef"))
+            .andExpect(jsonPath("$.ownerItem.text") <3>
+                    .value("Emma Milner"));
+}
+----
+
+<1> Use the primary key of an existing entity, e.g. an owner.
+<2> Test for owner entity primary key from the item element.
+<3> Test for owner entity unique name from the item element.
+
+Add `getApi<Entity><Name>` test.
+The test verifies the happy path of the GET entity operation for the new relation.
+Use the primary key from the `putApi<Entity>` test.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+@Order(32)
+void getApi<Entity><Name>() throws Exception {
+    final var uuid = UUID.fromString(...);
+    assertTrue(petRepository.findById(uuid).isPresent());
+    mockMvc.perform(get("/api/<entity>/" + uuid)
+                   .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(jsonPath("$.id")
+                        .value("b2222222-2222-beef-dead-beefdeadbeef"))
+                .andExpect(jsonPath("$.name")
+                        .value("Emma Milner"));
+}
+----
+
+Update existing `getApi<Entity>ById` test.
+The test verifies the happy path of the GET entity operation.
+Use the primary key from the `putApi<Entity>` test.
+Compute the new `ETag` value according to the new test.
+Assert the value of the new relation in the response.
