@@ -34,6 +34,14 @@ Collections with `@ElementCollection` are simpler than `@OneToMany` relationship
 * The elements are completely dependent on the parent entity lifecycle.
 * No bidirectional navigation from element to parent is needed.
 
+Use EAGER fetch when the collection
+
+* is accessed in `extraJson`, `verify` or `isEqual`.
+* is accessed in most use cases.
+* is small and inexpensive to load.
+
+Use LAZY fetch otherwise.
+
 include::{includedir}/doc/concept/spring/_json-jpa-entity-collection-string.adoc[leveloffset=+2]
 
 == Relations
@@ -45,14 +53,15 @@ A `@OneToMany` relationship represents an association where one parent entity ow
 This is typically the inverse side of a `@ManyToOne` relationship and is used with bidirectional mappings.
 
 The Fetch type determines when JPA loads related entities, directly impacting query count, memory usage and response time.
+Always use LAZY fetch.
 
-Use EAGER fetch when the relationship
-
-* is accessed in `extraJson`, `verify` or `isEqual`.
-* is accessed in most use cases.
-* is small and inexpensive to load.
-
-Use LAZY fetch otherwise.
+.Please note
+****
+Do not use `EAGER` even if the related entity is used in the `isEqual` operation or for serialization in the `extraJson` operation.
+There may be a problem when using `orphanRemoval = true` and `cascade = ALL` in in a bi-driectional mapping when deleting an entity.
+The in-memory collection of the owner's collection still holds a reference to the entity being deleted.
+On flush, the JPA provider sees the entity is still in the owner's collection and  effectively re-saves it, swallowing a DELETE.
+****
 
 In addition, JPA entity relationships in rest endpoints provided by _Spring Data REST_ prevent automatic serialization of entity relationships.
 This approach avoids common pitfalls with the fetch type like circular references, lazy loading exceptions, and performance issues through accidental over-fetching.

@@ -58,7 +58,7 @@ public final class Pet extends JsonJpaEntity<Pet> {
     private Sex sex;
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             optional = false
     )
     @JoinColumn(name = "owner_id", referencedColumnName = "id")

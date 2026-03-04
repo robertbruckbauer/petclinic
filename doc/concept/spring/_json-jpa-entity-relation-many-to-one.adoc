@@ -33,21 +33,26 @@ This field can be null during initialization but must be set before any persiste
 [source,java,options="nowrap"]
 ----
 @ManyToOne(
-        fetch = FetchType.LAZY,
-        optional = true) <1>
+        fetch = FetchType.LAZY, <1>
+        optional = true) <2>
 @JoinColumn(
         name = "owner_id", 
-        referencedColumnName = "id")
-@Getter
-@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-private Owner owner; <2>
+        referencedColumnName = "id") <3>
+@Getter <4>
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) <5>
+private Owner owner; <6>
 ----
 
-<1> The `optional = true` indicates this relationship is optional (nullable).
-<2> The field has the entity type of the parent (`Owner`).
+<1> The field is marked with `@ManyToOne` with `LAZY` fetch type.
+The entity is not loaded immediately; it's fetched only when accessed.
+<2> The `optional = true` indicates this relationship is optional (nullable).
+<3> The `@JoinColumn` annotation specifies the foreign key column name (`owner_id`) and the referenced column (`id`) in the parent table.
+<4> The field is marked with `@Getter`.
+This allows the parent entity to be accessed via a getter method.
+<5> The field is marked with `@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)`.
+The full parent object is only used during deserialization, not in JSON responses.
+<6> The field has the entity type of the parent (`Owner`).
 This is a mutable field due to requirements from the JPA provider.The field can remain null, representing the absence of a relationship.
-
-`LAZY` loading is used to load related entities only when needed; use `EAGER` if the related entity is used for serialization in the `extraJson` operation.
 
 .Liquibase
 [source,xml,options="nowrap"]
