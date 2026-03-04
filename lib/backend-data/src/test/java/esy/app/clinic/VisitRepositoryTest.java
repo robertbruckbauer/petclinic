@@ -116,9 +116,9 @@ public class VisitRepositoryTest {
         assertNull(value0.getPet());
         assertNull(value0.getVet());
 
-        final var value1 = visitRepository.save(value0
-                .setPet(savePet("Tom"))
-                .setVet(saveVet("Dr. Doolittle")));
+        final var pet = savePet("Tom");
+        final var vet = saveVet("Dr. Doolittle");
+        final var value1 = visitRepository.save(value0.setPet(pet).setVet(vet));
         assertNotNull(value1);
         assertNotSame(value0, value1);
         assertTrue(value1.isPersisted());

@@ -94,8 +94,8 @@ public class PetRepositoryTest {
         assertNotNull(value0.getSex());
         assertNull(value0.getOwner());
 
-        final var value1 = petRepository.save(value0
-                .setOwner(saveOwner("Max Mustermann")));
+        final var owner = saveOwner("Max Mustermann");
+        final var value1 = petRepository.save(value0.setOwner(owner));
         assertNotNull(value1);
         assertNotSame(value0, value1);
         assertTrue(value1.isPersisted());
