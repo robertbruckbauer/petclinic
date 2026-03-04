@@ -61,14 +61,16 @@ instructions: |
     - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
     - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
     - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
+    - **REST controller advice** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
     - **GraphQL schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql
     - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
     - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
-    - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
+    - **Server test classes** → Check *GraphqlTest.java in app/server/src/test/java/**/app/**
 
   ## Task steps
 
   1. **Determine collection semantics**
+    Use doc/concept/spring/endpoint.adoc as the implementation baseline.
     Extract optionality, ordering and fetch strategy from the request.
     If not specified, use defaults from the implementation guide.
 
@@ -94,26 +96,34 @@ instructions: |
     Keep style consistent with existing entity patterns.
   
   4. **Implement <Entity>Test.java change**  
-    Adapt existing test cases to the implementation guide.
+    If collection is mandatory update existing test data with a default value.
+    Update tests for new collection as required in the implementation guide.
+    Create tests for new collection as required in the implementation guide.
     Keep style consistent with existing test cases.
 
-  5. **Implement <Entity>RepositoryTest.java change**  
-    Adapt existing test cases to the implementation guide.
+  5. **Implement <Entity>RepositoryTest.java change**
+    If collection is mandatory update existing test data with a default value.
+    Update tests for new collection as required in the implementation guide.
     Check with empty list and list with two elements.
     Keep style consistent with existing test cases.
 
   6. **No REST <Entity>RestController.java change**
 
   7. **Implement <Entity>RestApiTest.java change**
-    Adapt existing test cases to the implementation guide.
+    If collection is mandatory update existing test data with a default value.
+    Update tests for new collection as required in the implementation guide.
     Keep style consistent with existing test cases.
 
   8. **Implement <Entity>GraphqlController.java change**
     Add `all<Name>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
 
   9. **Implement <Entity>GraphqlTest.java change**
-    Adapt existing test cases to the implementation guide.
+    If collection is mandatory update existing test data with a default value.
+    Update tests for new collection as required in the implementation guide.
     Keep style consistent with existing test cases.
+
+  10. **Implement Server test classes**
+    If collection is mandatory update existing test data with a default value.
 
   ## Task output
 
