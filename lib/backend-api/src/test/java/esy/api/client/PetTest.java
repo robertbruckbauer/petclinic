@@ -1,7 +1,6 @@
 package esy.api.client;
 
 import esy.api.basis.Sex;
-import esy.api.clinic.Visit;
 import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,12 +8,15 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import org.junit.jupiter.api.Tag;
+
 import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("fast")
 class PetTest {
 
     Pet createWithName(final String name, final LocalDate born) {
@@ -142,16 +144,16 @@ class PetTest {
     @ParameterizedTest
     @MethodSource
     void jsonBorn(final LocalDate date) {
-        final var value = Visit.fromJson("""
+        final var value = Pet.fromJson("""
                         {
                             "name":"Tom",
-                            "date":"%s",
+                            "born":"%s",
                             "species":"Cat",
                             "sex":"M"
                         }
-                        """.formatted(Visit.DATE_FORMATTER.format(date)));
+                        """.formatted(Pet.DATE_FORMATTER.format(date)));
         assertDoesNotThrow(value::verify);
-        assertEquals(date, value.getDate());
+        assertEquals(date, value.getBorn());
     }
 
     @ParameterizedTest
@@ -164,12 +166,12 @@ class PetTest {
         final var json = """
                         {
                             "name":"Tom",
-                            "date":"%s",
+                            "born":"%s",
                             "species":"Cat",
                             "sex":"M"
                         }
                         """.formatted(text);
-        assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+        assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
     }
 
     @ParameterizedTest
