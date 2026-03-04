@@ -89,6 +89,7 @@ public class VetRepositoryTest {
         final var name = "Max Mustermann";
         final var value = vetRepository.save(createWithName(name));
         assertTrue(vetRepository.existsById(value.getId()));
+        assertTrue(vetRepository.findById(value.getId()).orElseThrow().isEqual(value));
     }
 
     @Test
