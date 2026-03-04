@@ -71,7 +71,7 @@ public class PingRepositoryTest {
 
     @ParameterizedTest
     @MethodSource("atSource")
-    void saveEnum(final LocalDateTime at) {
+    void savePing(final LocalDateTime at) {
         final var value0 = createWithTime(at);
         assertFalse(value0.isPersisted());
         assertEquals(0L, value0.getVersion());

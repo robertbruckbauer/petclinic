@@ -101,7 +101,7 @@ public class PetRepositoryTest {
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
         assertTrue(value1.isEqual(value0));
-        assertNotNull(value0.getOwner());
+        assertNotNull(value1.getOwner());
     }
 
     @Test

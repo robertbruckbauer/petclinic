@@ -155,7 +155,7 @@ public class VisitRepositoryTest {
     }
 
     @Test
-    void findVet() {
+    void findVisit() {
         final var text = "Lorem ipsum";
         final var value = visitRepository.save(createWithText(text));
         assertTrue(visitRepository.existsById(value.getId()));
@@ -163,7 +163,7 @@ public class VisitRepositoryTest {
     }
 
     @Test
-    void findVetNoElement() {
+    void findVisitNoElement() {
         final var uuid = UUID.randomUUID();
         assertFalse(visitRepository.existsById(uuid));
         assertFalse(visitRepository.findById(uuid).isPresent());
