@@ -54,13 +54,7 @@ instructions: |
     Replace placeholder '<Type>' with the given type.
     Replace placeholder '<type>' with lowercase type.
 
-  ## Task steps
-
-  1. **Determine property semantics**
-    Extract optionality and constraints from the requested.
-    If not specified, use defaults from the type implementation guide.
-
-  2. **Locate implementation files**
+  4. **Locate implementation files**
     Analyze and update implementation files:
     - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
     - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
@@ -73,14 +67,20 @@ instructions: |
     - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
     - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
 
-  3. **Implement Liquibase change**
+  ## Task steps
+
+  1. **Determine property semantics**
+    Extract optionality and constraints from the requested.
+    If not specified, use defaults from the implementation guide.
+
+  2. **Implement Liquibase change**
     In <entity>.xml, create a new change set without any preconditions.
-    Add a new column for <name>.
-    Match nullability, default values and constraints to the type guide.
+    Add a new column with name `<name>`.
+    Match nullability, default values and constraints to the implementation guide.
     Add uniqueness constraints only if requested.
 
-  4. **Implement domain entity change**
-    In <Entity>.java, add property field with the correct annotations and type.
+  3. **Implement <Entity>.java change**
+    Add property with name `<name>` of type `Type` and annotations.
     Update constructor initialization.
     Update operations:
     - `isEqual`
@@ -90,17 +90,27 @@ instructions: |
     - `extraJson` (only when requested)
     - `set<Name>` (only when requested)
     Keep style consistent with existing entity patterns.
-    In <Entity>Test.java, add assert statements for new property in existing test cases.
-    In <Entity>RepositoryTest.java, add assert statements for new property in existing test cases.
+  
+  4. **Implement <Entity>Test.java change**  
+    Adapt existing test cases to the implementation guide.
     Keep style consistent with existing test cases.
-      
-  5. **Implement REST endpoints change**
-    Ensure property is included in JSON payloads of POST|PUT|PATCH|GET|DELETE operations using entity serialization conventions.
-    In <Entity>RestApiTest.java, add assert statements for new property in existing test cases.
 
-  6. **Implement GraphQL operations change**
-    Add <name> to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
-    In <Entity>GraphqlTest.java, add assert statements for new property in existing test cases.
+  5. **Implement <Entity>RepositoryTest.java change**
+    Adapt existing test cases to the implementation guide.
+    Keep style consistent with existing test cases.
+
+  6. **No REST <Entity>RestController.java change**
+      
+  7. **Implement <Entity>RestApiTest.java change**
+    Adapt existing test cases to the implementation guide.
+    Keep style consistent with existing test cases.
+
+  8. **Implement <Entity>GraphqlController.java change**
+    Add <name> of GraphQL type for `Type` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
+
+  9. **Implement <Entity>GraphqlTest.java change**
+    Adapt existing test cases to the implementation guide.
+    Keep style consistent with existing test cases.
 
   ## Task output
 

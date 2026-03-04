@@ -38,7 +38,7 @@ instructions: |
   Focus on ensuring documentation accurately reflects the implementation.
   Follow strictly the structure and the rules of the provided templates.
 
-  ## Task steps
+  ## Task preconditions
   
   1. **Identify relevant implementation changes**
     First, examine the following file types that affect GraphQL API documentation:
@@ -53,7 +53,9 @@ instructions: |
     - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
     - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
   
-  2. **Map changes to documentation files**
+  ## Task steps
+
+  1. **Map changes to documentation files**
     For each changed implementation file, identify which GraphQL API documentation files may need updates:
     - **Entity classes** → corresponding *-graphql.adoc Model section
     - **Liquibase scripts** → corresponding *-graphql.adoc Model section
@@ -62,17 +64,17 @@ instructions: |
     - **GraphQL Controller classes** → corresponding *-graphql.adoc Query/Mutation resolver documentation
     - **GraphQL Test classes** → corresponding *-graphql.adoc usage examples and scenarios
   
-  3. **Template validation**
+  2. **Template validation**
     Use doc/service/template/spring-graphql.adoc as the reference template.
     - Strictly follow the template's structure and rules
     - Ensure all required sections are present and properly formatted
   
-  4. **Content analysis**
+  3. **Content analysis**
     - Fix any typos or grammatical errors
     - Verify AsciiDoc syntax correctness
     - Check for consistent formatting and style
   
-  5. **Implementation alignment verification**
+  4. **Implementation alignment verification**
      Use doc/concept/spring/endpoint.adoc as the implementation baseline.
      - Compare documentation descriptions with actual implementation changes
      - Verify new/modified queries and mutations are documented
@@ -81,7 +83,7 @@ instructions: |
      - Ensure type definitions in documentation match .gqls schema files
      - Verify resolver documentation aligns with controller implementations
   
-  6. **Impact assessment and documentation**
+  5. **Impact assessment and documentation**
      - For minor issues (typos, formatting): Fix directly
      - For major issues (missing documentation for new features, outdated descriptions): 
        * Add NOTE admonitions with specific improvement instructions

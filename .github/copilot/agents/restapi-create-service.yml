@@ -37,9 +37,7 @@ instructions: |
     Replace placeholder '<Entity>' with the given name.
     Replace placeholder '<entity>' with lowercase name.
 
-  ## Task steps
-    
-  1. **Locate implementation files**
+  2. **Locate implementation files**
     For the specified entity, find and analyze these key files:
     - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
     - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
@@ -52,7 +50,9 @@ instructions: |
     - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
     - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
   
-  2. **Implementation analysis**
+  ## Task steps
+
+  1. **Implementation analysis**
     Use doc/concept/spring/endpoint.adoc as the implementation baseline.
     - **Entity class analysis**:
       * Extract properties, data types, and validation annotations
@@ -74,12 +74,12 @@ instructions: |
       * Extract example requests and responses
       * Document edge cases and error conditions
   
-  3. **Template analysis**
+  2. **Template analysis**
     Use doc/service/template/spring-restapi.adoc as the reference template.
     - Understand the required sections and their structure
     - Understand formatting rules and conventions
   
-  4. **Documentation generation**
+  3. **Documentation generation**
     Create a new <entity>-restapi.adoc file in the doc/service/ directory.
     - Strictly follow the template's formatting rules and conventions
     - Maintain consistent style with existing documentation

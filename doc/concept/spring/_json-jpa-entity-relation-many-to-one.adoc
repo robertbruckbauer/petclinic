@@ -21,13 +21,14 @@ private Owner owner; <6>
 The parent entity is not loaded immediately; it's fetched only when accessed.
 <2> The `optional = false` indicates this relationship is required (not nullable).
 <3> The `@JoinColumn` annotation specifies the foreign key column name (`owner_id`) and the referenced column (`id`) in the parent table.
+It is the clean way to provide the parent field and avoid a mapping table in case of an uni-directional mapping. 
 <4> The field is marked with `@Getter`.
 This allows the parent entity to be accessed via a getter method.
 <5> The field is marked with `@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)`.
 The full parent object is only used during deserialization, not in JSON responses.
 <6> The field has the entity type of the parent (`Owner`).
 This is a mutable field due to requirements from the JPA provider.
-This field can be null during initialization but must be set before any persistence operation.
+It can be null during initialization but must be set before any persistence operation.
 
 .Entity - Optional Relationship
 [source,java,options="nowrap"]
@@ -47,12 +48,14 @@ private Owner owner; <6>
 The entity is not loaded immediately; it's fetched only when accessed.
 <2> The `optional = true` indicates this relationship is optional (nullable).
 <3> The `@JoinColumn` annotation specifies the foreign key column name (`owner_id`) and the referenced column (`id`) in the parent table.
+It is the clean way to provide the parent field and avoid a mapping table in case of an uni-directional mapping. 
 <4> The field is marked with `@Getter`.
 This allows the parent entity to be accessed via a getter method.
 <5> The field is marked with `@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)`.
 The full parent object is only used during deserialization, not in JSON responses.
 <6> The field has the entity type of the parent (`Owner`).
-This is a mutable field due to requirements from the JPA provider.The field can remain null, representing the absence of a relationship.
+This is a mutable field due to requirements from the JPA provider.
+It can remain null, representing the absence of a relationship.
 
 .Liquibase
 [source,xml,options="nowrap"]

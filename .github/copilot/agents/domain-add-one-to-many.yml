@@ -1,15 +1,15 @@
-name: Domain entity collection adder
+name: Domain entity one-to-many relation adder
 description: |
-  Adds a new collection to an existing entity of the domain model for the backend.
-  Extends existing REST endpoints and GraphQL operations for the entity.
+  Adds a new one-to-many relation from one existing entity to another entity of the domain model for the backend.
+  Extends existing REST endpoints and GraphQL operations for the entities.
 version: 1.3.0
 trigger:
   keywords:
-    - "add collection to entity"
+    - "add relation from entity to entity"
 
 examples:
-  - trigger: "add collection skill of type String to entity vet having skills of vets."
-    description: "Apply instructions with entity name vet, collection name skill and element type String."
+  - trigger: "add one-to-many relation pet of type Pet from entity owner to entity pet representing a list of pets owned by an owner."
+    description: "Apply instructions with entity names owner and pet, relation name pet and type Pet."
 
 instructions: |
   You are a full-stack developer with T-shaped skills.
@@ -23,7 +23,7 @@ instructions: |
     
   ## Task overview
 
-  When triggered, implement a new collection for the requested element type in the given entity.
+  When triggered, implement a new one-to-many relation from one existing entity to another entity.
   Do not add custom REST endpoints.
   Do not add new GraphQL operations.
   Do not change documentation.
@@ -39,16 +39,14 @@ instructions: |
     Replace placeholder '<Entity>' with the given name.
     Replace placeholder '<entity>' with lowercase name.
 
-  2. **Identify collection name**
-    Extract the collection element column name from the request.
-    Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+  2. **Identify relation name**
+    Extract the relation column name from the request.
+    Check if each name is a valid identifier for the programming languages Java, Typescript and SQL.
     Replace placeholder '<Name>' with the capitalized name.
     Replace placeholder '<name>' with lowercase name.
-    The class property name is `all<Name>`.
-    The join table name is `<entity>_<name>`.
 
-  3. **Identify element type**
-    Extract the element type from the request.
+  3. **Identify relation types**
+    Extract the relation type from the request.
     Check if implementation guide doc/concept/spring/_json-jpa-entity-collection-<type>.adoc exists.
     Replace placeholder '<Type>' with the given type.
     Replace placeholder '<type>' with lowercase type.
@@ -68,21 +66,14 @@ instructions: |
 
   ## Task steps
 
-  1. **Determine collection semantics**
-    Extract optionality, ordering and fetch strategy from the request.
+  1. **Determine relation semantics**
+    Extract optionality and fetch strategy from the request.
     If not specified, use defaults from the implementation guide.
 
-  2. **Implement Liquibase change**
-    Create a new file <entity>_<name>.xml.
-    The file creates the join table `<entity>_<name>` with:
-    - A column with name `id` of type `UUID` (not null) referencing the parent entity's primary key.
-    - A column with name `<name>` with the Liquibase type for `Type` (not null).
-    Add the foreign key constraint `fk_<entity>_<name>_id` from `<entity>_<name>.id` to `<entity>.id`.
-    Add a `preCondition` element that checks `tableExists tableName="<entity>_<name>"`.
-    Include the new file <entity>_<name>.xml in changelog.xml directly after the existing  file= <entity>.xml.
-  
+  2. **No Liquibase change**
+
   3. **Implement <Entity>.java change**
-    Add property with name `all<Name>` of type `Type` and annotations.
+    Add property with name `all<Type>` of type `Type` and annotations.
     Update constructor initialization.
     Update operations:
     - `isEqual`
@@ -92,6 +83,21 @@ instructions: |
     - `extraJson` (only when requested)
     - `addAll<Name>`
     Keep style consistent with existing entity patterns.
+    
+  3. **Implement domain entity change**
+    In <Entity>.java, add property field with the correct annotations and type.
+    Initialize `all<Name>` in both constructors.
+    Update operations:
+    - `isEqual`
+    - `verify`
+    - `withId`
+    Add operations:
+    - `extraJson` (only when requested)
+    - `addAll<Name>`
+    Keep style consistent with existing entity patterns.
+    In <Entity>Test.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
+    In <Entity>RepositoryTest.java, add assert statements for new collection in existing test cases (including an assertion for the sort order).
+    Keep style consistent with existing test cases.
   
   4. **Implement <Entity>Test.java change**  
     Adapt existing test cases to the implementation guide.
@@ -99,7 +105,6 @@ instructions: |
 
   5. **Implement <Entity>RepositoryTest.java change**  
     Adapt existing test cases to the implementation guide.
-    Check with empty list and list with two elements.
     Keep style consistent with existing test cases.
 
   6. **No REST <Entity>RestController.java change**
@@ -109,12 +114,12 @@ instructions: |
     Keep style consistent with existing test cases.
 
   8. **Implement <Entity>GraphqlController.java change**
-    Add `all<Name>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
+    Add `all<Type>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
 
   9. **Implement <Entity>GraphqlTest.java change**
     Adapt existing test cases to the implementation guide.
     Keep style consistent with existing test cases.
-
+    
   ## Task output
 
   Create a short summary with files changed.
