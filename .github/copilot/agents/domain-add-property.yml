@@ -10,6 +10,8 @@ trigger:
 examples:
   - trigger: "add property text of type String to entity visit having a diagnosis text."
     description: "Apply instructions with entity name visit, property name text and property type String."
+  - trigger: "add property sex of type Sex to entity pet having value male or female."
+    description: "Apply instructions with entity name pet, property name sex and property type Sex."
 
 instructions: |
   You are a full-stack developer with T-shaped skills.
@@ -36,21 +38,21 @@ instructions: |
   1. **Identify target entity**
     Extract the entity name from the request.
     Check if the entity class exists.
-    Replace placeholder '{Entity}' with the given name.
-    Replace placeholder '{entity}' with lowercase name.
+    Replace placeholder '<Entity>' with the given name.
+    Replace placeholder '<entity>' with lowercase name.
 
   2. **Identify property name**
     Extract the property name from the request.
     Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
-    Replace placeholder '{Name}' with the given name.
-    Replace placeholder '{name}' with lowercase name.
+    Replace placeholder '<Name>' with the given name.
+    Replace placeholder '<name>' with lowercase name.
 
   3. **Identify property type**
     Extract the property type from the request.
     For an enum type, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-enum.adoc exists.
-    For other types, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-{type}.adoc exists.
-    Replace placeholder '{Type}' with the given type.
-    Replace placeholder '{type}' with lowercase type.
+    For other types, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-<type>.adoc exists.
+    Replace placeholder '<Type>' with the given type.
+    Replace placeholder '<type>' with lowercase type.
 
   ## Task steps
 
@@ -62,7 +64,7 @@ instructions: |
     Analyze and update implementation files:
     - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
     - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
-    - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**/{Entity}Test.java
+    - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**/<Entity>Test.java
     - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
     - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
     - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
@@ -72,13 +74,13 @@ instructions: |
     - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
 
   3. **Implement Liquibase change**
-    In {entity}.xml, create a new change set without any preconditions.
-    Add a new column for {name}.
+    In <entity>.xml, create a new change set without any preconditions.
+    Add a new column for <name>.
     Match nullability, default values and constraints to the type guide.
     Add uniqueness constraints only if requested.
 
   4. **Implement domain entity change**
-    In {Entity}.java, add property field with the correct annotations and type.
+    In <Entity>.java, add property field with the correct annotations and type.
     Update constructor initialization.
     Update operations:
     - `isEqual`
@@ -86,19 +88,19 @@ instructions: |
     - `withId`
     Add operations:
     - `extraJson` (only when requested)
-    - `set{Name}` (only when requested)
+    - `set<Name>` (only when requested)
     Keep style consistent with existing entity patterns.
-    In {Entity}Test.java, add assert statements for new property in existing test cases.
-    In {Entity}RepositoryTest.java, add assert statements for new property in existing test cases.
+    In <Entity>Test.java, add assert statements for new property in existing test cases.
+    In <Entity>RepositoryTest.java, add assert statements for new property in existing test cases.
     Keep style consistent with existing test cases.
       
   5. **Implement REST endpoints change**
     Ensure property is included in JSON payloads of POST|PUT|PATCH|GET|DELETE operations using entity serialization conventions.
-    In {Entity}RestApiTest.java, add assert statements for new property in existing test cases.
+    In <Entity>RestApiTest.java, add assert statements for new property in existing test cases.
 
   6. **Implement GraphQL operations change**
-    Add {name} to GraphQL type `{Entity}` in {entity}.gqls with correct nullability.
-    In {Entity}GraphqlTest.java, add assert statements for new property in existing test cases.
+    Add <name> to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
+    In <Entity>GraphqlTest.java, add assert statements for new property in existing test cases.
 
   ## Task output
 

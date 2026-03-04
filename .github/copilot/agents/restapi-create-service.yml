@@ -34,8 +34,8 @@ instructions: |
   1. **Identify target entity**
     Extract the entity name from the request.
     Check if the entity class exists.
-    Replace placeholder '{Entity}' with the given name.
-    Replace placeholder '{entity}' with lowercase name.
+    Replace placeholder '<Entity>' with the given name.
+    Replace placeholder '<entity>' with lowercase name.
 
   ## Task steps
     
@@ -43,7 +43,7 @@ instructions: |
     For the specified entity, find and analyze these key files:
     - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
     - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
-    - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**/{Entity}Test.java
+    - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**/<Entity>Test.java
     - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
     - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
     - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
@@ -80,7 +80,7 @@ instructions: |
     - Understand formatting rules and conventions
   
   4. **Documentation generation**
-    Create a new {entity}-restapi.adoc file in the doc/service/ directory.
+    Create a new <entity>-restapi.adoc file in the doc/service/ directory.
     - Strictly follow the template's formatting rules and conventions
     - Maintain consistent style with existing documentation
     - Do not include instructions from the template

@@ -1,6 +1,28 @@
 = AI-driven development and maintenance
 
-== Sanity Check of the domain model
+== Update domain model
+
+.Prompt
+----
+@copilot add property <name> of type <Type> to entity <Entity> having a ...
+----
+
+The agent implements a new property with a given type in an entity class.
+`<name>` is a placeholder for the property name, e.g. `text`.
+`<Type>` is a placeholder for the property type, e.g. `String`.
+`<Entity>` is a placeholder for the entity name, e.g. `Visit`.
+
+.Prompt
+----
+@copilot add collection <name> of type <Type> to entity <Entity> having a sorted set of unique ...
+----
+
+The agent implements a new collection with a given element type in an entity class.
+`<name>` is a placeholder for the collection name, e.g. `text`.
+`<Type>` is a placeholder for the element type, e.g. `String`.
+`<Entity>` is a placeholder for the entity name, e.g. `Visit`.
+
+== Sanity check of the domain model
 
 .Prompt
 ----
@@ -9,9 +31,9 @@
 
 The agent reviews implementation files for all domain entities and ensures REST endpoints and GraphQL operations are up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
-You may reduce the scope to changes files of a pull request.
+You can reduce the scope to changed files in a pull request.
 
-== Sanity Check of REST API documentation
+== Sanity check of REST API documentation
 
 .Prompt
 ----
@@ -20,7 +42,7 @@ You may reduce the scope to changes files of a pull request.
 
 The agent reviews implementation files for all REST API endpoints and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
-You may reduce the scope to changes files of a pull request.
+You can reduce the scope to changed files in a pull request.
 
 == Create new REST API documentation
 
@@ -32,7 +54,7 @@ You may reduce the scope to changes files of a pull request.
 The agent reviews implementation files for all REST API endpoints for the given main entity and creates a new documentation following structure and instructions of the template.
 Replace `owner` with the name of the main entity.
 
-== Sanity Check of GraphQL API documentation
+== Sanity check of GraphQL API documentation
 
 .Prompt
 ----
@@ -41,7 +63,7 @@ Replace `owner` with the name of the main entity.
 
 The agent reviews implementation files for all GraphQL API operations and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
-You may reduce the scope to changes files of a pull request.
+You can reduce the scope to changed files in a pull request.
 
 == Create new GraphQL API documentation
 

@@ -36,22 +36,22 @@ instructions: |
   1. **Identify target entity**
     Extract the entity name from the request.
     Check if the entity class exists.
-    Replace placeholder '{Entity}' with the given name.
-    Replace placeholder '{entity}' with lowercase name.
+    Replace placeholder '<Entity>' with the given name.
+    Replace placeholder '<entity>' with lowercase name.
 
   2. **Identify collection name**
     Extract the collection element column name from the request.
     Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
-    Replace placeholder '{Name}' with the capitalized name.
-    Replace placeholder '{name}' with lowercase name.
-    The class property name is `all{Name}`.
-    The join table name is `{entity}_{name}`.
+    Replace placeholder '<Name>' with the capitalized name.
+    Replace placeholder '<name>' with lowercase name.
+    The class property name is `all<Name>`.
+    The join table name is `<entity>_<name>`.
 
   3. **Identify element type**
     Extract the element type from the request.
-    Check if implementation guide doc/concept/spring/_json-jpa-entity-collection-{type}.adoc exists.
-    Replace placeholder '{Type}' with the given type.
-    Replace placeholder '{type}' with lowercase type.
+    Check if implementation guide doc/concept/spring/_json-jpa-entity-collection-<type>.adoc exists.
+    Replace placeholder '<Type>' with the given type.
+    Replace placeholder '<type>' with lowercase type.
 
   ## Task steps
 
@@ -63,7 +63,7 @@ instructions: |
     Analyze and update implementation files:
     - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
     - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
-    - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**/{Entity}Test.java
+    - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**/<Entity>Test.java
     - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
     - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
     - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
@@ -73,36 +73,36 @@ instructions: |
     - **ControllerAdvice classes** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
 
   3. **Implement Liquibase change**
-    Create a new file {entity}_{name}.xml.
-    The file creates the join table `{entity}_{name}` with:
+    Create a new file <entity>_<name>.xml.
+    The file creates the join table `<entity>_<name>` with:
     - An `id` UUID column (not null) referencing the parent entity's primary key.
-    - A `{name}` column of the appropriate SQL type (not null).
-    - A foreign key constraint `fk_{entity}_{name}_id` from `{entity}_{name}.id` to `{entity}.id`.
-    Wrap the change set in a `preCondition` element that checks `tableExists tableName="{entity}_{name}"`.
-    Include the new file {entity}_{name}.xml in changelog.xml directly after the existing  file= {entity}.xml.
+    - A `<name>` column of the appropriate SQL type (not null).
+    - A foreign key constraint `fk_<entity>_<name>_id` from `<entity>_<name>.id` to `<entity>.id`.
+    Wrap the change set in a `preCondition` element that checks `tableExists tableName="<entity>_<name>"`.
+    Include the new file <entity>_<name>.xml in changelog.xml directly after the existing  file= <entity>.xml.
 
   4. **Implement domain entity change**
-    In {Entity}.java, add property field with the correct annotations and type.
-    Initialize `all{Name}` in both constructors.
+    In <Entity>.java, add property field with the correct annotations and type.
+    Initialize `all<Name>` in both constructors.
     Update operations:
     - `isEqual`
     - `verify`
     - `withId`
     Add operations:
     - `extraJson` (only when requested)
-    - `addAll{Name}`
+    - `addAll<Name>`
     Keep style consistent with existing entity patterns.
-    In {Entity}Test.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
-    In {Entity}RepositoryTest.java, add assert statements for new collection in existing test cases (including an assertion for the sort order).
+    In <Entity>Test.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
+    In <Entity>RepositoryTest.java, add assert statements for new collection in existing test cases (including an assertion for the sort order).
     Keep style consistent with existing test cases.
       
   5. **Implement REST endpoints change**
     Ensure property is included in JSON payloads of POST|PUT|PATCH|GET|DELETE operations using entity serialization conventions.
-    In {Entity}RestApiTest.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
+    In <Entity>RestApiTest.java, add test cases for the new collection with lists of size 0 and 2 (including an assertion for the sort order).
 
   6. **Implement GraphQL operations change**
-    Add `all{Name}: [{Type}]` to GraphQL type `{Entity}` in {entity}.gqls with correct nullability.
-    In {Entity}GraphqlTest.java, add assert statements for new collection in existing test cases (including an assertion for the sort order).
+    Add `all<Name>: [<Type>]` to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
+    In <Entity>GraphqlTest.java, add assert statements for new collection in existing test cases (including an assertion for the sort order).
 
   ## Task output
 
