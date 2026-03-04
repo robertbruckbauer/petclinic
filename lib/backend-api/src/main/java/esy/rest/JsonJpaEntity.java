@@ -16,7 +16,7 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
      * Aktuelle Version der Daten.
      */
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     @Getter
     @JsonProperty
     private final Long version;
@@ -25,7 +25,7 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
      * Eindeutige ID der Daten.
      */
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @Getter
     @JsonProperty
     private final UUID id;
