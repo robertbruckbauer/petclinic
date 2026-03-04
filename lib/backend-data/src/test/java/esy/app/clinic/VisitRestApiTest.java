@@ -504,7 +504,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(43)
+    @Order(44)
     void getApiVisitByOwnerEmpty() throws Exception {
         final var uuid = UUID.fromString("b3333333-3333-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
@@ -526,7 +526,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(44)
+    @Order(45)
     void getApiVisitByPet() throws Exception {
         final var uuid = UUID.fromString("c2222222-2222-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -550,7 +550,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(44)
+    @Order(46)
     void getApiVisitByPetEmpty() throws Exception {
         final var uuid = UUID.fromString("c3333333-3333-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -572,7 +572,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(45)
+    @Order(47)
     void getApiVisitByVet() throws Exception {
         final var uuid = UUID.fromString("d2222222-2222-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
@@ -596,7 +596,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(45)
+    @Order(48)
     void getApiVisitByVetEmpty() throws Exception {
         final var uuid = UUID.fromString("d3333333-3333-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());

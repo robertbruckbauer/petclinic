@@ -267,7 +267,7 @@ class VetRestApiTest {
     void getApiVet() throws Exception {
         assertEquals(2, vetRepository.count());
         mockMvc.perform(get("/api/vet")
-                        .queryParam("sort", "name", "asc")
+                        .param("sort", "name,asc")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
