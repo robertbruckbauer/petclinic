@@ -15,37 +15,45 @@ for a community created collection of custom agents and instructions.
 
 .Prompt
 ----
-@copilot add property text of type String to entity visit having a diagnosis text.
+@copilot add property text of type String to entity Visit having a diagnosis text.
 ----
 
-The agent implements a new property with name `text` of type `String` to entity class `Visit` and apply changes to tests.
+The agent implements a new property with name `text` of type `String` to entity class `Visit` and applies changes to tests.
+
+.Prompt
+----
+@copilot remove property billable of type boolean from entity Visit.
+----
+
+The agent removes the existing property with name `billable` of type `boolean` from entity class `Visit` and applies changes to tests.
+It does the inverse of the tasks of the implementation guide.
 
 == Domain entity collection adder
 
 .Prompt
 ----
-@copilot add collection skill of type String to entity vet having skills of vets.
+@copilot add collection skill of type String to entity Vet having skills of vets.
 ----
 
-The agent implements a new collection with name `skill` of type `String` to entity class `Vet` and apply changes to tests.
+The agent implements a new collection with name `skill` of type `String` to entity class `Vet` and applies changes to tests.
 
 == Domain entity many-to-one relation adder
 
 .Prompt
 ----
-@copilot add many-to-one relation pet of type Pet from entity vet to entity pet representing the pet treated in a visit.
+@copilot add many-to-one relation pet of type Pet from entity Vet to entity Pet representing the pet treated in a visit.
 ----
 
-The agent implements a new many-to-one relation with name `pet` of type `Pet` to entity class `Visit` and apply changes to tests.
+The agent implements a new many-to-one relation with name `pet` of type `Pet` to entity class `Visit` and applies changes to tests.
 
 == Domain entity one-to-many relation adder
 
 .Prompt
 ----
-@copilot add one-to-many relation pet of type Pet from entity owner to entity pet representing a list of pets owned by an owner.
+@copilot add one-to-many relation pet of type Pet from entity Owner to entity Pet representing a list of pets owned by an owner.
 ----
 
-The agent implements a new one-to-many relation with name `pet` of type `Pet` to entity class `Owner` and apply changes to tests.
+The agent implements a new one-to-many relation with name `pet` of type `Pet` to entity class `Owner` and applies changes to tests.
 
 == Domain entities sanity checker
 
