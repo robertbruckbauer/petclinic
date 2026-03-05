@@ -118,11 +118,6 @@ public final class Visit extends JsonJpaEntity<Visit> {
     }
 
     @Override
-    public Visit verify() {
-        return this;
-    }
-
-    @Override
     public Visit withId(@NonNull final UUID id) {
         if (Objects.equals(getId(), id)) {
             return this;

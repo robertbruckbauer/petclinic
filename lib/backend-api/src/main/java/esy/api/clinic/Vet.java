@@ -34,7 +34,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @Column(name = "skill")
     @Getter
     @JsonProperty
-    private SortedSet<String> allSkill;
+    private SortedSet<@NotBlank String> allSkill;
 
     @ElementCollection(
             fetch = FetchType.EAGER)
@@ -44,7 +44,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @Column(name = "species")
     @Getter
     @JsonProperty
-    private SortedSet<String> allSpecies;
+    private SortedSet<@NotBlank String> allSpecies;
     // end::properties[]
 
     Vet() {
@@ -77,15 +77,6 @@ public final class Vet extends JsonJpaEntity<Vet> {
         return this.name.equals(that.name)&&
                 this.allSkill.equals(that.allSkill)&&
                 this.allSpecies.equals(that.allSpecies);
-    }
-
-    @Override
-    public Vet verify() {
-        // Check if name is valid
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("name is blank");
-        }
-        return this;
     }
 
     @Override

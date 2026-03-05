@@ -106,19 +106,6 @@ public final class Pet extends JsonJpaEntity<Pet> {
     }
 
     @Override
-    public Pet verify() {
-        // Check if name is valid
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("name is blank");
-        }
-        // Check if species is valid
-        if (species.isBlank()) {
-            throw new IllegalArgumentException("species is blank");
-        }
-        return this;
-    }
-
-    @Override
     public Pet withId(@NonNull final UUID id) {
         if (Objects.equals(getId(), id)) {
             return this;
