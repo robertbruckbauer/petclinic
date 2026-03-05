@@ -6,11 +6,27 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import jakarta.persistence.*;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @MappedSuperclass
 public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJpaWithId<T> {
+
+    /**
+     * {@link ValidatorFactory} ist thread-safe.
+     */
+    private static final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+
+    /**
+     * {@link Validator} ist thread-safe.
+     */
+    @Transient
+    @JsonIgnore
+    private final Validator validator = validatorFactory.getValidator();
 
     @Version
     @Column(name = "version", nullable = false)
@@ -50,7 +66,18 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
      *
      * @return this instance
      */
-    public abstract T verify();
+    @SuppressWarnings("unchecked") // no other solution
+    public T verify() {
+        final var that = (T) this;
+        final var allConstraintViolation = this.validator.validate(that);
+        if (!allConstraintViolation.isEmpty()) {
+            final var message = allConstraintViolation.stream()
+                    .map(e -> e.getPropertyPath() + " " + e.getMessage())
+                    .collect(Collectors.joining(", "));
+            throw new IllegalArgumentException(message);
+        }
+        return that;
+    }
 
     @Override
     public final int hashCode() {
