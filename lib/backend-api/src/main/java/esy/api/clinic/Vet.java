@@ -34,7 +34,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @Column(name = "skill")
     @Getter
     @JsonProperty
-    private SortedSet<String> allSkill;
+    private SortedSet<@NotBlank String> allSkill;
 
     @ElementCollection(
             fetch = FetchType.EAGER)
@@ -44,7 +44,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @Column(name = "species")
     @Getter
     @JsonProperty
-    private SortedSet<String> allSpecies;
+    private SortedSet<@NotBlank String> allSpecies;
     // end::properties[]
 
     Vet() {

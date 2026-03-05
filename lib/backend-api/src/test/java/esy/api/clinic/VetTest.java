@@ -124,6 +124,23 @@ class VetTest {
 		assertTrue(value.getAllSkill().contains("B"));
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"",
+			" ",
+			"\\t",
+			"\\n"
+	})
+	void jsonSkillConstraints(final String text) {
+		final var json = """
+                        {
+                            "name":"Max Mustermann",
+                            "allSkill":["%s"]
+                        }
+                        """.formatted(text);
+		assertThrows(IllegalArgumentException.class, () -> Vet.fromJson(json).verify());
+	}
+
 	@Test
 	public void jsonSpecies() {
 		final var name = "Max Mustermann";
@@ -138,5 +155,22 @@ class VetTest {
 		value.addAllSpecies("Bird");
 		assertEquals(3, value.getAllSpecies().size());
 		assertTrue(value.getAllSpecies().contains("Bird"));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"",
+			" ",
+			"\\t",
+			"\\n"
+	})
+	void jsonSpeciesConstraints(final String text) {
+		final var json = """
+                        {
+                            "name":"Max Mustermann",
+                            "allSpecies":["%s"]
+                        }
+                        """.formatted(text);
+		assertThrows(IllegalArgumentException.class, () -> Vet.fromJson(json).verify());
 	}
 }
