@@ -2,6 +2,7 @@ package esy.app.clinic;
 
 import esy.api.client.Owner;
 import esy.api.client.Pet;
+import esy.api.clinic.QVisit;
 import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
 import esy.app.client.OwnerRepository;
@@ -19,6 +20,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -155,6 +157,18 @@ public class VisitRepositoryTest {
     }
 
     @Test
+    void saveVisitOnly() {
+        final var value0 = createWithText("Visit only");
+        final var value1 = visitRepository.save(value0);
+        assertNotNull(value1);
+        assertNull(value1.getPet());
+        assertNull(value1.getVet());
+        assertTrue(value1.isPersisted());
+        assertEquals(0L, value1.getVersion());
+        assertTrue(value1.isEqual(value0));
+    }
+
+    @Test
     void findVisit() {
         final var text = "Lorem ipsum";
         final var value = visitRepository.save(createWithText(text));
@@ -171,8 +185,10 @@ public class VisitRepositoryTest {
 
     @Test
     void findAll() {
-        final var value1 = visitRepository.save(createWithText("Lorem ipsue"));
-        final var value2 = visitRepository.save(createWithText("Dolor sit amet"));
+        final var value1 = visitRepository.save(createWithText("Lorem ipsue")
+                .setPet(savePet("Odi")));
+        final var value2 = visitRepository.save(createWithText("Dolor sit amet")
+                .setVet(saveVet("Dr.")));
         final var value3 = visitRepository.save(createWithText("Dolore magna aliqua"));
         assertEquals(3, visitRepository.count());
         final var allValue = visitRepository.findAll();
@@ -181,5 +197,17 @@ public class VisitRepositoryTest {
         assertTrue(allValue.remove(value2));
         assertTrue(allValue.remove(value3));
         assertTrue(allValue.isEmpty());
+        
+        final var allValueWithPet = new ArrayList<Visit>();
+        visitRepository.findAll(QVisit.visit.pet.name.eq("Odi")).forEach(allValueWithPet::add);
+        assertEquals(1, allValueWithPet.size());
+        assertTrue(allValueWithPet.remove(value1));
+        assertTrue(allValueWithPet.isEmpty());
+
+        final var allValueWithVet = new ArrayList<Visit>();
+        visitRepository.findAll(QVisit.visit.vet.name.eq("Dr.")).forEach(allValueWithVet::add);
+        assertEquals(1, allValueWithVet.size());
+        assertTrue(allValueWithVet.remove(value2));
+        assertTrue(allValueWithVet.isEmpty());
     }
 }
