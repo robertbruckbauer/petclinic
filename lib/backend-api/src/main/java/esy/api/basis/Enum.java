@@ -89,17 +89,6 @@ public final class Enum extends JsonJpaEntity<Enum> implements JsonJpaItem<Strin
     }
 
     @Override
-    public Enum verify() {
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("name is blank");
-        }
-        if (text.isBlank()) {
-            throw new IllegalArgumentException("text is blank");
-        }
-        return this;
-    }
-
-    @Override
     public Enum withId(@NonNull final UUID id) {
         if (getId().equals(id)) {
             return this;

@@ -80,15 +80,6 @@ public final class Vet extends JsonJpaEntity<Vet> {
     }
 
     @Override
-    public Vet verify() {
-        // Check if name is valid
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("name is blank");
-        }
-        return this;
-    }
-
-    @Override
     public Vet withId(@NonNull final UUID id) {
         if (Objects.equals(getId(), id)) {
             return this;

@@ -84,19 +84,6 @@ public final class Owner extends JsonJpaEntity<Owner> {
     }
 
     @Override
-    public Owner verify() {
-        // Check if name is valid
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("name is blank");
-        }
-        // Check if address is valid
-        if (address.isBlank()) {
-            throw new IllegalArgumentException("address is blank");
-        }
-        return this;
-    }
-
-    @Override
     public Owner withId(@NonNull final UUID id) {
         if (Objects.equals(getId(), id)) {
             return this;

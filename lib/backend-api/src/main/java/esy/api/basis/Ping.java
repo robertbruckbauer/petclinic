@@ -59,11 +59,6 @@ public class Ping extends JsonJpaEntity<Ping> {
     }
 
     @Override
-    public Ping verify() {
-        return this;
-    }
-
-    @Override
     public Ping withId(@NonNull final UUID id) {
         if (getId().equals(id)) {
             return this;
