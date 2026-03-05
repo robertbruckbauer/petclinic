@@ -1,28 +1,42 @@
 = AI-driven development and maintenance
 
-== Update domain model
+== Domain entity property adder
 
 .Prompt
 ----
-@copilot add property <name> of type <Type> to entity <Entity> having a ...
+@copilot add property text of type String to entity visit having a diagnosis text.
 ----
 
-The agent implements a new property with a given type in an entity class.
-`<name>` is a placeholder for the property name, e.g. `text`.
-`<Type>` is a placeholder for the property type, e.g. `String`.
-`<Entity>` is a placeholder for the entity name, e.g. `Visit`.
+The agent implements a new property with name `text` of type `String` to entity class `Visit` and apply changes to tests.
+
+== Domain entity collection adder
 
 .Prompt
 ----
-@copilot add collection <name> of type <Type> to entity <Entity> having a sorted set of unique ...
+@copilot add collection skill of type String to entity vet having skills of vets.
 ----
 
-The agent implements a new collection with a given element type in an entity class.
-`<name>` is a placeholder for the collection name, e.g. `text`.
-`<Type>` is a placeholder for the element type, e.g. `String`.
-`<Entity>` is a placeholder for the entity name, e.g. `Visit`.
+The agent implements a new collection with name `skill` of type `String` to entity class `Vet` and apply changes to tests.
 
-== Sanity check of the domain model
+== Domain entity many-to-one relation adder
+
+.Prompt
+----
+@copilot add many-to-one relation pet of type Pet from entity vet to entity pet representing the pet treated in a visit.
+----
+
+The agent implements a new many-to-one relation with name `pet` of type `Pet` to entity class `Visit` and apply changes to tests.
+
+== Domain entity one-to-many relation adder
+
+.Prompt
+----
+@copilot add one-to-many relation pet of type Pet from entity owner to entity pet representing a list of pets owned by an owner.
+----
+
+The agent implements a new one-to-many relation with name `pet` of type `Pet` to entity class `Owner` and apply changes to tests.
+
+== Domain entities sanity checker
 
 .Prompt
 ----
@@ -33,18 +47,18 @@ The agent reviews implementation files for all domain entities and ensures REST 
 
 You can reduce the scope to changed files in a pull request.
 
-== Sanity check of REST API documentation
+== REST API sanity checker
 
 .Prompt
 ----
-@copilot check rest api documentation
+@copilot check rest api
 ----
 
 The agent reviews implementation files for all REST API endpoints and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
 You can reduce the scope to changed files in a pull request.
 
-== Create new REST API documentation
+== REST API service documentation creator
 
 .Prompt
 ----
@@ -54,18 +68,18 @@ You can reduce the scope to changed files in a pull request.
 The agent reviews implementation files for all REST API endpoints for the given main entity and creates a new documentation following structure and instructions of the template.
 Replace `owner` with the name of the main entity.
 
-== Sanity check of GraphQL API documentation
+== GraphQL API sanity checker
 
 .Prompt
 ----
-@copilot check graphql api documentation
+@copilot check graphql api
 ----
 
 The agent reviews implementation files for all GraphQL API operations and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
 You can reduce the scope to changed files in a pull request.
 
-== Create new GraphQL API documentation
+== GraphQL API service documentation creator
 
 .Prompt
 ----
