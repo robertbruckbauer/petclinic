@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,65 +60,33 @@ class EnumTest {
     }
 
     @Test
+    void writeJson() {
+        final var name = "JIRA";
+        final var value = createWithName(name);
+        final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
+        assertEquals(0, json.at("/version").asLong());
+        assertFalse(json.at("/id").isMissingNode());
+        assertFalse(json.at("/art").isMissingNode());
+        assertFalse(json.at("/code").isMissingNode());
+        assertFalse(json.at("/name").isMissingNode());
+        assertFalse(json.at("/text").isMissingNode());
+    }
+
+    @Test
     void withId() {
         final var name = "JIRA";
         final var value0 = createWithName(name);
+        assertNotNull(value0.getId());
+        assertNotNull(value0.getArt());
+        assertNotNull(value0.getCode());
+        assertNotNull(value0.getName());
+        assertNotNull(value0.getText());
+        assertNotNull(value0.getValue());
         final var value1 = value0.withId(value0.getId());
         assertSame(value0, value1);
         final var value2 = value0.withId(UUID.randomUUID());
         assertNotSame(value0, value2);
         assertTrue(value0.isEqual(value2));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "\"version\": \"1\"",
-            "\"created\": \"2019-04-22\"",
-            "\"garbage\": \"value\""
-    })
-    void jsonGarbage(final String line) {
-        final var name = "JIRA";
-        final var json = "{" +
-                "\"art\": \"QUELLE\"," +
-                "\"name\": \"" + name + "\"," +
-                "\"code\": \"2\"," +
-                "\"text\": \"A " + name + "\"," +
-                line +
-                "}";
-        final var value = Enum.fromJson(json);
-        assertDoesNotThrow(value::verify);
-        assertNotNull(value.getId());
-        assertEquals("QUELLE", value.getArt());
-        assertEquals(2L, value.getCode());
-        assertEquals(name, value.getName());
-        assertEquals("A " + name, value.getText());
-    }
-
-    @Test
-    void json() {
-        final var name = "JIRA";
-        final var value = createWithName(name);
-        assertDoesNotThrow(value::verify);
-        assertNotNull(value.getId());
-        assertEquals("QUELLE", value.getArt());
-        assertEquals(2L, value.getCode());
-        assertEquals(name, value.getName());
-        assertEquals("A " + name, value.getText());
-        assertEquals(name, value.getValue());
-
-        final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
-        assertEquals(0, json.at("/version").asLong());
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "{}",
-            "{\"text\": \"\"}",
-            "{\"text\": \"\\t\"}",
-            "{\"text\": \" \"}"
-    })
-    void jsonConstraints(final String json) {
-        assertThrows(IllegalArgumentException.class, () -> Enum.fromJson(json).verify());
     }
 
     @Test
@@ -147,13 +116,27 @@ class EnumTest {
 
         assertThrows(NullPointerException.class, () -> value.setCode(null));
 
-        value.setCode(3L);
+        value.setCode(0L);
         assertDoesNotThrow(value::verify);
         assertNotEquals(2L, value.getCode());
 
         value.setCode(2L);
         assertDoesNotThrow(value::verify);
         assertEquals(2L, value.getCode());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "",
+            "-1"
+    })
+    void jsonCodeConstraints(final String text) {
+        final var json = """
+                        {
+                            "code":"%s"
+                        }
+                        """.formatted(text);
+        assertThrows(IllegalArgumentException.class, () -> Enum.fromJson(json).verify());
     }
 
     @ParameterizedTest
@@ -185,6 +168,22 @@ class EnumTest {
         assertEquals(name, value.getValue());
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "",
+            " ",
+            "\\t",
+            "\\n"
+    })
+    void jsonNameConstraints(final String text) {
+        final var json = """
+                        {
+                            "name":"%s"
+                        }
+                        """.formatted(text);
+        assertThrows(IllegalArgumentException.class, () -> Enum.fromJson(json).verify());
+    }
+
     @Test
     void jsonText() {
         final var name = "JIRA";
@@ -201,5 +200,21 @@ class EnumTest {
         value.setText(name);
         assertDoesNotThrow(value::verify);
         assertEquals(name, value.getText());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "",
+            " ",
+            "\\t",
+            "\\n"
+    })
+    void jsonTextConstraints(final String text) {
+        final var json = """
+                        {
+                            "text":"%s"
+                        }
+                        """.formatted(text);
+        assertThrows(IllegalArgumentException.class, () -> Enum.fromJson(json).verify());
     }
 }

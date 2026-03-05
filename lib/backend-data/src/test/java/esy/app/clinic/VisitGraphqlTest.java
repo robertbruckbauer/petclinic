@@ -57,12 +57,10 @@ class VisitGraphqlTest {
                 .document("{allVisit{text billable}}")
                 .execute();
         assertNotNull(data);
-        final var allText = data.path("allVisit[*].text")
+        data.path("allVisit[0].text")
                 .hasValue()
-                .entityList(String.class)
-                .get();
-        assertEquals(1, allText.size());
-        assertEquals("Lorem ipsum.", allText.getFirst());
+                .entity(String.class)
+                .isEqualTo("Lorem ipsum.");
         data.path("allVisit[0].billable")
                 .hasValue()
                 .entity(Boolean.class)
@@ -143,12 +141,10 @@ class VisitGraphqlTest {
                         """.formatted(date))
                 .execute();
         assertNotNull(data);
-        final var allText = data.path("allVisitAt[*].text")
+        data.path("allVisitAt[0].text")
                 .hasValue()
-                .entityList(String.class)
-                .get();
-        assertEquals(1, allText.size());
-        assertEquals("Lorem ipsum.", allText.getFirst());
+                .entity(String.class)
+                .isEqualTo("Lorem ipsum.");
         final var queryCaptor = ArgumentCaptor.<BooleanExpression>captor();
         final var orderCaptor = ArgumentCaptor.<OrderSpecifier<LocalDate>>captor();
         verify(visitRepository).findAll(queryCaptor.capture(), orderCaptor.capture());

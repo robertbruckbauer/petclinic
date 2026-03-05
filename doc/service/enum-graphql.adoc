@@ -14,9 +14,7 @@ For create, update, and delete operations, use the REST API.
 
 === Enum
 
-Each enum represents an extensible enumeration item.
-Enums are organized by discriminator for logical grouping (e.g. "SPECIES", "SKILL").
-Within each discriminator group, numeric codes and names must be unique.
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Enum.adoc[]
 
 TIP: The discriminator is called `art`.
 This is a historical flaw.
@@ -29,6 +27,8 @@ The `Enum` type defines properties and collections.
 ----
 include::{graphqldir}/enum.gqls[]
 ----
+
+NOTE: The `code` field is declared as `Int!` in the GraphQL schema but the corresponding Java entity field is of type `Long` (backed by `BIGINT` in the database). GraphQL's `Int` type is a signed 32-bit integer. If code values ever exceed 2,147,483,647 serialization will fail. Consider changing the schema type to `String` or a custom scalar if large codes are expected.
 
 The `Enum` type corresponds to the entity class.
 

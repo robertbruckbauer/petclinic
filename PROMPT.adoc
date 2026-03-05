@@ -1,22 +1,83 @@
 = AI-driven development and maintenance
 
-== Sanity Check of REST API documentation
+An `agents.md` file is where you define all the specifics of a task: the agent’s persona, the exact tech stack it should know, the implementation file structure, workflows, and the explicit commands it can run.
+It’s also where you provide examples and, most importantly, set clear boundaries of what not to do.
+
+See 
+https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories[How to write a great agents.md]
+for more information.
+
+See
+https://github.com/github/awesome-copilot[Awesome GitHub Copilot]
+for a community created collection of custom agents and instructions.
+
+== Domain entity property adder
 
 .Prompt
 ----
-@copilot check rest api documentation
+@copilot add property text of type String to entity Visit having a diagnosis text.
+----
+
+The agent implements a new property with name `text` of type `String` to entity class `Visit` and applies changes to tests.
+
+.Prompt
+----
+@copilot remove property billable of type boolean from entity Visit.
+----
+
+The agent removes the existing property with name `billable` of type `boolean` from entity class `Visit` and applies changes to tests.
+It does the inverse of the tasks of the implementation guide.
+
+== Domain entity collection adder
+
+.Prompt
+----
+@copilot add collection skill of type String to entity Vet having skills of vets.
+----
+
+The agent implements a new collection with name `skill` of type `String` to entity class `Vet` and applies changes to tests.
+
+== Domain entity many-to-one relation adder
+
+.Prompt
+----
+@copilot add many-to-one relation pet of type Pet from entity Vet to entity Pet representing the pet treated in a visit.
+----
+
+The agent implements a new many-to-one relation with name `pet` of type `Pet` to entity class `Visit` and applies changes to tests.
+
+== Domain entity one-to-many relation adder
+
+.Prompt
+----
+@copilot add one-to-many relation pet of type Pet from entity Owner to entity Pet representing a list of pets owned by an owner.
+----
+
+The agent implements a new one-to-many relation with name `pet` of type `Pet` to entity class `Owner` and applies changes to tests.
+
+== Domain entities sanity checker
+
+.Prompt
+----
+@copilot check domain entities
+----
+
+The agent reviews implementation files for all domain entities and ensures REST endpoints and GraphQL operations are up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
+
+You can reduce the scope to changed files in a pull request.
+
+== REST API sanity checker
+
+.Prompt
+----
+@copilot check rest api
 ----
 
 The agent reviews implementation files for all REST API endpoints and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
-.Prompt
-----
-@copilot check rest api documentation for PR
-----
+You can reduce the scope to changed files in a pull request.
 
-The agent reviews implementation files changed in a PR and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
-
-== Create new REST API documentation
+== REST API service documentation creator
 
 .Prompt
 ----
@@ -26,23 +87,18 @@ The agent reviews implementation files changed in a PR and ensures related REST 
 The agent reviews implementation files for all REST API endpoints for the given main entity and creates a new documentation following structure and instructions of the template.
 Replace `owner` with the name of the main entity.
 
-== Sanity Check of GraphQL API documentation
+== GraphQL API sanity checker
 
 .Prompt
 ----
-@copilot check graphql api documentation
+@copilot check graphql api
 ----
 
 The agent reviews implementation files for all GraphQL API operations and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
 
-.Prompt
-----
-@copilot check graphql api documentation for PR
-----
+You can reduce the scope to changed files in a pull request.
 
-The agent reviews implementation files changed in a PR and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
-
-== Create new GraphQL API documentation
+== GraphQL API service documentation creator
 
 .Prompt
 ----

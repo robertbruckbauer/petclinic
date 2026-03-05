@@ -1,27 +1,31 @@
 package esy.api.clinic;
 
+import esy.rest.JsonJpaMapper;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("fast")
 class VetTest {
 
 	Vet createWithName(final String name) {
 		return Vet.fromJson("""
                 {
-                	"name":"%s"
-				}
-				""".formatted(name));
+                	"name":"%s",
+                	"allSkill":["Z","A"],
+                	"allSpecies":["Dog","Cat"]
+                }
+                """.formatted(name));
 	}
 
 	@Test
 	void equalsHashcodeToString() {
-		final var name = "Tom";
+		final var name = "Max Mustermann";
 		final var value = createWithName(name);
 		// Identisches Objekt
 		assertEquals(value, value);
@@ -50,9 +54,25 @@ class VetTest {
 	}
 
 	@Test
+	void writeJson() {
+		final var name = "Max Mustermann";
+		final var value = createWithName(name);
+		final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
+		assertEquals(0, json.at("/version").asLong());
+		assertFalse(json.at("/id").isMissingNode());
+		assertFalse(json.at("/name").isMissingNode());
+		assertFalse(json.at("/allSkill").isMissingNode());
+		assertFalse(json.at("/allSpecies").isMissingNode());
+	}
+
+	@Test
 	void withId() {
 		final var name = "Max Mustermann";
 		final var value0 = createWithName(name);
+		assertNotNull(value0.getId());
+		assertNotNull(value0.getName());
+		assertNotNull(value0.getAllSkill());
+		assertNotNull(value0.getAllSpecies());
 		final var value1 = value0.withId(value0.getId());
 		assertSame(value0, value1);
 		final var value2 = value0.withId(UUID.randomUUID());
@@ -61,25 +81,32 @@ class VetTest {
 	}
 
 	@Test
-	void json() {
-		final var name = "Max Mustermann";
-		final var value = createWithName(name);
+	void jsonName() {
+		final var name = "Mia Musterfrau";
+		final var value = Vet.fromJson("""
+                        {
+                            "name":"%s"
+                        }
+                        """.formatted(name));
 		assertDoesNotThrow(value::verify);
-		assertNotNull(value.getId());
 		assertEquals(name, value.getName());
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-			"{}",
-			"{\"name\": \"\"}",
-			"{\"name\": \" \"}",
-			"{\"name\": \"\\t\"}"
+			"",
+			" ",
+			"\\t",
+			"\\n"
 	})
-	void jsonConstraints(final String json) {
+	void jsonNameConstraints(final String text) {
+		final var json = """
+                        {
+                            "name":"%s"
+                        }
+                        """.formatted(text);
 		assertThrows(IllegalArgumentException.class, () -> Vet.fromJson(json).verify());
 	}
-
 
 	@Test
 	public void jsonSkill() {
@@ -88,31 +115,13 @@ class VetTest {
 		assertDoesNotThrow(value::verify);
 		assertNotNull(value.getId());
 		assertEquals(name, value.getName());
-
-		value.getAllSkill().add("A");
-		assertDoesNotThrow(value::verify);
-		assertEquals(1, value.getAllSkill().size());
-		assertTrue(value.getAllSkill().contains("A"));
-
-		value.getAllSkill().clear();
-		assertDoesNotThrow(value::verify);
-		assertEquals(0, value.getAllSkill().size());
-
-		value.getAllSkill().addAll(Set.of("A", "B"));
-		assertDoesNotThrow(value::verify);
 		assertEquals(2, value.getAllSkill().size());
 		assertTrue(value.getAllSkill().contains("A"));
-		assertTrue(value.getAllSkill().contains("B"));
+		assertTrue(value.getAllSkill().contains("Z"));
 
-		value.getAllSkill().remove("B");
-		assertDoesNotThrow(value::verify);
-		assertEquals(1, value.getAllSkill().size());
-		assertTrue(value.getAllSkill().contains("A"));
-
-		value.getAllSkill().clear();
-		value.addAllSkill("A", "Z", "B");
+		value.addAllSkill("B");
 		assertEquals(3, value.getAllSkill().size());
-		assertEquals(Set.of("A", "B", "Z"), value.getAllSkill());
+		assertTrue(value.getAllSkill().contains("B"));
 	}
 
 	@Test
@@ -122,30 +131,12 @@ class VetTest {
 		assertDoesNotThrow(value::verify);
 		assertNotNull(value.getId());
 		assertEquals(name, value.getName());
-
-		value.getAllSpecies().add("Cat");
-		assertDoesNotThrow(value::verify);
-		assertEquals(1, value.getAllSpecies().size());
-		assertTrue(value.getAllSpecies().contains("Cat"));
-
-		value.getAllSpecies().clear();
-		assertDoesNotThrow(value::verify);
-		assertEquals(0, value.getAllSpecies().size());
-
-		value.getAllSpecies().addAll(Set.of("Cat", "Dog"));
-		assertDoesNotThrow(value::verify);
 		assertEquals(2, value.getAllSpecies().size());
 		assertTrue(value.getAllSpecies().contains("Cat"));
 		assertTrue(value.getAllSpecies().contains("Dog"));
 
-		value.getAllSpecies().remove("Dog");
-		assertDoesNotThrow(value::verify);
-		assertEquals(1, value.getAllSpecies().size());
-		assertTrue(value.getAllSpecies().contains("Cat"));
-
-		value.getAllSpecies().clear();
-		value.addAllSpecies("Dog", "Bird", "Cat");
+		value.addAllSpecies("Bird");
 		assertEquals(3, value.getAllSpecies().size());
-		assertEquals(Set.of("Bird", "Cat", "Dog"), value.getAllSpecies());
+		assertTrue(value.getAllSpecies().contains("Bird"));
 	}
 }

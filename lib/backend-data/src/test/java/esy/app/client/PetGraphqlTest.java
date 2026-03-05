@@ -51,7 +51,7 @@ class PetGraphqlTest {
                 .setOwner(owner);
         when(petRepository.findAll())
                 .thenReturn(List.of(value));
-        when(ownerRepository.findAllById(any()))
+        when(ownerRepository.findAllById(anySet()))
                 .thenReturn(List.of(owner));
         final var data = graphQlTester
                 .document("""
@@ -73,7 +73,7 @@ class PetGraphqlTest {
                 .isEqualTo("Alice");
         verify(petRepository).findAll();
         verifyNoMoreInteractions(petRepository);
-        verify(ownerRepository).findAllById(any());
+        verify(ownerRepository).findAllById(anySet());
         verifyNoMoreInteractions(ownerRepository);
     }
 }

@@ -1,6 +1,6 @@
 = Column for type `boolean`
 
-== Default Implementation
+== Default implementation
 
 .Entity
 [source,java,options="nowrap"]
@@ -67,3 +67,166 @@ The `verify` operation may include custom validation logic.
 == Property serialization
 
 `boolean` properties are by default part of the JSON structure.
+
+== `<Entity>Test` approach
+
+Create test data from JSON using `fromJson` method of entity classes.
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.
+
+The `json<Name>` parameterized test verifies the happy path, e.g.
+
+- `verify` does not throw an exception
+- correct deserialization from JSON
+- assert property value
+
+.Example from Visit entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(booleans = {true, false})
+void jsonBillable(final boolean billable) {
+    final var value = Visit.fromJson("""
+        {
+            "billable":"%b"
+        }
+        """.formatted(billable));
+    assertDoesNotThrow(value::verify);
+    assertEquals(billable, value.isBillable());
+}
+----
+
+The `json<Name>Constraints` parameterized test verifies constraints, e.g.
+
+- `verify` throws an exception
+- invalid values are rejected
+- missing values are rejected
+
+.Example from Vet entity
+[source,java,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(strings = {
+        "JA",
+        "NEIN",
+})
+void jsonBillableConstraints(final String text) {
+    final var json = """
+        {
+            "billable":"%s"
+        }
+        """.formatted(text);
+    assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+}
+----
+
+== `<Entity>RepositoryTest` approach
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@ParameterizedTest
+@ValueSource(booleans = {true, false})
+void save<Entity>() {
+    final var value0 = create...(...);
+    assertFalse(value0.isPersisted());
+    assertEquals(0L, value0.getVersion());
+    assertNotNull(value0.getId());
+    assertTrue(value0.is<Name>());
+
+    final var value1 = <entity>Repository.save(value0);
+    assertNotNull(value1); 
+    assertNotSame(value0, value1); 
+    assertTrue(value1.isPersisted());
+    assertEquals(0L, value1.getVersion());
+    assertTrue(value1.isEqual(value0));
+}
+----
+
+== `<Entity>GraphqlTest` approach
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void queryAll<Entity>() {
+    final var value = <Entity>.fromJson(...);
+    when(<entity>Repository.findAll())
+            .thenReturn(List.of(value));
+    final var data = graphQlTester
+            .document("""
+                    {all<Entity>{<name>}}
+                    """)
+            .execute();
+    assertNotNull(data);
+    data.path("all<Entity>[0].<name>")
+            .hasValue()
+            .entity(<Type>.class)
+            .isEqualTo(...);
+    verify(<entity>Repository).findAll();
+    verifyNoMoreInteractions(<entity>Repository);
+}
+----
+
+
+== `<Entity>RestapiTest` approach
+
+Update existing `postApi<Entity>` test.
+The test verifies the happy path of the POST entity operation.
+Add a value for the new property in the payload for the request.
+Assert the value of the new property in the response.
+
+Update existing `postApi<Entity>Conflict` test.
+The test  verifies the primary key conflict of the POST entity operation.
+Add a value for the new property in the payload for the request.
+Assert the conflict status.
+
+Update existing `putApi<Entity>` test.
+The test  verifies the happy path of the PUT entity operation.
+Add a value for the new property in the payload for the request.
+Assert the value of the new property in the response.
+
+Add `patchApi<Entity><Name>` test.
+The test verifies the happy path of the PATCH entity operation for the new property.
+Use the primary key from the `putApi<Entity>` test.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+@Order(31)
+void patchApi<Entity><Name>() throws Exception {
+    final var value = true;
+    final var uuid = UUID.fromString(...);
+    assertTrue(<entity>Repository.findById(uuid).isPresent());
+    mockMvc.perform(patch("/api/<entity>/" + uuid)
+                    .content("""
+                            {
+                                "<name>":"%s"
+                            }
+                            """.formatted(value))
+                    .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                    .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status()
+                    .isOk())
+            .andExpect(content()
+                    .contentType("application/json"))
+            .andExpect(header()
+                    .exists("Vary"))
+            .andExpect(header()
+                    .exists("ETag"))
+            .andExpect(jsonPath("$.id")
+                    .value(uuid.toString()))
+            .andExpect(jsonPath("$.<name>")
+                    .value(value));
+}
+----
+
+Update existing `getApi<Entity>ById` test.
+The test verifies the happy path of the GET entity operation.
+Use the primary key from the `putApi<Entity>` test.
+Compute the new `ETag` value according to the new test.
+Assert the value of the new property in the response.

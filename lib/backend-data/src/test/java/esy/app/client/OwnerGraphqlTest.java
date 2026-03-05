@@ -1,6 +1,7 @@
 package esy.app.client;
 
 import esy.api.client.Owner;
+import esy.api.client.Pet;
 import esy.app.EsyGraphqlConfiguration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +14,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.*;
 
 @Tag("fast")
@@ -36,27 +37,38 @@ class OwnerGraphqlTest {
     void queryAllOwner() {
         final var value = Owner.fromJson("""
                 {
-                    "name":"Tom",
+                    "name":"Jet Li",
                     "address":"Bergweg 1, 5400 Hallein",
                     "contact":"+43 660 5557683"
                 }
                 """);
+        final var pet = Pet.fromJson("""
+                {
+                    "name":"Tom"
+                }
+                """)
+                .setOwner(value);
         when(ownerRepository.findAll())
                 .thenReturn(List.of(value));
+        when(petRepository.findAllByOwnerIdIn(anySet()))
+                .thenReturn(List.of(pet));
         final var data = graphQlTester
                 .document("""
-                        {allOwner{name}}
+                        {allOwner{name allPet{name}}}
                         """)
                 .execute();
         assertNotNull(data);
-        final var allName = data.path("allOwner[*].name")
+        data.path("allOwner[0].name")
                 .hasValue()
-                .entityList(String.class)
-                .get();
-        assertEquals(1, allName.size());
-        assertEquals("Tom", allName.getFirst());
+                .entity(String.class)
+                .isEqualTo("Jet Li");
+        data.path("allOwner[0].allPet[0].name")
+                .hasValue()
+                .entity(String.class)
+                .isEqualTo("Tom");
         verify(ownerRepository).findAll();
         verifyNoMoreInteractions(ownerRepository);
-        verifyNoInteractions(petRepository);
+        verify(petRepository).findAllByOwnerIdIn(anySet());
+        verifyNoMoreInteractions(petRepository);
     }
 }

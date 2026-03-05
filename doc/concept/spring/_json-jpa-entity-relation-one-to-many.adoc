@@ -1,6 +1,6 @@
 = Relation of kind `OneToMany`
 
-== Default Implementation
+== Default implementation
 
 .Entity
 [source,java,options="nowrap"]
@@ -29,25 +29,7 @@ The collection is only used during deserialization, not in JSON responses.
 <7> The field has the data type `Set<Pet>` (or `LinkedHashSet<Pet>`).
 Using a `Set` prevents duplicate children and a `LinkedHashSet` maintains insertion order.
 
-.Liquibase
-[source,xml,options="nowrap"]
-----
-<column name="owner_id" type="UUID"> <1>
-    <constraints nullable="false"/>
-</column>
-<addForeignKeyConstraint
-        constraintName="fk_pet_owner_id" <2>
-        baseTableName="pet" <3>
-        baseColumnNames="owner_id"
-        referencedTableName="owner" <4>
-        referencedColumnNames="id"
-/>
-----
-
-<1> The foreign key column is defined in the child table (the "many" side).
-<2> A named constraint ensures referential integrity.
-<3> The `baseTableName` is the child table containing the foreign key.
-<4> The `referencedTableName` is the parent table being referenced.
+This kind of relation does not require a Liquibase change.
 
 == Relation initialization
 
@@ -95,3 +77,71 @@ private Map<String, Object> extraJson() {
 
 <1> The `@JsonAnyGetter` annotation includes these values in the JSON output without nesting.
 <2> All child entities are converted to a simple state transfer object.
+
+== `<Entity>Test` approach
+
+Create test data from JSON using `fromJson` method of entity classes.
+
+The `equalsHashcodeToString` test verifies equality operations.
+
+The `withId` test verifies cloning.
+
+== `<Entity>RepositoryTest` approach
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void save<Entity>() {
+    final var value0 = create...(...); <1>
+    assertFalse(value0.isPersisted());
+    assertEquals(0L, value0.getVersion());
+    assertTrue(value0.getAll<Name>().isEmpty()); <2>
+
+    final var value1 = <entity>Repository.save(value0.addAll<Name>(...)); <3>
+    assertNotNull(value1); 
+    assertNotSame(value0, value1); 
+    assertTrue(value1.isPersisted());
+    assertEquals(0L, value1.getVersion());
+    assertFalse(value0.getAll<Name>().isEmpty()); <4>
+}
+----
+
+<1> Create an new instance of this entity class with required properties set.
+<2> Assert relation to be empty.
+<3> Update relation and persist the instance.
+<4> Assert relation not to be empty.
+
+== `<Entity>GraphqlTest` approach
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Test
+void queryAll<Entity>() {
+    final var value = <Entity>.fromJson(...);
+    when(<entity>Repository.findAll())
+            .thenReturn(List.of(value));
+    final var owner = Owner.fromJson(...);
+    when(ownerRepository.findAllById(any()))
+            .thenReturn(List.of(owner));
+    final var data = graphQlTester
+            .document("""
+                    {all<Entity>{owner(id)}}
+                    """)
+            .execute();
+    assertNotNull(data);
+    data.path("all<Entity>[0].owner.id")
+            .hasValue()
+            .entity(UUID.class)
+            .isEqualTo(owner.getId());
+    verify(<entity>Repository).findAll();
+    verifyNoMoreInteractions(<entity>Repository);
+    verify(ownerRepository).findAllById(any());
+    verifyNoMoreInteractions(ownerRepository);
+}
+----
+
+== `<Entity>RestApiTest` approach
+
+Do not create a Test.

@@ -261,7 +261,7 @@ class OwnerRestApiTest {
     void getApiOwner() throws Exception {
         assertEquals(2, ownerRepository.count());
         mockMvc.perform(get("/api/owner")
-                        .queryParam("sort", "date", "desc")
+                        .param("sort", "name,asc")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()

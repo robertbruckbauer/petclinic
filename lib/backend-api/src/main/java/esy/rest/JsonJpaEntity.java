@@ -12,28 +12,22 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJpaWithId<T> {
 
-    /**
-     * Aktuelle Version der Daten.
-     */
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     @Getter
-    @JsonProperty
+    @JsonIgnore // -> extraJson
     private final Long version;
 
-    /**
-     * Eindeutige ID der Daten.
-     */
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @Getter
     @JsonProperty
     private final UUID id;
 
     /**
-     * {@code TRUE} zeigt an, dass die Daten in einer Datenbank
-     * dauerhaft gespeichert wurden. Das bedeutet, dass ein
-     * gültiger primärer Schlüssel existiert.
+     * {@code TRUE} indicates that the data has been permanently
+     * stored in a database. This means that a valid primary key
+     * exists.
      */
     @Transient
     @JsonIgnore
@@ -51,11 +45,10 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
     }
 
     /**
-     * Prüft die Eigenschaften dieser Instanz und wirft eine
-     * {@link IllegalArgumentException}, wenn etwas nicht in
-     * Ordnung ist.
+     * Validates the properties of this instance and throws an
+     * {@link IllegalArgumentException} if anything is invalid.
      *
-     * @return diese Instanz
+     * @return this instance
      */
     public abstract T verify();
 
@@ -84,24 +77,23 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
     }
 
     /**
-     * Liefert {@code TRUE}, wenn alle Eigenschaften dieser
-     * Instanz und einer anderen Instanz gleich sind.
+     * Returns {@code TRUE} if all properties of this instance
+     * and another instance are equal.
      *
-     * Wichtig: Bitte wegen des Einsatzes von O/R-Mappern
-     * {@link Object#equals(Object)} und
-     * {@link Object#hashCode()} nicht implementieren.
+     * Important: Do not use {@link Object#equals(Object)} and
+     * {@link Object#hashCode()} here due to the use of the
+     * JPA provider.
      *
-     * @param that Vergleichsobjekt
-     * @return {@code TRUE} bei gleichen Eigenschaften, sonst {@code FALSE}
+     * @param that the object to compare with
+     * @return {@code TRUE} or {@code FALSE}
      */
     public abstract boolean isEqual(final T that);
 
     /**
-     * Erzeugt einen lesbaren Text für dieses Objekt mit einer
-     * komma-separierten Liste eindeutiger Attribute dieser
-     * Instanz.
+     * Returns a human-readable string representation of this
+     * object as a comma-separated list of some properties.
      *
-     * @return Komma-separierte Liste
+     * @return comma-separated list
      */
     @Override
     public String toString() {
@@ -125,10 +117,10 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
     }
 
     /**
-     * Erzeugt einen lesbaren Text für dieses Objekt mit einer
-     * JSON-Struktur aller Attribute dieser Instanz.
+     * Returns a human-readable string representation of this
+     * object as a JSON structure of all its properties.
      *
-     * @return JSON-Struktur
+     * @return JSON structure
      */
     public abstract String writeJson();
 }

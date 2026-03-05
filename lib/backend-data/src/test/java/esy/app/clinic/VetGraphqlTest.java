@@ -13,7 +13,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -33,9 +32,11 @@ class VetGraphqlTest {
     void queryAllVet() {
         final var value = Vet.fromJson("""
                 {
-                    "name":"Tom"
+                    "name":"Tom",
+                	"allSkill":["Z","A"],
+                	"allSpecies":["Dog","Cat"]
                 }
-                """).addAllSkill("Z", "A").addAllSpecies("Dog", "Cat");
+                """);
         when(vetRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
@@ -44,26 +45,18 @@ class VetGraphqlTest {
                         """)
                 .execute();
         assertNotNull(data);
-        final var allName = data.path("allVet[*].name")
+        data.path("allVet[0].name")
+                .hasValue()
+                .entity(String.class)
+                .isEqualTo("Tom");
+        data.path("allVet[0].allSkill")
                 .hasValue()
                 .entityList(String.class)
-                .get();
-        assertEquals(1, allName.size());
-        assertEquals("Tom", allName.getFirst());
-        final var allSkill = data.path("allVet[0].allSkill")
+                .containsExactly("A", "Z");
+        data.path("allVet[0].allSpecies")
                 .hasValue()
                 .entityList(String.class)
-                .get();
-        assertEquals(2, allSkill.size());
-        assertEquals("A", allSkill.get(0));
-        assertEquals("Z", allSkill.get(1));
-        final var allSpecies = data.path("allVet[0].allSpecies")
-                .hasValue()
-                .entityList(String.class)
-                .get();
-        assertEquals(2, allSpecies.size());
-        assertEquals("Cat", allSpecies.get(0));
-        assertEquals("Dog", allSpecies.get(1));
+                .containsExactly("Cat", "Dog");
         verify(vetRepository).findAll();
         verifyNoMoreInteractions(vetRepository);
     }

@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -25,14 +24,6 @@ class PingTest {
                     "at":"%s"
                 }
                 """.formatted(Ping.TIME_FORMATTER.format(time)));
-    }
-
-    static Stream<LocalDateTime> atSource() {
-        return Stream.of(
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(1, 3, 5, 123456789)),
-                LocalDateTime.of(LocalDate.of(2024, 4, 22), LocalTime.now()),
-                LocalDateTime.of(2000, 1, 1, 0, 0, 0, 0),
-                LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999999999));
     }
 
     @Test
@@ -68,8 +59,18 @@ class PingTest {
     }
 
     @Test
+    void writeJson() {
+        final var value = createWithTime(LocalDateTime.now());
+        final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
+        assertEquals(0, json.at("/version").asLong());
+        assertFalse(json.at("/id").isMissingNode());
+        assertFalse(json.at("/at").isMissingNode());
+    }
+
+    @Test
     void withId() {
         final var value0 = createWithTime(LocalDateTime.now());
+        assertNotNull(value0.getId());
         final var value1 = value0.withId(value0.getId());
         assertSame(value0, value1);
         final var value2 = value0.withId(UUID.randomUUID());
@@ -90,23 +91,22 @@ class PingTest {
         assertNotNull(value.getId());
     }
 
+    static Stream<LocalDateTime> jsonAt() {
+        return Stream.of(
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(1, 3, 5, 123456789)),
+                LocalDateTime.of(LocalDate.of(2024, 4, 22), LocalTime.now()),
+                LocalDateTime.of(2000, 1, 1, 0, 0, 0, 0),
+                LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999999999));
+    }
+
     @ParameterizedTest
-    @MethodSource("atSource")
-    void json(final LocalDateTime at) {
+    @MethodSource
+    void jsonAt(final LocalDateTime at) {
         final var value = createWithTime(at);
         assertDoesNotThrow(value::verify);
         assertNotNull(value.getId());
         assertEquals(at, value.getAt());
 
-        final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
-        assertEquals(0, json.at("/version").asLong());
-        assertEquals(Ping.TIME_FORMATTER.format(at), json.at("/at").asText());
-    }
-
-    @ParameterizedTest
-    @MethodSource("atSource")
-    void jsonAt(final LocalDateTime at) {
-        final var value = createWithTime(at);
         assertEquals(at, value.getAt());
         value.setAt(at.plusSeconds(1L));
         assertNotEquals(at, value.getAt());

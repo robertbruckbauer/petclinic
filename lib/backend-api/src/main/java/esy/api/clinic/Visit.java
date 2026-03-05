@@ -55,7 +55,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
     private String text;
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             optional = true)
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     @Getter
@@ -63,7 +63,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
     private Pet pet;
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             optional = true)
     @JoinColumn(name = "vet_id", referencedColumnName = "id")
     @Getter
