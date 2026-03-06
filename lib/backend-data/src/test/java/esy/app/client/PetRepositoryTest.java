@@ -1,6 +1,5 @@
 package esy.app.client;
 
-import esy.api.basis.Sex;
 import esy.api.client.Owner;
 import esy.api.client.Pet;
 import org.junit.jupiter.api.Tag;
@@ -10,13 +9,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import jakarta.persistence.EntityManager;
-import javax.sql.DataSource;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,32 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PetRepositoryTest {
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
-    private TransactionTemplate transactionTemplate;
-
-    @Autowired
     private OwnerRepository ownerRepository;
 
     @Autowired
     private PetRepository petRepository;
-
-    @Test
-    void context() {
-        assertNotNull(dataSource);
-        assertNotNull(jdbcTemplate);
-        assertNotNull(entityManager);
-        assertNotNull(transactionTemplate);
-        assertNotNull(ownerRepository);
-        assertNotNull(petRepository);
-    }
 
     Pet createWithName(final String name) {
         return Pet.fromJson("""

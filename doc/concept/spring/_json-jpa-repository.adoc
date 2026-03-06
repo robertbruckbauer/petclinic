@@ -55,3 +55,80 @@ Liquibase applies all changelog scripts so tables, constraints, indexes, etc. ex
 Tests are isolated using `@Transactional` and `@Rollback(true)`.
 Each test builds its own state.
 Changes must not persist between tests.
+
+The test approach is based on a defined basic structure.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Tag("slow")
+@SpringBootTest
+@Transactional
+@Rollback(true)
+public class <Entity>RepositoryTest {
+
+    @Autowired
+    private <Entity>Repository <entity>Repository;
+
+    <Entity> createWithName(final String name) { <1>
+        return <Entity>.fromJson("""
+                {
+                    "name":"%s",
+                    ...
+                }
+                """.formatted(name));
+    }
+
+    @Test <1>
+    void save<Entity>() {
+        final var name = "Max Mustermann";
+        final var value0 = createWithName(name);
+        assertFalse(value0.isPersisted());
+        assertEquals(0L, value0.getVersion());
+        assertNotNull(value0.getId());
+        assertEquals(name, value0.getName());
+        ...
+
+        final var value1 = <entity>Repository.save(value0);
+        assertNotNull(value1);
+        assertNotSame(value0, value1);
+        assertTrue(value1.isPersisted());
+        assertEquals(0L, value1.getVersion());
+        assertTrue(value1.isEqual(value0));
+    }
+
+    @Test <2>
+    void find<Entity>() {
+        final var name = "Max Mustermann";
+        final var value = <entity>Repository.save(createWithName(name));
+        assertTrue(<entity>Repository.existsById(value.getId()));
+        assertTrue(<entity>Repository.findById(value.getId()).orElseThrow().isEqual(value));
+    }
+
+    @Test <3>
+    void find<Entity>NoElement() {
+        final var uuid = UUID.randomUUID();
+        assertFalse(<entity>Repository.existsById(uuid));
+        assertFalse(<entity>Repository.findById(uuid).isPresent());
+    }
+
+    @Test <4>
+    void findAll() {
+        final var value1 = <entity>Repository.save(createWithName("Max Mustermann"));
+        final var value2 = <entity>Repository.save(createWithName("Mia Musterfrau"));
+        final var value3 = <entity>Repository.save(createWithName("Jet Li"));
+        assertEquals(3, <entity>Repository.count());
+        final var allValue = <entity>Repository.findAll();
+        assertEquals(3, allValue.size());
+        assertTrue(allValue.remove(value1));
+        assertTrue(allValue.remove(value2));
+        assertTrue(allValue.remove(value3));
+        assertTrue(allValue.isEmpty());
+    }
+}
+----
+
+<1> Create test data with unique attributes, e.g. the name.
+<2> Test for exactly one element.
+<3> Test for no element.
+<4> Test for a collection of elements.

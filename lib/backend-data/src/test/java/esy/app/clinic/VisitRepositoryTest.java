@@ -13,13 +13,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import jakarta.persistence.EntityManager;
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -32,18 +28,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VisitRepositoryTest {
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
-    private TransactionTemplate transactionTemplate;
-
-    @Autowired
     private OwnerRepository ownerRepository;
 
     @Autowired
@@ -54,15 +38,6 @@ public class VisitRepositoryTest {
 
     @Autowired
     private VisitRepository visitRepository;
-
-    @Test
-    void context() {
-        assertNotNull(dataSource);
-        assertNotNull(jdbcTemplate);
-        assertNotNull(entityManager);
-        assertNotNull(transactionTemplate);
-        assertNotNull(visitRepository);
-    }
 
     Visit createWithText(final String text) {
         return Visit.fromJson("""
