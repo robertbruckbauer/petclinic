@@ -222,3 +222,209 @@ Later assertions may fail due to earlier setup issues rather than endpoint logic
 
 We accept these consequences because this test level serves as a scenario-based component integration test focused on the correct interaction of endpoints across the resource lifecycle and on producing stable documentation snippets.
 See also test approach for entities and repositories.
+
+The test approach is based on a defined basic structure.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Tag("slow")
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
+class <Entity>RestApiTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private <Entity>Repository <entity>Repository;
+
+    @BeforeEach <1>
+    void setUp(final WebApplicationContext webApplicationContext,
+               final RestDocumentationContextProvider restDocumentation) {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(documentationConfiguration(restDocumentation))
+                .alwaysDo(document("{method-name}",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
+                .build();
+    }
+
+    @Test
+    @Order(1) <2>
+    void getApi<Entity>NoElement() throws Exception {
+        assertEquals(0, <entity>Repository.count());
+        mockMvc.perform(get("/api/<entity>")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0]")
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(200) <3>
+    void postApi<Entity>() throws Exception {
+        final var name = "Max Mustermann";
+        assertFalse(<entity>Repository.findOne(...).isPresent());
+        mockMvc.perform(post("/api/<entity>")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isCreated())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .string("ETag", "\"0\""))
+                .andExpect(jsonPath("$.id")
+                        .isNotEmpty())
+                .andExpect(jsonPath("$.name")
+                        .value(name))
+                ...;
+    }
+
+    @Test
+    @Order(201)
+    void postApi<Entity>Conflict() throws Exception {
+        final var name = "Max Mustermann";
+        assertTrue(<entity>Repository.findOne(...).isPresent());
+        mockMvc.perform(post("/api/<entity>")
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isConflict());
+    }
+
+    @Test
+    @Order(300) <4>
+    void putApi<Entity>() throws Exception {
+        final var name = "Bea Musterfrau";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(<entity>Repository.findById(uuid).isPresent());
+        mockMvc.perform(put("/api/<entity>/" + uuid)
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isCreated())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .string("ETag", "\"0\""))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.name")
+                        .value(name))
+                ...;
+    }
+
+    @Test
+    @Order(500) <5>
+    void getApi<Entity>ById() throws Exception {
+        final var name = "Bea Musterfrau";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(<entity>Repository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/<entity>/" + uuid)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .string("ETag", "\"4\""))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.name")
+                        .value(name))
+                ...;
+    }
+
+    @Test
+    @Order(501)
+    void getApi<Entity>ByIdNotFound() throws Exception {
+        final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
+        assertFalse(<entity>Repository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/<entity>/" + uuid)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isNotFound());
+    }
+
+    @Test
+    @Order(600) <6>
+    void deleteApi<Entity>() throws Exception {
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(<entity>Repository.findById(uuid).isPresent());
+        mockMvc.perform(delete("/api/<entity>/" + uuid)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()));
+    }
+
+    @Test
+    @Order(601)
+    void deleteApi<Entity>NotFound() throws Exception {
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(<entity>Repository.findById(uuid).isPresent());
+        mockMvc.perform(delete("/api/<entity>/" + uuid))
+                .andDo(print())
+                .andExpect(status()
+                        .isNotFound());
+    }
+
+    @Test <7>
+    @Order(999)
+    @Transactional
+    @Rollback(false)
+    void cleanup() {
+        assertDoesNotThrow(() -> <entity>Repository.deleteAll());
+    }
+}
+----
+
+<1> Setup for the asciidoc snippet generation.
+<2> Test for an empty table.
+<3> Test for the happy path of a POST operation.
+<4> Test for the happy path of a PUT operation.
+<5> Test for the happy path of a GET operation.
+<6> Test for the happy path of a DELETE operation.
+<7> Empty all touched tables.
