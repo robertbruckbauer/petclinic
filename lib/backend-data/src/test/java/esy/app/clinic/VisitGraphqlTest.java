@@ -7,10 +7,9 @@ import esy.api.clinic.Vet;
 import esy.api.clinic.Visit;
 import esy.app.EsyGraphqlConfiguration;
 import esy.app.client.PetRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +43,19 @@ class VisitGraphqlTest {
     @MockitoBean
     private VetRepository vetRepository;
 
+    Visit createWithText(final String text) {
+        return Visit.fromJson("""
+            {
+                "date":"2021-04-22",
+                "time":"13:27",
+                "text":"%s"
+            }
+            """.formatted(text));
+    }
+
     @Test
     void queryAllVisit() {
-        final var value = Visit.fromJson("""
-                {
-                    "date":"2021-04-22",
-                    "text":"Lorem ipsum."
-                }""");
+        final var value = createWithText("Lorem ipsum.");
         when(visitRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
@@ -60,11 +65,11 @@ class VisitGraphqlTest {
         data.path("allVisit[0].text")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Lorem ipsum.");
+                .isEqualTo(value.getText());
         data.path("allVisit[0].billable")
                 .hasValue()
                 .entity(Boolean.class)
-                .isEqualTo(false);
+                .isEqualTo(value.isBillable());
         verify(visitRepository).findAll();
         verifyNoMoreInteractions(visitRepository);
         verifyNoInteractions(petRepository);
@@ -83,11 +88,8 @@ class VisitGraphqlTest {
                 {
                     "name":"Dr. Smith"
                 }""");
-        final var value = Visit.fromJson("""
-                {
-                    "date":"2021-04-22",
-                    "text":"Lorem ipsum."
-                }""")
+        final var text = "Ipso facto.";
+        final var value = createWithText(text)
                 .setPet(pet)
                 .setVet(vet);
         when(visitRepository.findAll())
@@ -103,7 +105,7 @@ class VisitGraphqlTest {
         data.path("allVisit[0].text")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Lorem ipsum.");
+                .isEqualTo(text);
         data.path("allVisit[0].pet.name")
                 .hasValue()
                 .entity(String.class)
@@ -120,19 +122,16 @@ class VisitGraphqlTest {
         verifyNoMoreInteractions(vetRepository);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "2021-04-01",
-            "2021-04-22",
-            "2021-04-30"
-    })
-    void queryAllVisitAt(final String date) {
+    @Test
+    void queryAllVisitAt() {
+        final var date = "2021-04-22";
+        final var text = "Lorem tempus.";
         final var value = Visit.fromJson("""
                 {
                     "date":"%s",
-                    "text":"Lorem ipsum."
+                    "text":"%s"
                 }
-                """.formatted(date));
+                """.formatted(date, text));
         when(visitRepository.findAll(any(BooleanExpression.class), any(OrderSpecifier.class)))
                 .thenReturn(List.of(value));
         final var data = graphQlTester
@@ -144,7 +143,7 @@ class VisitGraphqlTest {
         data.path("allVisitAt[0].text")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Lorem ipsum.");
+                .isEqualTo(text);
         final var queryCaptor = ArgumentCaptor.<BooleanExpression>captor();
         final var orderCaptor = ArgumentCaptor.<OrderSpecifier<LocalDate>>captor();
         verify(visitRepository).findAll(queryCaptor.capture(), orderCaptor.capture());

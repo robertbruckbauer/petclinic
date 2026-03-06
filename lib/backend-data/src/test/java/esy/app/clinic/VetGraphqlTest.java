@@ -2,7 +2,8 @@ package esy.app.clinic;
 
 import esy.api.clinic.Vet;
 import esy.app.EsyGraphqlConfiguration;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,19 @@ class VetGraphqlTest {
     @MockitoBean
     private VetRepository vetRepository;
 
-    @Test
-    void queryAllVet() {
-        final var value = Vet.fromJson("""
+    Vet createWithName(final String name) {
+        return Vet.fromJson("""
                 {
-                    "name":"Tom",
+                	"name":"%s",
                 	"allSkill":["Z","A"],
                 	"allSpecies":["Dog","Cat"]
                 }
-                """);
+                """.formatted(name));
+    }
+
+    @Test
+    void queryAllVet() {
+        final var value = createWithName("Tom");
         when(vetRepository.findAll())
                 .thenReturn(List.of(value));
         final var data = graphQlTester
@@ -48,7 +53,7 @@ class VetGraphqlTest {
         data.path("allVet[0].name")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Tom");
+                .isEqualTo(value.getName());
         data.path("allVet[0].allSkill")
                 .hasValue()
                 .entityList(String.class)

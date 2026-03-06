@@ -2,7 +2,8 @@ package esy.app.basis;
 
 import esy.api.basis.Enum;
 import esy.app.EsyGraphqlConfiguration;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,42 +23,43 @@ import static org.mockito.Mockito.*;
 @ExtendWith({MockitoExtension.class})
 class EnumGraphqlTest {
 
+    static final String ENUM_ART = "TEST";
+
     @Autowired
     private GraphQlTester graphQlTester;
 
     @MockitoBean
     private EnumRepository enumRepository;
 
+    Enum createWithName(final String name, final Long code) {
+        final var json = """
+                {
+                    "art":"%s",
+                    "code":"%d",
+                    "name":"%3$s",
+                    "text":"A %3$s"
+                }
+                """.formatted(ENUM_ART, code, name);
+        return Enum.fromJson(json);
+    }
+
     @Test
     void queryAllEnum() {
-        final var art = "species";
-        final var value1 = Enum.fromJson("""
-                {
-                    "code": 0,
-                    "name":"Cat",
-                    "text":"A cat (tax. felis catus) is a domestic species of a small carnivorous mammal."
-                }
-                """);
-        final var value2 = Enum.fromJson("""
-                {
-                    "code": 1,
-                    "name":"Dog",
-                    "text":"A dog (tax. canis familiaris) is a domesticated descendant of the wolf."
-                }
-                """);
-        when(enumRepository.findAll(art))
+        final var value1 = createWithName("Cat", 0L);
+        final var value2 = createWithName("Dog", 1L);
+        when(enumRepository.findAll(ENUM_ART))
                 .thenReturn(List.of(value1, value2));
         final var data = graphQlTester
                 .document("""
                         {allEnum(art:"%s"){name}}
-                        """.formatted(art))
+                        """.formatted(ENUM_ART))
                 .execute();
         assertNotNull(data);
         data.path("allEnum[*].name")
                 .hasValue()
                 .entityList(String.class)
                 .containsExactly("Cat", "Dog");
-        verify(enumRepository).findAll(art);
+        verify(enumRepository).findAll(ENUM_ART);
         verifyNoMoreInteractions(enumRepository);
     }
 }
