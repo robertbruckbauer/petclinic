@@ -189,24 +189,17 @@ void queryAll<Entity>() {
 
 == `<Entity>RestapiTest` approach
 
-Update existing `postApi<Entity>` test.
-The test verifies the happy path of the POST entity operation.
-Add a value for the new property in the payload for the request.
+The `postApi<Entity>` test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
 Assert the value of the new property in the response.
 
-Update existing `postApi<Entity>Conflict` test.
-The test  verifies the primary key conflict of the POST entity operation.
-Add a value for the new property in the payload for the request.
+The `postApi<Entity>Conflict` test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new property in the payload for the request.
 Assert the conflict status.
 
-Update existing `putApi<Entity>` test.
-The test  verifies the happy path of the PUT entity operation.
-Add a value for the new property in the payload for the request.
+The `putApi<Entity>` test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
 Assert the value of the new property in the response.
 
-Add `patchApi<Entity><Name>` test.
-The test verifies the happy path of the PATCH entity operation for the new property.
-Use the primary key from the `putApi<Entity>` test.
+The `patchApi<Entity><Name>` test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
+Use the entity with the primary key from the `putApi<Entity>` test.
 
 .Example pseudo code
 [source,text,options="nowrap"]
@@ -241,8 +234,7 @@ void patchApi<Entity><Name>() throws Exception {
 }
 ----
 
-Update existing `getApi<Entity>ById` test.
-The test verifies the happy path of the GET entity operation.
-Use the primary key from the `putApi<Entity>` test.
+The `getApi<Entity>ById` test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the `putApi<Entity>` test.
 Compute the new `ETag` value according to the new test.
 Assert the value of the new property in the response.

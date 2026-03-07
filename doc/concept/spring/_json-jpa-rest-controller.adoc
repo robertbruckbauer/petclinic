@@ -301,7 +301,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(201)
+    @Order(201) <4>
     void postApi<Entity>Conflict() throws Exception {
         final var name = "Max Mustermann";
         assertTrue(<entity>Repository.findOne(...).isPresent());
@@ -319,7 +319,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(300) <4>
+    @Order(300) <5>
     void putApi<Entity>() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -349,7 +349,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(400) <5>
+    @Order(400) <6>
     void patchApi<Entity>Name(final String name) throws Exception {
         final var name = "Max Mustermann";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -378,7 +378,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(500) <6>
+    @Order(500) <7>
     void getApi<Entity>ById() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -402,7 +402,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(501)
+    @Order(501) <8>
     void getApi<Entity>ByIdNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
         assertFalse(<entity>Repository.findById(uuid).isPresent());
@@ -414,7 +414,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(600) <7>
+    @Order(600) <9>
     void deleteApi<Entity>() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(<entity>Repository.findById(uuid).isPresent());
@@ -430,7 +430,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(601)
+    @Order(601) <10>
     void deleteApi<Entity>NotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(<entity>Repository.findById(uuid).isPresent());
@@ -440,7 +440,7 @@ class <Entity>RestApiTest {
                         .isNotFound());
     }
 
-    @Test <8>
+    @Test <11>
     @Order(999)
     @Transactional
     @Rollback(false)
@@ -453,8 +453,11 @@ class <Entity>RestApiTest {
 <1> Setup for the asciidoc snippet generation.
 <2> Test for an empty table.
 <3> Test for the happy path of a POST operation.
-<4> Test for the happy path of a PUT operation.
-<5> Test for the happy path of a PATCH operation.
-<6> Test for the happy path of a GET operation.
-<7> Test for the happy path of a DELETE operation.
-<8> Empty all touched tables.
+<4> Test for the error path of a POST operation when the entity has unique key constraints.
+<5> Test for the happy path of a PUT operation.
+<6> Test for the happy path of a PATCH operation.
+<7> Test for the happy path of a GET operation.
+<8> Test for the error path of a GET operation when the entity does not exist.
+<9> Test for the happy path of a DELETE operation.
+<10> Test for the error path of a DELETE operation when the entity does not exist.
+<11> Empty all touched tables.
