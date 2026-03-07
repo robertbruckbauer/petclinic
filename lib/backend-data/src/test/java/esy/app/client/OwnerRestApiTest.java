@@ -352,6 +352,8 @@ class OwnerRestApiTest {
                 .andExpect(jsonPath("$.name")
                         .value(name))
                 .andExpect(jsonPath("$.address")
+                        .isNotEmpty())
+                .andExpect(jsonPath("$.contact")
                         .isNotEmpty());
     }
 
