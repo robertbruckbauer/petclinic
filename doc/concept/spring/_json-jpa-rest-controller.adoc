@@ -349,7 +349,36 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(500) <5>
+    @Order(400) <5>
+    void patchApi<Entity>Name(final String name) throws Exception {
+        final var name = "Max Mustermann";
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(<entity>Repository.findById(uuid).isPresent());
+        mockMvc.perform(patch("/api/<entity>/" + uuid)
+                        .content("""
+                                {
+                                    "name":"%s"
+                                }
+                                """.formatted(name))
+                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .exists("ETag"))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.name")
+                        .value(name));
+    }
+
+    @Test
+    @Order(500) <6>
     void getApi<Entity>ById() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -385,7 +414,7 @@ class <Entity>RestApiTest {
     }
 
     @Test
-    @Order(600) <6>
+    @Order(600) <7>
     void deleteApi<Entity>() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(<entity>Repository.findById(uuid).isPresent());
@@ -411,7 +440,7 @@ class <Entity>RestApiTest {
                         .isNotFound());
     }
 
-    @Test <7>
+    @Test <8>
     @Order(999)
     @Transactional
     @Rollback(false)
@@ -425,6 +454,7 @@ class <Entity>RestApiTest {
 <2> Test for an empty table.
 <3> Test for the happy path of a POST operation.
 <4> Test for the happy path of a PUT operation.
-<5> Test for the happy path of a GET operation.
-<6> Test for the happy path of a DELETE operation.
-<7> Empty all touched tables.
+<5> Test for the happy path of a PATCH operation.
+<6> Test for the happy path of a GET operation.
+<7> Test for the happy path of a DELETE operation.
+<8> Empty all touched tables.
