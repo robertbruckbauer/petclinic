@@ -129,3 +129,53 @@ Repository dependencies are mocked with `@MockitoBean` to isolate controller log
 Tests can verify QueryDSL predicate construction using argument captors.
 This ensures the controller builds correct queries with proper filtering and ordering.
 The captured predicates are validated by comparing their string representation.
+
+The test approach is based on a defined basic structure.
+
+.Example pseudo code
+[source,text,options="nowrap"]
+----
+@Tag("fast")
+@GraphQlTest(<Entity>GraphqlController.class)
+@Import(EsyGraphqlConfiguration.class)
+@ExtendWith({MockitoExtension.class})
+class <Entity>GraphqlTest {
+
+    @Autowired
+    private GraphQlTester graphQlTester;
+
+    @MockitoBean
+    private <Entity>Repository <entity>Repository;
+
+    <Entity> createWithName(final String name) { <1>
+        return <Entity>.fromJson("""
+                {
+                    "name":"%s",
+                    ...
+                }
+                """.formatted(name));
+    }
+
+    @Test <2>
+    void queryAll<Entity>() {
+        final var value = createWithName("Tom");
+        when(<entity>Repository.findAll())
+                .thenReturn(List.of(value));
+        final var data = graphQlTester
+                .document("""
+                        {all<Entity>{name}}
+                        """)
+                .execute();
+        assertNotNull(data);
+        data.path("all<Entity>[0].name")
+                .hasValue()
+                .entity(String.class)
+                .isEqualTo(value.getName());
+        verify(<entity>Repository).findAll();
+        verifyNoMoreInteractions(<entity>Repository);
+    }
+}
+----
+
+<1> Create test data with unique attributes, e.g. the name.
+<2> Test for the happy path of an collection query.

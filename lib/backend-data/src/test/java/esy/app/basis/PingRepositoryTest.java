@@ -7,13 +7,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import jakarta.persistence.EntityManager;
-import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,28 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PingRepositoryTest {
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
-    private TransactionTemplate transactionTemplate;
-
-    @Autowired
     private PingRepository pingRepository;
-
-    @Test
-    void context() {
-        assertNotNull(dataSource);
-        assertNotNull(jdbcTemplate);
-        assertNotNull(entityManager);
-        assertNotNull(transactionTemplate);
-        assertNotNull(pingRepository);
-    }
 
     Ping createWithTime(final LocalDateTime time) {
         return Ping.fromJson("""

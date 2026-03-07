@@ -4,7 +4,8 @@ import esy.api.basis.Sex;
 import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.app.EsyGraphqlConfiguration;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,21 +34,25 @@ class PetGraphqlTest {
     @MockitoBean
     private OwnerRepository ownerRepository;
 
-    @Test
-    void queryAllPet() {
-        final var owner = Owner.fromJson("""
+    Pet createWithName(final String name) {
+        return Pet.fromJson("""
                 {
-                    "name":"Alice"
-                }
-                """);
-        final var value = Pet.fromJson("""
-                {
-                    "name":"Tom",
+                    "name":"%s",
                     "born":"2021-04-22",
                     "species":"Cat",
                     "sex":"M"
                 }
-                """)
+                """.formatted(name));
+    }
+
+    @Test
+    void queryAllPet() {
+        final var owner = Owner.fromJson("""
+                {
+                    "name":"Alice Cooper"
+                }
+                """);
+        final var value = createWithName("Tom")
                 .setOwner(owner);
         when(petRepository.findAll())
                 .thenReturn(List.of(value));
@@ -62,15 +67,15 @@ class PetGraphqlTest {
         data.path("allPet[0].name")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Tom");
+                .isEqualTo(value.getName());
         data.path("allPet[0].sex")
                 .hasValue()
                 .entity(Sex.class)
-                .isEqualTo(Sex.M);
+                .isEqualTo(value.getSex());
         data.path("allPet[0].owner.name")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Alice");
+                .isEqualTo(owner.getName());
         verify(petRepository).findAll();
         verifyNoMoreInteractions(petRepository);
         verify(ownerRepository).findAllById(anySet());

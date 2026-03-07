@@ -15,9 +15,9 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import jakarta.transaction.Transactional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +53,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(10)
+    @Order(1)
     void getApiVetNoElement() throws Exception {
         assertEquals(0, vetRepository.count());
         mockMvc.perform(get("/api/vet")
@@ -72,7 +72,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(20)
+    @Order(200)
     void postApiVet() throws Exception {
         final var name = "Max Mustermann";
         assertFalse(vetRepository.findOne(QVet.vet.name.eq(name)).isPresent());
@@ -108,7 +108,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(21)
+    @Order(201)
     void postApiVetConflict() throws Exception {
         final var name = "Max Mustermann";
         assertTrue(vetRepository.findOne(QVet.vet.name.eq(name)).isPresent());
@@ -126,7 +126,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(30)
+    @Order(300)
     void putApiVet() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -167,7 +167,7 @@ class VetRestApiTest {
             "Mia Musterfrau",
             "Bea Musterfrau"
     })
-    @Order(31)
+    @Order(400)
     void patchApiVetName(final String name) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
@@ -195,7 +195,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(32)
+    @Order(401)
     void patchApiVetSkill() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
@@ -229,7 +229,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(33)
+    @Order(402)
     void patchApiVetSpecies() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
@@ -263,7 +263,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(40)
+    @Order(500)
     void getApiVet() throws Exception {
         assertEquals(2, vetRepository.count());
         mockMvc.perform(get("/api/vet")
@@ -287,7 +287,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(41)
+    @Order(501)
     void getApiVetItem() throws Exception {
         assertEquals(2, vetRepository.count());
         mockMvc.perform(get("/api/vet/search/findAllItem")
@@ -315,7 +315,7 @@ class VetRestApiTest {
             "Max Mustermann",
             "Mustermann"
     })
-    @Order(42)
+    @Order(502)
     void getApiVetItemFiltered(final String name) throws Exception {
         assertEquals(2, vetRepository.count());
         mockMvc.perform(get("/api/vet/search/findAllItem")
@@ -337,7 +337,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(43)
+    @Order(503)
     void getApiVetById() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -372,7 +372,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(44)
+    @Order(504)
     void getApiVetByIdNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
         assertFalse(vetRepository.findById(uuid).isPresent());
@@ -384,7 +384,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(50)
+    @Order(600)
     void deleteApiVet() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
@@ -400,7 +400,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(51)
+    @Order(601)
     void deleteApiVetNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(vetRepository.findById(uuid).isPresent());
@@ -411,7 +411,7 @@ class VetRestApiTest {
     }
 
     @Test
-    @Order(99)
+    @Order(999)
     @Transactional
     @Rollback(false)
     void cleanup() {

@@ -8,14 +8,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import jakarta.persistence.EntityManager;
-import javax.sql.DataSource;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,28 +26,10 @@ public class EnumRepositoryTest {
     static final String ENUM_ART = "TEST";
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
     private TransactionTemplate transactionTemplate;
 
     @Autowired
     private EnumRepository enumRepository;
-
-    @Test
-    void context() {
-        assertNotNull(dataSource);
-        assertNotNull(jdbcTemplate);
-        assertNotNull(entityManager);
-        assertNotNull(transactionTemplate);
-        assertNotNull(enumRepository);
-    }
 
     Enum createWithName(final String name, final Long code) {
         final var json = """

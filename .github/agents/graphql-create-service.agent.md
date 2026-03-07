@@ -33,17 +33,19 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Replace placeholder '<entity>' with lowercase name.
 
 2. **Locate implementation files**
-  For the specified entity, find and analyze these key files:
+  Locate existing implementation files that affect documentation:
   - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
   - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
   - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**
   - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
-  - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
+  - **Repository interfaces** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
   - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
   - **REST controller advice** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
+  - **REST API test classes** → Check *RestApiTest.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql
   - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
+  - **Server test classes** → Check ServerRunnerTest.java in app/server/src/test/java/**/app/**
 
 ## Task steps
 

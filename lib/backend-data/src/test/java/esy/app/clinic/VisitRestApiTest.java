@@ -18,9 +18,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -69,7 +69,7 @@ class VisitRestApiTest {
     @Sql("/sql/owner.sql")
     @Sql("/sql/pet.sql")
     @Sql("/sql/vet.sql")
-    @Order(10)
+    @Order(1)
     @Test
     void getApiVisitNoElement() throws Exception {
         assertEquals(0, visitRepository.count());
@@ -94,7 +94,7 @@ class VisitRestApiTest {
             "2021-04-21",
             "2021-04-22"
     })
-    @Order(20)
+    @Order(200)
     void postApiVisit(final String date) throws Exception {
         mockMvc.perform(post("/api/visit")
                         .content("""
@@ -127,7 +127,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(21)
+    @Order(201)
     void postApiVisitConflict() throws Exception {
         mockMvc.perform(post("/api/visit")
                         .content("""
@@ -146,7 +146,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(30)
+    @Order(300)
     void putApiVisit() throws Exception {
         final var text = "Lorem ipsum";
         final var date = "2021-04-23";
@@ -191,7 +191,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(31)
+    @Order(400)
     void patchApiVisitDate() throws Exception {
         final var date = Visit.DATE_FORMATTER.format(LocalDate.of(2021, 4, 24));
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
@@ -220,7 +220,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(32)
+    @Order(401)
     void patchApiVisitTime() throws Exception {
         final var time = Visit.TIME_FORMATTER.format(LocalTime.of(10, 42));
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
@@ -249,7 +249,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(33)
+    @Order(402)
     void patchApiVisitText() throws Exception {
         final var text = "At vero eos";
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
@@ -278,7 +278,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(34)
+    @Order(403)
     void patchApiVisitPet() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -310,7 +310,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(35)
+    @Order(404)
     void getApiVisitPet() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -328,7 +328,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(36)
+    @Order(405)
     void patchApiVisitVet() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -360,7 +360,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(37)
+    @Order(406)
     void getApiVisitVet() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -378,7 +378,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(38)
+    @Order(407)
     void patchApiVisitBillable() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -406,7 +406,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(40)
+    @Order(500)
     void getApiVisit() throws Exception {
         assertEquals(4, visitRepository.count());
         mockMvc.perform(get("/api/visit")
@@ -434,7 +434,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(41)
+    @Order(501)
     void getApiVisitById() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         final var value = visitRepository.findById(uuid).orElseThrow();
@@ -462,7 +462,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(42)
+    @Order(502)
     void getApiVisitByIdNotFound() throws Exception {
         final var uuid = UUID.fromString("e1111111-2222-beef-dead-beefdeadbeef");
         assertFalse(visitRepository.findById(uuid).isPresent());
@@ -474,7 +474,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(43)
+    @Order(503)
     void getApiVisitByOwner() throws Exception {
         final var uuid = UUID.fromString("b2222222-2222-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
@@ -504,7 +504,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(44)
+    @Order(504)
     void getApiVisitByOwnerEmpty() throws Exception {
         final var uuid = UUID.fromString("b3333333-3333-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
@@ -526,7 +526,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(45)
+    @Order(505)
     void getApiVisitByPet() throws Exception {
         final var uuid = UUID.fromString("c2222222-2222-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -550,7 +550,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(46)
+    @Order(506)
     void getApiVisitByPetEmpty() throws Exception {
         final var uuid = UUID.fromString("c3333333-3333-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -572,7 +572,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(47)
+    @Order(507)
     void getApiVisitByVet() throws Exception {
         final var uuid = UUID.fromString("d2222222-2222-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
@@ -596,7 +596,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(48)
+    @Order(508)
     void getApiVisitByVetEmpty() throws Exception {
         final var uuid = UUID.fromString("d3333333-3333-beef-dead-beefdeadbeef");
         assertTrue(vetRepository.findById(uuid).isPresent());
@@ -618,7 +618,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(50)
+    @Order(600)
     void deleteApiVisit() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(visitRepository.findById(uuid).isPresent());
@@ -634,7 +634,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(51)
+    @Order(601)
     void deleteApiVisitNotFound() throws Exception {
         final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(visitRepository.findById(uuid).isPresent());
@@ -645,7 +645,7 @@ class VisitRestApiTest {
     }
 
     @Test
-    @Order(99)
+    @Order(999)
     @Transactional
     @Rollback(false)
     void cleanup() {

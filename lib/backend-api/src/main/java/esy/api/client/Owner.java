@@ -9,6 +9,7 @@ import lombok.NonNull;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ public final class Owner extends JsonJpaEntity<Owner> {
     @JsonProperty
     private String address;
 
+    @NotNull
     @Column(name = "contact")
     @Getter
     @JsonProperty

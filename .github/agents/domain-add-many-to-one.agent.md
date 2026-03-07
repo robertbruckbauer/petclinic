@@ -47,18 +47,19 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Replace placeholder '<type>' with lowercase type.
 
 4. **Locate implementation files**
-  Analyze and update implementation files:
+  Locate existing implementation files:
   - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
   - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
   - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**
   - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
-  - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
+  - **Repository interfaces** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
   - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
   - **REST controller advice** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
+  - **REST API test classes** → Check *RestApiTest.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql
   - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
-  - **Server test classes** → Check *GraphqlTest.java in app/server/src/test/java/**/app/**
+  - **Server test classes** → Check ServerRunnerTest.java in app/server/src/test/java/**/app/**
 
 ## Task steps
 
@@ -66,58 +67,60 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract optionality and fetch strategy from the request.
   If not specified, use defaults from the implementation guide.
 
-2. **Implement Liquibase change**
+2. **Update entity fact sheet <Entity>.adoc**
+  Add a short description for the new relation with its type, constraints, and a one-line description.
+
+3. **Update Liquibase script <entity>.xml**
   Use doc/concept/spring/entity.adoc as the implementation baseline.
-  In <entity>.xml, create a new change set without any preconditions.
+  Create a new change set without any preconditions.
   Add a new column with name `<name>_id`.
   Match nullability, default values and constraints to the type guide.
   Add the foreign key constraint `fk_<entity>_<type>_id` from `<entity>_<type>.id` to `<type>.id`.
 
-3. **Implement domain entity change**
+4. **Update entity class <Entity>.java**
   Use doc/concept/spring/entity.adoc as the implementation baseline.
-  In <Entity>.java, 
-  - add property with name `<name>_id` of type `Type`
-  - add annotations
+  Add property with name `<name>_id` of type `Type`.
+  Add annotations.
   Update constructor initialization.
-  Update operations:
-  - `isEqual`
-  - `verify`
-  - `withId`
-  Add operations:
-  - `extraJson` (only when requested)
-  - `set<Name>` (only when requested)
+  Update operation `isEqual`.
+  Update operation `withId`.
+  Add or Update operation `verify` only when requested.
+  Add or Update operation `extraJson` only when requested.
+  Add operation `set<Name>` only when requested.
   Keep style consistent with existing entity patterns.
 
-4. **Implement <Entity>Test.java change**
+5. **Update entity test class <Entity>Test.java**
   Use doc/concept/spring/entity.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
 
-5. **Implement <Entity>RepositoryTest.java change**
+6. **Do not update repository interface <Entity>Repository.java**
+
+7. **Update repository test class <Entity>RepositoryTest.java**
   Use doc/concept/spring/entity.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
     
-6. **No REST <Entity>RestController.java change**
+8. **Do not update REST controller class <Entity>RestController.java**
 
-7. **Implement <Entity>RestApiTest.java change**
+9. **Update REST API test class <Entity>RestApiTest.java**
   Use doc/concept/spring/entity.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
 
-8. **Implement <Entity>GraphqlController.java change**
+10. **Update GraphQL controller class <Entity>GraphqlController.java**
   Add `all<Name>: [<Type>]` to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
 
-9. **Implement <Entity>GraphqlTest.java change**
+11. **Update GraphQL test class <Entity>GraphqlTest.java**
   Use doc/concept/spring/entity.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
 
-10. **Implement Server test change**
+12. **Update Server test class**
   If relation is mandatory update existing test data with a default value.
 
 ## Task output

@@ -52,7 +52,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(10)
+    @Order(1)
     void getApiEnumNoElements() throws Exception {
         mockMvc.perform(get("/api/enum/" + ENUM_ART)
                         .accept(MediaType.APPLICATION_JSON))
@@ -75,7 +75,7 @@ class EnumRestApiTest {
             "1,B,Beta",
             "2,C,Gamma"
     })
-    @Order(20)
+    @Order(200)
     void postApiEnum(final String code, final String name, final String text) throws Exception {
         mockMvc.perform(post("/api/enum/" + ENUM_ART)
                         .content("""
@@ -105,7 +105,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(21)
+    @Order(201)
     void postApiEnumConflict() throws Exception {
         mockMvc.perform(post("/api/enum/" + ENUM_ART)
                         .content("""
@@ -123,7 +123,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(30)
+    @Order(300)
     void putApiEnum() throws Exception {
         mockMvc.perform(put("/api/enum/" + ENUM_ART + "/0")
                         .content("""
@@ -142,8 +142,6 @@ class EnumRestApiTest {
                         .contentType("application/json"))
                 .andExpect(header()
                         .exists("Vary"))
-                .andExpect(header()
-                        .exists("Vary"))
                 .andExpect(jsonPath("$.value")
                         .value("A1"))
                 .andExpect(jsonPath("$.code")
@@ -155,7 +153,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(31)
+    @Order(301)
     void putApiEnumConflict() throws Exception {
         mockMvc.perform(put("/api/enum/" + ENUM_ART + "/0")
                         .content("""
@@ -173,7 +171,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(32)
+    @Order(302)
     void putApiEnumNotFound() throws Exception {
         mockMvc.perform(put("/api/enum/" + ENUM_ART + "/26")
                         .content("""
@@ -191,7 +189,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(40)
+    @Order(500)
     void getApiEnum() throws Exception {
         mockMvc.perform(get("/api/enum/" + ENUM_ART)
                         .accept(MediaType.APPLICATION_JSON))
@@ -233,7 +231,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(50)
+    @Order(600)
     void deleteApiEnum() throws Exception {
         mockMvc.perform(delete("/api/enum/" + ENUM_ART + "/0"))
                 .andDo(print())
@@ -252,7 +250,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(51)
+    @Order(601)
     void deleteApiEnumNotFound() throws Exception {
         mockMvc.perform(delete("/api/enum/" + ENUM_ART + "/0"))
                 .andDo(print())
@@ -261,7 +259,7 @@ class EnumRestApiTest {
     }
 
     @Test
-    @Order(99)
+    @Order(999)
     @Transactional
     @Rollback(false)
     void cleanup() {

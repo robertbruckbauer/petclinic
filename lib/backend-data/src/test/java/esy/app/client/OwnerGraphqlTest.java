@@ -33,15 +33,19 @@ class OwnerGraphqlTest {
     @MockitoBean
     private PetRepository petRepository;
 
+    Owner createWithName(final String name) {
+        return Owner.fromJson("""
+            {
+                "name":"%s",
+                "address":"Bergweg 1, 5400 Hallein",
+                "contact":"+43 660 5557683"
+            }
+            """.formatted(name));
+    }
+
     @Test
     void queryAllOwner() {
-        final var value = Owner.fromJson("""
-                {
-                    "name":"Jet Li",
-                    "address":"Bergweg 1, 5400 Hallein",
-                    "contact":"+43 660 5557683"
-                }
-                """);
+        final var value = createWithName("Jet Li");
         final var pet = Pet.fromJson("""
                 {
                     "name":"Tom"
@@ -61,11 +65,11 @@ class OwnerGraphqlTest {
         data.path("allOwner[0].name")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Jet Li");
+                .isEqualTo(value.getName());
         data.path("allOwner[0].allPet[0].name")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Tom");
+                .isEqualTo(pet.getName());
         verify(ownerRepository).findAll();
         verifyNoMoreInteractions(ownerRepository);
         verify(petRepository).findAllByOwnerIdIn(anySet());

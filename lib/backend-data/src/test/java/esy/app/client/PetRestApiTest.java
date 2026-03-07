@@ -16,9 +16,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import jakarta.transaction.Transactional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +58,7 @@ class PetRestApiTest {
 
     @Sql("/sql/owner.sql")
     @Test
-    @Order(10)
+    @Order(1)
     void getApiPetNoElement() throws Exception {
         assertEquals(0, petRepository.count());
         mockMvc.perform(get("/api/pet")
@@ -77,7 +77,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(20)
+    @Order(200)
     void postApiPet() throws Exception {
         final var name = "Roger";
         final var born = "2021-04-22";
@@ -116,7 +116,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(21)
+    @Order(201)
     void postApiPetConflict() throws Exception {
         final var name = "Roger";
         final var born = "2021-04-22";
@@ -139,7 +139,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(30)
+    @Order(300)
     void putApiPet() throws Exception {
         final var name = "Anita";
         final var born = "2021-04-27";
@@ -187,7 +187,7 @@ class PetRestApiTest {
             "Atina",
             "Anita"
     })
-    @Order(31)
+    @Order(400)
     void patchApiPetName(final String name) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -219,7 +219,7 @@ class PetRestApiTest {
             "2020-03-26",
             "2021-04-27"
     })
-    @Order(32)
+    @Order(401)
     void patchApiPetBorn(final String born) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -251,7 +251,7 @@ class PetRestApiTest {
             "Pig",
             "Rat"
     })
-    @Order(33)
+    @Order(402)
     void patchApiPetSpecies(final String species) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -280,7 +280,7 @@ class PetRestApiTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"M", "F"})
-    @Order(34)
+    @Order(403)
     void patchApiPetSex(final String sex) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -308,7 +308,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(35)
+    @Order(404)
     void patchApiPetOwner() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -338,7 +338,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(36)
+    @Order(405)
     void getApiPetOwner() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -356,7 +356,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(40)
+    @Order(500)
     void getApiPet() throws Exception {
         assertEquals(2, petRepository.count());
         mockMvc.perform(get("/api/pet")
@@ -380,7 +380,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(41)
+    @Order(501)
     void getApiPetItem() throws Exception {
         assertEquals(2, petRepository.count());
         mockMvc.perform(get("/api/pet/search/findAllItem")
@@ -403,7 +403,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(42)
+    @Order(502)
     void getApiPetItemFiltered() throws Exception {
         assertEquals(2, petRepository.count());
         mockMvc.perform(get("/api/pet/search/findAllItem")
@@ -425,7 +425,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(43)
+    @Order(503)
     void getApiPetById() throws Exception {
         final var name = "Anita";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -448,7 +448,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(44)
+    @Order(504)
     void getApiPetByIdNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
         assertFalse(petRepository.findById(uuid).isPresent());
@@ -460,7 +460,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(45)
+    @Order(505)
     void getApiPetByOwner() throws Exception {
         final var uuid = "b2222222-2222-beef-dead-beefdeadbeef";
         assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
@@ -483,7 +483,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(50)
+    @Order(600)
     void deleteApiPet() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -499,7 +499,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(51)
+    @Order(601)
     void deleteApiPetNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(petRepository.findById(uuid).isPresent());
@@ -510,7 +510,7 @@ class PetRestApiTest {
     }
 
     @Test
-    @Order(99)
+    @Order(999)
     @Transactional
     @Rollback(false)
     void cleanup() {

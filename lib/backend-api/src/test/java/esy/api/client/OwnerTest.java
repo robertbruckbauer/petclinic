@@ -146,6 +146,7 @@ class OwnerTest {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
+			"",
 			"+43 666 123456",
 			"me@we.com"
 	})

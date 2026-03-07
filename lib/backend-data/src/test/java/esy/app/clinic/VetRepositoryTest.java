@@ -7,13 +7,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import jakarta.persistence.EntityManager;
-import javax.sql.DataSource;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,28 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VetRepositoryTest {
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
-    private TransactionTemplate transactionTemplate;
-
-    @Autowired
     private VetRepository vetRepository;
-
-    @Test
-    void context() {
-        assertNotNull(dataSource);
-        assertNotNull(jdbcTemplate);
-        assertNotNull(entityManager);
-        assertNotNull(transactionTemplate);
-        assertNotNull(vetRepository);
-    }
 
     Vet createWithName(final String name) {
         return Vet.fromJson("""
