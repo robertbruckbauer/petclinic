@@ -32,17 +32,19 @@ Follow strictly the structure and the rules of the provided templates.
 ## Task preconditions
 
 1. **Identify relevant implementation changes**
-  First, examine the following file types that affect GraphQL API documentation:
+  Locate existing implementation files that affect documentation:
   - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
   - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
   - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**
   - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
-  - **Repository classes** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
+  - **Repository interfaces** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
   - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
   - **REST controller advice** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
+  - **REST API test classes** → Check *RestApiTest.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql
   - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
+  - **Server test classes** → Check ServerRunnerTest.java in app/server/src/test/java/**/app/**
 
 ## Task steps
 
@@ -50,7 +52,7 @@ Follow strictly the structure and the rules of the provided templates.
   For each changed implementation file, identify which GraphQL API documentation files may need updates:
   - **Entity classes** → corresponding *-graphql.adoc Model section
   - **Liquibase scripts** → corresponding *-graphql.adoc Model section
-  - **Repository classes** → corresponding *-graphql.adoc query parameter documentation
+  - **Repository interfaces** → corresponding *-graphql.adoc query parameter documentation
   - **GraphQL Schema files** → corresponding *-graphql.adoc Operations and Type definitions sections
   - **GraphQL Controller classes** → corresponding *-graphql.adoc Query/Mutation resolver documentation
   - **GraphQL Test classes** → corresponding *-graphql.adoc usage examples and scenarios
