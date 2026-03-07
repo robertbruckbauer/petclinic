@@ -82,8 +82,6 @@ class PingRestApiTest {
                         .contentType("application/json"))
                 .andExpect(header()
                         .exists("Vary"))
-                .andExpect(header()
-                        .exists("Vary"))
                 .andExpect(jsonPath("$.at")
                         .exists());
     }
@@ -118,8 +116,6 @@ class PingRestApiTest {
                         .isOk())
                 .andExpect(content()
                         .contentType("application/json"))
-                .andExpect(header()
-                        .exists("Vary"))
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(jsonPath("$.at")
