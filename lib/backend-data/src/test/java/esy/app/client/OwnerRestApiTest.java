@@ -53,7 +53,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(10)
+    @Order(1)
     void getApiOwnerNoElement() throws Exception {
         assertEquals(0, ownerRepository.count());
         mockMvc.perform(get("/api/owner")
@@ -72,7 +72,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(20)
+    @Order(200)
     void postApiOwner() throws Exception {
         final var name = "Max Mustermann";
         assertFalse(ownerRepository.findOne(QOwner.owner.name.eq(name)).isPresent());
@@ -106,7 +106,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(21)
+    @Order(201)
     void postApiOwnerConflict() throws Exception {
         final var name = "Max Mustermann";
         assertTrue(ownerRepository.findOne(QOwner.owner.name.eq(name)).isPresent());
@@ -126,7 +126,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(30)
+    @Order(300)
     void putApiOwner() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -165,7 +165,7 @@ class OwnerRestApiTest {
             "Mia Musterfrau",
             "Bea Musterfrau"
     })
-    @Order(31)
+    @Order(400)
     void patchApiOwnerName(final String name) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
@@ -197,7 +197,7 @@ class OwnerRestApiTest {
             "Domplatz 2, 5020 Salzburg",
             "Bergweg 1, 5400 Hallein"
     })
-    @Order(32)
+    @Order(401)
     void patchApiOwnerAddress(final String address) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
@@ -229,7 +229,7 @@ class OwnerRestApiTest {
             "me@we.com",
             "+43 6452 4456"
     })
-    @Order(33)
+    @Order(402)
     void patchApiOwnerContact(final String contact) throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
@@ -257,7 +257,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(40)
+    @Order(500)
     void getApiOwner() throws Exception {
         assertEquals(2, ownerRepository.count());
         mockMvc.perform(get("/api/owner")
@@ -281,7 +281,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(41)
+    @Order(501)
     void getApiOwnerItem() throws Exception {
         assertEquals(2, ownerRepository.count());
         mockMvc.perform(get("/api/owner/search/findAllItem")
@@ -309,7 +309,7 @@ class OwnerRestApiTest {
             "Max Mustermann",
             "Mustermann"
     })
-    @Order(42)
+    @Order(502)
     void getApiOwnerItemFiltered(final String name) throws Exception {
         assertEquals(2, ownerRepository.count());
         mockMvc.perform(get("/api/owner/search/findAllItem")
@@ -331,7 +331,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(43)
+    @Order(503)
     void getApiOwnerById() throws Exception {
         final var name = "Bea Musterfrau";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
@@ -358,7 +358,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(44)
+    @Order(504)
     void getApiOwnerByIdNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
         assertFalse(ownerRepository.findById(uuid).isPresent());
@@ -370,7 +370,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(50)
+    @Order(600)
     void deleteApiOwner() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(ownerRepository.findById(uuid).isPresent());
@@ -386,7 +386,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(51)
+    @Order(601)
     void deleteApiOwnerNotFound() throws Exception {
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(ownerRepository.findById(uuid).isPresent());
@@ -397,7 +397,7 @@ class OwnerRestApiTest {
     }
 
     @Test
-    @Order(99)
+    @Order(999)
     @Transactional
     @Rollback(false)
     void cleanup() {

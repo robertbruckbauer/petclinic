@@ -50,7 +50,7 @@ class PingRestApiTest {
     }
 
     @Test
-    @Order(10)
+    @Order(1)
     void getApiPingNotAllowed() throws Exception {
         mockMvc.perform(get("/api/ping")
                         .accept(MediaType.APPLICATION_JSON))
@@ -60,7 +60,7 @@ class PingRestApiTest {
     }
 
     @Test
-    @Order(20)
+    @Order(200)
     void postApiPingNotAllowed() throws Exception {
         mockMvc.perform(post("/api/ping")
                         .accept(MediaType.APPLICATION_JSON))
@@ -70,7 +70,7 @@ class PingRestApiTest {
     }
 
     @Test
-    @Order(30)
+    @Order(300)
     void putApiPing() throws Exception {
         final var uuid = UUID.fromString("a1234567-dead-beef-dead-beefdeadbeef");
         mockMvc.perform(put("/api/ping/" + uuid)
@@ -87,7 +87,7 @@ class PingRestApiTest {
     }
 
     @Test
-    @Order(31)
+    @Order(301)
     void putApiPingAgain() throws Exception {
         final var uuid = UUID.fromString("a1234567-dead-beef-dead-beefdeadbeef");
         mockMvc.perform(put("/api/ping/" + uuid)
@@ -104,7 +104,7 @@ class PingRestApiTest {
     }
 
     @Test
-    @Order(40)
+    @Order(500)
     void getApiPingById() throws Exception {
         final var uuid = UUID.fromString("a1234567-dead-beef-dead-beefdeadbeef");
         mockMvc.perform(get("/api/ping/" + uuid)
@@ -121,7 +121,7 @@ class PingRestApiTest {
     }
 
     @Test
-    @Order(50)
+    @Order(600)
     void deleteApiPingNotAllowed() throws Exception {
         final var uuid = UUID.fromString("a1234567-dead-beef-dead-beefdeadbeef");
         mockMvc.perform(delete("/api/ping/" + uuid)
@@ -132,7 +132,7 @@ class PingRestApiTest {
     }
 
     @Test
-    @Order(99)
+    @Order(999)
     @Transactional
     @Rollback(false)
     void cleanup() {
