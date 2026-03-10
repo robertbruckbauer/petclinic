@@ -87,14 +87,14 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 `PUT` entity operation::
 This operation reports `Ok` or code 200 if the entity was successfully updated.
 This operation reports `Created` or code 201 if the entity was successfully created.
-This operation reports `Bad Request` or code 400 if the data was not processed.
-This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
+This operation reports `Bad Request` or code 400 if the data was not processed.This operation reports `Conflict` or code 409 if a unique constraint would be violated.
+This operation reports `Precondition Failed` or code 412 if data is outdated (invalid ETag).
 
 `PATCH` entity operation::
 This operation reports `Ok` or code 200 if the entity was successfully updated.
 This operation reports `Not Found` or code 404 if the entity does not exist.
-This operation reports `Bad Request` or code 400 if the data was not processed.
-This operation reports `Conflict` or code 409 if a unique constraint would be violated or if data is outdated (invalid ETag).
+This operation reports `Bad Request` or code 400 if the data was not processed.This operation reports `Conflict` or code 409 if a unique constraint would be violated.
+This operation reports `Precondition Failed` or code 412 if data is outdated (invalid ETag).
 
 `GET` entity operation::
 This operation reports `Ok` or code 200 if the data was successfully loaded.

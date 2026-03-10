@@ -31,7 +31,7 @@ Follow strictly the structure and the rules of the provided templates.
 
 ## Task preconditions
 
-1. **Identify relevant implementation changes**
+2. **Locate implementation files**
   Locate existing implementation files that affect documentation:
   - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
   - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
@@ -45,10 +45,15 @@ Follow strictly the structure and the rules of the provided templates.
   - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
   - **Server test classes** → Check ServerRunnerTest.java in app/server/src/test/java/**/app/**
+  
+2. **Locate documentation files**
+  Locate existing implementation files that affect documentation:
+  - **REST API service documentation** → Check *restapi.adoc in doc/service/**
+  - **GraphQL service documentation** → Check *graphql.adoc in doc/service/**
 
 ## Task steps
 
-1. **Map changes to documentation files**
+1. **Map implementation files to documentation files**
   For each changed implementation file, identify which GraphQL API documentation files may need updates:
   - **Entity classes** → corresponding *-graphql.adoc Model section
   - **Liquibase scripts** → corresponding *-graphql.adoc Model section
@@ -57,17 +62,15 @@ Follow strictly the structure and the rules of the provided templates.
   - **GraphQL Controller classes** → corresponding *-graphql.adoc Query/Mutation resolver documentation
   - **GraphQL Test classes** → corresponding *-graphql.adoc usage examples and scenarios
 
-2. **Template validation**
+2. **Verify documentation files**
   Use doc/service/template/spring-graphql.adoc as the reference template.
   - Strictly follow the template's structure and rules
   - Ensure all required sections are present and properly formatted
-
-3. **Content analysis**
   - Fix any typos or grammatical errors
   - Verify AsciiDoc syntax correctness
   - Check for consistent formatting and style
 
-4. **Implementation alignment verification**
+3. **Verify implementation files alignment**
     Use doc/concept/spring/endpoint.adoc as the implementation baseline.
     - Compare documentation descriptions with actual implementation changes
     - Verify new/modified queries and mutations are documented
@@ -76,14 +79,14 @@ Follow strictly the structure and the rules of the provided templates.
     - Ensure type definitions in documentation match .gqls schema files
     - Verify resolver documentation aligns with controller implementations
 
-5. **Impact assessment and documentation**
-    - For minor issues (typos, formatting): Fix directly
-    - For major issues (missing documentation for new features, outdated descriptions): 
-      * Add NOTE admonitions with specific improvement instructions
-      * Reference the specific implementation changes that require documentation updates
-      * Write instructions as actionable prompts for fixing
-      * Update existing NOTE admonitions if they address the same issue
-      * Only add NOTE admonitions when changes are actually recommended
+4. **Assess impact**
+    For minor issues (typos, formatting): Fix directly
+    For major issues (missing documentation for new features, outdated descriptions): 
+    - Add NOTE admonitions with specific improvement instructions
+    - Reference the specific implementation changes that require documentation updates
+    - Write instructions as actionable prompts for fixing
+    - Update existing NOTE admonitions if they address the same issue
+    - Only add NOTE admonitions when changes are actually recommended
 
 ## Rules for NOTE admonitions
 

@@ -11,6 +11,25 @@ See
 https://github.com/github/awesome-copilot[Awesome GitHub Copilot]
 for a community created collection of custom agents and instructions.
 
+== Domain entities sanity checker
+
+.Prompt
+----
+@copilot check domain entities
+----
+
+The agent reviews implementation files for all domain entities, fixes minor issues or leaves hints and instructions to fix issues.
+
+You can reduce the scope to changed files in a pull request.
+
+.Prompt
+----
+@copilot in the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java if needed.
+----
+
+The agent reviews implementation files for domain entity `Vet` after a change in the constraints of the collections `skill` and `species`.
+According to the rules in the implementation guides the agent adds tests to verify the new validation logic.
+
 == Domain entity creator
 
 .Prompt
@@ -64,25 +83,6 @@ The agent implements a new many-to-one relation with name `pet` of type `Pet` to
 
 The agent implements a new one-to-many relation with name `pet` of type `Pet` to entity class `Owner` and applies changes to tests.
 
-== Domain entities sanity checker
-
-.Prompt
-----
-@copilot check domain entities
-----
-
-The agent reviews implementation files for all domain entities and ensures REST endpoints and GraphQL operations are up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
-
-You can reduce the scope to changed files in a pull request.
-
-.Prompt
-----
-In the collections allSkill and allSpecies of entity Vet is now a new element constraint. Add tests to #file:VetTest.java if needed.
-----
-
-The agent reviews implementation files for domain entity `Vet` after a change in the constraints of the collections `skill` and `species`.
-According to the rules in the implementation guides the agent adds tests to verify the new validation logic.
-
 == REST API sanity checker
 
 .Prompt
@@ -95,6 +95,13 @@ The agent reviews implementation files for all REST API endpoints and ensures re
 You can reduce the scope to changed files in a pull request.
 
 == REST API service documentation creator
+
+.Prompt
+----
+@copilot update rest api documentation
+----
+
+The agent reviews implementation files for all REST API endpoints and updates the documentation following structure and instructions of the template.
 
 .Prompt
 ----
@@ -116,6 +123,13 @@ The agent reviews implementation files for all GraphQL API operations and ensure
 You can reduce the scope to changed files in a pull request.
 
 == GraphQL API service documentation creator
+
+.Prompt
+----
+@copilot update graphql documentation
+----
+
+The agent reviews implementation files for all REST API endpoints and updates the documentation following structure and instructions of the template.
 
 .Prompt
 ----

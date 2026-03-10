@@ -46,10 +46,15 @@ You MUST NOT generate code if even one of the preconditions is not met.
   - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
   - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
   - **Server test classes** → Check ServerRunnerTest.java in app/server/src/test/java/**/app/**
+  
+3. **Locate documentation files**
+  Locate existing implementation files that affect documentation:
+  - **REST API service documentation** → Check *restapi.adoc in doc/service/**
+  - **GraphQL service documentation** → Check *graphql.adoc in doc/service/**
 
 ## Task steps
 
-1. **Implementation analysis**
+1. **Analyse implementation files**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   - **Entity class analysis**:
     * Extract properties, data types, and validation annotations
@@ -71,13 +76,13 @@ You MUST NOT generate code if even one of the preconditions is not met.
     * Extract example requests and responses
     * Document edge cases and error conditions
 
-2. **Template analysis**
+2. **Analyse REST API service template**
   Use doc/service/template/spring-restapi.adoc as the reference template.
   - Understand the required sections and their structure
   - Understand formatting rules and conventions
 
-3. **Documentation generation**
-  Create a new <entity>-restapi.adoc file in the doc/service/ directory.
+3. **Generate REST API service documentation**
+  Create or update a <entity>-restapi.adoc file in the doc/service/ directory.
   - Strictly follow the template's formatting rules and conventions
   - Maintain consistent style with existing documentation
   - Do not include instructions from the template
