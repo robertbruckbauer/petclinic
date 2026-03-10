@@ -73,7 +73,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 3. **Do not update Liquibase scripts**
   
 4. **Update entity class <Entity>.java**
-  Use doc/concept/spring/entity.adoc as the implementation baseline.
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Add property with name `all<Type>` of type `Type` and annotations.
   Initialize `all<Type>` in both constructors.
   Update operation `isEqual`.
@@ -84,7 +84,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Keep style consistent with existing entity patterns.
 
 5. **Update entity test class <Entity>Test.java**
-  Use doc/concept/spring/entity.adoc as the implementation baseline.
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
@@ -92,7 +92,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 6. **Do not update repository interface <Entity>Repository.java**
 
 7. **Update repository test class <Entity>RepositoryTest.java**
-  Use doc/concept/spring/entity.adoc as the implementation baseline.
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
@@ -100,13 +100,13 @@ You MUST NOT generate code if even one of the preconditions is not met.
 8. **Do not update REST controller class <Entity>RestController.java**
 
 9. **Update REST API test class <Entity>RestApiTest.java**
-  Use doc/concept/spring/entity.adoc as the implementation baseline.
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
 
 10. **Update GraphQL controller class <Entity>GraphqlController.java**
-  Use doc/concept/spring/entity.adoc as the implementation baseline.
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Add `all<Type>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
 
 11. **Update GraphQL test class <Entity>GraphqlTest.java**

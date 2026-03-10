@@ -61,7 +61,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Add a short description of the main purpose of the entity.
 
 2. **Create Liquibase script <entity>.xml**
-  Use `doc/concept/spring/entity.adoc` as the implementation baseline.
+  Use `doc/concept/spring/_json-jpa-entity.adoc` as the implementation baseline.
   Create a new change set with:
   - A column with name `id` of type `UUID` (not null).
   - A column with name `version` of type `BIGINT` (not null).
