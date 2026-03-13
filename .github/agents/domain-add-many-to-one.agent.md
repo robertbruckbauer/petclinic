@@ -84,8 +84,8 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Update constructor initialization.
   Update operation `isEqual`.
   Update operation `withId`.
-  Add or Update operation `verify` only when requested.
-  Add or Update operation `extraJson` only when requested.
+  Add or update operation `verify` only when requested.
+  Add or update operation `extraJson` only when requested as it may have negative impact on the performance if relations are involved.
   Add operation `set<Name>` only when requested.
   Keep style consistent with existing entity patterns.
 
