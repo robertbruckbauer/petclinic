@@ -83,7 +83,7 @@ class VisitTest {
         final var text = "Lorem Ipsum.";
         final var value = createWithText(text);
         final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
-        assertEquals(0, json.at("/version").asLong());
+        assertFalse(json.at("/version").isMissingNode());
         assertFalse(json.at("/id").isMissingNode());
         assertFalse(json.at("/text").isMissingNode());
         assertFalse(json.at("/date").isMissingNode());

@@ -1,13 +1,10 @@
 package esy.api.basis;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaItem;
 import esy.rest.JsonJpaMapper;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -15,8 +12,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import java.util.HashMap;
-import java.util.Map;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 
 @Entity
@@ -99,13 +96,6 @@ public final class Enum extends JsonJpaEntity<Enum> implements JsonJpaItem<Strin
         value.name = this.name;
         value.text = this.text;
         return value;
-    }
-
-    @JsonAnyGetter
-    private Map<String, Object> extraJson() {
-        final var allExtra = new HashMap<String, Object>();
-        allExtra.put("version", getVersion());
-        return allExtra;
     }
 
     @Override

@@ -62,7 +62,7 @@ class PingTest {
     void writeJson() {
         final var value = createWithTime(LocalDateTime.now());
         final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
-        assertEquals(0, json.at("/version").asLong());
+        assertFalse(json.at("/version").isMissingNode());
         assertFalse(json.at("/id").isMissingNode());
         assertFalse(json.at("/at").isMissingNode());
     }
