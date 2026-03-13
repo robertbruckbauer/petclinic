@@ -1,13 +1,15 @@
-package esy.api.basis;
+package esy.api.clinic;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
 @RequiredArgsConstructor
-public enum Sex {
-    M("male"),
-    F("female");
+public enum InvoiceStatus {
+    D("drafted"),
+    I("issued"),
+    C("completed"),
+    X("cancelled");
 
     @Getter
     @Accessors(fluent = true)

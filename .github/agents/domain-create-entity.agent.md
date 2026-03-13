@@ -19,9 +19,6 @@ You create clean code within boundaries set by existing concepts.
 ## Task overview
 
 When triggered, create a new entity with all its implementation files for the given entity name and properties.
-Do not change existing entities.
-Do not change client files.
-Do not change documentation.
 
 ## Task preconditions
 
