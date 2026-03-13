@@ -1,5 +1,6 @@
 package esy.rest;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import jakarta.persistence.*;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -106,7 +109,7 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
     /**
      * Returns {@code TRUE} if all properties of this instance
      * and another instance are equal.
-     *
+     * <br/>
      * Important: Do not use {@link Object#equals(Object)} and
      * {@link Object#hashCode()} here due to the use of the
      * JPA provider.
@@ -129,6 +132,7 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
 
     @PrePersist
     @PostLoad
+    @JsonIgnore
     private void setPersisted() {
         persisted = true;
     }
@@ -150,4 +154,23 @@ public abstract class JsonJpaEntity<T extends JsonJpaEntity<?>> implements JsonJ
      * @return JSON structure
      */
     public abstract String writeJson();
+
+    /**
+     * Flattens the map entries with additional properties into
+     * the JSON structure.
+     * <br/>
+     * Important: do not use property names that conflict with
+     * existing properties.
+     *
+     * @return JSON properties
+     */
+    @JsonAnyGetter
+    private Map<String, Object> applyExtraJson() {
+        final var allExtra = new LinkedHashMap<String, Object>();
+        allExtra.put("version", getVersion());
+        extraJson(allExtra);
+        return allExtra;
+    }
+
+    protected void extraJson(@NonNull final Map<String, Object> allExtra) {}
 }

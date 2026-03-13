@@ -122,20 +122,18 @@ Relations are by default *not* part of the JSON structure.
 
 Relations can be added to the JSON structure only with item classes.
 This prevents circular references and reduces payload size.
+Be aware of the potential impact on performance.
 
 [source,java,options="nowrap"]
 ----
-@JsonAnyGetter <1>
-private Map<String, Object> extraJson() {
-    final var allExtra = new HashMap<String, Object>();
-    allExtra.put("version", getVersion());
+@Override <1>
+protected void extraJson(@NonNull final Map<String, Object> allExtra) {
     allExtra.put("ownerItem", OwnerItem.fromValue(owner)); <2>
-    return allExtra;
 }
 ----
 
-<1> The `@JsonAnyGetter` annotation includes these values in the JSON output without nesting.
-<2> The parent entity is converted to simple state transfer object.
+<1> Callback from the base operation with `@JsonAnyGetter` annotation.
+<2> The parent entity is converted to a simple state transfer object.
 
 == `<Entity>Test` approach
 

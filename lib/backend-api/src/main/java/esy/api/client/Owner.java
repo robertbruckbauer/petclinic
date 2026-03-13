@@ -1,6 +1,5 @@
 package esy.api.client;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaMapper;
@@ -98,14 +97,11 @@ public final class Owner extends JsonJpaEntity<Owner> {
         return value;
     }
 
-    @JsonAnyGetter
-    private Map<String, Object> extraJson() {
-        final var allExtra = new HashMap<String, Object>();
-        allExtra.put("version", getVersion());
+    @Override
+    protected void extraJson(@NonNull final Map<String, Object> allExtra) {
         allExtra.put("allPetItem", allPet.stream()
                 .map(PetItem::fromValue)
                 .collect(Collectors.toSet()));
-        return allExtra;
     }
 
     @Override

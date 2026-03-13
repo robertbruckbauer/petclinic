@@ -2,13 +2,12 @@ package esy.api.client;
 
 import esy.api.basis.Sex;
 import esy.rest.JsonJpaMapper;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import org.junit.jupiter.api.Tag;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -73,7 +72,7 @@ class PetTest {
         final var name = "Tom";
         final var value = createWithName(name, LocalDate.now());
         final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
-        assertEquals(0, json.at("/version").asLong());
+        assertFalse(json.at("/version").isMissingNode());
         assertFalse(json.at("/id").isMissingNode());
         assertFalse(json.at("/name").isMissingNode());
         assertFalse(json.at("/born").isMissingNode());

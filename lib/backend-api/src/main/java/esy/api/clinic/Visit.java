@@ -1,6 +1,5 @@
 package esy.api.clinic;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +16,6 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -132,14 +130,11 @@ public final class Visit extends JsonJpaEntity<Visit> {
         return value;
     }
 
-    @JsonAnyGetter
-    private Map<String, Object> extraJson() {
-        final var allExtra = new HashMap<String, Object>();
-        allExtra.put("version", getVersion());
+    @Override
+    protected void extraJson(@NonNull final Map<String, Object> allExtra) {
         allExtra.put("ownerItem", OwnerItem.fromValue(pet));
         allExtra.put("petItem", PetItem.fromValue(pet));
         allExtra.put("vetItem", VetItem.fromValue(vet));
-        return allExtra;
     }
 
     @JsonIgnore

@@ -1,6 +1,5 @@
 package esy.api.clinic;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.rest.JsonJpaEntity;
@@ -89,13 +88,6 @@ public final class Vet extends JsonJpaEntity<Vet> {
         value.allSkill = this.allSkill;
         value.allSpecies = this.allSpecies;
         return value;
-    }
-
-    @JsonAnyGetter
-    private Map<String, Object> extraJson() {
-        final var allExtra = new HashMap<String, Object>();
-        allExtra.put("version", getVersion());
-        return allExtra;
     }
 
     @JsonIgnore

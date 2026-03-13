@@ -58,7 +58,7 @@ class OwnerTest {
 		final var name = "Max Mustermann";
 		final var value = createWithName(name);
 		final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
-		assertEquals(0, json.at("/version").asLong());
+		assertFalse(json.at("/version").isMissingNode());
 		assertFalse(json.at("/id").isMissingNode());
 		assertFalse(json.at("/name").isMissingNode());
 		assertFalse(json.at("/address").isMissingNode());

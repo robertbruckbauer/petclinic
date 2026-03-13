@@ -1,6 +1,5 @@
 package esy.api.client;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +14,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -119,12 +117,9 @@ public final class Pet extends JsonJpaEntity<Pet> {
         return value;
     }
 
-    @JsonAnyGetter
-    private Map<String, Object> extraJson() {
-        final var allExtra = new HashMap<String, Object>();
-        allExtra.put("version", getVersion());
+    @Override
+    protected void extraJson(@NonNull final Map<String, Object> allExtra) {
         allExtra.put("ownerItem", OwnerItem.fromValue(owner));
-        return allExtra;
     }
 
     @JsonIgnore

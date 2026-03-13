@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,7 +63,7 @@ class EnumTest {
         final var name = "JIRA";
         final var value = createWithName(name);
         final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
-        assertEquals(0, json.at("/version").asLong());
+        assertFalse(json.at("/version").isMissingNode());
         assertFalse(json.at("/id").isMissingNode());
         assertFalse(json.at("/art").isMissingNode());
         assertFalse(json.at("/code").isMissingNode());

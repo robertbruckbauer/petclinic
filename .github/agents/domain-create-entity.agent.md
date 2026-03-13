@@ -71,13 +71,13 @@ You MUST NOT generate code if even one of the preconditions is not met.
 3. **Create entity class <Entity>.java**
   Use `doc/concept/spring/_json-jpa-entity.adoc` as the implementation baseline.
   Annotate with `@Entity`, `@Table(name = "<entity>")`.
-  Implement package-visible constructors.
-  Implement property `id` property following `_json-jpa-entity-id.adoc`.
-  Implement property `version` property following `_json-jpa-entity-version.adoc`.
-  Implement operation `isEqual`.
-  Do not implement operation `verify` as it is used for individual changes.
-  Implement operation `withId`.
-  Do not implement operation `extraJson` as it is used for individual changes.
+  Add package-visible constructors.
+  Add property `id` property following `_json-jpa-entity-id.adoc`.
+  Add property `version` property following `_json-jpa-entity-version.adoc`.
+  Add operation `isEqual`.
+  Add operation `withId`.
+  Add operation `verify` only when requested.
+  Add operation `extraJson` only when requested as it may have negative impact on the performance if relations are involved.
 
 4. **Create entity test class <Entity>Test.java**
   Use `doc/concept/spring/_json-jpa-entity.adoc` as the implementation baseline.
