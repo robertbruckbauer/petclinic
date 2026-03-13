@@ -1,0 +1,31 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="robert">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="invoice" /></not>
+        </preConditions>
+        <createTable tableName="invoice">
+            <column name="version" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="at" type="DATE" defaultValueDate="2001-01-01">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due" type="DATE" defaultValueDate="2001-01-01">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(32)" defaultValue="D">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(512)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
