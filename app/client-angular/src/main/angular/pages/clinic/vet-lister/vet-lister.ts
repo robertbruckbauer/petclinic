@@ -15,6 +15,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
+import { forkJoin } from "rxjs";
 import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { VetService } from "../../../services/vet.service";
@@ -68,9 +69,13 @@ export class VetListerComponent implements OnInit {
   allSkillEnum = signal<EnumItem[]>([]);
   allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
-    const subscription = this.enumService.loadAllEnum("skill").subscribe({
-      next: (allSkillEnum) => {
+    const subscription = forkJoin({
+      allSkillEnum: this.enumService.loadAllEnum("skill"),
+      allSpeciesEnum: this.enumService.loadAllEnum("species"),
+    }).subscribe({
+      next: ({ allSkillEnum, allSpeciesEnum }) => {
         this.allSkillEnum.set(allSkillEnum);
+        this.allSpeciesEnum.set(allSpeciesEnum);
       },
       error: (err) => {
         this.toast.push(err);
@@ -78,19 +83,6 @@ export class VetListerComponent implements OnInit {
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
-    });
-    const subscriptionSpecies = this.enumService
-      .loadAllEnum("species")
-      .subscribe({
-        next: (allSpeciesEnum) => {
-          this.allSpeciesEnum.set(allSpeciesEnum);
-        },
-        error: (err) => {
-          this.toast.push(err);
-        },
-      });
-    this.destroyRef.onDestroy(() => {
-      subscriptionSpecies.unsubscribe();
     });
   }
 
