@@ -69,6 +69,7 @@ export class VetListerComponent implements OnInit {
   allSkillEnum = signal<EnumItem[]>([]);
   allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
+    this.loading.set(true);
     const subscription = forkJoin({
       allSkillEnum: this.enumService.loadAllEnum("skill"),
       allSpeciesEnum: this.enumService.loadAllEnum("species"),
@@ -76,6 +77,9 @@ export class VetListerComponent implements OnInit {
       next: ({ allSkillEnum, allSpeciesEnum }) => {
         this.allSkillEnum.set(allSkillEnum);
         this.allSpeciesEnum.set(allSpeciesEnum);
+      },
+      complete: () => {
+        this.loading.set(false);
       },
       error: (err) => {
         this.toast.push(err);
