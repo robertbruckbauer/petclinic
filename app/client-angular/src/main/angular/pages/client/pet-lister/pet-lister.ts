@@ -194,7 +194,7 @@ export class PetListerComponent implements OnInit {
     this.petId.set(undefined); // no pet selected
     const text = [pet.species, pet.name].join(" ");
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Delete enum '" + hint + "' permanently?")) return;
+    if (!confirm("Delete pet '" + hint + "' permanently?")) return;
     this.loading.set(true);
     const subscription = this.petService.removePet(pet.id!).subscribe({
       next: (pet) => {
