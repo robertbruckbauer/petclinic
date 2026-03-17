@@ -44,12 +44,10 @@ export class VisitListerComponent implements OnInit {
     criteria: new FormControl("", Validators.required),
   });
 
+  // Visits are created via the pet treatment workflow,
+  // not inline in this lister.
+
   allVisit = signal<Visit[]>([]);
-  afterCreateVisit(newVisit: Visit) {
-    this.allVisit.update((allVisit) => {
-      return [newVisit, ...allVisit];
-    });
-  }
   afterUpdateVisit(newVisit: Visit) {
     this.allVisit.update((allVisit) => {
       return allVisit.map((visit) =>
@@ -76,14 +74,6 @@ export class VisitListerComponent implements OnInit {
       return true;
     }
   }
-
-  newVisit = computed<Visit>(() => {
-    return {
-      version: 0,
-      date: "",
-      text: "",
-    };
-  });
 
   allVetItem = signal<VetItem[]>([]);
   ngOnInit() {
@@ -128,23 +118,13 @@ export class VisitListerComponent implements OnInit {
     this.visitId.set(visit.id);
   }
 
-  visitEditorCreate = signal(false);
-  onVisitEditorCreateClicked() {
-    this.visitId.set(undefined); // no visit selected
-    this.visitEditorCreate.set(true);
-    this.visitEditorUpdate.set(false);
-  }
-
   visitEditorUpdate = signal(false);
   onVisitEditorUpdateClicked(visit: Visit) {
     this.visitId.set(visit.id);
-    this.visitEditorCreate.set(false);
     this.visitEditorUpdate.set(true);
   }
 
-  readonly visitFilterDisabled = computed(
-    () => this.visitEditorCreate() || this.visitEditorUpdate()
-  );
+  readonly visitFilterDisabled = computed(() => this.visitEditorUpdate());
 
   readonly visitEditorDisabled = computed(() => this.visitFilterDisabled());
 
