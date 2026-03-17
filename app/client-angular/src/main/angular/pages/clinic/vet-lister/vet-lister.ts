@@ -61,10 +61,12 @@ export class VetListerComponent implements OnInit {
       version: 0,
       name: "",
       allSkill: [],
+      allSpecies: [],
     };
   });
 
   allSkillEnum = signal<EnumItem[]>([]);
+  allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
     const subscription = this.enumService.loadAllEnum("skill").subscribe({
       next: (allSkillEnum) => {
@@ -76,6 +78,19 @@ export class VetListerComponent implements OnInit {
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
+    });
+    const subscriptionSpecies = this.enumService
+      .loadAllEnum("species")
+      .subscribe({
+        next: (allSpeciesEnum) => {
+          this.allSpeciesEnum.set(allSpeciesEnum);
+        },
+        error: (err) => {
+          this.toast.push(err);
+        },
+      });
+    this.destroyRef.onDestroy(() => {
+      subscriptionSpecies.unsubscribe();
     });
   }
 

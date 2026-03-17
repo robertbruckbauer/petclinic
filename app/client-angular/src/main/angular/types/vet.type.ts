@@ -3,6 +3,7 @@ export interface Vet {
   version: number;
   name: string;
   allSkill: string[];
+  allSpecies: string[];
 }
 
 export interface VetItem {

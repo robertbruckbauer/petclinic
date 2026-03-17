@@ -25,6 +25,21 @@
         }
       </select>
     </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Species</legend>
+      <select
+        formControlName="allSpecies"
+        aria-label="Species"
+        multiple
+        [size]="allSpeciesEnum().length"
+        class="select w-full"
+        placeholder="Choose species"
+      >
+        @for (speciesEnum of allSpeciesEnum(); track speciesEnum.code) {
+          <option [value]="speciesEnum.name">{{ speciesEnum.name }}</option>
+        }
+      </select>
+    </fieldset>
   </div>
   <div class="join py-4">
     <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
