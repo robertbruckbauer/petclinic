@@ -15,7 +15,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { forkJoin } from "rxjs";
 import { Toast } from "../../../controls/toast/toast";
 import { VetService } from "../../../services/vet.service";
 import { VisitService } from "../../../services/visit.service";
@@ -88,18 +87,9 @@ export class VisitListerComponent implements OnInit {
 
   allVetItem = signal<VetItem[]>([]);
   ngOnInit() {
-    this.loading.set(true);
-    const search = { sort: "date,asc" };
-    const subscription = forkJoin({
-      allVetItem: this.vetService.loadAllVetItem(),
-      allVisit: this.visitService.loadAllVisit(search),
-    }).subscribe({
-      next: (value) => {
-        this.allVetItem.set(value.allVetItem);
-        this.allVisit.set(value.allVisit);
-      },
-      complete: () => {
-        this.loading.set(false);
+    const subscription = this.vetService.loadAllVetItem().subscribe({
+      next: (allVetItem) => {
+        this.allVetItem.set(allVetItem);
       },
       error: (err) => {
         this.toast.push(err);
