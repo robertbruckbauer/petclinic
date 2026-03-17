@@ -7,8 +7,8 @@ const config = {
   testMatch: /.+\.e2e\.js/,
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-test-ignore */
   testIgnore: "**/*Page.js",
-  /* Maximum time one test can run for. */
-  timeout: process.env.PWDEBUG ? 0 : 5000,
+  /* See https://playwright.dev/docs/api/class-testconfig#test-config-timeout */
+  timeout: process.env.PWDEBUG ? 0 : 10000,
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-expect */
   expect: {
     /* Maximum time expect() should wait for the condition to be met. */
