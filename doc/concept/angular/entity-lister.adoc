@@ -46,13 +46,22 @@ Use prefix `all` for this collection.
 
 ==== load collection
 
-`ngOnInit` loads the entity collection when the component is initialized.
-`onFilterClicked` loads the entity collection when filter criteria change.
+`onFilterClicked` loads the entity collection when this component gets initialized through an effect in the constructor or when the filter criteria change.
 
 .Example from pet-lister
 [source,ts,options="nowrap"]
 ----
-include::{includedir}/app/client-angular/src/main/angular/pages/client/pet-lister/pet-lister.ts[indent=0,tags=loadAll]
+include::{includedir}/app/client-angular/src/main/angular/pages/client/pet-lister/pet-lister.ts[indent=0,tags=onFilterClicked]
+----
+
+==== load extra data
+
+`ngOnInit` loads extra data if needed.
+
+.Example from pet-lister
+[source,ts,options="nowrap"]
+----
+include::{includedir}/app/client-angular/src/main/angular/pages/client/pet-lister/pet-lister.ts[indent=0,tags=ngOnInit]
 ----
 
 ==== create an entity
