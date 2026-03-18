@@ -29,19 +29,13 @@
     <table class="table-fixed">
       <thead class="justify-between">
         <tr class="bg-gray-200">
-          <th class="px-2 py-3 text-left w-1/6 table-cell">
+          <th class="px-2 py-3 text-left w-1/4 table-cell">
             <span class="text-gray-600">Issue Date</span>
-          </th>
-          <th class="px-2 py-3 text-left w-1/6 table-cell">
-            <span class="text-gray-600">Due Date</span>
-          </th>
-          <th class="px-2 py-3 text-left w-1/6 table-cell">
-            <span class="text-gray-600">Status</span>
           </th>
           <th class="px-2 py-3 text-left w-full table-cell">
             <span class="text-gray-600">Text</span>
           </th>
-          <th class="px-2 py-3 text-right w-0 table-cell">
+          <th class="px-2 py-3 text-right w-16 table-cell">
             <button
               title="Add a new invoice"
               class="btn btn-circle btn-outline"
@@ -56,7 +50,7 @@
       <tbody>
         @if (invoiceEditorCreate()) {
           <tr>
-            <td class="border-l-4 px-2" colspan="5">
+            <td class="border-l-4 px-2" colspan="3">
               <app-invoice-editor
                 (create)="afterCreateInvoice($event)"
                 [(visible)]="invoiceEditorCreate"
@@ -66,20 +60,20 @@
           </tr>
         }
         @for (invoice of allInvoice(); track invoice.id) {
+          @if (isSwimlaneChange($index)) {
+            <tr class="bg-gray-100">
+              <td class="px-2 py-3" colspan="3">
+                <span class="h-5 text-xl">Due {{ invoice.due }}</span>
+              </td>
+            </tr>
+          }
           <tr
             [title]="invoice.at"
             [class.border-l-2]="invoiceId() === invoice.id"
-            [class.bg-gray-100]="$index % 2 === 1"
             (click)="onInvoiceClicked(invoice)"
           >
             <td class="px-2 py-3 text-left table-cell">
               {{ invoice.at }}
-            </td>
-            <td class="px-2 py-3 text-left table-cell">
-              {{ invoice.due }}
-            </td>
-            <td class="px-2 py-3 text-left table-cell">
-              {{ invoice.status }}
             </td>
             <td class="px-2 py-3 text-left table-cell">
               {{ invoice.text }}
@@ -109,7 +103,7 @@
           </tr>
           @if (invoiceEditorUpdate() && invoiceId() === invoice.id) {
             <tr>
-              <td class="border-l-4 px-2" colspan="5">
+              <td class="border-l-4 px-2" colspan="3">
                 <app-invoice-editor
                   (update)="afterUpdateInvoice($event)"
                   [(visible)]="invoiceEditorUpdate"
@@ -120,7 +114,7 @@
           }
         } @empty {
           <tr>
-            <td class="px-2" colspan="5">No invoices</td>
+            <td class="px-2" colspan="3">No invoices</td>
           </tr>
         }
       </tbody>
