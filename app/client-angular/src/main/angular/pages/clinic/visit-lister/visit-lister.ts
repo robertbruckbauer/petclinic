@@ -40,10 +40,6 @@ export class VisitListerComponent implements OnInit {
   private visitService = inject(VisitService);
   loading = signal(false);
 
-  filterForm = new FormGroup({
-    criteria: new FormControl("", Validators.required),
-  });
-
   // Visits are created via the pet treatment workflow,
   // not inline in this lister.
 
