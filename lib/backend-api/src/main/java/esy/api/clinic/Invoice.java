@@ -24,6 +24,7 @@ public final class Invoice extends JsonJpaEntity<Invoice> {
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
+    // tag::properties[]
     @NotNull
     @Column(name = "at", columnDefinition = "DATE")
     @Getter
@@ -50,6 +51,7 @@ public final class Invoice extends JsonJpaEntity<Invoice> {
     @Getter
     @JsonProperty
     private String text;
+    // end::properties[]
 
     Invoice() {
         super();
