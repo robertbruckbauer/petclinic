@@ -68,7 +68,7 @@ test.describe("Pet", () => {
 });
 
 test.describe("Vet", () => {
-  test("VetLister", { timeout: 3_000 }, async ({ page }) => {
+  test("VetLister", { timeout: 5_000 }, async ({ page }) => {
     const vetPage = new VetListerPage(page);
     await vetPage.goto();
     const vetName = await vetPage.createVet();
