@@ -108,9 +108,13 @@ export class OwnerListerComponent implements OnInit {
 
   allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
+    this.loading.set(true);
     const subscription = this.enumService.loadAllEnum("species").subscribe({
       next: (allSpeciesEnum) => {
         this.allSpeciesEnum.set(allSpeciesEnum);
+      },
+      complete: () => {
+        this.loading.set(false);
       },
       error: (err) => {
         this.toast.push(err);
@@ -127,6 +131,8 @@ export class OwnerListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
+    // Do not trigger with each change of the criteria.
+    // Reload only when clicking the search button.
     const search = {
       sort: "name,asc",
       name: this.filterForm.value.criteria || "%",

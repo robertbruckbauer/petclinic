@@ -30,10 +30,12 @@ export class VetEditorComponent implements OnInit {
   private vetService = inject(VetService);
   visible = model.required<boolean>();
   allSkillEnum = input.required<EnumItem[]>();
+  allSpeciesEnum = input.required<EnumItem[]>();
   vet = input.required<Vet>();
   form = new FormGroup({
     name: new FormControl("", Validators.required),
     allSkill: new FormControl<string[]>([], Validators.required),
+    allSpecies: new FormControl<string[]>([], Validators.required),
   });
 
   ngOnInit() {
@@ -58,6 +60,7 @@ export class VetEditorComponent implements OnInit {
       ...this.vet(),
       name: this.form.value.name!,
       allSkill: this.form.value.allSkill!,
+      allSpecies: this.form.value.allSpecies!,
     };
     if (this.vet().id) {
       const subscription = this.vetService

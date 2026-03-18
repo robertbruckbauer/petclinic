@@ -15,6 +15,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
+import { forkJoin } from "rxjs";
 import { Toast } from "../../../controls/toast/toast";
 import { EnumService } from "../../../services/enum.service";
 import { VetService } from "../../../services/vet.service";
@@ -61,14 +62,24 @@ export class VetListerComponent implements OnInit {
       version: 0,
       name: "",
       allSkill: [],
+      allSpecies: [],
     };
   });
 
   allSkillEnum = signal<EnumItem[]>([]);
+  allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
-    const subscription = this.enumService.loadAllEnum("skill").subscribe({
-      next: (allSkillEnum) => {
+    this.loading.set(true);
+    const subscription = forkJoin({
+      allSkillEnum: this.enumService.loadAllEnum("skill"),
+      allSpeciesEnum: this.enumService.loadAllEnum("species"),
+    }).subscribe({
+      next: ({ allSkillEnum, allSpeciesEnum }) => {
         this.allSkillEnum.set(allSkillEnum);
+        this.allSpeciesEnum.set(allSpeciesEnum);
+      },
+      complete: () => {
+        this.loading.set(false);
       },
       error: (err) => {
         this.toast.push(err);
@@ -85,6 +96,8 @@ export class VetListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
+    // Do not trigger with each change of the criteria.
+    // Reload only when clicking the search button.
     const search = {
       sort: "name,asc",
       name: this.filterForm.value.criteria || "%",

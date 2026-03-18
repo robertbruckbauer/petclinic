@@ -1,6 +1,6 @@
 :includedir: ../../..
 :relrootdir: ../../..
-= Entity Editor User Interface
+= Entity Editor Component
 
 An entity editor is a user interface component for managing properties of a single entity through REST endpoints.
 
@@ -28,22 +28,17 @@ A base service provides generic REST operation implementations with error handli
 
 A private reference to a `DestroyRef` instance for cleanup, e.g. rxJs subscriptions.
 
-==== `entityService`
+==== `<entity>Service`
 
 A private reference to a domain-specific service for HTTP communication with REST operations.
 You may use more than one service, e.g. for loading extra data used for selection.
 
-TIP: Replace _entity_ with the name of the entity, e.g. `petService`.
-
-==== `entity`
+==== `<entity>`
 
 The entity to be edited.
 
-TIP: Replace _entity_ with the name of the entity, e.g. `pet`.
-
-==== `mode`
-
-The mode of the editor, either `create` or `update`.
+The editor chooses between `create` or `update` mode.
+A falsy value of the `id` property sets the `create` mode.
 
 ==== `visible`
 

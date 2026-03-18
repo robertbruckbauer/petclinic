@@ -100,6 +100,7 @@ export class PetListerComponent implements OnInit {
     };
   });
 
+  // tag::ngOnInit[]
   allSpeciesEnum = signal<EnumItem[]>([]);
   allOwnerItem = signal<OwnerItem[]>([]);
   ngOnInit() {
@@ -123,14 +124,15 @@ export class PetListerComponent implements OnInit {
       subscription.unsubscribe();
     });
   }
+  // end::ngOnInit[]
 
   constructor() {
     effect(() => this.onFilterClicked());
   }
 
+  // tag::onFilterClicked[]
   onFilterClicked() {
     this.loading.set(true);
-    // tag::loadAll[]
     const search = { sort: "name,asc", "owner.id": this.ownerId() };
     const subscription = this.petService.loadAllPet(search).subscribe({
       next: (allPet) => {
@@ -145,11 +147,11 @@ export class PetListerComponent implements OnInit {
         this.toast.push(err);
       },
     });
-    // end::loadAll[]
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
   }
+  // end::onFilterClicked[]
 
   petId = signal<string | undefined>(undefined); // no pet selected
   onPetClicked(pet: Pet) {
@@ -194,7 +196,7 @@ export class PetListerComponent implements OnInit {
     this.petId.set(undefined); // no pet selected
     const text = [pet.species, pet.name].join(" ");
     const hint = text.length > 20 ? text.substring(0, 20) + "..." : text;
-    if (!confirm("Delete enum '" + hint + "' permanently?")) return;
+    if (!confirm("Delete pet '" + hint + "' permanently?")) return;
     this.loading.set(true);
     const subscription = this.petService.removePet(pet.id!).subscribe({
       next: (pet) => {

@@ -37,6 +37,12 @@ export class VetListerPage {
     await skillsSelect.selectOption(["Radiology"]);
     await skillsSelect.press("Tab");
     await expect(skillsSelect).toHaveValues([/Radiology/]);
+    // Species
+    const speciesSelect = this.page.locator('[aria-label="Species"]');
+    await expect(speciesSelect).toHaveValues([]);
+    await speciesSelect.selectOption(["Cat"]);
+    await speciesSelect.press("Tab");
+    await expect(speciesSelect).toHaveValues([/Cat/]);
     // Ok
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();

@@ -15,7 +15,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { forkJoin } from "rxjs";
 import { Toast } from "../../../controls/toast/toast";
 import { VetService } from "../../../services/vet.service";
 import { VisitService } from "../../../services/visit.service";
@@ -41,16 +40,10 @@ export class VisitListerComponent implements OnInit {
   private visitService = inject(VisitService);
   loading = signal(false);
 
-  filterForm = new FormGroup({
-    criteria: new FormControl("", Validators.required),
-  });
+  // Visits are created via the pet treatment workflow,
+  // not inline in this lister.
 
   allVisit = signal<Visit[]>([]);
-  afterCreateVisit(newVisit: Visit) {
-    this.allVisit.update((allVisit) => {
-      return [newVisit, ...allVisit];
-    });
-  }
   afterUpdateVisit(newVisit: Visit) {
     this.allVisit.update((allVisit) => {
       return allVisit.map((visit) =>
@@ -78,25 +71,12 @@ export class VisitListerComponent implements OnInit {
     }
   }
 
-  newVisit = computed<Visit>(() => {
-    return {
-      version: 0,
-      date: "",
-      text: "",
-    };
-  });
-
   allVetItem = signal<VetItem[]>([]);
   ngOnInit() {
     this.loading.set(true);
-    const search = { sort: "date,asc" };
-    const subscription = forkJoin({
-      allVetItem: this.vetService.loadAllVetItem(),
-      allVisit: this.visitService.loadAllVisit(search),
-    }).subscribe({
-      next: (value) => {
-        this.allVetItem.set(value.allVetItem);
-        this.allVisit.set(value.allVisit);
+    const subscription = this.vetService.loadAllVetItem().subscribe({
+      next: (allVetItem) => {
+        this.allVetItem.set(allVetItem);
       },
       complete: () => {
         this.loading.set(false);
@@ -138,23 +118,13 @@ export class VisitListerComponent implements OnInit {
     this.visitId.set(visit.id);
   }
 
-  visitEditorCreate = signal(false);
-  onVisitEditorCreateClicked() {
-    this.visitId.set(undefined); // no visit selected
-    this.visitEditorCreate.set(true);
-    this.visitEditorUpdate.set(false);
-  }
-
   visitEditorUpdate = signal(false);
   onVisitEditorUpdateClicked(visit: Visit) {
     this.visitId.set(visit.id);
-    this.visitEditorCreate.set(false);
     this.visitEditorUpdate.set(true);
   }
 
-  readonly visitFilterDisabled = computed(
-    () => this.visitEditorCreate() || this.visitEditorUpdate()
-  );
+  readonly visitFilterDisabled = computed(() => this.visitEditorUpdate());
 
   readonly visitEditorDisabled = computed(() => this.visitFilterDisabled());
 

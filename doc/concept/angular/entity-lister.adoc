@@ -1,6 +1,6 @@
 :includedir: ../../..
 :relrootdir: ../../..
-= Entity Lister User Interface
+= Entity Lister Component
 
 An entity lister is a user interface component for displaying and managing collections of entities retrieved through REST endpoints.
 A lister provides functionality for viewing, filtering, creating, updating, and deleting entities in a table-based layout.
@@ -35,26 +35,34 @@ A signal tracking the loading state for display with a loading spinner.
 
 ==== `filterForm`
 
-A reactive form group for capturing filter criteria used to filter the entity collection.
+A reactive form group for capturing filter criteria used to filter the entity collection if needed.
 
-==== `entity collection`
+==== `all<entity>`
 
 A signal containing the complete entity collection with methods for managing the collection.
-Use prefix `all`.
-
-TIP: Replace _entity_ with the name of the entity, e.g. `allPet`.
+Use prefix `all` for this collection.
 
 === Component lifecylce
 
 ==== load collection
 
-`ngOnInit` loads the entity collection when the component is initialized.
-`onFilterClicked` loads the entity collection when filter criteria change.
+`onFilterClicked` loads the entity collection when this component gets initialized through an effect in the constructor or when the filter criteria change.
 
 .Example from pet-lister
 [source,ts,options="nowrap"]
 ----
-include::{includedir}/app/client-angular/src/main/angular/pages/client/pet-lister/pet-lister.ts[indent=0,tags=loadAll]
+include::{includedir}/app/client-angular/src/main/angular/pages/client/pet-lister/pet-lister.ts[indent=0,tags=onFilterClicked]
+----
+
+==== load extra data
+
+`ngOnInit` loads extra data if needed.
+Use `forkJoin` to load more than one extra data in parallel, with one shared subscription.
+
+.Example from pet-lister
+[source,ts,options="nowrap"]
+----
+include::{includedir}/app/client-angular/src/main/angular/pages/client/pet-lister/pet-lister.ts[indent=0,tags=ngOnInit]
 ----
 
 ==== create an entity

@@ -15,126 +15,107 @@ for a community created collection of custom agents and instructions.
 
 .Prompt
 ----
-@copilot check domain entities
+@copilot Check domain entities
 ----
-
-The agent reviews implementation files for all domain entities, fixes minor issues or leaves hints and instructions to fix issues.
-
-You can reduce the scope to changed files in a pull request.
 
 .Prompt
 ----
-@copilot in the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java if needed.
+@copilot In the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java if needed.
 ----
-
-The agent reviews implementation files for domain entity `Vet` after a change in the constraints of the collections `skill` and `species`.
-According to the rules in the implementation guides the agent adds tests to verify the new validation logic.
 
 == Domain entity creator
 
 .Prompt
 ----
-@copilot create an entity VisitInvoice with a required many-to-one relation to entity Visit, with required property at of type LocalDate, with required property due of type LocalDate, with required non-blank property text of type String.
+@copilot Create an entity VisitInvoice with a required many-to-one relation to entity Visit, with required property at of type LocalDate, with required property due of type LocalDate, with required non-blank property text of type String.
 ----
-
-The agent implements a new entity with name `VisitInvoice` and properties `at`, `due` and `text` and creates all specified tests.
 
 == Domain entity property adder
 
 .Prompt
 ----
-@copilot add property text of type String to entity Visit having a diagnosis text.
+@copilot Add property text of type String to entity Visit having a diagnosis text.
 ----
-
-The agent implements a new property with name `text` of type `String` to entity class `Visit` and applies changes to tests.
 
 .Prompt
 ----
-@copilot remove property billable of type boolean from entity Visit.
+@copilot Remove property billable of type boolean from entity Visit.
 ----
-
-The agent removes the existing property with name `billable` of type `boolean` from entity class `Visit` and applies changes to tests.
-It does the inverse of the tasks of the implementation guide.
 
 == Domain entity collection adder
 
 .Prompt
 ----
-@copilot add collection skill of type String to entity Vet having skills of vets.
+@copilot Add collection skill of type String to entity Vet having skills of vets.
 ----
-
-The agent implements a new collection with name `skill` of type `String` to entity class `Vet` and applies changes to tests.
 
 == Domain entity many-to-one relation adder
 
 .Prompt
 ----
-@copilot add many-to-one relation pet of type Pet from entity Vet to entity Pet representing the pet treated in a visit.
+@copilot Add many-to-one relation pet of type Pet from entity Vet to entity Pet representing the pet treated in a visit.
 ----
-
-The agent implements a new many-to-one relation with name `pet` of type `Pet` to entity class `Visit` and applies changes to tests.
 
 == Domain entity one-to-many relation adder
 
 .Prompt
 ----
-@copilot add one-to-many relation pet of type Pet from entity Owner to entity Pet representing a list of pets owned by an owner.
+@copilot Add one-to-many relation pet of type Pet from entity Owner to entity Pet representing a list of pets owned by an owner.
 ----
-
-The agent implements a new one-to-many relation with name `pet` of type `Pet` to entity class `Owner` and applies changes to tests.
 
 == REST API sanity checker
 
 .Prompt
 ----
-@copilot check rest api
+@copilot Check REST API documentation
 ----
-
-The agent reviews implementation files for all REST API endpoints and ensures related REST API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
-
-You can reduce the scope to changed files in a pull request.
 
 == REST API service documentation creator
 
 .Prompt
 ----
-@copilot update rest api documentation
+@copilot Update REST API documentation
 ----
-
-The agent reviews implementation files for all REST API endpoints and updates the documentation following structure and instructions of the template.
 
 .Prompt
 ----
-@copilot create rest api documentation for owner endpoints
+@copilot Create REST API documentation for owner endpoints
 ----
-
-The agent reviews implementation files for all REST API endpoints for the given main entity and creates a new documentation following structure and instructions of the template.
-Replace `owner` with the name of the main entity.
 
 == GraphQL API sanity checker
 
 .Prompt
 ----
-@copilot check graphql api
+@copilot Check GraphQL API
 ----
-
-The agent reviews implementation files for all GraphQL API operations and ensures related GraphQL API documentation is up-to-date, fixes minor issues or leaves hints and instructions to fix issues.
-
-You can reduce the scope to changed files in a pull request.
 
 == GraphQL API service documentation creator
 
 .Prompt
 ----
-@copilot update graphql documentation
+@copilot Update GraphQL API documentation
 ----
-
-The agent reviews implementation files for all REST API endpoints and updates the documentation following structure and instructions of the template.
 
 .Prompt
 ----
-@copilot create graphql api documentation for owner operations
+@copilot Create GraphQL API documentation for owner operations
 ----
 
-The agent reviews implementation files for all GraphQL API operations for the given main entity and creates a new documentation following structure and instructions of the template.
-Replace `owner` with the name of the main entity.
+== Angular lister component creator
+
+.Prompt
+----
+@copilot Create editor and lister components for entity Invoice in package clinic
+----
+
+.Prompt
+----
+@copilot Verify existing lister and editor components if they are compliant to the implentation guide
+----
+
+== Angular editor component updater
+
+.Prompt
+----
+@copilot Update editor and lister components for the new collection allSpecies of the Vet entity. Use allSkill as a good example.
+----
