@@ -131,6 +131,8 @@ export class OwnerListerComponent implements OnInit {
 
   onFilterClicked() {
     this.loading.set(true);
+    // Do not trigger with each change of the criteria.
+    // Reload only when clicking the search button.
     const search = {
       sort: "name,asc",
       name: this.filterForm.value.criteria || "%",
