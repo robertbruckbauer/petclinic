@@ -73,10 +73,24 @@ export class InvoiceListerComponent implements OnInit {
     effect(() => this.onFilterClicked());
   }
 
+  /**
+   * Start swimlane if the due date changes
+   * in a due-date ordered array.
+   */
+  isSwimlaneChange(index: number) {
+    if (index) {
+      const invoice1 = this.allInvoice()[index - 1];
+      const invoice2 = this.allInvoice()[index];
+      return invoice1.due !== invoice2.due;
+    } else {
+      return true;
+    }
+  }
+
   onFilterClicked() {
     this.loading.set(true);
     const search = {
-      sort: "at,desc",
+      sort: "due,desc",
       ...(this.filterForm.value.criteria
         ? { text: "%" + this.filterForm.value.criteria + "%" }
         : {}),
