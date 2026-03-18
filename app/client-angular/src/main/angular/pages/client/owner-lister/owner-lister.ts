@@ -108,9 +108,13 @@ export class OwnerListerComponent implements OnInit {
 
   allSpeciesEnum = signal<EnumItem[]>([]);
   ngOnInit() {
+    this.loading.set(true);
     const subscription = this.enumService.loadAllEnum("species").subscribe({
       next: (allSpeciesEnum) => {
         this.allSpeciesEnum.set(allSpeciesEnum);
+      },
+      complete: () => {
+        this.loading.set(false);
       },
       error: (err) => {
         this.toast.push(err);

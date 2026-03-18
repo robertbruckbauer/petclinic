@@ -77,9 +77,13 @@ export class VisitListerComponent implements OnInit {
 
   allVetItem = signal<VetItem[]>([]);
   ngOnInit() {
+    this.loading.set(true);
     const subscription = this.vetService.loadAllVetItem().subscribe({
       next: (allVetItem) => {
         this.allVetItem.set(allVetItem);
+      },
+      complete: () => {
+        this.loading.set(false);
       },
       error: (err) => {
         this.toast.push(err);
