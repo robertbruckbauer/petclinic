@@ -6,10 +6,12 @@ import lombok.experimental.Accessors;
 
 @RequiredArgsConstructor
 public enum InvoiceStatus {
+    // tag::enumerations[]
     D("drafted"),
     I("issued"),
     C("completed"),
     X("cancelled");
+    // end::enumerations[]
 
     @Getter
     @Accessors(fluent = true)
