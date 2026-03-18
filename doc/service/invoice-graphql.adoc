@@ -1,0 +1,70 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Invoice GraphQL API
+
+GraphQL API for querying invoices in the pet clinic application.
+It provides query operations to retrieve all invoices and filter invoices by issue date.
+
+== Model
+
+=== Invoice
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Invoice.adoc[]
+
+The `Invoice` type defines properties only, with no relations to other types.
+
+.Schema
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/invoice.gqls[]
+----
+
+The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
+
+The `Invoice` type corresponds to the entity class.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Invoice.java[indent=0,tags=properties]
+----
+
+== Queries
+
+=== Collection queries
+
+==== `allInvoice`
+
+This query returns all invoices in the system.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allInvoice: [Invoice]
+----
+
+*Returns:*
+
+A list of all `Invoice` objects.
+Returns an empty list if no invoices exist.
+
+==== `allInvoiceAt`
+
+This query returns all invoices issued on a specific date.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allInvoiceAt(at: LocalDate!): [Invoice]
+----
+
+*Arguments:*
+
+`at` (LocalDate, required)::
+The issue date to filter invoices by (e.g., "2024-01-15").
+
+*Returns:*
+
+A list of `Invoice` objects issued on the specified date, ordered by issue date ascending.
+Returns an empty list if no invoices exist for the given date.
