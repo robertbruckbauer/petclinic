@@ -1,36 +1,38 @@
 <form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
   <div class="flex flex-col gap-2 pt-4">
-    <fieldset class="fieldset w-full">
-      <legend class="fieldset-legend">Issue Date</legend>
-      <input
-        formControlName="at"
-        aria-label="Issue Date"
-        type="date"
-        class="input input-bordered w-full"
-      />
-    </fieldset>
-    <fieldset class="fieldset w-full">
-      <legend class="fieldset-legend">Due Date</legend>
-      <input
-        formControlName="due"
-        aria-label="Due Date"
-        type="date"
-        class="input input-bordered w-full"
-      />
-    </fieldset>
-    <fieldset class="fieldset w-full">
-      <legend class="fieldset-legend">Status</legend>
-      <select
-        formControlName="status"
-        aria-label="Status"
-        class="select w-full"
-      >
-        <option value="D">drafted</option>
-        <option value="I">issued</option>
-        <option value="C">completed</option>
-        <option value="X">cancelled</option>
-      </select>
-    </fieldset>
+    <div class="flex flex-row gap-2">
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Issue Date</legend>
+        <input
+          formControlName="at"
+          aria-label="Issue Date"
+          type="date"
+          class="input input-bordered w-full"
+        />
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Due Date</legend>
+        <input
+          formControlName="due"
+          aria-label="Due Date"
+          type="date"
+          class="input input-bordered w-full"
+        />
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Status</legend>
+        <select
+          formControlName="status"
+          aria-label="Status"
+          class="select w-full"
+        >
+          <option value="D">drafted</option>
+          <option value="I">issued</option>
+          <option value="C">completed</option>
+          <option value="X">cancelled</option>
+        </select>
+      </fieldset>
+    </div>
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Text</legend>
       <textarea
