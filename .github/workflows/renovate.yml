@@ -17,12 +17,12 @@ on:
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions
 jobs:
   renovate:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     permissions:
+      pull-requests: write
       contents: write
       issues: write
-      pull-requests: write
-      security-events: read
+      statuses: write   
     steps:
       - uses: actions/checkout@v5
       - uses: renovatebot/github-action@v46.1.1
