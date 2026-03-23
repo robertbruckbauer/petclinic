@@ -5,25 +5,15 @@
 
   let { entry }: { entry: ToastEntry } = $props();
 
-  // read item values once at initialization
-  const progress = new Tween(
-    // svelte-ignore state_referenced_locally
-    entry.initial,
-    {
-      // svelte-ignore state_referenced_locally
-      duration: entry.duration,
-      easing: linear,
-    }
-  );
-  let next = $state(
-    // svelte-ignore state_referenced_locally
-    entry.initial
-  );
-  let prev = $state(
-    // svelte-ignore state_referenced_locally
-    entry.initial
-  );
+  // Keep top-level initialization free of prop captures; sync from entry in effects.
+  const progress = new Tween(0, {
+    duration: () => entry.duration,
+    easing: linear,
+  });
+  let next = $state(0);
+  let prev = $state(0);
   let paused = $state(false);
+  let currentId = $state<number | null>(null);
 
   const onKey = (_event: KeyboardEvent) => {
     if (_event.key === "Escape") {
@@ -40,6 +30,18 @@
       toast.pop(entry.id);
     }
   };
+
+  // Reset animation state when a different toast entry is rendered.
+  $effect(() => {
+    if (currentId !== entry.id) {
+      currentId = entry.id;
+      const initial = entry.initial;
+      next = initial;
+      prev = initial;
+      paused = false;
+      progress.set(initial, { duration: 0 });
+    }
+  });
 
   // Watch for changes in item.next
   $effect(() => {
