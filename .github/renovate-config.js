@@ -55,11 +55,6 @@ module.exports = {
       matchUpdateTypes: ["major"],
       pinDigests: true,
     },
-    // https://docs.renovatebot.com/modules/manager/npm/
-    {
-      matchManagers: ["npm"],
-      postUpdateOptions: ["npmInstallTwice"],
-    },
     // https://docs.renovatebot.com/modules/datasource/docker/
     {
       matchDatasources: ["docker"],
