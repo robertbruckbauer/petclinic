@@ -31,7 +31,7 @@ Follow strictly the structure and the rules of the provided templates.
 
 ## Task preconditions
 
-2. **Locate implementation files**
+1. **Locate implementation files**
   Locate existing implementation files that affect documentation:
   - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
   - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
