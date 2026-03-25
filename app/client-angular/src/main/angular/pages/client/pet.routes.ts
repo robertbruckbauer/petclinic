@@ -7,14 +7,18 @@ import { PetListerComponent } from "./pet-lister/pet-lister";
 import { PetViewerComponent } from "./pet-viewer/pet-viewer";
 
 export const routes: Routes = [
+  // tag::lister[]
   {
     path: "",
     component: PetListerComponent,
     providers: [EnumService, OwnerService, PetService, VisitService],
   },
+  // end::lister[]
+  // tag::viewer[]
   {
     path: ":petId",
     component: PetViewerComponent,
     providers: [],
   },
+  // end::viewer[]
 ];

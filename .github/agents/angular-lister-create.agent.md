@@ -63,6 +63,12 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Find the minimum set of properties needed to identify the entity, e.g. name.
   Use those properties for column names in the table.
 
+5. **Add route for entity lister component**
+  Use `doc/concept/angular/entity-lister.adoc` as the implementation baseline.
+  Create route script `<entity>-routes.ts`.
+  Add route script to `app.routes.ts`.
+  Add a navigation link to `app.html`.
+
 ## Task output
 
 Create a short summary with files changed.

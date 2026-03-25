@@ -19,10 +19,6 @@ You create clean code within boundaries set by existing concepts.
 ## Task overview
 
 When triggered, implement a new many-to-one relation from one existing entity to another entity.
-Do not add custom REST endpoints.
-Do not add new GraphQL operations.
-Do not change documentation.
-Do not change client files.
 
 ## Task preconditions
 
