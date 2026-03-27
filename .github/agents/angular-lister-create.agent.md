@@ -23,20 +23,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Check that a package directory with this name exists.
   Replace placeholder `<package>` with the given name.
 
-3. **Locate implementation files**
-  Locate existing implementation files:
-  - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
-  - **Angular types** → Check *.type.ts in app/client-angular/src/main/angular/types
-  - **Angular services** → Check *.service.ts in app/client-angular/src/main/angular/types
-  - **Angular routes** → Check *.routes.ts in app/client-angular/src/main/angular/pages/**
-  - **Angular editor components** → Check *.[ts|html|css] in app/client-angular/src/main/angular/pages/**/*-editor
-  - **Angular lister components** → Check *.[ts|html|css] in app/client-angular/src/main/angular/pages/**/*-lister
-  
-4. **Locate documentation files**
-  Locate existing implementation files that affect documentation:
-  - **REST API service documentation** → Check *restapi.adoc in doc/service/**
-  - **GraphQL service documentation** → Check *graphql.adoc in doc/service/**
-
 ## Task steps
 
 1. **Create entity type**
