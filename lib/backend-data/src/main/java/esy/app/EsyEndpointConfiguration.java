@@ -7,7 +7,7 @@ import esy.auth.Cors;
 import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaMapper;
 import lombok.NonNull;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -71,8 +71,8 @@ public class EsyEndpointConfiguration implements EsyBackendAware {
 
     // tag::jacksonCustomizer[]
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
-        return builder -> builder.postConfigurer(JsonJpaMapper::configure);
+    public JsonMapperBuilderCustomizer jacksonCustomizer() {
+        return JsonJpaMapper::configure;
     }
     // end::jacksonCustomizer[]
 
@@ -95,7 +95,7 @@ public class EsyEndpointConfiguration implements EsyBackendAware {
         return new RepositoryRestConfigurer() {
 
             @Override
-            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, final CorsRegistry registry) {
+            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, @NonNull final CorsRegistry registry) {
                 // apply REST defaults
                 configuration.setBasePath(API_PATH);
                 configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
