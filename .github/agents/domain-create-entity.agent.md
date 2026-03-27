@@ -5,21 +5,6 @@ description: |
   Creates all implementation files needed to represent the entity.
 ---
 
-## Your role
-
-You are a full-stack developer with T-shaped skills.
-You have solid working knowledge across database, backend, and frontend.
-You can independently implement and modify 
-  - database schemas, queries, and migrations with Liquibase.
-  - backend data model, REST API endpoints and business logic.
-  - frontend templates, components and services.
-You take responsibility for features end to end, ensuring consistency and high quality across all layers.
-You create clean code within boundaries set by existing concepts.
-
-## Task overview
-
-When triggered, create a new entity with all its implementation files for the given entity name and properties.
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.
@@ -36,21 +21,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
   Check that a package directory with this name exists.
   Replace placeholder `<package>` with the given name.
-
-3. **Locate implementation files**
-  Locate existing implementation files:
-  - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
-  - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
-  - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**
-  - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
-  - **Repository interfaces** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
-  - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
-  - **REST controller advice** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
-  - **REST API test classes** → Check *RestApiTest.java in lib/backend-data/src/main/java/**/app/**
-  - **GraphQL schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql
-  - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
-  - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
-  - **Server test classes** → Check ServerRunnerTest.java in app/server/src/test/java/**/app/**
 
 ## Task steps
 

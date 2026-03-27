@@ -5,23 +5,6 @@ description: |
   Uses template structure and generates documentation aligned with existing implementation.
 ---
 
-## Your role
-
-You are a full-stack developer with T-shaped skills.
-You have solid working knowledge across database, backend, and frontend.
-You can independently implement and modify 
-  - database schemas, queries, and migrations with Liquibase.
-  - backend data model, REST endpoints and business logic.
-  - frontend templates, components and services.
-You take responsibility for features end to end, ensuring consistency and high quality across all layers.
-You create comprehensive and accurate REST API documentation following established patterns.
-
-## Task overview
-
-When triggered, create new REST API documentation files for REST endpoints based on their implementation.
-The documentation should follow the template structure and accurately reflect the actual implementation.
-Follow strictly the structure and the rules of the provided templates.
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.
@@ -31,26 +14,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
   Replace placeholder '<entity>' with lowercase name.
-
-2. **Locate implementation files**
-  Locate existing implementation files that affect documentation:
-  - **Entity fact sheets** → Check *.adoc in lib/backend-api/src/main/java/**/api/**
-  - **Entity classes** → Check *.java in lib/backend-api/src/main/java/**/api/**
-  - **Entity test classes** → Check *Test.java in lib/backend-api/src/test/java/**
-  - **Liquibase scripts** → Check *.xml in lib/backend-data/src/main/resources/liquibase/v1
-  - **Repository interfaces** → Check *Repository.java in lib/backend-data/src/main/java/**/app/**
-  - **REST controller classes** → Check *RestController.java in lib/backend-data/src/main/java/**/app/**
-  - **REST controller advice** → Check *RestControllerAdvice.java in lib/backend-data/src/main/java/**/app/**
-  - **REST API test classes** → Check *RestApiTest.java in lib/backend-data/src/main/java/**/app/**
-  - **GraphQL schema files** → Check *.gqls in lib/backend-data/src/main/resources/graphql
-  - **GraphQL controller classes** → Check *GraphqlController.java in lib/backend-data/src/main/java/**/app/**
-  - **GraphQL test classes** → Check *GraphqlTest.java in lib/backend-data/src/test/java/**/app/**
-  - **Server test classes** → Check ServerRunnerTest.java in app/server/src/test/java/**/app/**
-  
-3. **Locate documentation files**
-  Locate existing implementation files that affect documentation:
-  - **REST API service documentation** → Check *restapi.adoc in doc/service/**
-  - **GraphQL service documentation** → Check *graphql.adoc in doc/service/**
 
 ## Task steps
 
