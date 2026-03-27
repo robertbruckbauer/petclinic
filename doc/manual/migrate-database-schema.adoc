@@ -5,7 +5,7 @@
 Liquibase provides significant advantages for schema evolution.
 Minor changes are applied in incremental steps.
 This approach is simple, deterministic and keeps automated tests fast.
-Major changes are implemented with a consolidated Liquibase script set.
+Major changes are implemented with a consolidated Liquibase changelog.
 The schema and data migration is executed manually directly on the database.
 
 == Minor changes
@@ -35,7 +35,7 @@ They are classified as major when they break backward compatibility and prevent 
 
 Assuming a migration from database version `v1` to `v2`, then 
 
-. Copy Liquibase scripts from directory `v1` to `v2`.
+. Copy Liquibase changesets from directory `v1` to `v2`.
 . Squash incremental changes into a single create command for every database object. 
 . Create a script to migrate the database schema and data using any PostgreSQL database tool. 
 . Update the changelog file using the directory `v2`.

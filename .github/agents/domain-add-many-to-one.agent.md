@@ -36,7 +36,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 2. **Update entity fact sheet <Entity>.adoc**
   Add a short description for the new relation with its type, constraints, and a one-line description.
 
-3. **Update Liquibase script <entity>.xml**
+3. **Update Liquibase changeset <entity>.xml**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Create a new change set without any preconditions.
   Add a new column with name `<name>_id`.
@@ -63,15 +63,15 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 6. **Do not update repository interface <Entity>Repository.java**
 
-7. **Update repository test class <Entity>RepositoryTest.java**
+7. **Update repository test <Entity>RepositoryTest.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
     
-8. **Do not update REST controller class <Entity>RestController.java**
+8. **Do not update REST API controller class <Entity>RestController.java**
 
-9. **Update REST API test class <Entity>RestApiTest.java**
+9. **Update REST API test <Entity>RestApiTest.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
@@ -80,13 +80,13 @@ You MUST NOT generate code if even one of the preconditions is not met.
 10. **Update GraphQL controller class <Entity>GraphqlController.java**
   Add `all<Name>: [<Type>]` to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
 
-11. **Update GraphQL test class <Entity>GraphqlTest.java**
+11. **Update GraphQL test <Entity>GraphqlTest.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
   Keep style consistent with existing tests.
 
-12. **Update Server test class**
+12. **Update Server test set**
   If relation is mandatory update existing test data with a default value.
 
 ## Task output

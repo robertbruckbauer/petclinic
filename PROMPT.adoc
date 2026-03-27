@@ -23,11 +23,18 @@ for a community created collection of custom agents and instructions.
 @copilot In the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java if needed.
 ----
 
+== Domain enum creator
+
+.Prompt
+----
+@copilot Create an enum InvoiceStatus with values D for drafted, I for issued, C for completed, and X for cancelled, in package clinic.
+----
+
 == Domain entity creator
 
 .Prompt
 ----
-@copilot Create an entity VisitInvoice with a required many-to-one relation to entity Visit, with required property at of type LocalDate, with required property due of type LocalDate, with required non-blank property text of type String.
+@copilot Create an entity Invoice with required property at of type LocalDate, with required property due of type LocalDate, with required property status of type InvoiceStatus, with required non-blank property text of type String, in package clinic.
 ----
 
 == Domain entity property adder

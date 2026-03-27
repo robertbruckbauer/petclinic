@@ -9,12 +9,12 @@ description: |
 
 1. **Map implementation files to documentation files**
   For each changed implementation file, identify which GraphQL API documentation files may need updates:
-  - **Entity classes** → corresponding *-graphql.adoc Model section
-  - **Liquibase scripts** → corresponding *-graphql.adoc Model section
-  - **Repository interfaces** → corresponding *-graphql.adoc query parameter documentation
-  - **GraphQL Schema files** → corresponding *-graphql.adoc Operations and Type definitions sections
-  - **GraphQL Controller classes** → corresponding *-graphql.adoc Query/Mutation resolver documentation
-  - **GraphQL Test classes** → corresponding *-graphql.adoc usage examples and scenarios
+  - **Entity class** → GraphQL API documentation, model section
+  - **Liquibase changeset** → GraphQL API documentation, model section
+  - **Repository interface** → GraphQL API documentation, query parameter documentation
+  - **GraphQL schema** → GraphQL API documentation, operations and type definitions sections
+  - **GraphQL controller class** → GraphQL API documentation, query resolver documentation
+  - **GraphQL test** → GraphQL API documentation, usage examples and scenarios
 
 2. **Verify documentation files**
   Use doc/service/template/spring-graphql.adoc as the reference template.
@@ -35,7 +35,7 @@ description: |
 
 4. **Assess impact**
     For minor issues (typos, formatting): Fix directly
-    For major issues (missing documentation for new features, outdated descriptions): 
+    For major issues (missing documentation for new features, wrong or outdated descriptions): 
     - Add NOTE admonitions with specific improvement instructions
     - Reference the specific implementation changes that require documentation updates
     - Write instructions as actionable prompts for fixing

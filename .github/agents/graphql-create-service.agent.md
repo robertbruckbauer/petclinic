@@ -23,7 +23,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
     * Extract properties, data types, and validation annotations
     * Document relationships and constraints
     * Identify required vs optional fields
-  - **Liquibase script analysis**:
+  - **Liquibase changeset analysis**:
     * Extract table structure and column definitions
     * Document constraints, indexes, and relationships
   - **Repository analysis**:

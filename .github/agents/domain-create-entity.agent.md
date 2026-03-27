@@ -27,7 +27,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 1. **Create entity fact sheet <Entity>.adoc**
   Add a short description of the main purpose of the entity.
 
-2. **Create Liquibase script <entity>.xml**
+2. **Create Liquibase changeset <entity>.xml**
   Use `doc/concept/spring/_json-jpa-entity.adoc` as the implementation baseline.
   Create a new change set with:
   - A column with name `id` of type `UUID` (not null).
@@ -52,22 +52,22 @@ You MUST NOT generate code if even one of the preconditions is not met.
 5. **Create repository interface <Entity>Repository.java**
   Use `doc/concept/spring/_json-jpa-repository.adoc` as the implementation baseline.
 
-6. **Create repository test class <Entity>RepositoryTest.java**
+6. **Create repository test <Entity>RepositoryTest.java**
   Use `doc/concept/spring/_json-jpa-repository.adoc` as the implementation baseline.
 
-7. **Create REST controller class <Entity>RestController.java**
+7. **Create REST API controller class <Entity>RestController.java**
   Use `doc/concept/spring/_json-jpa-rest-controller.adoc` as the implementation baseline.
 
-8. **Create REST API test class <Entity>RestApiTest.java**
+8. **Create REST API test <Entity>RestApiTest.java**
   Use `doc/concept/spring/_json-jpa-rest-controller.adoc` as the implementation baseline.
 
-9. **Create GraphQL schema file <entity>.gqls**
+9. **Create GraphQL schema <entity>.gqls**
   Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline.
 
 10. **Create GraphQL controller class <Entity>GraphqlController.java**
   Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline.
 
-11. **Create GraphQL test class <Entity>GraphqlTest.java**
+11. **Create GraphQL test <Entity>GraphqlTest.java**
   Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline.
 
 ## Task output

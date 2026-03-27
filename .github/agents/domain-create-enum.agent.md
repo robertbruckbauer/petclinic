@@ -35,7 +35,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 4. **Create enum test class <Enum>Test.java**
   Implement a test which verifies the text.
 
-9. **Create GraphQL schema file enum.gqls**
+9. **Create GraphQL schema enum.gqls**
   Add a GraphQL type for the enum.
 
 ## Task output

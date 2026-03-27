@@ -9,12 +9,12 @@ description: |
 
 1. **Map implementation files to documentation files**
   For each changed implementation file, identify which REST API documentation files may need updates:
-  - **Entity classes** → corresponding *-restapi.adoc Model section
-  - **Liquibase scripts** → corresponding *-restapi.adoc Model section
-  - **Repository interfaces** → corresponding *-restapi.adoc query parameter documentation
-  - **RestController classes** → corresponding *-restapi.adoc Operations section
-  - **Rest API Test classes** → corresponding *-restapi.adoc usage examples and scenarios
-  - **ControllerAdvice classes** → all *-restapi.adoc error code documentation
+  - **Entity class** → REST API documentation, model section
+  - **Liquibase changeset** → REST API documentation, model section
+  - **Repository interfaces** → REST API documentation, query parameter documentation
+  - **REST API controller class** → REST API documentation, Operations section
+  - **REST API test class** → REST API documentation, usage examples and scenarios
+  - **REST API contoller advice** → all *-restapi.adoc error code documentation
 
 2. **Verify documentation files**
   Use doc/service/template/spring-restapi.adoc as the reference template.
@@ -34,7 +34,7 @@ description: |
 
 4. **Assess impact**
     For minor issues (typos, formatting): Fix directly
-    For major issues (missing documentation for new features, outdated descriptions): 
+    For major issues (missing documentation for new features, wrong or outdated descriptions): 
     - Add NOTE admonitions with specific improvement instructions
     - Reference the specific implementation changes that require documentation updates
     - Write instructions as actionable prompts for fixing
