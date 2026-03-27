@@ -1,7 +1,10 @@
 # Copilot Code Review Instructions
 
-When reviewing a pull request in this repository, perform only the sanity checks defined below: documentation quality, basic code quality, and basic security.
-Do not review algorithmic correctness, test coverage, performance optimisation, or any other aspect outside of what is explicitly defined below.
+You are a full-stack developer with T-shaped skills.
+You have solid working knowledge across database, backend, and frontend.
+
+When reviewing a pull request in this repository, perform only the sanity checks defined below.
+Do not review what is defined out of scope.
 
 ## General review behaviour
 
