@@ -1,5 +1,18 @@
 = Relation of kind `OneToMany`
 
+== Domain story
+
+This implementation guide applies whenever one entity instance owns a collection of child entity instances, and the relationship is managed through a `@ManyToOne` back-reference on the child side.
+A bidirectional mapping is usually more efficient and idiomatic.
+
+.Example
+....
+One owner can have many pets.
+The inverse side of the relation is declared on entity `Owner` and mapped via the `owner` field in entity `Pet`.
+The pets are read lazily, cascade-persisted with their owner, and automatically deleted when removed from the collection.
+They are exposed only as lightweight item objects in API responses to avoid circular references.
+....
+
 == Default implementation
 
 .Entity
@@ -11,7 +24,7 @@
         cascade = CascadeType.ALL, <3>
         orphanRemoval = true <4>
 )
-@Getter <5>
+@Getter(value = AccessLevel.NONE) <5>
 @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) <6>
 private Set<Pet> allPet; <7>
 ----
@@ -23,47 +36,42 @@ It refers to the field name `owner` in the `Pet` entity.
 <3> The `cascade = CascadeType.ALL` ensures all persistence operations (persist, merge, remove, etc.) cascade to the children.
 <4> The `orphanRemoval = true` means that when a child entity is removed from the collection, it is automatically deleted from the database.
 <5> The field is marked with `@Getter`.
-This allows the collection to be accessed via a getter method.
-<6> The field is marked with `@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)`.
+This prevents the collection to be accessed via a getter method.
+<6> The field is marked with `@JsonProperty`.
 The collection is only used during deserialization, not in JSON responses.
-<7> The field has the data type `Set<Pet>` (or `LinkedHashSet<Pet>`).
-Using a `Set` prevents duplicate children and a `LinkedHashSet` maintains insertion order.
+<7> The field has the data type `Set<Pet>`.
+Using a `Set` prevents duplicate children.
 
-This kind of relation does not require a Liquibase change.
+== Liquibase changeset
+
+The relation does not require changes in the database on this side of the mapping.
 
 == Relation initialization
 
-[source,java,options="nowrap"]
-----
-Owner() {
-    super();
-    this.name = "";
-    this.address = "";
-    this.contact = "";
-    this.allPet = new LinkedHashSet<>(); <1>
-}
-----
+The relation is initialized with an empty collection to avoid null pointer exceptions.
+Use `LinkedHashSet` to maintain insertion order.
 
-<1> The collection is initialized to avoid null pointer exceptions.
+The `withId` method must copy the relation so that cloned instances remain semantically equal.
 
 == Relation manipulation
 
 == Relation verification
 
-Relations participate in the `isEqual` method comparison.
+The relation participates in the `isEqual` method comparison.
 Use `Objects#equals`.
 
 Do not use relations in the `verify` operation.
 
 == Relation serialization
 
-Relations are by default *not* part of the JSON structure.
+The relation is by default *not* part of the JSON structure.
 
-Relations can be added to the JSON structure only with item classes.
+The relation can be added to the JSON structure only with item classes.
 This prevents circular references and reduces payload size.
 Be aware of the potential impact on performance.
 Use this approach only for relations with a small number of elements.
 
+.Items
 [source,java,options="nowrap"]
 ----
 @Override <1>
@@ -87,60 +95,12 @@ The `withId` test verifies cloning.
 
 == `<Entity>RepositoryTest` approach
 
-.Example pseudo code
-[source,text,options="nowrap"]
-----
-@Test
-void save<Entity>() {
-    final var value0 = create...(...); <1>
-    assertFalse(value0.isPersisted());
-    assertEquals(0L, value0.getVersion());
-    assertTrue(value0.getAll<Name>().isEmpty()); <2>
-
-    final var value1 = <entity>Repository.save(value0.addAll<Name>(...)); <3>
-    assertNotNull(value1); 
-    assertNotSame(value0, value1); 
-    assertTrue(value1.isPersisted());
-    assertEquals(0L, value1.getVersion());
-    assertFalse(value0.getAll<Name>().isEmpty()); <4>
-}
-----
-
-<1> Create an new instance of this entity class with required properties set.
-<2> Assert relation to be empty.
-<3> Update relation and persist the instance.
-<4> Assert relation not to be empty.
+Do not create a test specifically for this property.
 
 == `<Entity>GraphqlTest` approach
 
-.Example pseudo code
-[source,text,options="nowrap"]
-----
-@Test
-void queryAll<Entity>() {
-    final var value = <Entity>.fromJson(...);
-    when(<entity>Repository.findAll())
-            .thenReturn(List.of(value));
-    final var owner = Owner.fromJson(...);
-    when(ownerRepository.findAllById(any()))
-            .thenReturn(List.of(owner));
-    final var data = graphQlTester
-            .document("""
-                    {all<Entity>{owner(id)}}
-                    """)
-            .execute();
-    assertNotNull(data);
-    data.path("all<Entity>[0].owner.id")
-            .hasValue()
-            .entity(UUID.class)
-            .isEqualTo(owner.getId());
-    verify(<entity>Repository).findAll();
-    verifyNoMoreInteractions(<entity>Repository);
-    verify(ownerRepository).findAllById(any());
-    verifyNoMoreInteractions(ownerRepository);
-}
-----
+Do not create a test specifically for this property.
 
 == `<Entity>RestApiTest` approach
 
-Do not create a Test.
+Do not create a test specifically for this property.

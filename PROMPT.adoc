@@ -20,7 +20,7 @@ for a community created collection of custom agents and instructions.
 
 .Prompt
 ----
-@copilot In the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java if needed.
+@copilot In the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java.
 ----
 
 == Domain enum creator
@@ -41,7 +41,7 @@ for a community created collection of custom agents and instructions.
 
 .Prompt
 ----
-@copilot Add property text of type String to entity Visit having a diagnosis text.
+@copilot At the end of treatment in a visit, the vet writes down a diagnosis. Add property text of type String to entity Visit having a diagnosis text.
 ----
 
 .Prompt
@@ -53,21 +53,33 @@ for a community created collection of custom agents and instructions.
 
 .Prompt
 ----
-@copilot Add collection skill of type String to entity Vet having skills of vets.
+@copilot A vet has one or more skills that he uses for treatments. Add collection skill of type String to entity Vet hast a set of skills.
 ----
 
 == Domain entity many-to-one relation adder
 
 .Prompt
 ----
-@copilot Add many-to-one relation pet of type Pet from entity Vet to entity Pet representing the pet treated in a visit.
+@copilot A pet is treated in a visit. Add a required many-to-one relation from entity Visit to entity Pet.
+----
+
+.Prompt
+----
+@copilot A visit is conducted by a vet. Add a required many-to-one relation from entity Visit to entity Vet.
 ----
 
 == Domain entity one-to-many relation adder
 
 .Prompt
 ----
-@copilot Add one-to-many relation pet of type Pet from entity Owner to entity Pet representing a list of pets owned by an owner.
+@copilot An owner can have one or more pets. Add an one-to-many relation from entity Owner to entity Pet.
+----
+
+== Domain entity one-to-one relation adder
+
+.Prompt
+----
+@copilot Every visit results in exactly one invoice for billing. Add a required one-to-one relation from entity Invoice to entity Visit.
 ----
 
 == REST API sanity checker

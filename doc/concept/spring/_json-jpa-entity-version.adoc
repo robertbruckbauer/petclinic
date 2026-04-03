@@ -1,5 +1,12 @@
 = Column for a version number
 
+== Domain story
+
+This implementation guide applies to every entity in the domain that must be protected against concurrent modifications and whose REST API responses must carry cache-validation headers.
+The property uses the `Long` type and applies the special `@Version` annotation for optimistic locking.
+
+The version property is also exposed as an `ETag` response header so that HTTP clients can use conditional requests (`If-Match`) to detect stale data before submitting an update.
+
 == Default implementation
 
 .Entity
@@ -22,21 +29,42 @@ The value is not included in the JSON structure of the REST API.
 However, the value is transferred to an `ETAG` header.
 <5> The field has the data type `Long`.
 
-.Liquibase
-[source,xml,options="nowrap"]
-----
-<column name="version" type="BIGINT" defaultValue="0"> <1>
-    <constraints nullable="false"/> <2>
-</column>
-----
-
-<1> The column type is `BIGINT` (64-bit integer) with a default value of 0.
-<2> The column is marked as NOT NULL.
-
 The property is part of the base class.
 This ensures that all objects have the same procedure for maintaining integrity.
 
-The property uses the `Long` type and applies the special `@Version` annotation for optimistic locking.
+== Liquibase changeset
+
+.Column
+[source,xml,options="nowrap"]
+----
+<createTable tableName="vet"> <1>
+    <!-- primary key column -->
+    <column name="version" type="BIGINT" defaultValue="0"> <2>
+       <constraints nullable="false"/> <3>
+    </column>
+    <!-- other columns -->
+</createTable>
+----
+
+<1> A table is created for the entity.
+<2> The column type is `BIGINT` (64-bit integer) with a default value of 0.
+<3> The column is marked as NOT NULL.
+
+== Property initialization
+
+The property is initialized in the base class.
+
+== Property manipulation
+
+The property must not be changed.
+
+== Property verification
+
+The property must not be verified.
+
+== Property serialization
+
+The property is by default part of the JSON structure.
 
 == `<Entity>Test` approach
 
@@ -48,29 +76,12 @@ The `withId` test verifies cloning.
 
 == `<Entity>RepositoryTest` approach
 
-.Example pseudo code
-[source,text,options="nowrap"]
-----
-@Test
-void save<Entity>() {
-    final var value0 = create...(...);
-    assertFalse(value0.isPersisted());
-    assertEquals(0L, value0.getVersion());
-    assertNotNull(value0.getId());
-
-    final var value1 = <entity>Repository.save(value0);
-    assertNotNull(value1); 
-    assertNotSame(value0, value1); 
-    assertTrue(value1.isPersisted());
-    assertEquals(0L, value1.getVersion());
-    assertTrue(value1.isEqual(value0));
-}
-----
+Do not create a test specifically for this property.
 
 == `<Entity>GraphqlTest` approach
 
-Do not create a Test.
+Do not create a test specifically for this property.
 
 == `<Entity>RestApiTest` approach
 
-Do not create a Test.
+Do not create a test specifically for this property.

@@ -94,6 +94,7 @@ public class <Entity>RepositoryTest {
         assertNotSame(value0, value1);
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
+        assertNotNull(value1.getId());
         assertTrue(value1.isEqual(value0));
     }
 

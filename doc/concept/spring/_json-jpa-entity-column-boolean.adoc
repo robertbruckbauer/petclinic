@@ -1,14 +1,24 @@
 = Column for type `boolean`
 
+== Domain story
+
+This implementation guide applies whenever an entity owns a boolean flag that must be persisted, exposed via the REST and GraphQL APIs, and must not be null.
+
+.Example
+....
+A visit can be marked as billable to indicate whether the clinic charges the owner for the treatment.
+The flag is stored as a boolean column on the `visit` table and is managed as part of the `Visit` entity.
+....
+
 == Default implementation
 
-.Entity
+.Property
 [source,java,options="nowrap"]
 ----
-@Column(name = "flag") <1>
+@Column(name = "billable") <1>
 @Getter <2>
 @JsonProperty <3>
-private boolean flag; <4>
+private boolean billable; <4>
 ----
 
 <1> The field is marked with `@Column`.
@@ -21,12 +31,18 @@ The value is included in the JSON structure of the REST API.
 Using the primitive type avoids null issues.
 This is a mutable field due to requirements from the JPA provider.
 
-.Liquibase
+== Liquibase changeset
+
+The database schema needs a new column.
+
+.Column
 [source,xml,options="nowrap"]
 ----
-<column name="flag" type="BOOLEAN" defaultValueBoolean="false"> <1>
-    <constraints nullable="false"/> <2>
-</column>
+<addColumn tableName="visit">
+    <column name="billable" type="BOOLEAN" defaultValueBoolean="false"> <1>
+        <constraints nullable="false"/> <2>
+    </column>
+</addColumn>
 ----
 
 <1> The column type is `BOOLEAN` with a default value of `false`.
@@ -34,21 +50,22 @@ This is a mutable field due to requirements from the JPA provider.
 
 == Property initialization
 
-`boolean` properties are not nullable and initialized in the constructor.
+The property is not nullable and initialized in the constructor.
+
+The `withId` method must copy the property so that cloned instances remain semantically equal.
 
 == Property manipulation
 
-`boolean` properties are typically only changed through REST endpoints.
-
-`boolean` properties are copied in the `withId` operation during entity cloning.
+The property is typically only changed through REST endpoints.
 
 Add a setter if a controller must be able to update a property directly.
 
+.Setter
 [source,java,options="nowrap"]
 ----
 @JsonIgnore <1>
-public Entity setFlag(final boolean flag) { <2>
-    this.flag = flag;
+public Visit setBillable(final boolean billable) { <2>
+    this.billable = billable;
     return this; <3>
 }
 ----
@@ -59,14 +76,14 @@ public Entity setFlag(final boolean flag) { <2>
 
 == Property verification
 
-`boolean` properties participate in the `isEqual` method comparison.
+The property participate in the `isEqual` method comparison.
 Use `==` for direct comparison.
 
 The `verify` operation may include custom validation logic.
 
 == Property serialization
 
-`boolean` properties are by default part of the JSON structure.
+The property is by default part of the JSON structure.
 
 == `<Entity>Test` approach
 
@@ -82,7 +99,7 @@ The `json<Name>` parameterized test verifies the happy path, e.g.
 - correct deserialization from JSON
 - assert property value
 
-.Example from Visit entity
+.Example
 [source,java,options="nowrap"]
 ----
 @ParameterizedTest
@@ -104,7 +121,7 @@ The `json<Name>Constraints` parameterized test verifies constraints, e.g.
 - invalid values are rejected
 - missing values are rejected
 
-.Example from Vet entity
+.Example
 [source,java,options="nowrap"]
 ----
 @ParameterizedTest
@@ -124,101 +141,91 @@ void jsonBillableConstraints(final String text) {
 
 == `<Entity>RepositoryTest` approach
 
-.Example pseudo code
+A `save<Entity>` test verifies the happy path for a persistence operation.
+
+.Example
 [source,text,options="nowrap"]
 ----
 @ParameterizedTest
-@ValueSource(booleans = {true, false})
-void save<Entity>() {
-    final var value0 = create...(...);
+@ValueSource(strings = {
+        "Tschüss und schöne Grüße!"
+})
+void saveVisit(final String text) {
+    final var value0 = createWithText(text);
     assertFalse(value0.isPersisted());
     assertEquals(0L, value0.getVersion());
     assertNotNull(value0.getId());
-    assertTrue(value0.is<Name>());
+    assertNull(value0.getPet());
+    assertNull(value0.getVet());
+    // other assertions
+    assertFalse(value0.isBillable());
 
-    final var value1 = <entity>Repository.save(value0);
-    assertNotNull(value1); 
-    assertNotSame(value0, value1); 
+    final var pet = savePet("Tom");
+    final var vet = saveVet("Dr. Doolittle");
+    final var value1 = visitRepository.save(value0.setPet(pet).setVet(vet));
+    assertNotNull(value1);
+    assertNotSame(value0, value1);
     assertTrue(value1.isPersisted());
     assertEquals(0L, value1.getVersion());
+    assertNotNull(value1.getId());
+    assertNotNull(value1.getPet());
+    assertNotNull(value1.getVet());
     assertTrue(value1.isEqual(value0));
 }
 ----
 
 == `<Entity>GraphqlTest` approach
 
-.Example pseudo code
+A `queryAll<Entity>` test verifies the happy path for a query operation.
+
+.Example
 [source,text,options="nowrap"]
 ----
 @Test
-void queryAll<Entity>() {
-    final var value = <Entity>.fromJson(...);
-    when(<entity>Repository.findAll())
+void queryAllVisit() {
+    final var value = createWithText("Lorem ipsum.");
+    when(visitRepository.findAll())
             .thenReturn(List.of(value));
     final var data = graphQlTester
-            .document("""
-                    {all<Entity>{<name>}}
-                    """)
+            .document("{allVisit{billable}}")
             .execute();
     assertNotNull(data);
-    data.path("all<Entity>[0].<name>")
+    data.path("allVisit[0].billable")
             .hasValue()
-            .entity(<Type>.class)
-            .isEqualTo(...);
-    verify(<entity>Repository).findAll();
-    verifyNoMoreInteractions(<entity>Repository);
+            .entity(Boolean.class)
+            .isEqualTo(value.isBillable());
+    verify(visitRepository).findAll();
+    verifyNoMoreInteractions(visitRepository);
+    verifyNoInteractions(petRepository);
+    verifyNoInteractions(vetRepository);
 }
 ----
 
-
-== `<Entity>RestapiTest` approach
+== `<Entity>RestApiTest` approach
 
 The `postApi<Entity>` test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
-Assert the value of the new property in the response.
+Assert the status.
+Assert the value of the property in the response.
+Create asciidoc snippets for endpoint documentation.
 
 The `postApi<Entity>Conflict` test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new property in the payload for the request.
-Assert the conflict status.
+Assert the status.
+Create asciidoc snippets for endpoint documentation.
 
 The `putApi<Entity>` test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
-Assert the value of the new property in the response.
+Assert the status.
+Assert the value of the property in the response.
+Create asciidoc snippets for endpoint documentation.
 
 The `patchApi<Entity><Name>` test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
 Use the entity with the primary key from the `putApi<Entity>` test.
-
-.Example pseudo code
-[source,text,options="nowrap"]
-----
-@Test
-@Order(31)
-void patchApi<Entity><Name>() throws Exception {
-    final var value = true;
-    final var uuid = UUID.fromString(...);
-    assertTrue(<entity>Repository.findById(uuid).isPresent());
-    mockMvc.perform(patch("/api/<entity>/" + uuid)
-                    .content("""
-                            {
-                                "<name>":"%s"
-                            }
-                            """.formatted(value))
-                    .contentType(MediaType.parseMediaType("application/merge-patch+json"))
-                    .accept(MediaType.APPLICATION_JSON))
-            .andDo(print())
-            .andExpect(status()
-                    .isOk())
-            .andExpect(content()
-                    .contentType("application/json"))
-            .andExpect(header()
-                    .exists("Vary"))
-            .andExpect(header()
-                    .exists("ETag"))
-            .andExpect(jsonPath("$.id")
-                    .value(uuid.toString()))
-            .andExpect(jsonPath("$.<name>")
-                    .value(value));
-}
-----
+Assert the status.
+Assert the value of the property in the response.
+Create asciidoc snippets for endpoint documentation.
 
 The `getApi<Entity>ById` test verifies the happy path of the GET entity operation.
 Use the entity with the primary key from the `putApi<Entity>` test.
 Compute the new `ETag` value according to the new test.
-Assert the value of the new property in the response.
+Assert the status.
+Assert the value of the property in the response.
+Create asciidoc snippets for endpoint documentation.
