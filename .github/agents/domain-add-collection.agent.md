@@ -78,6 +78,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 9. **Update REST API test <Entity>RestApiTest.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+  Add `DELETE` statement for database table <entity>_<name> in DatabaseCleaner.java.
   If collection is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new collection.
   Add `patchApi<Entity><Name>` test.

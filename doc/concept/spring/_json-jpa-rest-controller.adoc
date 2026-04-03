@@ -239,6 +239,9 @@ class <Entity>RestApiTest {
     private MockMvc mockMvc;
 
     @Autowired
+    private DatabaseCleaner databaseCleaner;
+
+    @Autowired
     private <Entity>Repository <entity>Repository;
 
     @BeforeEach <1>
@@ -442,10 +445,8 @@ class <Entity>RestApiTest {
 
     @Test <11>
     @Order(999)
-    @Transactional
-    @Rollback(false)
     void cleanup() {
-        assertDoesNotThrow(() -> <entity>Repository.deleteAll());
+        assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }
 ----
@@ -460,4 +461,4 @@ class <Entity>RestApiTest {
 <8> Test for the error path of a GET operation when the entity does not exist.
 <9> Test for the happy path of a DELETE operation.
 <10> Test for the error path of a DELETE operation when the entity does not exist.
-<11> Empty all touched tables.
+<11> Empty all entity tables.

@@ -1,5 +1,6 @@
 package esy.app.basis;
 
+import esy.app.DatabaseCleaner;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -9,15 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -36,7 +35,7 @@ class PingRestApiTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private PingRepository pingRepository;
+    private DatabaseCleaner databaseCleaner;
 
     @BeforeEach
     void setUp(final WebApplicationContext webApplicationContext,
@@ -133,10 +132,7 @@ class PingRestApiTest {
 
     @Test
     @Order(999)
-    @Transactional
-    @Rollback(false)
     void cleanup() {
-        assertEquals(1, pingRepository.count());
-        pingRepository.deleteAll(pingRepository.findAll());
+        assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }

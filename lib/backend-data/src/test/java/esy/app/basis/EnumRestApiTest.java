@@ -1,5 +1,6 @@
 package esy.app.basis;
 
+import esy.app.DatabaseCleaner;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,13 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -38,7 +37,7 @@ class EnumRestApiTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private EnumRepository enumRepository;
+    private DatabaseCleaner databaseCleaner;
 
     @BeforeEach
     void setUp(final WebApplicationContext webApplicationContext,
@@ -260,12 +259,7 @@ class EnumRestApiTest {
 
     @Test
     @Order(999)
-    @Transactional
-    @Rollback(false)
     void cleanup() {
-        assertEquals(2, enumRepository.count(ENUM_ART));
-        enumRepository.findAll(ENUM_ART).forEach(e ->
-                enumRepository.delete(e));
-        enumRepository.deleteAll();
+        assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }

@@ -1,6 +1,7 @@
 package esy.app.client;
 
 import esy.api.client.QOwner;
+import esy.app.DatabaseCleaner;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,10 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
@@ -37,6 +36,9 @@ class OwnerRestApiTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private DatabaseCleaner databaseCleaner;
 
     @Autowired
     private OwnerRepository ownerRepository;
@@ -398,9 +400,7 @@ class OwnerRestApiTest {
 
     @Test
     @Order(999)
-    @Transactional
-    @Rollback(false)
     void cleanup() {
-        assertDoesNotThrow(() -> ownerRepository.deleteAll());
+        assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }

@@ -60,6 +60,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 8. **Create REST API test <Entity>RestApiTest.java**
   Use `doc/concept/spring/_json-jpa-rest-controller.adoc` as the implementation baseline.
+  Add `DELETE` statement for database table <entity> in DatabaseCleaner.java.
 
 9. **Create GraphQL schema <entity>.gqls**
   Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline.
