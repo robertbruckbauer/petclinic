@@ -15,6 +15,7 @@ export default defineConfig({
     },
     coverage: {
       provider: 'v8',
+      reporter: ["text", "html"],
       include: [
         "src/main/angular/services/*.ts",
         "src/main/angular/stores/*.ts",

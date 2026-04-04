@@ -15,6 +15,7 @@ export default defineConfig({
     },
     coverage: {
       provider: "v8",
+      reporter: ["text", "html"],
       include: [
         "src/main/svelte/router/*.ts",
         "src/main/svelte/services/*.ts",
