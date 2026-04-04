@@ -47,7 +47,7 @@ jobs:
 
       # https://github.com/gradle/actions
       # tag::setup-gradle[]
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: "8.14"
       # end::setup-gradle[]
@@ -66,7 +66,7 @@ jobs:
           gradle build --parallel
 
       - name: Build Reports
-        run: gradle jacocoTestReport
+        run: gradle coverageTestReport
 
       - name: Build Pages
         run: gradle pages

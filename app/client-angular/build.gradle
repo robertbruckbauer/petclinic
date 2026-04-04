@@ -26,6 +26,8 @@ tasks.register('npmBuild', NpmTask) {
     mustRunAfter 'npmInstall'
     // https://docs.npmjs.com/cli/v10/commands/npm-run-script
     npmCommand = ['run', 'build']
+    inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.html'))
+    inputs.file('package.json')
 }
 
 check {
@@ -38,6 +40,25 @@ tasks.register('npmCheck', NpmTask) {
     mustRunAfter 'npmInstall'
     // https://docs.npmjs.com/cli/v10/commands/npm-run-script
     npmCommand = ['run', 'test']
+    inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.html'))
+    inputs.file('package.json')
+    outputs.dir(layout.buildDirectory.dir('test-results/test'))
+}
+
+tasks.register('npmCoverage', NpmTask) {
+    group = 'verification'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'coverage']
+}
+
+tasks.register('coverageTestReport', Copy) {
+    group = 'verification'
+    dependsOn 'npmCoverage'
+    from layout.buildDirectory.dir('coverage')
+    into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/coverage')
 }
 
 import java.util.Optional;

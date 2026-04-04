@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { of } from "rxjs";
-import { EnumService } from "./enum.service";
+import { EnumService, filterByCriteria } from "./enum.service";
 import { type EnumItem } from "../types/enum.type";
 
 const ALLSPECIES: EnumItem[] = [
@@ -80,5 +80,41 @@ describe("EnumService", () => {
         },
       });
     });
+  });
+});
+
+describe("filterByCriteria", () => {
+  const item: EnumItem = {
+    code: 1,
+    name: "Dog",
+    text: "A dog is an animal of the species Canis lupus familiaris.",
+  };
+
+  it("should return true when criteria is null", () => {
+    expect(filterByCriteria(null)(item)).toBe(true);
+  });
+
+  it("should return true when criteria is undefined", () => {
+    expect(filterByCriteria(undefined)(item)).toBe(true);
+  });
+
+  it("should return true when criteria is empty string", () => {
+    expect(filterByCriteria("")(item)).toBe(true);
+  });
+
+  it("should return true when name matches criteria", () => {
+    expect(filterByCriteria("Dog")(item)).toBe(true);
+  });
+
+  it("should return true when name matches criteria case-insensitively", () => {
+    expect(filterByCriteria("dog")(item)).toBe(true);
+  });
+
+  it("should return true when text matches criteria", () => {
+    expect(filterByCriteria("A dog")(item)).toBe(true);
+  });
+
+  it("should return false when neither name nor text matches criteria", () => {
+    expect(filterByCriteria("Cat")(item)).toBe(false);
   });
 });
