@@ -69,6 +69,11 @@ jacocoTestReport {
     }
 }
 
+tasks.register('coverageTestReport') {
+    group = 'verification'
+    dependsOn 'jacocoTestReport'
+}
+
 jar {
     enabled = true
     manifest {
