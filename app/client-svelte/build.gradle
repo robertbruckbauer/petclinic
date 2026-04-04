@@ -38,6 +38,9 @@ tasks.register('npmCheck', NpmTask) {
     mustRunAfter 'npmInstall'
     // https://docs.npmjs.com/cli/v10/commands/npm-run-script
     npmCommand = ['run', 'test']
+    inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.svelte'))
+    inputs.file('package.json')
+    outputs.file(layout.buildDirectory.file('npmCheck.stamp'))
 }
 
 tasks.register('npmCoverage', NpmTask) {
