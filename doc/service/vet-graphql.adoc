@@ -14,20 +14,12 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.adoc[]
 
 NOTE: The `vet_skill` and `vet_species` database tables (see `vet_skill.xml` and `vet_species.xml`) do not have a unique constraint on the `(id, skill)` or `(id, species)` column pairs. Uniqueness is enforced at the application layer via `SortedSet<String>` in the Java entity. Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
 
-The `Vet` type defines properties and collections.
+The schema type `Vet` defines properties, collections and relations.
 
 .Schema
 [source,graphql,options="nowrap"]
 ----
 include::{graphqldir}/vet.gqls[]
-----
-
-The `Vet` type corresponds to the entity class.
-
-.Entity
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
 == Queries
@@ -47,7 +39,7 @@ allVet: [Vet]
 
 *Returns:*
 
-A list of all `Vet` objects.
+A list of all `Vet` entities.
 Returns an empty list if no vets exist.
 
 === Object queries

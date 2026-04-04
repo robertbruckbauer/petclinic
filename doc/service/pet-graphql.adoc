@@ -12,7 +12,7 @@ It provides query operations to retrieve all pets or individual pets by identifi
 
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.adoc[]
 
-The `Pet` type defines properties and collections.
+The schema type `Pet` defines properties, collections and relations.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -20,17 +20,11 @@ The `Pet` type defines properties and collections.
 include::{graphqldir}/pet.gqls[]
 ----
 
-The `owner` relation uses batch loading via `@BatchMapping` to efficiently load owners for multiple pets.
+The property `born` uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
 
-The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
+The property `sex` uses the enum `Sex`.
 
-The `Pet` type corresponds to the entity class.
-
-.Entity
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
-----
+The relation `owner` uses batch loading via `@BatchMapping` to efficiently load owners for multiple pets.
 
 == Queries
 

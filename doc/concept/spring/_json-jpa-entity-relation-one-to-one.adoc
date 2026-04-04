@@ -1,15 +1,16 @@
-= Relation of kind `ManyToOne`
+= Relation of kind `OneToOne`
 
 == Domain story
 
-This implementation guide applies whenever many instances of one entity are associated with exactly one instance of another entity, and the foreign key is owned by the referencing (child) side.
+This implementation guide applies whenever exactly one entity instance is directly associated with exactly one other entity instance, and the foreign key is owned by the referencing side.
+The referenced entity is read lazily.
 
 .Example
 ....
-A pet can belong to exactly one owner.
-The foreign key `owner_id` is stored on the `pet` table.
+A visit can be linked to exactly one `Invoice` that records the billing details for that appointment.
+The foreign key `invoice_id` is stored on the `visit` table.
 The owner is read lazily.
-As the person responsible for the owner is exposed as a lightweight item object in API responses to avoid circular references.
+As the recipient of the invoice the owner is exposed as a lightweight item object in API responses to avoid circular references.
 ....
 
 == Default implementation
@@ -17,19 +18,18 @@ As the person responsible for the owner is exposed as a lightweight item object 
 .Property - Required Relationship
 [source,java,options="nowrap"]
 ----
-@ManyToOne(
+@OneToOne(
         fetch = FetchType.LAZY, <1>
-        optional = false <2>
-)
+        optional = false) <2>
 @JoinColumn(
-        name = "owner_id", 
+        name = "invoice_id", 
         referencedColumnName = "id") <3>
 @Getter <4>
 @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) <5>
-private Owner owner; <6>
+private Invoice invoice; <6>
 ----
 
-<1> The field is marked with `@ManyToOne` with `LAZY` fetch type.
+<1> The field is marked with `@OneToOne` with `LAZY` fetch type.
 The parent entity is not loaded immediately; it's fetched only when accessed.
 <2> The `optional = false` indicates this relationship is required (not nullable).
 <3> The `@JoinColumn` annotation specifies the foreign key column name and the referenced id column name in the parent table.
@@ -38,25 +38,25 @@ It is the clean way to provide the parent field and avoid a mapping table in cas
 This allows the parent entity to be accessed via a getter method.
 <5> The field is marked with `@JsonProperty`.
 The full parent object is only used during deserialization, not in JSON responses.
-<6> The field has the entity type of the parent (`Owner`).
+<6> The field has the entity type of the parent.
 This is a mutable field due to requirements from the JPA provider.
 It can be null during initialization but must be set before any persistence operation.
 
 .Property - Optional Relationship
 [source,java,options="nowrap"]
 ----
-@ManyToOne(
+@OneToOne(
         fetch = FetchType.LAZY, <1>
         optional = true) <2>
 @JoinColumn(
-        name = "owner_id", 
+        name = "invoice_id", 
         referencedColumnName = "id") <3>
 @Getter <4>
 @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) <5>
-private Owner owner; <6>
+private Invoice invoice; <6>
 ----
 
-<1> The field is marked with `@ManyToOne` with `LAZY` fetch type.
+<1> The field is marked with `@OneToOne` with `LAZY` fetch type.
 The entity is not loaded immediately; it's fetched only when accessed.
 <2> The `optional = true` indicates this relationship is optional (nullable).
 <3> The `@JoinColumn` annotation specifies the foreign key column name and the referenced id column name in the parent table.
@@ -65,17 +65,19 @@ It is the clean way to provide the parent field and avoid a mapping table in cas
 This allows the parent entity to be accessed via a getter method.
 <5> The field is marked with `@JsonProperty`.
 The full parent object is only used during deserialization, not in JSON responses.
-<6> The field has the entity type of the parent (`Owner`).
+<6> The field has the entity type of the parent.
 This is a mutable field due to requirements from the JPA provider.
 It can remain null, representing the absence of a relationship.
+
+Add also a `@UniqueConstraint` for the 
 
 == Liquibase changeset
 
 .Column
 [source,xml,options="nowrap"]
 ----
-<addColumn tableName="pet"> <1>
-    <column name="owner_id" type="UUID"> <2>
+<addColumn tableName="invoice"> <1>
+    <column name="visit_id" type="UUID"> <2>
         <constraints nullable="false"/> <3>
     </column>
 </addColumn>
@@ -86,21 +88,27 @@ It can remain null, representing the absence of a relationship.
 <3> The `nullable="false"` constraint enforces required relationships.
 Use `nullable="true"` constraint for optional relationships.
 
-.Constraint
+.Constraints
 [source,xml,options="nowrap"]
 ----
 <addForeignKeyConstraint
-        constraintName="fk_pet_owner_id" <1>
-        baseTableName="pet" <2>
-        baseColumnNames="owner_id"
-        referencedTableName="owner" <3>
+        constraintName="fk_invoice_visit_id" <1>
+        baseTableName="invoice" <2>
+        baseColumnNames="visit_id"
+        referencedTableName="visit" <3>
         referencedColumnNames="id"
+/>
+<addUniqueConstraint
+        constraintName="uk_invoice" <4>
+        tableName="invoice"
+        columnNames="visit_id"
 />
 ----
 
 <1> A named constraint makes it easier to identify in database tools.
-<2> The `baseTableName` is the child table containing the foreign key.
-<3> The `referencedTableName` is the parent table being referenced.
+<2> The `baseTableName` is the target table containing the foreign key.
+<3> The `referencedTableName` is the target table being referenced.
+<4> A named constraint makes it easier to identify in database tools.
 
 == Relation initialization
 
@@ -115,8 +123,8 @@ The `withId` method must copy the relation so that cloned instances remain seman
 [source,java,options="nowrap"]
 ----
 @JsonIgnore <1>
-public Pet setOwner(@NonNull final Owner owner) { <2>
-    this.owner = owner;
+public Visit setInvoice(@NonNull final Invoice invoice) { <2>
+    this.invoice = invoice;
     return this; <3>
 }
 ----
@@ -126,7 +134,7 @@ public Pet setOwner(@NonNull final Owner owner) { <2>
 Remove `@NonNull` for an optional relation.
 <3> The method returns `this` for method chaining.
 
-== Relation verification
+== Relation verificationation
 
 The relation participates in the `isEqual` method comparison.
 Use `Objects#equals`.
@@ -146,12 +154,13 @@ Be aware of the potential impact on performance.
 ----
 @Override <1>
 protected void extraJson(@NonNull final Map<String, Object> allExtra) {
-    allExtra.put("ownerItem", OwnerItem.fromValue(owner)); <2>
+    allExtra.put("ownerItem", OwnerItem.fromValue(visit)); <2>
 }
 ----
 
 <1> Callback from the base operation with `@JsonAnyGetter` annotation.
-<2> The parent entity is converted to a simple state transfer object.
+<2> The Owner entity is converted to a simple state transfer object.
+This does break lazy loading, but it makes sense because the recipient is always needed.
 
 == `<Entity>Test` approach
 
@@ -172,26 +181,43 @@ Persist fixtures parameterized with the unique keys needed to provide referenced
 ----
 @ParameterizedTest
 @ValueSource(strings = {
-        "Käthe",
-        "Jörg",
-        "Ümit"
+        "Lorem ipsum."
 })
-void savePet(final String name) {
-    final var value0 = createWithName(name);
+void saveInvoice(final String text) {
+    final var value0 = createWithText(text);
     assertFalse(value0.isPersisted());
     assertEquals(0L, value0.getVersion());
     assertNotNull(value0.getId());
-    assertNull(value0.getOwner());
+    assertNull(value0.getVisit());
     // other assertions
 
-    final var owner = saveOwner("Max Mustermann");
-    final var value1 = petRepository.save(value0.setOwner(owner));
+    final var visit = saveVisit("Ipso facto");
+    final var value1 = invoiceRepository.save(value0.setVisit(visit));
     assertNotNull(value1);
     assertNotSame(value0, value1);
     assertTrue(value1.isPersisted());
     assertEquals(0L, value1.getVersion());
-    assertNotNull(value1.getOwner());
+    assertNotNull(value1.getId());
+    assertNotNull(value1.getVisit());
     assertTrue(value1.isEqual(value0));
+}
+----
+
+A `save<Entity>UniqueContraint` verifies the unique constraint.
+
+.Example
+[source,text,options="nowrap"]
+----
+@Test
+void saveInvoiceUniqueConstraint() {
+    final var visit = saveVisit("Ipso falso");
+    final var value1 = invoiceRepository.save(createWithText("Invoice one").setVisit(visit));
+    assertNotNull(value1);
+    assertThrows(DataIntegrityViolationException.class, () -> {
+        final var value2 = invoiceRepository.save(createWithText("Invoice two").setVisit(visit));
+        assertNotNull(value2);
+        invoiceRepository.flush();
+    });
 }
 ----
 
@@ -204,54 +230,46 @@ Create fixtures parameterized with the unique keys needed to provide referenced 
 [source,text,options="nowrap"]
 ----
 @Test
-void queryAllPet() {
-    final var owner = Owner.fromJson("""
-            {
-                "name":"Alice Cooper"
-            }
-            """);
-    final var value = createWithName("Tom")
-            .setOwner(owner);
-    when(petRepository.findAll())
+void queryAllInvoice() {
+    final var value = createWithText("Ipso facto.");
+    when(invoiceRepository.findAll())
             .thenReturn(List.of(value));
-    when(ownerRepository.findAllById(anySet()))
-            .thenReturn(List.of(owner));
+    when(visitRepository.findAllById(any()))
+            .thenReturn(List.of(value.getVisit()));
     final var data = graphQlTester
-            .document("""
-                    {allPet{name owner{name}}}
-                    """)
+            .document("{allInvoice{text visit{id}}}")
             .execute();
     assertNotNull(data);
-    data.path("allPet[0].name")
+    data.path("allInvoice[0].text")
             .hasValue()
             .entity(String.class)
-            .isEqualTo(value.getName());
-    data.path("allPet[0].owner.name")
+            .isEqualTo(value.getText());
+    data.path("allInvoice[0].visit.id")
             .hasValue()
-            .entity(String.class)
-            .isEqualTo(owner.getName());
-    verify(petRepository).findAll();
-    verifyNoMoreInteractions(petRepository);
-    verify(ownerRepository).findAllById(anySet());
-    verifyNoMoreInteractions(ownerRepository);
+            .entity(UUID.class)
+            .isEqualTo(value.getVisit().getId());
+    verify(invoiceRepository).findAll();
+    verifyNoMoreInteractions(invoiceRepository);
+    verify(visitRepository).findAllById(any());
+    verifyNoMoreInteractions(visitRepository);
 }
 ----
 
 == `<Entity>RestApiTest` approach
 
-The `postApi<Entity>` test verifies the happy path of the POST entity operation with a valid value for the relation in the payload for the request.
+The `postApi<Entity>` test verifies the happy path of the POST entity operation with a valid value for the new relation in the payload for the request.
 Annotate the test with `@Sql` annotations for each SQL fixture file needed to provide the referenced entity.
 Assert the status.
-Assert the value of the  relation in the response.
+Assert the value of the relation in the response.
 Create asciidoc snippets for endpoint documentation.
 
 The `postApi<Entity>Conflict` test verifies the error path with unique key constraints of the POST entity operation with a valid value for the relation in the payload for the request.
 Assert the status.
 Create asciidoc snippets for endpoint documentation.
 
-The `putApi<Entity>` test verifies the happy path of the PUT entity operation with a valid value for the relation in the payload for the request.
+The `putApi<Entity>` test verifies the happy path of the PUT entity operation with a valid value for the new relation in the payload for the request.
 Assert the status.
-Assert the value of the  relation in the response.
+Assert the value of the relation in the response.
 Create asciidoc snippets for endpoint documentation.
 
 The `patchApi<Entity><Name>` test verifies the happy path of the PATCH entity operation with a valid value for the relation in the payload for the request.
@@ -268,7 +286,7 @@ Create asciidoc snippets for endpoint documentation.
 
 The `getApi<Entity>ById` test verifies the happy path of the GET entity operation.
 Use the entity with the primary key from the `putApi<Entity>` test.
-Compute the `ETag` value according to the new test.
+Compute the new `ETag` value according to the new test.
 Assert the status.
 Assert the value of the relation in the response.
 Create asciidoc snippets for endpoint documentation.

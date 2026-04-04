@@ -29,7 +29,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 3. **Create enum class <Enum>.java**
   Annotate with `@RequiredArgsConstructor`.
-  Implement values with a code derived from the text.
+  Implement values with a code derived from the text; use the first letter if they are unique.
   Implement property `text` with type `String`.
 
 4. **Create enum test class <Enum>Test.java**

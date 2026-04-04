@@ -1,7 +1,7 @@
 ---
-name: Domain entity one-to-many relation adder
+name: Domain entity one-to-one relation adder
 description: |
-  Adds a new one-to-many relation from one existing entity to another entity of the domain model for the backend.
+  Adds a new one-to-one relation from one existing entity to another entity of the domain model for the backend.
   Extends existing REST endpoints and GraphQL operations for the entities.
 ---
 
@@ -27,9 +27,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Replace placeholder '<Type>' with the given type.
   Replace placeholder '<type>' with lowercase type.
 
-4. **Identify relation on the other side**
-  Check if the identified relation type has a `@ManyToOne` relation for this entity.
-
 ## Task steps
 
 1. **Determine relation semantics**
@@ -39,17 +36,23 @@ You MUST NOT generate code if even one of the preconditions is not met.
 2. **Update entity fact sheet <Entity>.adoc**
   Add a short description for the new relation with its type, constraints, and a one-line description.
 
-3. **Do not update Liquibase changesets**
-  
+3. **Update Liquibase changeset <entity>.xml**
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+  Create a new change set without any preconditions.
+  Add a new column with name `<name>_id`.
+  Match nullability, default values and constraints to the type guide.
+  Add the foreign key constraint `fk_<entity>_<type>_id` from `<entity>_<type>.id` to `<type>.id`.
+
 4. **Update entity class <Entity>.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  Add property with name `all<Type>` of type `Type` and annotations.
-  Initialize `all<Type>` in both constructors.
+  Add property with name `<name>_id` of type `Type`.
+  Add annotations.
+  Update constructor initialization.
   Update operation `isEqual`.
   Update operation `withId`.
   Add or update operation `verify` only when requested.
   Add or update operation `extraJson` only when requested as it may have negative impact on the performance if relations are involved.
-  Add operation `addAll<Type>`.
+  Add operation `set<Name>` only when requested.
 
 5. **Update entity test class <Entity>Test.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
@@ -62,7 +65,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
-
+    
 8. **Do not update REST API controller class <Entity>RestController.java**
 
 9. **Update REST API test <Entity>RestApiTest.java**
@@ -72,19 +75,20 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 10. **Update GraphQL schema <Entity>gqls**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  Add `all<Type>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
+  Add `<name>: <Type>` to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
 
 11. **Update GraphQL controller class <Entity>GraphqlController.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Add method `all<Name>` for batch loading.
 
 12. **Update GraphQL test <Entity>GraphqlTest.java**
-  Update tests for new relation as required in the implementation guide.
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
 
-13. **Do not update Server test set**
-  
+13. **Update Server test set**
+  If relation is mandatory update existing test data with a default value.
+
 ## Task output
 
 Create a short summary with files changed.

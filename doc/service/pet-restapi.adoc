@@ -20,7 +20,7 @@ The liquibase script defines the database table.
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/pet.xml[]
 ----
 
-The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Pet` is the aggregate root.
 
 .Entity
 [source,java,options="nowrap"]
@@ -28,9 +28,34 @@ The entity class extends `JsonJpaEntity` which provides unique identifier and ve
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
 ----
 
-The item class is a simplified representation of a _Pet_ for item selection purposes.
+The entity class `Owner` is referenced.
+A pet has exactly one owner.
 
-.PetItem
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
+----
+
+The enum `Sex` indicates the sex of the animal.
+
+.Enum
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Sex.java[indent=0,tags=enumerations]
+----
+
+The item class `OwnerItem` is a simplified representation of the entity `Owner` for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
+----
+
+The item class `PetItem` is a simplified representation of the entity `Pet` for item selection purposes.
+
+.Item
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
@@ -40,7 +65,8 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[
 
 === `POST /api/pet`
 
-This operation creates a new _Pet_ entity.
+This operation creates a new entity.
+Response is of type `Pet`.
 
 ****
 
@@ -63,7 +89,8 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 === `PUT /api/pet/{id}`
 
-This operation updates an existing _Pet_ entity or creates a new one.
+This operation updates an existing entity or creates a new one.
+Response is of type `Pet`.
 
 ****
 
@@ -90,8 +117,8 @@ This operation reports `Precondition Failed` or code 412 if data is outdated (in
 
 === `PATCH /api/pet/{id}`
 
-This operation partially updates an existing _Pet_ entity.
-You can update individual properties without affecting other properties.
+This operation partially updates an existing entity partially without affecting other properties.
+Response is of type `Pet`.
 
 ==== `name` attribute
 
@@ -147,7 +174,8 @@ This operation reports `Precondition Failed` or code 412 if data is outdated (in
 
 === `GET /api/pet`
 
-This operation returns all persisted _Pet_ entities.
+This operation returns persisted entities.
+The response is a collection of type `Pet`.
 
 This operation supports advanced query parameters for filtering, e.g.
 
@@ -189,7 +217,9 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/pet/search/findAllItem`
 
-This operation returns all persisted _Pet_ entities as simplified _PetItem_ objects for selection purposes.
+This operation returns persisted entities as simplified items for selection purposes.
+The response is a collection of type `PetItem`.
+
 The items are sorted by name in ascending order.
 
 This operation supports advanced query parameters for filtering.
@@ -233,7 +263,8 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/pet/{id}`
 
-This operation returns a single persisted _Pet_ entity.
+This operation returns a single persisted entity.
+The response is of type `Pet`.
 
 ****
 
@@ -254,7 +285,8 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 === `GET /api/pet/{id}/owner`
 
-This operation returns the associated _Owner_ entity for a pet.
+This operation returns the associated owner for a pet.
+The response is of type `Owner`.
 
 ****
 
@@ -275,7 +307,8 @@ This operation reports `Not Found` or code 404 if the pet does not exist.
 
 === `DELETE /api/pet/{id}`
 
-This operation deletes a single persisted _Pet_ entity.
+This operation deletes a single persisted entity.
+The response is of type `Pet`.
 
 ****
 

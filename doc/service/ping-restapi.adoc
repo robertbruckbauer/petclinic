@@ -24,7 +24,7 @@ The liquibase script defines the database table.
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/ping.xml[]
 ----
 
-The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Ping` is the aggregate root.
 
 .Entity
 [source,java,options="nowrap"]
@@ -44,9 +44,9 @@ This operation reports `Method Not Allowed` or code 405 for any request.
 
 === `PUT /api/ping/{id}`
 
-This operation creates a new _Ping_ entity or updates an existing one with the current timestamp.
+This operation creates a new entity `Ping` or updates an existing one with the current timestamp.
 The operation requires no request body and automatically sets the timestamp to the current time.
-Response is of type _Ping_.
+Response is of type `Ping`.
 
 ****
 
@@ -77,7 +77,7 @@ This operation reports `Method Not Allowed` or code 405 for any request.
 
 === `GET /api/ping/{id}`
 
-This operation returns a single persisted _Ping_ entity.
+This operation returns a single persisted entity `Ping`.
 
 ****
 

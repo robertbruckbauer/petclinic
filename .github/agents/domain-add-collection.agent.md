@@ -56,7 +56,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Add or update operation `verify` only when requested.
   Add or update operation `extraJson` only when requested as it may have negative impact on the performance if relations are involved.
   Add operation`addAll<Name>`.
-  Keep style consistent with existing entity patterns.
 
 5. **Update entity test class <Entity>Test.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
@@ -64,7 +63,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Update existing tests with asserts for the new collection.
   Add `json<Name>` test.
   Add `json<Name>Contraints` test if collection has constraints.
-  Keep style consistent with existing tests.
 
 6. **Do not update repository interface <Entity>Repository.java**
 
@@ -72,7 +70,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If collection is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new collection.
-  Keep style consistent with existing tests.
 
 8. **Do not update REST API controller class <Entity>RestController.java**
 
@@ -82,19 +79,19 @@ You MUST NOT generate code if even one of the preconditions is not met.
   If collection is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new collection.
   Add `patchApi<Entity><Name>` test.
-  Keep style consistent with existing tests.
 
-10. **Update GraphQL controller class <Entity>GraphqlController.java**
+10. **Update GraphQL schema <Entity>gqls**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Add `all<Name>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
 
-11. **Update GraphQL test <Entity>GraphqlTest.java**
+11. **Do not update GraphQL controller class <Entity>GraphqlController.java**
+
+12. **Update GraphQL test <Entity>GraphqlTest.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If collection is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new collection.
-  Keep style consistent with existing tests.
 
-12. **Update Server test set**
+13. **Update Server test set**
   If collection is mandatory update existing test data with a default value.
 
 ## Task output

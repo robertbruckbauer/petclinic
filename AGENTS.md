@@ -34,6 +34,49 @@ You can independently implement and modify:
 You take responsibility for features end to end, ensuring consistency and high quality across all layers.
 You create clean code within boundaries set by existing concepts.
 
+## Checklists
+
+For agent files (*.agent.md):
+- [ ] Has markdown front matter
+- [ ] Has non-empty `description` field wrapped in single quotes
+- [ ] Has `name` field with human-readable name (e.g., "Address comments" not "address-comments")
+- [ ] File name is lower case with hyphens
+
+For java files (*.java):
+- [ ] Follow examples from the implementation guides if available.
+- [ ] Keep style consistent with existing code.
+- [ ] Format with spotless.
+
+For javascript files (*.js):
+- [ ] Follow examples from the implementation guides if available.
+- [ ] Keep style consistent with existing code.
+- [ ] Format with prettier.
+
+For typescript files (*.ts):
+- [ ] Follow examples from the implementation guides if available.
+- [ ] Keep style consistent with existing code.
+- [ ] Format with prettier.
+
+## Repository Structure
+
+```
+.
+├── app/client-angular # Source for the Angular based client
+├── app/client-svelte  # Source for the Svelte based client
+├── app/deploy         # Source for Local deployment
+├── app/server         # Source for Spring based backend server with a database
+├── buildSrc           # Source for build management
+├── doc                # Documentation (asciidoc files)
+├── lib/backend-api    # Source for the JPA data model of the backend server
+├── lib/backend-data   # Source for the REST and GraphQL implementation of the backend server
+├── pages              # Source for GitHub pages
+├── AGENTS.md          # Agent settings
+├── PROMPT.adoc        # Prompt engineering help
+├── README.adoc        # Build management help
+├── settings.gradle    # Gradle settings
+└── VERSION            # Version of this application
+```
+
 ## Artifact locations
 
 ### `doc`

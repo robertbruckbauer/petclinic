@@ -23,7 +23,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 3. **Identify relation type**
   Extract the relation type from the request.
-  Check if implementation guide doc/concept/spring/_json-jpa-entity-collection-<type>.adoc exists.
+  Check if the entity class exists.
   Replace placeholder '<Type>' with the given type.
   Replace placeholder '<type>' with lowercase type.
 
@@ -53,13 +53,11 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Add or update operation `verify` only when requested.
   Add or update operation `extraJson` only when requested as it may have negative impact on the performance if relations are involved.
   Add operation `set<Name>` only when requested.
-  Keep style consistent with existing entity patterns.
 
 5. **Update entity test class <Entity>Test.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
-  Keep style consistent with existing tests.
 
 6. **Do not update repository interface <Entity>Repository.java**
 
@@ -67,7 +65,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
-  Keep style consistent with existing tests.
     
 8. **Do not update REST API controller class <Entity>RestController.java**
 
@@ -75,18 +72,21 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
-  Keep style consistent with existing tests.
 
-10. **Update GraphQL controller class <Entity>GraphqlController.java**
-  Add `all<Name>: [<Type>]` to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
+10. **Update GraphQL schema <Entity>gqls**
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+  Add `<name>: <Type>` to GraphQL type `<Entity>` in <entity>.gqls with correct nullability.
 
-11. **Update GraphQL test <Entity>GraphqlTest.java**
+11. **Update GraphQL controller class <Entity>GraphqlController.java**
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+  Add method `all<Name>` for batch loading.
+
+12. **Update GraphQL test <Entity>GraphqlTest.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
-  Keep style consistent with existing tests.
 
-12. **Update Server test set**
+13. **Update Server test set**
   If relation is mandatory update existing test data with a default value.
 
 ## Task output

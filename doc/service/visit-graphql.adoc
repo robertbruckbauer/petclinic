@@ -12,7 +12,7 @@ It provides query operations to retrieve all visits, filter visits by date, and 
 
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.adoc[]
 
-The `Visit` type defines properties and collections.
+The schema type `Visit` defines properties, collections and relations.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -20,22 +20,15 @@ The `Visit` type defines properties and collections.
 include::{graphqldir}/visit.gqls[]
 ----
 
-The `pet` relation uses batch loading via `@BatchMapping` to efficiently load pets for multiple visits.
+The property `date` uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
+
+The property `time` uses the custom scalar type `LocalTime` which maps to Java's `java.time.LocalTime` type for representing times of day with format `HH:mm[:ss]` (seconds are optional).
+
+The relation `pet` uses batch loading via `@BatchMapping` to efficiently load pets for multiple visits.
 Visits without a pet assigned resolve `pet` relation as `null`.
 
-The `vet` relation uses batch loading via `@BatchMapping` to efficiently load vets for multiple visits.
+The relation `vet` uses batch loading via `@BatchMapping` to efficiently load vets for multiple visits.
 Visits without a vet assigned resolve the `vet` relation as `null`.
-
-The schema uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
-The schema uses the custom scalar type `LocalTime` which maps to Java's `java.time.LocalTime` type for representing times of day with format `HH:mm[:ss]` (seconds are optional).
-
-The `Visit` type corresponds to the entity class.
-
-.Entity
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
-----
 
 == Queries
 

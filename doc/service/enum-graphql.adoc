@@ -20,7 +20,7 @@ TIP: The discriminator is called `art`.
 This is a historical flaw.
 For clarity we use the term discriminator instead.
 
-The `Enum` type defines properties and collections.
+The schema type `Enum` defines properties, collections and relations.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -29,14 +29,6 @@ include::{graphqldir}/enum.gqls[]
 ----
 
 NOTE: The `code` field is declared as `Int!` in the GraphQL schema but the corresponding Java entity field is of type `Long` (backed by `BIGINT` in the database). GraphQL's `Int` type is a signed 32-bit integer. If code values ever exceed 2,147,483,647 serialization will fail. Consider changing the schema type to `String` or a custom scalar if large codes are expected.
-
-The `Enum` type corresponds to the entity class.
-
-.Entity
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Enum.java[indent=0,tags=properties]
-----
 
 == Queries
 

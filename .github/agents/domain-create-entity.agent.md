@@ -39,8 +39,8 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Use `doc/concept/spring/_json-jpa-entity.adoc` as the implementation baseline.
   Annotate with `@Entity`, `@Table(name = "<entity>")`.
   Add package-visible constructors.
-  Add property `id` property following `_json-jpa-entity-id.adoc`.
-  Add property `version` property following `_json-jpa-entity-version.adoc`.
+  Add property `id` property following `_json-jpa-entity-version-id.adoc`.
+  Add property `version` property following `_json-jpa-entity-version-id.adoc`.
   Add operation `isEqual`.
   Add operation `withId`.
   Add operation `verify` only when requested.

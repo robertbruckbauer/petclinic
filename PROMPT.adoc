@@ -1,6 +1,6 @@
 = AI-driven development and maintenance
 
-An `agents.md` file is where you define all the specifics of a task: the agent’s persona, the exact tech stack it should know, the implementation file structure, workflows, and the explicit commands it can run.
+An `agents.md` file is where you define all the specifics of a task: the agent's persona, the exact tech stack it should know, the implementation file structure, workflows, and the explicit commands it can run.
 It’s also where you provide examples and, most importantly, set clear boundaries of what not to do.
 
 See 
@@ -15,114 +15,126 @@ for a community created collection of custom agents and instructions.
 
 .Prompt
 ----
-@copilot Check domain entities
+Check domain entities
 ----
 
 .Prompt
 ----
-@copilot In the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java if needed.
+In the collections skill and species of entity Vet is now a new element constraint. Add tests to #file:VetTest.java.
 ----
 
 == Domain enum creator
 
 .Prompt
 ----
-@copilot Create an enum InvoiceStatus with values D for drafted, I for issued, C for completed, and X for cancelled, in package clinic.
+Create an enum InvoiceStatus with values D for drafted, I for issued, C for completed, and X for cancelled, in package clinic.
 ----
 
 == Domain entity creator
 
 .Prompt
 ----
-@copilot Create an entity Invoice with required property at of type LocalDate, with required property due of type LocalDate, with required property status of type InvoiceStatus, with required non-blank property text of type String, in package clinic.
+Create an entity Invoice with required property at of type LocalDate, with required property due of type LocalDate, with required property status of type InvoiceStatus, with required non-blank property text of type String, in package clinic.
 ----
 
 == Domain entity property adder
 
 .Prompt
 ----
-@copilot Add property text of type String to entity Visit having a diagnosis text.
+At the end of treatment in a visit, the vet writes down a diagnosis. The visit is now billable. Add property billable of type boolean to entity Visit.
 ----
 
 .Prompt
 ----
-@copilot Remove property billable of type boolean from entity Visit.
+Remove property billable of type boolean from entity Visit.
 ----
 
 == Domain entity collection adder
 
 .Prompt
 ----
-@copilot Add collection skill of type String to entity Vet having skills of vets.
+A vet has one or more skills that he uses for treatments. Add collection skill of type String to entity Vet hast a set of skills.
 ----
 
 == Domain entity many-to-one relation adder
 
 .Prompt
 ----
-@copilot Add many-to-one relation pet of type Pet from entity Vet to entity Pet representing the pet treated in a visit.
+A pet is treated in a visit. Add a required many-to-one relation from entity Visit to entity Pet.
+----
+
+.Prompt
+----
+A visit is conducted by a vet. Add a required many-to-one relation from entity Visit to entity Vet.
 ----
 
 == Domain entity one-to-many relation adder
 
 .Prompt
 ----
-@copilot Add one-to-many relation pet of type Pet from entity Owner to entity Pet representing a list of pets owned by an owner.
+An owner can have one or more pets. Add an one-to-many relation from entity Owner to entity Pet.
+----
+
+== Domain entity one-to-one relation adder
+
+.Prompt
+----
+Every visit results in exactly one invoice for billing. Add a required one-to-one relation from entity Invoice to entity Visit.
 ----
 
 == REST API sanity checker
 
 .Prompt
 ----
-@copilot Check REST API documentation
+Check REST API documentation
 ----
 
 == REST API service documentation creator
 
 .Prompt
 ----
-@copilot Update REST API documentation
+Update REST API documentation
 ----
 
 .Prompt
 ----
-@copilot Create REST API documentation for owner endpoints
+Create REST API documentation for owner endpoints
 ----
 
 == GraphQL API sanity checker
 
 .Prompt
 ----
-@copilot Check GraphQL API
+Check GraphQL API
 ----
 
 == GraphQL API service documentation creator
 
 .Prompt
 ----
-@copilot Update GraphQL API documentation
+Update GraphQL API documentation
 ----
 
 .Prompt
 ----
-@copilot Create GraphQL API documentation for owner operations
+Create GraphQL API documentation for owner operations
 ----
 
 == Angular lister component creator
 
 .Prompt
 ----
-@copilot Create editor and lister components for entity Invoice in package clinic
+Create editor and lister components for entity Invoice in package clinic
 ----
 
 .Prompt
 ----
-@copilot Verify existing lister and editor components if they are compliant to the implentation guide
+Verify existing lister and editor components if they are compliant to the implentation guide
 ----
 
 == Angular editor component updater
 
 .Prompt
 ----
-@copilot Update editor and lister components for the new collection allSpecies of the Vet entity. Use allSkill as a good example.
+Update editor and lister components for the new collection allSpecies of the Vet entity. Use allSkill as a good example.
 ----

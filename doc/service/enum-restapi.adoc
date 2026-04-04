@@ -27,7 +27,7 @@ The liquibase script defines the database table.
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/enum.xml[]
 ----
 
-The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Enum` is the aggregate root.
 
 .Entity
 [source,java,options="nowrap"]
@@ -39,8 +39,8 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Enum.java[inde
 
 === `POST /api/enum/{art}`
 
-This operation creates a new _Enum_ entity for a discriminator.
-Response is of type _Enum_.
+This operation creates a new entity `Enum` for a discriminator.
+Response is of type `Enum`.
 
 ****
 
@@ -63,10 +63,10 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 === `PUT /api/enum/{art}/{code}`
 
-This operation updates an existing _Enum_ entity for a discriminator and code.
-Response is of type _Enum_.
+This operation updates an existing entity `Enum` for a discriminator and code.
+Response is of type `Enum`.
 
-TIP: This operation only updates existing _Enum_ entities and does not create new ones.
+TIP: This operation only updates existing entities and does not create new ones.
 
 ****
 
@@ -91,8 +91,8 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 === `GET /api/enum/{art}`
 
-This operation returns all persisted _Enum_ entities for a discriminator ordered by code.
-Response is a collection of type _Enum_.
+This operation returns all persisted entities for a discriminator ordered by code.
+Response is a collection of type `Enum`.
 
 ****
 
@@ -112,8 +112,8 @@ The result can be empty if no enums exist for the discriminator.
 
 === `DELETE /api/enum/{art}/{code}`
 
-This operation deletes a single persisted _Enum_ entity for a discriminator and code.
-Response is of type _Enum_.
+This operation deletes a single persisted entity `Enum` for a discriminator and code.
+Response is of type `Enum`.
 
 ****
 
