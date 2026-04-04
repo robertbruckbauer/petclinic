@@ -12,6 +12,14 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.js'],
     typecheck: {
       enabled: true
+    },
+    coverage: {
+      provider: 'v8',
+      include: [
+        "src/main/angular/services/*.ts",
+        "src/main/angular/stores/*.ts",
+      ],
+      reportsDirectory: './build/coverage'
     }
   },
 })
