@@ -24,7 +24,7 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet_speci
 
 NOTE: The `vet_skill` and `vet_species` tables do not have a unique constraint on the `(id, skill)` or `(id, species)` column pairs. Uniqueness is enforced at the application layer via `SortedSet<String>` in the Java entity. Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
 
-The entity class `Vet` extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Vet` is the aggregate root.
 
 .Entity
 [source,java,options="nowrap"]

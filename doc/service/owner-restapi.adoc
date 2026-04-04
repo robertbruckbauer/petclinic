@@ -20,7 +20,7 @@ The liquibase script defines the database table.
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/owner.xml[]
 ----
 
-The entity class `Owner` extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Owner` is the aggregate root.
 
 .Entity
 [source,java,options="nowrap"]
@@ -28,7 +28,16 @@ The entity class `Owner` extends `JsonJpaEntity` which provides unique identifie
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
 ----
 
-The item class `OwnerItem` is a simplified representation of an _Owner_ for item selection purposes.
+The entity class `Pet` is referenced.
+A pet belongs to exactly one owner.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
+----
+
+The item class `OwnerItem` is a simplified representation of an entity `Owner` for item selection purposes.
 
 .Item
 [source,java,options="nowrap"]

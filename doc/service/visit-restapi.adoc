@@ -20,12 +20,30 @@ The liquibase script defines the database table.
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/visit.xml[]
 ----
 
-The entity class `Visit` extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Visit` is the aggregate root.
 
 .Entity
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
+----
+
+The entity class `Pet` is referenced.
+The pet is being treated.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
+----
+
+The entity class `Vet` is referenced.
+The vet conducts the treatment.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
 The item class `OwnerItem` is a simplified representation of the entity `Owner`for item selection purposes.
