@@ -40,6 +40,22 @@ tasks.register('npmCheck', NpmTask) {
     npmCommand = ['run', 'test']
 }
 
+tasks.register('npmCoverage', NpmTask) {
+    group = 'verification'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    mustRunAfter 'npmInstall'
+    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
+    npmCommand = ['run', 'coverage']
+}
+
+tasks.register('coverageTestReport', Copy) {
+    group = 'verification'
+    dependsOn 'npmCoverage'
+    from layout.buildDirectory.dir('coverage')
+    into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/coverage')
+}
+
 import java.util.Optional;
 ext.CLIENT_NAME = Optional.ofNullable(System.getenv("CLIENT_NAME"))
         .orElse(rootProject.name + "-" + project.name)
