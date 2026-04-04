@@ -26,6 +26,8 @@ tasks.register('npmBuild', NpmTask) {
     mustRunAfter 'npmInstall'
     // https://docs.npmjs.com/cli/v10/commands/npm-run-script
     npmCommand = ['run', 'build']
+    inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.html'))
+    inputs.file('package.json')
 }
 
 check {
@@ -40,7 +42,7 @@ tasks.register('npmCheck', NpmTask) {
     npmCommand = ['run', 'test']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.html'))
     inputs.file('package.json')
-    outputs.file(layout.buildDirectory.file('npmCheck.stamp'))
+    outputs.dir(layout.buildDirectory.dir('test-results/test'))
 }
 
 tasks.register('npmCoverage', NpmTask) {
