@@ -3,6 +3,7 @@ package esy.api.client;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaMapper;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -44,7 +45,7 @@ public final class Owner extends JsonJpaEntity<Owner> {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @Getter
+    @Getter(value = AccessLevel.NONE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Pet> allPet;
     // end::properties[]
