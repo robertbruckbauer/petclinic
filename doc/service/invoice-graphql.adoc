@@ -1,0 +1,68 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Invoice GraphQL API
+
+GraphQL API for querying invoices in the pet clinic application.
+It provides query operations to retrieve all invoices or individual invoices by identifier.
+
+== Model
+
+=== Invoice
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Invoice.adoc[]
+
+The schema type `Invoice` defines properties, collections and relations.
+
+.Schema
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/invoice.gqls[]
+----
+
+The property `at` uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
+
+The property `due` uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
+
+The property `status` uses the `InvoiceStatus` enum.
+
+== Queries
+
+=== Collection queries
+
+==== `allInvoice`
+
+This query returns all invoices in the system.
+It loads all invoice entities in a single database query.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allInvoice: [Invoice]
+----
+
+*Returns:*
+
+A list of all `Invoice` objects.
+Returns an empty list if no invoices exist.
+
+=== Object queries
+
+==== `invoiceById`
+
+This query returns a single invoice by its unique identifier.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+invoiceById(id: ID!): Invoice
+----
+
+*Arguments:*
+
+`id` (ID, required)::
+The unique identifier of the invoice to retrieve.
+
+*Returns:*
+
+The `Invoice` object with the specified ID, or `null` if no invoice with that ID exists.

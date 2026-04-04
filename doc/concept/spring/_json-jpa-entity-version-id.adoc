@@ -1,15 +1,16 @@
-= Column for a version number
+= Column for a primary key
 
 == Domain story
 
-This implementation guide applies to every entity in the domain that must be protected against concurrent modifications and whose REST API responses must carry cache-validation headers.
-The property uses the `Long` type and applies the special `@Version` annotation for optimistic locking.
+This implementation guide applies to every entity in the domain that requires a stable, globally unique identifier that can be assigned independently of the database and must be protected against concurrent modifications.
 
-The version property is also exposed as an `ETag` response header so that HTTP clients can use conditional requests (`If-Match`) to detect stale data before submitting an update.
+The version property is exposed as an `ETag` response header so that HTTP clients can use conditional requests (`If-Match`) to detect stale data before submitting an update.
+
+Generating a primary key with `UUID` has the advantage over generating a `Long` value from an `autoincrement` column or a database sequence in that the key can be generated not only in the database, but also on the server or even on the client if necessary.
 
 == Default implementation
 
-.Entity
+.Entity - Version
 [source,java,options="nowrap"]
 ----
 @Version <1>
@@ -32,15 +33,39 @@ However, the value is transferred to an `ETAG` header.
 The property is part of the base class.
 This ensures that all objects have the same procedure for maintaining integrity.
 
+.Entity - Primary Key
+[source,java,options="nowrap"]
+----
+@Id <1>
+@Column(name = "id", nullable = false) <2>
+@Getter <3>
+@JsonProperty <4> 
+private final UUID id; <5>
+----
+
+<1> The field is marked with `@Id`.
+<2> The field is marked with `@Column`.
+<3> The field is marked with `@Getter`.
+This allows the current value to be queried.
+<4> The field is marked with `@JsonProperty`.
+The value is contained in the JSON structure of the REST API.
+<5> The field has the data type `UUID`.
+The value can also be null.
+
+The property is part of the base class.
+This ensures that all objects have the same procedure for maintaining a primary key.
+
 == Liquibase changeset
 
-.Column
+.Columns
 [source,xml,options="nowrap"]
 ----
 <createTable tableName="vet"> <1>
-    <!-- primary key column -->
     <column name="version" type="BIGINT" defaultValue="0"> <2>
        <constraints nullable="false"/> <3>
+    </column>
+    <column name="id" type="UUID"> <4>
+        <constraints nullable="false" primaryKey="true"/> <5>
     </column>
     <!-- other columns -->
 </createTable>
@@ -49,6 +74,8 @@ This ensures that all objects have the same procedure for maintaining integrity.
 <1> A table is created for the entity.
 <2> The column type is `BIGINT` (64-bit integer) with a default value of 0.
 <3> The column is marked as NOT NULL.
+<4> The column type is `UUID`.
+<5> The column is marked as NOT NULL and as the primary key.
 
 == Property initialization
 

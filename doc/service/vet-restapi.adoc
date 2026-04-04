@@ -24,7 +24,7 @@ include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/vet_speci
 
 NOTE: The `vet_skill` and `vet_species` tables do not have a unique constraint on the `(id, skill)` or `(id, species)` column pairs. Uniqueness is enforced at the application layer via `SortedSet<String>` in the Java entity. Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
 
-The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Vet` extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 
 .Entity
 [source,java,options="nowrap"]
@@ -32,9 +32,9 @@ The entity class extends `JsonJpaEntity` which provides unique identifier and ve
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
 ----
 
-The item class is a simplified representation of a _Vet_ for item selection purposes.
+The item class `VetItem` is a simplified representation of the entity `Vet` for item selection purposes.
 
-.VetItem
+.Item
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/VetItem.java[indent=0,tags=properties]
@@ -44,7 +44,8 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/VetItem.java[
 
 === `POST /api/vet`
 
-This operation creates a new _Vet_ entity.
+This operation creates a new entity.
+Response is of type `Vet`.
 
 ****
 
@@ -67,7 +68,8 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 === `PUT /api/vet/{id}`
 
-This operation updates an existing _Vet_ entity or creates a new one.
+This operation updates an existing entity or creates a new one.
+Response is of type `Vet`.
 
 ****
 
@@ -94,8 +96,8 @@ This operation reports `Precondition Failed` or code 412 if data is outdated (in
 
 === `PATCH /api/vet/{id}`
 
-This operation partially updates an existing _Vet_ entity.
-You can update individual properties without affecting other properties.
+This operation partially updates an existing entity partially without affecting other properties.
+Response is of type `Vet`.
 
 ==== `name` attribute
 
@@ -176,7 +178,8 @@ This operation reports `Precondition Failed` or code 412 if the entity is outdat
 
 === `GET /api/vet`
 
-This operation returns all persisted _Vet_ entities.
+This operation returns persisted entities.
+The response is a collection of type `Vet`.
 
 This operation supports advanced query parameters for filtering, e.g.
 
@@ -216,7 +219,9 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/vet/search/findAllItem`
 
-This operation returns all persisted _Vet_ entities as simplified _VetItem_ objects for selection purposes.
+This operation returns persisted entities as simplified items for selection purposes.
+The response is a collection of type `VetItem`.
+
 The items are sorted by name in ascending order.
 
 This operation supports advanced query parameters for filtering.
@@ -260,7 +265,8 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/vet/{id}`
 
-This operation returns a single persisted _Vet_ entity.
+This operation returns a single persisted entity.
+The response is of type `Vet`.
 
 ****
 
@@ -281,7 +287,8 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 === `DELETE /api/vet/{id}`
 
-This operation deletes a single persisted _Vet_ entity.
+This operation deletes a single persisted entity.
+The response is of type `Vet`.
 
 ****
 

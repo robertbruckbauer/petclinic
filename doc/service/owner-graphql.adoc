@@ -14,7 +14,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.adoc[]
 
 NOTE: The `contact` field is declared as `contact: String` (nullable) in the GraphQL schema, but the underlying database column has `nullable=false`. The Java entity initializes `contact` to an empty string and `verify()` does not enforce a non-empty value. As a result, the API never returns `null` for `contact` — at a minimum it returns an empty string. If strict optionality semantics are needed, consider changing the schema to `contact: String!`.
 
-The `Owner` type defines properties and collections.
+The schema type `Owner` defines properties, collections and relations.
 
 .Schema
 [source,graphql,options="nowrap"]
@@ -22,15 +22,7 @@ The `Owner` type defines properties and collections.
 include::{graphqldir}/owner.gqls[]
 ----
 
-The `allPet` relation uses batch loading via `@BatchMapping` to efficiently load pets for multiple owners.
-
-The `Owner` type corresponds to the entity class.
-
-.Entity
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
-----
+The relation `allPet` uses batch loading via `@BatchMapping` to efficiently load pets for multiple owners.
 
 == Queries
 

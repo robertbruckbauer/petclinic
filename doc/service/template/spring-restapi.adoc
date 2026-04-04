@@ -12,19 +12,25 @@ In this chapter describe the model of the API.
 Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
 
 Add the liquibase script from `resources/liquibase/v1` for the database table with a source block and title `Liquibase`.
-Use the include directive to include the file.
+Use the include directive to include the whole file in the source block.
 Use variable `{includedir}` for root path.
 
-Add the java class for the main entity class with a source block and title `Entity`.
+Add the java class for the main entity class with a short description, a source block and title `Entity`.
 Use the include directive and tags to select only relevant properties from the code with their types and annotations.
+Use the include directive with this tag `properties` in the source block.
 Use variable `{includedir}` for root path.
 
-Add a separate section for each related entity with a source block and the simple class name as the title.
+Add a separate section for each related entity with a short description, a source block and the title `Entity`.
 Use the include directive and tags to select only relevant properties from the code with their types and annotations.
+Use the include directive with this tag `properties` in the source block.
 Use variable `{includedir}` for root path.
 
-Add a separate section for each state transfer objects that has a `properties` tag with a source block and the simple class name as the title.
-Use the include directive with this tag.
+Add a separate section for each enum with a short description, a source block and the title `Enum`
+Use the include directive with this tag `enumerations` in the source block.
+Use variable `{includedir}` for root path.
+
+Add a separate section for each state transfer object with a short description, a source block and the title `Item`.
+Use the include directive with this tag `properties` in the source block.
 Use variable `{includedir}` for root path.
 
 Let included code fragments be a major part of the documentation.

@@ -1,0 +1,209 @@
+:includedir: ../..
+:relrootdir: ../..
+:restdocdir: {includedir}/lib/backend-data/build/generated-snippets
+= Invoice REST API
+
+REST-API for managing invoices in the pet clinic application.
+It provides standard CRUD operations and partial updates via PATCH, with advanced query capabilities for filtering invoices by text content, invoice date, and due date.
+
+== Model
+
+=== Invoice
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Invoice.adoc[]
+
+The liquibase script defines the database table.
+
+.Liquibase
+[source,xml,options="nowrap"]
+----
+include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/invoice.xml[]
+----
+
+The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+
+.Entity
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Invoice.java[indent=0,tags=properties]
+----
+
+The `InvoiceStatus` enum represents the lifecycle state of an invoice.
+
+.Enum
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/InvoiceStatus.java[indent=0,tags=enumerations]
+----
+
+== Operations
+
+=== `POST /api/invoice`
+
+This operation creates a new entity `Invoice`.
+
+****
+
+.Command
+include::{restdocdir}/post-api-invoice/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/post-api-invoice/http-request.adoc[]
+
+.Response
+include::{restdocdir}/post-api-invoice/response-body.adoc[]
+
+****
+
+This operation reports `Created` or code 201 if the entity was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
+
+=== `PUT /api/invoice/{id}`
+
+This operation updates an existing entity `Invoice` or creates a new one.
+
+****
+
+.Command
+include::{restdocdir}/put-api-invoice/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/put-api-invoice/http-request.adoc[]
+
+.Response
+include::{restdocdir}/put-api-invoice/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Created` or code 201 if the entity was successfully created.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
+
+This operation reports `Precondition Failed` or code 412 if data is outdated (invalid ETag).
+
+=== `PATCH /api/invoice/{id}`
+
+This operation partially updates an existing entity `Invoice`.
+You can update individual properties without affecting other properties.
+
+==== `status` attribute
+
+****
+
+.Command
+include::{restdocdir}/patch-api-invoice-status/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/patch-api-invoice-status/http-request.adoc[]
+
+.Response
+include::{restdocdir}/patch-api-invoice-status/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully updated.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+This operation reports `Bad Request` or code 400 if the data was not processed.
+
+This operation reports `Conflict` or code 409 if a unique constraint would be violated.
+
+This operation reports `Precondition Failed` or code 412 if data is outdated (invalid ETag).
+
+TIP: The descriptions of attributes other than status are omitted for simplicity because they are following the same pattern.
+
+=== `GET /api/invoice`
+
+This operation returns all persisted _Invoice_ entities.
+
+This operation supports advanced query parameters for filtering, e.g.
+
+`?text=Lorem`::
+Find invoices with text containing "Lorem" (case-insensitive)
+`?text=Lorem%`::
+Find invoices with text starting with "Lorem" (case-insensitive)
+`?at=2024-01-15`::
+Find invoices with invoice date of 2024-01-15
+`?at=2024-01-01&at=2024-01-31`::
+Find invoices with invoice date between 2024-01-01 and 2024-01-31
+`?due=2024-02-15`::
+Find invoices with due date of 2024-02-15
+`?due=2024-02-01&due=2024-02-29`::
+Find invoices with due date between 2024-02-01 and 2024-02-29
+
+This operation supports sorting, e.g.
+
+`?sort=at,asc`::
+Sort invoices by invoice date in ascending order
+`?sort=due,desc`::
+Sort invoices by due date in descending order
+
+This operation supports pagination, e.g.
+
+`?size=10&page=1`::
+Find 10 invoices on page 1
+
+****
+
+.Command
+include::{restdocdir}/get-api-invoice-no-element/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-invoice-no-element/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-invoice-no-element/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+=== `GET /api/invoice/{id}`
+
+This operation returns a single persisted entity `Invoice`.
+
+****
+
+.Command
+include::{restdocdir}/get-api-invoice-by-id/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/get-api-invoice-by-id/http-request.adoc[]
+
+.Response
+include::{restdocdir}/get-api-invoice-by-id/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the data was successfully loaded.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.
+
+=== `DELETE /api/invoice/{id}`
+
+This operation deletes a single persisted entity `Invoice`.
+
+****
+
+.Command
+include::{restdocdir}/delete-api-invoice/curl-request.adoc[]
+
+.Request
+include::{restdocdir}/delete-api-invoice/http-request.adoc[]
+
+.Response
+include::{restdocdir}/delete-api-invoice/response-body.adoc[]
+
+****
+
+This operation reports `Ok` or code 200 if the entity was successfully deleted.
+
+This operation reports `Not Found` or code 404 if the entity does not exist.

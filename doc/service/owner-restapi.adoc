@@ -20,7 +20,7 @@ The liquibase script defines the database table.
 include::{includedir}/lib/backend-data/src/main/resources/liquibase/v1/owner.xml[]
 ----
 
-The entity class extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
+The entity class `Owner` extends `JsonJpaEntity` which provides unique identifier and version for optimistic locking.
 
 .Entity
 [source,java,options="nowrap"]
@@ -28,17 +28,17 @@ The entity class extends `JsonJpaEntity` which provides unique identifier and ve
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
 ----
 
-The item class is a simplified representation of an _Owner_ for item selection purposes.
+The item class `OwnerItem` is a simplified representation of an _Owner_ for item selection purposes.
 
-.OwnerItem
+.Item
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
 ----
 
-The item class is a simplified representation of a _Pet_ for item selection purposes.
+The item class `PetItem` is a simplified representation of the entity `Pet` for item selection purposes.
 
-.PetItem
+.Item
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
@@ -48,7 +48,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[
 
 === `POST /api/owner`
 
-This operation creates a new _Owner_ entity.
+This operation creates a new entity `Owner`.
 
 ****
 
@@ -71,7 +71,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 === `PUT /api/owner/{id}`
 
-This operation updates an existing _Owner_ entity or creates a new one.
+This operation updates an existing entity `Owner` or creates a new one.
 
 ****
 
@@ -98,8 +98,8 @@ This operation reports `Precondition Failed` or code 412 if data is outdated (in
 
 === `PATCH /api/owner/{id}`
 
-This operation partially updates an existing _Owner_ entity.
-You can update individual properties without affecting other properties.
+This operation partially updates an existing entity partially without affecting other properties.
+Response is of type `Owner`.
 
 ==== `name` attribute
 
@@ -130,7 +130,8 @@ TIP: The descriptions of attributes other than name are omitted for simplicity b
 
 === `GET /api/owner`
 
-This operation returns all persisted _Owner_ entities.
+This operation returns persisted entities.
+The response is a collection of type `Owner`.
 
 This operation supports advanced query parameters for filtering, e.g.
 
@@ -170,7 +171,9 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/owner/search/findAllItem`
 
-This operation returns all persisted _Owner_ entities as simplified _OwnerItem_ objects for selection purposes.
+This operation returns persisted entities as simplified items for selection purposes.
+The response is a collection of type `OwnerItem`.
+
 The items are sorted by name in ascending order.
 
 This operation supports advanced query parameters for filtering.
@@ -214,7 +217,8 @@ This operation reports `Ok` or code 200 if the data was successfully loaded.
 
 === `GET /api/owner/{id}`
 
-This operation returns a single persisted _Owner_ entity.
+This operation returns a single persisted entity.
+Response is of type `Owner`.
 
 ****
 
@@ -235,7 +239,8 @@ This operation reports `Not Found` or code 404 if the entity does not exist.
 
 === `DELETE /api/owner/{id}`
 
-This operation deletes a single persisted _Owner_ entity.
+This operation deletes a single persisted entity.
+Response is of type `Owner`.
 
 ****
 
