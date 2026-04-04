@@ -2,8 +2,8 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    include: ["src/main/svelte/**/*.{test,spec}.{js,ts}"],
-    environment: "node",
+    include: ['src/main/svelte/**/*.test.{js,ts}'],
+    environment: 'node',
     globals: true,
     reporters: ["default", "junit"],
     outputFile: {

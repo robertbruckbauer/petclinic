@@ -1,0 +1,132 @@
+services:
+  tester:
+    hostname: tester
+    image: ${COMPOSE_PROJECT_NAME}/tester
+    ports:
+      - 9090:9090
+    environment:
+      - PORT=9090
+      - BACKEND_URL=http://server:8080
+      - CONNECT_URL=http://debezium:8083
+      - POSTGRES_HOST=postgres17
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=postgres
+      - KAFKA_BROKERS=redpanda:9643
+    volumes:
+      - ./build:/app/build
+    depends_on:
+      server:
+        condition: service_started
+      debezium:
+        condition: service_started
+      redpanda:
+        condition: service_healthy
+  client-angular:
+    hostname: client-angular
+    image: ${COMPOSE_PROJECT_NAME}/client-angular
+    ports:
+      - 5052:5052
+  client-svelte:
+    hostname: client-svelte
+    image: ${COMPOSE_PROJECT_NAME}/client-svelte
+    ports:
+      - 5050:5050
+  server:
+    hostname: server
+    image: ${COMPOSE_PROJECT_NAME}/server
+    ports:
+      - 5005:5005
+      - 8080:8080
+    environment:
+      - _JAVA_OPTIONS=-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      postgres17:
+        condition: service_healthy
+  debezium:
+    hostname: debezium
+    image: debezium/connect:3.0.0.Final
+    ports:
+      - "9683:8083"
+    environment:
+      BOOTSTRAP_SERVERS: redpanda:9643
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: debezium_connect_config
+      OFFSET_STORAGE_TOPIC: debezium_connect_offset
+      STATUS_STORAGE_TOPIC: debezium_connect_status
+      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+      VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+    depends_on:
+      postgres17:
+        condition: service_healthy
+      redpanda:
+        condition: service_healthy
+  redpanda:
+    hostname: redpanda
+    image: redpandadata/redpanda:v25.3.2
+    command:
+      - redpanda
+      - start
+      - --check=false # Skip system check
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - "1G"
+      - --reserve-memory
+      - "0M"
+      - --node-id
+      - "0"
+      - --kafka-addr
+      - INTERNAL://0.0.0.0:9643,EXTERNAL://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - INTERNAL://redpanda:9643,EXTERNAL://localhost:9092
+    ports:
+      - "9092:9092" # Kafka API
+      - "9644:9644" # Admin API
+    volumes:
+      - redpanda25:/var/lib/redpanda/data
+    healthcheck:
+      test:
+        ["CMD-SHELL", "rpk cluster health || exit 1"]
+      interval: 2s
+      timeout: 1s
+      retries: 30
+  redpanda-console:
+    hostname: redpanda-console
+    image: redpandadata/console:v3.3.2
+    environment:
+      KAFKA_BROKERS: redpanda:9643
+    ports:
+      - "9645:8080"
+    depends_on:
+      redpanda:
+        condition: service_healthy
+  postgres17:
+    hostname: postgres17
+    image: postgres:17@sha256:0b6428e8c09651398137d2b3308a6ad87e73ac15fc38729891c16d942e947d3d
+    command: ["postgres", "-c", "wal_level=logical"]
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres17:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=P@ssw0rd
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sa -d postgres -h localhost"]
+      interval: 2s
+      timeout: 1s
+      retries: 30
+volumes:
+  postgres17:
+  redpanda25:
