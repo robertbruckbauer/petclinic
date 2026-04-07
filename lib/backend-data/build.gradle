@@ -49,7 +49,6 @@ test {
     }
     reports {
         html.required = true
-        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/junit5")
     }
     jacoco {
         enabled = true
@@ -64,14 +63,22 @@ jacocoTestReport {
     reports {
         csv.required = false
         html.required = true
-        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/jacoco")
         xml.required = true
     }
 }
 
-tasks.register('coverageTestReport') {
+tasks.register('testReport', Copy) {
+    group = 'verification'
+    mustRunAfter 'test'
+    from layout.buildDirectory.dir('reports/tests/test')
+    into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/test')
+}
+
+tasks.register('coverageReport', Copy) {
     group = 'verification'
     dependsOn 'jacocoTestReport'
+    from layout.buildDirectory.dir('reports/jacoco/test/html')
+    into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/coverage')
 }
 
 jar {
