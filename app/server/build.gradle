@@ -48,8 +48,14 @@ test {
     }
     reports {
         html.required = true
-        html.outputLocation = rootProject.layout.projectDirectory.dir("pages/html/" + project.name + "/junit5")
     }
+}
+
+tasks.register('testReport', Copy) {
+    group = 'verification'
+    mustRunAfter 'test'
+    from layout.buildDirectory.dir('reports/tests/test')
+    into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/test')
 }
 
 jar {

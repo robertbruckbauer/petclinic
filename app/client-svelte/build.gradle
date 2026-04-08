@@ -42,21 +42,18 @@ tasks.register('npmCheck', NpmTask) {
     npmCommand = ['run', 'test']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.svelte'))
     inputs.file('package.json')
-    outputs.dir(layout.buildDirectory.dir('test-results/test'))
 }
 
-tasks.register('npmCoverage', NpmTask) {
+tasks.register('testReport', JUnitXmlToHtmlConverterTask) {
     group = 'verification'
-    // No node in CI-Job build-java
-    onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
-    npmCommand = ['run', 'coverage']
+    mustRunAfter 'npmCheck'
+    from layout.buildDirectory.dir('test-results/test')
+    into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/test')
 }
 
-tasks.register('coverageTestReport', Copy) {
+tasks.register('coverageReport', Copy) {
     group = 'verification'
-    dependsOn 'npmCoverage'
+    mustRunAfter 'npmCheck'
     from layout.buildDirectory.dir('coverage')
     into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/coverage')
 }
