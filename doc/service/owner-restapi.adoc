@@ -28,6 +28,18 @@ The entity class `Owner` is the aggregate root.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
 ----
 
+The item class `OwnerItem` is a simplified representation of an entity `Owner` for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
+----
+
+=== Pet
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.adoc[]
+
 The entity class `Pet` is referenced.
 A pet belongs to exactly one owner.
 
@@ -35,14 +47,6 @@ A pet belongs to exactly one owner.
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
-----
-
-The item class `OwnerItem` is a simplified representation of an entity `Owner` for item selection purposes.
-
-.Item
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
 ----
 
 The item class `PetItem` is a simplified representation of the entity `Pet` for item selection purposes.

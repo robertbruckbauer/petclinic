@@ -11,18 +11,28 @@ Take into account the names of types, fields, and query operations from the Grap
 In this chapter describe the model of the API.
 Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
 
+Create a level 2 section for the aggregate root with the entity name as title.
+
+Add the entity fact sheet.
+Use the include directive with variable `{includedir}` to embed the asciidoc fragment.
+
 Add the schema definition from `resources/graphql` with a source block and title `Schema`.
 Use the include directive with variable `{graphqldir}` to include the whole file in the source block.
 
-If the schema uses enum types, document each enum individually.
-
-If the schema uses custom scalar types, document each type and its mapping to a Java type individually.
+If the schema uses custom scalar types, mention each property or collection and its mapping to a Java type individually.
 Do not mention built-in scalar types.
 
-If the schema definition includes relationships that use batch loading (via @BatchMapping),
-document the optimization strategy to avoid n+1 query problems.
+If the schema uses enum types, mention each property or collection individually.
+
+If the schema includes relationships that use batch loading (via @BatchMapping),
+mention the optimization strategy to avoid n+1 query problems.
 Explain how related entities are efficiently loaded in a single database query.
 Do not explain the n+1 query problem, just mention it.
+
+Create a level 2 section for each related enum with the enum name as title.
+
+Add the schema definition from `resources/graphql` with a source block and title `Schema`.
+Use the include directive with variable `{graphqldir}` to include the whole file in the source block.
 
 Let included code fragments be a major part of the documentation.
 Do not repeat information from the schema in the text.

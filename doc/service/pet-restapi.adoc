@@ -28,6 +28,28 @@ The entity class `Pet` is the aggregate root.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
 ----
 
+The item class `PetItem` is a simplified representation of the entity `Pet` for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
+----
+
+=== Sex
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Sex.adoc[]
+
+.Enum
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Sex.java[indent=0,tags=enumerations]
+----
+
+=== Owner
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.adoc[]
+
 The entity class `Owner` is referenced.
 A pet has exactly one owner.
 
@@ -37,28 +59,12 @@ A pet has exactly one owner.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.java[indent=0,tags=properties]
 ----
 
-The enum `Sex` indicates the sex of the animal.
-
-.Enum
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Sex.java[indent=0,tags=enumerations]
-----
-
 The item class `OwnerItem` is a simplified representation of the entity `Owner` for item selection purposes.
 
 .Item
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
-----
-
-The item class `PetItem` is a simplified representation of the entity `Pet` for item selection purposes.
-
-.Item
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
 ----
 
 == Operations

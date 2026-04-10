@@ -11,20 +11,44 @@ Take in account the names, properties and methods from entity classes, repositor
 In this chapter describe the model of the API.
 Take in account the names, properties and methods from entity classes used in the repository interfaces and controller classes.
 
+Create a level 2 section for the aggregate root with the entity name as title.
+
+Add the entity fact sheet.
+Use the include directive with variable `{includedir}` to embed the asciidoc fragment.
+
 Add the liquibase script from `resources/liquibase/v1` for the database table with a source block and title `Liquibase`.
 Use the include directive with variable `{includedir}` to include the whole file in the source block.
 
-Add the aggregate root entity with a short description, a source block and title `Entity`.
+Add a note that the entity class is the aggregate root.
+Add the entity class in source block with title `Entity`.
 Use the include directive with variable `{includedir}` and tag `properties` in the source block.
 
-Add a separate section for each related entity with a short description, a source block and the title `Entity`.
+Add a note that the item class is simplified representation of the entity class.
+Add a separate section for a item class with a short description, a source block and the title `Item`.
 Use the include directive with variable `{includedir}` and tag `properties` in the source block.
+Skip this block if no item class exists.
 
-Add a separate section for each related enum with a short description, a source block and the title `Enum`
+Create a level 2 section for each related enum with the enum name as title.
+
+Add the enum fact sheet.
+Use the include directive with variable `{includedir}` to embed the asciidoc fragment.
+
+Add the enum class in a source block with title `Enum`
 Use the include directive with variable `{includedir}` and tag `enumerations` in the source block.
 
-Add a separate section for each related state transfer object with a short description, a source block and the title `Item`.
+Create a level 2 section for each related entity with the entity name as title.
+
+Add the entity fact sheet.
+Use the include directive with variable `{includedir}` to embed the asciidoc fragment.
+
+Add a note the role of this entity class.
+Add the entity class with in source block with title `Entity`.
 Use the include directive with variable `{includedir}` and tag `properties` in the source block.
+
+Add a note that the item class is simplified representation of the entity class.
+Add a separate section for a item class with a short description, a source block and the title `Item`.
+Use the include directive with variable `{includedir}` and tag `properties` in the source block.
+Skip this block if no item class exists.
 
 Let included code fragments be a major part of the documentation.
 Do not repeat information from the code fragments in the text.

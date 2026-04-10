@@ -28,6 +28,10 @@ The entity class `Visit` is the aggregate root.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.java[indent=0,tags=properties]
 ----
 
+=== Pet
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.adoc[]
+
 The entity class `Pet` is referenced.
 The pet is being treated.
 
@@ -37,6 +41,18 @@ The pet is being treated.
 include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.java[indent=0,tags=properties]
 ----
 
+The item class `PetItem` is a simplified representation of the entity `Pet` for item selection purposes.
+
+.Item
+[source,java,options="nowrap"]
+----
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
+----
+
+=== Vet
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.adoc[]
+
 The entity class `Vet` is referenced.
 The vet conducts the treatment.
 
@@ -44,22 +60,6 @@ The vet conducts the treatment.
 [source,java,options="nowrap"]
 ----
 include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.java[indent=0,tags=properties]
-----
-
-The item class `OwnerItem` is a simplified representation of the entity `Owner`for item selection purposes.
-
-.Item
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.java[indent=0,tags=properties]
-----
-
-The item class `PetItem` is a simplified representation of the entity `Pet` for item selection purposes.
-
-.Item
-[source,java,options="nowrap"]
-----
-include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.java[indent=0,tags=properties]
 ----
 
 The item class `VetItem` is a simplified representation of the entity `Vet` for item selection purposes.
