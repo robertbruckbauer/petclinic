@@ -72,6 +72,8 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   If relation is mandatory update existing test data with a default value.
   Update existing tests with asserts for the new relation.
+  Add `patchApi<Entity><Name>` test for the PATCH operation of the relation.
+  Add `getApi<Entity><Name>` test for the GET operation of the relation.
 
 10. **Update GraphQL schema <Entity>gqls**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
