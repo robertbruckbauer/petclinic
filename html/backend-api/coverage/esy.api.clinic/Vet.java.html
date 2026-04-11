@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Vet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.api.clinic</a> &gt; <span class="el_source">Vet.java</span></div><h1>Vet.java</h1><pre class="source lang-java linenums">package esy.api.clinic;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import esy.rest.JsonJpaEntity;
+import esy.rest.JsonJpaMapper;
+import lombok.Getter;
+import lombok.NonNull;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import java.util.*;
+
+@Entity
+@Table(name = &quot;vet&quot;, uniqueConstraints = {
+        @UniqueConstraint(columnNames = {&quot;id&quot;}),
+        @UniqueConstraint(columnNames = {&quot;name&quot;})
+})
+public final class Vet extends JsonJpaEntity&lt;Vet&gt; {
+
+    // tag::properties[]
+    @NotBlank
+    @Column(name = &quot;name&quot;)
+    @Getter
+    @JsonProperty
+    private String name;
+
+    @ElementCollection(
+            fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = &quot;vet_skill&quot;,
+            joinColumns = @JoinColumn(name = &quot;id&quot;))
+    @Column(name = &quot;skill&quot;)
+    @Getter
+    @JsonProperty
+    private SortedSet&lt;@NotBlank String&gt; allSkill;
+
+    @ElementCollection(
+            fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = &quot;vet_species&quot;,
+            joinColumns = @JoinColumn(name = &quot;id&quot;))
+    @Column(name = &quot;species&quot;)
+    @Getter
+    @JsonProperty
+    private SortedSet&lt;@NotBlank String&gt; allSpecies;
+    // end::properties[]
+
+    Vet() {
+<span class="fc" id="L50">        super();</span>
+<span class="fc" id="L51">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L52">        this.allSkill = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L53">        this.allSpecies = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L54">    }</span>
+
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">    Vet(@NonNull final Long version, @NonNull final UUID id) {</span>
+<span class="fc" id="L57">        super(version, id);</span>
+<span class="fc" id="L58">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L59">        this.allSkill = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L60">        this.allSpecies = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L61">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc" id="L65">        return super.toString() + &quot;,name='&quot; + name + &quot;'&quot;;</span>
+    }
+
+    @Override
+    public boolean isEqual(final Vet that) {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (this == that) {</span>
+<span class="fc" id="L71">            return true;</span>
+        }
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (that == null) {</span>
+<span class="fc" id="L74">            return false;</span>
+        }
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        return this.name.equals(that.name)&amp;&amp;</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">                this.allSkill.equals(that.allSkill)&amp;&amp;</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">                this.allSpecies.equals(that.allSpecies);</span>
+    }
+
+    @Override
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">    public Vet withId(@NonNull final UUID id) {</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
+<span class="fc" id="L84">            return this;</span>
+        }
+<span class="fc" id="L86">        final var value = new Vet(getVersion(), id);</span>
+<span class="fc" id="L87">        value.name = this.name;</span>
+<span class="fc" id="L88">        value.allSkill = this.allSkill;</span>
+<span class="fc" id="L89">        value.allSpecies = this.allSpecies;</span>
+<span class="fc" id="L90">        return value;</span>
+    }
+
+    @JsonIgnore
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">    public Vet addAllSkill(@NonNull final String... text) {</span>
+<span class="fc" id="L95">        this.allSkill.addAll(List.of(text));</span>
+<span class="fc" id="L96">        return this;</span>
+    }
+
+    @JsonIgnore
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">    public Vet addAllSpecies(@NonNull final String... text) {</span>
+<span class="fc" id="L101">        this.allSpecies.addAll(List.of(text));</span>
+<span class="fc" id="L102">        return this;</span>
+    }
+
+    @Override
+    public String writeJson() {
+<span class="fc" id="L107">        return new JsonJpaMapper().writeJson(this);</span>
+    }
+
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">    public static Vet fromJson(@NonNull final String json) {</span>
+<span class="fc" id="L111">        return new JsonJpaMapper().parseJson(json, Vet.class);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

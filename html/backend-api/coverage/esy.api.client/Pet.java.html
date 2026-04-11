@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Pet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.api.client</a> &gt; <span class="el_source">Pet.java</span></div><h1>Pet.java</h1><pre class="source lang-java linenums">package esy.api.client;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import esy.api.basis.Sex;
+import esy.rest.JsonJpaEntity;
+import esy.rest.JsonJpaMapper;
+import lombok.Getter;
+import lombok.NonNull;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
+
+@Entity
+@Table(name = &quot;pet&quot;, uniqueConstraints = {
+        @UniqueConstraint(columnNames = {&quot;id&quot;}),
+        @UniqueConstraint(columnNames = {&quot;name&quot;,&quot;owner_id&quot;})
+})
+public final class Pet extends JsonJpaEntity&lt;Pet&gt; {
+
+    public static final String DATE_PATTERN = &quot;yyyy-MM-dd&quot;;
+<span class="fc" id="L29">    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);</span>
+
+    // tag::properties[]
+    @NotBlank
+    @Column(name = &quot;name&quot;)
+    @Getter
+    @JsonProperty
+    private String name;
+
+    @NotNull
+    @Column(name = &quot;born&quot;, columnDefinition = &quot;DATE&quot;)
+    @Getter
+    @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_PATTERN)
+    private LocalDate born;
+
+    @NotBlank
+    @Column(name = &quot;species&quot;)
+    @Getter
+    @JsonProperty
+    private String species;
+
+    @NotNull
+    @Column(name = &quot;sex&quot;)
+    @Getter
+    @JsonProperty
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            optional = false
+    )
+    @JoinColumn(name = &quot;owner_id&quot;, referencedColumnName = &quot;id&quot;)
+    @Getter
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Owner owner;
+    // end::properties[]
+
+    Pet() {
+<span class="fc" id="L69">        super();</span>
+<span class="fc" id="L70">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L71">        this.born = LocalDate.of(2000, 1, 1);</span>
+<span class="fc" id="L72">        this.species = &quot;&quot;;</span>
+<span class="fc" id="L73">        this.sex = Sex.M;</span>
+<span class="fc" id="L74">        this.owner = null;</span>
+<span class="fc" id="L75">    }</span>
+
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">    Pet(@NonNull final Long version, @NonNull final UUID id) {</span>
+<span class="fc" id="L78">        super(version, id);</span>
+<span class="fc" id="L79">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L80">        this.born = LocalDate.of(2000, 1, 1);</span>
+<span class="fc" id="L81">        this.species = &quot;&quot;;</span>
+<span class="fc" id="L82">        this.sex = Sex.M;</span>
+<span class="fc" id="L83">        this.owner = null;</span>
+<span class="fc" id="L84">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc" id="L88">        return super.toString() + &quot;,name='&quot; + name + &quot;'&quot;;</span>
+    }
+
+    @Override
+    public boolean isEqual(final Pet that) {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (this == that) {</span>
+<span class="fc" id="L94">            return true;</span>
+        }
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (that == null) {</span>
+<span class="fc" id="L97">            return false;</span>
+        }
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        return this.name.equals(that.name) &amp;&amp;</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                this.born.equals(that.born) &amp;&amp;</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                this.species.equals(that.species) &amp;&amp;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">                Objects.equals(this.sex, that.sex) &amp;&amp;</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">                Objects.equals(this.owner, that.owner);</span>
+    }
+
+    @Override
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">    public Pet withId(@NonNull final UUID id) {</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (Objects.equals(getId(), id)) {</span>
+<span class="fc" id="L109">            return this;</span>
+        }
+<span class="fc" id="L111">        final var value = new Pet(getVersion(), id);</span>
+<span class="fc" id="L112">        value.name = this.name;</span>
+<span class="fc" id="L113">        value.born = this.born;</span>
+<span class="fc" id="L114">        value.species = this.species;</span>
+<span class="fc" id="L115">        value.sex = this.sex;</span>
+<span class="fc" id="L116">        value.owner = this.owner;</span>
+<span class="fc" id="L117">        return value;</span>
+    }
+
+    @Override
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">    protected void extraJson(@NonNull final Map&lt;String, Object&gt; allExtra) {</span>
+<span class="fc" id="L122">        allExtra.put(&quot;ownerItem&quot;, OwnerItem.fromValue(owner));</span>
+<span class="fc" id="L123">    }</span>
+
+    @JsonIgnore
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    public Pet setOwner(@NonNull final Owner owner) {</span>
+<span class="fc" id="L127">        this.owner = owner;</span>
+<span class="fc" id="L128">        return this;</span>
+    }
+
+    @Override
+    public String writeJson() {
+<span class="fc" id="L133">        return new JsonJpaMapper().writeJson(this);</span>
+    }
+
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">    public static Pet fromJson(@NonNull final String json) {</span>
+<span class="fc" id="L137">        return new JsonJpaMapper().parseJson(json, Pet.class);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

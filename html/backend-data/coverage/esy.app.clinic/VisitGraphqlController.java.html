@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VisitGraphqlController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-data</a> &gt; <a href="index.source.html" class="el_package">esy.app.clinic</a> &gt; <span class="el_source">VisitGraphqlController.java</span></div><h1>VisitGraphqlController.java</h1><pre class="source lang-java linenums">package esy.app.clinic;
+
+import esy.api.client.Pet;
+import esy.api.clinic.QVisit;
+import esy.api.clinic.Vet;
+import esy.api.clinic.Visit;
+import esy.app.client.PetRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Controller
+@RequiredArgsConstructor
+public class VisitGraphqlController {
+
+    private final VisitRepository visitRepository;
+
+    private final PetRepository petRepository;
+
+    private final VetRepository vetRepository;
+
+    @QueryMapping
+    @Transactional
+    public List&lt;Visit&gt; allVisit() {
+<span class="fc" id="L37">        return visitRepository.findAll();</span>
+    }
+
+    @QueryMapping
+    @Transactional
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">    public List&lt;Visit&gt; allVisitAt(@Argument @NonNull final LocalDate date) {</span>
+<span class="fc" id="L43">        final var query = QVisit.visit.date.eq(date);</span>
+<span class="fc" id="L44">        final var order = QVisit.visit.date.asc();</span>
+<span class="fc" id="L45">        final var allVisit = new ArrayList&lt;Visit&gt;();</span>
+<span class="fc" id="L46">        visitRepository.findAll(query, order).forEach(allVisit::add);</span>
+<span class="fc" id="L47">        return allVisit;</span>
+    }
+
+    @QueryMapping
+    @Transactional
+<span class="nc bnc" id="L52" title="All 2 branches missed.">    public List&lt;Visit&gt; allVisitByPetId(@Argument(&quot;id&quot;) @NonNull final UUID petId) {</span>
+<span class="nc" id="L53">        final var query = QVisit.visit.pet.id.eq(petId);</span>
+<span class="nc" id="L54">        final var order = QVisit.visit.date.asc();</span>
+<span class="nc" id="L55">        final var allVisit = new ArrayList&lt;Visit&gt;();</span>
+<span class="nc" id="L56">        visitRepository.findAll(query, order).forEach(allVisit::add);</span>
+<span class="nc" id="L57">        return allVisit;</span>
+    }
+
+    @QueryMapping
+    @Transactional
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    public List&lt;Visit&gt; allVisitByVetId(@Argument(&quot;id&quot;) @NonNull final UUID vetId) {</span>
+<span class="nc" id="L63">        final var query = QVisit.visit.vet.id.eq(vetId);</span>
+<span class="nc" id="L64">        final var order = QVisit.visit.date.asc();</span>
+<span class="nc" id="L65">        final var allVisit = new ArrayList&lt;Visit&gt;();</span>
+<span class="nc" id="L66">        visitRepository.findAll(query, order).forEach(allVisit::add);</span>
+<span class="nc" id="L67">        return allVisit;</span>
+    }
+
+    @BatchMapping
+    @Transactional
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">    public Mono&lt;Map&lt;Visit, Pet&gt;&gt; pet(@NonNull final List&lt;Visit&gt; allVisit) {</span>
+<span class="fc" id="L73">        final var allPetId = allVisit</span>
+<span class="fc" id="L74">                .stream()</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">                .filter(v -&gt; v.getPet() != null)</span>
+<span class="fc" id="L76">                .map(v -&gt; v.getPet().getId())</span>
+<span class="fc" id="L77">                .collect(Collectors.toSet());</span>
+<span class="fc" id="L78">        final var petById = petRepository.findAllById(allPetId)</span>
+<span class="fc" id="L79">                .stream()</span>
+<span class="fc" id="L80">                .collect(Collectors.toMap(Pet::getId, p -&gt; p));</span>
+<span class="fc" id="L81">        return Mono.just(allVisit</span>
+<span class="fc" id="L82">                .stream()</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">                .filter(v -&gt; v.getPet() != null)</span>
+<span class="fc" id="L84">                .collect(Collectors.toMap(v -&gt; v, v -&gt; petById.get(v.getPet().getId()))));</span>
+    }
+
+    @BatchMapping
+    @Transactional
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">    public Mono&lt;Map&lt;Visit, Vet&gt;&gt; vet(@NonNull final List&lt;Visit&gt; allVisit) {</span>
+<span class="fc" id="L90">        final var allVetId = allVisit</span>
+<span class="fc" id="L91">                .stream()</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                .filter(v -&gt; v.getVet() != null)</span>
+<span class="fc" id="L93">                .map(v -&gt; v.getVet().getId())</span>
+<span class="fc" id="L94">                .collect(Collectors.toSet());</span>
+<span class="fc" id="L95">        final var vetById = vetRepository.findAllById(allVetId)</span>
+<span class="fc" id="L96">                .stream()</span>
+<span class="fc" id="L97">                .collect(Collectors.toMap(Vet::getId, v -&gt; v));</span>
+<span class="fc" id="L98">        return Mono.just(allVisit</span>
+<span class="fc" id="L99">                .stream()</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                .filter(v -&gt; v.getVet() != null)</span>
+<span class="fc" id="L101">                .collect(Collectors.toMap(v -&gt; v, v -&gt; vetById.get(v.getVet().getId()))));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

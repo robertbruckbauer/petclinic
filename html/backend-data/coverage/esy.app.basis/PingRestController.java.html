@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PingRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-data</a> &gt; <a href="index.source.html" class="el_package">esy.app.basis</a> &gt; <span class="el_source">PingRestController.java</span></div><h1>PingRestController.java</h1><pre class="source lang-java linenums">package esy.app.basis;
+
+import esy.api.basis.Ping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.data.rest.webmvc.BasePathAwareController;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@RestController
+@BasePathAwareController
+@RequiredArgsConstructor
+public class PingRestController {
+
+    private final Clock clock;
+
+    private final PingRepository pingRepository;
+
+    @GetMapping(&quot;/ping&quot;)
+    public ResponseEntity&lt;CollectionModel&lt;Ping&gt;&gt; findAll() {
+<span class="fc" id="L28">        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();</span>
+    }
+
+    @PostMapping(&quot;/ping&quot;)
+    public ResponseEntity&lt;EntityModel&lt;Ping&gt;&gt; createPing() {
+<span class="fc" id="L33">        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();</span>
+    }
+
+    @GetMapping(&quot;/ping/{id}&quot;)
+    public ResponseEntity&lt;EntityModel&lt;Ping&gt;&gt; findById(@PathVariable final UUID id) {
+<span class="fc" id="L38">        final var value = pingRepository.findById(id).orElseThrow(() -&gt;</span>
+<span class="nc" id="L39">                new DataRetrievalFailureException(&quot;Ping(&quot; + id + &quot;) not found&quot;));</span>
+<span class="fc" id="L40">        return ResponseEntity.status(HttpStatus.OK).body(EntityModel.of(value));</span>
+    }
+
+    @PutMapping(&quot;/ping/{id}&quot;)
+    public ResponseEntity&lt;EntityModel&lt;Ping&gt;&gt; updatePing(@PathVariable final UUID id) {
+<span class="fc" id="L45">        final var at = LocalDateTime.now(clock);</span>
+<span class="fc" id="L46">        final var value = pingRepository.findById(id).orElse(Ping.fromId(id)).setAt(at);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        final var status = value.isPersisted() ? HttpStatus.OK : HttpStatus.CREATED;</span>
+<span class="fc" id="L48">        return ResponseEntity.status(status).body(EntityModel.of(pingRepository.save(value.verify())));</span>
+    }
+
+    @DeleteMapping(&quot;/ping/{id}&quot;)
+    public ResponseEntity&lt;EntityModel&lt;Ping&gt;&gt; deletePing(@PathVariable final UUID id) {
+<span class="fc" id="L53">        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

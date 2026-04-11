@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EsySecurityConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-data</a> &gt; <a href="index.source.html" class="el_package">esy.app</a> &gt; <span class="el_source">EsySecurityConfiguration.java</span></div><h1>EsySecurityConfiguration.java</h1><pre class="source lang-java linenums">package esy.app;
+
+import esy.EsyBackendAware;
+import esy.EsyBackendRoot;
+import lombok.NonNull;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.actuate.health.HealthEndpoint;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+/**
+ * @see &lt;a href=&quot;https://spring.io/projects/spring-boot&quot;&gt;Spring Boot project&lt;/a&gt;
+ * @see &lt;a href=&quot;https://spring.io/projects/spring-security&quot;&gt;Spring Security project&lt;/a&gt;
+ * @see &lt;a href=&quot;https://www.baeldung.com/security-spring&quot;&gt;Spring Security tutorials&lt;/a&gt;
+ **/
+// tag::configuration[]
+@Configuration
+@PropertySource(
+        ignoreResourceNotFound = false,
+        value = &quot;classpath:security.properties&quot;)
+@ComponentScan(
+        basePackages = {EsyBackendRoot.PACKAGE_NAME})
+// end::configuration[]
+<span class="fc" id="L32">public class EsySecurityConfiguration implements EsyBackendAware {</span>
+
+    // tag::securityCustomizer[]
+    @Bean
+    public WebSecurityCustomizer securityCustomizer() {
+<span class="fc" id="L37">        return web -&gt; {</span>
+            // do not handle static resources
+<span class="fc" id="L39">            web.ignoring().requestMatchers(&quot;/static/**&quot;);</span>
+            // do not handle version endpoints
+<span class="fc" id="L41">            web.ignoring().requestMatchers(VERSION_PATH, VERSION_PATH + &quot;.*&quot;);</span>
+            // do not handle health endpoints
+<span class="fc" id="L43">            web.ignoring().requestMatchers(EndpointRequest.to(HealthEndpoint.class));</span>
+<span class="fc" id="L44">        };</span>
+    }
+    // end::securityCustomizer[]
+
+    // tag::securityFilterChain[]
+    @Bean
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">    public SecurityFilterChain securityFilterChain(@NonNull final HttpSecurity http) throws Exception {</span>
+<span class="fc" id="L51">        http.cors(Customizer.withDefaults());</span>
+<span class="fc" id="L52">        http.csrf(AbstractHttpConfigurer::disable);</span>
+<span class="fc" id="L53">        http.sessionManagement(customizer -&gt; customizer</span>
+<span class="fc" id="L54">                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));</span>
+<span class="fc" id="L55">        return http.build();</span>
+    }
+    // end::securityFilterChain[]
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

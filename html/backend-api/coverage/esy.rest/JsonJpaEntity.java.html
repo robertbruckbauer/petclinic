@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonJpaEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-api</a> &gt; <a href="index.source.html" class="el_package">esy.rest</a> &gt; <span class="el_source">JsonJpaEntity.java</span></div><h1>JsonJpaEntity.java</h1><pre class="source lang-java linenums">package esy.rest;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NonNull;
+
+import jakarta.persistence.*;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@MappedSuperclass
+public abstract class JsonJpaEntity&lt;T extends JsonJpaEntity&lt;?&gt;&gt; implements JsonJpaWithId&lt;T&gt; {
+
+    /**
+     * {@link ValidatorFactory} ist thread-safe.
+     */
+<span class="fc" id="L25">    private static final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();</span>
+
+    /**
+     * {@link Validator} ist thread-safe.
+     */
+<span class="fc" id="L30">    @Transient</span>
+    @JsonIgnore
+<span class="fc" id="L32">    private final Validator validator = validatorFactory.getValidator();</span>
+
+    @Version
+    @Column(name = &quot;version&quot;, nullable = false)
+    @Getter
+    @JsonIgnore // -&gt; extraJson
+    private final Long version;
+
+    @Id
+    @Column(name = &quot;id&quot;, nullable = false)
+    @Getter
+    @JsonProperty
+    private final UUID id;
+
+    /**
+     * {@code TRUE} indicates that the data has been permanently
+     * stored in a database. This means that a valid primary key
+     * exists.
+     */
+<span class="fc" id="L51">    @Transient</span>
+    @JsonIgnore
+    private boolean persisted = false;
+
+<span class="fc" id="L55">    protected JsonJpaEntity() {</span>
+<span class="fc" id="L56">        this.version = 0L;</span>
+<span class="fc" id="L57">        this.id = UUID.randomUUID();</span>
+<span class="fc" id="L58">    }</span>
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">    protected JsonJpaEntity(@NonNull final Long version,</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">                            @NonNull final UUID id) {</span>
+<span class="fc" id="L62">        this.version = version;</span>
+<span class="fc" id="L63">        this.id = id;</span>
+<span class="fc" id="L64">    }</span>
+
+    /**
+     * Validates the properties of this instance and throws an
+     * {@link IllegalArgumentException} if anything is invalid.
+     *
+     * @return this instance
+     */
+    @SuppressWarnings(&quot;unchecked&quot;) // no other solution
+    public T verify() {
+<span class="fc" id="L74">        final var that = (T) this;</span>
+<span class="fc" id="L75">        final var allConstraintViolation = this.validator.validate(that);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (!allConstraintViolation.isEmpty()) {</span>
+<span class="fc" id="L77">            final var message = allConstraintViolation.stream()</span>
+<span class="fc" id="L78">                    .map(e -&gt; e.getPropertyPath() + &quot; &quot; + e.getMessage())</span>
+<span class="fc" id="L79">                    .collect(Collectors.joining(&quot;, &quot;));</span>
+<span class="fc" id="L80">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="fc" id="L82">        return that;</span>
+    }
+
+    @Override
+    public final int hashCode() {
+<span class="fc" id="L87">        return Objects.hash(</span>
+                this.version,
+                this.id);
+    }
+
+    @Override
+    public final boolean equals(final Object any) {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (this == any) {</span>
+<span class="fc" id="L95">            return true;</span>
+        }
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (any == null) {</span>
+<span class="fc" id="L98">            return false;</span>
+        }
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (!getClass().equals(any.getClass())) {</span>
+<span class="nc" id="L101">            return false;</span>
+        }
+        @SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L104">        final var that = (T) any;</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        return Objects.equals(this.getVersion(), that.getVersion()) &amp;&amp;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">                Objects.equals(this.getId(), that.getId());</span>
+    }
+
+    /**
+     * Returns {@code TRUE} if all properties of this instance
+     * and another instance are equal.
+     * &lt;br/&gt;
+     * Important: Do not use {@link Object#equals(Object)} and
+     * {@link Object#hashCode()} here due to the use of the
+     * JPA provider.
+     *
+     * @param that the object to compare with
+     * @return {@code TRUE} or {@code FALSE}
+     */
+    public abstract boolean isEqual(final T that);
+
+    /**
+     * Returns a human-readable string representation of this
+     * object as a comma-separated list of some properties.
+     *
+     * @return comma-separated list
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L130">        return &quot;version:&quot; + version + &quot;,id:&quot; + id;</span>
+    }
+
+    @PrePersist
+    @PostLoad
+    @JsonIgnore
+    private void setPersisted() {
+<span class="nc" id="L137">        persisted = true;</span>
+<span class="nc" id="L138">    }</span>
+
+    @JsonIgnore
+    public final boolean isPersisted() {
+<span class="nc" id="L142">        return persisted;</span>
+    }
+
+    @JsonIgnore
+    public final boolean isNew() {
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        return version == 0L;</span>
+    }
+
+    /**
+     * Returns a human-readable string representation of this
+     * object as a JSON structure of all its properties.
+     *
+     * @return JSON structure
+     */
+    public abstract String writeJson();
+
+    /**
+     * Flattens the map entries with additional properties into
+     * the JSON structure.
+     * &lt;br/&gt;
+     * Important: do not use property names that conflict with
+     * existing properties.
+     *
+     * @return JSON properties
+     */
+    @JsonAnyGetter
+    private Map&lt;String, Object&gt; applyExtraJson() {
+<span class="fc" id="L169">        final var allExtra = new LinkedHashMap&lt;String, Object&gt;();</span>
+<span class="fc" id="L170">        allExtra.put(&quot;version&quot;, getVersion());</span>
+<span class="fc" id="L171">        extraJson(allExtra);</span>
+<span class="fc" id="L172">        return allExtra;</span>
+    }
+
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">    protected void extraJson(@NonNull final Map&lt;String, Object&gt; allExtra) {}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

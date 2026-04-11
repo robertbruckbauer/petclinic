@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonJpaRestControllerBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-data</a> &gt; <a href="index.source.html" class="el_package">esy.rest</a> &gt; <span class="el_source">JsonJpaRestControllerBase.java</span></div><h1>JsonJpaRestControllerBase.java</h1><pre class="source lang-java linenums">package esy.rest;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.rest.core.annotation.*;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.Optional;
+
+<span class="fc" id="L13">@Slf4j</span>
+@RequiredArgsConstructor
+public abstract class JsonJpaRestControllerBase&lt;V extends JsonJpaEntity&lt;V&gt;&gt; {
+
+    private final ApplicationEventPublisher eventPublisher;
+
+    private final TransactionTemplate transactionTemplate;
+
+    @HandleBeforeCreate
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">    public final void beforeCreate(@NonNull final V value) {</span>
+<span class="fc" id="L23">        log.info(&quot;RECEIVED [{}]; creating ...&quot;, value);</span>
+<span class="fc" id="L24">        beforeCreateTransaction(value.verify()).ifPresent(transactionTemplate::execute);</span>
+<span class="fc" id="L25">        logAccepted(value);</span>
+<span class="fc" id="L26">    }</span>
+
+    // tag::beforeCreateTransaction[]
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; beforeCreateTransaction(@NonNull final V value) {</span>
+<span class="fc" id="L30">        return Optional.empty();</span>
+    }
+    // end::beforeCreateTransaction[]
+
+    @HandleAfterCreate
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">    public final void afterCreate(@NonNull final V value) {</span>
+<span class="fc" id="L36">        afterCreateTransaction(value).ifPresent(transactionTemplate::execute);</span>
+<span class="fc" id="L37">        eventPublisher.publishEvent(value);</span>
+<span class="fc" id="L38">        logCreated(value);</span>
+<span class="fc" id="L39">    }</span>
+
+    // tag::afterCreateTransaction[]
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; afterCreateTransaction(@NonNull final V value) {</span>
+<span class="fc" id="L43">        return Optional.empty();</span>
+    }
+    // end::afterCreateTransaction[]
+
+    @HandleBeforeSave
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">    public final void beforeSave(@NonNull final V value) {</span>
+<span class="fc" id="L49">        log.info(&quot;RECEIVED [{}]; updating ...&quot;, value);</span>
+<span class="fc" id="L50">        beforeSaveTransaction(value.verify()).ifPresent(transactionTemplate::execute);</span>
+<span class="fc" id="L51">        logAccepted(value);</span>
+<span class="fc" id="L52">    }</span>
+
+    // tag::beforeSaveTransaction[]
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; beforeSaveTransaction(@NonNull final V value) {</span>
+<span class="fc" id="L56">        return Optional.empty();</span>
+    }
+    // end::beforeSaveTransaction[]
+
+    @HandleAfterSave
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">    public final void afterSave(@NonNull final V value) {</span>
+<span class="fc" id="L62">        afterSaveTransaction(value).ifPresent(transactionTemplate::execute);</span>
+<span class="fc" id="L63">        eventPublisher.publishEvent(value);</span>
+<span class="fc" id="L64">        logUpdated(value);</span>
+<span class="fc" id="L65">    }</span>
+
+    // tag::afterSaveTransaction[]
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; afterSaveTransaction(@NonNull final V value) {</span>
+<span class="fc" id="L69">        return Optional.empty();</span>
+    }
+    // end::afterSaveTransaction[]
+
+    @HandleBeforeLinkSave
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    public final void beforeLinkSave(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L75">        log.info(&quot;RECEIVED [{}]; linking with [{}] ...&quot;, value, rel);</span>
+<span class="nc" id="L76">        beforeLinkSaveTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L77">        logAccepted(value);</span>
+<span class="nc" id="L78">    }</span>
+
+    // tag::beforeLinkSaveTransaction[]
+<span class="nc bnc" id="L81" title="All 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; beforeLinkSaveTransaction(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L82">        return Optional.empty();</span>
+    }
+    // end::beforeLinkSaveTransaction[]
+
+    @HandleAfterLinkSave
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    public final void afterLinkSave(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L88">        afterLinkSaveTransaction(value, rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L89">        eventPublisher.publishEvent(value);</span>
+<span class="nc" id="L90">        logUpdated(value);</span>
+<span class="nc" id="L91">    }</span>
+
+    // tag::afterLinkSaveTransaction[]
+<span class="nc bnc" id="L94" title="All 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; afterLinkSaveTransaction(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L95">        return Optional.empty();</span>
+    }
+    // end::afterLinkSaveTransaction[]
+
+    @HandleBeforeDelete
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">    public final void beforeDelete(@NonNull final V value) {</span>
+<span class="fc" id="L101">        log.info(&quot;RECEIVED [{}]; deleting ...&quot;, value);</span>
+<span class="fc" id="L102">        beforeDeleteTransaction(value.verify()).ifPresent(transactionTemplate::execute);</span>
+<span class="fc" id="L103">        logAccepted(value);</span>
+<span class="fc" id="L104">    }</span>
+
+    // tag::beforeDeleteTransaction[]
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; beforeDeleteTransaction(@NonNull final V value) {</span>
+<span class="fc" id="L108">        return Optional.empty();</span>
+    }
+    // end::beforeDeleteTransaction[]
+
+    @HandleAfterDelete
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">    public final void afterDelete(@NonNull final V value) {</span>
+<span class="fc" id="L114">        afterDeleteTransaction(value).ifPresent(transactionTemplate::execute);</span>
+<span class="fc" id="L115">        eventPublisher.publishEvent(value);</span>
+<span class="fc" id="L116">        logDeleted(value);</span>
+<span class="fc" id="L117">    }</span>
+
+    // tag::afterDeleteTransaction[]
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; afterDeleteTransaction(@NonNull final V value) {</span>
+<span class="fc" id="L121">        return Optional.empty();</span>
+    }
+    // end::afterDeleteTransaction[]
+
+    @HandleBeforeLinkDelete
+<span class="nc bnc" id="L126" title="All 2 branches missed.">    public final void beforeLinkDelete(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L127">        log.info(&quot;RECEIVED [{}]; unlinking [{}] ...&quot;, value, rel);</span>
+<span class="nc" id="L128">        beforeLinkDeleteTransaction(value.verify(), rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L129">        logAccepted(value);</span>
+<span class="nc" id="L130">    }</span>
+
+    // tag::beforeLinkDeleteTransaction[]
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; beforeLinkDeleteTransaction(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L134">        return Optional.empty();</span>
+    }
+    // end::beforeLinkDeleteTransaction[]
+
+    @HandleAfterLinkDelete
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    public final void afterLinkDelete(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L140">        afterLinkDeleteTransaction(value, rel).ifPresent(transactionTemplate::execute);</span>
+<span class="nc" id="L141">        eventPublisher.publishEvent(value);</span>
+<span class="nc" id="L142">        logDeleted(value);</span>
+<span class="nc" id="L143">    }</span>
+
+    // tag::afterLinkDeleteTransaction[]
+<span class="nc bnc" id="L146" title="All 2 branches missed.">    protected Optional&lt;TransactionCallback&lt;Void&gt;&gt; afterLinkDeleteTransaction(@NonNull final V value, final Object rel) {</span>
+<span class="nc" id="L147">        return Optional.empty();</span>
+    }
+    // end::afterLinkDeleteTransaction[]
+
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">    static &lt;T&gt; void logAccepted(@NonNull final T value) {</span>
+<span class="fc" id="L152">        log.info(&quot;ACCEPTED [{}]&quot;, value);</span>
+<span class="fc" id="L153">    }</span>
+
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">    static &lt;T&gt; void logCreated(@NonNull final T value) {</span>
+<span class="fc" id="L156">        log.info(&quot;CREATED [{}]&quot;, value);</span>
+<span class="fc" id="L157">    }</span>
+
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">    static &lt;T&gt; void logUpdated(@NonNull final T value) {</span>
+<span class="fc" id="L160">        log.info(&quot;UPDATED [{}]&quot;, value);</span>
+<span class="fc" id="L161">    }</span>
+
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">    static &lt;T&gt; void logDeleted(@NonNull final T value) {</span>
+<span class="fc" id="L164">        log.info(&quot;DELETED [{}]&quot;, value);</span>
+<span class="fc" id="L165">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EsyDatabaseConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-data</a> &gt; <a href="index.source.html" class="el_package">esy.app</a> &gt; <span class="el_source">EsyDatabaseConfiguration.java</span></div><h1>EsyDatabaseConfiguration.java</h1><pre class="source lang-java linenums">package esy.app;
+
+import esy.EsyBackendAware;
+import esy.EsyBackendEntity;
+import esy.EsyBackendRoot;
+import esy.EsyEntityRoot;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+/**
+ * @see &lt;a href=&quot;https://spring.io/projects/spring-data-jpa&quot;&gt;Spring Data JPA project&lt;/a&gt;
+ * @see &lt;a href=&quot;https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.java-config&quot;&gt;Annotation-based Configuration&lt;/a&gt;&gt;
+ * @see &lt;a href=&quot;https://www.baeldung.com/the-persistence-layer-with-spring-and-jpa&quot;&gt;A Guide to JPA with Spring&lt;/a&gt;
+ * @see &lt;a href=&quot;https://thorben-janssen.com/tutorials&quot;&gt;Tutorials von Thorben Jansen&lt;/a&gt;
+ * @see &lt;a href=&quot;https://vladmihalcea.com/tutorials&quot;&gt;Tutorials von Vlad Mihalcea&lt;/a&gt;
+ **/
+// tag::configuration[]
+@Configuration
+@PropertySource(
+        ignoreResourceNotFound = false,
+        value = &quot;classpath:database.properties&quot;)
+@EntityScan(
+        basePackages = {EsyEntityRoot.PACKAGE_NAME},
+        basePackageClasses = {EsyBackendEntity.class})
+@ComponentScan(
+        basePackages = {EsyBackendRoot.PACKAGE_NAME})
+@EnableJpaRepositories(
+        basePackages = {EsyBackendRoot.PACKAGE_NAME})
+@EnableTransactionManagement
+// end::configuration[]
+<span class="fc" id="L35">public class EsyDatabaseConfiguration implements EsyBackendAware {</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
