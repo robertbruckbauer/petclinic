@@ -58,12 +58,9 @@ tasks.register('coverageReport', Copy) {
     into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/coverage')
 }
 
-import java.util.Optional;
-ext.CLIENT_NAME = Optional.ofNullable(System.getenv("CLIENT_NAME"))
-        .orElse(rootProject.name + "-" + project.name)
-ext.CLIENT_IMAGE = Optional.ofNullable(System.getenv("CLIENT_IMAGE"))
+ext.CLIENT_IMAGE = java.util.Optional.ofNullable(System.getenv("CLIENT_IMAGE"))
             .orElse(rootProject.name + "/" + project.name)
-ext.CLIENT_TAG = Optional.ofNullable(System.getenv("CLIENT_TAG"))
+ext.CLIENT_TAG = java.util.Optional.ofNullable(System.getenv("CLIENT_TAG"))
             .orElse('latest')
 
 // https://docs.docker.com/reference/cli/docker/build/

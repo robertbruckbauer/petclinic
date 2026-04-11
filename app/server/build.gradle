@@ -74,10 +74,9 @@ bootJar {
     }
 }
 
-import java.util.Optional
-ext.SERVER_IMAGE = Optional.ofNullable(System.getenv("SERVER_IMAGE"))
+ext.SERVER_IMAGE = java.util.Optional.ofNullable(System.getenv("SERVER_IMAGE"))
             .orElse(rootProject.name + "/" + project.name)
-ext.SERVER_TAG = Optional.ofNullable(System.getenv("SERVER_TAG"))
+ext.SERVER_TAG = java.util.Optional.ofNullable(System.getenv("SERVER_TAG"))
             .orElse('latest')
 
 // tag::bootBuildImage[]
@@ -101,6 +100,13 @@ jib {
     to {
         image = SERVER_IMAGE + ":" + SERVER_TAG
         tags = [VERSION]
+    }
+    container {
+        labels = [
+            "org.springframework.boot.version": org.springframework.boot.gradle.plugin.SpringBootPlugin.package.implementationVersion,
+            "org.opencontainers.image.title": project.name,
+            "org.opencontainers.image.version": VERSION
+        ]
     }
 }
 // end::jibDockerBuild[]
