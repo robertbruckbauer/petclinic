@@ -2,7 +2,7 @@ plugins {
     id 'base'
 }
 
-tasks.register('composeUp') {
+tasks.register('deployUp') {
     mustRunAfter ':app:client-angular:buildImage'
     mustRunAfter ':app:client-svelte:buildImage'
     mustRunAfter ':app:server:buildImage'
@@ -16,17 +16,7 @@ tasks.register('composeUp') {
     }
 }
 
-tasks.register('composeStop') {
-    doLast {
-        providers.exec {
-            workingDir(projectDir)
-            executable 'docker'
-            args 'compose', '-p', 'petclinic', '-f', 'compose.yml', 'stop'
-        }.result.get()
-    }
-}
-
-tasks.register('composeDown') {
+tasks.register('deployDown') {
     doLast {
         providers.exec {
             workingDir(projectDir)

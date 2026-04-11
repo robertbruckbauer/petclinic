@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'io.spring.dependency-management'
     id 'org.springframework.boot'
+    id 'com.google.cloud.tools.jib'
     id 'com.diffplug.spotless'
 }
 
@@ -24,6 +25,7 @@ dependencies {
     annotationProcessor('org.projectlombok:lombok')
     // http://hsqldb.org/
     runtimeOnly('org.hsqldb:hsqldb')
+    runtimeOnly('org.postgresql:postgresql')
 }
 dependencies {
     // https://spring.io/projects/spring-boot
@@ -73,31 +75,41 @@ bootJar {
 }
 
 import java.util.Optional
-ext.SERVER_NAME = Optional.ofNullable(System.getenv("SERVER_NAME"))
-        .orElse(rootProject.name + "-" + project.name)
 ext.SERVER_IMAGE = Optional.ofNullable(System.getenv("SERVER_IMAGE"))
             .orElse(rootProject.name + "/" + project.name)
 ext.SERVER_TAG = Optional.ofNullable(System.getenv("SERVER_TAG"))
             .orElse('latest')
 
+// tag::bootBuildImage[]
 bootBuildImage {
     group = 'build'
     enabled = true
     imageName = SERVER_IMAGE + ":" + SERVER_TAG
     tags = [SERVER_IMAGE + ":" + VERSION]
-    // tag::setup-java[]
     environment = [
         "BP_JVM_VERSION":"21.*",
         "BP_SPRING_CLOUD_BINDINGS_DISABLED":"true"
     ]
-    // end::setup-java[]
 }
+// end::bootBuildImage[]
+
+// tag::jibDockerBuild[]
+jib {
+    from {
+        image = "eclipse-temurin:21-jdk-alpine@sha256:cafcfad1d9d3b6e7dd983fa367f085ca1c846ce792da59bcb420ac4424296d56"
+    }
+    to {
+        image = SERVER_IMAGE + ":" + SERVER_TAG
+        tags = [VERSION]
+    }
+}
+// end::jibDockerBuild[]
 
 tasks.register('buildImage') {
     group = 'build'
     enabled = true
     mustRunAfter 'build'
-    dependsOn 'bootBuildImage'
+    dependsOn 'jibDockerBuild'
 }
 
 tasks.register('versionCheck', VersionCheckTask.class)  {

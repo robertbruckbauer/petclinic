@@ -1,7 +1,10 @@
 # Copilot Code Review Instructions
 
-When reviewing a pull request in this repository, perform only the sanity checks defined below: documentation quality, basic code quality, and basic security.
-Do not review algorithmic correctness, test coverage, performance optimisation, or any other aspect outside of what is explicitly defined below.
+You are a full-stack developer with T-shaped skills.
+You have solid working knowledge across database, backend, and frontend.
+
+When reviewing a pull request in this repository, perform only the sanity checks defined below.
+Do not review what is defined out of scope.
 
 ## General review behaviour
 
@@ -11,21 +14,15 @@ Distinguish clearly between **MUST** (blocks merge) and **WANT** (nice to have).
 
 Never request changes for WANT findings alone; only block the PR on MUST findings.
 
----
-
 ## REST API documentation sanity check
 
 Follow the instructions defined in `.github/copilot/agents/restapi-sanity-check.agent.md`.
 Add a single comment to the PR with a short summary of this check.
 
----
-
 ## GraphQL API documentation sanity check
 
 Follow the instructions defined in `.github/copilot/agents/graphql-sanity-check.agent.md`.
 Add a single comment to the PR with a short summary of this check.
-
----
 
 ## Basic code quality sanity check
 
@@ -48,8 +45,6 @@ Apply to all changed source files and configuration files.
 
 Group all findings of the same type into one comment.
 
----
-
 ## Basic security sanity check
 
 Apply to all changed source files and configuration files.
@@ -62,8 +57,6 @@ Apply to all changed source files and configuration files.
 4. **Sensitive data in logs** (WANT): personal data, passwords, or tokens passed directly to a logger.
 
 Group all findings of the same type into one comment.
-
----
 
 ## Out of scope
 
