@@ -1,12 +1,12 @@
 ---
-name: create-new-version
+name: release-version
 description: Bump repository version to a new major.minor release, validate consistency, commit with a dedicated message, and create a release tag.
 ---
 
 ## Inputs
 
 - `majorMinor`: version in `major.minor` format, e.g. `1.4`
-- `patchVersion = <majorMinor>.0`, e.g. `1.4.0`
+- `patchVersion`: version in `<majorMinor>.patch` format, e.g. `1.4.0`
 
 ## Procedure
 
