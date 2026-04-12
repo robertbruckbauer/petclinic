@@ -9,7 +9,7 @@ If the local Java runtime major version is not greater than or equal to `<versio
 
 - Stop immediately.
 - Do not edit files.
-- Response with `Your local Gradle JVM is too old for source level <version>`.
+- Response with `Your local Java runtime is too old for source level <version>`.
 
 ## Inputs
 
@@ -40,7 +40,7 @@ Use this skill to bump Java <version> based on `doc/manual/setup-java.adoc`.
 ### Validate changes
 
 ```bash
-gradle build
+gradle build --parallel
 ```
 
 Run from repository root.
