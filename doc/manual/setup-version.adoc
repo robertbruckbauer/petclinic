@@ -1,0 +1,98 @@
+:includedir: ../..
+:relrootdir: ../..
+= Setup version
+
+This manual contains information on configuring version information in this repository.
+Versioning follows the concept of
+https://semver.org/[_semantic versioning_]
+with major and minor numbers.
+
+== Build
+
+The main location for the major and minor numbers is the `VERSION` file in the repository root.
+
+.VERSION
+[source,gradle]
+----
+include::{includedir}/VERSION[]
+----
+
+The major and minor numbers from the `VERSION` file is provided as a global variable for use in the build process, e.g. labels in a container image.
+
+.build.gradle
+[source,gradle]
+----
+include::{includedir}/build.gradle[tag=version,indent=0]
+----
+
+The `VERSION` file is included in the container image of the backend server.
+
+.app/server/build.gradle
+[source,gradle]
+----
+include::{includedir}/app/server/build.gradle[tag=processResources,indent=0]
+----
+
+The major and minor numbers from the `VERSION` file and the version property in the `package.json` file must match.
+A patch number is only used for internal purposes.
+
+.app/client-angular/package.json
+[source,gradle]
+----
+include::{includedir}/app/client-angular/package.json[lines=3,indent=0]
+----
+
+The major and minor numbers from the `VERSION` file and the version property in the `package.json` file must match.
+A patch number is only used for internal purposes.
+
+.app/client-svelte/package.json
+[source,gradle]
+----
+include::{includedir}/app/client-svelte/package.json[lines=3,indent=0]
+----
+
+The major and minor numbers from the `VERSION` file and the version property in the `Chart.yaml` file must match.
+A patch number is only used for internal purposes.
+
+.app/deploy/Chart.yaml
+[source,yaml]
+----
+include::{includedir}/app/deploy/Chart.yaml[lines=5]
+----
+
+The Gradle task `versionCheck`, executed in the repository root, checks the validity of version numbers of all modules in the repository.
+The task fails if major and minor numbers do not match.
+
+[source,bash]
+----
+gradle versionCheck
+----
+
+== Github
+
+A git commit with the new `VERSION` file and all related changes in other files uses a dedicated message, e.g.
+
+[source,bash]
+----
+git add .
+git commit -m 'version: 1.4'
+git push
+----
+
+A git tag in `major.minor` format is created on that commit and pushed, e.g.
+
+[source,bash]
+----
+git tag 1.4
+git push --tags
+----
+
+A new git tag triggers the release process in the GitHub actions workflow.
+The gradle task `buildChangelog` creates a `CHANGELOG.md` file with all conventional commits for this release from the commit history.
+The `gh` command create the release.
+
+.build.yml
+[source,gradle]
+----
+include::{includedir}/.github/workflows/build.yml[tag=release,indent=0]
+----

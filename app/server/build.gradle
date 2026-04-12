@@ -39,10 +39,12 @@ dependencies {
     testImplementation(extraLibs.playwright)
 }
 
+// tag::processResources[]
 processResources {
     from("${rootDir}")
     include 'VERSION'
 }
+// end::processResources[]
 
 test {
     filter {

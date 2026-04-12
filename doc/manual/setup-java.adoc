@@ -8,18 +8,12 @@ Java is used for the backend server application and for build tooling and tasks.
 
 == Build
 
+A configuration for the `JavaPlugin` sets the java version required to compile the source code (sourceCompatibility) and to run the compiled bytecode (targetCompatibility) for all java based gradle subprojects.
+
 .build.gradle
 [source,gradle]
 ----
 include::{includedir}/build.gradle[tag=setup-java,indent=0]
-----
-
-This configuration sets the java version required to compile the source code (sourceCompatibility) and to run the compiled bytecode (targetCompatibility) for all java based gradle subprojects.
-
-.build.gradle
-[source,gradle]
-----
-include::{includedir}/app/server/build.gradle[tag=bootBuildImage,indent=0]
 ----
 
 The Paketo buildpack configuration in the `bootBuildImage` task specifies the java version for the container runtime.
@@ -28,13 +22,22 @@ It uses a distribution provided by Liberica.
 .build.gradle
 [source,gradle]
 ----
-include::{includedir}/app/server/build.gradle[tag=jibDockerBuild,indent=0]
+include::{includedir}/app/server/build.gradle[tag=bootBuildImage,indent=0]
 ----
 
 The Jib configuration in the `jibDockerBuild` task specifies the java version for the container runtime.
 It uses a distribution provided by Temurin.
 
+.build.gradle
+[source,gradle]
+----
+include::{includedir}/app/server/build.gradle[tag=jibDockerBuild,indent=0]
+----
+
 == Github
+
+The GitHub actions workflow configures java for automated builds and tests.
+It uses a distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).
 
 .build.yml
 [source,gradle]
@@ -42,13 +45,10 @@ It uses a distribution provided by Temurin.
 include::{includedir}/.github/workflows/build.yml[tag=setup-java,indent=0]
 ----
 
-The GitHub actions workflow configures java for automated builds and tests.
-It uses a distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).
+The Github devcontainer adds the java feature.
 
 .devcontainer.json
 [source,gradle]
 ----
 include::{includedir}/.devcontainer/devcontainer.json[tag=setup-java,indent=0]
 ----
-
-The Github devcontainer adds the java feature.

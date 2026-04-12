@@ -93,6 +93,7 @@ jobs:
       - name: Run playwright tests
         run: sh -xv playwright.test.sh
 
+      # tag::pages[]
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v4
         if: ${{ failure() }}
@@ -101,6 +102,16 @@ jobs:
           path: pages/
           retention-days: 7
 
+      # https://github.com/peaceiris/actions-gh-pages
+      - if: startsWith(github.ref, 'refs/tags')
+        name: Update Pages (tag)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: pages
+      # end::pages[]
+
+      # tag::packages[]
         # https://github.com/features/packages
       - if: startsWith(github.ref, 'refs/tags')
         name: Update Packages (tag)
@@ -114,15 +125,9 @@ jobs:
             docker tag ${IMAGE_REPOSITORY_FROM}/${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_REPOSITORY_TO}/${IMAGE_NAME}:${IMAGE_TAG}
             docker push ${IMAGE_REPOSITORY_TO}/${IMAGE_NAME}:${IMAGE_TAG}
           done
+      # end::packages[]
 
-      # https://github.com/peaceiris/actions-gh-pages
-      - if: startsWith(github.ref, 'refs/tags')
-        name: Update Pages (tag)
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: pages
-
+      # tag::release[]
       # https://cli.github.com/manual/gh_release
       - if: startsWith(github.ref, 'refs/tags')
         name: Create Release (tag)
@@ -135,4 +140,4 @@ jobs:
             --verify-tag \
             --fail-on-no-commits \
             --notes-file build/reports/CHANGELOG.md
-
+      # end::release[]

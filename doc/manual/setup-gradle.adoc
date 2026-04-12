@@ -9,13 +9,15 @@ Gradle depends on a xref:{relrootdir}/doc/manual/setup-java.adoc[Java] runtime.
 
 == Build
 
+The `gradle-wrapper.properties` file sets the gradle version and other properties required to run build tasks locally.
+
 .gradle-wrapper.properties
 [source,gradle]
 ----
 include::{includedir}/gradle/wrapper/gradle-wrapper.properties[]
 ----
 
-This configuration sets the gradle version and other properties required to run build tasks locally.
+The `settings.gradle` file shows plugins and their version used in build scripts.
 
 .settings.gradle
 [source,gradle]
@@ -23,15 +25,13 @@ This configuration sets the gradle version and other properties required to run 
 include::{includedir}/settings.gradle[tags=plugins,indent=0]
 ----
 
-This configuration shows plugins and their version used in build scripts.
+The `settings.gradle` file shows repositories used to load dependencies.
 
 .settings.gradle
 [source,gradle]
 ----
 include::{includedir}/settings.gradle[tags=repositories,indent=0]
 ----
-
-This configuration shows repositories used to load dependencies.
 
 gradlePluginPortal::
 Official repository for Gradle plugins.
@@ -41,18 +41,18 @@ Public repository for Java dependencies.
 
 == Github
 
+The GitHub actions workflow configures gradle for automated builds and tests.
+
 .build.yml
 [source,gradle]
 ----
 include::{includedir}/.github/workflows/build.yml[tag=setup-gradle,indent=0]
 ----
 
-The GitHub actions workflow configures gradle for automated builds and tests.
+The Github devcontainer adds the gradle feature.
 
 .devcontainer.json
 [source,gradle]
 ----
 include::{includedir}/.devcontainer/devcontainer.json[tag=setup-gradle,indent=0]
 ----
-
-The Github devcontainer adds the gradle feature.

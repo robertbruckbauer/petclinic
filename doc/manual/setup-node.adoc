@@ -8,13 +8,15 @@ Node is used for the frontend server application and for build tooling and tasks
 
 == Build
 
+The angular frontend build stage depends on node.
+
 .Dockerfile
 [source,docker]
 ----
 include::{includedir}/app/client-angular/Dockerfile[lines=1,indent=0]
 ----
 
-The angular frontend build stage depends on node.
+The svelte frontend build stage depends on node.
 
 .Dockerfile
 [source,docker]
@@ -22,9 +24,9 @@ The angular frontend build stage depends on node.
 include::{includedir}/app/client-svelte/Dockerfile[lines=1,indent=0]
 ----
 
-The svelte frontend build stage depends on node.
-
 == Github
+
+The GitHub actions workflow configures node for automated builds and tests.
 
 .build.yml
 [source,gradle]
@@ -32,12 +34,10 @@ The svelte frontend build stage depends on node.
 include::{includedir}/.github/workflows/build.yml[tag=setup-node,indent=0]
 ----
 
-The GitHub actions workflow configures node for automated builds and tests.
+The Github devcontainer adds the node feature.
 
 .devcontainer.json
 [source,gradle]
 ----
 include::{includedir}/.devcontainer/devcontainer.json[tag=setup-node,indent=0]
 ----
-
-The Github devcontainer adds the node feature.
