@@ -5,7 +5,7 @@ description: Update all repository Java runtime and build references to a new ja
 
 ## Precondition
 
-If the Gradle launcher JVM major version is not greater than or equal to `<version>` then
+If the local Java runtime major version is not greater than or equal to `<version>` then
 
 - Stop immediately.
 - Do not edit files.
