@@ -1,0 +1,122 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management'
+    id 'org.springframework.boot'
+    id 'com.google.cloud.tools.jib'
+    id 'com.diffplug.spotless'
+}
+
+spotless {
+    encoding 'UTF-8'
+    java {
+        target fileTree(projectDir) {
+            include 'src/main/java/**/*.java'
+            exclude 'build/**'
+        }
+        leadingTabsToSpaces(4)
+        removeUnusedImports()
+    }
+}
+
+dependencies {
+    implementation project(':lib:backend-data')
+    // https://projectlombok.org
+    implementation('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+    // http://hsqldb.org/
+    runtimeOnly('org.hsqldb:hsqldb')
+    runtimeOnly('org.postgresql:postgresql')
+}
+dependencies {
+    // https://spring.io/projects/spring-boot
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    // https://junit.org/junit5
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+    // https://site.mockito.org/
+    testImplementation('org.mockito:mockito-junit-jupiter')
+    // https://playwright.dev/java/
+    testImplementation(extraLibs.playwright)
+}
+
+// tag::processResources[]
+processResources {
+    from("${rootDir}")
+    include 'VERSION'
+}
+// end::processResources[]
+
+test {
+    filter {
+        failOnNoMatchingTests = false
+    }
+    reports {
+        html.required = true
+    }
+}
+
+tasks.register('testReport', Copy) {
+    group = 'verification'
+    mustRunAfter 'test'
+    from layout.buildDirectory.dir('reports/tests/test')
+    into rootProject.layout.projectDirectory.dir('pages/html/' + project.name + '/test')
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = false
+}
+
+ext.SERVER_IMAGE = java.util.Optional.ofNullable(System.getenv("SERVER_IMAGE"))
+            .orElse(rootProject.name + "/" + project.name)
+ext.SERVER_TAG = java.util.Optional.ofNullable(System.getenv("SERVER_TAG"))
+            .orElse('latest')
+
+// tag::bootBuildImage[]
+bootBuildImage {
+    enabled = false
+}
+// end::bootBuildImage[]
+
+// tag::jibDockerBuild[]
+jib {
+    from {
+        image = "eclipse-temurin:21-jdk-alpine@sha256:cafcfad1d9d3b6e7dd983fa367f085ca1c846ce792da59bcb420ac4424296d56"
+    }
+    to {
+        image = SERVER_IMAGE + ":" + SERVER_TAG
+        tags = [VERSION]
+    }
+    container {
+        labels = [
+            "org.springframework.boot.version": org.springframework.boot.gradle.plugin.SpringBootPlugin.package.implementationVersion,
+            "org.opencontainers.image.title": project.name,
+            "org.opencontainers.image.version": VERSION
+        ]
+    }
+}
+// end::jibDockerBuild[]
+
+tasks.register('buildImage') {
+    group = 'build'
+    enabled = true
+    mustRunAfter 'build'
+    dependsOn 'jibDockerBuild'
+}
+
+tasks.register('versionCheck', VersionCheckTask.class)  {
+    group = 'verification'
+}
+
+tasks.register('lint') {
+    group = 'verification'
+    dependsOn 'spotlessCheck'
+}
+
+tasks.register('format') {
+    group = 'build'
+    dependsOn 'spotlessApply'
+}
