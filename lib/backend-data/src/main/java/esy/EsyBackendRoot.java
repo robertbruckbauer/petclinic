@@ -55,6 +55,8 @@ public final class EsyBackendRoot implements InitializingBean, DisposableBean, C
         logProperty("spring.datasource.url");
         logProperty("spring.datasource.username");
         hasProperty("spring.datasource.password");
+        logProperty("spring.liquibase.enabled");
+        logProperty("spring.liquibase.change-log");
         logProperty("spring.jpa.properties.hibernate.show_sql");
         logProperty("spring.jpa.properties.hibernate.format_sql");
         logProperty("spring.jpa.properties.hibernate.generate_statistics");

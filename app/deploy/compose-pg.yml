@@ -21,10 +21,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
+      - SPRING_LIQUIBASE_ENABLED=false
       - SPRING_PROFILES_ACTIVE=dev
     depends_on:
-      postgres17:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
   migrate:
     restart: "no"
     hostname: migrate
