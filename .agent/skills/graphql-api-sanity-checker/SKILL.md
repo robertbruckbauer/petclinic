@@ -1,9 +1,8 @@
 ---
-name: GraphQL API sanity checker
-description: |
-  Performs a comprehensive sanity check of GraphQL API documentation files.
-  Validates structure, content accuracy and alignment with implementation.
+name: graphql-api-sanity-checker
+description: Sanity-check GraphQL API documentation against implementation changes; use for prompts like "Check GraphQL API".
 ---
+
 
 ## Task steps
 

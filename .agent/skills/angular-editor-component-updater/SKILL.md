@@ -1,9 +1,8 @@
 ---
-name: Angular editor component updater
-description: |
-  Updates the editor component for all properties of an entity.
-  Updates the service component for entity data retrieval.
+name: angular-editor-component-updater
+description: Update Angular editor/lister components and entity typing after model changes; use for prompts like "Update editor and lister components for ...".
 ---
+
 
 ## Task preconditions
 

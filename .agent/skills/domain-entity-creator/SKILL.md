@@ -1,9 +1,8 @@
 ---
-name: Domain entity creator
-description: |
-  Creates a new entity in the domain model for the backend.
-  Creates all implementation files needed to represent the entity.
+name: domain-entity-creator
+description: Create a new backend domain entity and all required artifacts; use for prompts like "Create an entity ... in package ...".
 ---
+
 
 ## Task preconditions
 

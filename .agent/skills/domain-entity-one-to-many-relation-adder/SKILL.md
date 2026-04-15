@@ -1,9 +1,8 @@
 ---
-name: Domain entity one-to-many relation adder
-description: |
-  Adds a new one-to-many relation from one existing entity to another entity of the domain model for the backend.
-  Extends existing REST endpoints and GraphQL operations for the entities.
+name: domain-entity-one-to-many-relation-adder
+description: Add a one-to-many relation between existing entities and update dependent artifacts; use for prompts like "Add a one-to-many relation ...".
 ---
+
 
 ## Task preconditions
 

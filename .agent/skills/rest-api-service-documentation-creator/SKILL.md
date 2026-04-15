@@ -1,9 +1,8 @@
 ---
-name: REST API service documentation creator
-description: |
-  Creates comprehensive REST API documentation for new REST endpoints based on implementation files.
-  Uses template structure and generates documentation aligned with existing implementation.
+name: rest-api-service-documentation-creator
+description: Create or update REST API service documentation from implementation files; use for prompts like "Update REST API documentation" or "Create REST API documentation for ...".
 ---
+
 
 ## Task preconditions
 

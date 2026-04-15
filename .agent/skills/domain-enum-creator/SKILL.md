@@ -1,9 +1,8 @@
 ---
-name: Domain enum creator
-description: |
-  Creates a new enum in the domain model for the backend.
-  Creates all implementation files needed to represent the enum.
+name: domain-enum-creator
+description: Create a new backend domain enum and artifacts; use for prompts like "Create an enum ... in package ...".
 ---
+
 
 ## Task preconditions
 
