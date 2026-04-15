@@ -5,6 +5,7 @@ plugins {
 tasks.register('deployUp') {
     mustRunAfter ':app:client-angular:buildImage'
     mustRunAfter ':app:client-svelte:buildImage'
+    mustRunAfter ':app:migrate:buildImage'
     mustRunAfter ':app:server:buildImage'
     doLast {
         def composeFileName = System.getenv('COMPOSE_FILE') ?: (project.findProperty('composeFile') ?: 'compose.yml')
