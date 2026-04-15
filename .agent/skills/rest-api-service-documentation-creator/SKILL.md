@@ -3,7 +3,6 @@ name: rest-api-service-documentation-creator
 description: Create or update REST API service documentation from implementation files; use for prompts like "Update REST API documentation" or "Create REST API documentation for ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

@@ -3,7 +3,6 @@ name: rest-api-sanity-checker
 description: Sanity-check REST API documentation against implementation changes; use for prompts like "Check REST API documentation".
 ---
 
-
 ## Task steps
 
 ### Map implementation files to documentation files

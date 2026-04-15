@@ -3,7 +3,6 @@ name: domain-entity-collection-adder
 description: Add a collection field to an existing backend entity and update dependent artifacts; use for prompts like "Add collection ... to entity ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

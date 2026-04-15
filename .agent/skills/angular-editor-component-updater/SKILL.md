@@ -3,7 +3,6 @@ name: angular-editor-component-updater
 description: Update Angular editor/lister components and entity typing after model changes; use for prompts like "Update editor and lister components for ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

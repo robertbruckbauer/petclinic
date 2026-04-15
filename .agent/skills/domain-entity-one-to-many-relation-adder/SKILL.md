@@ -3,7 +3,6 @@ name: domain-entity-one-to-many-relation-adder
 description: Add a one-to-many relation between existing entities and update dependent artifacts; use for prompts like "Add a one-to-many relation ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

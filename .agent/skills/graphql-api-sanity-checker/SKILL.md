@@ -3,7 +3,6 @@ name: graphql-api-sanity-checker
 description: Sanity-check GraphQL API documentation against implementation changes; use for prompts like "Check GraphQL API".
 ---
 
-
 ## Task steps
 
 ### Map implementation files to documentation files

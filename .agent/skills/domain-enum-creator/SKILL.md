@@ -3,7 +3,6 @@ name: domain-enum-creator
 description: Create a new backend domain enum and artifacts; use for prompts like "Create an enum ... in package ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

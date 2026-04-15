@@ -3,7 +3,6 @@ name: domain-entity-property-adder
 description: Add or remove a property on an existing backend entity and update dependent artifacts; use for prompts like "Add property ... to entity ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

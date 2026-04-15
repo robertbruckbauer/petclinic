@@ -3,7 +3,6 @@ name: domain-entity-creator
 description: Create a new backend domain entity and all required artifacts; use for prompts like "Create an entity ... in package ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

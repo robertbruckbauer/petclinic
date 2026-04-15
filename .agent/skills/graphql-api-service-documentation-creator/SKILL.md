@@ -3,7 +3,6 @@ name: graphql-api-service-documentation-creator
 description: Create or update GraphQL API service documentation from implementation files; use for prompts like "Update GraphQL API documentation" or "Create GraphQL API documentation for ...".
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.

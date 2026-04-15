@@ -3,7 +3,6 @@ name: angular-lister-component-creator
 description: Create Angular lister/editor components and service wiring for an entity; use for prompts like "Create editor and lister components for entity ..." or compliance verification requests.
 ---
 
-
 ## Task preconditions
 
 You MUST NOT generate code if even one of the preconditions is not met.
