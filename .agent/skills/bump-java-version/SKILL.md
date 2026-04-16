@@ -1,21 +1,26 @@
 ---
 name: bump-java-version
-description: Update all repository Java runtime and build references to a new java version and validate the build workflow configuration.
+description: Bump the Java runtime version, and validate the build workflow.
 ---
 
-## Precondition
+## Task preconditions
+
+You MUST NOT generate code if even one of the preconditions is not met.
+
+### Identify target version
+
+Extract the version from the request.
+Check if version has major number only, e.g. `25`.
+Replace placeholder `<version>` with version.
+
+### Validate target version
 
 If the local Java runtime major version is not greater than or equal to `<version>` then
-
+- Response with `Your local Java runtime is too old for source level <version>`.
 - Stop immediately.
 - Do not edit files.
-- Response with `Your local Java runtime is too old for source level <version>`.
 
-## Inputs
-
-- `version`: Java version with long time support, e.g. `25`
-
-## Procedure
+## Task steps
 
 Use this skill to bump Java <version> based on `doc/manual/setup-java.adoc`.
 

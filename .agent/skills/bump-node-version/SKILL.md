@@ -1,21 +1,26 @@
 ---
 name: bump-node-version
-description: Update all repository node runtime and build references to a new node version and validate the build workflow configuration.
+description: Bump the Node runtime version, and validate the build workflow.
 ---
 
-## Precondition
+## Task preconditions
 
-If the local node major version is not greater than or equal to `<version>` then
+You MUST NOT generate code if even one of the preconditions is not met.
 
+### Identify target version
+
+Extract the version from the request.
+Check if version has major number only, e.g. `24`.
+Replace placeholder `<version>` with version.
+
+### Validate target version
+
+If the local Node runtime major version is not greater than or equal to `<version>` then
+- Response with `Your local Node runtime is too old for source level <version>`.
 - Stop immediately.
 - Do not edit files.
-- Response with `Your local Node runtime is too old for version <version>`.
 
-## Inputs
-
-- `version`: Node version with long term support, e.g. `24`
-
-## Procedure
+## Task steps
 
 Use this skill to bump node `<version>` based on `doc/manual/setup-node.adoc`.
 
