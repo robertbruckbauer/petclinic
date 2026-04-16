@@ -13,21 +13,21 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the entity name from the request.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with lowercase name.
+  Replace placeholder '<entity>' with lowercase of the the given name.
+  Replace placeholder '<table>' with snake case of the the given name.
 
 2. **Identify collection name**
   Extract the collection element column name from the request.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
-  Replace placeholder '<Name>' with the capitalized name.
-  Replace placeholder '<name>' with camel case name.
-  The class property name is `all<Name>`.
-  The join table name is `<entity>_<name>`.
+  Replace placeholder '<Name>' with the given name.
+  Replace placeholder '<name>' with camel case of the the given name.
+  Replace placeholder '<column>' with snake case of the the given name.
 
 3. **Identify element type**
   Extract the element type from the request.
   Check if implementation guide doc/concept/spring/_json-jpa-entity-collection-<type>.adoc exists.
   Replace placeholder '<Type>' with the given type.
-  Replace placeholder '<type>' with camel case type.
+  Replace placeholder '<type>' with camel case of the the given type.
 
 ## Task steps
 
@@ -38,14 +38,14 @@ You MUST NOT generate code if even one of the preconditions is not met.
 2. **Update entity fact sheet <Entity>.adoc**
   Add a short description for the new collection with its type, constraints, and a one-line description.
 
-3. **Create Liquibase changeset <entity>-<name>.xml**
+3. **Create Liquibase changeset <table>_<column>.xml**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  Create join table `<entity>_<name>` with:
+  Create join table `<entity>_<column>` with:
   - A column with name `id` of type `UUID` (not null) referencing the parent entity's primary key.
-  - A column with name `<name>` with the Liquibase type for `Type` (not null).
-  Add the foreign key constraint `fk_<entity>_<name>_id` from `<entity>_<name>.id` to `<entity>.id`.
-  Add a `preCondition` element that checks `tableExists tableName="<entity>_<name>"`.
-  Include the new script `<entity>_<name>.xml` in `changelog.xml` directly after the existing file <entity>.xml.
+  - A column with name `<column>` with the Liquibase type for `Type` (not null).
+  Add the foreign key constraint `fk_<table>_<column>_id` from `<table>_<column>.id` to `<table>.id`.
+  Add a `preCondition` element that checks `tableExists tableName="<table>_<column>"`.
+  Include the new script `<table>_<column>.xml` in `changelog.xml` directly after the existing file `<table>.xml`.
 
 4. **Update entity class <Entity>.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.

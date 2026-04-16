@@ -14,7 +14,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
   Check that NO entity class with this name already exists.
   Replace placeholder `<Entity>` with the given name.
-  Replace placeholder `<entity>` with kebab case name.
+  Replace placeholder `<entity>` with kebab case of the the given name.
 
 2. **Identify target domain package**
   Extract the domain package name from the request.

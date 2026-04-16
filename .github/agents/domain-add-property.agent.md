@@ -13,20 +13,22 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the entity name from the request.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with kebab case name.
+  Replace placeholder '<entity>' with kebab case of the the given name.
+  Replace placeholder '<table>' with snake case nof the the given nameame.
 
 2. **Identify property name**
   Extract the property name from the request.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
   Replace placeholder '<Name>' with the given name.
-  Replace placeholder '<name>' with camel case name.
+  Replace placeholder '<name>' with camel case of the the given name.
+  Replace placeholder '<column>' with snake case of the the given name.
 
 3. **Identify property type**
   Extract the property type from the request.
   For an enum type, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-enum.adoc exists.
   For other types, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-<type>.adoc exists.
   Replace placeholder '<Type>' with the given type.
-  Replace placeholder '<type>' with camel case type.
+  Replace placeholder '<type>' with camel case of the the given type.
 
 ## Task steps
 
@@ -37,10 +39,10 @@ You MUST NOT generate code if even one of the preconditions is not met.
 2. **Update entity fact sheet <Entity>.adoc**
   Add a short description for the new property with its type, constraints, and a one-line description.
 
-3. **Update Liquibase changeset <entity>.xml**
+3. **Update Liquibase changeset <table>.xml**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Create a new change set without any preconditions.
-  Add a new column with name `<name>`.
+  Add a new column with name `<column>`.
   Match nullability, default values and constraints to the implementation guide.
   Add uniqueness constraints only if requested.
 

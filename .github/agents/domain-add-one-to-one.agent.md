@@ -13,19 +13,22 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the entity name from the request.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with kebab case name.
+  Replace placeholder '<entity>' with kebab case of the the given name.
+  Replace placeholder '<table>' with snake case of the the given name.
 
 2. **Identify relation name**
   Extract the relation column name from the request.
   Check if each name is a valid identifier for the programming languages Java, Typescript and SQL.
-  Replace placeholder '<Name>' with the capitalized name.
-  Replace placeholder '<name>' with camel case name.
+  Replace placeholder '<Name>' with the given name.
+  Replace placeholder '<name>' with camel case of the the given name.
+  Replace placeholder '<column>' with snake case of the the given name.
 
 3. **Identify relation type**
   Extract the relation type from the request.
   Check if the entity class exists.
   Replace placeholder '<Type>' with the given type.
-  Replace placeholder '<type>' with camel case type.
+  Replace placeholder '<type>' with camel case of the the given type.
+  Replace placeholder '<otherTable>' with snake case of the the given type.
 
 ## Task steps
 
@@ -36,16 +39,16 @@ You MUST NOT generate code if even one of the preconditions is not met.
 2. **Update entity fact sheet <Entity>.adoc**
   Add a short description for the new relation with its type, constraints, and a one-line description.
 
-3. **Update Liquibase changeset <entity>.xml**
+3. **Update Liquibase changeset <table>.xml**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Create a new change set without any preconditions.
-  Add a new column with name `<name>_id`.
+  Add a new column with name `<column>_id`.
   Match nullability, default values and constraints to the type guide.
-  Add the foreign key constraint `fk_<entity>_<type>_id` from `<entity>_<type>.id` to `<type>.id`.
+  Add the foreign key constraint `fk_<table>_<column>_id` from `<table>.<column>_id` to `<otherTable>.id`.
 
 4. **Update entity class <Entity>.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  Add property with name `<name>_id` of type `Type`.
+  Add property with name `<name>` of type `Type`.
   Add annotations.
   Update constructor initialization.
   Update operation `isEqual`.

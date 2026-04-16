@@ -13,19 +13,22 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the entity name from the request.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with kebab case name.
+  Replace placeholder '<entity>' with kebab case of the the given name.
+  Replace placeholder '<table>' with snake case of the the given name.
 
 2. **Identify relation name**
   Extract the relation column name from the request.
   Check if each name is a valid identifier for the programming languages Java, Typescript and SQL.
-  Replace placeholder '<Name>' with the capitalized name.
-  Replace placeholder '<name>' with camel case name.
+  Replace placeholder '<Name>' with the given name.
+  Replace placeholder '<name>' with camel case of the the given name.
+  Replace placeholder '<column>' with snake case of the the given name.
 
 3. **Identify relation type**
   Extract the relation type from the request.
   Check if the entity class exists.
   Replace placeholder '<Type>' with the given type.
-  Replace placeholder '<type>' with camel case type.
+  Replace placeholder '<type>' with camel case of the the given type.
+  Replace placeholder '<otherTable>' with snake case of the the given type.
 
 4. **Identify relation on the other side**
   Check if the identified relation type has a `@ManyToOne` relation for this entity.
@@ -43,13 +46,13 @@ You MUST NOT generate code if even one of the preconditions is not met.
   
 4. **Update entity class <Entity>.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  Add property with name `all<Type>` of type `Type` and annotations.
-  Initialize `all<Type>` in both constructors.
+  Add property with name `all<Name>` of type `Type` and annotations.
+  Initialize `all<Name>` in both constructors.
   Update operation `isEqual`.
   Update operation `withId`.
   Add or update operation `verify` only when requested.
   Add or update operation `extraJson` only when requested as it may have negative impact on the performance if relations are involved.
-  Add operation `addAll<Type>`.
+  Add operation `addAll<Name>`.
 
 5. **Update entity test class <Entity>Test.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
@@ -72,7 +75,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 10. **Update GraphQL schema <Entity>gqls**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  Add `all<Type>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
+  Add `all<Name>` of GraphQL type for `[Type]` to GraphQL type with name`<Entity>` in <entity>.gqls with correct nullability.
 
 11. **Update GraphQL controller class <Entity>GraphqlController.java**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.

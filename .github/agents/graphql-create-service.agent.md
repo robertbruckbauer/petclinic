@@ -13,7 +13,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the entity name from the request.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with kebab case name.
+  Replace placeholder '<entity>' with kebab case of the the given name.
 
 ## Task steps
 
