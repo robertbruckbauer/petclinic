@@ -13,19 +13,19 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the entity name from the request.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with lowercase name.
+  Replace placeholder '<entity>' with kebab case name.
 
 2. **Identify relation name**
   Extract the relation column name from the request.
   Check if each name is a valid identifier for the programming languages Java, Typescript and SQL.
   Replace placeholder '<Name>' with the capitalized name.
-  Replace placeholder '<name>' with lowercase name.
+  Replace placeholder '<name>' with camel case name.
 
 3. **Identify relation type**
   Extract the relation type from the request.
   Check if the entity class exists.
   Replace placeholder '<Type>' with the given type.
-  Replace placeholder '<type>' with lowercase type.
+  Replace placeholder '<type>' with camel case type.
 
 ## Task steps
 

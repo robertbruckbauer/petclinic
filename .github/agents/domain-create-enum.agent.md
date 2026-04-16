@@ -14,7 +14,6 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
   Check that NO enum class with this name already exists.
   Replace placeholder `<Enum>` with the given name.
-  Replace placeholder `<enum>` with lowercase name.
 
 2. **Identify target domain package**
   Extract the domain package name from the request.
@@ -35,7 +34,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 4. **Create enum test class <Enum>Test.java**
   Implement a test which verifies the text.
 
-9. **Create GraphQL schema <enum>.gqls**
+9. **Create GraphQL schema <Enum>.gqls**
   Add a GraphQL type for the enum.
 
 ## Task output

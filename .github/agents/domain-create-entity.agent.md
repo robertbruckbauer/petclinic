@@ -14,7 +14,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
   Check that NO entity class with this name already exists.
   Replace placeholder `<Entity>` with the given name.
-  Replace placeholder `<entity>` with lowercase name.
+  Replace placeholder `<entity>` with kebab case name.
 
 2. **Identify target domain package**
   Extract the domain package name from the request.
@@ -62,7 +62,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Use `doc/concept/spring/_json-jpa-rest-controller.adoc` as the implementation baseline.
   Add `DELETE` statement for database table <entity> in DatabaseCleaner.java.
 
-9. **Create GraphQL schema <entity>.gqls**
+9. **Create GraphQL schema <Entity>.gqls**
   Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline.
 
 10. **Create GraphQL controller class <Entity>GraphqlController.java**
