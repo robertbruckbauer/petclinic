@@ -9,34 +9,36 @@ description: |
 
 You MUST NOT generate code if even one of the preconditions is not met.
 
-1. **Identify target enum**
-  Extract the enum name from the request.
-  Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
-  Check that NO enum class with this name already exists.
-  Replace placeholder `<Enum>` with the given name.
+### Identify target enum
 
-2. **Identify target domain package**
-  Extract the domain package name from the request.
-  Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
-  Check that a package directory with this name exists.
-  Replace placeholder `<package>` with the given name.
+Extract the enum name from the request.
+Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check that NO enum class with this name already exists.
+Replace placeholder `<Enum>` with the given name.
+
+### Identify target domain package
+
+Extract the domain package name from the request.
+Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check that a package directory with this name exists.
+Replace placeholder `<package>` with the given name.
 
 ## Task steps
 
-1. **Create enum fact sheet <Enum>.adoc**
-  Add a short description of the main purpose of the entity.
+### Create enum fact sheet <Enum>.adoc
 
-3. **Create enum class <Enum>.java**
-  Annotate with `@RequiredArgsConstructor`.
-  Implement values with a code derived from the text; use the first letter if they are unique.
-  Implement property `text` with type `String`.
+Add a short description of the main purpose of the entity.
 
-4. **Create enum test class <Enum>Test.java**
-  Implement a test which verifies the text.
+### Create enum class <Enum>.java
 
-9. **Create GraphQL schema <Enum>.gqls**
-  Add a GraphQL type for the enum.
+Annotate with `@RequiredArgsConstructor`.
+Implement values with a code derived from the text; use the first letter if they are unique.
+Implement property `text` with type `String`.
 
-## Task output
+### Create enum test class <Enum>Test.java
 
-Create a short summary with files changed.
+Implement a test which verifies the text.
+
+### Create GraphQL schema <Enum>.gqls
+
+Add a GraphQL type for the enum.
