@@ -8,8 +8,9 @@ description: |
 
 ## Task steps
 
-### Compare entity fact sheets with entity implementation
+### Verify fact sheets
 
+Compare entity fact sheets with entity implementation.
 
 ### Verify Liquibase changes
 

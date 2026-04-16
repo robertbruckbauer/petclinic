@@ -13,8 +13,8 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 Extract the entity name from the request.
 Check if the entity class exists.
-Replace placeholder '<Entity>' with the given name.
-Replace placeholder '<entity>' with kebab case of the the given name.
+Replace placeholder '{Entity}' with the given name.
+Replace placeholder '{entity}' with kebab case of the the given name.
 
 ## Task steps
 
@@ -55,7 +55,7 @@ Use doc/service/template/spring-graphql.adoc as the reference template.
 
 ### Generate GraphQL service documentation
 
-Create or update <entity>-graphql.adoc file in the doc/service/ directory.
+Create or update {entity}-graphql.adoc file in the doc/service/ directory.
 - Strictly follow the template's formatting rules and conventions
 - Maintain consistent style with existing documentation
 - Do not include instructions from the template
