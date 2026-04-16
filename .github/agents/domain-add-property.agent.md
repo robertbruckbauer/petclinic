@@ -13,20 +13,20 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the entity name from the request.
   Check if the entity class exists.
   Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with lowercase name.
+  Replace placeholder '<entity>' with kebab case name.
 
 2. **Identify property name**
   Extract the property name from the request.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
   Replace placeholder '<Name>' with the given name.
-  Replace placeholder '<name>' with lowercase name.
+  Replace placeholder '<name>' with camel case name.
 
 3. **Identify property type**
   Extract the property type from the request.
   For an enum type, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-enum.adoc exists.
   For other types, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-<type>.adoc exists.
   Replace placeholder '<Type>' with the given type.
-  Replace placeholder '<type>' with lowercase type.
+  Replace placeholder '<type>' with camel case type.
 
 ## Task steps
 

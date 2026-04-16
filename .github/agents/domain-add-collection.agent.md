@@ -19,7 +19,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the collection element column name from the request.
   Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
   Replace placeholder '<Name>' with the capitalized name.
-  Replace placeholder '<name>' with lowercase name.
+  Replace placeholder '<name>' with camel case name.
   The class property name is `all<Name>`.
   The join table name is `<entity>_<name>`.
 
@@ -27,7 +27,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
   Extract the element type from the request.
   Check if implementation guide doc/concept/spring/_json-jpa-entity-collection-<type>.adoc exists.
   Replace placeholder '<Type>' with the given type.
-  Replace placeholder '<type>' with lowercase type.
+  Replace placeholder '<type>' with camel case type.
 
 ## Task steps
 
@@ -38,7 +38,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 2. **Update entity fact sheet <Entity>.adoc**
   Add a short description for the new collection with its type, constraints, and a one-line description.
 
-3. **Create Liquibase changeset <entity>_<name>.xml**
+3. **Create Liquibase changeset <entity>-<name>.xml**
   Use doc/concept/spring/endpoint.adoc as the implementation baseline.
   Create join table `<entity>_<name>` with:
   - A column with name `id` of type `UUID` (not null) referencing the parent entity's primary key.
