@@ -49,6 +49,3 @@ sh -xv app/client-svelte/build.npm.sh ci
 
 Run from repository root.
 This step must not fail.
-## Task output
-
-Create a short summary with files changed.

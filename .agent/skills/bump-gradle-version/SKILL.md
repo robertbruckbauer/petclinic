@@ -69,7 +69,3 @@ gradle build --parallel
 
 Run from repository root.
 This step must not fail.
-
-## Task output
-
-Create a short summary with files changed.

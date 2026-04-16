@@ -72,7 +72,3 @@ Create or update {entity}-graphql.adoc file in the doc/service/ directory.
 - [ ] Relationships to domain model are clear
 - [ ] Cross-references are working
 - [ ] AsciiDoc syntax is correct
-
-## Task output
-
-Create a short summary of identified GraphQL types and query operations.

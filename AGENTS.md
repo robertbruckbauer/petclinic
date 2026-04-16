@@ -63,6 +63,12 @@ At the end of each request respond with:
 - Show a list of applied skills.
 - Show a list of changed files.
 
+## Instructions
+
+At the end of each request respond with:
+- Show a list of applied skills.
+- Show a list of changed files.
+
 ## Checklists
 
 For skill files (.agent/skills/**/SKILL.md):

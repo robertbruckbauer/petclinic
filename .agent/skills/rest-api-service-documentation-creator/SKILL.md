@@ -61,7 +61,3 @@ Create or update a {entity}-restapi.adoc file in the doc/service/ directory.
 - [ ] Query parameters from repository are documented
 - [ ] Cross-references are working
 - [ ] AsciiDoc syntax is correct
-
-## Task output
-
-Create a short summary of identified REST endpoints.
