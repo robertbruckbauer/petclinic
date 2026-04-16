@@ -7,39 +7,43 @@ description: |
 
 ## Task steps
 
-1. **Map implementation files to documentation files**
-  For each changed implementation file, identify which REST API documentation files may need updates:
-  - **Entity class** → REST API documentation, model section
-  - **Liquibase changeset** → REST API documentation, model section
-  - **Repository interfaces** → REST API documentation, query parameter documentation
-  - **REST API controller class** → REST API documentation, Operations section
-  - **REST API test class** → REST API documentation, usage examples and scenarios
-  - **REST API contoller advice** → all *-restapi.adoc error code documentation
+### Map implementation files to documentation files
 
-2. **Verify documentation files**
-  Use doc/service/template/spring-restapi.adoc as the reference template.
-  - Strictly follow the template's structure and rules
-  - Ensure all required sections are present and properly formatted
-  - Fix any typos or grammatical errors
-  - Verify AsciiDoc syntax correctness
-  - Check for consistent formatting and style
+For each changed implementation file, identify which REST API documentation files may need updates:
+- **Entity class** → REST API documentation, model section
+- **Liquibase changeset** → REST API documentation, model section
+- **Repository interfaces** → REST API documentation, query parameter documentation
+- **REST API controller class** → REST API documentation, Operations section
+- **REST API test class** → REST API documentation, usage examples and scenarios
+- **REST API contoller advice** → all *-restapi.adoc error code documentation
 
-3. **Verify implementation files alignment**
-  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  - Compare documentation descriptions with actual implementation changes
-  - Verify new/modified endpoints are documented
-  - Validate parameter descriptions against updated method signatures
-  - Check response models against modified entity definitions
-  - Ensure error codes align with ControllerAdvice changes
+### Verify documentation files
 
-4. **Assess impact**
-    For minor issues (typos, formatting): Fix directly
-    For major issues (missing documentation for new features, wrong or outdated descriptions): 
-    - Add NOTE admonitions with specific improvement instructions
-    - Reference the specific implementation changes that require documentation updates
-    - Write instructions as actionable prompts for fixing
-    - Update existing NOTE admonitions if they address the same issue
-    - Only add NOTE admonitions when changes are actually recommended
+Use doc/service/template/spring-restapi.adoc as the reference template.
+- Strictly follow the template's structure and rules
+- Ensure all required sections are present and properly formatted
+- Fix any typos or grammatical errors
+- Verify AsciiDoc syntax correctness
+- Check for consistent formatting and style
+
+### Verify implementation files alignment
+
+Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+- Compare documentation descriptions with actual implementation changes
+- Verify new/modified endpoints are documented
+- Validate parameter descriptions against updated method signatures
+- Check response models against modified entity definitions
+- Ensure error codes align with ControllerAdvice changes
+
+### Assess impact
+
+  For minor issues (typos, formatting): Fix directly
+  For major issues (missing documentation for new features, wrong or outdated descriptions): 
+  - Add NOTE admonitions with specific improvement instructions
+  - Reference the specific implementation changes that require documentation updates
+  - Write instructions as actionable prompts for fixing
+  - Update existing NOTE admonitions if they address the same issue
+  - Only add NOTE admonitions when changes are actually recommended
 
 ## Rules for NOTE admonitions
 

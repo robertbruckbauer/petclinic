@@ -9,46 +9,50 @@ description: |
 
 You MUST NOT generate code if even one of the preconditions is not met.
 
-1. **Identify target entity**
-  Extract the entity name from the request.
-  Check if the entity class exists.
-  Replace placeholder '<Entity>' with the given name.
-  Replace placeholder '<entity>' with kebab case of the the given name.
+### Identify target entity
+
+Extract the entity name from the request.
+Check if the entity class exists.
+Replace placeholder '<Entity>' with the given name.
+Replace placeholder '<entity>' with kebab case of the the given name.
 
 ## Task steps
 
-1. **Analyse implementation files**
-  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-  - **Entity class analysis**:
-    * Extract properties, data types, and validation annotations
-    * Document relationships and constraints
-    * Identify required vs optional fields
-  - **Liquibase changeset analysis**:
-    * Extract table structure and column definitions
-    * Document constraints, indexes, and relationships
-  - **Repository analysis**:
-    * Document custom query methods and their parameters
-    * Identify finder methods and their purposes
-  - **RestController analysis**:
-    * Extract all HTTP endpoints and mappings
-    * Document request/response models
-    * Identify path variables, query parameters, and request bodies
-    * Document HTTP status codes and error responses
-  - **RestApiTest Analysis**:
-    * Identify test scenarios and expected behaviors
-    * Extract example requests and responses
-    * Document edge cases and error conditions
+### Analyse implementation files
 
-2. **Analyse REST API service template**
-  Use doc/service/template/spring-restapi.adoc as the reference template.
-  - Understand the required sections and their structure
-  - Understand formatting rules and conventions
+Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+- **Entity class analysis**:
+  * Extract properties, data types, and validation annotations
+  * Document relationships and constraints
+  * Identify required vs optional fields
+- **Liquibase changeset analysis**:
+  * Extract table structure and column definitions
+  * Document constraints, indexes, and relationships
+- **Repository analysis**:
+  * Document custom query methods and their parameters
+  * Identify finder methods and their purposes
+- **RestController analysis**:
+  * Extract all HTTP endpoints and mappings
+  * Document request/response models
+  * Identify path variables, query parameters, and request bodies
+  * Document HTTP status codes and error responses
+- **RestApiTest Analysis**:
+  * Identify test scenarios and expected behaviors
+  * Extract example requests and responses
+  * Document edge cases and error conditions
 
-3. **Generate REST API service documentation**
-  Create or update a <entity>-restapi.adoc file in the doc/service/ directory.
-  - Strictly follow the template's formatting rules and conventions
-  - Maintain consistent style with existing documentation
-  - Do not include instructions from the template
+### Analyse REST API service template
+
+Use doc/service/template/spring-restapi.adoc as the reference template.
+- Understand the required sections and their structure
+- Understand formatting rules and conventions
+
+### Generate REST API service documentation
+
+Create or update a <entity>-restapi.adoc file in the doc/service/ directory.
+- Strictly follow the template's formatting rules and conventions
+- Maintain consistent style with existing documentation
+- Do not include instructions from the template
 
 ## Validation checklist
 - [ ] All REST endpoints are documented

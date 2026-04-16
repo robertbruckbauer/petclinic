@@ -7,40 +7,44 @@ description: |
 
 ## Task steps
 
-1. **Map implementation files to documentation files**
-  For each changed implementation file, identify which GraphQL API documentation files may need updates:
-  - **Entity class** → GraphQL API documentation, model section
-  - **Liquibase changeset** → GraphQL API documentation, model section
-  - **Repository interface** → GraphQL API documentation, query parameter documentation
-  - **GraphQL schema** → GraphQL API documentation, operations and type definitions sections
-  - **GraphQL controller class** → GraphQL API documentation, query resolver documentation
-  - **GraphQL test** → GraphQL API documentation, usage examples and scenarios
+### Map implementation files to documentation files
 
-2. **Verify documentation files**
-  Use doc/service/template/spring-graphql.adoc as the reference template.
-  - Strictly follow the template's structure and rules
-  - Ensure all required sections are present and properly formatted
-  - Fix any typos or grammatical errors
-  - Verify AsciiDoc syntax correctness
-  - Check for consistent formatting and style
+For each changed implementation file, identify which GraphQL API documentation files may need updates:
+- **Entity class** → GraphQL API documentation, model section
+- **Liquibase changeset** → GraphQL API documentation, model section
+- **Repository interface** → GraphQL API documentation, query parameter documentation
+- **GraphQL schema** → GraphQL API documentation, operations and type definitions sections
+- **GraphQL controller class** → GraphQL API documentation, query resolver documentation
+- **GraphQL test** → GraphQL API documentation, usage examples and scenarios
 
-3. **Verify implementation files alignment**
-    Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-    - Compare documentation descriptions with actual implementation changes
-    - Verify new/modified queries and mutations are documented
-    - Validate parameter descriptions against updated resolver method signatures
-    - Check response models against modified entity definitions and GraphQL schemas
-    - Ensure type definitions in documentation match .gqls schema files
-    - Verify resolver documentation aligns with controller implementations
+### Verify documentation files
 
-4. **Assess impact**
-    For minor issues (typos, formatting): Fix directly
-    For major issues (missing documentation for new features, wrong or outdated descriptions): 
-    - Add NOTE admonitions with specific improvement instructions
-    - Reference the specific implementation changes that require documentation updates
-    - Write instructions as actionable prompts for fixing
-    - Update existing NOTE admonitions if they address the same issue
-    - Only add NOTE admonitions when changes are actually recommended
+Use doc/service/template/spring-graphql.adoc as the reference template.
+- Strictly follow the template's structure and rules
+- Ensure all required sections are present and properly formatted
+- Fix any typos or grammatical errors
+- Verify AsciiDoc syntax correctness
+- Check for consistent formatting and style
+
+### Verify implementation files alignment
+
+  Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+  - Compare documentation descriptions with actual implementation changes
+  - Verify new/modified queries and mutations are documented
+  - Validate parameter descriptions against updated resolver method signatures
+  - Check response models against modified entity definitions and GraphQL schemas
+  - Ensure type definitions in documentation match .gqls schema files
+  - Verify resolver documentation aligns with controller implementations
+
+### Assess impact
+
+  For minor issues (typos, formatting): Fix directly
+  For major issues (missing documentation for new features, wrong or outdated descriptions): 
+  - Add NOTE admonitions with specific improvement instructions
+  - Reference the specific implementation changes that require documentation updates
+  - Write instructions as actionable prompts for fixing
+  - Update existing NOTE admonitions if they address the same issue
+  - Only add NOTE admonitions when changes are actually recommended
 
 ## Rules for NOTE admonitions
 
