@@ -92,10 +92,10 @@ Update existing tests with asserts for the new relation.
 Add `patchApi{Entity}{Name}` test for the PATCH operation of the relation.
 Add `getApi{Entity}{Name}` test for the GET operation of the relation.
 
-### Update GraphQL schema {Entity}gqls
+### Update GraphQL schema {Entity}.gqls
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-Add `{name}: {Type}` to GraphQL type `{Entity}` in {entity}.gqls with correct nullability.
+Add `{name}: {Type}` to GraphQL type `{Entity}` in `{Entity}.gqls` with correct nullability.
 
 ### Update GraphQL controller class {Entity}GraphqlController.java
 

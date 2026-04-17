@@ -142,13 +142,13 @@ For Liquibase script files (*.xml):
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| Liquibase changeset | `<entity>.xml` | `src/main/resources/liquibase/v1/` |
+| Liquibase changeset | `<table>.xml` | `src/main/resources/liquibase/v1/` |
 | Repository interface | `<Entity>Repository.java` | `src/main/java/esy/app/<package>/` |
 | Repository test | `<Entity>RepositoryTest.java` | `src/test/java/esy/app/<package>/` |
 | REST API controller class | `<Entity>RestController.java` | `src/main/java/esy/app/<package>/` |
 | REST API controller advice | `<Entity>RestControllerAdvice.java` | `src/main/java/esy/app/<package>/` |
 | REST API test | `<Entity>RestApiTest.java` | `src/test/java/esy/app/<package>/` |
-| GraphQL schema | `<entity>.gqls` | `src/main/resources/graphql/` |
+| GraphQL schema | `<Entity>.gqls` | `src/main/resources/graphql/` |
 | GraphQL controller class | `<Entity>GraphqlController.java` | `src/main/java/esy/app/<package>/` |
 | GraphQL test | `<Entity>GraphqlTest.java` | `src/test/java/esy/app/<package>/` |
 

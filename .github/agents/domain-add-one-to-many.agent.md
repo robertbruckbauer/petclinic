@@ -89,10 +89,10 @@ Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 If relation is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new relation.
 
-### Update GraphQL schema {Entity}gqls
+### Update GraphQL schema {Entity}.gqls
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-Add `all{Name}` of GraphQL type for `[Type]` to GraphQL type with name`{Entity}` in {entity}.gqls with correct nullability.
+Add `all{Name}: [{Type}]` to GraphQL type `{Entity}` in `{Entity}.gqls` with correct nullability.
 
 ### Update GraphQL controller class {Entity}GraphqlController.java
 

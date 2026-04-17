@@ -33,7 +33,7 @@ Use doc/service/template/spring-graphql.adoc as the reference template.
   - Verify new/modified queries and mutations are documented
   - Validate parameter descriptions against updated resolver method signatures
   - Check response models against modified entity definitions and GraphQL schemas
-  - Ensure type definitions in documentation match .gqls schema files
+  - Ensure type definitions in documentation match schema files (.gqls)
   - Verify resolver documentation aligns with controller implementations
 
 ### Assess impact

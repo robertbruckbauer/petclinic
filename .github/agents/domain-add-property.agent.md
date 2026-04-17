@@ -92,10 +92,10 @@ If property is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new property.
 Add `patchApi{Entity}{Name}` test.
 
-### Update GraphQL schema {Entity}gqls
+### Update GraphQL schema {Entity}.gqls
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-Add {name} of GraphQL type for `Type` to GraphQL type with name`{Entity}` in {entity}.gqls with correct nullability.
+Add {name} of GraphQL type for `Type` to GraphQL type with name `{Entity}` in `{Entity}.gqls` with correct nullability.
 
 ### Update GraphQL controller class {Entity}GraphqlController.java
 
