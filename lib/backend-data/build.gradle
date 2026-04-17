@@ -12,18 +12,20 @@ dependencies {
     implementation('org.projectlombok:lombok')
     annotationProcessor('org.projectlombok:lombok')
     // https://spring.io/projects/spring-boot
-    api('org.springframework.boot:spring-boot-starter')
-    api('org.springframework.boot:spring-boot-starter-security')
-    api('org.springframework.boot:spring-boot-starter-web')
-    api('org.springframework.boot:spring-boot-starter-validation')
-    // https://spring.io/projects/spring-graphql
-    api('org.springframework.boot:spring-boot-starter-graphql')
+    api('org.springframework.boot:spring-boot-starter-tomcat')
+    api('org.springframework.boot:spring-boot-starter-jackson')
+    api('org.springframework.boot:spring-boot-starter-webmvc')
     api('org.springframework.boot:spring-boot-starter-actuator')
-    api('io.micrometer:micrometer-registry-prometheus')
+    api('org.springframework.boot:spring-boot-starter-security')
+    api('org.springframework.boot:spring-boot-starter-validation')
+    api('org.springframework.boot:spring-boot-starter-liquibase')
     // https://spring.io/projects/spring-data
     api('org.springframework.boot:spring-boot-starter-data-rest')
     api('org.springframework.boot:spring-boot-starter-data-jpa')
     api('org.springframework.data:spring-data-rest-hal-explorer')
+    // https://spring.io/projects/spring-graphql
+    api('org.springframework.boot:spring-boot-starter-graphql')
+    api('io.micrometer:micrometer-registry-prometheus')
     // https://liquibase.org/
     api('org.liquibase:liquibase-core')
     // http://hsqldb.org/
@@ -31,9 +33,17 @@ dependencies {
 }
 dependencies {
     // https://spring.io/projects/spring-boot
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-jackson-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-webmvc-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-actuator-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-security-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-validation-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-liquibase-test')
+    // https://spring.io/projects/spring-data
+    testImplementation('org.springframework.boot:spring-boot-starter-data-rest-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-data-jpa-test')
     // https://spring.io/projects/spring-graphql
-    testImplementation('org.springframework.graphql:spring-graphql-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-graphql-test')
     // https://spring.io/projects/spring-restdocs
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     // https://junit.org/junit5
