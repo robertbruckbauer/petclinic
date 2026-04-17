@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class OwnerTest {
 
-	Owner createWithName(final String name) {
+	static Owner createWithName(final String name) {
 		return Owner.fromJson("""
                 {
                 	"name":"%s",

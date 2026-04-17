@@ -132,50 +132,79 @@ The captured predicates are validated by comparing their string representation.
 
 The test approach is based on a defined basic structure.
 
-.Example pseudo code
+.Example
 [source,text,options="nowrap"]
 ----
+include
 @Tag("fast")
-@GraphQlTest(<Entity>GraphqlController.class)
+@GraphQlTest(PetGraphqlController.class)
 @Import(EsyGraphqlConfiguration.class)
 @ExtendWith({MockitoExtension.class})
-class <Entity>GraphqlTest {
+class PetGraphqlTest {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
     @MockitoBean
-    private <Entity>Repository <entity>Repository;
+    private PetRepository petRepository;
 
-    <Entity> createWithName(final String name) { <1>
-        return <Entity>.fromJson("""
+    @MockitoBean
+    private OwnerRepository ownerRepository;
+
+    static Pet createWithName(final String name) {
+        return Pet.fromJson("""
                 {
                     "name":"%s",
-                    ...
+                    "born":"2021-04-22",
+                    "species":"Cat",
+                    "sex":"M"
                 }
                 """.formatted(name));
     }
 
-    @Test <2>
-    void queryAll<Entity>() {
-        final var value = createWithName("Tom");
-        when(<entity>Repository.findAll())
+    static Owner createOwner(final String name) {
+        return Owner.fromJson("""
+                {
+                    "name":"%s"
+                }
+                """.formatted(name));
+    }
+
+    @Test
+    void queryAllPet() {
+        final var value = createWithName("Tom") <1>
+                .setOwner(createOwner("Alice Cooper"));
+        when(petRepository.findAll())
                 .thenReturn(List.of(value));
+        when(ownerRepository.findAllById(anySet()))
+                .thenReturn(List.of(value.getOwner()));
         final var data = graphQlTester
                 .document("""
-                        {all<Entity>{name}}
+                        {allPet{name sex owner{name}}}
                         """)
                 .execute();
         assertNotNull(data);
-        data.path("all<Entity>[0].name")
+        data.path("allPet[0].name") <2>
                 .hasValue()
                 .entity(String.class)
                 .isEqualTo(value.getName());
-        verify(<entity>Repository).findAll();
-        verifyNoMoreInteractions(<entity>Repository);
+        data.path("allPet[0].sex") <3>
+                .hasValue()
+                .entity(Sex.class)
+                .isEqualTo(value.getSex());
+        data.path("allPet[0].owner.name") <4>
+                .hasValue()
+                .entity(String.class)
+                .isEqualTo(value.getOwner().getName());
+        verify(petRepository).findAll();
+        verifyNoMoreInteractions(petRepository);
+        verify(ownerRepository).findAllById(anySet());
+        verifyNoMoreInteractions(ownerRepository);
     }
 }
 ----
 
 <1> Create test data with unique attributes, e.g. the name.
-<2> Test for the happy path of an collection query.
+<2> Test for the happy path of a String property query.
+<3> Test for the happy path of a Enum property query.
+<4> Test for the happy path of a relation query.

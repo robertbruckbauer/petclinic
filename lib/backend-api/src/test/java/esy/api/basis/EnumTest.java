@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class EnumTest {
 
-    Enum createWithName(final String name) {
+    static Enum createWithName(final String name) {
         return Enum.fromJson("""
                 {
                     "art":"QUELLE",

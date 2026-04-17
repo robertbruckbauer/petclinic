@@ -18,14 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class PetTest {
 
-    Pet createWithName(final String name, final LocalDate born) {
-        final var owner = Owner.fromJson("""
-                {
-                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
-                    "name":"Max Mustermann",
-                    "address":"Bergweg 1, 5400 Hallein"
-                }
-                """);
+    static Pet createWithName(final String name, final LocalDate born) {
         return Pet.fromJson("""
                         {
                         	"name":"%s",
@@ -34,7 +27,16 @@ class PetTest {
                         	"sex":"M"
                         }
                         """.formatted(name, Pet.DATE_FORMATTER.format(born)))
-                .setOwner(owner);
+                .setOwner(createOwner("Max Mustermann"));
+    }
+
+    static Owner createOwner(final String name) {
+        return Owner.fromJson("""
+                {
+                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                    "name":"%s"
+                }
+                """.formatted(name));
     }
 
     @Test

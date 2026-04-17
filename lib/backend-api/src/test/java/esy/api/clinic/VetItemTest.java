@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class VetItemTest {
 
-    Vet createWithName(final String name) {
+    static Vet createWithName(final String name) {
         return Vet.fromJson("""
                 {
                     "name":"%s"

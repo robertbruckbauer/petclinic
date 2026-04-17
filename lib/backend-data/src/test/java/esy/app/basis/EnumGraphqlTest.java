@@ -31,7 +31,7 @@ class EnumGraphqlTest {
     @MockitoBean
     private EnumRepository enumRepository;
 
-    Enum createWithName(final String name, final Long code) {
+    static Enum createWithName(final String name, final Long code) {
         final var json = """
                 {
                     "art":"%s",
