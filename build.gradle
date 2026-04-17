@@ -39,8 +39,8 @@ subprojects {
     plugins.withType(JavaPlugin).configureEach {
         compileJava.options.encoding = 'UTF-8'
         compileJava.options.compilerArgs << '-Xlint:all,-serial,-processing,-classfile,-this-escape'
-        java.sourceCompatibility = JavaVersion.VERSION_21
-        java.targetCompatibility = JavaVersion.VERSION_21        
+        java.sourceCompatibility = JavaVersion.VERSION_25
+        java.targetCompatibility = JavaVersion.VERSION_25        
     }
     // end::setup-java[]
     tasks.withType(Test).configureEach {

@@ -145,80 +145,136 @@ Tests validate
 
 The test approach is based on a defined basic structure.
 
-.Example pseudo code
+.Example
 [source,text,options="nowrap"]
 ----
 @Tag("fast")
-class <Entity>Test {
+class PetTest {
 
-    <Entity> createWithName(final String name) { <1>
-        return <Entity>.fromJson("""
+    static Pet createWithName(final String name, final LocalDate born) {
+        return Pet.fromJson("""
+                        {
+                        	"name":"%s",
+                        	"born":"%s",
+                        	"species":"Cat",
+                        	"sex":"M"
+                        }
+                        """.formatted(name, Pet.DATE_FORMATTER.format(born)))
+                .setOwner(createOwner("Max Mustermann"));
+    }
+
+    static Owner createOwner(final String name) {
+        return Owner.fromJson("""
                 {
-                    "name":"%s",
-                    ...
+                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                    "name":"%s"
                 }
                 """.formatted(name));
     }
 
-    @Test <2>
-    void equalsHashcodeToString() {
-        final var name = "Max Mustermann";
-        final var value = createWithName(name);
-        // identical objects
+    @Test
+    void equalsHashcodeToString() { <1>
+        final var name = "Tom";
+        final var value = createWithName(name, LocalDate.now());
+        // this object
         assertEquals(value, value);
         assertTrue(value.isEqual(value));
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
-        // same objects
-        final var clone = createWithName(name);
+        // same object
+        final var clone = createWithName(name, LocalDate.now());
         assertNotSame(value, clone);
         assertNotEquals(clone, value);
         assertTrue(value.isEqual(clone));
         assertNotEquals(clone.hashCode(), value.hashCode());
         assertNotEquals(clone.toString(), value.toString());
-        // different objects
-        final var other = createWithName(name.toUpperCase());
+        // other object
+        final var other = createWithName(name.toUpperCase(), LocalDate.now());
         assertNotSame(value, other);
         assertNotEquals(other, value);
         assertFalse(value.isEqual(other));
         assertNotEquals(other.hashCode(), value.hashCode());
         assertNotEquals(other.toString(), value.toString());
-        // null object
+        // null safety
         assertNotEquals(value, null);
         assertFalse(value.isEqual(null));
-        // wrong object
+        // other type
         assertNotEquals(this, value);
     }
 
-    @Test <3>
-    void writeJson() {
-        final var name = "Max Mustermann";
-        final var value = createWithName(name);
+    @Test
+    void writeJson() { <2>
+        final var name = "Tom";
+        final var value = createWithName(name, LocalDate.now());
         final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
         assertFalse(json.at("/version").isMissingNode());
         assertFalse(json.at("/id").isMissingNode());
         assertFalse(json.at("/name").isMissingNode());
-        ...
+        assertFalse(json.at("/born").isMissingNode());
+        assertFalse(json.at("/species").isMissingNode());
+        assertFalse(json.at("/sex").isMissingNode());
+        assertTrue(json.at("/owner").isMissingNode());
     }
 
-    @Test <4>
-    void withId() {
-        final var name = "Max Mustermann";
-        final var value0 = createWithName(name);
+    @Test
+    void withId() { <3>
+        final var name = "Tom";
+        final var value0 = createWithName(name, LocalDate.now());
         assertNotNull(value0.getId());
         assertNotNull(value0.getName());
-        assertNotNull(value0.getAllSkill());
-        assertNotNull(value0.getAllSpecies());
+        assertNotNull(value0.getBorn());
+        assertNotNull(value0.getSpecies());
+        assertNotNull(value0.getSex());
+        assertNotNull(value0.getOwner());
         final var value1 = value0.withId(value0.getId());
         assertSame(value0, value1);
         final var value2 = value0.withId(UUID.randomUUID());
         assertNotSame(value0, value2);
         assertTrue(value0.isEqual(value2));
     }
+
+    @Test
+    void jsonName() { <4>
+        final var name = "Odi";
+        final var value = Pet.fromJson("""
+                        {
+                            "name":"%s",
+                            "born":"2007-03-09",
+                            "species":"Cat",
+                            "sex":"M"
+                        }
+                        """.formatted(name));
+        assertDoesNotThrow(value::verify);
+        assertEquals(name, value.getName());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "",
+            " ",
+            "\\t",
+            "\\n"
+    })
+    void jsonNameConstraints(final String text) { <5>
+        final var json = """
+                        {
+                            "name":"%s",
+                            "born":"2007-03-09",
+                            "species":"Cat",
+                            "sex":"M"
+                        }
+                        """.formatted(text);
+        assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
+    }
 }
 ----
 
-<1> Create test data with unique attributes, e.g. the name.
-<2> Test for equality operations, at least for identical objects, same objects, different objects, null object and wrong type
-<3> Test for serialization operations, using json path queries.
-<4> Test for cloning.
+<1> Test for equality operations, at least for identical objects, same objects, different objects, null object and wrong type
+<2> Test for serialization operations, using json path queries.
+<3> Test for cloning.
+<4> Test for the `name` property.
+<5> Test for the `name` validation constraints.
+
+Add a test for the happy path for each property, collection and relation.
+
+Add a test for the error path for each property, collection and relation with validation constraints.

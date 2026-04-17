@@ -12,17 +12,17 @@ You MUST NOT generate code if even one of the preconditions is not met.
 Extract the version from the request.
 Check if version has major and minor number, e.g. `8.14`.
 Patch level is optional but can be supplied, e.g. `9.4.1`.
-Replace placeholder `<version>` with version.
+Replace placeholder `{version}` with version.
 
 ### Validate target version
 
-If the local Gradle runtime version is not greater than or equal to `<version>` then
-- Response with `Your local Gradle runtime is too old for source level <version>`.
+If the local Gradle runtime version is not greater than or equal to `{version}` then
+- Response with `Your local Gradle runtime is too old for source level {version}`.
 - Stop immediately.
 - Do not edit files.
 
 If any deprecation would break the build with the target version then
-- Response with `Gradle version <version> has breaking changes in [script names].`
+- Response with `Gradle version {version} has breaking changes in [script names].`
 - Stop immediately.
 - Do not edit files.
 
@@ -38,28 +38,27 @@ Verify that all plugins listed in `settings.gradle` have versions compatible wit
 - Check [AsciidoctorJ Gradle Plugin](https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert)
 
 If any plugin has a breaking change or deprecation that would prevent the build from completing then
-- Response with `Gradle version <version> has breaking changes in [plugin names].`
+- Response with `Gradle version {version} has breaking changes in [plugin names].`
 - Stop immediately.
 - Do not edit files.
-eholder `<package>` with the given name.
 
 ## Task steps
 
-Use this skill to bump Gradle `<version>` based on `doc/manual/setup-gradle.adoc`.
+Use this skill to bump Gradle `{version}` based on `doc/manual/setup-gradle.adoc`.
 
 ### Update `gradle/wrapper`
 
 ```bash
-gradle wrapper --gradle-version <version>
+gradle wrapper --gradle-version {version}
 ```
 
 ### Update `.github/workflows/build.yml`
 
-- `node-version: "<version>"`
+- In action `setup-gradle` set `gradle-version: "{version}"`
 
 ### Update `.devcontainer/devcontainer.json`
 
-- `"gradleVersion": "<version>"`
+- In element `ghcr.io/devcontainers/features/java:1` set `"gradleVersion": "{version}"`
 
 ### Validate changes
 

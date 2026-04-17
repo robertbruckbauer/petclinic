@@ -11,36 +11,36 @@ You MUST NOT generate code if even one of the preconditions is not met.
 
 Extract the version from the request.
 Check if version has major number only, e.g. `25`.
-Replace placeholder `<version>` with version.
+Replace placeholder `{version}` with version.
 
 ### Validate target version
 
-If the local Java runtime major version is not greater than or equal to `<version>` then
-- Response with `Your local Java runtime is too old for source level <version>`.
+If the local Java runtime major version is not greater than or equal to `{version}` then
+- Response with `Your local Java runtime is too old for source level {version}`.
 - Stop immediately.
 - Do not edit files.
 
 ## Task steps
 
-Use this skill to bump Java <version> based on `doc/manual/setup-java.adoc`.
+Use this skill to bump Java {version} based on `doc/manual/setup-java.adoc`.
 
 ### Update `build.gradle`
 
-- `java.sourceCompatibility = JavaVersion.VERSION_<version>`
-- `java.targetCompatibility = JavaVersion.VERSION_<version>`
+- `java.sourceCompatibility = JavaVersion.VERSION_{version}`
+- `java.targetCompatibility = JavaVersion.VERSION_{version}`
 
 ### Update `app/server/build.gradle`
 
-- In tag `bootBuildImage`, set `BP_JVM_VERSION` to `<version>.*"`
-- In tag `jibDockerBuild`, set the base image to `eclipse-temurin:<version>-jdk-alpine@sha256:...`.
+- In task `bootBuildImage` set `BP_JVM_VERSION` to `{version}.*"`
+- In task `jibDockerBuild` set the base image to `eclipse-temurin:{version}-jdk-alpine@sha256:...`.
 
 ### Update `.github/workflows/build.yml`
 
-- `java-version: "<version>"`
+- In action `setup-java` set `java-version: "{version}"`
 
 ### Update `.devcontainer/devcontainer.json`
 
-- `"version": "<version>"`
+- In element `ghcr.io/devcontainers/features/java:1` set `"version": "{version}"`
 
 ### Validate changes
 

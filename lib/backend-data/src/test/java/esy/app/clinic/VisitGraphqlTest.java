@@ -43,7 +43,7 @@ class VisitGraphqlTest {
     @MockitoBean
     private VetRepository vetRepository;
 
-    Visit createWithText(final String text) {
+    static Visit createWithText(final String text) {
         return Visit.fromJson("""
             {
                 "date":"2021-04-22",
@@ -51,6 +51,24 @@ class VisitGraphqlTest {
                 "text":"%s"
             }
             """.formatted(text));
+    }
+
+    static Pet createPet(final String name) {
+        return Pet.fromJson("""
+            {
+                "name":"%s",
+                "born":"2021-04-22",
+                "species":"Cat"
+            }
+            """.formatted(name));
+    }
+
+    static Vet createVet(final String name) {
+        return Vet.fromJson("""
+            {
+                "name":"%s"
+            }
+            """.formatted(name));
     }
 
     @Test
@@ -78,26 +96,15 @@ class VisitGraphqlTest {
 
     @Test
     void queryAllVisitWithPetAndVet() {
-        final var pet = Pet.fromJson("""
-                {
-                    "name":"Tom",
-                    "born":"2021-04-22",
-                    "species":"Cat"
-                }""");
-        final var vet = Vet.fromJson("""
-                {
-                    "name":"Dr. Smith"
-                }""");
-        final var text = "Ipso facto.";
-        final var value = createWithText(text)
-                .setPet(pet)
-                .setVet(vet);
+        final var value = createWithText("Ipso facto.")
+                .setPet(createPet("Tom"))
+                .setVet(createVet("Dr. Smith"));
         when(visitRepository.findAll())
                 .thenReturn(List.of(value));
         when(petRepository.findAllById(any()))
-                .thenReturn(List.of(pet));
+                .thenReturn(List.of(value.getPet()));
         when(vetRepository.findAllById(any()))
-                .thenReturn(List.of(vet));
+                .thenReturn(List.of(value.getVet()));
         final var data = graphQlTester
                 .document("{allVisit{text pet{name} vet{name}}}")
                 .execute();
@@ -105,15 +112,15 @@ class VisitGraphqlTest {
         data.path("allVisit[0].text")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo(text);
+                .isEqualTo(value.getText());
         data.path("allVisit[0].pet.name")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Tom");
+                .isEqualTo(value.getPet().getName());
         data.path("allVisit[0].vet.name")
                 .hasValue()
                 .entity(String.class)
-                .isEqualTo("Dr. Smith");
+                .isEqualTo(value.getVet().getName());
         verify(visitRepository).findAll();
         verifyNoMoreInteractions(visitRepository);
         verify(petRepository).findAllById(any());

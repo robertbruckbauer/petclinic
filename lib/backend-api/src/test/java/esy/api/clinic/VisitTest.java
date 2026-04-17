@@ -19,24 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class VisitTest {
 
-    Visit createWithText(final String text) {
-        final var owner = Owner.fromJson("""
-                {
-                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
-                    "name":"John Cleese"
-                }""");
-        final var pet = Pet.fromJson("""
-                {
-                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
-                    "name":"Tom",
-                    "born":"2020-12-24",
-                    "species":"Cat"
-                }""");
-        final var vet = Vet.fromJson("""
-                {
-                    "id":"deadbeef-dead-beef-dead-deadbeefdead",
-                    "name":"John Cleese"
-                }""");
+    static Visit createWithText(final String text) {
         return Visit.fromJson("""
                         {
                             "date":"2021-04-22",
@@ -44,8 +27,28 @@ class VisitTest {
                             "text":"%s"
                         }
                         """.formatted(text))
-                .setPet(pet.setOwner(owner))
-                .setVet(vet);
+                .setPet(createPet("Tom"))
+                .setVet(createVet("Dr. Smith"));
+    }
+
+    static Pet createPet(final String name) {
+        return Pet.fromJson("""
+            {
+                "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                "name":"%s",
+                "born":"2021-04-22",
+                "species":"Cat"
+            }
+            """.formatted(name));
+    }
+
+    static Vet createVet(final String name) {
+        return Vet.fromJson("""
+            {
+                "id":"deadbeef-dead-beef-dead-deadbeefdead",
+                "name":"%s"
+            }
+            """.formatted(name));
     }
 
     @Test

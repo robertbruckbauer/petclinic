@@ -29,7 +29,7 @@ class VetGraphqlTest {
     @MockitoBean
     private VetRepository vetRepository;
 
-    Vet createWithName(final String name) {
+    static Vet createWithName(final String name) {
         return Vet.fromJson("""
                 {
                 	"name":"%s",

@@ -33,7 +33,7 @@ class OwnerGraphqlTest {
     @MockitoBean
     private PetRepository petRepository;
 
-    Owner createWithName(final String name) {
+    static Owner createWithName(final String name) {
         return Owner.fromJson("""
             {
                 "name":"%s",

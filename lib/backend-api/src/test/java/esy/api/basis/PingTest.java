@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("fast")
 class PingTest {
 
-    Ping createWithTime(final LocalDateTime time) {
+    static Ping createWithTime(final LocalDateTime time) {
         return Ping.fromJson("""
                 {
                     "at":"%s"

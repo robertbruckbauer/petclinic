@@ -123,9 +123,9 @@ For Liquibase script files (*.xml):
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| REST API documentation | `<entity>-restapi.adoc` | `service/` |
+| REST API documentation | `{entity}-restapi.adoc` | `service/` |
 | REST API documentation template | `service/template/spring-restapi.adoc` |
-| GraphQL API documentation | `<entity>-graphql.adoc` | `service/` |
+| GraphQL API documentation | `{entity}-graphql.adoc` | `service/` |
 | GraphQL API documentation template | `service/template/spring-graphql.adoc` |
 | Database specification | `concept/spring/database.adoc` |
 | Endpoint specification | `concept/spring/endpoint.adoc` |
@@ -134,23 +134,23 @@ For Liquibase script files (*.xml):
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| Entity fact sheet | `<Entity>.adoc` | `src/main/java/esy/api/<package>/` |
-| Entity class | `<Entity>.java` | `src/main/java/esy/api/<package>/` |
-| Entity test | `<Entity>Test.java` | `src/test/java/esy/api/<package>/` |
+| Entity fact sheet | `{Entity}.adoc` | `src/main/java/esy/api/{package}/` |
+| Entity class | `{Entity}.java` | `src/main/java/esy/api/{package}/` |
+| Entity test | `{Entity}Test.java` | `src/test/java/esy/api/{package}/` |
 
 ### `lib/backend-data`
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| Liquibase changeset | `<table>.xml` | `src/main/resources/liquibase/v1/` |
-| Repository interface | `<Entity>Repository.java` | `src/main/java/esy/app/<package>/` |
-| Repository test | `<Entity>RepositoryTest.java` | `src/test/java/esy/app/<package>/` |
-| REST API controller class | `<Entity>RestController.java` | `src/main/java/esy/app/<package>/` |
-| REST API controller advice | `<Entity>RestControllerAdvice.java` | `src/main/java/esy/app/<package>/` |
-| REST API test | `<Entity>RestApiTest.java` | `src/test/java/esy/app/<package>/` |
-| GraphQL schema | `<Entity>.gqls` | `src/main/resources/graphql/` |
-| GraphQL controller class | `<Entity>GraphqlController.java` | `src/main/java/esy/app/<package>/` |
-| GraphQL test | `<Entity>GraphqlTest.java` | `src/test/java/esy/app/<package>/` |
+| Liquibase changeset | `{table}.xml` | `src/main/resources/liquibase/v1/` |
+| Repository interface | `{Entity}Repository.java` | `src/main/java/esy/app/{package}/` |
+| Repository test | `{Entity}RepositoryTest.java` | `src/test/java/esy/app/{package}/` |
+| REST API controller class | `{Entity}RestController.java` | `src/main/java/esy/app/{package}/` |
+| REST API controller advice | `{Entity}RestControllerAdvice.java` | `src/main/java/esy/app/{package}/` |
+| REST API test | `{Entity}RestApiTest.java` | `src/test/java/esy/app/{package}/` |
+| GraphQL schema | `{Entity}.gqls` | `src/main/resources/graphql/` |
+| GraphQL controller class | `{Entity}GraphqlController.java` | `src/main/java/esy/app/{package}/` |
+| GraphQL test | `{Entity}GraphqlTest.java` | `src/test/java/esy/app/{package}/` |
 
 ### `app/server`
 
@@ -164,23 +164,23 @@ For Liquibase script files (*.xml):
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| Angular type | `<entity>.type.ts` | `src/main/angular/types`
-| Angular lister component | `<entity>-lister.ts`, `<entity>-lister.html` | `src/main/angular/pages/<package>/<entity>-lister/` |
-| Angular editor component | `<entity>-editor.ts`, `<entity>-editor.html` | `src/main/angular/pages/<package>/<entity>-editor/` |
-| Angular viewer component | `<entity>-viewer.ts`, `<entity>-viewer.html` | `src/main/angular/pages/<package>/<entity>-viewer/` |
-| Angular service class | `<entity>.service.ts` | `src/main/angular/services/` |
-| Angular service test | `<entity>.service.test.ts` | `src/main/angular/services/` |
-| Angular routes | `<entity>.routes.ts` | `src/main/angular/pages/<package>/` |
-| Angular client test | `<entity>.test.ts` | `src/test/playwright/` |
+| Angular type | `{entity}.type.ts` | `src/main/angular/types`
+| Angular lister component | `{entity}-lister.ts`, `{entity}-lister.html` | `src/main/angular/pages/{package}/{entity}-lister/` |
+| Angular editor component | `{entity}-editor.ts`, `{entity}-editor.html` | `src/main/angular/pages/{package}/{entity}-editor/` |
+| Angular viewer component | `{entity}-viewer.ts`, `{entity}-viewer.html` | `src/main/angular/pages/{package}/{entity}-viewer/` |
+| Angular service class | `{entity}.service.ts` | `src/main/angular/services/` |
+| Angular service test | `{entity}.service.test.ts` | `src/main/angular/services/` |
+| Angular routes | `{entity}.routes.ts` | `src/main/angular/pages/{package}/` |
+| Angular client test | `{entity}.test.ts` | `src/test/playwright/` |
 
 ### `app/client-svelte`
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| Svelte type | `<entity>.type.ts` | `src/main/svelte/types`
-| Svelte lister component | `<Entity>Lister.svelte` | `src/main/svelte/pages/<package>/` |
-| Svelte editor component | `<Entity>Editor.svelte` | `src/main/svelte/pages/<package>/` |
-| Svelte viewer component | `<Entity>Viewer.svelte` | `src/main/svelte/pages/<package>/` |
-| Svelte service class | `<entity>.service.ts` | `src/main/svelte/services/` |
-| Svelte service test | `<entity>.service.test.ts` | `src/main/svelte/services/` |
-| Svelte client test | `<entity>.test.ts` | `src/test/playwright/` |
+| Svelte type | `{entity}.type.ts` | `src/main/svelte/types`
+| Svelte lister component | `{Entity}Lister.svelte` | `src/main/svelte/pages/{package}/` |
+| Svelte editor component | `{Entity}Editor.svelte` | `src/main/svelte/pages/{package}/` |
+| Svelte viewer component | `{Entity}Viewer.svelte` | `src/main/svelte/pages/{package}/` |
+| Svelte service class | `{entity}.service.ts` | `src/main/svelte/services/` |
+| Svelte service test | `{entity}.service.test.ts` | `src/main/svelte/services/` |
+| Svelte client test | `{entity}.test.ts` | `src/test/playwright/` |
