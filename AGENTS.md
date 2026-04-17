@@ -63,14 +63,6 @@ At the end of each request respond with:
 - Show a list of applied skills.
 - Show a list of changed files.
 
-## Instructions
-
-You MUST NOT generate code if even one task precondition is not met.
-
-At the end of each request respond with:
-- Show a list of applied skills.
-- Show a list of changed files.
-
 ## Checklists
 
 For skill files (.agent/skills/**/SKILL.md):
