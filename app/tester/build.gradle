@@ -1,0 +1,19 @@
+plugins {
+    id 'base'
+    id 'com.github.node-gradle.node'
+}
+
+assemble {
+    dependsOn 'npmInstall'
+}
+
+tasks.named("npmInstall") {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+}
+
+tasks.register('versionCheck', VersionCheckTask.class)  {
+    group = 'verification'
+    mustRunAfter 'npmInstall'
+    allFileWithVersion.from("Chart.yaml", "package.json", "package-lock.json")
+}
