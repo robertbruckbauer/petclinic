@@ -1,8 +1,6 @@
 ---
-name: Domain entity property adder
-description: |
-  Adds a new property to an existing entity of the domain model for the backend.
-  Extends existing REST endpoints and GraphQL operations for the entity.
+name: domain-entity-many-to-one-relation-adder
+description: Add a many-to-one relation between existing entities and update dependent artifacts; use for prompts like "Add a required many-to-one relation ...".
 ---
 
 ## Task preconditions
@@ -15,47 +13,48 @@ Extract the entity name from the request.
 Check if the entity class exists.
 Replace placeholder '{Entity}' with the given name.
 Replace placeholder '{entity}' with kebab case of the the given name.
-Replace placeholder '{table}' with snake case nof the the given nameame.
+Replace placeholder '{table}' with snake case of the the given name.
 
-### Identify property name
+### Identify relation name
 
-Extract the property name from the request.
-Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Extract the relation column name from the request.
+Check if each name is a valid identifier for the programming languages Java, Typescript and SQL.
 Replace placeholder '{Name}' with the given name.
 Replace placeholder '{name}' with camel case of the the given name.
 Replace placeholder '{column}' with snake case of the the given name.
 
-### Identify property type
+### Identify relation type
 
-Extract the property type from the request.
-For an enum type, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-enum.adoc exists.
-For other types, check if the implementation guide doc/concept/spring/_json-jpa-entity-column-{type}.adoc exists.
+Extract the relation type from the request.
+Check if the entity class exists.
 Replace placeholder '{Type}' with the given type.
 Replace placeholder '{type}' with camel case of the the given type.
+Replace placeholder '{otherTable}' with snake case of the the given type.
 
 ## Task steps
 
-### Determine property semantics
+### Determine relation semantics
 
-Extract optionality and constraints from the requested.
+Extract optionality and fetch strategy from the request.
 If not specified, use defaults from the implementation guide.
 
 ### Update entity fact sheet {Entity}.adoc
 
-Add a short description for the new property with its type, constraints, and a one-line description.
+Add a short description for the new relation with its type, constraints, and a one-line description.
 
 ### Update Liquibase changeset {table}.xml
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 Create a new change set without any preconditions.
-Add a new column with name `{column}`.
-Match nullability, default values and constraints to the implementation guide.
-Add uniqueness constraints only if requested.
+Add a new column with name `{column}_id`.
+Match nullability, default values and constraints to the type guide.
+Add the foreign key constraint `fk_{table}_{column}_id` from `{table}.{column}_id` to `{otherTable}.id`.
 
 ### Update entity class {Entity}.java
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-Add property with name `{name}` of type `{Type}` and annotations.
+Add property with name `{name}` of type `Type`.
+Add annotations.
 Update constructor initialization.
 Update operation `isEqual`.
 Update operation `withId`.
@@ -66,10 +65,8 @@ Add operation `set{Name}` only when requested.
 ### Update entity test class {Entity}Test.java
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-If property is mandatory update existing test data with a default value.
-Update existing tests with asserts for the new property.
-Add `json{Name}` test.
-Add `json{Name}Contraints` test if property has constraints.
+If relation is mandatory update existing test data with a default value.
+Update existing tests with asserts for the new relation.
 
 ### Update repository interface {Entity}Repository.java
 
@@ -78,35 +75,37 @@ No changes.
 ### Update repository test {Entity}RepositoryTest.java
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-If property is mandatory update existing test data with a default value.
-Update existing tests with asserts for the new property.
-
+If relation is mandatory update existing test data with a default value.
+Update existing tests with asserts for the new relation.
+  
 ### Update REST API controller class {Entity}RestController.java
 
 No changes.
-  
+
 ### Update REST API test {Entity}RestApiTest.java
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-If property is mandatory update existing test data with a default value.
-Update existing tests with asserts for the new property.
-Add `patchApi{Entity}{Name}` test.
+If relation is mandatory update existing test data with a default value.
+Update existing tests with asserts for the new relation.
+Add `patchApi{Entity}{Name}` test for the PATCH operation of the relation.
+Add `getApi{Entity}{Name}` test for the GET operation of the relation.
 
 ### Update GraphQL schema {Entity}.gqls
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-Add {name} of GraphQL type for `Type` to GraphQL type with name `{Entity}` in `{Entity}.gqls` with correct nullability.
+Add `{name}: {Type}` to GraphQL type `{Entity}` in `{Entity}.gqls` with correct nullability.
 
 ### Update GraphQL controller class {Entity}GraphqlController.java
 
-No changes.
+Use doc/concept/spring/endpoint.adoc as the implementation baseline.
+Add method `all{Name}` for batch loading.
 
 ### Update GraphQL test {Entity}GraphqlTest.java
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-If property is mandatory update existing test data with a default value.
-Update existing tests with asserts for the new property.
+If relation is mandatory update existing test data with a default value.
+Update existing tests with asserts for the new relation.
 
 ### Update Server test set
 
-If property is mandatory update existing payloads with a default value.
+If relation is mandatory update existing test data with a default value.

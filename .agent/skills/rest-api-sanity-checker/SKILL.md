@@ -1,8 +1,6 @@
 ---
-name: REST API sanity checker
-description: |
-  Performs a comprehensive sanity check of REST API documentation files.
-  Validates structure, content accuracy and alignment with implementation.
+name: rest-api-sanity-checker
+description: Sanity-check REST API documentation against implementation changes; use for prompts like "Check REST API documentation".
 ---
 
 ## Task steps

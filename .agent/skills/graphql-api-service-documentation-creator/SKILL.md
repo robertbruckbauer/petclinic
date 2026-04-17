@@ -1,8 +1,6 @@
 ---
-name: GraphQL API service documentation creator
-description: |
-  Creates comprehensive GraphQL API documentation for new GraphQL operations based on implementation files.
-  Uses template structure and generates documentation aligned with existing implementation.
+name: graphql-api-service-documentation-creator
+description: Create or update GraphQL API service documentation from implementation files; use for prompts like "Update GraphQL API documentation" or "Create GraphQL API documentation for ...".
 ---
 
 ## Task preconditions

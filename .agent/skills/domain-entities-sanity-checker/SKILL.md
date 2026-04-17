@@ -1,9 +1,6 @@
 ---
-name: Domain entities sanity checker
-description: |
-  Performs a comprehensive sanity check of domain entities.
-  Validates structure, implementation and tests.
-  Checks compliance of implementation files with the implementation guides.
+name: domain-entities-sanity-checker
+description: Sanity-check domain entities and related backend artifacts; use for prompts like "Check domain entities" or targeted sanity updates such as adding missing entity tests.
 ---
 
 ## Task steps

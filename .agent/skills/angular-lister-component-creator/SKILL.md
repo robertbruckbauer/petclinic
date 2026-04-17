@@ -1,9 +1,6 @@
 ---
-name: Angular lister component creator
-description: |
-  Creates a lister component for an entity.
-  Creates an editor component for all properties of an entity.
-  Creates a service component for entity data retrieval.
+name: angular-lister-component-creator
+description: Create Angular lister/editor components and service wiring for an entity; use for prompts like "Create editor and lister components for entity ..." or compliance verification requests.
 ---
 
 ## Task preconditions
