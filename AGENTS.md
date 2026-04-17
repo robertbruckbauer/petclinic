@@ -86,6 +86,16 @@ For typescript files (*.ts):
 - [ ] Keep style consistent with existing code.
 - [ ] Format with prettier.
 
+For GraphQL schema files (*.gqls):
+- [ ] Follow examples from the implementation guides if available.
+- [ ] Keep style consistent with existing code.
+- [ ] File name matches the entity class name.
+
+For Liquibase script files (*.xml):
+- [ ] Follow examples from the implementation guides if available.
+- [ ] Keep style consistent with existing code.
+- [ ] File name matches the table name, i.e. snake case is mandatory.
+
 ## Repository Structure
 
 ```
