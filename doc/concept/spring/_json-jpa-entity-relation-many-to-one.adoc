@@ -159,8 +159,12 @@ Create test data from JSON using `fromJson` method of entity classes.
 Create fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.
 
 The `equalsHashcodeToString` test verifies equality operations.
+For `isEqual` to succeed, referenced entities must have a fixed primary key.
 
 The `withId` test verifies cloning.
+
+The `writeJson` test verifies serialisation to JSON.
+relations must always be absent from the JSON structure.
 
 == `<Entity>RepositoryTest` approach
 

@@ -30,7 +30,7 @@ The value is not included in the JSON structure of the REST API.
 However, the value is transferred to an `ETAG` header.
 <5> The field has the data type `Long`.
 
-The property is part of the base class.
+The property `version` is part of the base class.
 This ensures that all objects have the same procedure for maintaining integrity.
 
 .Entity - Primary Key
@@ -52,7 +52,7 @@ The value is contained in the JSON structure of the REST API.
 <5> The field has the data type `UUID`.
 The value can also be null.
 
-The property is part of the base class.
+The property `id` is part of the base class.
 This ensures that all objects have the same procedure for maintaining a primary key.
 
 == Liquibase changeset
@@ -79,19 +79,19 @@ This ensures that all objects have the same procedure for maintaining a primary 
 
 == Property initialization
 
-The property is initialized in the base class.
+The properties are initialized in the base class.
 
 == Property manipulation
 
-The property must not be changed.
+The properties must not be changed.
 
 == Property verification
 
-The property must not be verified.
+The properties must not be verified.
 
 == Property serialization
 
-The property is by default part of the JSON structure.
+The properties are by default part of the JSON structure.
 
 == `<Entity>Test` approach
 
@@ -101,14 +101,16 @@ The `equalsHashcodeToString` test verifies equality operations.
 
 The `withId` test verifies cloning.
 
+The `writeJson` test verifies serialisation to JSON.
+
 == `<Entity>RepositoryTest` approach
 
-Do not create a test specifically for this property.
+Do not create a test specifically for these properties.
 
 == `<Entity>GraphqlTest` approach
 
-Do not create a test specifically for this property.
+Do not create a test specifically for these properties.
 
 == `<Entity>RestApiTest` approach
 
-Do not create a test specifically for this property.
+Do not create a test specifically for these properties.

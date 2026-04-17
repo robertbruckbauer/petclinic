@@ -90,8 +90,11 @@ protected void extraJson(@NonNull final Map<String, Object> allExtra) {
 Create test data from JSON using `fromJson` method of entity classes.
 
 The `equalsHashcodeToString` test verifies equality operations.
+For `isEqual` to succeed, referenced entities must have a fixed primary key.
 
 The `withId` test verifies cloning.
+
+The `writeJson` test verifies serialisation to JSON.
 
 == `<Entity>RepositoryTest` approach
 
