@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.025s</div>
+<div class="counter">0.028s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,9 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-getApiVisitById()">2026-04-17T11:01:24.872Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T11:01:24.872Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T11:01:24.873Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-getApiVisitById()">2026-04-17T18:22:30.199Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T18:22:30.199Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T18:22:30.201Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         v1_0.id,
@@ -145,19 +145,6 @@ Hibernate:
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T11:01:24.879Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    31150 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    1659308 nanoseconds spent preparing 4 JDBC statements;
-    248620 nanoseconds spent executing 4 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
 Hibernate: 
     select
         v1_0.id,
@@ -215,19 +202,6 @@ Hibernate:
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T11:01:24.888Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    23054 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    783223 nanoseconds spent preparing 4 JDBC statements;
-    145258 nanoseconds spent executing 4 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -262,23 +236,23 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;6&quot;&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;id&quot; : &quot;e1111111-1111-beef-dead-beefdeadbeef&quot;,
-  &quot;date&quot; : &quot;2021-04-24&quot;,
-  &quot;time&quot; : &quot;10:42&quot;,
-  &quot;text&quot; : &quot;At vero eos&quot;,
   &quot;billable&quot; : true,
+  &quot;date&quot; : &quot;2021-04-24&quot;,
+  &quot;id&quot; : &quot;e1111111-1111-beef-dead-beefdeadbeef&quot;,
+  &quot;text&quot; : &quot;At vero eos&quot;,
+  &quot;time&quot; : &quot;10:42&quot;,
   &quot;version&quot; : 6,
   &quot;ownerItem&quot; : {
-    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Emma Milner&quot;
+    &quot;text&quot; : &quot;Emma Milner&quot;,
+    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;petItem&quot; : {
-    &quot;value&quot; : &quot;c2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Cat 'Tom'&quot;
+    &quot;text&quot; : &quot;Cat 'Tom'&quot;,
+    &quot;value&quot; : &quot;c2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;vetItem&quot; : {
-    &quot;value&quot; : &quot;d2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Phillip Dick&quot;
+    &quot;text&quot; : &quot;Phillip Dick&quot;,
+    &quot;value&quot; : &quot;d2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
@@ -288,11 +262,11 @@ MockHttpServletResponse:
     &quot;rel&quot; : &quot;visit&quot;,
     &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef&quot;
   }, {
-    &quot;rel&quot; : &quot;vet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet&quot;
-  }, {
     &quot;rel&quot; : &quot;pet&quot;,
     &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet&quot;
+  }, {
+    &quot;rel&quot; : &quot;vet&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet&quot;
   } ]
 }
     Forwarded URL = null
@@ -312,7 +286,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>

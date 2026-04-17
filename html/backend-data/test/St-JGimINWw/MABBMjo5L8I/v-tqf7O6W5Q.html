@@ -24,7 +24,7 @@
 </ul>
 <div class="tab">
 <h2>Gradle Test Run :lib:backend-data:test</h2>
-<h1>[2] address=Bergweg 1, 5400 Hallein</h1>
+<h1>[2] address = &quot;Bergweg 1, 5400 Hallein&quot;</h1>
 <div class="tab-container">
 <ul class="tabLinks">
 <li>
@@ -64,7 +64,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.037s</div>
+<div class="counter">0.024s</div>
 <p>duration</p>
 </div>
 </td>
@@ -86,9 +86,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-patchApiOwnerAddress(String)[2]">2026-04-17T11:01:21.483Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T11:01:21.483Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T11:01:21.485Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+<pre id="root-0-test-stdout-patchApiOwnerAddress(String)[2]">2026-04-17T18:22:27.481Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T18:22:27.481Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T18:22:27.482Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         o1_0.id,
@@ -100,19 +100,6 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2026-04-17T11:01:21.488Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    42446 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    485926 nanoseconds spent preparing 1 JDBC statements;
-    123688 nanoseconds spent executing 1 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
 Hibernate: 
     select
         o1_0.id,
@@ -124,8 +111,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2026-04-17T11:01:21.497Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; updating ...
-2026-04-17T11:01:21.498Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+2026-04-17T18:22:27.490Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']; updating ...
+2026-04-17T18:22:27.490Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:3,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
 Hibernate: 
     update
         owner 
@@ -137,7 +124,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T11:01:21.502Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:4,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
+2026-04-17T18:22:27.492Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:4,id:a1111111-1111-beef-dead-beefdeadbeef,name='Bea Musterfrau']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -151,19 +138,6 @@ Hibernate:
         pet ap1_0 
     where
         ap1_0.owner_id=?
-2026-04-17T11:01:21.505Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    41202 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    1480974 nanoseconds spent preparing 3 JDBC statements;
-    215580 nanoseconds spent executing 2 JDBC statements;
-    402190 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    2755063 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
 
 MockHttpServletRequest:
       HTTP Method = PATCH
@@ -198,10 +172,10 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;4&quot;&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
-  &quot;name&quot; : &quot;Bea Musterfrau&quot;,
   &quot;address&quot; : &quot;Bergweg 1, 5400 Hallein&quot;,
   &quot;contact&quot; : &quot;+43 6452 4456&quot;,
+  &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
+  &quot;name&quot; : &quot;Bea Musterfrau&quot;,
   &quot;version&quot; : 4,
   &quot;allPetItem&quot; : [ ],
   &quot;content&quot; : [ ],
@@ -233,7 +207,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>

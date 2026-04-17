@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.021s</div>
+<div class="counter">0.020s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,9 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-postApiVetConflict()">2026-04-17T11:01:23.496Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T11:01:23.496Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T11:01:23.498Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+<pre id="root-0-test-stdout-postApiVetConflict()">2026-04-17T18:22:29.087Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T18:22:29.088Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T18:22:29.089Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         v1_0.id,
@@ -115,21 +115,8 @@ Hibernate:
         vet_skill as1_0 
     where
         as1_0.id=?
-2026-04-17T11:01:23.501Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    31883 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    695670 nanoseconds spent preparing 3 JDBC statements;
-    197895 nanoseconds spent executing 3 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
-2026-04-17T11:01:23.503Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:878e5c0b-576f-4fb4-8041-d0296c91f542,name='Max Mustermann']; creating ...
-2026-04-17T11:01:23.504Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:878e5c0b-576f-4fb4-8041-d0296c91f542,name='Max Mustermann']
+2026-04-17T18:22:29.095Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:8a1e9149-d2f4-4584-b28a-85df7147eb5f,name='Max Mustermann']; creating ...
+2026-04-17T18:22:29.096Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:8a1e9149-d2f4-4584-b28a-85df7147eb5f,name='Max Mustermann']
 Hibernate: 
     select
         v1_0.id,
@@ -156,23 +143,10 @@ Hibernate:
         (name, version, id) 
     values
         (?, ?, ?)
-2026-04-17T11:01:23.507Z  INFO 3147 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
-2026-04-17T11:01:23.507Z  WARN 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2026-04-17T11:01:23.507Z ERROR 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_VET table: VET
-2026-04-17T11:01:23.509Z ERROR 3147 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/vet
-2026-04-17T11:01:23.510Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    24173 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    472117 nanoseconds spent preparing 2 JDBC statements;
-    45764 nanoseconds spent executing 1 JDBC statements;
-    232916 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    1510437 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 2 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+2026-04-17T18:22:29.099Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
+2026-04-17T18:22:29.099Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
+2026-04-17T18:22:29.099Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_VET table: VET
+2026-04-17T18:22:29.100Z ERROR 3214 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/vet
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -206,7 +180,12 @@ MockHttpServletResponse:
     Error message = null
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
-             Body = {&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Conflict&quot;,&quot;status&quot;:409,&quot;detail&quot;:&quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_VET table: VET] [insert into vet (name,version,id) values (?,?,?)]; SQL [insert into vet (name,version,id) values (?,?,?)]; constraint [UK_VET]&quot;,&quot;instance&quot;:&quot;/api/vet&quot;}
+             Body = {
+  &quot;detail&quot; : &quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_VET table: VET] [insert into vet (name,version,id) values (?,?,?)]; SQL [insert into vet (name,version,id) values (?,?,?)]; constraint [UK_VET]&quot;,
+  &quot;instance&quot; : &quot;/api/vet&quot;,
+  &quot;status&quot; : 409,
+  &quot;title&quot; : &quot;Conflict&quot;
+}
     Forwarded URL = null
    Redirected URL = null
           Cookies = []
@@ -224,7 +203,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>

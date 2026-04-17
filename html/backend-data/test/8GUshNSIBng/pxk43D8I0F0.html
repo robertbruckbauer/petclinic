@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.022s</div>
+<div class="counter">0.020s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,9 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-deleteApiPet()">2026-04-17T11:01:23.019Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T11:01:23.019Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T11:01:23.020Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-deleteApiPet()">2026-04-17T18:22:28.630Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T18:22:28.630Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T18:22:28.631Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         p1_0.id,
@@ -112,19 +112,6 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2026-04-17T11:01:23.024Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    40947 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    830356 nanoseconds spent preparing 2 JDBC statements;
-    142050 nanoseconds spent executing 2 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
 Hibernate: 
     select
         p1_0.id,
@@ -149,8 +136,8 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2026-04-17T11:01:23.028Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']; deleting ...
-2026-04-17T11:01:23.029Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
+2026-04-17T18:22:28.638Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']; deleting ...
+2026-04-17T18:22:28.639Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
 Hibernate: 
     delete 
     from
@@ -158,20 +145,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T11:01:23.031Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : DELETED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
-2026-04-17T11:01:23.033Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    23864 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    540615 nanoseconds spent preparing 3 JDBC statements;
-    109827 nanoseconds spent executing 2 JDBC statements;
-    124685 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    1051250 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 1 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+2026-04-17T18:22:28.641Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : DELETED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
 
 MockHttpServletRequest:
       HTTP Method = DELETE
@@ -206,15 +180,15 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
+  &quot;born&quot; : &quot;2021-04-27&quot;,
   &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;name&quot; : &quot;Anita&quot;,
-  &quot;born&quot; : &quot;2021-04-27&quot;,
-  &quot;species&quot; : &quot;Rat&quot;,
   &quot;sex&quot; : &quot;F&quot;,
+  &quot;species&quot; : &quot;Rat&quot;,
   &quot;version&quot; : 9,
   &quot;ownerItem&quot; : {
-    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Emma Milner&quot;
+    &quot;text&quot; : &quot;Emma Milner&quot;,
+    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
@@ -245,7 +219,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>

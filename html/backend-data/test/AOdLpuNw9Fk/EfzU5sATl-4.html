@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.075s</div>
+<div class="counter">0.041s</div>
 <p>duration</p>
 </div>
 </td>
@@ -104,19 +104,6 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2026-04-17T11:01:18.497Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    40100 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    1115189 nanoseconds spent preparing 2 JDBC statements;
-    103938 nanoseconds spent executing 1 JDBC statements;
-    96241 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    1666983 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
 Hibernate: 
     select
         e1_0.id,
@@ -136,22 +123,9 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2026-04-17T11:01:18.511Z  INFO 3147 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
-2026-04-17T11:01:18.512Z  WARN 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2026-04-17T11:01:18.512Z ERROR 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
-2026-04-17T11:01:18.525Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    28075 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    880031 nanoseconds spent preparing 2 JDBC statements;
-    97723 nanoseconds spent executing 1 JDBC statements;
-    2830304 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    11077904 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+2026-04-17T18:22:25.856Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
+2026-04-17T18:22:25.858Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
+2026-04-17T18:22:25.858Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_ENUM_NAME table: ENUM
 Hibernate: 
     select
         e1_0.id,
@@ -171,22 +145,9 @@ Hibernate:
         (art, code, name, text, version, id) 
     values
         (?, ?, ?, ?, ?, ?)
-2026-04-17T11:01:18.536Z  INFO 3147 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
-2026-04-17T11:01:18.536Z  WARN 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
-2026-04-17T11:01:18.537Z ERROR 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_ENUM_CODE table: ENUM
-2026-04-17T11:01:18.537Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    345843 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    2019530 nanoseconds spent preparing 2 JDBC statements;
-    183171 nanoseconds spent executing 1 JDBC statements;
-    253471 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    2657130 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+2026-04-17T18:22:25.868Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
+2026-04-17T18:22:25.869Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
+2026-04-17T18:22:25.869Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_ENUM_CODE table: ENUM
 Hibernate: 
     select
         e1_0.id,
@@ -206,19 +167,6 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T11:01:18.552Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    24701 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    900242 nanoseconds spent preparing 2 JDBC statements;
-    153911 nanoseconds spent executing 1 JDBC statements;
-    149639 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    4771016 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-saveEnumUniqueKeyConstraint()">Copy</button>
 </span>
@@ -233,7 +181,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>

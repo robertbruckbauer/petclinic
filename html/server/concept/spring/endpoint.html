@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Specification for endpoints</h1>
 <div class="details">
-<span id="revnumber">version 1.5</span>
+<span id="revnumber">version 1.6</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -699,8 +699,8 @@ management.endpoint.health.probes.enabled=true
 <div class="title">jacksonCustomizer</div>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="java"><span class="annotation">@Bean</span>
-<span class="directive">public</span> Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
-    <span class="keyword">return</span> builder -&gt; builder.postConfigurer(JsonJpaMapper::configure);
+<span class="directive">public</span> JsonMapperBuilderCustomizer jacksonCustomizer() {
+    <span class="keyword">return</span> JsonJpaMapper::configure;
 }</code></pre>
 </div>
 </div>
@@ -710,15 +710,10 @@ management.endpoint.health.probes.enabled=true
 <div class="listingblock">
 <div class="title">JsonJpaMapper</div>
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> ObjectMapper configure(<span class="annotation">@NonNull</span> <span class="directive">final</span> ObjectMapper mapper) {
-    <span class="keyword">return</span> mapper
-            .registerModule(<span class="keyword">new</span> Jdk8Module()) <i class="conum" data-value="1"></i><b>(1)</b>
-            .registerModule(<span class="keyword">new</span> JavaTimeModule()) <i class="conum" data-value="2"></i><b>(2)</b>
-            .setDefaultMergeable(<span class="predefined-constant">false</span>) <i class="conum" data-value="3"></i><b>(3)</b>
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL) <i class="conum" data-value="4"></i><b>(4)</b>
-            .configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, <span class="predefined-constant">true</span>) <i class="conum" data-value="5"></i><b>(5)</b>
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, <span class="predefined-constant">false</span>) <i class="conum" data-value="6"></i><b>(6)</b>
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, <span class="predefined-constant">false</span>); <i class="conum" data-value="7"></i><b>(7)</b>
+<pre class="CodeRay highlight nowrap"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> JsonMapper.Builder configure(<span class="annotation">@NonNull</span> <span class="directive">final</span> JsonMapper.Builder builder) {
+    <span class="keyword">return</span> builder
+            .defaultMergeable(<span class="predefined-constant">false</span>) <i class="conum" data-value="1"></i><b>(1)</b>
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES); <i class="conum" data-value="2"></i><b>(2)</b>
 }</code></pre>
 </div>
 </div>
@@ -726,33 +721,12 @@ management.endpoint.health.probes.enabled=true
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The <code>Jdk8Module</code> ensures that data types like <code>Optional</code> are correctly serialized.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <code>JavaTimeModule</code> ensures that temporal data types like <code>LocalDate</code> are correctly serialized.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>With the value <code>false</code>, it is ensured that during PATCH operations the list from the JSON structure is merged with the list from the database.<br>
 The behavior for lists is thus consistent with the behavior for values.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>With the value <code>Include.NON_NULL</code> only properties with non-null values are serialized.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>With the value <code>true</code>, temporal data types are serialized with timezone.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>With the value <code>false</code>, temporal data types are serialized with formatted text.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="7"></i><b>7</b></td>
-<td>With the value <code>false</code>, serialization is made robust.<br>
-Unknown properties are ignored.</td>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Disable exception for unknown properties for robust serialization following the tolerant reader pattern.</td>
 </tr>
 </table>
 </div>
@@ -821,7 +795,7 @@ CORS, interceptors, path matching or content negotiation.</p>
     <span class="keyword">return</span> <span class="keyword">new</span> RepositoryRestConfigurer() {
 
         <span class="annotation">@Override</span>
-        <span class="directive">public</span> <span class="type">void</span> configureRepositoryRestConfiguration(<span class="annotation">@NonNull</span> <span class="directive">final</span> RepositoryRestConfiguration configuration, <span class="directive">final</span> CorsRegistry registry) {
+        <span class="directive">public</span> <span class="type">void</span> configureRepositoryRestConfiguration(<span class="annotation">@NonNull</span> <span class="directive">final</span> RepositoryRestConfiguration configuration, <span class="annotation">@NonNull</span> <span class="directive">final</span> CorsRegistry registry) {
             <span class="comment">// apply REST defaults</span>
             configuration.setBasePath(API_PATH);
             configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
@@ -1162,14 +1136,14 @@ See also test approach for entities and repositories.</p>
 <p>The test approach is based on a defined basic structure.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example pseudo code</div>
+<div class="title">Example</div>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="text">@Tag(&quot;slow&quot;)
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
-class &lt;Entity&gt;RestApiTest {
+class PetRestApiTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -1178,7 +1152,10 @@ class &lt;Entity&gt;RestApiTest {
     private DatabaseCleaner databaseCleaner;
 
     @Autowired
-    private &lt;Entity&gt;Repository &lt;entity&gt;Repository;
+    private OwnerRepository ownerRepository;
+
+    @Autowired
+    private PetRepository petRepository;
 
     @BeforeEach <i class="conum" data-value="1"></i><b>(1)</b>
     void setUp(final WebApplicationContext webApplicationContext,
@@ -1191,11 +1168,12 @@ class &lt;Entity&gt;RestApiTest {
                 .build();
     }
 
+    @Sql(&quot;/sql/owner.sql&quot;)
     @Test
-    @Order(1) <i class="conum" data-value="2"></i><b>(2)</b>
-    void getApi&lt;Entity&gt;NoElement() throws Exception {
-        assertEquals(0, &lt;entity&gt;Repository.count());
-        mockMvc.perform(get(&quot;/api/&lt;entity&gt;&quot;)
+    @Order(1)
+    void getApiPetNoElement() throws Exception { <i class="conum" data-value="2"></i><b>(2)</b>
+        assertEquals(0, petRepository.count());
+        mockMvc.perform(get(&quot;/api/pet&quot;)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -1211,16 +1189,21 @@ class &lt;Entity&gt;RestApiTest {
     }
 
     @Test
-    @Order(200) <i class="conum" data-value="3"></i><b>(3)</b>
-    void postApi&lt;Entity&gt;() throws Exception {
-        final var name = &quot;Max Mustermann&quot;;
-        assertFalse(&lt;entity&gt;Repository.findOne(...).isPresent());
-        mockMvc.perform(post(&quot;/api/&lt;entity&gt;&quot;)
+    @Order(200)
+    void postApiPet() throws Exception { <i class="conum" data-value="3"></i><b>(3)</b>
+        final var name = &quot;Roger&quot;;
+        final var born = &quot;2021-04-22&quot;;
+        assertFalse(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
+        mockMvc.perform(post(&quot;/api/pet&quot;)
                         .content(&quot;&quot;&quot;
                                 {
-                                    &quot;name&quot;:&quot;%s&quot;
+                                    &quot;owner&quot;:&quot;/api/owner/b1111111-1111-beef-dead-beefdeadbeef&quot;,
+                                    &quot;name&quot;:&quot;%s&quot;,
+                                    &quot;born&quot;:&quot;%s&quot;,
+                                    &quot;species&quot;:&quot;Rat&quot;,
+                                    &quot;sex&quot;:&quot;M&quot;
                                 }
-                                &quot;&quot;&quot;.formatted(name))
+                                &quot;&quot;&quot;.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -1236,39 +1219,31 @@ class &lt;Entity&gt;RestApiTest {
                         .isNotEmpty())
                 .andExpect(jsonPath(&quot;$.name&quot;)
                         .value(name))
-                ...;
+                .andExpect(jsonPath(&quot;$.born&quot;)
+                        .value(born))
+                .andExpect(jsonPath(&quot;$.species&quot;)
+                        .value(&quot;Rat&quot;))
+                .andExpect(jsonPath(&quot;$.sex&quot;)
+                        .value(&quot;M&quot;));
     }
 
     @Test
-    @Order(201) <i class="conum" data-value="4"></i><b>(4)</b>
-    void postApi&lt;Entity&gt;Conflict() throws Exception {
-        final var name = &quot;Max Mustermann&quot;;
-        assertTrue(&lt;entity&gt;Repository.findOne(...).isPresent());
-        mockMvc.perform(post(&quot;/api/&lt;entity&gt;&quot;)
-                        .content(&quot;&quot;&quot;
-                                {
-                                    &quot;name&quot;:&quot;%s&quot;
-                                }
-                                &quot;&quot;&quot;.formatted(name))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isConflict());
-    }
-
-    @Test
-    @Order(300) <i class="conum" data-value="5"></i><b>(5)</b>
-    void putApi&lt;Entity&gt;() throws Exception {
-        final var name = &quot;Bea Musterfrau&quot;;
+    @Order(300)
+    void putApiPet() throws Exception { <i class="conum" data-value="4"></i><b>(4)</b>
+        final var name = &quot;Anita&quot;;
+        final var born = &quot;2021-04-27&quot;;
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
-        assertFalse(&lt;entity&gt;Repository.findById(uuid).isPresent());
-        mockMvc.perform(put(&quot;/api/&lt;entity&gt;/&quot; + uuid)
+        assertFalse(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(put(&quot;/api/pet/&quot; + uuid)
                         .content(&quot;&quot;&quot;
                                 {
-                                    &quot;name&quot;:&quot;%s&quot;
+                                    &quot;owner&quot;:&quot;/api/owner/b1111111-1111-beef-dead-beefdeadbeef&quot;,
+                                    &quot;name&quot;:&quot;%s&quot;,
+                                    &quot;born&quot;:&quot;%s&quot;,
+                                    &quot;species&quot;:&quot;Rat&quot;,
+                                    &quot;sex&quot;:&quot;F&quot;
                                 }
-                                &quot;&quot;&quot;.formatted(name))
+                                &quot;&quot;&quot;.formatted(name, born))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -1282,18 +1257,30 @@ class &lt;Entity&gt;RestApiTest {
                         .string(&quot;ETag&quot;, &quot;\&quot;0\&quot;&quot;))
                 .andExpect(jsonPath(&quot;$.id&quot;)
                         .value(uuid.toString()))
+                .andExpect(jsonPath(&quot;$.ownerItem.value&quot;)
+                        .value(&quot;b1111111-1111-beef-dead-beefdeadbeef&quot;))
+                .andExpect(jsonPath(&quot;$.ownerItem.text&quot;)
+                        .value(&quot;Toby Elsden&quot;))
                 .andExpect(jsonPath(&quot;$.name&quot;)
                         .value(name))
-                ...;
+                .andExpect(jsonPath(&quot;$.born&quot;)
+                        .value(born))
+                .andExpect(jsonPath(&quot;$.species&quot;)
+                        .value(&quot;Rat&quot;))
+                .andExpect(jsonPath(&quot;$.sex&quot;)
+                        .value(&quot;F&quot;));
     }
 
-    @Test
-    @Order(400) <i class="conum" data-value="6"></i><b>(6)</b>
-    void patchApi&lt;Entity&gt;Name(final String name) throws Exception {
-        final var name = &quot;Max Mustermann&quot;;
+    @ParameterizedTest
+    @ValueSource(strings = {
+            &quot;Atina&quot;,
+            &quot;Anita&quot;
+    })
+    @Order(400)
+    void patchApiPetName(final String name) throws Exception { <i class="conum" data-value="5"></i><b>(5)</b>
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
-        assertFalse(&lt;entity&gt;Repository.findById(uuid).isPresent());
-        mockMvc.perform(patch(&quot;/api/&lt;entity&gt;/&quot; + uuid)
+        assertTrue(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(patch(&quot;/api/pet/&quot; + uuid)
                         .content(&quot;&quot;&quot;
                                 {
                                     &quot;name&quot;:&quot;%s&quot;
@@ -1317,12 +1304,12 @@ class &lt;Entity&gt;RestApiTest {
     }
 
     @Test
-    @Order(500) <i class="conum" data-value="7"></i><b>(7)</b>
-    void getApi&lt;Entity&gt;ById() throws Exception {
-        final var name = &quot;Bea Musterfrau&quot;;
+    @Order(500)
+    void getApiPetById() throws Exception { <i class="conum" data-value="6"></i><b>(6)</b>
+        final var name = &quot;Anita&quot;;
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
-        assertTrue(&lt;entity&gt;Repository.findById(uuid).isPresent());
-        mockMvc.perform(get(&quot;/api/&lt;entity&gt;/&quot; + uuid)
+        assertTrue(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(get(&quot;/api/pet/&quot; + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -1332,32 +1319,19 @@ class &lt;Entity&gt;RestApiTest {
                 .andExpect(header()
                         .exists(&quot;Vary&quot;))
                 .andExpect(header()
-                        .string(&quot;ETag&quot;, &quot;\&quot;4\&quot;&quot;))
+                        .string(&quot;ETag&quot;, &quot;\&quot;9\&quot;&quot;))
                 .andExpect(jsonPath(&quot;$.id&quot;)
                         .value(uuid.toString()))
                 .andExpect(jsonPath(&quot;$.name&quot;)
-                        .value(name))
-                ...;
+                        .value(name));
     }
 
     @Test
-    @Order(501) <i class="conum" data-value="8"></i><b>(8)</b>
-    void getApi&lt;Entity&gt;ByIdNotFound() throws Exception {
-        final var uuid = UUID.fromString(&quot;a1111111-2222-beef-dead-beefdeadbeef&quot;);
-        assertFalse(&lt;entity&gt;Repository.findById(uuid).isPresent());
-        mockMvc.perform(get(&quot;/api/&lt;entity&gt;/&quot; + uuid)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status()
-                        .isNotFound());
-    }
-
-    @Test
-    @Order(600) <i class="conum" data-value="9"></i><b>(9)</b>
-    void deleteApi&lt;Entity&gt;() throws Exception {
+    @Order(600)
+    void deleteApiPet() throws Exception { <i class="conum" data-value="7"></i><b>(7)</b>
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
-        assertTrue(&lt;entity&gt;Repository.findById(uuid).isPresent());
-        mockMvc.perform(delete(&quot;/api/&lt;entity&gt;/&quot; + uuid)
+        assertTrue(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(delete(&quot;/api/pet/&quot; + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -1369,19 +1343,8 @@ class &lt;Entity&gt;RestApiTest {
     }
 
     @Test
-    @Order(601) <i class="conum" data-value="10"></i><b>(10)</b>
-    void deleteApi&lt;Entity&gt;NotFound() throws Exception {
-        final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
-        assertFalse(&lt;entity&gt;Repository.findById(uuid).isPresent());
-        mockMvc.perform(delete(&quot;/api/&lt;entity&gt;/&quot; + uuid))
-                .andDo(print())
-                .andExpect(status()
-                        .isNotFound());
-    }
-
-    @Test <i class="conum" data-value="11"></i><b>(11)</b>
     @Order(999)
-    void cleanup() {
+    void cleanup() { <i class="conum" data-value="8"></i><b>(8)</b>
         assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }</code></pre>
@@ -1403,37 +1366,65 @@ class &lt;Entity&gt;RestApiTest {
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Test for the error path of a POST operation when the entity has unique key constraints.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="5"></i><b>5</b></td>
 <td>Test for the happy path of a PUT operation.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
 <td>Test for the happy path of a PATCH operation.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
 <td>Test for the happy path of a GET operation.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="8"></i><b>8</b></td>
-<td>Test for the error path of a GET operation when the entity does not exist.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
 <td>Test for the happy path of a DELETE operation.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="10"></i><b>10</b></td>
-<td>Test for the error path of a DELETE operation when the entity does not exist.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="11"></i><b>11</b></td>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
 <td>Empty all entity tables.</td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Add a test for the happy path of a PATCH operation for each property, collection and relation.</p>
+</div>
+<div class="paragraph">
+<p>Add a test for the <code>NotFound</code> path of a GET operation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="text">@Test
+@Order(501)
+void getApiPetByIdNotFound() throws Exception {
+    final var uuid = UUID.fromString(&quot;a1111111-2222-beef-dead-beefdeadbeef&quot;);
+    assertFalse(petRepository.findById(uuid).isPresent());
+    mockMvc.perform(get(&quot;/api/pet/&quot; + uuid)
+                    .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status()
+                    .isNotFound());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add a test for the <code>NotFound</code> path of a DELETE operation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="text">@Test
+@Order(601)
+void deleteApiPetNotFound() throws Exception {
+    final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
+    assertFalse(petRepository.findById(uuid).isPresent());
+    mockMvc.perform(delete(&quot;/api/pet/&quot; + uuid))
+            .andDo(print())
+            .andExpect(status()
+                    .isNotFound());
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1742,46 +1733,73 @@ The captured predicates are validated by comparing their string representation.<
 <p>The test approach is based on a defined basic structure.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example pseudo code</div>
+<div class="title">Example</div>
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="text">@Tag(&quot;fast&quot;)
-@GraphQlTest(&lt;Entity&gt;GraphqlController.class)
+<pre class="CodeRay highlight nowrap"><code data-lang="text">include
+@Tag(&quot;fast&quot;)
+@GraphQlTest(PetGraphqlController.class)
 @Import(EsyGraphqlConfiguration.class)
 @ExtendWith({MockitoExtension.class})
-class &lt;Entity&gt;GraphqlTest {
+class PetGraphqlTest {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
     @MockitoBean
-    private &lt;Entity&gt;Repository &lt;entity&gt;Repository;
+    private PetRepository petRepository;
 
-    &lt;Entity&gt; createWithName(final String name) { <i class="conum" data-value="1"></i><b>(1)</b>
-        return &lt;Entity&gt;.fromJson(&quot;&quot;&quot;
+    @MockitoBean
+    private OwnerRepository ownerRepository;
+
+    static Pet createWithName(final String name) {
+        return Pet.fromJson(&quot;&quot;&quot;
                 {
                     &quot;name&quot;:&quot;%s&quot;,
-                    ...
+                    &quot;born&quot;:&quot;2021-04-22&quot;,
+                    &quot;species&quot;:&quot;Cat&quot;,
+                    &quot;sex&quot;:&quot;M&quot;
                 }
                 &quot;&quot;&quot;.formatted(name));
     }
 
-    @Test <i class="conum" data-value="2"></i><b>(2)</b>
-    void queryAll&lt;Entity&gt;() {
-        final var value = createWithName(&quot;Tom&quot;);
-        when(&lt;entity&gt;Repository.findAll())
+    static Owner createOwner(final String name) {
+        return Owner.fromJson(&quot;&quot;&quot;
+                {
+                    &quot;name&quot;:&quot;%s&quot;
+                }
+                &quot;&quot;&quot;.formatted(name));
+    }
+
+    @Test
+    void queryAllPet() {
+        final var value = createWithName(&quot;Tom&quot;) <i class="conum" data-value="1"></i><b>(1)</b>
+                .setOwner(createOwner(&quot;Alice Cooper&quot;));
+        when(petRepository.findAll())
                 .thenReturn(List.of(value));
+        when(ownerRepository.findAllById(anySet()))
+                .thenReturn(List.of(value.getOwner()));
         final var data = graphQlTester
                 .document(&quot;&quot;&quot;
-                        {all&lt;Entity&gt;{name}}
+                        {allPet{name sex owner{name}}}
                         &quot;&quot;&quot;)
                 .execute();
         assertNotNull(data);
-        data.path(&quot;all&lt;Entity&gt;[0].name&quot;)
+        data.path(&quot;allPet[0].name&quot;) <i class="conum" data-value="2"></i><b>(2)</b>
                 .hasValue()
                 .entity(String.class)
                 .isEqualTo(value.getName());
-        verify(&lt;entity&gt;Repository).findAll();
-        verifyNoMoreInteractions(&lt;entity&gt;Repository);
+        data.path(&quot;allPet[0].sex&quot;) <i class="conum" data-value="3"></i><b>(3)</b>
+                .hasValue()
+                .entity(Sex.class)
+                .isEqualTo(value.getSex());
+        data.path(&quot;allPet[0].owner.name&quot;) <i class="conum" data-value="4"></i><b>(4)</b>
+                .hasValue()
+                .entity(String.class)
+                .isEqualTo(value.getOwner().getName());
+        verify(petRepository).findAll();
+        verifyNoMoreInteractions(petRepository);
+        verify(ownerRepository).findAllById(anySet());
+        verifyNoMoreInteractions(ownerRepository);
     }
 }</code></pre>
 </div>
@@ -1794,7 +1812,15 @@ class &lt;Entity&gt;GraphqlTest {
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Test for the happy path of an collection query.</td>
+<td>Test for the happy path of a String property query.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Test for the happy path of a Enum property query.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Test for the happy path of a relation query.</td>
 </tr>
 </table>
 </div>
@@ -1876,67 +1902,93 @@ Changes must not persist between tests.</p>
 <p>The test approach is based on a defined basic structure.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example pseudo code</div>
+<div class="title">Example</div>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="text">@Tag(&quot;slow&quot;)
 @SpringBootTest
 @Transactional
 @Rollback(true)
-public class &lt;Entity&gt;RepositoryTest {
+public class PetRepositoryTest {
 
     @Autowired
-    private &lt;Entity&gt;Repository &lt;entity&gt;Repository;
+    private OwnerRepository ownerRepository;
 
-    &lt;Entity&gt; createWithName(final String name) { <i class="conum" data-value="1"></i><b>(1)</b>
-        return &lt;Entity&gt;.fromJson(&quot;&quot;&quot;
+    @Autowired
+    private PetRepository petRepository;
+
+    Pet createWithName(final String name) {
+        return Pet.fromJson(&quot;&quot;&quot;
                 {
                     &quot;name&quot;:&quot;%s&quot;,
-                    ...
+                    &quot;born&quot;:&quot;2021-04-22&quot;,
+                    &quot;species&quot;:&quot;Cat&quot;,
+                    &quot;sex&quot;:&quot;M&quot;
                 }
                 &quot;&quot;&quot;.formatted(name));
     }
 
-    @Test <i class="conum" data-value="1"></i><b>(1)</b>
-    void save&lt;Entity&gt;() {
-        final var name = &quot;Max Mustermann&quot;;
-        final var value0 = createWithName(name);
+    Owner saveOwner(final String name) {
+        final var owner = Owner.fromJson(&quot;&quot;&quot;
+                {
+                    &quot;name&quot;:&quot;%s&quot;,
+                    &quot;address&quot;:&quot;Bergweg 1, 5400 Hallein&quot;,
+                    &quot;contact&quot;:&quot;+43 660 5557683&quot;
+                }
+                &quot;&quot;&quot;.formatted(name));
+        return ownerRepository.save(owner);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            &quot;Käthe&quot;,
+            &quot;Jörg&quot;,
+            &quot;Ümit&quot;
+    })
+    void savePet(final String name) {
+        final var value0 = createWithName(name); <i class="conum" data-value="1"></i><b>(1)</b>
         assertFalse(value0.isPersisted());
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
         assertEquals(name, value0.getName());
-        ...
+        assertNotNull(value0.getBorn());
+        assertNotNull(value0.getSpecies());
+        assertNotNull(value0.getSex());
+        assertNull(value0.getOwner());
 
-        final var value1 = &lt;entity&gt;Repository.save(value0);
+        final var owner = saveOwner(&quot;Max Mustermann&quot;);
+        final var value1 = petRepository.save(value0.setOwner(owner));
         assertNotNull(value1);
         assertNotSame(value0, value1);
         assertTrue(value1.isPersisted());
         assertEquals(0L, value1.getVersion());
-        assertNotNull(value1.getId());
         assertTrue(value1.isEqual(value0));
+        assertNotNull(value1.getOwner());
     }
 
     @Test <i class="conum" data-value="2"></i><b>(2)</b>
-    void find&lt;Entity&gt;() {
-        final var name = &quot;Max Mustermann&quot;;
-        final var value = &lt;entity&gt;Repository.save(createWithName(name));
-        assertTrue(&lt;entity&gt;Repository.existsById(value.getId()));
-        assertTrue(&lt;entity&gt;Repository.findById(value.getId()).orElseThrow().isEqual(value));
+    void findPet() {
+        final var owner = saveOwner(&quot;Max Mustermann&quot;);
+        final var name = &quot;Odi&quot;;
+        final var value = petRepository.save(createWithName(name).setOwner(owner));
+        assertTrue(petRepository.existsById(value.getId()));
+        assertTrue(petRepository.findById(value.getId()).orElseThrow().isEqual(value));
     }
 
     @Test <i class="conum" data-value="3"></i><b>(3)</b>
-    void find&lt;Entity&gt;NoElement() {
+    void findPetNoElement() {
         final var uuid = UUID.randomUUID();
-        assertFalse(&lt;entity&gt;Repository.existsById(uuid));
-        assertFalse(&lt;entity&gt;Repository.findById(uuid).isPresent());
+        assertFalse(petRepository.existsById(uuid));
+        assertFalse(petRepository.findById(uuid).isPresent());
     }
 
     @Test <i class="conum" data-value="4"></i><b>(4)</b>
     void findAll() {
-        final var value1 = &lt;entity&gt;Repository.save(createWithName(&quot;Max Mustermann&quot;));
-        final var value2 = &lt;entity&gt;Repository.save(createWithName(&quot;Mia Musterfrau&quot;));
-        final var value3 = &lt;entity&gt;Repository.save(createWithName(&quot;Jet Li&quot;));
-        assertEquals(3, &lt;entity&gt;Repository.count());
-        final var allValue = &lt;entity&gt;Repository.findAll();
+        final var owner = saveOwner(&quot;Max Mustermann&quot;);
+        final var value1 = petRepository.save(createWithName(&quot;Odi&quot;).setOwner(owner));
+        final var value2 = petRepository.save(createWithName(&quot;Tom&quot;).setOwner(owner));
+        final var value3 = petRepository.save(createWithName(&quot;Jerry&quot;).setOwner(owner));
+        assertEquals(3, petRepository.count());
+        final var allValue = petRepository.findAll();
         assertEquals(3, allValue.size());
         assertTrue(allValue.remove(value1));
         assertTrue(allValue.remove(value2));
@@ -4753,74 +4805,125 @@ They are completely isolated and are fast and parallelizable.</p>
 <p>The test approach is based on a defined basic structure.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example pseudo code</div>
+<div class="title">Example</div>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="text">@Tag(&quot;fast&quot;)
-class &lt;Entity&gt;Test {
+class PetTest {
 
-    &lt;Entity&gt; createWithName(final String name) { <i class="conum" data-value="1"></i><b>(1)</b>
-        return &lt;Entity&gt;.fromJson(&quot;&quot;&quot;
+    static Pet createWithName(final String name, final LocalDate born) {
+        return Pet.fromJson(&quot;&quot;&quot;
+                        {
+                                &quot;name&quot;:&quot;%s&quot;,
+                                &quot;born&quot;:&quot;%s&quot;,
+                                &quot;species&quot;:&quot;Cat&quot;,
+                                &quot;sex&quot;:&quot;M&quot;
+                        }
+                        &quot;&quot;&quot;.formatted(name, Pet.DATE_FORMATTER.format(born)))
+                .setOwner(createOwner(&quot;Max Mustermann&quot;));
+    }
+
+    static Owner createOwner(final String name) {
+        return Owner.fromJson(&quot;&quot;&quot;
                 {
-                    &quot;name&quot;:&quot;%s&quot;,
-                    ...
+                    &quot;id&quot;:&quot;deadbeef-dead-beef-dead-deadbeefdead&quot;,
+                    &quot;name&quot;:&quot;%s&quot;
                 }
                 &quot;&quot;&quot;.formatted(name));
     }
 
-    @Test <i class="conum" data-value="2"></i><b>(2)</b>
-    void equalsHashcodeToString() {
-        final var name = &quot;Max Mustermann&quot;;
-        final var value = createWithName(name);
-        // identical objects
+    @Test
+    void equalsHashcodeToString() { <i class="conum" data-value="1"></i><b>(1)</b>
+        final var name = &quot;Tom&quot;;
+        final var value = createWithName(name, LocalDate.now());
+        // this object
         assertEquals(value, value);
         assertTrue(value.isEqual(value));
         assertEquals(value.hashCode(), value.hashCode());
         assertEquals(value.toString(), value.toString());
-        // same objects
-        final var clone = createWithName(name);
+        // same object
+        final var clone = createWithName(name, LocalDate.now());
         assertNotSame(value, clone);
         assertNotEquals(clone, value);
         assertTrue(value.isEqual(clone));
         assertNotEquals(clone.hashCode(), value.hashCode());
         assertNotEquals(clone.toString(), value.toString());
-        // different objects
-        final var other = createWithName(name.toUpperCase());
+        // other object
+        final var other = createWithName(name.toUpperCase(), LocalDate.now());
         assertNotSame(value, other);
         assertNotEquals(other, value);
         assertFalse(value.isEqual(other));
         assertNotEquals(other.hashCode(), value.hashCode());
         assertNotEquals(other.toString(), value.toString());
-        // null object
+        // null safety
         assertNotEquals(value, null);
         assertFalse(value.isEqual(null));
-        // wrong object
+        // other type
         assertNotEquals(this, value);
     }
 
-    @Test <i class="conum" data-value="3"></i><b>(3)</b>
-    void writeJson() {
-        final var name = &quot;Max Mustermann&quot;;
-        final var value = createWithName(name);
+    @Test
+    void writeJson() { <i class="conum" data-value="2"></i><b>(2)</b>
+        final var name = &quot;Tom&quot;;
+        final var value = createWithName(name, LocalDate.now());
         final var json = new JsonJpaMapper().parseJsonNode(value.writeJson());
         assertFalse(json.at(&quot;/version&quot;).isMissingNode());
         assertFalse(json.at(&quot;/id&quot;).isMissingNode());
         assertFalse(json.at(&quot;/name&quot;).isMissingNode());
-        ...
+        assertFalse(json.at(&quot;/born&quot;).isMissingNode());
+        assertFalse(json.at(&quot;/species&quot;).isMissingNode());
+        assertFalse(json.at(&quot;/sex&quot;).isMissingNode());
+        assertTrue(json.at(&quot;/owner&quot;).isMissingNode());
     }
 
-    @Test <i class="conum" data-value="4"></i><b>(4)</b>
-    void withId() {
-        final var name = &quot;Max Mustermann&quot;;
-        final var value0 = createWithName(name);
+    @Test
+    void withId() { <i class="conum" data-value="3"></i><b>(3)</b>
+        final var name = &quot;Tom&quot;;
+        final var value0 = createWithName(name, LocalDate.now());
         assertNotNull(value0.getId());
         assertNotNull(value0.getName());
-        assertNotNull(value0.getAllSkill());
-        assertNotNull(value0.getAllSpecies());
+        assertNotNull(value0.getBorn());
+        assertNotNull(value0.getSpecies());
+        assertNotNull(value0.getSex());
+        assertNotNull(value0.getOwner());
         final var value1 = value0.withId(value0.getId());
         assertSame(value0, value1);
         final var value2 = value0.withId(UUID.randomUUID());
         assertNotSame(value0, value2);
         assertTrue(value0.isEqual(value2));
+    }
+
+    @Test
+    void jsonName() { <i class="conum" data-value="4"></i><b>(4)</b>
+        final var name = &quot;Odi&quot;;
+        final var value = Pet.fromJson(&quot;&quot;&quot;
+                        {
+                            &quot;name&quot;:&quot;%s&quot;,
+                            &quot;born&quot;:&quot;2007-03-09&quot;,
+                            &quot;species&quot;:&quot;Cat&quot;,
+                            &quot;sex&quot;:&quot;M&quot;
+                        }
+                        &quot;&quot;&quot;.formatted(name));
+        assertDoesNotThrow(value::verify);
+        assertEquals(name, value.getName());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            &quot;&quot;,
+            &quot; &quot;,
+            &quot;\\t&quot;,
+            &quot;\\n&quot;
+    })
+    void jsonNameConstraints(final String text) { <i class="conum" data-value="5"></i><b>(5)</b>
+        final var json = &quot;&quot;&quot;
+                        {
+                            &quot;name&quot;:&quot;%s&quot;,
+                            &quot;born&quot;:&quot;2007-03-09&quot;,
+                            &quot;species&quot;:&quot;Cat&quot;,
+                            &quot;sex&quot;:&quot;M&quot;
+                        }
+                        &quot;&quot;&quot;.formatted(text);
+        assertThrows(IllegalArgumentException.class, () -&gt; Pet.fromJson(json).verify());
     }
 }</code></pre>
 </div>
@@ -4829,21 +4932,31 @@ class &lt;Entity&gt;Test {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Create test data with unique attributes, e.g. the name.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>Test for equality operations, at least for identical objects, same objects, different objects, null object and wrong type</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>Test for serialization operations, using json path queries.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>Test for cloning.</td>
 </tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Test for the <code>name</code> property.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Test for the <code>name</code> validation constraints.</td>
+</tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Add a test for the happy path for each property, collection and relation.</p>
+</div>
+<div class="paragraph">
+<p>Add a test for the error path for each property, collection and relation with validation constraints.</p>
 </div>
 </div>
 </div>
@@ -4852,8 +4965,8 @@ class &lt;Entity&gt;Test {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.5<br>
-Last updated 2026-04-17 10:59:16 UTC
+Version 1.6<br>
+Last updated 2026-04-17 18:20:20 UTC
 </div>
 </div>
 </body>

@@ -24,7 +24,7 @@
 </ul>
 <div class="tab">
 <h2>Gradle Test Run :lib:backend-data:test</h2>
-<h1>[2] date=2021-04-21</h1>
+<h1>[2] date = &quot;2021-04-21&quot;</h1>
 <div class="tab-container">
 <ul class="tabLinks">
 <li>
@@ -86,9 +86,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-postApiVisit(String)[2]">2026-04-17T11:01:24.487Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T11:01:24.487Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T11:01:24.488Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-postApiVisit(String)[2]">2026-04-17T18:22:29.889Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T18:22:29.889Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T18:22:29.890Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         p1_0.id,
@@ -132,8 +132,8 @@ Hibernate:
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T11:01:24.496Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:ce2fcf98-f99a-4a90-908d-bd07ebcd574d,date='2021-04-21']; creating ...
-2026-04-17T11:01:24.496Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:ce2fcf98-f99a-4a90-908d-bd07ebcd574d,date='2021-04-21']
+2026-04-17T18:22:29.899Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:1a60ffb5-14eb-4349-8bcb-85425a7de79c,date='2021-04-21']; creating ...
+2026-04-17T18:22:29.899Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:1a60ffb5-14eb-4349-8bcb-85425a7de79c,date='2021-04-21']
 Hibernate: 
     select
         v1_0.id,
@@ -155,20 +155,7 @@ Hibernate:
         (billable, date, pet_id, text, time, version, vet_id, id) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?)
-2026-04-17T11:01:24.499Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:ce2fcf98-f99a-4a90-908d-bd07ebcd574d,date='2021-04-21']
-2026-04-17T11:01:24.502Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    37765 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    1300677 nanoseconds spent preparing 5 JDBC statements;
-    286052 nanoseconds spent executing 4 JDBC statements;
-    111728 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    1354887 nanoseconds spent executing 1 flushes (flushing a total of 4 entities and 3 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+2026-04-17T18:22:29.903Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:1a60ffb5-14eb-4349-8bcb-85425a7de79c,date='2021-04-21']
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -200,43 +187,44 @@ FlashMap:
 MockHttpServletResponse:
            Status = 201
     Error message = null
-          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/visit/ce2fcf98-f99a-4a90-908d-bd07ebcd574d&quot;, Content-Type:&quot;application/json&quot;]
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;id&quot; : &quot;ce2fcf98-f99a-4a90-908d-bd07ebcd574d&quot;,
-  &quot;date&quot; : &quot;2021-04-21&quot;,
-  &quot;text&quot; : &quot;Lorem ipsum.&quot;,
   &quot;billable&quot; : false,
+  &quot;date&quot; : &quot;2021-04-21&quot;,
+  &quot;id&quot; : &quot;1a60ffb5-14eb-4349-8bcb-85425a7de79c&quot;,
+  &quot;text&quot; : &quot;Lorem ipsum.&quot;,
+  &quot;time&quot; : null,
   &quot;version&quot; : 0,
   &quot;ownerItem&quot; : {
-    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Emma Milner&quot;
+    &quot;text&quot; : &quot;Emma Milner&quot;,
+    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;petItem&quot; : {
-    &quot;value&quot; : &quot;c1111111-1111-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Dog 'Odi'&quot;
+    &quot;text&quot; : &quot;Dog 'Odi'&quot;,
+    &quot;value&quot; : &quot;c1111111-1111-beef-dead-beefdeadbeef&quot;
   },
   &quot;vetItem&quot; : {
-    &quot;value&quot; : &quot;d1111111-1111-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Alex Fleming&quot;
+    &quot;text&quot; : &quot;Alex Fleming&quot;,
+    &quot;value&quot; : &quot;d1111111-1111-beef-dead-beefdeadbeef&quot;
   },
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
     &quot;rel&quot; : &quot;self&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/ce2fcf98-f99a-4a90-908d-bd07ebcd574d&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c&quot;
   }, {
     &quot;rel&quot; : &quot;visit&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/ce2fcf98-f99a-4a90-908d-bd07ebcd574d&quot;
-  }, {
-    &quot;rel&quot; : &quot;vet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/ce2fcf98-f99a-4a90-908d-bd07ebcd574d/vet&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c&quot;
   }, {
     &quot;rel&quot; : &quot;pet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/ce2fcf98-f99a-4a90-908d-bd07ebcd574d/pet&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c/pet&quot;
+  }, {
+    &quot;rel&quot; : &quot;vet&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c/vet&quot;
   } ]
 }
     Forwarded URL = null
-   Redirected URL = http://localhost:8080/api/visit/ce2fcf98-f99a-4a90-908d-bd07ebcd574d
+   Redirected URL = http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c
           Cookies = []
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-postApiVisit(String)[2]">Copy</button>
@@ -252,7 +240,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>

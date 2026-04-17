@@ -7,7 +7,7 @@ import esy.auth.Cors;
 import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaMapper;
 import lombok.NonNull;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -71,8 +71,8 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
 
     // tag::jacksonCustomizer[]
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
-<span class="fc" id="L75">        return builder -&gt; builder.postConfigurer(JsonJpaMapper::configure);</span>
+    public JsonMapperBuilderCustomizer jacksonCustomizer() {
+<span class="fc" id="L75">        return JsonJpaMapper::configure;</span>
     }
     // end::jacksonCustomizer[]
 
@@ -95,7 +95,7 @@ import static org.springframework.data.rest.core.mapping.RepositoryDetectionStra
 <span class="fc" id="L95">        return new RepositoryRestConfigurer() {</span>
 
             @Override
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, final CorsRegistry registry) {</span>
+<span class="pc bpc" id="L98" title="2 of 4 branches missed.">            public void configureRepositoryRestConfiguration(@NonNull final RepositoryRestConfiguration configuration, @NonNull final CorsRegistry registry) {</span>
                 // apply REST defaults
 <span class="fc" id="L100">                configuration.setBasePath(API_PATH);</span>
 <span class="fc" id="L101">                configuration.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);</span>

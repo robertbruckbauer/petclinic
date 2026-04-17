@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.045s</div>
+<div class="counter">0.022s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,79 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-patchApiVisitPet()">2026-04-17T11:01:24.680Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T11:01:24.680Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T11:01:24.681Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-Hibernate: 
-    select
-        v1_0.id,
-        v1_0.billable,
-        v1_0.date,
-        v1_0.pet_id,
-        v1_0.text,
-        v1_0.time,
-        v1_0.version,
-        v1_0.vet_id 
-    from
-        visit v1_0 
-    where
-        v1_0.id=?
-Hibernate: 
-    select
-        p1_0.id,
-        p1_0.born,
-        p1_0.name,
-        p1_0.owner_id,
-        p1_0.sex,
-        p1_0.species,
-        p1_0.version 
-    from
-        pet p1_0 
-    where
-        p1_0.id=?
-Hibernate: 
-    select
-        o1_0.id,
-        o1_0.address,
-        o1_0.contact,
-        o1_0.name,
-        o1_0.version 
-    from
-        owner o1_0 
-    where
-        o1_0.id=?
-Hibernate: 
-    select
-        v1_0.id,
-        as1_0.id,
-        as1_0.skill,
-        as2_0.id,
-        as2_0.species,
-        v1_0.name,
-        v1_0.version 
-    from
-        vet v1_0 
-    left join
-        vet_skill as1_0 
-            on v1_0.id=as1_0.id 
-    left join
-        vet_species as2_0 
-            on v1_0.id=as2_0.id 
-    where
-        v1_0.id=?
-2026-04-17T11:01:24.702Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    27055 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    16058489 nanoseconds spent preparing 4 JDBC statements;
-    187975 nanoseconds spent executing 4 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+<pre id="root-0-test-stdout-patchApiVisitPet()">2026-04-17T18:22:30.035Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T18:22:30.035Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T18:22:30.036Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         v1_0.id,
@@ -217,6 +147,20 @@ Hibernate:
         v1_0.id=?
 Hibernate: 
     select
+        v1_0.id,
+        v1_0.billable,
+        v1_0.date,
+        v1_0.pet_id,
+        v1_0.text,
+        v1_0.time,
+        v1_0.version,
+        v1_0.vet_id 
+    from
+        visit v1_0 
+    where
+        v1_0.id=?
+Hibernate: 
+    select
         p1_0.id,
         p1_0.born,
         p1_0.name,
@@ -228,8 +172,51 @@ Hibernate:
         pet p1_0 
     where
         p1_0.id=?
-2026-04-17T11:01:24.712Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:3,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-24']; updating ...
-2026-04-17T11:01:24.712Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:3,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-24']
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.address,
+        o1_0.contact,
+        o1_0.name,
+        o1_0.version 
+    from
+        owner o1_0 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        v1_0.id,
+        as1_0.id,
+        as1_0.skill,
+        as2_0.id,
+        as2_0.species,
+        v1_0.name,
+        v1_0.version 
+    from
+        vet v1_0 
+    left join
+        vet_skill as1_0 
+            on v1_0.id=as1_0.id 
+    left join
+        vet_species as2_0 
+            on v1_0.id=as2_0.id 
+    where
+        v1_0.id=?
+Hibernate: 
+    select
+        p1_0.id,
+        p1_0.born,
+        p1_0.name,
+        p1_0.owner_id,
+        p1_0.sex,
+        p1_0.species,
+        p1_0.version 
+    from
+        pet p1_0 
+    where
+        p1_0.id=?
+2026-04-17T18:22:30.045Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:3,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-24']; updating ...
+2026-04-17T18:22:30.046Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:3,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-24']
 Hibernate: 
     update
         visit 
@@ -244,20 +231,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T11:01:24.715Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:4,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-24']
-2026-04-17T11:01:24.716Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    32776 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    1343419 nanoseconds spent preparing 6 JDBC statements;
-    229657 nanoseconds spent executing 5 JDBC statements;
-    183649 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    1784104 nanoseconds spent executing 1 flushes (flushing a total of 5 entities and 3 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+2026-04-17T18:22:30.048Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:4,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-24']
 
 MockHttpServletRequest:
       HTTP Method = PATCH
@@ -292,23 +266,23 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;4&quot;&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;id&quot; : &quot;e1111111-1111-beef-dead-beefdeadbeef&quot;,
-  &quot;date&quot; : &quot;2021-04-24&quot;,
-  &quot;time&quot; : &quot;10:42&quot;,
-  &quot;text&quot; : &quot;At vero eos&quot;,
   &quot;billable&quot; : false,
+  &quot;date&quot; : &quot;2021-04-24&quot;,
+  &quot;id&quot; : &quot;e1111111-1111-beef-dead-beefdeadbeef&quot;,
+  &quot;text&quot; : &quot;At vero eos&quot;,
+  &quot;time&quot; : &quot;10:42&quot;,
   &quot;version&quot; : 4,
   &quot;ownerItem&quot; : {
-    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Emma Milner&quot;
+    &quot;text&quot; : &quot;Emma Milner&quot;,
+    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;petItem&quot; : {
-    &quot;value&quot; : &quot;c2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Cat 'Tom'&quot;
+    &quot;text&quot; : &quot;Cat 'Tom'&quot;,
+    &quot;value&quot; : &quot;c2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;vetItem&quot; : {
-    &quot;value&quot; : &quot;d1111111-1111-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Alex Fleming&quot;
+    &quot;text&quot; : &quot;Alex Fleming&quot;,
+    &quot;value&quot; : &quot;d1111111-1111-beef-dead-beefdeadbeef&quot;
   },
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
@@ -318,11 +292,11 @@ MockHttpServletResponse:
     &quot;rel&quot; : &quot;visit&quot;,
     &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef&quot;
   }, {
-    &quot;rel&quot; : &quot;vet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet&quot;
-  }, {
     &quot;rel&quot; : &quot;pet&quot;,
     &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet&quot;
+  }, {
+    &quot;rel&quot; : &quot;vet&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet&quot;
   } ]
 }
     Forwarded URL = null
@@ -342,7 +316,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>

@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.030s</div>
+<div class="counter">0.022s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,46 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-patchApiPetOwner()">2026-04-17T11:01:22.821Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T11:01:22.821Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T11:01:22.823Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-Hibernate: 
-    select
-        p1_0.id,
-        p1_0.born,
-        p1_0.name,
-        p1_0.owner_id,
-        p1_0.sex,
-        p1_0.species,
-        p1_0.version 
-    from
-        pet p1_0 
-    where
-        p1_0.id=?
-Hibernate: 
-    select
-        o1_0.id,
-        o1_0.address,
-        o1_0.contact,
-        o1_0.name,
-        o1_0.version 
-    from
-        owner o1_0 
-    where
-        o1_0.id=?
-2026-04-17T11:01:22.826Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    35370 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    561502 nanoseconds spent preparing 2 JDBC statements;
-    140089 nanoseconds spent executing 2 JDBC statements;
-    0 nanoseconds spent executing 0 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+<pre id="root-0-test-stdout-patchApiPetOwner()">2026-04-17T18:22:28.476Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T18:22:28.476Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T18:22:28.477Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         p1_0.id,
@@ -151,6 +114,19 @@ Hibernate:
         o1_0.id=?
 Hibernate: 
     select
+        p1_0.id,
+        p1_0.born,
+        p1_0.name,
+        p1_0.owner_id,
+        p1_0.sex,
+        p1_0.species,
+        p1_0.version 
+    from
+        pet p1_0 
+    where
+        p1_0.id=?
+Hibernate: 
+    select
         o1_0.id,
         o1_0.address,
         o1_0.contact,
@@ -160,8 +136,19 @@ Hibernate:
         owner o1_0 
     where
         o1_0.id=?
-2026-04-17T11:01:22.835Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:8,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']; updating ...
-2026-04-17T11:01:22.836Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:8,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.address,
+        o1_0.contact,
+        o1_0.name,
+        o1_0.version 
+    from
+        owner o1_0 
+    where
+        o1_0.id=?
+2026-04-17T18:22:28.486Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:8,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']; updating ...
+2026-04-17T18:22:28.486Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:8,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
 Hibernate: 
     update
         pet 
@@ -175,20 +162,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T11:01:22.840Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
-2026-04-17T11:01:22.842Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
-    32319 nanoseconds spent acquiring 1 JDBC connections;
-    0 nanoseconds spent releasing 0 JDBC connections;
-    1270424 nanoseconds spent preparing 4 JDBC statements;
-    195208 nanoseconds spent executing 3 JDBC statements;
-    203059 nanoseconds spent executing 1 JDBC batches;
-    0 nanoseconds spent performing 0 L2C puts;
-    0 nanoseconds spent performing 0 L2C hits;
-    0 nanoseconds spent performing 0 L2C misses;
-    2659035 nanoseconds spent executing 1 flushes (flushing a total of 3 entities and 2 collections);
-    0 nanoseconds spent executing 0 pre-partial-flushes;
-    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
-}
+2026-04-17T18:22:28.488Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:9,id:a1111111-1111-beef-dead-beefdeadbeef,name='Anita']
 
 MockHttpServletRequest:
       HTTP Method = PATCH
@@ -223,15 +197,15 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;9&quot;&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
+  &quot;born&quot; : &quot;2021-04-27&quot;,
   &quot;id&quot; : &quot;a1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;name&quot; : &quot;Anita&quot;,
-  &quot;born&quot; : &quot;2021-04-27&quot;,
-  &quot;species&quot; : &quot;Rat&quot;,
   &quot;sex&quot; : &quot;F&quot;,
+  &quot;species&quot; : &quot;Rat&quot;,
   &quot;version&quot; : 9,
   &quot;ownerItem&quot; : {
-    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;,
-    &quot;text&quot; : &quot;Emma Milner&quot;
+    &quot;text&quot; : &quot;Emma Milner&quot;,
+    &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;
   },
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
@@ -262,7 +236,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
 </div>
 </div>
 </body>
