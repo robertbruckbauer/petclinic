@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Setup java</h1>
 <div class="details">
-<span id="revnumber">version 1.4</span>
+<span id="revnumber">version 1.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -553,6 +553,9 @@ Java is used for the backend server application and for build tooling and tasks.
 <div class="sect1">
 <h2 id="_build"><a class="anchor" href="#_build"></a><a class="link" href="#_build">Build</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>A configuration for the <code>JavaPlugin</code> sets the java version required to compile the source code (sourceCompatibility) and to run the compiled bytecode (targetCompatibility) for all java based gradle subprojects.</p>
+</div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
@@ -565,7 +568,8 @@ Java is used for the backend server application and for build tooling and tasks.
 </div>
 </div>
 <div class="paragraph">
-<p>This configuration sets the java version required to compile the source code (sourceCompatibility) and to run the compiled bytecode (targetCompatibility) for all java based gradle subprojects.</p>
+<p>The Paketo buildpack configuration in the <code>bootBuildImage</code> task specifies the java version for the container runtime.
+It uses a distribution provided by Liberica.</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
@@ -583,8 +587,8 @@ Java is used for the backend server application and for build tooling and tasks.
 </div>
 </div>
 <div class="paragraph">
-<p>The Paketo buildpack configuration in the <code>bootBuildImage</code> task specifies the java version for the container runtime.
-It uses a distribution provided by Liberica.</p>
+<p>The Jib configuration in the <code>jibDockerBuild</code> task specifies the java version for the container runtime.
+It uses a distribution provided by Temurin.</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
@@ -607,15 +611,15 @@ It uses a distribution provided by Liberica.</p>
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>The Jib configuration in the <code>jibDockerBuild</code> task specifies the java version for the container runtime.
-It uses a distribution provided by Temurin.</p>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_github"><a class="anchor" href="#_github"></a><a class="link" href="#_github">Github</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The GitHub actions workflow configures java for automated builds and tests.
+It uses a distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).</p>
+</div>
 <div class="listingblock">
 <div class="title">build.yml</div>
 <div class="content">
@@ -627,8 +631,7 @@ It uses a distribution provided by Temurin.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The GitHub actions workflow configures java for automated builds and tests.
-It uses a distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).</p>
+<p>The Github devcontainer adds the java feature.</p>
 </div>
 <div class="listingblock">
 <div class="title">devcontainer.json</div>
@@ -637,20 +640,17 @@ It uses a distribution provided by Eclipse Temurin (formerly AdoptOpenJDK).</p>
   &quot;version&quot;: &quot;21&quot;,
   &quot;jdkDistro&quot;: &quot;tem&quot;,
   &quot;installGradle&quot;: &quot;true&quot;,
-  &quot;gradleVersion&quot;: &quot;8.14&quot;
+  &quot;gradleVersion&quot;: &quot;9.4.1&quot;
 },</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>The Github devcontainer adds the java feature.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.4<br>
-Last updated 2026-04-11 13:31:41 UTC
+Version 1.5<br>
+Last updated 2026-04-17 10:59:16 UTC
 </div>
 </div>
 </body>

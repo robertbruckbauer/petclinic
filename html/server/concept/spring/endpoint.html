@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Specification for endpoints</h1>
 <div class="details">
-<span id="revnumber">version 1.4</span>
+<span id="revnumber">version 1.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -2039,7 +2039,7 @@ However, the value is transferred to an <code>ETAG</code> header.</td>
 </table>
 </div>
 <div class="paragraph">
-<p>The property is part of the base class.
+<p>The property <code>version</code> is part of the base class.
 This ensures that all objects have the same procedure for maintaining integrity.</p>
 </div>
 <div class="listingblock">
@@ -2080,7 +2080,7 @@ The value can also be null.</td>
 </table>
 </div>
 <div class="paragraph">
-<p>The property is part of the base class.
+<p>The property <code>id</code> is part of the base class.
 This ensures that all objects have the same procedure for maintaining a primary key.</p>
 </div>
 </div>
@@ -2128,25 +2128,25 @@ This ensures that all objects have the same procedure for maintaining a primary 
 <div class="sect5">
 <h6 id="_property_initialization"><a class="anchor" href="#_property_initialization"></a><a class="link" href="#_property_initialization">Property initialization</a></h6>
 <div class="paragraph">
-<p>The property is initialized in the base class.</p>
+<p>The properties are initialized in the base class.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_property_manipulation"><a class="anchor" href="#_property_manipulation"></a><a class="link" href="#_property_manipulation">Property manipulation</a></h6>
 <div class="paragraph">
-<p>The property must not be changed.</p>
+<p>The properties must not be changed.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_property_verification"><a class="anchor" href="#_property_verification"></a><a class="link" href="#_property_verification">Property verification</a></h6>
 <div class="paragraph">
-<p>The property must not be verified.</p>
+<p>The properties must not be verified.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_property_serialization"><a class="anchor" href="#_property_serialization"></a><a class="link" href="#_property_serialization">Property serialization</a></h6>
 <div class="paragraph">
-<p>The property is by default part of the JSON structure.</p>
+<p>The properties are by default part of the JSON structure.</p>
 </div>
 </div>
 <div class="sect5">
@@ -2160,23 +2160,26 @@ This ensures that all objects have the same procedure for maintaining a primary 
 <div class="paragraph">
 <p>The <code>withId</code> test verifies cloning.</p>
 </div>
+<div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
+</div>
 </div>
 <div class="sect5">
 <h6 id="_entityrepositorytest_approach"><a class="anchor" href="#_entityrepositorytest_approach"></a><a class="link" href="#_entityrepositorytest_approach"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
-<p>Do not create a test specifically for this property.</p>
+<p>Do not create a test specifically for these properties.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_entitygraphqltest_approach"><a class="anchor" href="#_entitygraphqltest_approach"></a><a class="link" href="#_entitygraphqltest_approach"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
-<p>Do not create a test specifically for this property.</p>
+<p>Do not create a test specifically for these properties.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_entityrestapitest_approach"><a class="anchor" href="#_entityrestapitest_approach"></a><a class="link" href="#_entityrestapitest_approach"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
 <div class="paragraph">
-<p>Do not create a test specifically for this property.</p>
+<p>Do not create a test specifically for these properties.</p>
 </div>
 </div>
 </div>
@@ -2348,6 +2351,9 @@ Use <code>Objects#equals</code>.</p>
 </div>
 <div class="paragraph">
 <p>The <code>withId</code> test verifies cloning.</p>
+</div>
+<div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
 <p>The <code>json&lt;Name&gt;</code> test verifies the happy path, e.g.</p>
@@ -2698,6 +2704,9 @@ Use <code>Objects#equals</code>.</p>
 </div>
 <div class="paragraph">
 <p>The <code>withId</code> test verifies cloning.</p>
+</div>
+<div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
 <p>The <code>json&lt;Name&gt;</code> test verifies the happy path, e.g.</p>
@@ -3071,6 +3080,9 @@ The date value is provided as a string literal in <code>yyyy-MM-dd</code> format
 <p>The <code>withId</code> test verifies cloning.</p>
 </div>
 <div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
+</div>
+<div class="paragraph">
 <p>The <code>json&lt;Name&gt;</code> parameterized test verifies the happy path, e.g.</p>
 </div>
 <div class="ulist">
@@ -3421,6 +3433,9 @@ The date value is provided as a string literal in <code>HH:mm</code> format matc
 </div>
 <div class="paragraph">
 <p>The <code>withId</code> test verifies cloning.</p>
+</div>
+<div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
 <p>The <code>json&lt;Name&gt;</code> parameterized test verifies the happy path, e.g.</p>
@@ -3828,6 +3843,9 @@ Use <code>Objects#equals</code>.</p>
 </div>
 <div class="paragraph">
 <p>The <code>withId</code> test verifies cloning.</p>
+</div>
+<div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
 <p>The <code>json&lt;Name&gt;</code> test verifies the happy path, e.g.</p>
@@ -4301,10 +4319,15 @@ Be aware of the potential impact on performance.</p>
 Create fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.</p>
 </div>
 <div class="paragraph">
-<p>The <code>equalsHashcodeToString</code> test verifies equality operations.</p>
+<p>The <code>equalsHashcodeToString</code> test verifies equality operations.
+For <code>isEqual</code> to succeed, referenced entities must have a fixed primary key.</p>
 </div>
 <div class="paragraph">
 <p>The <code>withId</code> test verifies cloning.</p>
+</div>
+<div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.
+relations must always be absent from the JSON structure.</p>
 </div>
 </div>
 <div class="sect5">
@@ -4576,10 +4599,14 @@ Use this approach only for relations with a small number of elements.</p>
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.</p>
 </div>
 <div class="paragraph">
-<p>The <code>equalsHashcodeToString</code> test verifies equality operations.</p>
+<p>The <code>equalsHashcodeToString</code> test verifies equality operations.
+For <code>isEqual</code> to succeed, referenced entities must have a fixed primary key.</p>
 </div>
 <div class="paragraph">
 <p>The <code>withId</code> test verifies cloning.</p>
+</div>
+<div class="paragraph">
+<p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 </div>
 <div class="sect5">
@@ -4825,8 +4852,8 @@ class &lt;Entity&gt;Test {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.4<br>
-Last updated 2026-04-11 13:31:41 UTC
+Version 1.5<br>
+Last updated 2026-04-17 10:59:16 UTC
 </div>
 </div>
 </body>

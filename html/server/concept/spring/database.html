@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Specification for the database</h1>
 <div class="details">
-<span id="revnumber">version 1.4</span>
+<span id="revnumber">version 1.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -542,6 +542,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel3">
 <li><a href="#_changelog">Changelog</a></li>
 <li><a href="#_changeset">Changeset</a></li>
+<li><a href="#_migration">Migration</a></li>
 </ul>
 </li>
 </ul>
@@ -670,11 +671,16 @@ Scripts that have already been executed on this database are ignored.</p>
 <p>The <code>onFail="MARK_RAN"</code> attribute tells Liquibase to mark the changeSet as already executed if the preconditions fail, preventing errors and ensuring idempotent database migrations.
 This ensures that Liquibase only creates a table if this table does not exist.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_migration"><a class="anchor" href="#_migration"></a><a class="link" href="#_migration">Migration</a></h4>
 <div class="paragraph">
-<p>When running tests with the H2 database the same database schema may be recreated multiple times during test execution.</p>
+<p>When running the application or tests with the HyperSQL database in-memory, a full schema migration is executed automatically during application startup.
+This ensures that local development and automated tests always initialize or recreate the schema from the changelog without a separate migration step.</p>
 </div>
 <div class="paragraph">
-<p>When running the application with the PostgreSQL database, only new incremental schema changes are applied.</p>
+<p>When running the application with the PostgreSQL database, an incremetal schema migration is executed as a dedicated migration step before the backend server starts.
+This keeps startup of the application service independent from schema change execution and avoids coupling operational deployment with migration concerns.</p>
 </div>
 </div>
 </div>
@@ -683,8 +689,8 @@ This ensures that Liquibase only creates a table if this table does not exist.</
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.4<br>
-Last updated 2026-04-11 13:31:41 UTC
+Version 1.5<br>
+Last updated 2026-04-17 10:59:16 UTC
 </div>
 </div>
 </body>

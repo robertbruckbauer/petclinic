@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - postApiOwnerConflict()</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<div class="breadcrumbs">
+<a class="breadcrumb" href="../index.html">all</a> &gt; 
+<a class="breadcrumb" href="index.html">esy.app.client.OwnerRestApiTest</a> &gt; 
+<span class="breadcrumb">postApiOwnerConflict()</span>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="successGroup" href="#">Gradle Test Run :lib:backend-data:test</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Gradle Test Run :lib:backend-data:test</h2>
+<h1>postApiOwnerConflict()</h1>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="" href="#">summary</a>
+</li>
+<li>
+<a class="" href="#">standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>summary</h2>
+<div>
+<div class="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">0</div>
+<p>skipped</p>
+</div>
+</td>
+<td>
+<div class="infoBox duration">
+<div class="counter">0.034s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="tab">
+<h2>standard output</h2>
+<span class="code">
+<pre id="root-0-test-stdout-postApiOwnerConflict()">2026-04-17T11:01:21.273Z  INFO 3147 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-04-17T11:01:21.273Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-04-17T11:01:21.275Z  INFO 3147 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.address,
+        o1_0.contact,
+        o1_0.name,
+        o1_0.version 
+    from
+        owner o1_0 
+    where
+        o1_0.name=? 
+    fetch
+        first ? rows only
+2026-04-17T11:01:21.281Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    39847 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    830377 nanoseconds spent preparing 1 JDBC statements;
+    157828 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2026-04-17T11:01:21.285Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:950ab04b-c437-4ed6-8bca-7b50788a6ec7,name='Max Mustermann']; creating ...
+2026-04-17T11:01:21.286Z  INFO 3147 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:950ab04b-c437-4ed6-8bca-7b50788a6ec7,name='Max Mustermann']
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.address,
+        ap1_0.owner_id,
+        ap1_0.id,
+        ap1_0.born,
+        ap1_0.name,
+        ap1_0.sex,
+        ap1_0.species,
+        ap1_0.version,
+        o1_0.contact,
+        o1_0.name,
+        o1_0.version 
+    from
+        owner o1_0 
+    left join
+        pet ap1_0 
+            on o1_0.id=ap1_0.owner_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    insert 
+    into
+        owner
+        (address, contact, name, version, id) 
+    values
+        (?, ?, ?, ?, ?)
+2026-04-17T11:01:21.290Z  INFO 3147 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: On release of batch it still contained JDBC statements
+2026-04-17T11:01:21.290Z  WARN 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: -104, SQLState: 23505
+2026-04-17T11:01:21.290Z ERROR 3147 --- [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : integrity constraint violation: unique constraint or index violation ; UK_OWNER table: OWNER
+2026-04-17T11:01:21.293Z ERROR 3147 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/owner
+2026-04-17T11:01:21.294Z  INFO 3147 --- [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    49136 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    953591 nanoseconds spent preparing 2 JDBC statements;
+    89821 nanoseconds spent executing 1 JDBC statements;
+    328237 nanoseconds spent executing 1 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    2180996 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 1 collections);
+    0 nanoseconds spent executing 0 pre-partial-flushes;
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/owner
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;104&quot;]
+             Body = &lt;no character encoding set&gt;
+    Session Attrs = {}
+
+Handler:
+             Type = org.springframework.data.rest.webmvc.RepositoryEntityController
+           Method = org.springframework.data.rest.webmvc.RepositoryEntityController#postCollectionResource(RootResourceInformation, PersistentEntityResource, PersistentEntityResourceAssembler, String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.dao.DataIntegrityViolationException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 409
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
+     Content type = application/json
+             Body = {&quot;type&quot;:&quot;about:blank&quot;,&quot;title&quot;:&quot;Conflict&quot;,&quot;status&quot;:409,&quot;detail&quot;:&quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_OWNER table: OWNER] [insert into owner (address,contact,name,version,id) values (?,?,?,?,?)]; SQL [insert into owner (address,contact,name,version,id) values (?,?,?,?,?)]; constraint [UK_OWNER]&quot;,&quot;instance&quot;:&quot;/api/owner&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+</pre>
+<button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-postApiOwnerConflict()">Copy</button>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 11:01:25 AM</p>
+</div>
+</div>
+</body>
+</html>

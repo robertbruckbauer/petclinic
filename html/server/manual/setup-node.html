@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Setup node</h1>
 <div class="details">
-<span id="revnumber">version 1.4</span>
+<span id="revnumber">version 1.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -553,12 +553,6 @@ Node is used for the frontend server application and for build tooling and tasks
 <div class="sect1">
 <h2 id="_build"><a class="anchor" href="#_build"></a><a class="link" href="#_build">Build</a></h2>
 <div class="sectionbody">
-<div class="listingblock">
-<div class="title">Dockerfile</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="docker">FROM node:24-alpine@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b</code></pre>
-</div>
-</div>
 <div class="paragraph">
 <p>The angular frontend build stage depends on node.</p>
 </div>
@@ -571,11 +565,20 @@ Node is used for the frontend server application and for build tooling and tasks
 <div class="paragraph">
 <p>The svelte frontend build stage depends on node.</p>
 </div>
+<div class="listingblock">
+<div class="title">Dockerfile</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="docker">FROM node:24-alpine@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_github"><a class="anchor" href="#_github"></a><a class="link" href="#_github">Github</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The GitHub actions workflow configures node for automated builds and tests.</p>
+</div>
 <div class="listingblock">
 <div class="title">build.yml</div>
 <div class="content">
@@ -585,7 +588,7 @@ Node is used for the frontend server application and for build tooling and tasks
 </div>
 </div>
 <div class="paragraph">
-<p>The GitHub actions workflow configures node for automated builds and tests.</p>
+<p>The Github devcontainer adds the node feature.</p>
 </div>
 <div class="listingblock">
 <div class="title">devcontainer.json</div>
@@ -595,16 +598,13 @@ Node is used for the frontend server application and for build tooling and tasks
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>The Github devcontainer adds the node feature.</p>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.4<br>
-Last updated 2026-04-11 13:31:41 UTC
+Version 1.5<br>
+Last updated 2026-04-17 10:59:16 UTC
 </div>
 </div>
 </body>

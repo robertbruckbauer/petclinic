@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Owner REST API</h1>
 <div class="details">
-<span id="revnumber">version 1.4</span>
+<span id="revnumber">version 1.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -753,7 +753,8 @@ A pet belongs to exactly one owner.</p>
 <div class="sect2">
 <h3 id="_post_apiowner"><a class="anchor" href="#_post_apiowner"></a><a class="link" href="#_post_apiowner"><code>POST /api/owner</code></a></h3>
 <div class="paragraph">
-<p>This operation creates a new entity <code>Owner</code>.</p>
+<p>This operation creates a new entity.
+Response is of type <code>Owner</code>.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -790,7 +791,7 @@ Host: localhost:8080
 <div class="title">Response</div>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="json">{
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">address</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Bergweg 1, 5400 Hallein</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">contact</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">+43 6452 4456</span><span class="delimiter">&quot;</span></span>,
@@ -799,13 +800,13 @@ Host: localhost:8080
   <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span> : [ ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">self</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>
   }, {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">owner</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>
   }, {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">allPet</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/aeba137e-5488-4970-97d9-feff04147cb5/allPet</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/3da6d3a0-8975-49fa-8e2c-e559b24267b7/allPet</span><span class="delimiter">&quot;</span></span>
   } ]
 }</code></pre>
 </div>
@@ -825,7 +826,7 @@ Host: localhost:8080
 <div class="sect2">
 <h3 id="_put_apiownerid"><a class="anchor" href="#_put_apiownerid"></a><a class="link" href="#_put_apiownerid"><code>PUT /api/owner/{id}</code></a></h3>
 <div class="paragraph">
-<p>This operation updates an existing entity <code>Owner</code> or creates a new one.</p>
+<p>This operation updates an existing entity or creates a new one.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -1088,7 +1089,7 @@ Host: localhost:8080</code></pre>
       <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/a1111111-1111-beef-dead-beefdeadbeef/allPet</span><span class="delimiter">&quot;</span></span>
     } ]
   }, {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">address</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Bergweg 1, 5400 Hallein</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">contact</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">+43 6452 4456</span><span class="delimiter">&quot;</span></span>,
@@ -1097,13 +1098,13 @@ Host: localhost:8080</code></pre>
     <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span> : [ ],
     <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">self</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>
     }, {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">owner</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>
     }, {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">allPet</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/aeba137e-5488-4970-97d9-feff04147cb5/allPet</span><span class="delimiter">&quot;</span></span>
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/owner/3da6d3a0-8975-49fa-8e2c-e559b24267b7/allPet</span><span class="delimiter">&quot;</span></span>
     } ]
   } ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">page</span><span class="delimiter">&quot;</span></span> : {
@@ -1168,7 +1169,7 @@ Host: localhost:8080</code></pre>
     <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">a1111111-1111-beef-dead-beefdeadbeef</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Bea Musterfrau</span><span class="delimiter">&quot;</span></span>
   }, {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>
   } ]
 }</code></pre>
@@ -1202,7 +1203,7 @@ Host: localhost:8080</code></pre>
 <pre class="CodeRay highlight nowrap"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span> : [ {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">aeba137e-5488-4970-97d9-feff04147cb5</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">3da6d3a0-8975-49fa-8e2c-e559b24267b7</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>
   } ]
 }</code></pre>
@@ -1331,8 +1332,8 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.4<br>
-Last updated 2026-04-11 13:31:41 UTC
+Version 1.5<br>
+Last updated 2026-04-17 10:59:16 UTC
 </div>
 </div>
 </body>
