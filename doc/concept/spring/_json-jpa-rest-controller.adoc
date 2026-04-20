@@ -415,10 +415,22 @@ class PetRestApiTest {
                 .andExpect(jsonPath("$.name")
                         .value(name));
     }
+    
+    @Test
+    @Order(501)
+    void getApiPetByIdNotFound() throws Exception { <7>
+        final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
+        assertFalse(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(get("/api/pet/" + uuid)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isNotFound());
+    }
 
     @Test
     @Order(600)
-    void deleteApiPet() throws Exception { <7>
+    void deleteApiPet() throws Exception { <8>
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/pet/" + uuid)
@@ -433,55 +445,42 @@ class PetRestApiTest {
     }
 
     @Test
+    @Order(601)
+    void deleteApiPetNotFound() throws Exception { <9>
+        final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
+        assertFalse(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(delete("/api/pet/" + uuid))
+                .andDo(print())
+                .andExpect(status()
+                        .isNotFound());
+    }
+
+    @Test
     @Order(999)
-    void cleanup() { <8>
+    void cleanup() { <10>
         assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }
 ----
 
 <1> Setup for the asciidoc snippet generation.
-<2> Test for an empty table.
+<2> Test for the existance of an empty table with a GET operation.
+The operation expects a status code 200 with an empty list in the response.
 <3> Test for the happy path of a POST operation.
+The operation expects a status code 201 with the new content of the entity in the response.
 <4> Test for the happy path of a PUT operation.
+The operation expects a status code 201 with the new content of the entity in the response.
 <5> Test for the happy path of a PATCH operation.
+The operation expects a status code 200 with the new content of the entity in the response.
 <6> Test for the happy path of a GET operation.
-<7> Test for the happy path of a DELETE operation.
-<8> Empty all entity tables.
+The operation expects a status code 200 with the current content of the entity in the response.
+<7> Test for the `NotFound` path of a GET operation.
+The operation fails with status code 404.
+<8> Test for the happy path of a DELETE operation.
+The operation expects a status code 200 with the latest content of the entity in the response.
+<9> Test for the `NotFound` path of a DELETE operation.
+The operation fails with status code 404.
+<10> A mandatory cleanup method at the end of the test empties all entity tables.
 
 Add a test for the happy path of a PATCH operation for each property, collection and relation.
-    
-Add a test for the `NotFound` path of a GET operation.
-
-.Example
-[source,text,options="nowrap"]
-----
-@Test
-@Order(501)
-void getApiPetByIdNotFound() throws Exception {
-    final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
-    assertFalse(petRepository.findById(uuid).isPresent());
-    mockMvc.perform(get("/api/pet/" + uuid)
-                    .accept(MediaType.APPLICATION_JSON))
-            .andDo(print())
-            .andExpect(status()
-                    .isNotFound());
-}
-----
-
-Add a test for the `NotFound` path of a DELETE operation.
-
-.Example
-[source,text,options="nowrap"]
-----
-@Test
-@Order(601)
-void deleteApiPetNotFound() throws Exception {
-    final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
-    assertFalse(petRepository.findById(uuid).isPresent());
-    mockMvc.perform(delete("/api/pet/" + uuid))
-            .andDo(print())
-            .andExpect(status()
-                    .isNotFound());
-}
-----
+Add `@SQL` fixtures for other entities referenced in relations.
