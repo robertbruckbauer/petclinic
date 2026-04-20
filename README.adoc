@@ -153,8 +153,21 @@ npm install --prefix app/client-svelte
 
 [source, gradle]
 ----
+./gradlew lint
+----
+
+This command checks formatting rules without making changes to the source code. 
+Delegates to `spotlessCheck` for Java.
+Delegates to `prettierCheck` for Typescript.
+
+[source, gradle]
+----
 ./gradlew format
 ----
+
+This command applies formatting rules to the source code. 
+Delegates to `spotlessApply` for Java.
+Delegates to `prettierApply` for Typescript.
 
 === Starting Spring Boot server locally
 
