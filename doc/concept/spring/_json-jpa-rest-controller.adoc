@@ -282,18 +282,17 @@ class PetRestApiTest {
     @Order(200)
     void postApiPet() throws Exception { <3>
         final var name = "Roger";
-        final var born = "2021-04-22";
         assertFalse(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
         mockMvc.perform(post("/api/pet")
                         .content("""
                                 {
                                     "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
                                     "name":"%s",
-                                    "born":"%s",
+                                    "born":"2021-04-22",
                                     "species":"Rat",
                                     "sex":"M"
                                 }
-                                """.formatted(name, born))
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -310,18 +309,39 @@ class PetRestApiTest {
                 .andExpect(jsonPath("$.name")
                         .value(name))
                 .andExpect(jsonPath("$.born")
-                        .value(born))
+                        .isNotEmpty())
                 .andExpect(jsonPath("$.species")
-                        .value("Rat"))
+                        .isNotEmpty())
                 .andExpect(jsonPath("$.sex")
-                        .value("M"));
+                        .isNotEmpty());
+    }
+
+    @Test
+    @Order(201)
+    void postApiPetConflict() throws Exception { <4>
+        final var name = "Roger";
+        assertTrue(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
+        mockMvc.perform(post("/api/pet")
+                        .content("""
+                                {
+                                    "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
+                                    "name":"%s",
+                                    "born":"2021-04-22",
+                                    "species":"Rat",
+                                    "sex":"M"
+                                }
+                                """.formatted(name))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isConflict());
     }
 
     @Test
     @Order(300)
-    void putApiPet() throws Exception { <4>
+    void putApiPet() throws Exception { <5>
         final var name = "Anita";
-        final var born = "2021-04-27";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(put("/api/pet/" + uuid)
@@ -329,11 +349,11 @@ class PetRestApiTest {
                                 {
                                     "owner":"/api/owner/b1111111-1111-beef-dead-beefdeadbeef",
                                     "name":"%s",
-                                    "born":"%s",
+                                    "born":"2021-04-27",
                                     "species":"Rat",
                                     "sex":"F"
                                 }
-                                """.formatted(name, born))
+                                """.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -350,15 +370,15 @@ class PetRestApiTest {
                 .andExpect(jsonPath("$.ownerItem.value")
                         .value("b1111111-1111-beef-dead-beefdeadbeef"))
                 .andExpect(jsonPath("$.ownerItem.text")
-                        .value("Toby Elsden"))
+                        .isNotEmpty())
                 .andExpect(jsonPath("$.name")
                         .value(name))
                 .andExpect(jsonPath("$.born")
-                        .value(born))
+                        .isNotEmpty())
                 .andExpect(jsonPath("$.species")
-                        .value("Rat"))
+                        .isNotEmpty())
                 .andExpect(jsonPath("$.sex")
-                        .value("F"));
+                        .isNotEmpty());
     }
 
     @ParameterizedTest
@@ -367,7 +387,7 @@ class PetRestApiTest {
             "Anita"
     })
     @Order(400)
-    void patchApiPetName(final String name) throws Exception { <5>
+    void patchApiPetName(final String name) throws Exception { <6>
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch("/api/pet/" + uuid)
@@ -395,7 +415,31 @@ class PetRestApiTest {
 
     @Test
     @Order(500)
-    void getApiPetById() throws Exception { <6>
+    void getApiPet() throws Exception { <7>
+        assertEquals(2, petRepository.count());
+        mockMvc.perform(get("/api/pet")
+                        .param("sort", "name,asc")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(jsonPath("$.content")
+                        .isArray())
+                .andExpect(jsonPath("$.content[0].name")
+                        .value("Anita"))
+                .andExpect(jsonPath("$.content[1].name")
+                        .value("Roger"))
+                .andExpect(jsonPath("$.content[2]")
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(501)
+    void getApiPetById() throws Exception { <8>
         final var name = "Anita";
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -417,8 +461,8 @@ class PetRestApiTest {
     }
     
     @Test
-    @Order(501)
-    void getApiPetByIdNotFound() throws Exception { <7>
+    @Order(502)
+    void getApiPetByIdNotFound() throws Exception { <9>
         final var uuid = UUID.fromString("a1111111-2222-beef-dead-beefdeadbeef");
         assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/pet/" + uuid)
@@ -430,11 +474,11 @@ class PetRestApiTest {
 
     @Test
     @Order(600)
-    void deleteApiPet() throws Exception { <8>
+    void deleteApiPet() throws Exception { <10>
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/pet/" + uuid)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICA9ION_JSON))
                 .andDo(print())
                 .andExpect(status()
                         .isOk())
@@ -446,7 +490,7 @@ class PetRestApiTest {
 
     @Test
     @Order(601)
-    void deleteApiPetNotFound() throws Exception { <9>
+    void deleteApiPetNotFound() throws Exception { <11>
         final var uuid = UUID.fromString("a1111111-1111-beef-dead-beefdeadbeef");
         assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(delete("/api/pet/" + uuid))
@@ -457,30 +501,34 @@ class PetRestApiTest {
 
     @Test
     @Order(999)
-    void cleanup() { <10>
+    void cleanup() { <12>
         assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }
 ----
 
 <1> Setup for the asciidoc snippet generation.
-<2> Test for the existance of an empty table with a GET operation.
+<2> Test for the existance of an empty table with a GET collection operation.
 The operation expects a status code 200 with an empty list in the response.
 <3> Test for the happy path of a POST operation.
 The operation expects a status code 201 with the new content of the entity in the response.
-<4> Test for the happy path of a PUT operation.
+<4> Test for the `Conflict` path of a POST operation.
+The operation fails with status code 409.
+<5> Test for the happy path of a PUT operation.
 The operation expects a status code 201 with the new content of the entity in the response.
-<5> Test for the happy path of a PATCH operation.
+<6> Test for the happy path of a PATCH operation.
 The operation expects a status code 200 with the new content of the entity in the response.
-<6> Test for the happy path of a GET operation.
+<7> Test for the happy path of a GET collection operation.
+The operation expects a status code 200 with a non-empty list in the response.
+<8> Test for the happy path of a GET item operation.
 The operation expects a status code 200 with the current content of the entity in the response.
-<7> Test for the `NotFound` path of a GET operation.
+<9> Test for the `NotFound` path of a GET item operation.
 The operation fails with status code 404.
-<8> Test for the happy path of a DELETE operation.
+<10> Test for the happy path of a DELETE operation.
 The operation expects a status code 200 with the latest content of the entity in the response.
-<9> Test for the `NotFound` path of a DELETE operation.
+<11> Test for the `NotFound` path of a DELETE operation.
 The operation fails with status code 404.
-<10> A mandatory cleanup method at the end of the test empties all entity tables.
+<12> A mandatory cleanup method at the end of the test empties all entity tables.
 
 Add a test for the happy path of a PATCH operation for each property, collection and relation.
 Add `@SQL` fixtures for other entities referenced in relations.

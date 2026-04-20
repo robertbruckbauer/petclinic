@@ -76,6 +76,7 @@ No changes.
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 If relation is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new relation.
+Do not create a new test for the relation.
 
 ### Update REST API controller class {Entity}RestController.java
 
@@ -91,6 +92,7 @@ Update existing tests with asserts for the new relation.
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 Add `all{Name}: [{Type}]` to GraphQL type `{Entity}` in `{Entity}.gqls` with correct nullability.
+Do not add new queries in `Query.gqls`.
 
 ### Update GraphQL controller class {Entity}GraphqlController.java
 
@@ -102,6 +104,7 @@ Add method `all{Name}` for batch loading.
 Update tests for new relation as required in the implementation guide.
 If relation is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new relation.
+Do not create a new test for the relation.
 
 ### Update Server test set
 

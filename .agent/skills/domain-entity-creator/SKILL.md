@@ -53,6 +53,7 @@ Add operation `extraJson` only when requested as it may have negative impact on 
 ### Create entity test class {Entity}Test.java
 
 Use `doc/concept/spring/_json-jpa-entity.adoc` as the implementation baseline.
+Implement tests from the test approach example only.
 
 ### Create repository interface {Entity}Repository.java
 
@@ -61,6 +62,7 @@ Use `doc/concept/spring/_json-jpa-repository.adoc` as the implementation baselin
 ### Create repository test {Entity}RepositoryTest.java
 
 Use `doc/concept/spring/_json-jpa-repository.adoc` as the implementation baseline.
+Implement tests from the test approach example only.
 
 ### Create REST API controller class {Entity}RestController.java
 
@@ -69,11 +71,26 @@ Use `doc/concept/spring/_json-jpa-rest-controller.adoc` as the implementation ba
 ### Create REST API test {Entity}RestApiTest.java
 
 Use `doc/concept/spring/_json-jpa-rest-controller.adoc` as the implementation baseline.
-Add `DELETE` statement for database table {entity} in DatabaseCleaner.java.
+Add `DELETE` statement for database table `{table}` in DatabaseCleaner class.
+Add `getApi{Entity}NoElement` test.
+Add `postApi{Entity}` test.
+Add `postApi{Entity}Conflict` test if entity has unique columns.
+Add `putApi{Entity}` test.
+Add `patchApi{Entity}` tests for all properties.
+Add `patchApi{Entity}` tests for all collections.
+Add `patchApi{Entity}` tests for all relations.
+Add `getApi{Entity}` test.
+Add `getApi{Entity}ById` test.
+Add `getApi{Entity}ByIdNotFound` test.
+Add `delete{Entity}` test.
+Add `delete{Entity}NotFound` test.
 
 ### Create GraphQL schema {Entity}.gqls
 
 Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline.
+Add `all{Entity}: [{Entity}]` in `Query.gqls`. 
+Add `{entity}ById(id: ID!): {Entity}` in `Query.gqls`.
+Do not add other queries.   
 
 ### Create GraphQL controller class {Entity}GraphqlController.java
 
@@ -82,3 +99,4 @@ Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline
 ### Create GraphQL test {Entity}GraphqlTest.java
 
 Use `doc/concept/spring/_graphql-controller.adoc` as the implementation baseline.
+Implement tests from the test approach example only.

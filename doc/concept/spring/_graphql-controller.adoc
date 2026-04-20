@@ -52,7 +52,7 @@ They trigger batch mapping operations when requested.
 
 The method is annotated with `@QueryMapping` and `@Transactional` to ensure consistent read operations within a database transaction.
 
-The method name follows the pattern `all<EntityName>` or `all<EntityName>By<Criteria>`.
+The method name follows the pattern `all{Entity}` or `all{Entity}By{Criteria}`.
 
 The method always returns a collection type defined in the GraphQL schema as an array.
 
@@ -69,7 +69,7 @@ The repository's `findAll(Predicate, OrderSpecifier)` method returns an ordered 
 
 With relationship navigation::
 Uses QueryDSL path expressions to navigate entity relationships and filter by foreign key.
-This pattern queries through associations without explicit joins (e.g., `entity.relatedEntity.id.eq(value)`).
+This pattern queries through associations without explicit joins (e.g., `pet.owner.id.eq(value)`).
 
 All collection operations enforce null safety on arguments using `@NonNull` annotations.
 Custom argument names are specified with `@Argument("name")` when needed.

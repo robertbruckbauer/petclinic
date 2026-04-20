@@ -44,7 +44,7 @@ Add a short description for the new collection with its type, constraints, and a
 ### Create Liquibase changeset {table}_{column}.xml
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-Create join table `{entity}_{column}` with:
+Create join table `{table}_{column}` with:
 - A column with name `id` of type `UUID` (not null) referencing the parent entity's primary key.
 - A column with name `{column}` with the Liquibase type for `Type` (not null).
 Add the foreign key constraint `fk_{table}_{column}_id` from `{table}_{column}.id` to `{table}.id`.
@@ -79,6 +79,7 @@ No changes.
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 If collection is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new collection.
+Do not create a new test for the relation.
 
 ### Update REST API controller class {Entity}RestController.java
 
@@ -87,7 +88,7 @@ No changes.
 ### Update REST API test {Entity}RestApiTest.java
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
-Add `DELETE` statement for database table {entity}_{name} in DatabaseCleaner.java.
+Add `DELETE` statement for database table `{table}_{name}` in DatabaseCleaner class.
 If collection is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new collection.
 Add `patchApi{Entity}{Name}` test.
@@ -96,6 +97,7 @@ Add `patchApi{Entity}{Name}` test.
 
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 Add `all{Name}: [{Type}]` to GraphQL type `{Entity}` in `{Entity}.gqls` with correct nullability.
+Do not add new queries in `Query.gqls`.
 
 ### Update GraphQL controller class {Entity}GraphqlController.java
 
@@ -106,6 +108,7 @@ No changes.
 Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 If collection is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new collection.
+Do not create a new test for the collection.
 
 ### Update Server test set
 
