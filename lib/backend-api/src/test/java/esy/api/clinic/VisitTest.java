@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -92,6 +93,7 @@ class VisitTest {
         assertFalse(json.at("/date").isMissingNode());
         assertFalse(json.at("/time").isMissingNode());
         assertFalse(json.at("/billable").isMissingNode());
+        assertFalse(json.at("/duration").isMissingNode());
     }
 
     @Test
@@ -102,6 +104,7 @@ class VisitTest {
         assertNotNull(value0.getDate());
         assertNotNull(value0.getTime());
         assertFalse(value0.isBillable());
+        assertNotNull(value0.getDuration());
         assertNotNull(value0.getPet());
         assertNotNull(value0.getVet());
         final var value1 = value0.withId(value0.getId());
@@ -227,6 +230,49 @@ class VisitTest {
                             "date":"2021-04-22",
                             "time":"%s",
                             "text":"Lorem Ipsum."
+                        }
+                        """.formatted(text);
+        assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+    }
+
+    static Stream<Duration> jsonDuration() {
+        return Stream.of(
+                Duration.ZERO,
+                Duration.ofMinutes(30),
+                Duration.ofHours(1),
+                Duration.ofHours(1).plusMinutes(30)
+        );
+    }
+
+    @ParameterizedTest
+    @ValueSource(longs = {
+            0,
+            10,
+            -1
+    })
+    void jsonDuration(final long minutes) {
+        final var value = Visit.fromJson("""
+                        {
+                            "date":"2021-04-22",
+                            "text":"Lorem Ipsum.",
+                            "duration":"%s"
+                        }
+                        """.formatted(Duration.ofMinutes(minutes)));
+        assertDoesNotThrow(value::verify);
+        assertEquals(minutes, value.getDuration().toMinutes());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "30",
+            "1:30"
+    })
+    void jsonDurationConstraints(final String text) {
+        final var json = """
+                        {
+                            "date":"2021-04-22",
+                            "text":"Lorem Ipsum.",
+                            "duration":"%s"
                         }
                         """.formatted(text);
         assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
