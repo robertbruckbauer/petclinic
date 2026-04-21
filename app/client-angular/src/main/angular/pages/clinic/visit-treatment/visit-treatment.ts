@@ -31,11 +31,13 @@ export class VisitTreatmentComponent implements OnInit {
   visit = input.required<Visit>();
   form = new FormGroup({
     date: new FormControl("", Validators.required),
+    time: new FormControl(""),
   });
 
   ngOnInit() {
     this.form.patchValue({
       date: this.visit().date,
+      time: this.visit().time ?? "",
     });
   }
 
@@ -47,6 +49,7 @@ export class VisitTreatmentComponent implements OnInit {
   onCancelClicked() {
     this.form.patchValue({
       date: this.visit().date,
+      time: this.visit().time ?? "",
     });
     this.form.markAsPristine();
     this.cancelEmitter.emit(this.visit());
@@ -59,6 +62,7 @@ export class VisitTreatmentComponent implements OnInit {
     const newVisit = {
       ...this.visit(),
       date: this.form.value.date!,
+      time: this.form.value.time || undefined,
     };
     if (this.visit().id) {
       const subscription = this.visitService

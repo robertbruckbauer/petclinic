@@ -34,12 +34,35 @@ export class VisitDiagnoseComponent implements OnInit {
   visit = input.required<Visit>();
   form = new FormGroup({
     text: new FormControl("", Validators.required),
+    time: new FormControl(""),
+    durationHours: new FormControl<number>(0),
+    durationMinutes: new FormControl<number>(0),
+    durationSeconds: new FormControl<number>(0),
     vet: new FormControl("", Validators.required),
   });
 
+  private parseDuration(iso: string): { h: number; m: number; s: number } {
+    const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso ?? "");
+    return {
+      h: match ? Number(match[1] ?? 0) : 0,
+      m: match ? Number(match[2] ?? 0) : 0,
+      s: match ? Number(match[3] ?? 0) : 0,
+    };
+  }
+
+  private composeDuration(h: number, m: number, s: number): string | undefined {
+    if (!h && !m && !s) return undefined;
+    return "PT" + (h ? h + "H" : "") + (m ? m + "M" : "") + (s ? s + "S" : "");
+  }
+
   ngOnInit() {
+    const d = this.parseDuration(this.visit().duration ?? "");
     this.form.patchValue({
       text: this.visit().text,
+      time: this.visit().time ?? "",
+      durationHours: d.h,
+      durationMinutes: d.m,
+      durationSeconds: d.s,
       vet: this.visit().vetItem?.value || "",
     });
   }
@@ -50,8 +73,13 @@ export class VisitDiagnoseComponent implements OnInit {
 
   cancelEmitter = output<Visit>({ alias: "cancel" });
   onCancelClicked() {
+    const d = this.parseDuration(this.visit().duration ?? "");
     this.form.patchValue({
       text: this.visit().text,
+      time: this.visit().time ?? "",
+      durationHours: d.h,
+      durationMinutes: d.m,
+      durationSeconds: d.s,
       vet: this.visit().vetItem?.value || "",
     });
     this.form.markAsPristine();
@@ -65,6 +93,12 @@ export class VisitDiagnoseComponent implements OnInit {
     const newVisit = {
       ...this.visit(),
       text: this.form.value.text!,
+      time: this.form.value.time || undefined,
+      duration: this.composeDuration(
+        this.form.value.durationHours ?? 0,
+        this.form.value.durationMinutes ?? 0,
+        this.form.value.durationSeconds ?? 0
+      ),
       vetItem: undefined, // vetItem is invalid
       vet: "/api/vet/" + this.form.value.vet!,
     };

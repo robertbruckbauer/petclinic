@@ -55,4 +55,18 @@ export class VisitViewerComponent implements OnInit {
   get title() {
     return "of " + this.visit()?.petItem?.text + " on " + this.visit()?.date;
   }
+
+  formatDuration(iso: string | undefined): string {
+    if (!iso) return "-";
+    const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso);
+    if (!match) return iso;
+    const parts: string[] = [];
+    if (match[1])
+      parts.push(match[1] + (Number(match[1]) === 1 ? " hour" : " hours"));
+    if (match[2])
+      parts.push(match[2] + (Number(match[2]) === 1 ? " minute" : " minutes"));
+    if (match[3])
+      parts.push(match[3] + (Number(match[3]) === 1 ? " second" : " seconds"));
+    return parts.length ? parts.join(" ") : "-";
+  }
 }

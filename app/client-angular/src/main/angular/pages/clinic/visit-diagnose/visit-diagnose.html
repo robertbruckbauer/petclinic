@@ -9,6 +9,48 @@
         placeholder="Enter a diagnose"
       ></textarea>
     </fieldset>
+    <div class="flex flex-col sm:flex-row gap-2">
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Time</legend>
+        <input
+          formControlName="time"
+          aria-label="Time"
+          type="time"
+          class="input w-full"
+        />
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Duration</legend>
+        <div class="flex gap-1">
+          <input
+            formControlName="durationHours"
+            aria-label="Hours"
+            type="number"
+            min="0"
+            class="input w-full"
+            placeholder="h"
+          />
+          <input
+            formControlName="durationMinutes"
+            aria-label="Minutes"
+            type="number"
+            min="0"
+            max="59"
+            class="input w-full"
+            placeholder="m"
+          />
+          <input
+            formControlName="durationSeconds"
+            aria-label="Seconds"
+            type="number"
+            min="0"
+            max="59"
+            class="input w-full"
+            placeholder="s"
+          />
+        </div>
+      </fieldset>
+    </div>
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Vet</legend>
       <select formControlName="vet" aria-label="Vet" class="select w-full">

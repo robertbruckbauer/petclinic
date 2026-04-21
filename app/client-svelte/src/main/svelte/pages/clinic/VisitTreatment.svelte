@@ -36,12 +36,18 @@
   });
 
   let newVisitDate = $state("");
+  let newVisitTime = $state("");
+  $effect(() => {
+    newVisitDate = visit.date ?? "";
+    newVisitTime = visit.time ?? "";
+  });
   let newVisitPetId = $derived(visit.petItem?.value);
   const newVisit: Visit = $derived({
     ...visit,
     petItem: undefined, // petItem is invalid
     pet: newVisitPetId ? "/api/pet/" + newVisitPetId : undefined,
     date: newVisitDate,
+    time: newVisitTime || undefined,
   });
 
   function onSubmitClicked(_event: Event) {
@@ -82,8 +88,8 @@
 </script>
 
 <form onsubmit={onSubmitClicked}>
-  <div class="flex flex-col gap-2 pt-4">
-    <fieldset class="fieldset w-48">
+  <div class="flex flex-col sm:flex-row gap-2 pt-4">
+    <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Treatment</legend>
       <input
         bind:this={focusOn}
@@ -92,6 +98,15 @@
         type="date"
         class="input w-full"
         placeholder="Choose a date"
+      />
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Time</legend>
+      <input
+        bind:value={newVisitTime}
+        aria-label="Time"
+        type="time"
+        class="input w-full"
       />
     </fieldset>
   </div>
