@@ -4,7 +4,7 @@
 = Visit REST API
 
 REST-API for managing veterinary visits in the pet clinic application.
-It provides standard CRUD operations, partial updates via PATCH, and advanced query capabilities for filtering visits by date, pet, veterinarian, and text content.
+It provides standard CRUD operations, partial updates via PATCH, and advanced query capabilities for filtering visits by date, pet, veterinarian, text content, and treatment duration.
 
 == Model
 
@@ -154,7 +154,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 This operation reports `Precondition Failed` or code 412 if data is outdated (invalid ETag).
 
-TIP: The descriptions of attributes other than `date` are omitted for simplicity because they are following the same pattern (e.g. `time`, `text`, `billable`).
+TIP: The descriptions of attributes other than `date` are omitted for simplicity because they are following the same pattern (e.g. `time`, `text`, `billable`, `duration`).
 
 ==== `pet` relation
 
@@ -229,8 +229,8 @@ Find visits with specific vet
 Find visits with text containing "Lorem" (case-insensitive)
 `?text=Lorem%`::
 Find visits with text starting with "Lorem" (case-insensitive)
-
-NOTE: The `billable` field supports exact-match filtering via the default Querydsl binding (e.g. `?billable=true`). Consider documenting this parameter with an explicit example.
+`?duration=PT45M`::
+Find visits with exact treatment duration of 45 minutes
 
 This operation supports sorting, e.g.
 
