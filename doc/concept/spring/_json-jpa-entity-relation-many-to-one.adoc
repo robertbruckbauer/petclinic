@@ -153,7 +153,7 @@ protected void extraJson(@NonNull final Map<String, Object> allExtra) {
 <1> Callback from the base operation with `@JsonAnyGetter` annotation.
 <2> The parent entity is converted to a simple state transfer object.
 
-== `<Entity>Test` approach
+== `{Entity}Test` approach
 
 Create test data from JSON using `fromJson` method of entity classes.
 Create fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.
@@ -166,9 +166,9 @@ The `withId` test verifies cloning.
 The `writeJson` test verifies serialisation to JSON.
 relations must always be absent from the JSON structure.
 
-== `<Entity>RepositoryTest` approach
+== `{Entity}RepositoryTest` approach
 
-A `save<Entity>` test verifies the happy path for a persistence operation.
+A `save{Entity}` test verifies the happy path for a persistence operation.
 Persist fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.
 
 .Example
@@ -199,9 +199,9 @@ void savePet(final String name) {
 }
 ----
 
-== `<Entity>GraphqlTest` approach
+== `{Entity}GraphqlTest` approach
 
-A `queryAll<Entity>` test verifies the happy path for a query operation.
+A `queryAll{Entity}` test verifies the happy path for a query operation.
 Create fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.
 
 .Example
@@ -241,40 +241,31 @@ void queryAllPet() {
 }
 ----
 
-== `<Entity>RestApiTest` approach
+== `{Entity}RestApiTest` approach
 
-The `postApi<Entity>` test verifies the happy path of the POST entity operation with a valid value for the relation in the payload for the request.
-Annotate the test with `@Sql` annotations for each SQL fixture file needed to provide the referenced entity.
-Assert the status.
-Assert the value of the  relation in the response.
-Create asciidoc snippets for endpoint documentation.
+Annotate the `getApi{Entity}NoElement` test with `@Sql` annotations for each SQL fixture file needed to provide referenced entities.
 
-The `postApi<Entity>Conflict` test verifies the error path with unique key constraints of the POST entity operation with a valid value for the relation in the payload for the request.
+The `postApi{Entity}` test verifies the happy path of the POST entity operation with a valid value for the relation in the payload for the request.
 Assert the status.
 Create asciidoc snippets for endpoint documentation.
 
-The `putApi<Entity>` test verifies the happy path of the PUT entity operation with a valid value for the relation in the payload for the request.
-Assert the status.
-Assert the value of the  relation in the response.
-Create asciidoc snippets for endpoint documentation.
-
-The `patchApi<Entity><Name>` test verifies the happy path of the PATCH entity operation with a valid value for the relation in the payload for the request.
-Use the entity with the primary key from the `putApi<Entity>` test.
+The `putApi{Entity}` test verifies the happy path of the PUT entity operation with a valid value for the relation in the payload for the request.
 Assert the status.
 Create asciidoc snippets for endpoint documentation.
 
-Add `getApi<Entity><Name>` test.
+The `patchApi{Entity}{Name}` test verifies the happy path of the PATCH entity operation with a valid value for the relation in the payload for the request.
+Use the entity with the primary key from the `putApi{Entity}` test.
+Assert the status.
+Create asciidoc snippets for endpoint documentation.
+
+Add `getApi{Entity}{Name}` test.
 The test verifies the happy path of the GET entity operation for the relation.
-Use the entity with the primary key from the `putApi<Entity>` test.
+Use the entity with the primary key from the `putApi{Entity}` test.
 Assert the status.
-Assert the value of the relation in the response.
 Create asciidoc snippets for endpoint documentation.
 
-The `getApi<Entity>ById` test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the `putApi<Entity>` test.
+The `getApi{Entity}ById` test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the `putApi{Entity}` test.
 Compute the `ETag` value according to the new test.
 Assert the status.
-Assert the value of the relation in the response.
 Create asciidoc snippets for endpoint documentation.
-
-The `cleanup` method must delete all entities in reverse foreign key order to avoid constraint violations.

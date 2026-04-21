@@ -92,7 +92,7 @@ The `verify` operation may include custom validation logic (e.g., time ranges).
 
 The property is by default part of the JSON structure.
 
-== `<Entity>Test` approach
+== `{Entity}Test` approach
 
 Create test data from JSON using `fromJson` method of entity classes.
 
@@ -102,7 +102,7 @@ The `withId` test verifies cloning.
 
 The `writeJson` test verifies serialisation to JSON.
 
-The `json<Name>` test verifies the happy path, e.g.
+The `json{Name}` test verifies the happy path, e.g.
 
 - `verify` does not throw an exception
 - correct deserialization from JSON
@@ -126,7 +126,7 @@ void jsonName() {
 }
 ----
 
-The `json<Name>Constraints` parameterized test verifies constraints, e.g.
+The `json{Name}Constraints` parameterized test verifies constraints, e.g.
 
 - `verify` throws an exception
 - invalid values are rejected
@@ -154,9 +154,9 @@ void jsonNameConstraints(final String text) {
 }
 ----
 
-== `<Entity>RepositoryTest` approach
+== `{Entity}RepositoryTest` approach
 
-A `save<Entity>` test verifies the happy path for a persistence operation.
+A `save{Entity}` test verifies the happy path for a persistence operation.
 
 .Example
 [source,text,options="nowrap"]
@@ -184,9 +184,9 @@ void saveVet(final String name) {
 }
 ----
 
-== `<Entity>GraphqlTest` approach
+== `{Entity}GraphqlTest` approach
 
-A `queryAll<Entity>` test verifies the happy path for a query operation.
+A `queryAll{Entity}` test verifies the happy path for a query operation.
 
 .Example
 [source,text,options="nowrap"]
@@ -211,30 +211,26 @@ void queryAllVet() {
 }
 ----
 
-== `<Entity>RestApiTest` approach
+== `{Entity}RestApiTest` approach
 
-The `postApi<Entity>` test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+The `postApi{Entity}` test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.
+
+The `putApi{Entity}` test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.
+
+The `patchApi{Entity}{Name}` test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
+Use the entity with the primary key from the `putApi{Entity}` test.
 Assert the status.
 Assert the value of the property in the response.
 Create asciidoc snippets for endpoint documentation.
 
-The `postApi<Entity>Conflict` test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Create asciidoc snippets for endpoint documentation.
-
-The `putApi<Entity>` test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.
-
-The `patchApi<Entity><Name>` test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
-Use the entity with the primary key from the `putApi<Entity>` test.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.
-
-The `getApi<Entity>ById` test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the `putApi<Entity>` test.
+The `getApi{Entity}ById` test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the `putApi{Entity}` test.
 Compute the new `ETag` value according to the new test.
 Assert the status.
 Assert the value of the property in the response.

@@ -1,13 +1,13 @@
-= Column for type `Long`
+= Column for type `Duration`
 
 == Domain story
 
-This implementation guide applies whenever an entity owns a non-negative `Long` property that must be persisted, exposed via the REST and GraphQL APIs.
+This implementation guide applies whenever an entity owns a `Duration` property that must be persisted as its total seconds, exposed via the REST and GraphQL APIs as an ISO-8601 duration string, and must not be null.
 
 .Example
 ....
-A pet can have a registration code to uniquely identify the animal for tracking, ensuring traceability, and maintaining animal health in external systems.
-The code is stored as a non-negative integer column on the `pet` table and is managed as part of the `Pet` entity.
+A visit has a duration indicating how long the appointment lasts.
+The duration is stored as a `BIGINT` column (total seconds) on the `visit` table and is managed as part of the `Visit` entity.
 ....
 
 == Default implementation
@@ -15,22 +15,26 @@ The code is stored as a non-negative integer column on the `pet` table and is ma
 .Entity
 [source,java,options="nowrap"]
 ----
-@PositiveOrZero <1>
-@Column(name = "code") <2>
+@NotNull <1>
+@Column(name = "duration") <2>
 @Getter <3>
 @JsonProperty <4>
-private Long code; <5>
+@JsonFormat(shape = JsonFormat.Shape.STRING) <5>
+@Convert(converter = DurationConverter.class) <6>
+private Duration duration; <7>
 ----
 
-<1> The field is marked with `@PositiveOrZero` validation constraint.
-This ensures the value is not negative (0 or greater).
+<1> The field is marked with `@NotNull` validation constraint.
+This ensures the value is not null.
 <2> The field is marked with `@Column`.
 The column name in the database is explicitly specified.
 <3> The field is marked with `@Getter`.
 This allows the current value to be queried via a getter method.
 <4> The field is marked with `@JsonProperty`.
 The value is included in the JSON structure of the REST API.
-<5> The field has the data type `Long`.
+<5> The field is marked with `@JsonFormat` to serialize the duration as an ISO-8601 string (e.g. `"PT1H30M"`).
+<6> The field is marked with `@Convert` to store the duration as total seconds in the database.
+<7> The field has type `Duration`.
 This is a mutable field due to requirements from the JPA provider.
 
 == Liquibase changeset
@@ -38,21 +42,22 @@ This is a mutable field due to requirements from the JPA provider.
 .Column
 [source,xml,options="nowrap"]
 ----
-<addColumn tableName="pet">
-    <column name="code" type="BIGINT" defaultValue="0"> <1>
+<addColumn tableName="visit">
+    <column name="duration" type="BIGINT" defaultValueNumeric="0"> <1>
         <constraints nullable="false"/> <2>
     </column>
 </addColumn>
 ----
 
-<1> The column type is `BIGINT` (64-bit integer) with a default value.
+<1> The column type is `BIGINT` and stores the total number of seconds.
+Use a matching numeric default value.
 <2> The column is marked as NOT NULL.
 
 Omit the default value if the field is nullable.
 
 == Property initialization
 
-The property is typically not nullable and initialized to `0L` in the constructor.
+The property is typically not nullable and initialized to a sensible default such as `Duration.ZERO` in the constructor.
 
 The `withId` method must copy the property so that cloned instances remain semantically equal.
 
@@ -66,14 +71,14 @@ Add a setter if a controller must be able to update a property directly.
 [source,java,options="nowrap"]
 ----
 @JsonIgnore <1>
-public Enum setCode(@NonNull final Long code) { <2>
-    this.code = code;
+public Visit setDuration(@NonNull final Duration duration) { <2>
+    this.duration = duration;
     return this; <3>
 }
 ----
 
 <1> The method is marked with `@JsonIgnore` as it is not part of the JSON API.
-<2> The method accepts a `Long` argument.
+<2> The method accepts a `Duration` argument.
 <3> The method returns `this` for operation chaining.
 
 == Property verification
@@ -81,23 +86,21 @@ public Enum setCode(@NonNull final Long code) { <2>
 The property participates in the `isEqual` method comparison.
 Use `Objects#equals`.
 
-Use only the following validation annotations:
+Use only the following validation annotation:
 
-* `@NotNull`: Value must not be null
-* `@Positive`: Value must be greater than 0
-* `@PositiveOrZero`: Value must be 0 or greater
-* `@Min(value)`: Value must be at least the specified minimum
-* `@Max(value)`: Value must not exceed the specified maximum
+* `@NotNull`: Value must not be null.
 
-The `verify` operation may include custom validation logic (e.g., time ranges).
+The `verify` operation may include custom validation logic when required by the domain, e.g. asserting the duration is non-negative.
 
 == Property serialization
 
 The property is by default part of the JSON structure.
+Values are serialized and deserialized as ISO-8601 duration strings (e.g. `"PT1H30M"`).
 
 == `{Entity}Test` approach
 
 Create test data from JSON using `fromJson` method of entity classes.
+The duration value is provided as an ISO-8601 string literal (e.g. `"PT30M"`).
 
 The `equalsHashcodeToString` test verifies equality operations.
 
@@ -105,23 +108,32 @@ The `withId` test verifies cloning.
 
 The `writeJson` test verifies serialisation to JSON.
 
-The `json{Name}` test verifies the happy path, e.g.
+The `json{Name}` parameterized test verifies the happy path, e.g.
 
 - `verify` does not throw an exception
 - correct deserialization from JSON
 - assert property value
 
-Use a parameterized tests if values are distinct.
-
 .Example
 [source,java,options="nowrap"]
 ----
-@Test
-void jsonCode() {
-    final var name = "JIRA";
-    final var value = createWithName(name);
+
+@ParameterizedTest
+@ValueSource(longs = {
+        0,
+        10,
+        -1
+})
+void jsonDuration(final long minutes) {
+    final var value = Visit.fromJson("""
+                    {
+                        "date":"2021-04-22",
+                        "text":"Lorem Ipsum.",
+                        "duration":"%s"
+                    }
+                    """.formatted(Duration.ofMinutes(minutes)));
     assertDoesNotThrow(value::verify);
-    assertEquals(2L, value.getCode());
+    assertEquals(minutes, value.getDuration().toMinutes());
 }
 ----
 
@@ -131,23 +143,23 @@ The `json{Name}Constraints` parameterized test verifies constraints, e.g.
 - invalid values are rejected
 - missing values are rejected
 
-Do not create a test if this properties has no contraints and is nullable.
-
 .Example
 [source,java,options="nowrap"]
 ----
 @ParameterizedTest
 @ValueSource(strings = {
-        "",
-        "-1"
+        "30",
+        "1:30"
 })
-void jsonCodeConstraints(final String text) {
+void jsonDurationConstraints(final String text) {
     final var json = """
                     {
-                        "code":"%s"
+                        "date":"2021-04-22",
+                        "text":"Lorem Ipsum.",
+                        "duration":"%s"
                     }
                     """.formatted(text);
-    assertThrows(IllegalArgumentException.class, () -> Pet.fromJson(json).verify());
+    assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
 }
 ----
 
@@ -160,26 +172,28 @@ A `save{Entity}` test verifies the happy path for a persistence operation.
 ----
 @ParameterizedTest
 @ValueSource(strings = {
-        "Käthe",
-        "Jörg",
-        "Ümit"
+        "Tschüss und schöne Grüße!"
 })
-void savePet(final String name) {
-    final var value0 = createWithName(name);
+void saveVisit(final String text) {
+    final var value0 = createWithText(text);
     assertFalse(value0.isPersisted());
     assertEquals(0L, value0.getVersion());
     assertNotNull(value0.getId());
-    assertNull(value0.getOwner());
+    assertNull(value0.getPet());
+    assertNull(value0.getVet());
     // other assertions
-    assertEquals(42, value0.getCode());
+    assertNotNull(value0.getDuration());
 
-    final var owner = saveOwner("Max Mustermann");
-    final var value1 = petRepository.save(value0.setOwner(owner));
+    final var pet = savePet("Tom");
+    final var vet = saveVet("Dr. Doolittle");
+    final var value1 = visitRepository.save(value0.setPet(pet).setVet(vet));
     assertNotNull(value1);
     assertNotSame(value0, value1);
     assertTrue(value1.isPersisted());
     assertEquals(0L, value1.getVersion());
-    assertNotNull(value1.getOwner());
+    assertNotNull(value1.getId());
+    assertNotNull(value1.getPet());
+    assertNotNull(value1.getVet());
     assertTrue(value1.isEqual(value0));
 }
 ----
@@ -192,52 +206,38 @@ A `queryAll{Entity}` test verifies the happy path for a query operation.
 [source,text,options="nowrap"]
 ----
 @Test
-void queryAllPet() {
-    final var owner = Owner.fromJson("""
-            {
-                "name":"Alice Cooper"
-            }
-            """);
-    final var value = createWithName("Tom")
-            .setOwner(owner);
-    when(petRepository.findAll())
+void queryAllVisit() {
+    final var value = createWithText("Annual checkup");
+    when(visitRepository.findAll())
             .thenReturn(List.of(value));
-    when(ownerRepository.findAllById(anySet()))
-            .thenReturn(List.of(owner));
     final var data = graphQlTester
             .document("""
-                    {allPet{code owner{name}}}
+                    {allVisit{duration}}
                     """)
             .execute();
     assertNotNull(data);
-    data.path("allPet[0].code")
+    data.path("allVisit[0].duration")
             .hasValue()
             .entity(String.class)
-            .isEqualTo(value.getCode());
-    data.path("allPet[0].owner.name")
-            .hasValue()
-            .entity(String.class)
-            .isEqualTo(owner.getName());
-    verify(petRepository).findAll();
-    verifyNoMoreInteractions(petRepository);
-    verify(ownerRepository).findAllById(anySet());
-    verifyNoMoreInteractions(ownerRepository);
+            .isEqualTo(value.getDuration().toString());
+    verify(visitRepository).findAll();
+    verifyNoMoreInteractions(visitRepository);
 }
 ----
 
 == `{Entity}RestApiTest` approach
 
-The `postApi{Entity}` test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+The `postApi{Entity}` test verifies the happy path of the POST entity operation with a valid duration value in the payload.
 Assert the status.
 Assert a non-empty value of the property in the response.
 Create asciidoc snippets for endpoint documentation.
 
-The `putApi{Entity}` test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
+The `putApi{Entity}` test verifies the happy path of the PUT entity operation with a valid duration value in the payload.
 Assert the status.
 Assert a non-empty value of the property in the response.
 Create asciidoc snippets for endpoint documentation.
 
-The `patchApi{Entity}{Name}` test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
+The `patchApi{Entity}{Name}` test verifies the happy path of the PATCH entity operation with a valid duration value in the payload..
 Use the entity with the primary key from the `putApi{Entity}` test.
 Assert the status.
 Assert the value of the property in the response.
@@ -245,7 +245,6 @@ Create asciidoc snippets for endpoint documentation.
 
 The `getApi{Entity}ById` test verifies the happy path of the GET entity operation.
 Use the entity with the primary key from the `putApi{Entity}` test.
-Compute the new `ETag` value according to the new test.
 Assert the status.
 Assert the value of the property in the response.
 Create asciidoc snippets for endpoint documentation.
