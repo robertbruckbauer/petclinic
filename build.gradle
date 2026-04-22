@@ -48,7 +48,9 @@ subprojects {
         dependencies.add('mockitoAgent', 'org.mockito:mockito-core')
 
         tasks.withType(Test).configureEach {
-            jvmArgs("-javaagent:${mockitoAgent.asPath}")
+            doFirst {
+                jvmArgs("-javaagent:${mockitoAgent.singleFile.absolutePath}")
+            }
         }
     }
     // end::setup-java[]
