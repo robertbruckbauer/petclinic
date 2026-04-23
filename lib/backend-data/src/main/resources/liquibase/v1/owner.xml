@@ -30,4 +30,10 @@
                 columnNames="name"
         />
     </changeSet>
+    <changeSet id="2" author="robert">
+        <comment>Enable replica identity for Debezium</comment>
+        <sql dbms="postgresql">
+            ALTER TABLE owner REPLICA IDENTITY FULL;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
