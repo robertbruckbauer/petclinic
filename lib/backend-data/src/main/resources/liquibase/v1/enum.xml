@@ -38,4 +38,10 @@
                 columnNames="art, code"
         />
     </changeSet>
+    <changeSet id="2" author="robert">
+        <comment>Enable replica identity for Debezium</comment>
+        <sql dbms="postgresql">
+            ALTER TABLE enum REPLICA IDENTITY FULL;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
