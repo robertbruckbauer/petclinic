@@ -13,17 +13,21 @@ public final class MigrateRunner {
     private MigrateRunner() {
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main(final String[] args) {
         try {
+            final var schema = requireEnv("DATABASE_SCHEMA");
             final var jdbcUrl = requireEnv("SPRING_DATASOURCE_URL");
             final var username = requireEnv("SPRING_DATASOURCE_USERNAME");
             final var password = requireEnv("SPRING_DATASOURCE_PASSWORD");
             final var changeLog = requireEnv("SPRING_LIQUIBASE_CHANGE_LOG");
             final var accessor = new ClassLoaderResourceAccessor(MigrateRunner.class.getClassLoader());
             try (final var connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+                try (final var statement = connection.createStatement()) {
+                    statement.execute(String.format("CREATE SCHEMA IF NOT EXISTS \"%s\"", schema));
+                }
                 final var database = DatabaseFactory.getInstance()
                         .findCorrectDatabaseImplementation(new JdbcConnection(connection));
-                try (var liquibase = new Liquibase(changeLog, accessor, database)) {
+                try (final var liquibase = new Liquibase(changeLog, accessor, database)) {
                     liquibase.update(new Contexts(), new LabelExpression());
                 }
             }
