@@ -13,6 +13,11 @@ on:
   # run manually
   workflow_dispatch:
 
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobs
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions
 jobs:
