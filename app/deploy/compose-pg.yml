@@ -40,7 +40,7 @@ services:
         condition: service_healthy
   postgres17:
     hostname: postgres17
-    image: postgres:17@sha256:7b405451d054ec04a90f1ce4d5a188b184e265e3facf671d96fe2a540e6c4532
+    image: postgres:17@sha256:5b96f1a16bd9768b060dd2ffe55cb6225c4d9ef4d214a8b21eb08134869a97e4
     command: ["postgres", "-c", "wal_level=logical"]
     ports:
       - 5432:5432
