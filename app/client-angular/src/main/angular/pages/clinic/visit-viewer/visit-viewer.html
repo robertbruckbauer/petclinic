@@ -7,6 +7,20 @@
     </div>
   } @else {
     @if (visit()) {
+      <div class="flex flex-col sm:flex-row gap-2 pt-4">
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">Date</legend>
+          <p class="p-2">{{ visit()!.date }}</p>
+        </fieldset>
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">Time</legend>
+          <p class="p-2">{{ visit()!.time ?? "-" }}</p>
+        </fieldset>
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">Duration</legend>
+          <p class="p-2">{{ formatDuration(visit()!.duration) }}</p>
+        </fieldset>
+      </div>
       <app-visit-treatment [visible]="true" [visit]="visit()!" />
       <app-visit-diagnose
         [visible]="true"

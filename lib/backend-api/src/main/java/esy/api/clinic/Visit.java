@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import esy.api.client.OwnerItem;
 import esy.api.client.Pet;
 import esy.api.client.PetItem;
+import esy.jpa.DurationConverter;
 import esy.rest.JsonJpaEntity;
 import esy.rest.JsonJpaMapper;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.NonNull;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -72,6 +74,13 @@ public final class Visit extends JsonJpaEntity<Visit> {
     @Getter
     @JsonProperty
     private boolean billable;
+
+    @Column(name = "duration")
+    @Getter
+    @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @Convert(converter = DurationConverter.class)
+    private Duration duration;
     // end::properties[]
 
     Visit() {
@@ -82,6 +91,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         this.pet = null;
         this.vet = null;
         this.billable = false;
+        this.duration = Duration.ZERO;
     }
 
     Visit(@NonNull final Long version, @NonNull final UUID id) {
@@ -92,6 +102,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         this.pet = null;
         this.vet = null;
         this.billable = false;
+        this.duration = Duration.ZERO;
     }
 
     @Override
@@ -112,7 +123,8 @@ public final class Visit extends JsonJpaEntity<Visit> {
                 Objects.equals(this.text, that.text) &&
                 Objects.equals(this.pet, that.pet) &&
                 Objects.equals(this.vet, that.vet) &&
-                this.billable == that.billable;
+                this.billable == that.billable &&
+                Objects.equals(this.duration, that.duration);
     }
 
     @Override
@@ -127,6 +139,7 @@ public final class Visit extends JsonJpaEntity<Visit> {
         value.pet = this.pet;
         value.vet = this.vet;
         value.billable = this.billable;
+        value.duration = this.duration;
         return value;
     }
 

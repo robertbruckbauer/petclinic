@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -90,6 +91,7 @@ public class VisitRepositoryTest {
         assertNotNull(value0.getDate());
         assertNotNull(value0.getTime());
         assertFalse(value0.isBillable());
+        assertNotNull(value0.getDuration());
         assertNull(value0.getPet());
         assertNull(value0.getVet());
 

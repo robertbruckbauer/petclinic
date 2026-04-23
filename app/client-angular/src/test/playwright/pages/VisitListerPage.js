@@ -33,6 +33,24 @@ export class VisitListerPage {
     await textInput.fill(text);
     await textInput.press("Tab");
     expect(textInput).toHaveValue(text);
+    // Time
+    const timeInput = this.page.locator('[aria-label="Time"]');
+    await expect(timeInput).not.toHaveValue("");
+    await timeInput.fill("10:15");
+    await timeInput.press("Tab");
+    await expect(timeInput).toHaveValue("10:15");
+    // Duration hours
+    const hoursInput = this.page.locator('[aria-label="Hours"]');
+    await expect(hoursInput).toHaveValue("0");
+    await hoursInput.fill("1");
+    await hoursInput.press("Tab");
+    await expect(hoursInput).toHaveValue("1");
+    // Duration minutes
+    const minutesInput = this.page.locator('[aria-label="Minutes"]');
+    await expect(minutesInput).toHaveValue("0");
+    await minutesInput.fill("30");
+    await minutesInput.press("Tab");
+    await expect(minutesInput).toHaveValue("30");
     // Vet
     const vetSelect = this.page.locator('[aria-label="Vet"]');
     await expect(vetSelect).toHaveValue("");

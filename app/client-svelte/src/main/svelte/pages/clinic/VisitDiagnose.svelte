@@ -38,12 +38,47 @@
     if (autoscroll) bottomDiv.scrollIntoView(false);
   });
 
+  function parseDuration(iso: string): { h: number; m: number; s: number } {
+    const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso ?? "");
+    return {
+      h: match ? Number(match[1] ?? 0) : 0,
+      m: match ? Number(match[2] ?? 0) : 0,
+      s: match ? Number(match[3] ?? 0) : 0,
+    };
+  }
+
+  function composeDuration(
+    h: number,
+    m: number,
+    s: number
+  ): string | undefined {
+    if (!h && !m && !s) return undefined;
+    return "PT" + (h ? h + "H" : "") + (m ? m + "M" : "") + (s ? s + "S" : "");
+  }
+
   let newVisitText = $derived(visit.text);
+  let newVisitTime = $state("");
+  let newVisitDurationH = $state(0);
+  let newVisitDurationM = $state(0);
+  let newVisitDurationS = $state(0);
+  $effect(() => {
+    newVisitTime = visit.time ?? "";
+    const d = parseDuration(visit.duration ?? "");
+    newVisitDurationH = d.h;
+    newVisitDurationM = d.m;
+    newVisitDurationS = d.s;
+  });
   let newVisitPetId = $derived(visit.petItem?.value);
   let newVisitVetId = $derived(visit.vetItem?.value);
   const newVisit = $derived({
     ...visit,
     text: newVisitText,
+    time: newVisitTime || undefined,
+    duration: composeDuration(
+      newVisitDurationH,
+      newVisitDurationM,
+      newVisitDurationS
+    ),
     petItem: undefined, // petItem is invalid
     pet: newVisitPetId ? "/api/pet/" + newVisitPetId : undefined,
     vetItem: undefined, // vetItem is invalid
@@ -99,6 +134,48 @@
         placeholder="Enter a diagnose"
       ></textarea>
     </fieldset>
+    <div class="flex flex-col sm:flex-row gap-2">
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Time</legend>
+        <input
+          bind:value={newVisitTime}
+          aria-label="Time"
+          type="time"
+          class="input w-full"
+        />
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Duration</legend>
+        <div class="flex gap-1">
+          <input
+            bind:value={newVisitDurationH}
+            aria-label="Hours"
+            type="number"
+            min="0"
+            class="input w-full"
+            placeholder="h"
+          />
+          <input
+            bind:value={newVisitDurationM}
+            aria-label="Minutes"
+            type="number"
+            min="0"
+            max="59"
+            class="input w-full"
+            placeholder="m"
+          />
+          <input
+            bind:value={newVisitDurationS}
+            aria-label="Seconds"
+            type="number"
+            min="0"
+            max="59"
+            class="input w-full"
+            placeholder="s"
+          />
+        </div>
+      </fieldset>
+    </div>
     <fieldset class="fieldset w-full">
       <legend class="fieldset-legend">Vet</legend>
       <select bind:value={newVisitVetId} aria-label="Vet" class="select w-full">

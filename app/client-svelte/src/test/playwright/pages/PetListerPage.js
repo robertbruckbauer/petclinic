@@ -82,7 +82,7 @@ export class PetListerPage {
     return petName;
   }
 
-  async createVisit(ownerName, petName, date) {
+  async createVisit(ownerName, petName, date, time) {
     await this.filterOwner(ownerName);
     const row = this.page
       .getByRole("table")
@@ -99,6 +99,12 @@ export class PetListerPage {
     await dateInput.fill(date);
     await dateInput.press("Tab");
     await expect(dateInput).toHaveValue(date);
+    // Time
+    const timeInput = this.page.locator('[aria-label="Time"]');
+    await expect(timeInput).not.toHaveValue(time);
+    await timeInput.fill(time);
+    await timeInput.press("Tab");
+    await expect(timeInput).toHaveValue(time);
     // Ok
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();

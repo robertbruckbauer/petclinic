@@ -24,6 +24,9 @@ The property `date` uses the custom scalar type `LocalDate` which maps to Java's
 
 The property `time` uses the custom scalar type `LocalTime` which maps to Java's `java.time.LocalTime` type for representing times of day with format `HH:mm[:ss]` (seconds are optional).
 
+The property `duration` is exposed as `String!` in GraphQL and maps to Java's `java.time.Duration`.
+The value uses ISO-8601 duration notation (e.g. `PT45M`, `PT1H30M`).
+
 The relation `pet` uses batch loading via `@BatchMapping` to efficiently load pets for multiple visits.
 Visits without a pet assigned resolve `pet` relation as `null`.
 

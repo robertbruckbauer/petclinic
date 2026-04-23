@@ -90,7 +90,7 @@ test.describe("Visit", () => {
       "M",
       "2022-03-09"
     );
-    await petPage.createVisit(ownerName, petName, "2025-04-22");
+    await petPage.createVisit(ownerName, petName, "2025-04-22", "09:30");
     const visitPage = new VisitListerPage(page);
     await visitPage.goto();
     await visitPage.updateDiagnose(ownerName, petName);

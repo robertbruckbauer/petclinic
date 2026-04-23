@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -408,6 +409,34 @@ class VisitRestApiTest {
     }
 
     @Test
+    @Order(408)
+    void patchApiVisitDuration() throws Exception {
+        final var uuid = UUID.fromString("e1111111-1111-beef-dead-beefdeadbeef");
+        assertTrue(visitRepository.findById(uuid).isPresent());
+        mockMvc.perform(patch("/api/visit/" + uuid)
+                        .content("""
+                                {
+                                    "duration":"PT30S"
+                                }
+                                """)
+                        .contentType(MediaType.parseMediaType("application/merge-patch+json"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType("application/json"))
+                .andExpect(header()
+                        .exists("Vary"))
+                .andExpect(header()
+                        .string("ETag", "\"7\""))
+                .andExpect(jsonPath("$.id")
+                        .value(uuid.toString()))
+                .andExpect(jsonPath("$.duration")
+                        .value("PT30S"));
+    }
+
+    @Test
     @Order(500)
     void getApiVisit() throws Exception {
         assertEquals(4, visitRepository.count());
@@ -450,7 +479,7 @@ class VisitRestApiTest {
                 .andExpect(header()
                         .exists("Vary"))
                 .andExpect(header()
-                        .string("ETag", "\"6\""))
+                        .string("ETag", "\"7\""))
                 .andExpect(jsonPath("$.id")
                         .value(value.getId().toString()))
                 .andExpect(jsonPath("$.date")
@@ -460,7 +489,9 @@ class VisitRestApiTest {
                 .andExpect(jsonPath("$.text")
                         .value(value.getText()))
                 .andExpect(jsonPath("$.billable")
-                        .value(true));
+                        .value(true))
+                .andExpect(jsonPath("$.duration")
+                        .value(value.getDuration().toString()));
     }
 
     @Test
