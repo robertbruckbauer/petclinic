@@ -1,12 +1,13 @@
 package esy.migrate;
 
-import java.sql.DriverManager;
 import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
+
+import java.sql.DriverManager;
 
 public final class MigrateRunner {
 
@@ -23,11 +24,14 @@ public final class MigrateRunner {
             final var accessor = new ClassLoaderResourceAccessor(MigrateRunner.class.getClassLoader());
             try (final var connection = DriverManager.getConnection(jdbcUrl, username, password)) {
                 try (final var statement = connection.createStatement()) {
-                    statement.execute(String.format("CREATE SCHEMA IF NOT EXISTS \"%s\"", schema));
+                    final var sql = String.format("CREATE SCHEMA IF NOT EXISTS \"%s\"", schema);
+                    System.out.println(sql);
+                    statement.execute(sql);
                 }
                 final var database = DatabaseFactory.getInstance()
                         .findCorrectDatabaseImplementation(new JdbcConnection(connection));
                 try (final var liquibase = new Liquibase(changeLog, accessor, database)) {
+                    System.out.println(changeLog);
                     liquibase.update(new Contexts(), new LabelExpression());
                 }
             }
