@@ -18,7 +18,8 @@ services:
     environment:
       - _JAVA_OPTIONS=-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - SERVER_PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres
+      - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
       - SPRING_LIQUIBASE_ENABLED=false
@@ -31,7 +32,8 @@ services:
     hostname: migrate
     image: ${COMPOSE_PROJECT_NAME}/migrate
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres
+      - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
       - SPRING_LIQUIBASE_CHANGE_LOG=liquibase/changelog.xml
