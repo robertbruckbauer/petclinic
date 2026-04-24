@@ -22,14 +22,39 @@ const app = express();
 app.use(express.json());
 
 // Environment variables
-const BACKEND_URL = process.env.BACKEND_URL || "http://server:8080";
-const CONNECT_URL = process.env.CONNECT_URL || "http://debezium:8083";
-const POSTGRES_HOST = process.env.POSTGRES_HOST || "postgres17";
-const POSTGRES_PORT = process.env.POSTGRES_PORT || "5432";
-const POSTGRES_USER = process.env.POSTGRES_USER || "sa";
-const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD || "P@ssw0rd";
-const POSTGRES_DB = process.env.POSTGRES_DB || "postgres";
-const KAFKA_BROKERS = process.env.KAFKA_BROKERS || "redpanda:9643";
+const {
+  BACKEND_URL,
+  CONNECT_URL,
+  POSTGRES_HOST,
+  POSTGRES_PORT,
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_DB,
+  KAFKA_BROKERS,
+  DATABASE_SCHEMA,
+  DATABASE_TABLES,
+} = process.env;
+
+const allRequiredEnv = [
+  "BACKEND_URL",
+  "CONNECT_URL",
+  "POSTGRES_HOST",
+  "POSTGRES_PORT",
+  "POSTGRES_USER",
+  "POSTGRES_PASSWORD",
+  "POSTGRES_DB",
+  "KAFKA_BROKERS",
+  "DATABASE_SCHEMA",
+  "DATABASE_TABLES",
+].filter((name) => !process.env[name]);
+
+if (allRequiredEnv.length > 0) {
+  logger.error(
+    "Config",
+    `Missing required environment variables: ${allRequiredEnv.join(", ")}`
+  );
+  process.exit(1);
+}
 
 // Global state
 let runId = null;
@@ -110,15 +135,16 @@ function buildConnectorConfig(id, topicName) {
       "database.server.name": "petclinic",
       "topic.prefix": "petclinic",
       "snapshot.mode": "never",
-      "table.include.list":
-        "public.enum,public.ping,public.owner,public.pet,public.vet,public.visit",
+      "table.include.list": DATABASE_TABLES.split(",")
+        .map((t) => `${DATABASE_SCHEMA}.${t.trim()}`)
+        .join(","),
       "slot.name": `petclinic_slot_${id.replace(/-/g, "_")}`,
       "plugin.name": "pgoutput",
       "publication.name": `petclinic_pub_${id.replace(/-/g, "_")}`,
       transforms: "route,addHeader",
       "transforms.route.type":
         "org.apache.kafka.connect.transforms.RegexRouter",
-      "transforms.route.regex": "petclinic\\.public\\.(.*)",
+      "transforms.route.regex": `petclinic\\.${DATABASE_SCHEMA}\\.(.*)`,
       "transforms.route.replacement": topicName,
       "transforms.addHeader.type":
         "org.apache.kafka.connect.transforms.InsertHeader",
