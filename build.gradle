@@ -40,7 +40,18 @@ subprojects {
         compileJava.options.encoding = 'UTF-8'
         compileJava.options.compilerArgs << '-Xlint:all,-serial,-processing,-classfile,-this-escape'
         java.sourceCompatibility = JavaVersion.VERSION_25
-        java.targetCompatibility = JavaVersion.VERSION_25        
+        java.targetCompatibility = JavaVersion.VERSION_25
+
+        def mockitoAgent = configurations.create('mockitoAgent') {
+            transitive = false
+        }
+        dependencies.add('mockitoAgent', 'org.mockito:mockito-core')
+
+        tasks.withType(Test).configureEach {
+            doFirst {
+                jvmArgs("-javaagent:${mockitoAgent.singleFile.absolutePath}")
+            }
+        }
     }
     // end::setup-java[]
     tasks.withType(Test).configureEach {
