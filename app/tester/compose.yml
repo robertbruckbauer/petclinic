@@ -8,6 +8,8 @@ services:
       - PORT=9090
       - BACKEND_URL=http://server:8080
       - CONNECT_URL=http://debezium:8083
+      - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
+      - DATABASE_TABLES=enum,ping,owner,pet,vet,visit
       - POSTGRES_HOST=postgres17
       - POSTGRES_PORT=5432
       - POSTGRES_USER=sa
@@ -42,7 +44,8 @@ services:
     environment:
       - _JAVA_OPTIONS=-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - SERVER_PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres
+      - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
       - SPRING_LIQUIBASE_ENABLED=false
@@ -55,7 +58,8 @@ services:
     hostname: migrate
     image: ${COMPOSE_PROJECT_NAME}/migrate
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres
+      - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
       - SPRING_LIQUIBASE_CHANGE_LOG=liquibase/changelog.xml
@@ -85,15 +89,16 @@ services:
     ports:
       - "9683:8083"
     environment:
-      BOOTSTRAP_SERVERS: redpanda:9643
-      GROUP_ID: 1
-      CONFIG_STORAGE_TOPIC: debezium_connect_config
-      OFFSET_STORAGE_TOPIC: debezium_connect_offset
-      STATUS_STORAGE_TOPIC: debezium_connect_status
-      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
-      KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
-      VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
+      - BOOTSTRAP_SERVERS=redpanda:9643
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=debezium_connect_config
+      - OFFSET_STORAGE_TOPIC=debezium_connect_offset
+      - STATUS_STORAGE_TOPIC=debezium_connect_status
+      - CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE="false"
+      - KEY_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      - CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE="false"
+      - VALUE_CONVERTER=org.apache.kafka.connect.json.JsonConverter
     depends_on:
       postgres17:
         condition: service_healthy
@@ -134,7 +139,7 @@ services:
     hostname: redpanda-console
     image: redpandadata/console:v3.3.2
     environment:
-      KAFKA_BROKERS: redpanda:9643
+      - KAFKA_BROKERS=redpanda:9643
     ports:
       - "9645:8080"
     depends_on:
