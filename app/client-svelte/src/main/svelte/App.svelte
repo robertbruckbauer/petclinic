@@ -11,6 +11,7 @@
   import OwnerViewer from "./pages/client/OwnerViewer.svelte";
   import PetLister from "./pages/client/PetLister.svelte";
   import PetViewer from "./pages/client/PetViewer.svelte";
+  import InvoiceLister from "./pages/clinic/InvoiceLister.svelte";
   import VetLister from "./pages/clinic/VetLister.svelte";
   import VetViewer from "./pages/clinic/VetViewer.svelte";
   import VisitLister from "./pages/clinic/VisitLister.svelte";
@@ -86,6 +87,10 @@
             <span class="capitalize">Clinic</span>
             <ul class="p-2">
               <li>
+                <a class="link" onclick={onMenuClose} href="/invoice">Invoice</a
+                >
+              </li>
+              <li>
                 <a class="link" onclick={onMenuClose} href="/visit">Visit</a>
               </li>
               <li>
@@ -126,6 +131,7 @@
       <Route path="/owner/:id" component={OwnerViewer} />
       <Route path="/pet" component={PetLister} />
       <Route path="/pet/:id" component={PetViewer} />
+      <Route path="/invoice" component={InvoiceLister} />
       <Route path="/visit" component={VisitLister} />
       <Route path="/visit/:id" component={VisitViewer} />
       <Route path="/vet" component={VetLister} />

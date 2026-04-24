@@ -2,6 +2,11 @@ import { OwnerItem } from "./owner.type";
 import { PetItem } from "./pet.type";
 import { VetItem } from "./vet.type";
 
+export interface VisitItem {
+  value: string;
+  text: string;
+}
+
 export interface Visit {
   id?: string;
   version: number;
