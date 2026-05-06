@@ -74,13 +74,13 @@ tasks.register('buildImage') {
         String image2 = CLIENT_IMAGE + ":" + VERSION;
         println 'Building image ' + image1
         providers.exec {
-            workingDir(projectDir)
+            workingDir(rootProject.projectDir)
             executable 'docker'
-            args 'build', '.', '-t', image1
+            args 'build', '-f', 'app/client-svelte/Dockerfile', '.', '-t', image1
         }.result.get()
         if (image1 != image2) {
             providers.exec {
-                workingDir(projectDir)
+                workingDir(rootProject.projectDir)
                 executable 'docker'
                 args 'tag', image1, image2
             }.result.get()
@@ -94,7 +94,7 @@ tasks.register('buildImage') {
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group = 'verification'
     mustRunAfter 'npmInstall'
-    allFileWithVersion.from("package.json", "package-lock.json")
+    allFileWithVersion.from("package.json")
 }
 
 tasks.register('lint', NpmTask) {

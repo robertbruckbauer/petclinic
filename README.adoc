@@ -128,10 +128,9 @@ This command checks whether all entered versions with major and minor numbers ma
 
 === Building and testing code
 
-[source, npm]
+[source, pnpm]
 ----
-npm install --prefix app/client-angular
-npm install --prefix app/client-svelte
+pnpm install
 ----
 
 [source, gradle]
@@ -188,9 +187,9 @@ With the value `DEBUG`, for example, the metrics of statements are output.
 
 === Starting Angular client locally
 
-[source, npm]
+[source, pnpm]
 ----
-npm run start --prefix app/client-angular
+pnpm --filter client-angular run start
 ----
 
 This command starts the client as a Node application.
@@ -198,9 +197,9 @@ The Angular client is accessed in the browser at `localhost:5052`.
 
 === Starting Svelte client locally
 
-[source, npm]
+[source, pnpm]
 ----
-npm run start --prefix app/client-svelte
+pnpm --filter client-svelte run start
 ----
 
 This command starts the client as a Node application.

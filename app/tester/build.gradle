@@ -15,5 +15,5 @@ tasks.named("npmInstall") {
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group = 'verification'
     mustRunAfter 'npmInstall'
-    allFileWithVersion.from("Chart.yaml", "package.json", "package-lock.json")
+    allFileWithVersion.from("Chart.yaml", "package.json")
 }
