@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.015s</div>
+<div class="counter">0.018s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,9 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-postApiVisitConflict()">2026-04-17T18:22:29.932Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T18:22:29.932Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T18:22:29.933Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-postApiVisitConflict()">2026-05-06T12:25:51.551Z  INFO 3389 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-06T12:25:51.551Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-06T12:25:51.552Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         p1_0.id,
@@ -98,7 +98,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -109,7 +109,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -122,42 +122,43 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:29.938Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:96f88cbd-f325-403b-a098-63548424268d,date='2021-04-22']; creating ...
-2026-04-17T18:22:29.938Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:96f88cbd-f325-403b-a098-63548424268d,date='2021-04-22']
+2026-05-06T12:25:51.558Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:2cd42a93-95a6-4edf-9b5b-4080982aa26f,date='2021-04-22']; creating ...
+2026-05-06T12:25:51.558Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:2cd42a93-95a6-4edf-9b5b-4080982aa26f,date='2021-04-22']
 Hibernate: 
     select
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
     insert 
     into
-        visit
-        (billable, date, pet_id, text, time, version, vet_id, id) 
+        PUBLIC.visit
+        (billable, date, duration, pet_id, text, time, version, vet_id, id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-2026-04-17T18:22:29.941Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
-2026-04-17T18:22:29.941Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
-2026-04-17T18:22:29.941Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_VISIT table: VISIT
-2026-04-17T18:22:29.942Z ERROR 3214 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/visit
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-05-06T12:25:51.561Z  INFO 3389 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
+2026-05-06T12:25:51.561Z  WARN 3389 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
+2026-05-06T12:25:51.561Z  WARN 3389 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_VISIT table: VISIT
+2026-05-06T12:25:51.562Z ERROR 3389 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/visit
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -192,7 +193,7 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;detail&quot; : &quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_VISIT table: VISIT] [insert into visit (billable,date,pet_id,text,time,version,vet_id,id) values (?,?,?,?,?,?,?,?)]; SQL [insert into visit (billable,date,pet_id,text,time,version,vet_id,id) values (?,?,?,?,?,?,?,?)]; constraint [UK_VISIT]&quot;,
+  &quot;detail&quot; : &quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_VISIT table: VISIT] [insert into PUBLIC.visit (billable,date,duration,pet_id,text,time,version,vet_id,id) values (?,?,?,?,?,?,?,?,?)]; SQL [insert into PUBLIC.visit (billable,date,duration,pet_id,text,time,version,vet_id,id) values (?,?,?,?,?,?,?,?,?)]; constraint [UK_VISIT]&quot;,
   &quot;instance&quot; : &quot;/api/visit&quot;,
   &quot;status&quot; : 409,
   &quot;title&quot; : &quot;Conflict&quot;
@@ -214,7 +215,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
 </div>
 </div>
 </body>

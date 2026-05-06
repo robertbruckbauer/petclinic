@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Specification for endpoints</h1>
 <div class="details">
-<span id="revnumber">version 1.6</span>
+<span id="revnumber">version 1.7</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -649,15 +649,15 @@ It is only read when the application starts.</p>
 <div class="listingblock">
 <div class="title">endpoint.properties</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="text"># org.springframework.boot.autoconfigure.web.ServerProperties
+<pre class="CodeRay highlight"><code data-lang="text"># org.springframework.boot.web.server.autoconfigure.ServerProperties
 server.port=8080
 server.compression.enabled=false
-# org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
+# org.springframework.boot.data.autoconfigure.web.DataWebProperties
 # tag::restapi[]
 spring.data.web.pageable.default-page-size=9999
 spring.data.web.pageable.max-page-size=9999
 # end::restapi[]
-# org.springframework.boot.autoconfigure.data.rest.RepositoryRestProperties
+# org.springframework.boot.data.rest.autoconfigure.DataRestProperties
 # tag::restapi[]
 spring.data.rest.default-page-size=9999
 spring.data.rest.max-page-size=9999
@@ -666,7 +666,7 @@ spring.data.rest.max-page-size=9999
 # tag::management[]
 management.endpoints.web.exposure.include=health
 # end::management[]
-# org.springframework.boot.actuate.autoconfigure.health.HealthEndpointProperties
+# org.springframework.boot.health.autoconfigure.actuate.endpoint.HealthEndpointProperties
 # tag::management[]
 management.endpoint.health.probes.enabled=true
 # end::management[]</code></pre>
@@ -1192,18 +1192,17 @@ class PetRestApiTest {
     @Order(200)
     void postApiPet() throws Exception { <i class="conum" data-value="3"></i><b>(3)</b>
         final var name = &quot;Roger&quot;;
-        final var born = &quot;2021-04-22&quot;;
         assertFalse(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
         mockMvc.perform(post(&quot;/api/pet&quot;)
                         .content(&quot;&quot;&quot;
                                 {
                                     &quot;owner&quot;:&quot;/api/owner/b1111111-1111-beef-dead-beefdeadbeef&quot;,
                                     &quot;name&quot;:&quot;%s&quot;,
-                                    &quot;born&quot;:&quot;%s&quot;,
+                                    &quot;born&quot;:&quot;2021-04-22&quot;,
                                     &quot;species&quot;:&quot;Rat&quot;,
                                     &quot;sex&quot;:&quot;M&quot;
                                 }
-                                &quot;&quot;&quot;.formatted(name, born))
+                                &quot;&quot;&quot;.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -1220,18 +1219,39 @@ class PetRestApiTest {
                 .andExpect(jsonPath(&quot;$.name&quot;)
                         .value(name))
                 .andExpect(jsonPath(&quot;$.born&quot;)
-                        .value(born))
+                        .isNotEmpty())
                 .andExpect(jsonPath(&quot;$.species&quot;)
-                        .value(&quot;Rat&quot;))
+                        .isNotEmpty())
                 .andExpect(jsonPath(&quot;$.sex&quot;)
-                        .value(&quot;M&quot;));
+                        .isNotEmpty());
+    }
+
+    @Test
+    @Order(201)
+    void postApiPetConflict() throws Exception { <i class="conum" data-value="4"></i><b>(4)</b>
+        final var name = &quot;Roger&quot;;
+        assertTrue(petRepository.findOne(QPet.pet.name.eq(name)).isPresent());
+        mockMvc.perform(post(&quot;/api/pet&quot;)
+                        .content(&quot;&quot;&quot;
+                                {
+                                    &quot;owner&quot;:&quot;/api/owner/b1111111-1111-beef-dead-beefdeadbeef&quot;,
+                                    &quot;name&quot;:&quot;%s&quot;,
+                                    &quot;born&quot;:&quot;2021-04-22&quot;,
+                                    &quot;species&quot;:&quot;Rat&quot;,
+                                    &quot;sex&quot;:&quot;M&quot;
+                                }
+                                &quot;&quot;&quot;.formatted(name))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isConflict());
     }
 
     @Test
     @Order(300)
-    void putApiPet() throws Exception { <i class="conum" data-value="4"></i><b>(4)</b>
+    void putApiPet() throws Exception { <i class="conum" data-value="5"></i><b>(5)</b>
         final var name = &quot;Anita&quot;;
-        final var born = &quot;2021-04-27&quot;;
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
         assertFalse(petRepository.findById(uuid).isPresent());
         mockMvc.perform(put(&quot;/api/pet/&quot; + uuid)
@@ -1239,11 +1259,11 @@ class PetRestApiTest {
                                 {
                                     &quot;owner&quot;:&quot;/api/owner/b1111111-1111-beef-dead-beefdeadbeef&quot;,
                                     &quot;name&quot;:&quot;%s&quot;,
-                                    &quot;born&quot;:&quot;%s&quot;,
+                                    &quot;born&quot;:&quot;2021-04-27&quot;,
                                     &quot;species&quot;:&quot;Rat&quot;,
                                     &quot;sex&quot;:&quot;F&quot;
                                 }
-                                &quot;&quot;&quot;.formatted(name, born))
+                                &quot;&quot;&quot;.formatted(name))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -1260,15 +1280,15 @@ class PetRestApiTest {
                 .andExpect(jsonPath(&quot;$.ownerItem.value&quot;)
                         .value(&quot;b1111111-1111-beef-dead-beefdeadbeef&quot;))
                 .andExpect(jsonPath(&quot;$.ownerItem.text&quot;)
-                        .value(&quot;Toby Elsden&quot;))
+                        .isNotEmpty())
                 .andExpect(jsonPath(&quot;$.name&quot;)
                         .value(name))
                 .andExpect(jsonPath(&quot;$.born&quot;)
-                        .value(born))
+                        .isNotEmpty())
                 .andExpect(jsonPath(&quot;$.species&quot;)
-                        .value(&quot;Rat&quot;))
+                        .isNotEmpty())
                 .andExpect(jsonPath(&quot;$.sex&quot;)
-                        .value(&quot;F&quot;));
+                        .isNotEmpty());
     }
 
     @ParameterizedTest
@@ -1277,7 +1297,7 @@ class PetRestApiTest {
             &quot;Anita&quot;
     })
     @Order(400)
-    void patchApiPetName(final String name) throws Exception { <i class="conum" data-value="5"></i><b>(5)</b>
+    void patchApiPetName(final String name) throws Exception { <i class="conum" data-value="6"></i><b>(6)</b>
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(patch(&quot;/api/pet/&quot; + uuid)
@@ -1305,7 +1325,31 @@ class PetRestApiTest {
 
     @Test
     @Order(500)
-    void getApiPetById() throws Exception { <i class="conum" data-value="6"></i><b>(6)</b>
+    void getApiPet() throws Exception { <i class="conum" data-value="7"></i><b>(7)</b>
+        assertEquals(2, petRepository.count());
+        mockMvc.perform(get(&quot;/api/pet&quot;)
+                        .param(&quot;sort&quot;, &quot;name,asc&quot;)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .contentType(&quot;application/json&quot;))
+                .andExpect(header()
+                        .exists(&quot;Vary&quot;))
+                .andExpect(jsonPath(&quot;$.content&quot;)
+                        .isArray())
+                .andExpect(jsonPath(&quot;$.content[0].name&quot;)
+                        .value(&quot;Anita&quot;))
+                .andExpect(jsonPath(&quot;$.content[1].name&quot;)
+                        .value(&quot;Roger&quot;))
+                .andExpect(jsonPath(&quot;$.content[2]&quot;)
+                        .doesNotExist());
+    }
+
+    @Test
+    @Order(501)
+    void getApiPetById() throws Exception { <i class="conum" data-value="8"></i><b>(8)</b>
         final var name = &quot;Anita&quot;;
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
         assertTrue(petRepository.findById(uuid).isPresent());
@@ -1327,12 +1371,24 @@ class PetRestApiTest {
     }
 
     @Test
+    @Order(502)
+    void getApiPetByIdNotFound() throws Exception { <i class="conum" data-value="9"></i><b>(9)</b>
+        final var uuid = UUID.fromString(&quot;a1111111-2222-beef-dead-beefdeadbeef&quot;);
+        assertFalse(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(get(&quot;/api/pet/&quot; + uuid)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status()
+                        .isNotFound());
+    }
+
+    @Test
     @Order(600)
-    void deleteApiPet() throws Exception { <i class="conum" data-value="7"></i><b>(7)</b>
+    void deleteApiPet() throws Exception { <i class="conum" data-value="10"></i><b>(10)</b>
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(delete(&quot;/api/pet/&quot; + uuid)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICA9ION_JSON))
                 .andDo(print())
                 .andExpect(status()
                         .isOk())
@@ -1343,8 +1399,19 @@ class PetRestApiTest {
     }
 
     @Test
+    @Order(601)
+    void deleteApiPetNotFound() throws Exception { <i class="conum" data-value="11"></i><b>(11)</b>
+        final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
+        assertFalse(petRepository.findById(uuid).isPresent());
+        mockMvc.perform(delete(&quot;/api/pet/&quot; + uuid))
+                .andDo(print())
+                .andExpect(status()
+                        .isNotFound());
+    }
+
+    @Test
     @Order(999)
-    void cleanup() { <i class="conum" data-value="8"></i><b>(8)</b>
+    void cleanup() { <i class="conum" data-value="12"></i><b>(12)</b>
         assertDoesNotThrow(databaseCleaner::cleanDatabase);
     }
 }</code></pre>
@@ -1358,73 +1425,63 @@ class PetRestApiTest {
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Test for an empty table.</td>
+<td>Test for the existance of an empty table with a GET collection operation.
+The operation expects a status code 200 with an empty list in the response.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Test for the happy path of a POST operation.</td>
+<td>Test for the happy path of a POST operation.
+The operation expects a status code 201 with the new content of the entity in the response.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Test for the happy path of a PUT operation.</td>
+<td>Test for the <code>Conflict</code> path of a POST operation.
+The operation fails with status code 409.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>Test for the happy path of a PATCH operation.</td>
+<td>Test for the happy path of a PUT operation.
+The operation expects a status code 201 with the new content of the entity in the response.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>Test for the happy path of a GET operation.</td>
+<td>Test for the happy path of a PATCH operation.
+The operation expects a status code 200 with the new content of the entity in the response.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="7"></i><b>7</b></td>
-<td>Test for the happy path of a DELETE operation.</td>
+<td>Test for the happy path of a GET collection operation.
+The operation expects a status code 200 with a non-empty list in the response.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="8"></i><b>8</b></td>
-<td>Empty all entity tables.</td>
+<td>Test for the happy path of a GET item operation.
+The operation expects a status code 200 with the current content of the entity in the response.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>Test for the <code>NotFound</code> path of a GET item operation.
+The operation fails with status code 404.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="10"></i><b>10</b></td>
+<td>Test for the happy path of a DELETE operation.
+The operation expects a status code 200 with the latest content of the entity in the response.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="11"></i><b>11</b></td>
+<td>Test for the <code>NotFound</code> path of a DELETE operation.
+The operation fails with status code 404.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="12"></i><b>12</b></td>
+<td>A mandatory cleanup method at the end of the test empties all entity tables.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Add a test for the happy path of a PATCH operation for each property, collection and relation.</p>
-</div>
-<div class="paragraph">
-<p>Add a test for the <code>NotFound</code> path of a GET operation.</p>
-</div>
-<div class="listingblock">
-<div class="title">Example</div>
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="text">@Test
-@Order(501)
-void getApiPetByIdNotFound() throws Exception {
-    final var uuid = UUID.fromString(&quot;a1111111-2222-beef-dead-beefdeadbeef&quot;);
-    assertFalse(petRepository.findById(uuid).isPresent());
-    mockMvc.perform(get(&quot;/api/pet/&quot; + uuid)
-                    .accept(MediaType.APPLICATION_JSON))
-            .andDo(print())
-            .andExpect(status()
-                    .isNotFound());
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Add a test for the <code>NotFound</code> path of a DELETE operation.</p>
-</div>
-<div class="listingblock">
-<div class="title">Example</div>
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="text">@Test
-@Order(601)
-void deleteApiPetNotFound() throws Exception {
-    final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
-    assertFalse(petRepository.findById(uuid).isPresent());
-    mockMvc.perform(delete(&quot;/api/pet/&quot; + uuid))
-            .andDo(print())
-            .andExpect(status()
-                    .isNotFound());
-}</code></pre>
-</div>
+<p>Add a test for the happy path of a PATCH operation for each property, collection and relation.
+Add <code>@SQL</code> fixtures for other entities referenced in relations.</p>
 </div>
 </div>
 </div>
@@ -1610,7 +1667,7 @@ They trigger batch mapping operations when requested.</p>
 <p>The method is annotated with <code>@QueryMapping</code> and <code>@Transactional</code> to ensure consistent read operations within a database transaction.</p>
 </div>
 <div class="paragraph">
-<p>The method name follows the pattern <code>all&lt;EntityName&gt;</code> or <code>all&lt;EntityName&gt;By&lt;Criteria&gt;</code>.</p>
+<p>The method name follows the pattern <code>all{Entity}</code> or <code>all{Entity}By{Criteria}</code>.</p>
 </div>
 <div class="paragraph">
 <p>The method always returns a collection type defined in the GraphQL schema as an array.</p>
@@ -1634,7 +1691,7 @@ The repository&#8217;s <code>findAll(Predicate, OrderSpecifier)</code> method re
 <dt class="hdlist1">With relationship navigation</dt>
 <dd>
 <p>Uses QueryDSL path expressions to navigate entity relationships and filter by foreign key.
-This pattern queries through associations without explicit joins (e.g., <code>entity.relatedEntity.id.eq(value)</code>).</p>
+This pattern queries through associations without explicit joins (e.g., <code>pet.owner.id.eq(value)</code>).</p>
 </dd>
 </dl>
 </div>
@@ -2202,7 +2259,7 @@ This ensures that all objects have the same procedure for maintaining a primary 
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach"><a class="anchor" href="#_entitytest_approach"></a><a class="link" href="#_entitytest_approach"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach"><a class="anchor" href="#_entitytest_approach"></a><a class="link" href="#_entitytest_approach"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.</p>
 </div>
@@ -2217,19 +2274,19 @@ This ensures that all objects have the same procedure for maintaining a primary 
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach"><a class="anchor" href="#_entityrepositorytest_approach"></a><a class="link" href="#_entityrepositorytest_approach"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach"><a class="anchor" href="#_entityrepositorytest_approach"></a><a class="link" href="#_entityrepositorytest_approach"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
 <p>Do not create a test specifically for these properties.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach"><a class="anchor" href="#_entitygraphqltest_approach"></a><a class="link" href="#_entitygraphqltest_approach"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach"><a class="anchor" href="#_entitygraphqltest_approach"></a><a class="link" href="#_entitygraphqltest_approach"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
 <p>Do not create a test specifically for these properties.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach"><a class="anchor" href="#_entityrestapitest_approach"></a><a class="link" href="#_entityrestapitest_approach"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach"><a class="anchor" href="#_entityrestapitest_approach"></a><a class="link" href="#_entityrestapitest_approach"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
 <p>Do not create a test specifically for these properties.</p>
 </div>
@@ -2394,7 +2451,7 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach_2"><a class="anchor" href="#_entitytest_approach_2"></a><a class="link" href="#_entitytest_approach_2"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach_2"><a class="anchor" href="#_entitytest_approach_2"></a><a class="link" href="#_entitytest_approach_2"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.</p>
 </div>
@@ -2408,7 +2465,7 @@ Use <code>Objects#equals</code>.</p>
 <p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;</code> test verifies the happy path, e.g.</p>
+<p>The <code>json{Name}</code> test verifies the happy path, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2443,7 +2500,7 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;Constraints</code> parameterized test verifies constraints, e.g.</p>
+<p>The <code>json{Name}Constraints</code> parameterized test verifies constraints, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2483,9 +2540,9 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach_2"><a class="anchor" href="#_entityrepositorytest_approach_2"></a><a class="link" href="#_entityrepositorytest_approach_2"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach_2"><a class="anchor" href="#_entityrepositorytest_approach_2"></a><a class="link" href="#_entityrepositorytest_approach_2"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>save&lt;Entity&gt;</code> test verifies the happy path for a persistence operation.</p>
+<p>A <code>save{Entity}</code> test verifies the happy path for a persistence operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -2515,9 +2572,9 @@ void saveVet(final String name) {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach_2"><a class="anchor" href="#_entitygraphqltest_approach_2"></a><a class="link" href="#_entitygraphqltest_approach_2"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach_2"><a class="anchor" href="#_entitygraphqltest_approach_2"></a><a class="link" href="#_entitygraphqltest_approach_2"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>queryAll&lt;Entity&gt;</code> test verifies the happy path for a query operation.</p>
+<p>A <code>queryAll{Entity}</code> test verifies the happy path for a query operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -2544,34 +2601,29 @@ void queryAllVet() {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach_2"><a class="anchor" href="#_entityrestapitest_approach_2"></a><a class="link" href="#_entityrestapitest_approach_2"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach_2"><a class="anchor" href="#_entityrestapitest_approach_2"></a><a class="link" href="#_entityrestapitest_approach_2"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+<p>The <code>postApi{Entity}</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>putApi{Entity}</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>patchApi{Entity}{Name}</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Assert the status.
 Assert the value of the property in the response.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;Conflict</code> test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>putApi&lt;Entity&gt;</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>patchApi&lt;Entity&gt;&lt;Name&gt;</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>getApi&lt;Entity&gt;ById</code> test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+<p>The <code>getApi{Entity}ById</code> test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Compute the new <code>ETag</code> value according to the new test.
 Assert the status.
 Assert the value of the property in the response.
@@ -2747,7 +2799,7 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach_3"><a class="anchor" href="#_entitytest_approach_3"></a><a class="link" href="#_entitytest_approach_3"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach_3"><a class="anchor" href="#_entitytest_approach_3"></a><a class="link" href="#_entitytest_approach_3"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.</p>
 </div>
@@ -2761,7 +2813,7 @@ Use <code>Objects#equals</code>.</p>
 <p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;</code> test verifies the happy path, e.g.</p>
+<p>The <code>json{Name}</code> test verifies the happy path, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2792,7 +2844,7 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;Constraints</code> parameterized test verifies constraints, e.g.</p>
+<p>The <code>json{Name}Constraints</code> parameterized test verifies constraints, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2830,9 +2882,9 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach_3"><a class="anchor" href="#_entityrepositorytest_approach_3"></a><a class="link" href="#_entityrepositorytest_approach_3"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach_3"><a class="anchor" href="#_entityrepositorytest_approach_3"></a><a class="link" href="#_entityrepositorytest_approach_3"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>save&lt;Entity&gt;</code> test verifies the happy path for a persistence operation.</p>
+<p>A <code>save{Entity}</code> test verifies the happy path for a persistence operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -2865,9 +2917,9 @@ void savePet(final String name) {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach_3"><a class="anchor" href="#_entitygraphqltest_approach_3"></a><a class="link" href="#_entitygraphqltest_approach_3"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach_3"><a class="anchor" href="#_entitygraphqltest_approach_3"></a><a class="link" href="#_entitygraphqltest_approach_3"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>queryAll&lt;Entity&gt;</code> test verifies the happy path for a query operation.</p>
+<p>A <code>queryAll{Entity}</code> test verifies the happy path for a query operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -2908,34 +2960,29 @@ void queryAllPet() {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach_3"><a class="anchor" href="#_entityrestapitest_approach_3"></a><a class="link" href="#_entityrestapitest_approach_3"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach_3"><a class="anchor" href="#_entityrestapitest_approach_3"></a><a class="link" href="#_entityrestapitest_approach_3"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+<p>The <code>postApi{Entity}</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>putApi{Entity}</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>patchApi{Entity}{Name}</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Assert the status.
 Assert the value of the property in the response.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;Conflict</code> test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>putApi&lt;Entity&gt;</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>patchApi&lt;Entity&gt;&lt;Name&gt;</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>getApi&lt;Entity&gt;ById</code> test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+<p>The <code>getApi{Entity}ById</code> test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Compute the new <code>ETag</code> value according to the new test.
 Assert the status.
 Assert the value of the property in the response.
@@ -3120,7 +3167,7 @@ Use <code>Objects#equals</code>.</p>
 
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach_4"><a class="anchor" href="#_entitytest_approach_4"></a><a class="link" href="#_entitytest_approach_4"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach_4"><a class="anchor" href="#_entitytest_approach_4"></a><a class="link" href="#_entitytest_approach_4"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.
 The date value is provided as a string literal in <code>yyyy-MM-dd</code> format matching <code>DATE_PATTERN</code>.</p>
@@ -3135,7 +3182,7 @@ The date value is provided as a string literal in <code>yyyy-MM-dd</code> format
 <p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;</code> parameterized test verifies the happy path, e.g.</p>
+<p>The <code>json{Name}</code> parameterized test verifies the happy path, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3167,7 +3214,7 @@ The date value is provided as a string literal in <code>yyyy-MM-dd</code> format
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;Constraints</code> parameterized test verifies constraints, e.g.</p>
+<p>The <code>json{Name}Constraints</code> parameterized test verifies constraints, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3203,9 +3250,9 @@ The date value is provided as a string literal in <code>yyyy-MM-dd</code> format
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach_4"><a class="anchor" href="#_entityrepositorytest_approach_4"></a><a class="link" href="#_entityrepositorytest_approach_4"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach_4"><a class="anchor" href="#_entityrepositorytest_approach_4"></a><a class="link" href="#_entityrepositorytest_approach_4"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>save&lt;Entity&gt;</code> test verifies the happy path for a persistence operation.</p>
+<p>A <code>save{Entity}</code> test verifies the happy path for a persistence operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -3240,9 +3287,9 @@ void saveVisit(final String text) {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach_4"><a class="anchor" href="#_entitygraphqltest_approach_4"></a><a class="link" href="#_entitygraphqltest_approach_4"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach_4"><a class="anchor" href="#_entitygraphqltest_approach_4"></a><a class="link" href="#_entitygraphqltest_approach_4"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>queryAll&lt;Entity&gt;</code> test verifies the happy path for a query operation.</p>
+<p>A <code>queryAll{Entity}</code> test verifies the happy path for a query operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -3269,34 +3316,29 @@ void queryAllVisit() {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach_4"><a class="anchor" href="#_entityrestapitest_approach_4"></a><a class="link" href="#_entityrestapitest_approach_4"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach_4"><a class="anchor" href="#_entityrestapitest_approach_4"></a><a class="link" href="#_entityrestapitest_approach_4"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+<p>The <code>postApi{Entity}</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>putApi{Entity}</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>patchApi{Entity}{Name}</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Assert the status.
 Assert the value of the property in the response.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;Conflict</code> test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>putApi&lt;Entity&gt;</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>patchApi&lt;Entity&gt;&lt;Name&gt;</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>getApi&lt;Entity&gt;ById</code> test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+<p>The <code>getApi{Entity}ById</code> test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Compute the new <code>ETag</code> value according to the new test.
 Assert the status.
 Assert the value of the property in the response.
@@ -3475,7 +3517,7 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach_5"><a class="anchor" href="#_entitytest_approach_5"></a><a class="link" href="#_entitytest_approach_5"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach_5"><a class="anchor" href="#_entitytest_approach_5"></a><a class="link" href="#_entitytest_approach_5"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.
 The date value is provided as a string literal in <code>HH:mm</code> format matching <code>TIME_PATTERN</code>.</p>
@@ -3490,7 +3532,7 @@ The date value is provided as a string literal in <code>HH:mm</code> format matc
 <p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;</code> parameterized test verifies the happy path, e.g.</p>
+<p>The <code>json{Name}</code> parameterized test verifies the happy path, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3525,7 +3567,7 @@ The date value is provided as a string literal in <code>HH:mm</code> format matc
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;Constraints</code> parameterized test verifies constraints, e.g.</p>
+<p>The <code>json{Name}Constraints</code> parameterized test verifies constraints, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3562,9 +3604,9 @@ The date value is provided as a string literal in <code>HH:mm</code> format matc
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach_5"><a class="anchor" href="#_entityrepositorytest_approach_5"></a><a class="link" href="#_entityrepositorytest_approach_5"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach_5"><a class="anchor" href="#_entityrepositorytest_approach_5"></a><a class="link" href="#_entityrepositorytest_approach_5"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>save&lt;Entity&gt;</code> test verifies the happy path for a persistence operation.</p>
+<p>A <code>save{Entity}</code> test verifies the happy path for a persistence operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -3599,9 +3641,9 @@ void saveVisit(final String text) {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach_5"><a class="anchor" href="#_entitygraphqltest_approach_5"></a><a class="link" href="#_entitygraphqltest_approach_5"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach_5"><a class="anchor" href="#_entitygraphqltest_approach_5"></a><a class="link" href="#_entitygraphqltest_approach_5"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>queryAll&lt;Entity&gt;</code> test verifies the happy path for a query operation.</p>
+<p>A <code>queryAll{Entity}</code> test verifies the happy path for a query operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -3628,34 +3670,29 @@ void queryAllVisit() {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach_5"><a class="anchor" href="#_entityrestapitest_approach_5"></a><a class="link" href="#_entityrestapitest_approach_5"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach_5"><a class="anchor" href="#_entityrestapitest_approach_5"></a><a class="link" href="#_entityrestapitest_approach_5"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+<p>The <code>postApi{Entity}</code> test verifies the happy path of the POST entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>putApi{Entity}</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
+Assert the status.
+Assert a non-empty value of the property in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>patchApi{Entity}{Name}</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Assert the status.
 Assert the value of the property in the response.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;Conflict</code> test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>putApi&lt;Entity&gt;</code> test verifies the happy path of the PUT entity operation with a valid value for the new property in the payload for the request.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>patchApi&lt;Entity&gt;&lt;Name&gt;</code> test verifies the happy path of the PATCH entity operation with a valid value for the new property in the payload for the request.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
-Assert the status.
-Assert the value of the property in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>getApi&lt;Entity&gt;ById</code> test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+<p>The <code>getApi{Entity}ById</code> test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Compute the new <code>ETag</code> value according to the new test.
 Assert the status.
 Assert the value of the property in the response.
@@ -3886,7 +3923,7 @@ Use <code>Objects#equals</code>.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach_6"><a class="anchor" href="#_entitytest_approach_6"></a><a class="link" href="#_entitytest_approach_6"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach_6"><a class="anchor" href="#_entitytest_approach_6"></a><a class="link" href="#_entitytest_approach_6"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.</p>
 </div>
@@ -3900,7 +3937,7 @@ Use <code>Objects#equals</code>.</p>
 <p>The <code>writeJson</code> test verifies serialisation to JSON.</p>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;</code> test verifies the happy path, e.g.</p>
+<p>The <code>json{Name}</code> test verifies the happy path, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3946,7 +3983,7 @@ This is not scope of this test.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>json&lt;Name&gt;Constraints</code> parameterized test verifies constraints, e.g.</p>
+<p>The <code>json{Name}Constraints</code> parameterized test verifies constraints, e.g.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3979,9 +4016,9 @@ This is not scope of this test.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach_6"><a class="anchor" href="#_entityrepositorytest_approach_6"></a><a class="link" href="#_entityrepositorytest_approach_6"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach_6"><a class="anchor" href="#_entityrepositorytest_approach_6"></a><a class="link" href="#_entityrepositorytest_approach_6"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>save&lt;Entity&gt;</code> test verifies the happy path for a persistence operation.</p>
+<p>A <code>save{Entity}</code> test verifies the happy path for a persistence operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -4013,9 +4050,9 @@ void saveVet(final String name) {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach_6"><a class="anchor" href="#_entitygraphqltest_approach_6"></a><a class="link" href="#_entitygraphqltest_approach_6"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach_6"><a class="anchor" href="#_entitygraphqltest_approach_6"></a><a class="link" href="#_entitygraphqltest_approach_6"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>queryAll&lt;Entity&gt;</code> test verifies the happy path for a query operation.</p>
+<p>A <code>queryAll{Entity}</code> test verifies the happy path for a query operation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -4042,34 +4079,29 @@ void queryAllVet() {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach_6"><a class="anchor" href="#_entityrestapitest_approach_6"></a><a class="link" href="#_entityrestapitest_approach_6"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach_6"><a class="anchor" href="#_entityrestapitest_approach_6"></a><a class="link" href="#_entityrestapitest_approach_6"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;</code> test verifies the happy path of the POST entity operation with a valid value for the new collection in the payload for the request.
+<p>The <code>postApi{Entity}</code> test verifies the happy path of the POST entity operation with a valid value for the new collection in the payload for the request.
+Assert the status.
+Assert a collection in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>putApi{Entity}</code> test verifies the happy path of the PUT entity operation with a valid value for the new collection in the payload for the request.
+Assert the status.
+Assert a collection in the response.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>patchApi{Entity}{Name}</code> test verifies the happy path of the PATCH entity operation with a valid value for the new collection in the payload for the request.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Assert the status.
 Assert the ordering of the collection elements and the size in the response.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;Conflict</code> test verifies the error path with unique key constraints of the POST entity operation with a valid value for the new collection in the payload for the request.
-Assert the status.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>putApi&lt;Entity&gt;</code> test verifies the happy path of the PUT entity operation with a valid value for the new collection in the payload for the request.
-Assert the status.
-Assert the ordering of the collection elements and the size in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>patchApi&lt;Entity&gt;&lt;Name&gt;</code> test verifies the happy path of the PATCH entity operation with a valid value for the new collection in the payload for the request.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
-Assert the status.
-Assert the ordering of the collection elements and the size in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>getApi&lt;Entity&gt;ById</code> test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+<p>The <code>getApi{Entity}ById</code> test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Compute the new <code>ETag</code> value according to the new test.
 Assert the status.
 Assert the ordering of the collection elements and the size in the response.
@@ -4365,7 +4397,7 @@ Be aware of the potential impact on performance.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach_7"><a class="anchor" href="#_entitytest_approach_7"></a><a class="link" href="#_entitytest_approach_7"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach_7"><a class="anchor" href="#_entitytest_approach_7"></a><a class="link" href="#_entitytest_approach_7"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.
 Create fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.</p>
@@ -4383,9 +4415,9 @@ relations must always be absent from the JSON structure.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach_7"><a class="anchor" href="#_entityrepositorytest_approach_7"></a><a class="link" href="#_entityrepositorytest_approach_7"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach_7"><a class="anchor" href="#_entityrepositorytest_approach_7"></a><a class="link" href="#_entityrepositorytest_approach_7"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>save&lt;Entity&gt;</code> test verifies the happy path for a persistence operation.
+<p>A <code>save{Entity}</code> test verifies the happy path for a persistence operation.
 Persist fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.</p>
 </div>
 <div class="listingblock">
@@ -4418,9 +4450,9 @@ void savePet(final String name) {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach_7"><a class="anchor" href="#_entitygraphqltest_approach_7"></a><a class="link" href="#_entitygraphqltest_approach_7"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach_7"><a class="anchor" href="#_entitygraphqltest_approach_7"></a><a class="link" href="#_entitygraphqltest_approach_7"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
-<p>A <code>queryAll&lt;Entity&gt;</code> test verifies the happy path for a query operation.
+<p>A <code>queryAll{Entity}</code> test verifies the happy path for a query operation.
 Create fixtures parameterized with the unique keys needed to provide referenced required entities with a fixed primary key value.</p>
 </div>
 <div class="listingblock">
@@ -4462,49 +4494,39 @@ void queryAllPet() {
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach_7"><a class="anchor" href="#_entityrestapitest_approach_7"></a><a class="link" href="#_entityrestapitest_approach_7"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach_7"><a class="anchor" href="#_entityrestapitest_approach_7"></a><a class="link" href="#_entityrestapitest_approach_7"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;</code> test verifies the happy path of the POST entity operation with a valid value for the relation in the payload for the request.
-Annotate the test with <code>@Sql</code> annotations for each SQL fixture file needed to provide the referenced entity.
-Assert the status.
-Assert the value of the  relation in the response.
-Create asciidoc snippets for endpoint documentation.</p>
+<p>Annotate the <code>getApi{Entity}NoElement</code> test with <code>@Sql</code> annotations for each SQL fixture file needed to provide referenced entities.</p>
 </div>
 <div class="paragraph">
-<p>The <code>postApi&lt;Entity&gt;Conflict</code> test verifies the error path with unique key constraints of the POST entity operation with a valid value for the relation in the payload for the request.
+<p>The <code>postApi{Entity}</code> test verifies the happy path of the POST entity operation with a valid value for the relation in the payload for the request.
 Assert the status.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>The <code>putApi&lt;Entity&gt;</code> test verifies the happy path of the PUT entity operation with a valid value for the relation in the payload for the request.
-Assert the status.
-Assert the value of the  relation in the response.
-Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>patchApi&lt;Entity&gt;&lt;Name&gt;</code> test verifies the happy path of the PATCH entity operation with a valid value for the relation in the payload for the request.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+<p>The <code>putApi{Entity}</code> test verifies the happy path of the PUT entity operation with a valid value for the relation in the payload for the request.
 Assert the status.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>Add <code>getApi&lt;Entity&gt;&lt;Name&gt;</code> test.
+<p>The <code>patchApi{Entity}{Name}</code> test verifies the happy path of the PATCH entity operation with a valid value for the relation in the payload for the request.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
+Assert the status.
+Create asciidoc snippets for endpoint documentation.</p>
+</div>
+<div class="paragraph">
+<p>Add <code>getApi{Entity}{Name}</code> test.
 The test verifies the happy path of the GET entity operation for the relation.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Assert the status.
-Assert the value of the relation in the response.
 Create asciidoc snippets for endpoint documentation.</p>
 </div>
 <div class="paragraph">
-<p>The <code>getApi&lt;Entity&gt;ById</code> test verifies the happy path of the GET entity operation.
-Use the entity with the primary key from the <code>putApi&lt;Entity&gt;</code> test.
+<p>The <code>getApi{Entity}ById</code> test verifies the happy path of the GET entity operation.
+Use the entity with the primary key from the <code>putApi{Entity}</code> test.
 Compute the <code>ETag</code> value according to the new test.
 Assert the status.
-Assert the value of the relation in the response.
 Create asciidoc snippets for endpoint documentation.</p>
-</div>
-<div class="paragraph">
-<p>The <code>cleanup</code> method must delete all entities in reverse foreign key order to avoid constraint violations.</p>
 </div>
 </div>
 </div>
@@ -4646,7 +4668,7 @@ Use this approach only for relations with a small number of elements.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitytest_approach_8"><a class="anchor" href="#_entitytest_approach_8"></a><a class="link" href="#_entitytest_approach_8"><code>&lt;Entity&gt;Test</code> approach</a></h6>
+<h6 id="_entitytest_approach_8"><a class="anchor" href="#_entitytest_approach_8"></a><a class="link" href="#_entitytest_approach_8"><code>{Entity}Test</code> approach</a></h6>
 <div class="paragraph">
 <p>Create test data from JSON using <code>fromJson</code> method of entity classes.</p>
 </div>
@@ -4662,19 +4684,19 @@ For <code>isEqual</code> to succeed, referenced entities must have a fixed prima
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrepositorytest_approach_8"><a class="anchor" href="#_entityrepositorytest_approach_8"></a><a class="link" href="#_entityrepositorytest_approach_8"><code>&lt;Entity&gt;RepositoryTest</code> approach</a></h6>
+<h6 id="_entityrepositorytest_approach_8"><a class="anchor" href="#_entityrepositorytest_approach_8"></a><a class="link" href="#_entityrepositorytest_approach_8"><code>{Entity}RepositoryTest</code> approach</a></h6>
 <div class="paragraph">
 <p>Do not create a test specifically for this property.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entitygraphqltest_approach_8"><a class="anchor" href="#_entitygraphqltest_approach_8"></a><a class="link" href="#_entitygraphqltest_approach_8"><code>&lt;Entity&gt;GraphqlTest</code> approach</a></h6>
+<h6 id="_entitygraphqltest_approach_8"><a class="anchor" href="#_entitygraphqltest_approach_8"></a><a class="link" href="#_entitygraphqltest_approach_8"><code>{Entity}GraphqlTest</code> approach</a></h6>
 <div class="paragraph">
 <p>Do not create a test specifically for this property.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrestapitest_approach_8"><a class="anchor" href="#_entityrestapitest_approach_8"></a><a class="link" href="#_entityrestapitest_approach_8"><code>&lt;Entity&gt;RestApiTest</code> approach</a></h6>
+<h6 id="_entityrestapitest_approach_8"><a class="anchor" href="#_entityrestapitest_approach_8"></a><a class="link" href="#_entityrestapitest_approach_8"><code>{Entity}RestApiTest</code> approach</a></h6>
 <div class="paragraph">
 <p>Do not create a test specifically for this property.</p>
 </div>
@@ -4965,8 +4987,8 @@ class PetTest {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.6<br>
-Last updated 2026-04-17 18:20:20 UTC
+Version 1.7<br>
+Last updated 2026-05-06 12:23:08 UTC
 </div>
 </div>
 </body>

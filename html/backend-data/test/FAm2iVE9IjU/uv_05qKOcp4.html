@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.028s</div>
+<div class="counter">0.024s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,9 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-getApiVisitByOwner()">2026-04-17T18:22:30.241Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T18:22:30.241Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T18:22:30.243Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+<pre id="root-0-test-stdout-getApiVisitByOwner()">2026-05-06T12:25:51.922Z  INFO 3389 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-06T12:25:51.922Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-06T12:25:51.923Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         o1_0.id,
@@ -96,7 +96,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -104,13 +104,14 @@ Hibernate:
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     order by
         v1_0.date desc 
     offset
@@ -127,7 +128,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -138,7 +139,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -151,12 +152,12 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
@@ -170,7 +171,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -183,12 +184,12 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
@@ -229,10 +230,11 @@ MockHttpServletResponse:
   &quot;content&quot; : [ {
     &quot;billable&quot; : true,
     &quot;date&quot; : &quot;2021-04-24&quot;,
+    &quot;duration&quot; : &quot;PT30S&quot;,
     &quot;id&quot; : &quot;e1111111-1111-beef-dead-beefdeadbeef&quot;,
     &quot;text&quot; : &quot;At vero eos&quot;,
     &quot;time&quot; : &quot;10:42&quot;,
-    &quot;version&quot; : 6,
+    &quot;version&quot; : 7,
     &quot;ownerItem&quot; : {
       &quot;text&quot; : &quot;Emma Milner&quot;,
       &quot;value&quot; : &quot;b2222222-2222-beef-dead-beefdeadbeef&quot;
@@ -253,16 +255,17 @@ MockHttpServletResponse:
       &quot;rel&quot; : &quot;visit&quot;,
       &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef&quot;
     }, {
-      &quot;rel&quot; : &quot;pet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet&quot;
-    }, {
       &quot;rel&quot; : &quot;vet&quot;,
       &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet&quot;
+    }, {
+      &quot;rel&quot; : &quot;pet&quot;,
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet&quot;
     } ]
   }, {
     &quot;billable&quot; : false,
     &quot;date&quot; : &quot;2021-04-22&quot;,
-    &quot;id&quot; : &quot;79358f1b-e282-4fd0-9581-3cced4fb1a43&quot;,
+    &quot;duration&quot; : &quot;PT0S&quot;,
+    &quot;id&quot; : &quot;1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5&quot;,
     &quot;text&quot; : &quot;Lorem ipsum.&quot;,
     &quot;time&quot; : null,
     &quot;version&quot; : 0,
@@ -281,21 +284,22 @@ MockHttpServletResponse:
     &quot;content&quot; : [ ],
     &quot;links&quot; : [ {
       &quot;rel&quot; : &quot;self&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5&quot;
     }, {
       &quot;rel&quot; : &quot;visit&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43&quot;
-    }, {
-      &quot;rel&quot; : &quot;pet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43/pet&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5&quot;
     }, {
       &quot;rel&quot; : &quot;vet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43/vet&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5/vet&quot;
+    }, {
+      &quot;rel&quot; : &quot;pet&quot;,
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5/pet&quot;
     } ]
   }, {
     &quot;billable&quot; : false,
     &quot;date&quot; : &quot;2021-04-21&quot;,
-    &quot;id&quot; : &quot;1a60ffb5-14eb-4349-8bcb-85425a7de79c&quot;,
+    &quot;duration&quot; : &quot;PT0S&quot;,
+    &quot;id&quot; : &quot;071e9ad7-e918-4cfe-9a42-4df69af70633&quot;,
     &quot;text&quot; : &quot;Lorem ipsum.&quot;,
     &quot;time&quot; : null,
     &quot;version&quot; : 0,
@@ -314,21 +318,22 @@ MockHttpServletResponse:
     &quot;content&quot; : [ ],
     &quot;links&quot; : [ {
       &quot;rel&quot; : &quot;self&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/071e9ad7-e918-4cfe-9a42-4df69af70633&quot;
     }, {
       &quot;rel&quot; : &quot;visit&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c&quot;
-    }, {
-      &quot;rel&quot; : &quot;pet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c/pet&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/071e9ad7-e918-4cfe-9a42-4df69af70633&quot;
     }, {
       &quot;rel&quot; : &quot;vet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/1a60ffb5-14eb-4349-8bcb-85425a7de79c/vet&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/071e9ad7-e918-4cfe-9a42-4df69af70633/vet&quot;
+    }, {
+      &quot;rel&quot; : &quot;pet&quot;,
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/071e9ad7-e918-4cfe-9a42-4df69af70633/pet&quot;
     } ]
   }, {
     &quot;billable&quot; : false,
     &quot;date&quot; : &quot;2021-04-20&quot;,
-    &quot;id&quot; : &quot;51d40aed-3088-4f68-9242-e5f31c6498d3&quot;,
+    &quot;duration&quot; : &quot;PT0S&quot;,
+    &quot;id&quot; : &quot;4a54f766-be16-4240-bb63-e59a092135a9&quot;,
     &quot;text&quot; : &quot;Lorem ipsum.&quot;,
     &quot;time&quot; : null,
     &quot;version&quot; : 0,
@@ -347,16 +352,16 @@ MockHttpServletResponse:
     &quot;content&quot; : [ ],
     &quot;links&quot; : [ {
       &quot;rel&quot; : &quot;self&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/51d40aed-3088-4f68-9242-e5f31c6498d3&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9&quot;
     }, {
       &quot;rel&quot; : &quot;visit&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/51d40aed-3088-4f68-9242-e5f31c6498d3&quot;
-    }, {
-      &quot;rel&quot; : &quot;pet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/51d40aed-3088-4f68-9242-e5f31c6498d3/pet&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9&quot;
     }, {
       &quot;rel&quot; : &quot;vet&quot;,
-      &quot;href&quot; : &quot;http://localhost:8080/api/visit/51d40aed-3088-4f68-9242-e5f31c6498d3/vet&quot;
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9/vet&quot;
+    }, {
+      &quot;rel&quot; : &quot;pet&quot;,
+      &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9/pet&quot;
     } ]
   } ],
   &quot;links&quot; : [ {
@@ -390,7 +395,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
 </div>
 </div>
 </body>

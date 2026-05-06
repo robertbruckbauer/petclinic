@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.020s</div>
+<div class="counter">0.016s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,16 +85,16 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-postApiVetConflict()">2026-04-17T18:22:29.087Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T18:22:29.088Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T18:22:29.089Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-postApiVetConflict()">2026-05-06T12:25:50.841Z  INFO 3389 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-06T12:25:50.841Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-06T12:25:50.842Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         v1_0.id,
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     where
         v1_0.name=? 
     fetch
@@ -104,7 +104,7 @@ Hibernate:
         as1_0.id,
         as1_0.species 
     from
-        vet_species as1_0 
+        PUBLIC.vet_species as1_0 
     where
         as1_0.id=?
 Hibernate: 
@@ -112,11 +112,11 @@ Hibernate:
         as1_0.id,
         as1_0.skill 
     from
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
     where
         as1_0.id=?
-2026-04-17T18:22:29.095Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:8a1e9149-d2f4-4584-b28a-85df7147eb5f,name='Max Mustermann']; creating ...
-2026-04-17T18:22:29.096Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:8a1e9149-d2f4-4584-b28a-85df7147eb5f,name='Max Mustermann']
+2026-05-06T12:25:50.847Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:e393762a-5f75-4bb9-8c4f-c648da6c68a5,name='Max Mustermann']; creating ...
+2026-05-06T12:25:50.848Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:e393762a-5f75-4bb9-8c4f-c648da6c68a5,name='Max Mustermann']
 Hibernate: 
     select
         v1_0.id,
@@ -127,26 +127,26 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
 Hibernate: 
     insert 
     into
-        vet
+        PUBLIC.vet
         (name, version, id) 
     values
         (?, ?, ?)
-2026-04-17T18:22:29.099Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
-2026-04-17T18:22:29.099Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
-2026-04-17T18:22:29.099Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_VET table: VET
-2026-04-17T18:22:29.100Z ERROR 3214 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/vet
+2026-05-06T12:25:50.850Z  INFO 3389 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
+2026-05-06T12:25:50.850Z  WARN 3389 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
+2026-05-06T12:25:50.850Z  WARN 3389 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_VET table: VET
+2026-05-06T12:25:50.851Z ERROR 3389 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/vet
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -181,7 +181,7 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;detail&quot; : &quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_VET table: VET] [insert into vet (name,version,id) values (?,?,?)]; SQL [insert into vet (name,version,id) values (?,?,?)]; constraint [UK_VET]&quot;,
+  &quot;detail&quot; : &quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_VET table: VET] [insert into PUBLIC.vet (name,version,id) values (?,?,?)]; SQL [insert into PUBLIC.vet (name,version,id) values (?,?,?)]; constraint [UK_VET]&quot;,
   &quot;instance&quot; : &quot;/api/vet&quot;,
   &quot;status&quot; : 409,
   &quot;title&quot; : &quot;Conflict&quot;
@@ -203,7 +203,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
 </div>
 </div>
 </body>

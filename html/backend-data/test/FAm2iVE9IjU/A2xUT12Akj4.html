@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.019s</div>
+<div class="counter">0.020s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,21 +85,22 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-putApiVisit()">2026-04-17T18:22:29.948Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T18:22:29.948Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T18:22:29.949Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-putApiVisit()">2026-05-06T12:25:51.569Z  INFO 3389 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-06T12:25:51.570Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-06T12:25:51.570Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
 Hibernate: 
     select
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
@@ -107,13 +108,14 @@ Hibernate:
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
@@ -126,7 +128,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -137,7 +139,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -150,39 +152,40 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:29.956Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-23']; creating ...
-2026-04-17T18:22:29.956Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-23']
+2026-05-06T12:25:51.578Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-23']; creating ...
+2026-05-06T12:25:51.578Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-23']
 Hibernate: 
     select
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
     insert 
     into
-        visit
-        (billable, date, pet_id, text, time, version, vet_id, id) 
+        PUBLIC.visit
+        (billable, date, duration, pet_id, text, time, version, vet_id, id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-2026-04-17T18:22:29.959Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-23']
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-05-06T12:25:51.581Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:e1111111-1111-beef-dead-beefdeadbeef,date='2021-04-23']
 
 MockHttpServletRequest:
       HTTP Method = PUT
@@ -219,6 +222,7 @@ MockHttpServletResponse:
              Body = {
   &quot;billable&quot; : false,
   &quot;date&quot; : &quot;2021-04-23&quot;,
+  &quot;duration&quot; : &quot;PT0S&quot;,
   &quot;id&quot; : &quot;e1111111-1111-beef-dead-beefdeadbeef&quot;,
   &quot;text&quot; : &quot;Lorem ipsum&quot;,
   &quot;time&quot; : null,
@@ -243,11 +247,11 @@ MockHttpServletResponse:
     &quot;rel&quot; : &quot;visit&quot;,
     &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef&quot;
   }, {
-    &quot;rel&quot; : &quot;pet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet&quot;
-  }, {
     &quot;rel&quot; : &quot;vet&quot;,
     &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/vet&quot;
+  }, {
+    &quot;rel&quot; : &quot;pet&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/e1111111-1111-beef-dead-beefdeadbeef/pet&quot;
   } ]
 }
     Forwarded URL = null
@@ -267,7 +271,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
 </div>
 </div>
 </body>

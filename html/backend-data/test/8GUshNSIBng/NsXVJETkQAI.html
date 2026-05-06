@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.023s</div>
+<div class="counter">0.020s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,9 +85,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-postApiPetConflict()">2026-04-17T18:22:28.229Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T18:22:28.229Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T18:22:28.230Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-postApiPetConflict()">2026-05-06T12:25:50.125Z  INFO 3389 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-06T12:25:50.125Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-06T12:25:50.127Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         p1_0.id,
@@ -98,7 +98,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.name=? 
     fetch
@@ -111,7 +111,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -122,11 +122,11 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:28.240Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:370a126e-bd71-487c-8c7a-ac3f61f2e174,name='Roger']; creating ...
-2026-04-17T18:22:28.240Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:370a126e-bd71-487c-8c7a-ac3f61f2e174,name='Roger']
+2026-05-06T12:25:50.135Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:f28c95b3-69d8-41d5-83c5-6c02c956351a,name='Roger']; creating ...
+2026-05-06T12:25:50.135Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:f28c95b3-69d8-41d5-83c5-6c02c956351a,name='Roger']
 Hibernate: 
     select
         p1_0.id,
@@ -137,20 +137,20 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
     insert 
     into
-        pet
+        PUBLIC.pet
         (born, name, owner_id, sex, species, version, id) 
     values
         (?, ?, ?, ?, ?, ?, ?)
-2026-04-17T18:22:28.243Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
-2026-04-17T18:22:28.243Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
-2026-04-17T18:22:28.243Z  WARN 3214 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_PET table: PET
-2026-04-17T18:22:28.245Z ERROR 3214 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/pet
+2026-05-06T12:25:50.138Z  INFO 3389 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100503: JDBC batch still contained JDBC statements on release
+2026-05-06T12:25:50.138Z  WARN 3389 --- [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: -104, SQLState: 23505
+2026-05-06T12:25:50.138Z  WARN 3389 --- [    Test worker] org.hibernate.orm.jdbc.error             : integrity constraint violation: unique constraint or index violation ; UK_PET table: PET
+2026-05-06T12:25:50.139Z ERROR 3389 --- [    Test worker] esy.app.EsyBackendRestControllerAdvice   : uri=/api/pet
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -185,7 +185,7 @@ MockHttpServletResponse:
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Cache-Control:&quot;no-store&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
-  &quot;detail&quot; : &quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_PET table: PET] [insert into pet (born,name,owner_id,sex,species,version,id) values (?,?,?,?,?,?,?)]; SQL [insert into pet (born,name,owner_id,sex,species,version,id) values (?,?,?,?,?,?,?)]; constraint [UK_PET]&quot;,
+  &quot;detail&quot; : &quot;could not execute batch [integrity constraint violation: unique constraint or index violation ; UK_PET table: PET] [insert into PUBLIC.pet (born,name,owner_id,sex,species,version,id) values (?,?,?,?,?,?,?)]; SQL [insert into PUBLIC.pet (born,name,owner_id,sex,species,version,id) values (?,?,?,?,?,?,?)]; constraint [UK_PET]&quot;,
   &quot;instance&quot; : &quot;/api/pet&quot;,
   &quot;status&quot; : 409,
   &quot;title&quot; : &quot;Conflict&quot;
@@ -207,7 +207,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
 </div>
 </div>
 </body>

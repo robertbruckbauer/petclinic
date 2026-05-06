@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Visit GraphQL API</h1>
 <div class="details">
-<span id="revnumber">version 1.6</span>
+<span id="revnumber">version 1.7</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -573,7 +573,8 @@ It provides query operations to retrieve all visits, filter visits by date, and 
 <p>A <code>Visit</code> entity represents a veterinary treatment for a pet.
 The treatment <code>date</code> is required.
 The treatment <code>time</code> is optional because it only becomes definitive once treatment begins.
-The diagnosis <code>text</code> is optional because it is only written at the end of the treatment.
+The treatment <code>duration</code> is required and only becomes definitive at the end of the treatment.
+The diagnosis <code>text</code> is required and only becomes definitive at the end of the treatment.
 The <code>billable</code> flag indicates whether the visit is subject to billing and defaults to <code>false</code>.
 The <code>pet</code> relation is optional because visits can be created as placeholders for veterinarians on duty.
 The <code>vet</code> relation is optional because the veterinarian on duty is not always known at the time the visit is created.</p>
@@ -590,6 +591,7 @@ The <code>vet</code> relation is optional because the veterinarian on duty is no
     time: LocalTime
     text: String
     billable: Boolean!
+    duration: String!
     pet: Pet
     vet: Vet
 }</code></pre>
@@ -600,6 +602,10 @@ The <code>vet</code> relation is optional because the veterinarian on duty is no
 </div>
 <div class="paragraph">
 <p>The property <code>time</code> uses the custom scalar type <code>LocalTime</code> which maps to Java&#8217;s <code>java.time.LocalTime</code> type for representing times of day with format <code>HH:mm[:ss]</code> (seconds are optional).</p>
+</div>
+<div class="paragraph">
+<p>The property <code>duration</code> is exposed as <code>String!</code> in GraphQL and maps to Java&#8217;s <code>java.time.Duration</code>.
+The value uses ISO-8601 duration notation (e.g. <code>PT45M</code>, <code>PT1H30M</code>).</p>
 </div>
 <div class="paragraph">
 <p>The relation <code>pet</code> uses batch loading via <code>@BatchMapping</code> to efficiently load pets for multiple visits.
@@ -732,8 +738,8 @@ Returns an empty list if no visits exist for the given veterinarian.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.6<br>
-Last updated 2026-04-17 18:20:20 UTC
+Version 1.7<br>
+Last updated 2026-05-06 12:23:08 UTC
 </div>
 </div>
 </body>

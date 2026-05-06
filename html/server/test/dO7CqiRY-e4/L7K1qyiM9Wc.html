@@ -63,7 +63,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">2.975s</div>
+<div class="counter">2.616s</div>
 <p>duration</p>
 </div>
 </td>
@@ -85,8 +85,7 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-restApi()">2026-04-17T18:22:22.355Z  WARN 3252 --- [o-auto-1-exec-6] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/api/enum/skill' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
-Hibernate: 
+<pre id="root-0-test-stdout-restApi()">Hibernate: 
     select
         e1_0.id,
         e1_0.art,
@@ -95,7 +94,7 @@ Hibernate:
         e1_0.text,
         e1_0.version 
     from
-        enum e1_0 
+        PUBLIC.enum e1_0 
     where
         e1_0.art=? 
     order by
@@ -110,14 +109,14 @@ Hibernate:
         e1_0.text,
         e1_0.version 
     from
-        enum e1_0 
+        PUBLIC.enum e1_0 
     where
         e1_0.art=? 
     order by
         e1_0.art,
         e1_0.code
-2026-04-17T18:22:22.718Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']; creating ...
-2026-04-17T18:22:22.752Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
+2026-05-06T12:25:46.334Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']; creating ...
+2026-05-06T12:25:46.367Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
 Hibernate: 
     select
         o1_0.id,
@@ -133,20 +132,20 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     left join
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
             on o1_0.id=ap1_0.owner_id 
     where
         o1_0.id=?
 Hibernate: 
     insert 
     into
-        owner
+        PUBLIC.owner
         (address, contact, name, version, id) 
     values
         (?, ?, ?, ?, ?)
-2026-04-17T18:22:22.765Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
+2026-05-06T12:25:46.381Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
 Hibernate: 
     select
         o1_0.id,
@@ -155,7 +154,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         lower(o1_0.name) like ? escape '!' 
     offset
@@ -172,7 +171,7 @@ Hibernate:
         ap1_0.species,
         ap1_0.version 
     from
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
     where
         ap1_0.owner_id=?
 Hibernate: 
@@ -183,14 +182,14 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.131Z  INFO 3252 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']; updating ...
-2026-04-17T18:22:23.132Z  INFO 3252 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
+2026-05-06T12:25:46.714Z  INFO 3435 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']; updating ...
+2026-05-06T12:25:46.717Z  INFO 3435 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
 Hibernate: 
     update
-        owner 
+        PUBLIC.owner 
     set
         address=?,
         contact=?,
@@ -199,7 +198,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.143Z  INFO 3252 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
+2026-05-06T12:25:46.724Z  INFO 3435 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -210,7 +209,7 @@ Hibernate:
         ap1_0.species,
         ap1_0.version 
     from
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
     where
         ap1_0.owner_id=?
 Hibernate: 
@@ -221,14 +220,14 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.200Z  INFO 3252 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']; updating ...
-2026-04-17T18:22:23.200Z  INFO 3252 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
+2026-05-06T12:25:46.753Z  INFO 3435 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']; updating ...
+2026-05-06T12:25:46.754Z  INFO 3435 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
 Hibernate: 
     update
-        owner 
+        PUBLIC.owner 
     set
         address=?,
         contact=?,
@@ -237,7 +236,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.211Z  INFO 3252 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
+2026-05-06T12:25:46.757Z  INFO 3435 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -248,7 +247,7 @@ Hibernate:
         ap1_0.species,
         ap1_0.version 
     from
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
     where
         ap1_0.owner_id=?
 Hibernate: 
@@ -259,11 +258,11 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.246Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']; deleting ...
-2026-04-17T18:22:23.247Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
+2026-05-06T12:25:46.799Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']; deleting ...
+2026-05-06T12:25:46.800Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -274,19 +273,19 @@ Hibernate:
         ap1_0.species,
         ap1_0.version 
     from
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
     where
         ap1_0.owner_id=?
 Hibernate: 
     delete 
     from
-        owner 
+        PUBLIC.owner 
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.265Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:1d1542dc-0f3e-497e-b429-b9d1bee3e1e0,name='Alf Mbcfcedf']
-2026-04-17T18:22:23.306Z  INFO 3252 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:a854ddb9-234b-4b14-8f77-6e1f4e5b7c96,name='Alf Mccfabcbedaa']; creating ...
-2026-04-17T18:22:23.307Z  INFO 3252 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:a854ddb9-234b-4b14-8f77-6e1f4e5b7c96,name='Alf Mccfabcbedaa']
+2026-05-06T12:25:46.834Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:58bb02f8-5e25-44fc-aebd-f2469acd501e,name='Alf Mdffdbbfbe']
+2026-05-06T12:25:46.877Z  INFO 3435 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:d9f304f4-b65f-4e1b-90d2-c71d1d3e4c94,name='Alf Mebcbeecacfaf']; creating ...
+2026-05-06T12:25:46.878Z  INFO 3435 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:d9f304f4-b65f-4e1b-90d2-c71d1d3e4c94,name='Alf Mebcbeecacfaf']
 Hibernate: 
     select
         o1_0.id,
@@ -302,20 +301,20 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     left join
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
             on o1_0.id=ap1_0.owner_id 
     where
         o1_0.id=?
 Hibernate: 
     insert 
     into
-        owner
+        PUBLIC.owner
         (address, contact, name, version, id) 
     values
         (?, ?, ?, ?, ?)
-2026-04-17T18:22:23.316Z  INFO 3252 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:a854ddb9-234b-4b14-8f77-6e1f4e5b7c96,name='Alf Mccfabcbedaa']
+2026-05-06T12:25:46.889Z  INFO 3435 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:d9f304f4-b65f-4e1b-90d2-c71d1d3e4c94,name='Alf Mebcbeecacfaf']
 Hibernate: 
     select
         o1_0.id,
@@ -324,11 +323,11 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.346Z  INFO 3252 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']; creating ...
-2026-04-17T18:22:23.355Z  INFO 3252 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']
+2026-05-06T12:25:46.944Z  INFO 3435 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']; creating ...
+2026-05-06T12:25:46.956Z  INFO 3435 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']
 Hibernate: 
     select
         p1_0.id,
@@ -339,17 +338,17 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
     insert 
     into
-        pet
+        PUBLIC.pet
         (born, name, owner_id, sex, species, version, id) 
     values
         (?, ?, ?, ?, ?, ?, ?)
-2026-04-17T18:22:23.359Z  INFO 3252 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']
+2026-05-06T12:25:46.963Z  INFO 3435 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']
 Hibernate: 
     select
         p1_0.id,
@@ -360,7 +359,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         lower(p1_0.name) like ? escape '!' 
     offset
@@ -375,7 +374,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -388,7 +387,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -399,7 +398,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -412,7 +411,7 @@ Hibernate:
         ap1_0.species,
         ap1_0.version 
     from
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
     where
         ap1_0.owner_id=?
 Hibernate: 
@@ -425,7 +424,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -436,14 +435,14 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.496Z  INFO 3252 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']; updating ...
-2026-04-17T18:22:23.497Z  INFO 3252 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']
+2026-05-06T12:25:47.124Z  INFO 3435 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']; updating ...
+2026-05-06T12:25:47.125Z  INFO 3435 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']
 Hibernate: 
     update
-        pet 
+        PUBLIC.pet 
     set
         born=?,
         name=?,
@@ -454,7 +453,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.501Z  INFO 3252 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']
+2026-05-06T12:25:47.128Z  INFO 3435 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']
 Hibernate: 
     select
         p1_0.id,
@@ -465,7 +464,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -476,19 +475,19 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.523Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']; deleting ...
-2026-04-17T18:22:23.523Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']
+2026-05-06T12:25:47.160Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']; deleting ...
+2026-05-06T12:25:47.162Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']
 Hibernate: 
     delete 
     from
-        pet 
+        PUBLIC.pet 
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.529Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:4b63683c-f009-42c0-aaa7-9d5cc4b022c5,name='Alf Mfafbdafd']
+2026-05-06T12:25:47.168Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:92363033-dc5c-4f71-b8c8-cca9e925203c,name='Alf Mfacdcefbfdecbd']
 Hibernate: 
     select
         o1_0.id,
@@ -497,11 +496,11 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.567Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']; creating ...
-2026-04-17T18:22:23.567Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']
+2026-05-06T12:25:47.196Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']; creating ...
+2026-05-06T12:25:47.196Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']
 Hibernate: 
     select
         p1_0.id,
@@ -512,17 +511,17 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
     insert 
     into
-        pet
+        PUBLIC.pet
         (born, name, owner_id, sex, species, version, id) 
     values
         (?, ?, ?, ?, ?, ?, ?)
-2026-04-17T18:22:23.572Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']
+2026-05-06T12:25:47.199Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']
 Hibernate: 
     select
         p1_0.id,
@@ -533,7 +532,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         lower(p1_0.name) like ? escape '!' 
     offset
@@ -548,7 +547,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -561,7 +560,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -572,7 +571,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -585,7 +584,7 @@ Hibernate:
         ap1_0.species,
         ap1_0.version 
     from
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
     where
         ap1_0.owner_id=?
 Hibernate: 
@@ -598,7 +597,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -609,14 +608,14 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.683Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']; updating ...
-2026-04-17T18:22:23.684Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']
+2026-05-06T12:25:47.253Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']; updating ...
+2026-05-06T12:25:47.254Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']
 Hibernate: 
     update
-        pet 
+        PUBLIC.pet 
     set
         born=?,
         name=?,
@@ -627,7 +626,7 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.687Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']
+2026-05-06T12:25:47.256Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']
 Hibernate: 
     select
         p1_0.id,
@@ -638,7 +637,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -649,19 +648,19 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.724Z  INFO 3252 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']; deleting ...
-2026-04-17T18:22:23.725Z  INFO 3252 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']
+2026-05-06T12:25:47.273Z  INFO 3435 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']; deleting ...
+2026-05-06T12:25:47.273Z  INFO 3435 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']
 Hibernate: 
     delete 
     from
-        pet 
+        PUBLIC.pet 
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.728Z  INFO 3252 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:bad9aa8e-59eb-4355-844c-c4ed5792fc41,name='Alf Mfcfdeae']
+2026-05-06T12:25:47.275Z  INFO 3435 --- [o-auto-1-exec-2] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:b2827d39-5888-4d75-aacc-43b4cacedc6d,name='Alf Mcdedceaaef']
 Hibernate: 
     select
         o1_0.id,
@@ -670,11 +669,11 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
-2026-04-17T18:22:23.759Z  INFO 3252 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:a854ddb9-234b-4b14-8f77-6e1f4e5b7c96,name='Alf Mccfabcbedaa']; deleting ...
-2026-04-17T18:22:23.759Z  INFO 3252 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:a854ddb9-234b-4b14-8f77-6e1f4e5b7c96,name='Alf Mccfabcbedaa']
+2026-05-06T12:25:47.297Z  INFO 3435 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:d9f304f4-b65f-4e1b-90d2-c71d1d3e4c94,name='Alf Mebcbeecacfaf']; deleting ...
+2026-05-06T12:25:47.298Z  INFO 3435 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:d9f304f4-b65f-4e1b-90d2-c71d1d3e4c94,name='Alf Mebcbeecacfaf']
 Hibernate: 
     select
         ap1_0.owner_id,
@@ -685,19 +684,19 @@ Hibernate:
         ap1_0.species,
         ap1_0.version 
     from
-        pet ap1_0 
+        PUBLIC.pet ap1_0 
     where
         ap1_0.owner_id=?
 Hibernate: 
     delete 
     from
-        owner 
+        PUBLIC.owner 
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.766Z  INFO 3252 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : DELETED [version:0,id:a854ddb9-234b-4b14-8f77-6e1f4e5b7c96,name='Alf Mccfabcbedaa']
-2026-04-17T18:22:23.796Z  INFO 3252 --- [o-auto-1-exec-5] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']; creating ...
-2026-04-17T18:22:23.806Z  INFO 3252 --- [o-auto-1-exec-5] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']
+2026-05-06T12:25:47.304Z  INFO 3435 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : DELETED [version:0,id:d9f304f4-b65f-4e1b-90d2-c71d1d3e4c94,name='Alf Mebcbeecacfaf']
+2026-05-06T12:25:47.324Z  INFO 3435 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']; creating ...
+2026-05-06T12:25:47.334Z  INFO 3435 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']
 Hibernate: 
     select
         v1_0.id,
@@ -708,25 +707,25 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
 Hibernate: 
     insert 
     into
-        vet
+        PUBLIC.vet
         (name, version, id) 
     values
         (?, ?, ?)
 Hibernate: 
     update
-        vet 
+        PUBLIC.vet 
     set
         version=? 
     where
@@ -735,18 +734,18 @@ Hibernate:
 Hibernate: 
     insert 
     into
-        vet_skill
+        PUBLIC.vet_skill
         (id, skill) 
     values
         (?, ?)
-2026-04-17T18:22:23.824Z  INFO 3252 --- [o-auto-1-exec-5] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']
+2026-05-06T12:25:47.345Z  INFO 3435 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']
 Hibernate: 
     select
         v1_0.id,
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     where
         lower(v1_0.name) like ? escape '!' 
     offset
@@ -758,7 +757,7 @@ Hibernate:
         as1_0.id,
         as1_0.species 
     from
-        vet_species as1_0 
+        PUBLIC.vet_species as1_0 
     where
         as1_0.id=?
 Hibernate: 
@@ -766,7 +765,7 @@ Hibernate:
         as1_0.id,
         as1_0.skill 
     from
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
     where
         as1_0.id=?
 Hibernate: 
@@ -779,20 +778,20 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:23.907Z  INFO 3252 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']; updating ...
-2026-04-17T18:22:23.913Z  INFO 3252 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']
+2026-05-06T12:25:47.412Z  INFO 3435 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']; updating ...
+2026-05-06T12:25:47.412Z  INFO 3435 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']
 Hibernate: 
     update
-        vet 
+        PUBLIC.vet 
     set
         name=?,
         version=? 
@@ -802,10 +801,10 @@ Hibernate:
 Hibernate: 
     delete 
     from
-        vet_skill 
+        PUBLIC.vet_skill 
     where
         id=?
-2026-04-17T18:22:23.922Z  INFO 3252 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']
+2026-05-06T12:25:47.418Z  INFO 3435 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']
 Hibernate: 
     select
         v1_0.id,
@@ -816,27 +815,27 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:23.959Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']; deleting ...
-2026-04-17T18:22:23.964Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']
+2026-05-06T12:25:47.457Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']; deleting ...
+2026-05-06T12:25:47.458Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']
 Hibernate: 
     delete 
     from
-        vet 
+        PUBLIC.vet 
     where
         id=? 
         and version=?
-2026-04-17T18:22:23.970Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:2fa58c13-822a-42d7-bd63-d46291671aa8,name='Doc Mdccbdbfdc']
-2026-04-17T18:22:24.008Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']; creating ...
-2026-04-17T18:22:24.009Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']
+2026-05-06T12:25:47.465Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:4001af43-98b4-4a2c-aba1-e39759dc70de,name='Doc Medffefaabffdc']
+2026-05-06T12:25:47.497Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']; creating ...
+2026-05-06T12:25:47.497Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']
 Hibernate: 
     select
         v1_0.id,
@@ -847,25 +846,25 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
 Hibernate: 
     insert 
     into
-        vet
+        PUBLIC.vet
         (name, version, id) 
     values
         (?, ?, ?)
 Hibernate: 
     update
-        vet 
+        PUBLIC.vet 
     set
         version=? 
     where
@@ -874,18 +873,18 @@ Hibernate:
 Hibernate: 
     insert 
     into
-        vet_skill
+        PUBLIC.vet_skill
         (id, skill) 
     values
         (?, ?)
-2026-04-17T18:22:24.019Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']
+2026-05-06T12:25:47.507Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : CREATED [version:1,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']
 Hibernate: 
     select
         v1_0.id,
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     where
         lower(v1_0.name) like ? escape '!' 
     offset
@@ -897,7 +896,7 @@ Hibernate:
         as1_0.id,
         as1_0.species 
     from
-        vet_species as1_0 
+        PUBLIC.vet_species as1_0 
     where
         as1_0.id=?
 Hibernate: 
@@ -905,7 +904,7 @@ Hibernate:
         as1_0.id,
         as1_0.skill 
     from
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
     where
         as1_0.id=?
 Hibernate: 
@@ -918,20 +917,20 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:24.071Z  INFO 3252 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']; updating ...
-2026-04-17T18:22:24.075Z  INFO 3252 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']
+2026-05-06T12:25:47.553Z  INFO 3435 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']; updating ...
+2026-05-06T12:25:47.555Z  INFO 3435 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']
 Hibernate: 
     update
-        vet 
+        PUBLIC.vet 
     set
         name=?,
         version=? 
@@ -941,10 +940,10 @@ Hibernate:
 Hibernate: 
     delete 
     from
-        vet_skill 
+        PUBLIC.vet_skill 
     where
         id=?
-2026-04-17T18:22:24.084Z  INFO 3252 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']
+2026-05-06T12:25:47.558Z  INFO 3435 --- [-auto-1-exec-10] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:2,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']
 Hibernate: 
     select
         v1_0.id,
@@ -955,25 +954,25 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:24.138Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']; deleting ...
-2026-04-17T18:22:24.138Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']
+2026-05-06T12:25:47.582Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:2,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']; deleting ...
+2026-05-06T12:25:47.583Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:2,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']
 Hibernate: 
     delete 
     from
-        vet 
+        PUBLIC.vet 
     where
         id=? 
         and version=?
-2026-04-17T18:22:24.141Z  INFO 3252 --- [o-auto-1-exec-1] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:2a93a153-2a13-4fc2-9487-98f2c65e7360,name='Doc Mcccabdeccafdf']
+2026-05-06T12:25:47.592Z  INFO 3435 --- [o-auto-1-exec-3] esy.rest.JsonJpaRestControllerBase       : DELETED [version:2,id:bc1d7f23-e9ce-4c1d-8c70-d0392f459405,name='Doc Mbefdbefbbbbd']
 Hibernate: 
     select
         p1_0.id,
@@ -984,7 +983,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         lower(p1_0.name) like ? escape '!' 
     offset
@@ -999,7 +998,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -1008,7 +1007,7 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     where
         lower(v1_0.name) like ? escape '!' 
     offset
@@ -1020,7 +1019,7 @@ Hibernate:
         as1_0.id,
         as1_0.species 
     from
-        vet_species as1_0 
+        PUBLIC.vet_species as1_0 
     where
         as1_0.id=?
 Hibernate: 
@@ -1028,7 +1027,7 @@ Hibernate:
         as1_0.id,
         as1_0.skill 
     from
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
     where
         as1_0.id=?
 Hibernate: 
@@ -1041,7 +1040,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -1052,7 +1051,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -1065,51 +1064,53 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:24.242Z  INFO 3252 --- [o-auto-1-exec-5] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']; creating ...
-2026-04-17T18:22:24.251Z  INFO 3252 --- [o-auto-1-exec-5] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']
+2026-05-06T12:25:47.736Z  INFO 3435 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']; creating ...
+2026-05-06T12:25:47.748Z  INFO 3435 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']
 Hibernate: 
     select
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
     insert 
     into
-        visit
-        (billable, date, pet_id, text, time, version, vet_id, id) 
+        PUBLIC.visit
+        (billable, date, duration, pet_id, text, time, version, vet_id, id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-2026-04-17T18:22:24.255Z  INFO 3252 --- [o-auto-1-exec-5] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-05-06T12:25:47.754Z  INFO 3435 --- [o-auto-1-exec-4] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']
 Hibernate: 
     select
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
@@ -1122,7 +1123,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -1133,7 +1134,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -1146,12 +1147,12 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
@@ -1160,13 +1161,14 @@ Hibernate:
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
@@ -1179,7 +1181,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -1190,7 +1192,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -1203,12 +1205,12 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
@@ -1217,13 +1219,14 @@ Hibernate:
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
@@ -1236,7 +1239,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -1247,7 +1250,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -1260,23 +1263,24 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:24.397Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']; updating ...
-2026-04-17T18:22:24.397Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']
+2026-05-06T12:25:47.936Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']; updating ...
+2026-05-06T12:25:47.937Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']
 Hibernate: 
     update
-        visit 
+        PUBLIC.visit 
     set
         billable=?,
         date=?,
+        duration=?,
         pet_id=?,
         text=?,
         time=?,
@@ -1285,19 +1289,20 @@ Hibernate:
     where
         id=? 
         and version=?
-2026-04-17T18:22:24.402Z  INFO 3252 --- [o-auto-1-exec-8] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']
+2026-05-06T12:25:47.940Z  INFO 3435 --- [o-auto-1-exec-6] esy.rest.JsonJpaRestControllerBase       : UPDATED [version:1,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']
 Hibernate: 
     select
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
@@ -1310,7 +1315,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -1321,7 +1326,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -1334,25 +1339,25 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:24.439Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']; deleting ...
-2026-04-17T18:22:24.439Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']
+2026-05-06T12:25:47.992Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:1,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']; deleting ...
+2026-05-06T12:25:47.992Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:1,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']
 Hibernate: 
     delete 
     from
-        visit 
+        PUBLIC.visit 
     where
         id=? 
         and version=?
-2026-04-17T18:22:24.442Z  INFO 3252 --- [o-auto-1-exec-9] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:70710bd2-fe16-4581-a48a-5ba275849a70,date='2026-04-17']
+2026-05-06T12:25:48.005Z  INFO 3435 --- [o-auto-1-exec-7] esy.rest.JsonJpaRestControllerBase       : DELETED [version:1,id:27d08032-b32a-4980-b44c-cc2e1935247f,date='2026-05-06']
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-restApi()">Copy</button>
 </span>
@@ -1367,7 +1372,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:24 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:48 PM</p>
 </div>
 </div>
 </body>

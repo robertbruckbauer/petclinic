@@ -64,7 +64,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.018s</div>
+<div class="counter">0.020s</div>
 <p>duration</p>
 </div>
 </td>
@@ -86,9 +86,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-postApiVisit(String)[3]">2026-04-17T18:22:29.914Z  INFO 3214 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-04-17T18:22:29.914Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-04-17T18:22:29.915Z  INFO 3214 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-postApiVisit(String)[3]">2026-05-06T12:25:51.531Z  INFO 3389 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-06T12:25:51.531Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-06T12:25:51.532Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
 Hibernate: 
     select
         p1_0.id,
@@ -99,7 +99,7 @@ Hibernate:
         p1_0.species,
         p1_0.version 
     from
-        pet p1_0 
+        PUBLIC.pet p1_0 
     where
         p1_0.id=?
 Hibernate: 
@@ -110,7 +110,7 @@ Hibernate:
         o1_0.name,
         o1_0.version 
     from
-        owner o1_0 
+        PUBLIC.owner o1_0 
     where
         o1_0.id=?
 Hibernate: 
@@ -123,39 +123,40 @@ Hibernate:
         v1_0.name,
         v1_0.version 
     from
-        vet v1_0 
+        PUBLIC.vet v1_0 
     left join
-        vet_skill as1_0 
+        PUBLIC.vet_skill as1_0 
             on v1_0.id=as1_0.id 
     left join
-        vet_species as2_0 
+        PUBLIC.vet_species as2_0 
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-04-17T18:22:29.920Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:79358f1b-e282-4fd0-9581-3cced4fb1a43,date='2021-04-22']; creating ...
-2026-04-17T18:22:29.921Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:79358f1b-e282-4fd0-9581-3cced4fb1a43,date='2021-04-22']
+2026-05-06T12:25:51.538Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5,date='2021-04-22']; creating ...
+2026-05-06T12:25:51.538Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5,date='2021-04-22']
 Hibernate: 
     select
         v1_0.id,
         v1_0.billable,
         v1_0.date,
+        v1_0.duration,
         v1_0.pet_id,
         v1_0.text,
         v1_0.time,
         v1_0.version,
         v1_0.vet_id 
     from
-        visit v1_0 
+        PUBLIC.visit v1_0 
     where
         v1_0.id=?
 Hibernate: 
     insert 
     into
-        visit
-        (billable, date, pet_id, text, time, version, vet_id, id) 
+        PUBLIC.visit
+        (billable, date, duration, pet_id, text, time, version, vet_id, id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?)
-2026-04-17T18:22:29.923Z  INFO 3214 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:79358f1b-e282-4fd0-9581-3cced4fb1a43,date='2021-04-22']
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-05-06T12:25:51.541Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5,date='2021-04-22']
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -187,12 +188,13 @@ FlashMap:
 MockHttpServletResponse:
            Status = 201
     Error message = null
-          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43&quot;, Content-Type:&quot;application/json&quot;]
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
   &quot;billable&quot; : false,
   &quot;date&quot; : &quot;2021-04-22&quot;,
-  &quot;id&quot; : &quot;79358f1b-e282-4fd0-9581-3cced4fb1a43&quot;,
+  &quot;duration&quot; : &quot;PT0S&quot;,
+  &quot;id&quot; : &quot;1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5&quot;,
   &quot;text&quot; : &quot;Lorem ipsum.&quot;,
   &quot;time&quot; : null,
   &quot;version&quot; : 0,
@@ -211,20 +213,20 @@ MockHttpServletResponse:
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
     &quot;rel&quot; : &quot;self&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5&quot;
   }, {
     &quot;rel&quot; : &quot;visit&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43&quot;
-  }, {
-    &quot;rel&quot; : &quot;pet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43/pet&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5&quot;
   }, {
     &quot;rel&quot; : &quot;vet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43/vet&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5/vet&quot;
+  }, {
+    &quot;rel&quot; : &quot;pet&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5/pet&quot;
   } ]
 }
     Forwarded URL = null
-   Redirected URL = http://localhost:8080/api/visit/79358f1b-e282-4fd0-9581-3cced4fb1a43
+   Redirected URL = http://localhost:8080/api/visit/1f50b3e2-bfe1-4ee3-9409-e6063a5ba3f5
           Cookies = []
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-postApiVisit(String)[3]">Copy</button>
@@ -240,7 +242,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
 </div>
 </div>
 </body>

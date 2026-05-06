@@ -44,7 +44,7 @@
 <tr>
 <td>
 <div class="infoBox">
-<div class="counter">8</div>
+<div class="counter">11</div>
 <p>tests</p>
 </div>
 </td>
@@ -62,7 +62,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">22.357s</div>
+<div class="counter">19.188s</div>
 <p>duration</p>
 </div>
 </td>
@@ -97,7 +97,7 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.006s</td>
+<td>0.012s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -108,7 +108,7 @@
 <td>2</td>
 <td>0</td>
 <td>0</td>
-<td>0.014s</td>
+<td>0.034s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -119,7 +119,7 @@
 <td>2</td>
 <td>0</td>
 <td>0</td>
-<td>0.099s</td>
+<td>0.121s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -130,7 +130,7 @@
 <td>2</td>
 <td>0</td>
 <td>0</td>
-<td>0.012s</td>
+<td>0.030s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
@@ -141,7 +141,34 @@
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.441s</td>
+<td>0.588s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">databaseProperties()</td>
+<td class="path" hidden="">databaseProperties()</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.012s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">endpointProperties()</td>
+<td class="path" hidden="">endpointProperties()</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.012s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">graphqlProperties()</td>
+<td class="path" hidden="">graphqlProperties()</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.009s</td>
 <td class="success">100%</td>
 </tr>
 </table>
@@ -150,10 +177,10 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-esy.app.EsyBackendConfigurationTest">18:21:59.307 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.app.EsyBackendConfigurationTest]: EsyBackendConfigurationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-18:21:59.558 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.app.EsyBackendTestApplication for test class esy.app.EsyBackendConfigurationTest
-18:21:59.798 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.app.EsyBackendConfigurationTest]: EsyBackendConfigurationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-18:21:59.809 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.app.EsyBackendTestApplication for test class esy.app.EsyBackendConfigurationTest
+<pre id="root-0-test-stdout-esy.app.EsyBackendConfigurationTest">12:25:22.772 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.app.EsyBackendConfigurationTest]: EsyBackendConfigurationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:25:22.998 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.app.EsyBackendTestApplication for test class esy.app.EsyBackendConfigurationTest
+12:25:23.195 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [esy.app.EsyBackendConfigurationTest]: EsyBackendConfigurationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:25:23.202 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration esy.app.EsyBackendTestApplication for test class esy.app.EsyBackendConfigurationTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -162,90 +189,92 @@
   '  |____| .__|_| |_|_| |_\__, | / / / /
  =========|_|==============|___/=/_/_/_/
 
- :: Spring Boot ::                (v4.0.5)
+ :: Spring Boot ::                (v4.0.6)
 
-2026-04-17T18:22:01.013Z  INFO 3214 --- [    Test worker] esy.app.EsyBackendConfigurationTest      : Starting EsyBackendConfigurationTest using Java 25.0.2 with PID 3214 (started by runner in /home/runner/work/petclinic/petclinic/lib/backend-data)
-2026-04-17T18:22:01.024Z  INFO 3214 --- [    Test worker] esy.app.EsyBackendConfigurationTest      : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2026-04-17T18:22:03.266Z  INFO 3214 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-04-17T18:22:03.632Z  INFO 3214 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 345 ms. Found 6 JPA repository interfaces.
-2026-04-17T18:22:05.882Z  INFO 3214 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-04-17T18:22:06.827Z  INFO 3214 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Driver does not support get/set network timeout for connections. (feature not supported)
-2026-04-17T18:22:06.830Z  INFO 3214 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.hsqldb.jdbc.JDBCConnection@147058d0
-2026-04-17T18:22:06.837Z  INFO 3214 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-04-17T18:22:06.970Z  INFO 3214 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
-2026-04-17T18:22:09.307Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Creating database changelog table with name: PUBLIC.DATABASECHANGELOG
-2026-04-17T18:22:09.591Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2026-04-17T18:22:09.935Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.353Z  INFO 3214 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
-2026-04-17T18:22:10.357Z  INFO 3214 --- [    Test worker] liquibase.command                        : Using deploymentId: 6450125832
-2026-04-17T18:22:10.362Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2026-04-17T18:22:10.464Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/ping.xml::1::robert
-2026-04-17T18:22:10.477Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.507Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table ping created
-2026-04-17T18:22:10.513Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/ping.xml::1::robert ran successfully in 42ms
-2026-04-17T18:22:10.529Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/enum.xml::1::robert
-2026-04-17T18:22:10.538Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.566Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table enum created
-2026-04-17T18:22:10.575Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, name)
-2026-04-17T18:22:10.585Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, code)
-2026-04-17T18:22:10.585Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/enum.xml::1::robert ran successfully in 56ms
-2026-04-17T18:22:10.594Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/owner.xml::1::robert
-2026-04-17T18:22:10.605Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.630Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table owner created
-2026-04-17T18:22:10.633Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Unique constraint added to owner(name)
-2026-04-17T18:22:10.634Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/owner.xml::1::robert ran successfully in 36ms
-2026-04-17T18:22:10.647Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::1::robert
-2026-04-17T18:22:10.669Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.713Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table pet created
-2026-04-17T18:22:10.724Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Unique constraint added to pet(name,owner_id)
-2026-04-17T18:22:10.734Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to pet (owner_id)
-2026-04-17T18:22:10.737Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::1::robert ran successfully in 80ms
-2026-04-17T18:22:10.752Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::2::robert
-2026-04-17T18:22:10.762Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Columns sex(VARCHAR(32)) added to pet
-2026-04-17T18:22:10.763Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::2::robert ran successfully in 11ms
-2026-04-17T18:22:10.767Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet.xml::1::robert
-2026-04-17T18:22:10.778Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.803Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table vet created
-2026-04-17T18:22:10.808Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Unique constraint added to vet(name)
-2026-04-17T18:22:10.811Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet.xml::1::robert ran successfully in 40ms
-2026-04-17T18:22:10.814Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_skill.xml::1::robert
-2026-04-17T18:22:10.822Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.850Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table vet_skill created
-2026-04-17T18:22:10.857Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_skill (id)
-2026-04-17T18:22:10.857Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_skill.xml::1::robert ran successfully in 40ms
-2026-04-17T18:22:10.861Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_species.xml::1::robert
-2026-04-17T18:22:10.864Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.899Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table vet_species created
-2026-04-17T18:22:10.902Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_species (id)
-2026-04-17T18:22:10.905Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_species.xml::1::robert ran successfully in 43ms
-2026-04-17T18:22:10.913Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::1::robert
-2026-04-17T18:22:10.925Z  INFO 3214 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-04-17T18:22:10.945Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Table visit created
-2026-04-17T18:22:10.951Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Unique constraint added to visit(date,pet_id)
-2026-04-17T18:22:10.954Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (pet_id)
-2026-04-17T18:22:10.959Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (vet_id)
-2026-04-17T18:22:10.959Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::1::robert ran successfully in 42ms
-2026-04-17T18:22:10.963Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::2::robert
-2026-04-17T18:22:10.965Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Columns time(TIME) added to visit
-2026-04-17T18:22:10.965Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::2::robert ran successfully in 2ms
-2026-04-17T18:22:10.972Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::3::robert
-2026-04-17T18:22:10.977Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : Columns billable(BOOLEAN) added to visit
-2026-04-17T18:22:10.977Z  INFO 3214 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::3::robert ran successfully in 5ms
-2026-04-17T18:22:10.991Z  INFO 3214 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
-2026-04-17T18:22:10.992Z  INFO 3214 --- [    Test worker] liquibase.util                           : Run:                         11
-2026-04-17T18:22:10.993Z  INFO 3214 --- [    Test worker] liquibase.util                           : Previously run:               0
-2026-04-17T18:22:10.994Z  INFO 3214 --- [    Test worker] liquibase.util                           : Filtered out:                 0
-2026-04-17T18:22:10.994Z  INFO 3214 --- [    Test worker] liquibase.util                           : -------------------------------
-2026-04-17T18:22:10.994Z  INFO 3214 --- [    Test worker] liquibase.util                           : Total change sets:           11
-2026-04-17T18:22:10.995Z  INFO 3214 --- [    Test worker] liquibase.util                           : Update summary generated
-2026-04-17T18:22:11.000Z  INFO 3214 --- [    Test worker] liquibase.command                        : Update command completed successfully.
-2026-04-17T18:22:11.000Z  INFO 3214 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 0
-2026-04-17T18:22:11.003Z  INFO 3214 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
-2026-04-17T18:22:11.004Z  INFO 3214 --- [    Test worker] liquibase.command                        : Command execution complete
-2026-04-17T18:22:11.250Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-04-17T18:22:11.366Z  INFO 3214 --- [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
-2026-04-17T18:22:12.220Z  INFO 3214 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-04-17T18:22:12.363Z  INFO 3214 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2026-05-06T12:25:23.803Z  INFO 3389 --- [    Test worker] esy.app.EsyBackendConfigurationTest      : Starting EsyBackendConfigurationTest using Java 25.0.2 with PID 3389 (started by runner in /home/runner/work/petclinic/petclinic/lib/backend-data)
+2026-05-06T12:25:23.806Z  INFO 3389 --- [    Test worker] esy.app.EsyBackendConfigurationTest      : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2026-05-06T12:25:25.185Z  INFO 3389 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-06T12:25:25.409Z  INFO 3389 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 209 ms. Found 6 JPA repository interfaces.
+2026-05-06T12:25:26.585Z  INFO 3389 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-06T12:25:27.057Z  INFO 3389 --- [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Driver does not support get/set network timeout for connections. (feature not supported)
+2026-05-06T12:25:27.062Z  INFO 3389 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.hsqldb.jdbc.JDBCConnection@46c09751
+2026-05-06T12:25:27.069Z  INFO 3389 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-06T12:25:29.177Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Creating database changelog table with name: PUBLIC.DATABASECHANGELOG
+2026-05-06T12:25:29.350Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2026-05-06T12:25:29.581Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:29.887Z  INFO 3389 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
+2026-05-06T12:25:29.887Z  INFO 3389 --- [    Test worker] liquibase.command                        : Using deploymentId: 8070326557
+2026-05-06T12:25:29.896Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2026-05-06T12:25:29.979Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/ping.xml::1::robert
+2026-05-06T12:25:29.988Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.019Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table ping created
+2026-05-06T12:25:30.024Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/ping.xml::1::robert ran successfully in 39ms
+2026-05-06T12:25:30.041Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/enum.xml::1::robert
+2026-05-06T12:25:30.045Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.057Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table enum created
+2026-05-06T12:25:30.061Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, name)
+2026-05-06T12:25:30.063Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Unique constraint added to enum(art, code)
+2026-05-06T12:25:30.064Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/enum.xml::1::robert ran successfully in 22ms
+2026-05-06T12:25:30.068Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/owner.xml::1::robert
+2026-05-06T12:25:30.072Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.083Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table owner created
+2026-05-06T12:25:30.085Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Unique constraint added to owner(name)
+2026-05-06T12:25:30.085Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/owner.xml::1::robert ran successfully in 16ms
+2026-05-06T12:25:30.090Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::1::robert
+2026-05-06T12:25:30.094Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.106Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table pet created
+2026-05-06T12:25:30.111Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Unique constraint added to pet(name,owner_id)
+2026-05-06T12:25:30.117Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to pet (owner_id)
+2026-05-06T12:25:30.117Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::1::robert ran successfully in 27ms
+2026-05-06T12:25:30.124Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/pet.xml::2::robert
+2026-05-06T12:25:30.136Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Columns sex(VARCHAR(32)) added to pet
+2026-05-06T12:25:30.136Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/pet.xml::2::robert ran successfully in 12ms
+2026-05-06T12:25:30.143Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet.xml::1::robert
+2026-05-06T12:25:30.153Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.171Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table vet created
+2026-05-06T12:25:30.173Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Unique constraint added to vet(name)
+2026-05-06T12:25:30.174Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet.xml::1::robert ran successfully in 26ms
+2026-05-06T12:25:30.177Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_skill.xml::1::robert
+2026-05-06T12:25:30.182Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.203Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table vet_skill created
+2026-05-06T12:25:30.208Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_skill (id)
+2026-05-06T12:25:30.209Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_skill.xml::1::robert ran successfully in 31ms
+2026-05-06T12:25:30.214Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/vet_species.xml::1::robert
+2026-05-06T12:25:30.221Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.247Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table vet_species created
+2026-05-06T12:25:30.252Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to vet_species (id)
+2026-05-06T12:25:30.252Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/vet_species.xml::1::robert ran successfully in 37ms
+2026-05-06T12:25:30.263Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::1::robert
+2026-05-06T12:25:30.275Z  INFO 3389 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-05-06T12:25:30.313Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Table visit created
+2026-05-06T12:25:30.317Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Unique constraint added to visit(date,pet_id)
+2026-05-06T12:25:30.319Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (pet_id)
+2026-05-06T12:25:30.324Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to visit (vet_id)
+2026-05-06T12:25:30.324Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::1::robert ran successfully in 60ms
+2026-05-06T12:25:30.330Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::2::robert
+2026-05-06T12:25:30.335Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Columns time(TIME) added to visit
+2026-05-06T12:25:30.335Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::2::robert ran successfully in 5ms
+2026-05-06T12:25:30.342Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::3::robert
+2026-05-06T12:25:30.348Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Columns billable(BOOLEAN) added to visit
+2026-05-06T12:25:30.348Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::3::robert ran successfully in 6ms
+2026-05-06T12:25:30.352Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Running Changeset: liquibase/v1/visit.xml::4::robert
+2026-05-06T12:25:30.362Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : Columns duration(BIGINT) added to visit
+2026-05-06T12:25:30.368Z  INFO 3389 --- [    Test worker] liquibase.changelog                      : ChangeSet liquibase/v1/visit.xml::4::robert ran successfully in 15ms
+2026-05-06T12:25:30.389Z  INFO 3389 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
+2026-05-06T12:25:30.391Z  INFO 3389 --- [    Test worker] liquibase.util                           : Run:                         12
+2026-05-06T12:25:30.391Z  INFO 3389 --- [    Test worker] liquibase.util                           : Previously run:               0
+2026-05-06T12:25:30.391Z  INFO 3389 --- [    Test worker] liquibase.util                           : Filtered out:                 0
+2026-05-06T12:25:30.391Z  INFO 3389 --- [    Test worker] liquibase.util                           : -------------------------------
+2026-05-06T12:25:30.391Z  INFO 3389 --- [    Test worker] liquibase.util                           : Total change sets:           12
+2026-05-06T12:25:30.395Z  INFO 3389 --- [    Test worker] liquibase.util                           : Update summary generated
+2026-05-06T12:25:30.411Z  INFO 3389 --- [    Test worker] liquibase.command                        : Update command completed successfully.
+2026-05-06T12:25:30.412Z  INFO 3389 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 0
+2026-05-06T12:25:30.417Z  INFO 3389 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
+2026-05-06T12:25:30.421Z  INFO 3389 --- [    Test worker] liquibase.command                        : Command execution complete
+2026-05-06T12:25:30.832Z  INFO 3389 --- [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-06T12:25:30.949Z  INFO 3389 --- [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-05-06T12:25:32.141Z  INFO 3389 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-06T12:25:32.296Z  INFO 3389 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1]
 	Database driver: HSQL Database Engine Driver
 	Database dialect: HSQLDialect
@@ -257,32 +286,32 @@
 	Pool: DataSourceConnectionProvider
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-04-17T18:22:14.907Z  INFO 3214 --- [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-04-17T18:22:14.912Z  INFO 3214 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100501: Automatic JDBC statement batching enabled (maximum batch size 5)
-2026-04-17T18:22:14.918Z  INFO 3214 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-04-17T18:22:15.112Z  INFO 3214 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-04-17T18:22:18.397Z  WARN 3214 --- [    Test worker] .s.a.UserDetailsServiceAutoConfiguration : 
+2026-05-06T12:25:34.488Z  INFO 3389 --- [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-06T12:25:34.504Z  INFO 3389 --- [    Test worker] org.hibernate.orm.jdbc.batch             : HHH100501: Automatic JDBC statement batching enabled (maximum batch size 5)
+2026-05-06T12:25:34.517Z  INFO 3389 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-06T12:25:34.826Z  INFO 3389 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-06T12:25:37.608Z  WARN 3389 --- [    Test worker] .s.a.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: d0d3ed97-4cf2-41a7-9dd7-fd7a9a35a2a3
+Using generated security password: 03dce7cb-edfc-4dec-b23b-74335919d766
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2026-04-17T18:22:18.422Z  INFO 3214 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2026-04-17T18:22:19.312Z  INFO 3214 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 7 resource(s) in the GraphQL schema.
-2026-04-17T18:22:19.587Z  INFO 3214 --- [    Test worker] o.s.b.g.a.GraphQlAutoConfiguration       : GraphQL schema inspection:
+2026-05-06T12:25:37.618Z  INFO 3389 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-05-06T12:25:38.756Z  INFO 3389 --- [    Test worker] efaultSchemaResourceGraphQlSourceBuilder : Loaded 7 resource(s) in the GraphQL schema.
+2026-05-06T12:25:39.083Z  INFO 3389 --- [    Test worker] o.s.b.g.a.GraphQlAutoConfiguration       : GraphQL schema inspection:
 	Unmapped fields: {}
 	Unmapped registrations: {}
 	Unmapped arguments: {}
 	Field nullness errors: {}
 	Argument nullness errors: {}
 	Skipped types: []
-2026-04-17T18:22:19.611Z  INFO 3214 --- [    Test worker] s.b.g.a.s.GraphQlWebMvcAutoConfiguration : GraphQL endpoint HTTP POST /api/graphql
-2026-04-17T18:22:19.864Z  INFO 3214 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2026-04-17T18:22:20.367Z  WARN 3214 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/static/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2026-04-17T18:22:20.368Z  WARN 3214 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/version]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2026-04-17T18:22:20.369Z  WARN 3214 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/version.*]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2026-04-17T18:22:20.369Z  WARN 3214 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore EndpointRequestMatcher includes=[health], excludes=[], includeLinks=false. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
-2026-04-17T18:22:20.601Z  INFO 3214 --- [    Test worker] esy.app.EsyBackendConfigurationTest      : Started EsyBackendConfigurationTest in 20.591 seconds (process running for 24.165)
+2026-05-06T12:25:39.136Z  INFO 3389 --- [    Test worker] s.b.g.a.s.GraphQlWebMvcAutoConfiguration : GraphQL endpoint HTTP POST /api/graphql
+2026-05-06T12:25:39.559Z  INFO 3389 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-05-06T12:25:40.185Z  WARN 3389 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/static/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-06T12:25:40.187Z  WARN 3389 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/version]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-06T12:25:40.188Z  WARN 3389 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/version.*]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-06T12:25:40.189Z  WARN 3389 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore EndpointRequestMatcher includes=[health], excludes=[], includeLinks=false. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-05-06T12:25:40.457Z  INFO 3389 --- [    Test worker] esy.app.EsyBackendConfigurationTest      : Started EsyBackendConfigurationTest in 17.143 seconds (process running for 21.492)
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-esy.app.EsyBackendConfigurationTest">Copy</button>
 </span>
@@ -297,7 +326,7 @@ This generated password is for development use only. Your security configuration
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at Apr 17, 2026, 6:22:30 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
 </div>
 </div>
 </body>
