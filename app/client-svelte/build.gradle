@@ -8,24 +8,19 @@ clean {
 }
 
 assemble {
-    dependsOn 'npmInstall'
-}
-
-tasks.named("npmInstall") {
-    // No node in CI-Job build-java
-    onlyIf { System.env['CI'] == null }
+    dependsOn ':pnpmInstall'
 }
 
 build {
     dependsOn 'npmBuild'
 }
 
-tasks.register('npmBuild', NpmTask) {
+tasks.register('npmBuild', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
-    npmCommand = ['run', 'build']
+    mustRunAfter ':pnpmInstall'
+    // https://pnpm.io/cli/run
+    pnpmCommand = ['run', 'build']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.svelte'))
     inputs.file('package.json')
 }
@@ -34,12 +29,12 @@ check {
     dependsOn 'npmCheck'
 }
 
-tasks.register('npmCheck', NpmTask) {
+tasks.register('npmCheck', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
-    npmCommand = ['run', 'test']
+    mustRunAfter ':pnpmInstall'
+    // https://pnpm.io/cli/run
+    pnpmCommand = ['run', 'test']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.svelte'))
     inputs.file('package.json')
 }
@@ -93,22 +88,22 @@ tasks.register('buildImage') {
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group = 'verification'
-    mustRunAfter 'npmInstall'
+    mustRunAfter ':pnpmInstall'
     allFileWithVersion.from("package.json")
 }
 
-tasks.register('lint', NpmTask) {
+tasks.register('lint', PnpmTask) {
     group = 'verification'
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    npmCommand = ['run', 'prettierCheck']
+    mustRunAfter ':pnpmInstall'
+    pnpmCommand = ['run', 'prettierCheck']
 }
 
-tasks.register('format', NpmTask) {
+tasks.register('format', PnpmTask) {
     group = 'build'
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    npmCommand = ['run', 'prettierApply']
+    mustRunAfter ':pnpmInstall'
+    pnpmCommand = ['run', 'prettierApply']
 }

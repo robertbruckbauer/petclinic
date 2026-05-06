@@ -7,6 +7,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'com.palantir.git-version'
+    id 'com.github.node-gradle.node'
     id 'org.asciidoctor.jvm.convert'
     id 'com.diffplug.spotless' apply false
 }
@@ -126,4 +127,12 @@ tasks.register('pages', AsciidoctorTask) {
 
 tasks.named("asciidoctor") {
   enabled = false
+}
+
+tasks.register('pnpmInstall', PnpmTask) {
+    group = 'build'
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
+    pnpmCommand = ['install']
+    inputs.file('pnpm-lock.yaml')
 }
