@@ -41,9 +41,6 @@ jobs:
           node-version: "24"
       # end::setup-node[]
 
-      - name: Setup pnpm
-        run: npm install -g pnpm
-
       # https://github.com/actions/setup-java
       # tag::setup-java[]
       - uses: actions/setup-java@v5
@@ -65,8 +62,13 @@ jobs:
 
       - name: Build Node
         run: |
-          sh -xv app/client-angular/build.sh ci
-          sh -xv app/client-svelte/build.sh ci
+          npm install -g pnpm
+          pushd app/client-angular
+          pnpm install --frozen-lockfile && pnpm run prettierCheck && pnpm run build && pnpm run test
+          popd
+          pushd app/client-svelte
+          pnpm install --frozen-lockfile && pnpm run prettierCheck && pnpm run build && pnpm run test
+          popd
 
       - name: Build Java
         run: |

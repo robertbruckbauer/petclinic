@@ -43,11 +43,6 @@ popd
 pushd app/client-svelte
 npm pkg set version={version}.0
 popd
-```
-
-### Update pnpm-lock.yaml
-
-```bash
 pnpm install --lockfile-only
 ```
 
