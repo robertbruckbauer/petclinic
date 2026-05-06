@@ -74,13 +74,13 @@ tasks.register('buildImage') {
         String image2 = CLIENT_IMAGE + ":" + VERSION;
         println 'Building image ' + image1
         providers.exec {
-            workingDir(rootProject.projectDir)
+            workingDir(projectDir)
             executable 'docker'
-            args 'build', '-f', 'app/client-angular/Dockerfile', '.', '-t', image1
+            args 'build', '.', '-t', image1
         }.result.get()
         if (image1 != image2) {
             providers.exec {
-                workingDir(rootProject.projectDir)
+                workingDir(projectDir)
                 executable 'docker'
                 args 'tag', image1, image2
             }.result.get()
