@@ -43,8 +43,15 @@ Use this skill to bump node `{version}` based on `doc/manual/setup-node.adoc`.
 ### Validate changes
 
 ```bash
-sh -xv app/client-angular/build.npm.sh ci
-sh -xv app/client-svelte/build.npm.sh ci
+pushd app/client-angular
+pnpm install && pnpm run prettierCheck && pnpm run build && pnpm run test
+popd
+pushd app/client-svelte
+pnpm install && pnpm run prettierCheck && pnpm run build && pnpm run test
+popd
+pushd app/tester
+pnpm install && pnpm run prettierCheck && pnpm run build && pnpm run test
+popd
 ```
 
 Run from repository root.
