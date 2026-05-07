@@ -1,0 +1,92 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitClicked()">
+  <div class="flex flex-col gap-2 pt-4">
+    <div class="flex flex-col gap-2 sm:flex-row">
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Issue Date</legend>
+        <input
+          formControlName="issued"
+          aria-label="Issue Date"
+          type="date"
+          class="input input-bordered w-full"
+        />
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Payment period in days</legend>
+        <input
+          formControlName="days"
+          aria-label="Payment period in days"
+          type="number"
+          min="0"
+          class="input input-bordered w-full"
+        />
+      </fieldset>
+      <fieldset class="fieldset w-full">
+        <legend class="fieldset-legend">Status</legend>
+        <select
+          formControlName="status"
+          aria-label="Status"
+          class="select w-full"
+        >
+          <option value="D">drafted</option>
+          <option value="I">issued</option>
+          <option value="C">completed</option>
+          <option value="X">cancelled</option>
+        </select>
+      </fieldset>
+    </div>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Visit</legend>
+      <div class="relative">
+        <input
+          [value]="visitFilter()"
+          (input)="onVisitFilterInput($event)"
+          (keydown)="onVisitKeyDown($event)"
+          aria-label="Filter visits"
+          aria-autocomplete="list"
+          [attr.aria-expanded]="allVisitItem().length > 0"
+          type="text"
+          class="input input-bordered w-full"
+          placeholder="Type to search visits…"
+          autocomplete="off"
+        />
+        @if (allVisitItem().length > 0) {
+          <ul
+            class="absolute z-10 w-full bg-base-100 border border-base-300 rounded-box shadow-lg mt-1 max-h-60 overflow-y-auto"
+            role="listbox"
+          >
+            @for (item of allVisitItem(); track item.value; let i = $index) {
+              <li
+                role="option"
+                [attr.aria-selected]="item.value === selectedVisitId()"
+                class="px-3 py-2 cursor-pointer"
+                [class.bg-primary]="i === visitKeyIndex()"
+                [class.text-primary-content]="i === visitKeyIndex()"
+                [class.hover:bg-base-200]="i !== visitKeyIndex()"
+                (mousedown)="onVisitSelected(item)"
+              >
+                {{ item.text }}
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </fieldset>
+    <fieldset class="fieldset w-full">
+      <legend class="fieldset-legend">Text</legend>
+      <textarea
+        formControlName="text"
+        aria-label="Text"
+        class="textarea w-full"
+        placeholder="Enter invoice description"
+      ></textarea>
+    </fieldset>
+  </div>
+  <div class="join py-4">
+    <button type="submit" class="btn join-item" [disabled]="!isSubmittable">
+      Ok
+    </button>
+    <button type="button" class="btn join-item" (click)="onCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</form>
