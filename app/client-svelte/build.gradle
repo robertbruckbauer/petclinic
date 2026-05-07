@@ -7,8 +7,17 @@ clean {
     delete ".vite"
 }
 
+node {
+    nodeProjectDir = rootProject.projectDir
+}
+
 assemble {
     dependsOn ':pnpmInstall'
+}
+
+tasks.named("pnpmInstall") {
+    // No node in CI-Job build-java
+    onlyIf { System.env['CI'] == null }
 }
 
 build {
@@ -19,6 +28,7 @@ tasks.register('npmBuild', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
     mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
     // https://pnpm.io/cli/run
     pnpmCommand = ['run', 'build']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.svelte'))
@@ -33,6 +43,7 @@ tasks.register('npmCheck', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
     mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
     // https://pnpm.io/cli/run
     pnpmCommand = ['run', 'test']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.svelte'))
@@ -97,6 +108,7 @@ tasks.register('lint', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
     mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
     pnpmCommand = ['run', 'prettierCheck']
 }
 
@@ -105,5 +117,6 @@ tasks.register('format', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
     mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
     pnpmCommand = ['run', 'prettierApply']
 }
