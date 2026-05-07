@@ -26,6 +26,10 @@ idea {
     }
 }
 
+node {
+    download = false
+}
+
 allprojects {
     new File("${rootDir}/README.adoc").withReader('utf-8') { description = it.readLine().minus('= ') }
     group = 'esy'
@@ -127,11 +131,4 @@ tasks.register('pages', AsciidoctorTask) {
 
 tasks.named("asciidoctor") {
   enabled = false
-}
-
-tasks.named("pnpmInstall") {
-    group = 'build'
-    // No node in CI-Job build-java
-    onlyIf { System.env['CI'] == null }
-    inputs.file('pnpm-lock.yaml')
 }

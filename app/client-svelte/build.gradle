@@ -7,24 +7,20 @@ clean {
     delete ".vite"
 }
 
-node {
-    nodeProjectDir = rootProject.projectDir
-}
-
 assemble {
-    dependsOn ':pnpmInstall'
+    dependsOn 'pnpmInstall'
 }
 
-tasks.named("pnpmInstall") {
+tasks.named('pnpmInstall') {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
 }
 
 build {
-    dependsOn 'npmBuild'
+    dependsOn 'pnpmBuild'
 }
 
-tasks.register('npmBuild', PnpmTask) {
+tasks.register('pnpmBuild', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
     mustRunAfter ':pnpmInstall'
