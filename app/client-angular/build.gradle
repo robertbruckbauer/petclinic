@@ -8,24 +8,25 @@ clean {
 }
 
 assemble {
-    dependsOn 'npmInstall'
+    dependsOn 'pnpmInstall'
 }
 
-tasks.named("npmInstall") {
+tasks.named('pnpmInstall') {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
 }
 
 build {
-    dependsOn 'npmBuild'
+    dependsOn 'pnpmBuild'
 }
 
-tasks.register('npmBuild', NpmTask) {
+tasks.register('pnpmBuild', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
-    npmCommand = ['run', 'build']
+    mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
+    // https://pnpm.io/cli/run
+    pnpmCommand = ['run', 'build']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.html'))
     inputs.file('package.json')
 }
@@ -34,12 +35,13 @@ check {
     dependsOn 'npmCheck'
 }
 
-tasks.register('npmCheck', NpmTask) {
+tasks.register('npmCheck', PnpmTask) {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    // https://docs.npmjs.com/cli/v10/commands/npm-run-script
-    npmCommand = ['run', 'test']
+    mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
+    // https://pnpm.io/cli/run
+    pnpmCommand = ['run', 'test']
     inputs.files(fileTree('src/main').include('**/*.ts', '**/*.js', '**/*.svelte'))
     inputs.file('package.json')
 }
@@ -93,22 +95,24 @@ tasks.register('buildImage') {
 
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group = 'verification'
-    mustRunAfter 'npmInstall'
-    allFileWithVersion.from("package.json", "package-lock.json")
+    mustRunAfter ':pnpmInstall'
+    allFileWithVersion.from("package.json")
 }
 
-tasks.register('lint', NpmTask) {
+tasks.register('lint', PnpmTask) {
     group = 'verification'
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    npmCommand = ['run', 'prettierCheck']
+    mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
+    pnpmCommand = ['run', 'prettierCheck']
 }
 
-tasks.register('format', NpmTask) {
+tasks.register('format', PnpmTask) {
     group = 'build'
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
-    mustRunAfter 'npmInstall'
-    npmCommand = ['run', 'prettierApply']
+    mustRunAfter ':pnpmInstall'
+    workingDir = projectDir
+    pnpmCommand = ['run', 'prettierApply']
 }

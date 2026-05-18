@@ -34,7 +34,6 @@ Do not add a line break.
 ```bash
 pushd app/client-angular
 npm pkg set version={version}.0
-npm install --package-lock-only
 popd
 ```
 
@@ -43,8 +42,21 @@ popd
 ```
 pushd app/client-svelte
 npm pkg set version={version}.0
-npm install --package-lock-only
 popd
+```
+
+### Update app/tester/package.json
+
+```
+pushd app/tester
+npm pkg set version={version}.0
+popd
+```
+
+### Update pnpm-lock.yaml
+
+```bash
+pnpm install --lockfile-only
 ```
 
 ### Update app/deploy/Chart.yaml

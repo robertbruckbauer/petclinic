@@ -62,8 +62,13 @@ jobs:
 
       - name: Build Node
         run: |
-          sh -xv app/client-angular/build.npm.sh ci
-          sh -xv app/client-svelte/build.npm.sh ci
+          npm install -g pnpm
+          pushd app/client-angular
+          pnpm install --frozen-lockfile && pnpm run prettierCheck && pnpm run build && pnpm run test
+          popd
+          pushd app/client-svelte
+          pnpm install --frozen-lockfile && pnpm run prettierCheck && pnpm run build && pnpm run test
+          popd
 
       - name: Build Java
         run: |

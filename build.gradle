@@ -7,6 +7,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'com.palantir.git-version'
+    id 'com.github.node-gradle.node'
     id 'org.asciidoctor.jvm.convert'
     id 'com.diffplug.spotless' apply false
 }
@@ -23,6 +24,10 @@ idea {
         downloadJavadoc = true
         downloadSources = true
     }
+}
+
+node {
+    download = false
 }
 
 allprojects {

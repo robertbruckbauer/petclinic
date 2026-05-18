@@ -46,7 +46,7 @@ playwright() {
     cd $dir/app/$1
     PLAYWRIGHT_HTML_REPORT=$dir/pages/html/$1/playwright \
     PLAYWRIGHT_HTML_OPEN=never \
-    npx playwright test --reporter=list,html --trace=off --retries=1
+    pnpm exec playwright test --reporter=list,html --trace=off --retries=1
     if [ $? -ne 0 ]; then
         echo "Playwright failed"
         exit 2

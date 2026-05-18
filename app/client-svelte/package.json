@@ -5,12 +5,12 @@
     "build": "vite build",
     "start": "vite serve --port 5050",
     "test": "vitest run --coverage",
-    "e2e": "npx playwright test",
-    "e2e-headed": "npx playwright test --headed",
-    "e2e-codegen": "npx playwright codegen localhost:5050",
-    "e2e-install": "npx playwright install",
-    "prettierApply": "npx prettier --write src",
-    "prettierCheck": "npx prettier --check src"
+    "e2e": "pnpm exec playwright test",
+    "e2e-headed": "pnpm exec playwright test --headed",
+    "e2e-codegen": "pnpm exec playwright codegen localhost:5050",
+    "e2e-install": "pnpm exec playwright install",
+    "prettierApply": "pnpm exec prettier --write src",
+    "prettierCheck": "pnpm exec prettier --check src"
   },
   "devDependencies": {
     "@playwright/test": "1.59.1",

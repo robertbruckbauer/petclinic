@@ -4,10 +4,10 @@ plugins {
 }
 
 assemble {
-    dependsOn 'npmInstall'
+    dependsOn 'pnpmInstall'
 }
 
-tasks.named("npmInstall") {
+tasks.named('pnpmInstall') {
     // No node in CI-Job build-java
     onlyIf { System.env['CI'] == null }
 }
@@ -15,5 +15,5 @@ tasks.named("npmInstall") {
 tasks.register('versionCheck', VersionCheckTask.class)  {
     group = 'verification'
     mustRunAfter 'npmInstall'
-    allFileWithVersion.from("Chart.yaml", "package.json", "package-lock.json")
+    allFileWithVersion.from("Chart.yaml", "package.json")
 }
