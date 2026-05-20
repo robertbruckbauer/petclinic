@@ -45,14 +45,16 @@ subprojects {
     // end::setup-java[]
     tasks.withType(Test).configureEach {
         def mockitoAgentFile = providers.provider {
-            configurations.testRuntimeClasspath.resolvedConfiguration.resolvedArtifacts.find {
-                it.moduleVersion.id.name == 'mockito-core'
-            }?.file
+            configurations.testRuntimeClasspath.incoming.artifactView {
+                lenient(true)
+            }.artifacts.artifactFiles.files.find {
+                it.name ==~ /mockito-core-.*\.jar/
+            }
         }
         doFirst {
-            def mockitoAgent = mockitoAgentFile.get()
-            if (mockitoAgent != null) {
-                jvmArgs("-javaagent:${mockitoAgent.absolutePath}")
+            def agentFile = mockitoAgentFile.get()
+            if (agentFile != null) {
+                jvmArgs("-javaagent:${agentFile.absolutePath}")
             } else {
                 logger.info("No mockito-core artifact found in testRuntimeClasspath for ${path}; skipping -javaagent")
             }
