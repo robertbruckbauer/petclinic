@@ -48,7 +48,7 @@ subprojects {
             configurations.testRuntimeClasspath.incoming.artifactView {
                 lenient(true)
             }.artifacts.artifactFiles.files.find {
-                it.name ==~ /mockito-core-.*\.jar/
+                it.name ==~ /mockito-core-\d+(\.\d+)*(-[^.]+)?\.jar/
             }
         }
         doFirst {
@@ -56,7 +56,7 @@ subprojects {
             if (agentFile != null) {
                 jvmArgs("-javaagent:${agentFile.absolutePath}")
             } else {
-                logger.info("No mockito-core artifact found in testRuntimeClasspath for ${path}; skipping -javaagent")
+                logger.debug("No mockito-core artifact found in testRuntimeClasspath for ${path}; skipping -javaagent")
             }
         }
         useJUnitPlatform {
