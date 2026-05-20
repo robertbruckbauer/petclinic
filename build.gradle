@@ -44,10 +44,13 @@ subprojects {
     }
     // end::setup-java[]
     tasks.withType(Test).configureEach {
-        doFirst {
-            def mockitoAgent = configurations.testRuntimeClasspath.files.find {
-                it.name.contains('mockito-core')
+        def mockitoAgentFile = providers.provider {
+            configurations.testRuntimeClasspath.files.find {
+                it.name ==~ /mockito-core-.*\.jar/
             }
+        }
+        doFirst {
+            def mockitoAgent = mockitoAgentFile.get()
             if (mockitoAgent != null) {
                 jvmArgs("-javaagent:${mockitoAgent.absolutePath}")
             }
