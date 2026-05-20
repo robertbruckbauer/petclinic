@@ -41,18 +41,15 @@ subprojects {
         compileJava.options.compilerArgs << '-Xlint:all,-serial,-processing,-classfile,-this-escape'
         java.sourceCompatibility = JavaVersion.VERSION_25
         java.targetCompatibility = JavaVersion.VERSION_25
-
-        def mockitoAgent = configurations.create('mockitoAgent') {
-            transitive = false
-        }
-        dependencies.add('mockitoAgent', 'org.mockito:mockito-core')
     }
     // end::setup-java[]
     tasks.withType(Test).configureEach {
-        def mockitoAgent = configurations.findByName('mockitoAgent')
-        if (mockitoAgent != null) {
-            doFirst {
-                jvmArgs("-javaagent:${mockitoAgent.singleFile.absolutePath}")
+        doFirst {
+            def mockitoAgent = configurations.testRuntimeClasspath.files.find {
+                it.name.contains('mockito-core')
+            }
+            if (mockitoAgent != null) {
+                jvmArgs("-javaagent:${mockitoAgent.absolutePath}")
             }
         }
         useJUnitPlatform {
