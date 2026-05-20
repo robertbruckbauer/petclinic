@@ -46,15 +46,15 @@ subprojects {
             transitive = false
         }
         dependencies.add('mockitoAgent', 'org.mockito:mockito-core')
-
-        tasks.withType(Test).configureEach {
+    }
+    // end::setup-java[]
+    tasks.withType(Test).configureEach {
+        def mockitoAgent = configurations.findByName('mockitoAgent')
+        if (mockitoAgent != null) {
             doFirst {
                 jvmArgs("-javaagent:${mockitoAgent.singleFile.absolutePath}")
             }
         }
-    }
-    // end::setup-java[]
-    tasks.withType(Test).configureEach {
         useJUnitPlatform {
             excludeEngines 'junit-vintage'
         }
