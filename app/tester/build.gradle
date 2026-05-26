@@ -12,6 +12,24 @@ tasks.named("npmInstall") {
     onlyIf { System.env['CI'] == null }
 }
 
+tasks.named('clean', Delete) {
+    // Keep the build directory itself to avoid 
+    // stale bind mounts in running containers.
+    setDelete([])
+    doFirst {
+        def buildDir = layout.buildDirectory.get().asFile
+        if (buildDir.exists()) {
+            def children = buildDir.listFiles()
+            if (children != null) {
+                delete(children)
+            }
+        }
+    }
+    doLast {
+        layout.buildDirectory.get().asFile.mkdirs()
+    }
+}
+
 tasks.register('testerUp') {
     mustRunAfter ':app:client-angular:buildImage'
     mustRunAfter ':app:client-svelte:buildImage'
