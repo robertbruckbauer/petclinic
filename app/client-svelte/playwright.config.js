@@ -43,7 +43,7 @@ const config = {
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-projects */
   projects: [
     {
-      name: "chromium",
+      name: "client-svelte-chromium",
       use: {
         ...devices["Desktop Chrome"],
         viewport: {
@@ -54,7 +54,7 @@ const config = {
     },
     /*
     {
-      name: "firefox",
+      name: "client-svelte-firefox",
       use: {
         ...devices["Desktop Firefox"],
         viewport: {
@@ -66,7 +66,7 @@ const config = {
     */
     /*
     {
-      name: "webkit",
+      name: "client-svelte-safari",
       use: {
         ...devices["Desktop Safari"],
         viewport: {
