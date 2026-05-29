@@ -32,7 +32,7 @@ export class VisitListerPage {
     await expect(textInput).toHaveValue("");
     await textInput.fill(text);
     await textInput.press("Tab");
-    expect(textInput).toHaveValue(text);
+    await expect(textInput).toHaveValue(text);
     // Time
     const timeInput = this.page.locator('[aria-label="Time"]');
     await expect(timeInput).not.toHaveValue("");

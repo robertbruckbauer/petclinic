@@ -67,7 +67,7 @@ export class PetListerPage {
     await expect(nameInput).toHaveValue("");
     await nameInput.fill(petName);
     await nameInput.press("Tab");
-    expect(nameInput).toHaveValue(petName);
+    await expect(nameInput).toHaveValue(petName);
     // Born
     const bornInput = this.page.locator('[aria-label="Born"]');
     await expect(bornInput).toHaveValue("");
