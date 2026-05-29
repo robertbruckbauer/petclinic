@@ -1,5 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const env =
+  (
+    globalThis as {
+      process?: { env?: Record<string, string | undefined> };
+    }
+  ).process?.env ?? {};
+
 export default defineConfig({
   /* https://playwright.dev/docs/api/class-testconfig#test-config-global-setup */
   globalSetup: './src/test/playwright/global-setup.ts',
@@ -8,11 +15,11 @@ export default defineConfig({
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-test-dir */
   testDir: './src/test/playwright',
   /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
+  forbidOnly: !!env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: env.CI ? 1 : undefined,
   /* See https://playwright.dev/docs/api/class-testconfig#test-config-output-dir */
   outputDir: "build/test-results/",
   /* See https://playwright.dev/docs/test-reporters */
