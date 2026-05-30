@@ -40,10 +40,25 @@ subprojects {
         compileJava.options.encoding = 'UTF-8'
         compileJava.options.compilerArgs << '-Xlint:all,-serial,-processing,-classfile,-this-escape'
         java.sourceCompatibility = JavaVersion.VERSION_25
-        java.targetCompatibility = JavaVersion.VERSION_25        
+        java.targetCompatibility = JavaVersion.VERSION_25
     }
     // end::setup-java[]
     tasks.withType(Test).configureEach {
+        def mockitoAgentFile = providers.provider {
+            configurations.testRuntimeClasspath.incoming.artifactView {
+                lenient(true)
+            }.artifacts.artifactFiles.files.find {
+                it.name ==~ /mockito-core-\d+(\.\d+)*(-[^.]+)?\.jar/
+            }
+        }
+        doFirst {
+            def agentFile = mockitoAgentFile.get()
+            if (agentFile != null) {
+                jvmArgs("-javaagent:${agentFile.absolutePath}")
+            } else {
+                logger.debug("No mockito-core artifact found in testRuntimeClasspath for ${path}; skipping -javaagent")
+            }
+        }
         useJUnitPlatform {
             excludeEngines 'junit-vintage'
         }
