@@ -19,12 +19,23 @@ export class PetListerPage {
 
   async filterOwner(ownerName) {
     await expect(this.page).toHaveURL(this.path);
-    // Search
+    // Wait until backend data is loaded and the owner option is selectable.
     const filterSelect = this.page.getByLabel("Filter");
     await filterSelect.waitFor({ state: "visible" });
+    await expect
+      .poll(async () => {
+        return await filterSelect.evaluate((element, name) => {
+          return (
+            Array.from(element.options).find(
+              (option) => option.text.startsWith(name) && !option.disabled
+            )?.value ?? null
+          );
+        }, ownerName);
+      })
+      .not.toBeNull();
     const ownerId = await filterSelect.evaluate((element, name) => {
-      return Array.from(element.options).find((option) =>
-        option.text.startsWith(name)
+      return Array.from(element.options).find(
+        (option) => option.text.startsWith(name) && !option.disabled
       )?.value;
     }, ownerName);
     await filterSelect.selectOption({ value: ownerId });
