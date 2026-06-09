@@ -63,23 +63,30 @@ export class OwnerListerPage {
 
   async showVisit(ownerName, petName) {
     await this.filterOwner(ownerName);
-    const row = this.page.getByRole("table").getByRole("row").nth(1);
+    const row = this.page
+      .getByRole("table")
+      .getByRole("row")
+      .filter({ hasText: ownerName });
     await row.waitFor({ state: "visible" });
     // List on
     const visitButton = row.getByRole("button", { name: "list", exact: true });
     await expect(visitButton).toBeEnabled();
     await visitButton.click();
     // Card
-    const card = this.page.getByRole("table").getByRole("row").nth(2);
-    const petInput = card.locator('[aria-label="Pet"]');
-    await expect(await petInput.inputValue()).toContain(petName);
-    const vetInput = card.locator('[aria-label="Vet"]');
+    const petInput = this.page.locator('[aria-label="Pet"]').first();
+    await expect(petInput).toBeVisible();
+    await expect(petInput).toHaveValue(new RegExp(petName));
+    const vetInput = this.page.locator('[aria-label="Vet"]').first();
     await expect(vetInput).not.toHaveValue("");
-    const treatmentInput = card.locator('[aria-label="Treatment"]');
+    const treatmentInput = this.page
+      .locator('[aria-label="Treatment"]')
+      .first();
     await expect(treatmentInput).not.toHaveValue("");
-    const diagnoseInput = card.locator('[aria-label="Diagnose"]');
+    const diagnoseInput = this.page.locator('[aria-label="Diagnose"]').first();
     await expect(diagnoseInput).not.toHaveValue("");
-    const editButton = card.getByRole("link", { name: "Edit", exact: true });
+    const editButton = this.page
+      .getByRole("link", { name: "Edit", exact: true })
+      .first();
     await expect(editButton).toBeEnabled();
     // List off
     await expect(visitButton).toBeEnabled();

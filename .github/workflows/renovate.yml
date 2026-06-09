@@ -13,6 +13,14 @@ on:
   # run manually
   workflow_dispatch:
 
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions
+permissions:
+  pull-requests: write
+  contents: write
+  actions: write
+  issues: write
+  statuses: write
+
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,11 +31,6 @@ concurrency:
 jobs:
   renovate:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-      issues: write
-      statuses: write   
     steps:
       - uses: actions/checkout@v5
       - uses: renovatebot/github-action@v46.1.10

@@ -18,6 +18,10 @@ on:
   # run manually
   workflow_dispatch:
 
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions
+permissions:
+  contents: read
+
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
