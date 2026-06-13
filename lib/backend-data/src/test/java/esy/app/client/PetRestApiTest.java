@@ -465,7 +465,6 @@ class PetRestApiTest {
         assertTrue(ownerRepository.findById(UUID.fromString(uuid)).isPresent());
         mockMvc.perform(get("/api/pet")
                         .queryParam("owner.id", uuid)
-                        .queryParam("owner", uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()

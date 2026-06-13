@@ -514,8 +514,6 @@ class VisitRestApiTest {
         mockMvc.perform(get("/api/visit")
                         .queryParam("sort", "date,desc")
                         .queryParam("pet.owner.id", uuid.toString())
-                        .queryParam("pet.owner", uuid.toString())
-                        .queryParam("owner", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -541,13 +539,11 @@ class VisitRestApiTest {
     @Test
     @Order(504)
     void getApiVisitByOwnerEmpty() throws Exception {
-        final var ownerId = UUID.fromString("b3333333-3333-beef-dead-beefdeadbeef");
-        final var petId = UUID.fromString("c3333333-3333-beef-dead-beefdeadbeef");
-        assertTrue(ownerRepository.findById(ownerId).isPresent());
-        assertTrue(petRepository.findById(petId).isPresent());
+        final var uuid = UUID.fromString("b3333333-3333-beef-dead-beefdeadbeef");
+        assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit")
                         .queryParam("sort", "date,desc")
-                        .queryParam("pet", petId.toString())
+                        .queryParam("pet.owner.id", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -570,7 +566,6 @@ class VisitRestApiTest {
         mockMvc.perform(get("/api/visit")
                         .queryParam("sort", "date,desc")
                         .queryParam("pet.id", uuid.toString())
-                        .queryParam("pet", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -595,7 +590,6 @@ class VisitRestApiTest {
         mockMvc.perform(get("/api/visit")
                         .queryParam("sort", "date,desc")
                         .queryParam("pet.id", uuid.toString())
-                        .queryParam("pet", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -618,7 +612,6 @@ class VisitRestApiTest {
         mockMvc.perform(get("/api/visit")
                         .queryParam("sort", "date,desc")
                         .queryParam("vet.id", uuid.toString())
-                        .queryParam("vet", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
@@ -643,7 +636,6 @@ class VisitRestApiTest {
         mockMvc.perform(get("/api/visit")
                         .queryParam("sort", "date,desc")
                         .queryParam("vet.id", uuid.toString())
-                        .queryParam("vet", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
