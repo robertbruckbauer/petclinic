@@ -15,5 +15,8 @@ public interface VisitRepository extends JsonJpaRepository<Visit>, QuerydslRepos
     default void customize(@NonNull final QuerydslBindings bindings, @NonNull final QVisit root) {
         bindings.bind(String.class).first(this::stringContainsOrLikeIgnoreCaseBinding);
         bindings.bind(root.date).all(this::localDateEqBetweenInBinding);
+        bindings.bind(root.pet.id).first((path, value) -> path.eq(value));
+        bindings.bind(root.vet.id).first((path, value) -> path.eq(value));
+        bindings.bind(root.pet.owner.id).first((path, value) -> path.eq(value));
     }
 }
