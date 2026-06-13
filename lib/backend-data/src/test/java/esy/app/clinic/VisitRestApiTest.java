@@ -513,7 +513,7 @@ class VisitRestApiTest {
         assertTrue(ownerRepository.findById(uuid).isPresent());
         mockMvc.perform(get("/api/visit")
                         .queryParam("sort", "date,desc")
-                        .queryParam("owner.id", uuid.toString())
+                        .queryParam("pet.owner.id", uuid.toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()

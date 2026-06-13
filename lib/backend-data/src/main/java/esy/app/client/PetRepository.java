@@ -18,6 +18,7 @@ public interface PetRepository extends JsonJpaRepository<Pet>, QuerydslRepositor
     @Override
     default void customize(@NonNull final QuerydslBindings bindings, @NonNull final QPet root) {
         bindings.bind(String.class).first(this::stringContainsOrLikeIgnoreCaseBinding);
+        bindings.bind(root.owner.id).first(com.querydsl.core.types.dsl.SimpleExpression::eq);
     }
 
     /**
