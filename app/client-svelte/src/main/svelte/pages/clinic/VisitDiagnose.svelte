@@ -131,8 +131,7 @@
         bind:value={newVisitText}
         aria-label="Diagnose"
         class="textarea w-full"
-        placeholder="Enter a diagnose"
-      ></textarea>
+        placeholder="Enter a diagnose"></textarea>
     </fieldset>
     <div class="flex flex-col sm:flex-row gap-2">
       <fieldset class="fieldset w-full">
