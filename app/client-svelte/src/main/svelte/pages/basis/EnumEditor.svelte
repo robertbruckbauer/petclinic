@@ -130,8 +130,7 @@
         bind:value={newItemText}
         aria-label="Text"
         class="textarea w-full"
-        placeholder="Enter a text"
-      ></textarea>
+        placeholder="Enter a text"></textarea>
     </fieldset>
   </div>
   <div class="join py-4">
