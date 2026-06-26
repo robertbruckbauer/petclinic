@@ -25,7 +25,7 @@ services:
       - _JAVA_OPTIONS=-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - SERVER_PORT=8080
       - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres18:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
       - SPRING_LIQUIBASE_ENABLED=false
@@ -37,7 +37,7 @@ services:
       retries: 5
       start_period: 30s
     depends_on:
-      postgres17:
+      postgres18:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
@@ -47,21 +47,21 @@ services:
     image: ${COMPOSE_PROJECT_NAME}/migrate
     environment:
       - DATABASE_SCHEMA=${COMPOSE_PROJECT_NAME}
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres18:5432/postgres?currentSchema=${COMPOSE_PROJECT_NAME}
       - SPRING_DATASOURCE_USERNAME=sa
       - SPRING_DATASOURCE_PASSWORD=P@ssw0rd
       - SPRING_LIQUIBASE_CHANGE_LOG=liquibase/changelog.xml
     depends_on:
-      postgres17:
+      postgres18:
         condition: service_healthy
-  postgres17:
-    hostname: postgres17
-    image: postgres:17@sha256:5f050f770b427fbd477edee6c3968a72e5c6be97e050a7e368b2b74a9494a285
+  postgres18:
+    hostname: postgres18
+    image: postgres:18@sha256:1a5b3e745bbd82d6deb146505e504da3c2f248cac15e431951b148fbe4f8613a
     command: ["postgres", "-c", "wal_level=logical"]
     ports:
       - 5432:5432
     volumes:
-      - postgres17:/var/lib/postgresql/data
+      - postgres18:/var/lib/postgresql
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=sa
@@ -72,4 +72,4 @@ services:
       timeout: 1s
       retries: 30
 volumes:
-  postgres17:
+  postgres18:
