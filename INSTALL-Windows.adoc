@@ -1,0 +1,258 @@
+= INSTALL Windows
+
+include::settings.adoc[]
+
+== WSL2 aktivieren
+
+.powershell
+----
+$ wsl --install -d Ubuntu-24.04
+----
+
+Für die WSL muss ein Username (beliebig) und ein Passwort vergeben werden.
+
+.powershell
+----
+$ wsl --status
+Standard-Distribution: Ubuntu-24.04
+Standardversion: 2
+----
+
+https://learn.microsoft.com/de-de/windows/wsl/install
+
+== https://chocolatey.org[chocolately]
+
+.powershell (Administrator)
+----
+$ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+----
+
+https://chocolatey.org/install
+
+== https://direnv.net[direnv]
+
+.powershell (Administrator)
+----
+$ winget install direnv --disable-interactivity
+----
+
+.powershell
+----
+$ direnv.exe --version
+2.35.0
+----
+
+.notepad $PROFILE
+----
+Invoke-Expression (direnv hook pwsh)
+----
+
+== https://curl.se[curl]
+
+.powershell (Administrator)
+----
+$ choco install curl
+----
+
+.powershell
+----
+$ curl.exe --version
+curl 8.19.0 (Windows) libcurl/8.19.0 Schannel zlib/1.3.1 WinIDN WinLDAP
+----
+
+https://curl.se/windows/microsoft.html
+
+== https://github.com/jqlang/jq[jq]
+
+.powershell (Administrator)
+----
+$ choco install jq
+----
+
+.powershell
+----
+$ jq.exe --version
+jq-1.8.1
+----
+
+== https://github.com/mikefarah/yq[yq]
+
+.powershell (Administrator)
+----
+$ choco install yq
+----
+
+.powershell
+----
+$ yq.exe --version
+yq (https://github.com/mikefarah/yq/) version v4.53.3
+----
+
+== https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
+
+.powershell (Administrator)
+----
+$ choco install git
+----
+
+.powershell
+----
+$ git --version
+git version 2.55.0.windows.2
+$ git config --global user.name robert.bruckbauer
+$ git config --global user.email 'robert.ruckbauer@gofore.com'
+$ git config --global pull.rebase true
+----
+
+== https://projects.eclipse.org/projects/adoptium.temurin[java]
+
+.powershell (Administrator)
+----
+$ choco install Temurin25
+----
+
+.powershell (Administrator)
+----
+$ choco pin add --name Temurin25
+----
+
+.powershell
+----
+$ java.exe --version
+openjdk 25.0.1 2025-10-21 LTS
+OpenJDK Runtime Environment Temurin-25.0.1+8 (build 25.0.1+8-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.1+8 (build 25.0.1+8-LTS, mixed mode, sharing)
+----
+
+== https://gradle.org[gradle]
+
+.powershell (Administrator)
+----
+choco install gradle --version 9.4.1
+----
+
+.powershell (Administrator)
+----
+$ choco pin add --name gradle
+----
+
+.powershell
+----
+$ gradle.exe --version
+------------------------------------------------------------
+Gradle 9.4.1
+------------------------------------------------------------
+----
+
+== https://nodejs.org[node]
+
+.powershell (Administrator)
+----
+$ choco install nvm
+----
+
+.powershell
+----
+$ nvm install lts
+$ nvm use lts
+$ node.exe --version
+v24.18.0
+$ npm.cmd --version
+11.16.0
+----
+
+https://www.nvmnode.com/
+
+https://dev.to/stephengade/how-to-install-and-manage-multiple-versions-of-nodejs-on-windows-5h30
+
+https://blog.logrocket.com/install-node-windows-chocolatey
+
+https://blog.sarojkdb.com/nodejs-chocolatey
+
+== https://docs.docker.com/desktop/install/windows-install[docker]
+
+.powershell (Administrator)
+----
+$ choco install docker-cli docker-compose
+----
+
+.powershell
+----
+$ docker.exe --version
+Docker version 29.6.1, build 8900f1d
+----
+
+== https://kubernetes.io/docs/tasks/tools/install-kubectl-windows[kubectl]
+
+.powershell (Administrator)
+----
+$ choco install kubernetes-cli
+----
+
+.powershell
+----
+$ kubectl.exe version
+Client Version: v1.36.2
+Kustomize Version: v5.8.1
+----
+
+== https://helm.sh/docs/intro/install[helm]
+
+.powershell (Administrator)
+----
+$ choco install kubernetes-helm
+----
+
+.powershell
+----
+$ helm.exe version
+version.BuildInfo{Version:"v4.1.4", GitCommit:"05fa37973dc9e42b76e1d2883494c87174b6074f", GitTreeState:"clean", GoVersion:"go1.25.9", KubeClientVersion:"v1.35"}
+----
+
+== https://fluxcd.io/flux/installation/[flux]
+
+.powershell (Administrator)
+----
+$ choco install flux
+----
+
+.powershell
+----
+$ flux --version
+flux version 2.9.1
+----
+
+== https://www.zerotier.com/download[zerotier]
+
+.powershell (Administrator)
+----
+$ choco install zerotier-one
+----
+
+.powershell
+----
+$ zerotier-cli -v    
+1.16.2
+----
+
+.powershell (Administrator)
+----
+$ zerotier-cli join <network-id from my.zerotier.com>
+200 join OK
+$ zerotier-cli status
+200 info c9368cd920 1.16.2 ONLINE
+----
+
+== https://dbeaver.io/download[dbeaver]
+
+.powershell (Administrator)
+----
+$ choco install dbeaver
+----
+
+== https://rancherdesktop.io[rancher-desktop]
+
+.powershell (Administrator)
+----
+$ choco install rancher-desktop
+----
