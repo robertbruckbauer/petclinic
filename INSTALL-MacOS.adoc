@@ -1,0 +1,252 @@
+= INSTALL MacOS
+
+include::settings.adoc[]
+
+== https://brew.sh[homebrew]
+
+.zsh
+----
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+----
+
+.zsh
+----
+$ brew --version
+Homebrew 6.0.9
+----
+
+== https://curl.se[curl]
+
+.zsh
+----
+$ curl --version
+curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.68.1
+----
+
+== https://github.com/jqlang/jq[jq]
+
+.zsh
+----
+$ brew install yq
+----
+
+.zsh
+----
+$ jq --version
+jq-1.7.1-apple
+----
+
+== https://github.com/mikefarah/yq[yq]
+
+.zsh
+----
+$ brew install yq
+----
+
+.zsh
+----
+$ yq --version
+yq (https://github.com/mikefarah/yq/) version v4.53.3
+----
+
+== https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
+
+.zsh
+----
+$ brew install git
+----
+
+.zsh
+----
+$ git --version
+git version 2.50.1 (Apple Git-155)
+$ git config --global user.name robert.bruckbauer
+$ git config --global user.email 'robert.ruckbauer@gofore.com'
+$ git config --global pull.rebase true
+----
+
+== https://sdkman.io/install[sdkman]
+
+.zsh
+----
+$ curl -s "https://get.sdkman.io" | bash
+$ source "$HOME/.sdkman/bin/sdkman-init.sh"
+----
+
+.zsh
+----
+$ sdk version
+SDKMAN!
+script: 5.23.0
+native: 0.7.34 (macos aarch64)
+----
+
+== https://projects.eclipse.org/projects/adoptium.temurin[java]
+
+.zsh
+----
+$ brew install nvm
+----
+
+.zsh
+---- 
+$ nvm version
+v24.18.0
+$ nvm install 24
+$ nvm use 24
+$ node.exe --version
+v24.18.0
+$ npm.cmd --version
+11.16.0
+----
+
+https://www.nvmnode.com/
+
+.zsh
+----
+$ sdk install java 25.0.3-tem
+----
+
+.zsh
+----
+$ sdk use java 25.0.3-tem
+----
+
+.zsh
+----
+$ java --version
+openjdk 25.0.3 2026-04-21 LTS
+OpenJDK Runtime Environment Temurin-25.0.3+9 (build 25.0.3+9-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.3+9 (build 25.0.3+9-LTS, mixed mode, sharing)
+----
+
+== https://gradle.org[gradle]
+
+.zsh
+----
+$ sdk install gradle 9.4.1
+----
+
+.zsh
+----
+$ sdk use gradle 9.4.1
+----
+
+.zsh
+----
+$ gradle --version
+------------------------------------------------------------
+Gradle 9.4.1
+------------------------------------------------------------
+----
+
+== https://nodejs.org[node]
+
+.zsh
+----
+$ brew install nvm
+$ mkdir -p $HOME/.nvm
+$ cat >> $HOME/.zshrc <<'EOF'
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+EOF
+$ source $HOME/.zshrc
+----
+
+.zsh
+----
+$ nvm version
+v24.18.0
+$ nvm install 24
+$ nvm use 24
+$ node --version
+v24.18.0
+$ npm --version
+11.16.0
+----
+
+https://www.nvmnode.com/
+
+== https://docs.docker.com/desktop/install/mac-install[docker]
+
+.zsh
+----
+$ brew install docker
+----
+
+.zsh
+----
+$ docker --version
+Docker version 29.6.1, build 8900f1d330
+----
+
+== https://kubernetes.io/docs/tasks/tools/install-kubectl-macos[kubectl]
+
+.zsh
+----
+$ brew install kubectl
+----
+
+.zsh
+----
+$ kubectl version
+Client Version: v1.36.2
+Kustomize Version: v5.8.1
+----
+
+== https://helm.sh/docs/intro/install[helm]
+
+.zsh
+----
+$ brew install helm
+----
+
+.zsh
+---- 
+$ helm version
+version.BuildInfo{Version:"v4.2.3", GitCommit:"43e8b7feece8beb0fcba47059ec9b522fd929a64", GitTreeState:"clean", GoVersion:"go1.26.5", KubeClientVersion:"v1.36"}
+----
+
+== https://fluxcd.io/flux/installation/[flux]
+
+Aktueller Status auf diesem MacBookPro: nicht installiert.
+
+.zsh
+----
+$ brew install fluxcd/tap/flux
+----
+
+.zsh
+----
+$ flux --version
+flux version 2.9.2
+----
+
+== https://www.zerotier.com/download[zerotier]
+
+Aktueller Status auf diesem MacBookPro: nicht installiert.
+
+.zsh
+----
+$ brew install --cask zerotier-one
+----
+
+.zsh
+----
+$ zerotier-cli -v
+1.16.2
+----
+
+== https://github.com/abiosoft/colima[colima]
+
+.zsh
+----
+$ brew install colima
+----
+
+.zsh
+----
+$ colima version
+colima version 0.10.3
+----
