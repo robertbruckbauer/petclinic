@@ -43,7 +43,7 @@ Ask the following questions:
 Skip it (YAGNI principle).
 - **Already in this codebase?**
 Reuse it.
-- +*Native platform feature covers it?**
+- **Native platform feature covers it?**
 Use it.
 - **Already-installed dependency solves it?**
 Use it.
