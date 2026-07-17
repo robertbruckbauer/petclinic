@@ -77,7 +77,7 @@ At the end of each request respond with:
 
 ## Checklists
 
-For skill files (.agent/skills/**/SKILL.md):
+For skill files (.agents/skills/**/SKILL.md):
 - [ ] Has markdown front matter
 - [ ] Has non-empty `description` field wrapped in single quotes
 - [ ] Has `name` field matching the skill directory name
