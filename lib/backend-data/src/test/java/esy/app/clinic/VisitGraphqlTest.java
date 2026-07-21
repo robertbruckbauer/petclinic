@@ -166,4 +166,31 @@ class VisitGraphqlTest {
         assertEquals("visit.date ASC",
                 orderCaptor.getValue().toString());
     }
+
+    @Test
+    void queryAllVisitByText() {
+        final var text = "Odi";
+        final var value = createWithText("Lorem ipsum.")
+                .setPet(createPet("Odi"));
+        when(visitRepository.findAll(any(BooleanExpression.class), any(OrderSpecifier.class)))
+                .thenReturn(List.of(value));
+        when(petRepository.findAllById(any()))
+                .thenReturn(List.of(value.getPet()));
+        final var data = graphQlTester
+                .document("""
+                        {allVisitByText(text: "%s"){date pet{name}}}
+                        """.formatted(text))
+                .execute();
+        assertNotNull(data);
+        data.path("allVisitByText[0].pet.name")
+                .hasValue()
+                .entity(String.class)
+                .isEqualTo(value.getPet().getName());
+        final var queryCaptor = ArgumentCaptor.<BooleanExpression>captor();
+        final var orderCaptor = ArgumentCaptor.<OrderSpecifier<?>>captor();
+        verify(visitRepository).findAll(queryCaptor.capture(), orderCaptor.capture());
+        verifyNoMoreInteractions(visitRepository);
+        assertEquals("visit.date DESC",
+                orderCaptor.getValue().toString());
+    }
 }
