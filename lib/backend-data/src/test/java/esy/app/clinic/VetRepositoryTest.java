@@ -27,6 +27,7 @@ public class VetRepositoryTest {
         return Vet.fromJson("""
                 {
                 	"name":"%s",
+                    "retired":false,
                 	"allSkill":["Z","A"],
                 	"allSpecies":["Dog","Cat"]
                 }
@@ -44,6 +45,7 @@ public class VetRepositoryTest {
         assertEquals(0L, value0.getVersion());
         assertNotNull(value0.getId());
         assertEquals(name, value0.getName());
+        assertFalse(value0.isRetired());
         assertEquals(2, value0.getAllSkill().size());
         assertEquals("A", value0.getAllSkill().first());
         assertEquals("Z", value0.getAllSkill().last());

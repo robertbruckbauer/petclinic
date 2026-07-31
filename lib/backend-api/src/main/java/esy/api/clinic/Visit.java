@@ -70,11 +70,6 @@ public final class Visit extends JsonJpaEntity<Visit> {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Vet vet;
 
-    @Column(name = "billable")
-    @Getter
-    @JsonProperty
-    private boolean billable;
-
     @Column(name = "duration")
     @Getter
     @JsonProperty
@@ -90,7 +85,6 @@ public final class Visit extends JsonJpaEntity<Visit> {
         this.text = "";
         this.pet = null;
         this.vet = null;
-        this.billable = false;
         this.duration = Duration.ZERO;
     }
 
@@ -101,7 +95,6 @@ public final class Visit extends JsonJpaEntity<Visit> {
         this.text = "";
         this.pet = null;
         this.vet = null;
-        this.billable = false;
         this.duration = Duration.ZERO;
     }
 
@@ -123,7 +116,6 @@ public final class Visit extends JsonJpaEntity<Visit> {
                 Objects.equals(this.text, that.text) &&
                 Objects.equals(this.pet, that.pet) &&
                 Objects.equals(this.vet, that.vet) &&
-                this.billable == that.billable &&
                 Objects.equals(this.duration, that.duration);
     }
 
@@ -138,9 +130,17 @@ public final class Visit extends JsonJpaEntity<Visit> {
         value.text = this.text;
         value.pet = this.pet;
         value.vet = this.vet;
-        value.billable = this.billable;
         value.duration = this.duration;
         return value;
+    }
+
+    @Override
+    public Visit verify() {
+        super.verify();
+        if (this.vet != null && this.vet.isRetired()) {
+            throw new IllegalArgumentException("vet retired");
+        }
+        return this;
     }
 
     @Override

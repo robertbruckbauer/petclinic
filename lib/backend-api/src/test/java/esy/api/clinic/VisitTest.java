@@ -92,7 +92,6 @@ class VisitTest {
         assertFalse(json.at("/text").isMissingNode());
         assertFalse(json.at("/date").isMissingNode());
         assertFalse(json.at("/time").isMissingNode());
-        assertFalse(json.at("/billable").isMissingNode());
         assertFalse(json.at("/duration").isMissingNode());
     }
 
@@ -103,7 +102,6 @@ class VisitTest {
         assertNotNull(value0.getId());
         assertNotNull(value0.getDate());
         assertNotNull(value0.getTime());
-        assertFalse(value0.isBillable());
         assertNotNull(value0.getDuration());
         assertNotNull(value0.getPet());
         assertNotNull(value0.getVet());
@@ -127,34 +125,21 @@ class VisitTest {
         assertEquals(text, value.getText());
     }
 
-    @ParameterizedTest
-    @ValueSource(booleans =  {true, false})
-    void jsonBillable(final boolean billable) {
+    @Test
+    void jsonVetRetiredConstraints() {
         final var value = Visit.fromJson("""
                         {
                             "date":"2021-04-22",
-                            "text":"Lorem Ipsum.",
-                            "billable":"%b"
+                            "text":"Lorem Ipsum."
                         }
-                        """.formatted(billable));
-        assertDoesNotThrow(value::verify);
-        assertEquals(billable, value.isBillable());
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "JA",
-            "NEIN",
-    })
-    void jsonBillableConstraints(final String text) {
-        final var json = """
+                        """)
+                .setVet(Vet.fromJson("""
                         {
-                            "date":"2021-04-22",
-                            "text":"Lorem Ipsum.",
-                            "billable":"%s"
+                            "name":"Dr. Retired",
+                            "retired":true
                         }
-                        """.formatted(text);
-        assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
+                        """));
+        assertThrows(IllegalArgumentException.class, value::verify);
     }
 
     static Stream<LocalDate> jsonDate() {

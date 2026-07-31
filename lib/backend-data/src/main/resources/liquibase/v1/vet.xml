@@ -24,4 +24,11 @@
                 columnNames="name"
         />
     </changeSet>
+    <changeSet id="2" author="robert">
+        <addColumn tableName="vet">
+            <column name="retired" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

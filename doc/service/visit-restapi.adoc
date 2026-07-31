@@ -55,6 +55,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.adoc[]
 
 The entity class `Vet` is referenced.
 The vet conducts the treatment.
+Retired vets are still visible in existing visit data, but new visits cannot be assigned to them.
 
 .Entity
 [source,java,options="nowrap"]
@@ -154,7 +155,7 @@ This operation reports `Conflict` or code 409 if a unique constraint would be vi
 
 This operation reports `Precondition Failed` or code 412 if data is outdated (invalid ETag).
 
-TIP: The descriptions of attributes other than `date` are omitted for simplicity because they are following the same pattern (e.g. `time`, `text`, `billable`, `duration`).
+TIP: The descriptions of attributes other than `date` are omitted for simplicity because they are following the same pattern (e.g. `time`, `text`, `duration`).
 
 ==== `pet` relation
 
