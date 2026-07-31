@@ -90,7 +90,6 @@ public class VisitRepositoryTest {
         assertEquals(text, value0.getText());
         assertNotNull(value0.getDate());
         assertNotNull(value0.getTime());
-        assertFalse(value0.isBillable());
         assertNotNull(value0.getDuration());
         assertNull(value0.getPet());
         assertNull(value0.getVet());

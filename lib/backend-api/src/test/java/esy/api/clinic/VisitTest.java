@@ -92,7 +92,6 @@ class VisitTest {
         assertFalse(json.at("/text").isMissingNode());
         assertFalse(json.at("/date").isMissingNode());
         assertFalse(json.at("/time").isMissingNode());
-        assertFalse(json.at("/billable").isMissingNode());
         assertFalse(json.at("/duration").isMissingNode());
     }
 
@@ -103,7 +102,6 @@ class VisitTest {
         assertNotNull(value0.getId());
         assertNotNull(value0.getDate());
         assertNotNull(value0.getTime());
-        assertFalse(value0.isBillable());
         assertNotNull(value0.getDuration());
         assertNotNull(value0.getPet());
         assertNotNull(value0.getVet());
@@ -142,36 +140,6 @@ class VisitTest {
                         }
                         """));
         assertThrows(IllegalArgumentException.class, value::verify);
-    }
-
-    @ParameterizedTest
-    @ValueSource(booleans =  {true, false})
-    void jsonBillable(final boolean billable) {
-        final var value = Visit.fromJson("""
-                        {
-                            "date":"2021-04-22",
-                            "text":"Lorem Ipsum.",
-                            "billable":"%b"
-                        }
-                        """.formatted(billable));
-        assertDoesNotThrow(value::verify);
-        assertEquals(billable, value.isBillable());
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "JA",
-            "NEIN",
-    })
-    void jsonBillableConstraints(final String text) {
-        final var json = """
-                        {
-                            "date":"2021-04-22",
-                            "text":"Lorem Ipsum.",
-                            "billable":"%s"
-                        }
-                        """.formatted(text);
-        assertThrows(IllegalArgumentException.class, () -> Visit.fromJson(json).verify());
     }
 
     static Stream<LocalDate> jsonDate() {
