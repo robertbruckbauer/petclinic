@@ -15,6 +15,7 @@ include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.adoc[]
 NOTE: The `vet_skill` and `vet_species` database tables (see `vet_skill.xml` and `vet_species.xml`) do not have a unique constraint on the `(id, skill)` or `(id, species)` column pairs. Uniqueness is enforced at the application layer via `SortedSet<String>` in the Java entity. Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
 
 The schema type `Vet` defines properties, collections and relations.
+The property `retired` marks veterinarians that are no longer active.
 
 .Schema
 [source,graphql,options="nowrap"]
