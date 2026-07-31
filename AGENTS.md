@@ -75,6 +75,8 @@ At the end of each request respond with:
 - Show a list of applied skills.
 - Show a list of changed files.
 
+You MAY ONLY generate code if there is an instruction in a skill.
+
 ## Checklists
 
 For skill files (.agents/skills/**/SKILL.md):

@@ -48,15 +48,15 @@ Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 ### Analyse GraphQL service template
 
 Use doc/service/template/spring-graphql.adoc as the reference template.
-- Understand the required sections and their structure
-- Understand formatting rules and conventions
+- Apply the required sections and their structure
+- Apply formatting rules and conventions
 
 ### Generate GraphQL service documentation
 
 Create or update {entity}-graphql.adoc file in the doc/service/ directory.
 - Strictly follow the template's formatting rules and conventions
 - Maintain consistent style with existing documentation
-- Do not include instructions from the template
+- Use all instructions from the template but do not include them in the documentation.
 - Use the include directive to reference GraphQL schema definition files
 - Document batch loading strategies where applicable
 - Document custom scalar types and their Java mappings

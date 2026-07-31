@@ -42,15 +42,15 @@ Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 ### Analyse REST API service template
 
 Use doc/service/template/spring-restapi.adoc as the reference template.
-- Understand the required sections and their structure
-- Understand formatting rules and conventions
+- Apply the required sections and their structure
+- Apply formatting rules and conventions
 
 ### Generate REST API service documentation
 
 Create or update a {entity}-restapi.adoc file in the doc/service/ directory.
 - Strictly follow the template's formatting rules and conventions
 - Maintain consistent style with existing documentation
-- Do not include instructions from the template
+- Use all instructions from the template but do not include them in the documentation.
 
 ## Validation checklist
 - [ ] All REST endpoints are documented
