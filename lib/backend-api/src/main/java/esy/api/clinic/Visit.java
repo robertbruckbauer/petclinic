@@ -144,6 +144,15 @@ public final class Visit extends JsonJpaEntity<Visit> {
     }
 
     @Override
+    public Visit verify() {
+        super.verify();
+        if (this.vet != null && this.vet.isRetired()) {
+            throw new IllegalArgumentException("vet retired");
+        }
+        return this;
+    }
+
+    @Override
     protected void extraJson(@NonNull final Map<String, Object> allExtra) {
         allExtra.put("ownerItem", OwnerItem.fromValue(pet));
         allExtra.put("petItem", PetItem.fromValue(pet));

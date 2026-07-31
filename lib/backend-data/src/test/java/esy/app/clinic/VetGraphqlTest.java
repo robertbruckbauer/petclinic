@@ -32,9 +32,10 @@ class VetGraphqlTest {
     static Vet createWithName(final String name) {
         return Vet.fromJson("""
                 {
-                	"name":"%s",
-                	"allSkill":["Z","A"],
-                	"allSpecies":["Dog","Cat"]
+		        "name":"%s",
+		        "retired":false,
+		        "allSkill":["Z","A"],
+		        "allSpecies":["Dog","Cat"]
                 }
                 """.formatted(name));
     }
@@ -46,7 +47,7 @@ class VetGraphqlTest {
                 .thenReturn(List.of(value));
         final var data = graphQlTester
                 .document("""
-                        {allVet{name allSkill allSpecies}}
+                        {allVet{name retired allSkill allSpecies}}
                         """)
                 .execute();
         assertNotNull(data);
@@ -54,6 +55,10 @@ class VetGraphqlTest {
                 .hasValue()
                 .entity(String.class)
                 .isEqualTo(value.getName());
+        data.path("allVet[0].retired")
+                .hasValue()
+                .entity(Boolean.class)
+                .isEqualTo(value.isRetired());
         data.path("allVet[0].allSkill")
                 .hasValue()
                 .entityList(String.class)

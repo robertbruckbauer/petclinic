@@ -25,6 +25,11 @@ public final class Vet extends JsonJpaEntity<Vet> {
     @JsonProperty
     private String name;
 
+    @Column(name = "retired")
+    @Getter
+    @JsonProperty
+    private boolean retired;
+
     @ElementCollection(
             fetch = FetchType.EAGER)
     @CollectionTable(
@@ -49,6 +54,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
     Vet() {
         super();
         this.name = "";
+        this.retired = false;
         this.allSkill = new TreeSet<>();
         this.allSpecies = new TreeSet<>();
     }
@@ -56,6 +62,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
     Vet(@NonNull final Long version, @NonNull final UUID id) {
         super(version, id);
         this.name = "";
+        this.retired = false;
         this.allSkill = new TreeSet<>();
         this.allSpecies = new TreeSet<>();
     }
@@ -73,8 +80,9 @@ public final class Vet extends JsonJpaEntity<Vet> {
         if (that == null) {
             return false;
         }
-        return this.name.equals(that.name)&&
-                this.allSkill.equals(that.allSkill)&&
+        return this.name.equals(that.name) &&
+                this.retired == that.retired &&
+                this.allSkill.equals(that.allSkill) &&
                 this.allSpecies.equals(that.allSpecies);
     }
 
@@ -85,6 +93,7 @@ public final class Vet extends JsonJpaEntity<Vet> {
         }
         final var value = new Vet(getVersion(), id);
         value.name = this.name;
+        value.retired = this.retired;
         value.allSkill = this.allSkill;
         value.allSpecies = this.allSpecies;
         return value;

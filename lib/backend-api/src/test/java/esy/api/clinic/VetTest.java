@@ -17,6 +17,7 @@ class VetTest {
 		return Vet.fromJson("""
                 {
                 	"name":"%s",
+	                "retired":false,
                 	"allSkill":["Z","A"],
                 	"allSpecies":["Dog","Cat"]
                 }
@@ -61,6 +62,7 @@ class VetTest {
 		assertFalse(json.at("/version").isMissingNode());
 		assertFalse(json.at("/id").isMissingNode());
 		assertFalse(json.at("/name").isMissingNode());
+		assertFalse(json.at("/retired").isMissingNode());
 		assertFalse(json.at("/allSkill").isMissingNode());
 		assertFalse(json.at("/allSpecies").isMissingNode());
 	}
@@ -71,6 +73,7 @@ class VetTest {
 		final var value0 = createWithName(name);
 		assertNotNull(value0.getId());
 		assertNotNull(value0.getName());
+		assertFalse(value0.isRetired());
 		assertNotNull(value0.getAllSkill());
 		assertNotNull(value0.getAllSpecies());
 		final var value1 = value0.withId(value0.getId());
@@ -90,6 +93,19 @@ class VetTest {
                         """.formatted(name));
 		assertDoesNotThrow(value::verify);
 		assertEquals(name, value.getName());
+	}
+
+	@ParameterizedTest
+	@ValueSource(booleans = {true, false})
+	void jsonRetired(final boolean retired) {
+		final var value = Vet.fromJson("""
+                        {
+                            "name":"Mia Musterfrau",
+                            "retired":"%b"
+                        }
+                        """.formatted(retired));
+		assertDoesNotThrow(value::verify);
+		assertEquals(retired, value.isRetired());
 	}
 
 	@ParameterizedTest

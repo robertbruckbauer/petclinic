@@ -127,6 +127,23 @@ class VisitTest {
         assertEquals(text, value.getText());
     }
 
+    @Test
+    void jsonVetRetiredConstraints() {
+        final var value = Visit.fromJson("""
+                        {
+                            "date":"2021-04-22",
+                            "text":"Lorem Ipsum."
+                        }
+                        """)
+                .setVet(Vet.fromJson("""
+                        {
+                            "name":"Dr. Retired",
+                            "retired":true
+                        }
+                        """));
+        assertThrows(IllegalArgumentException.class, value::verify);
+    }
+
     @ParameterizedTest
     @ValueSource(booleans =  {true, false})
     void jsonBillable(final boolean billable) {
