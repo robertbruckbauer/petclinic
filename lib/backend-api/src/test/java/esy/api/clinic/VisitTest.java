@@ -94,6 +94,8 @@ class VisitTest {
         assertFalse(json.at("/time").isMissingNode());
         assertFalse(json.at("/billable").isMissingNode());
         assertFalse(json.at("/duration").isMissingNode());
+        assertTrue(json.at("/pet").isMissingNode());
+        assertTrue(json.at("/vet").isMissingNode());
     }
 
     @Test

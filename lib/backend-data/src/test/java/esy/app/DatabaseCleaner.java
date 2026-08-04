@@ -20,6 +20,7 @@ public class DatabaseCleaner {
      */
     @Transactional
     public void cleanDatabase() {
+        jdbcTemplate.execute("DELETE FROM invoice");
         jdbcTemplate.execute("DELETE FROM visit");
         jdbcTemplate.execute("DELETE FROM vet_skill");
         jdbcTemplate.execute("DELETE FROM vet_species");

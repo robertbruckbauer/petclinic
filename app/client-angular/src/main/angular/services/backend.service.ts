@@ -113,4 +113,28 @@ export abstract class BackendService {
     );
   }
   // end::restApiDelete[]
+
+  // tag::graphqlQuery[]
+  protected graphqlQuery<T>(query: string): Observable<T> {
+    const url = new URL("api/graphql", this.backendUrl());
+    const reqBody = { query };
+    return this.httpClient
+      .post<{
+        data?: T;
+        errors?: { message: string }[];
+      }>(url.toString(), reqBody)
+      .pipe(
+        catchError(this.handleError(url)),
+        map((resBody) => {
+          if (resBody.errors?.length) {
+            throw { detail: resBody.errors[0].message } as any;
+          }
+          return resBody.data as T;
+        }),
+        tap((resBody) => {
+          console.log([["POST", url].join(" "), query, resBody]);
+        })
+      );
+  }
+  // end::graphqlQuery[]
 }

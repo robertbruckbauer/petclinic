@@ -14,4 +14,8 @@ type Query {
     allVisitByPetId(id: ID!): [Visit]
     allVisitByVetId(id: ID!): [Visit]
     allVisitAt(date: LocalDate!): [Visit]
+    allVisitByText(text: String!): [Visit]
+    allInvoice: [Invoice]
+    invoiceById(id: ID!): Invoice
+    allInvoiceAt(issued: LocalDate!): [Invoice]
 }

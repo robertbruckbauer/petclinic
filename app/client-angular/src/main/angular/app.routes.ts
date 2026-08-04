@@ -23,6 +23,11 @@ export const routes: Routes = [
       import("./pages/client/pet.routes").then((m) => m.routes),
   },
   {
+    path: "invoice",
+    loadChildren: () =>
+      import("./pages/clinic/invoice.routes").then((m) => m.routes),
+  },
+  {
     path: "vet",
     loadChildren: () =>
       import("./pages/clinic/vet.routes").then((m) => m.routes),
