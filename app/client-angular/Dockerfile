@@ -4,6 +4,7 @@ RUN apk add --no-cache tzdata
 WORKDIR /client
 COPY ./package.json ./
 COPY ./package-lock.json ./
+COPY .npmrc ./
 RUN npm ci
 COPY . .
 RUN npm run build
