@@ -57,6 +57,8 @@ export class VisitListerPage {
     await vetSelect.selectOption({ index: 1 });
     await vetSelect.press("Tab");
     await expect(vetSelect).not.toHaveValue("");
+    // Fix for vet dropdown intercepting the OK click
+    await textInput.click();
     // Ok
     const okButton = this.page.getByRole("button", { name: "Ok", exact: true });
     await expect(okButton).toBeEnabled();
