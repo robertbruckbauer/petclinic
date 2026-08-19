@@ -29,13 +29,22 @@ module.exports = {
   // https://docs.renovatebot.com/configuration-options/#rebasewhen
   rebaseWhen: "behind-base-branch",
   // https://docs.renovatebot.com/configuration-options/#ignoredeps
-  ignoreDeps: [
-    // Ignore Playwright java dependency - will be updated manually when the javascript version is updated
-    "com.microsoft.playwright:playwright",
-  ],
+  ignoreDeps: [],
   // https://docs.renovatebot.com/modules/manager/
   enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
   packageRules: [
+    {
+      groupName: "svelte group",
+      groupSlug: "svelte-group",
+      matchPackageNames: ["svelte", "@sveltejs/vite-plugin-svelte"],
+      matchUpdateTypes: ["patch", "minor", "major"],
+    },
+    {
+      groupName: "playwright group",
+      groupSlug: "playwright-group",
+      matchPackageNames: ["@playwright/test", "com.microsoft.playwright:playwright"],
+      matchUpdateTypes: ["patch", "minor", "major"],
+    },
     // https://docs.renovatebot.com/modules/manager/gradle/
     {
       matchManagers: ["gradle"],
