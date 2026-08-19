@@ -56,20 +56,22 @@
     return "PT" + (h ? h + "H" : "") + (m ? m + "M" : "") + (s ? s + "S" : "");
   }
 
-  let newVisitText = $derived(visit.text);
+  let newVisitText = $state("");
   let newVisitTime = $state("");
   let newVisitDurationH = $state(0);
   let newVisitDurationM = $state(0);
   let newVisitDurationS = $state(0);
+  let newVisitVetId = $state("");
   $effect(() => {
+    newVisitText = visit.text ?? "";
     newVisitTime = visit.time ?? "";
     const d = parseDuration(visit.duration ?? "");
     newVisitDurationH = d.h;
     newVisitDurationM = d.m;
     newVisitDurationS = d.s;
+    newVisitVetId = visit.vetItem?.value ?? "";
   });
   let newVisitPetId = $derived(visit.petItem?.value);
-  let newVisitVetId = $derived(visit.vetItem?.value);
   const newVisit = $derived({
     ...visit,
     text: newVisitText,
@@ -186,7 +188,9 @@
     </fieldset>
   </div>
   <div class="join py-4">
-    <button type="submit" class="btn join-item">Ok</button>
+    <button type="button" class="btn join-item" onclick={onSubmitClicked}>
+      Ok
+    </button>
     <button type="button" class="btn join-item" onclick={onCancelClicked}>
       Cancel
     </button>
