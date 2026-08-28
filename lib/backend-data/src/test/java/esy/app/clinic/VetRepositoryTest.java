@@ -26,9 +26,9 @@ public class VetRepositoryTest {
     Vet createWithName(final String name) {
         return Vet.fromJson("""
                 {
-                	"name":"%s",
-                	"allSkill":["Z","A"],
-                	"allSpecies":["Dog","Cat"]
+                    "name":"%s",
+                    "allSkill":["Z","A"],
+                    "allSpecies":["Dog","Cat"]
                 }
                 """.formatted(name));
     }

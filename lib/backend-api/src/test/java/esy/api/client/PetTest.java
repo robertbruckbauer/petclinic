@@ -21,10 +21,10 @@ class PetTest {
     static Pet createWithName(final String name, final LocalDate born) {
         return Pet.fromJson("""
                         {
-                        	"name":"%s",
-                        	"born":"%s",
-                        	"species":"Cat",
-                        	"sex":"M"
+                            "name":"%s",
+                            "born":"%s",
+                            "species":"Cat",
+                            "sex":"M"
                         }
                         """.formatted(name, Pet.DATE_FORMATTER.format(born)))
                 .setOwner(createOwner("Max Mustermann"));

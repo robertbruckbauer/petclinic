@@ -1,6 +1,5 @@
 package esy.api.clinic;
 
-import esy.api.client.Owner;
 import esy.api.client.Pet;
 import esy.rest.JsonJpaMapper;
 import org.junit.jupiter.api.Tag;

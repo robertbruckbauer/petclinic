@@ -31,137 +31,137 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Tag("slow")
 @SpringBootTest
 @EnableConfigurationProperties({
-		DataWebProperties.class,
-		DataRestProperties.class})
+        DataWebProperties.class,
+        DataRestProperties.class})
 public class EsyBackendConfigurationTest {
 
-	@Autowired
-	private ConfigurableApplicationContext context;
+    @Autowired
+    private ConfigurableApplicationContext context;
 
-	@Autowired
-	private ApplicationEventPublisher publisher;
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
-	@Autowired
-	private ResourceLoader resourceLoader;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
-	@Autowired
-	private ServerProperties serverProperties;
+    @Autowired
+    private ServerProperties serverProperties;
 
-	@Autowired
-	private HealthEndpointProperties healthEndpointProperties;
+    @Autowired
+    private HealthEndpointProperties healthEndpointProperties;
 
-	@Autowired
-	private WebEndpointProperties webEndpointProperties;
+    @Autowired
+    private WebEndpointProperties webEndpointProperties;
 
-	@Autowired
-	private DataWebProperties dataWebProperties;
+    @Autowired
+    private DataWebProperties dataWebProperties;
 
-	@Autowired
-	private DataRestProperties dataRestProperties;
+    @Autowired
+    private DataRestProperties dataRestProperties;
 
-	@Autowired
-	private LiquibaseProperties liquibaseProperties;
+    @Autowired
+    private LiquibaseProperties liquibaseProperties;
 
-	@Autowired
-	private DataSourceProperties datasourceProperties;
+    @Autowired
+    private DataSourceProperties datasourceProperties;
 
-	@Autowired
-	private HibernateProperties hibernateProperties;
+    @Autowired
+    private HibernateProperties hibernateProperties;
 
-	@Autowired
-	private JpaProperties jpaProperties;
+    @Autowired
+    private JpaProperties jpaProperties;
 
-	@Autowired
-	private GraphQlProperties graphQlProperties;
+    @Autowired
+    private GraphQlProperties graphQlProperties;
 
-	@Test
-	void context() {
-		assertNotNull(context);
-		assertNotNull(publisher);
-		assertNotNull(resourceLoader);
-		assertNotNull(context.getBean(EsyEndpointConfiguration.class));
-		assertNotNull(context.getBean(EsyDatabaseConfiguration.class));
-		assertNotNull(context.getBean(EsyGraphqlConfiguration.class));
-		assertNotNull(context.getBean(EsySecurityConfiguration.class));
-		assertNotNull(context.getBean(CollectionModelProcessor.class));
-	}
+    @Test
+    void context() {
+        assertNotNull(context);
+        assertNotNull(publisher);
+        assertNotNull(resourceLoader);
+        assertNotNull(context.getBean(EsyEndpointConfiguration.class));
+        assertNotNull(context.getBean(EsyDatabaseConfiguration.class));
+        assertNotNull(context.getBean(EsyGraphqlConfiguration.class));
+        assertNotNull(context.getBean(EsySecurityConfiguration.class));
+        assertNotNull(context.getBean(CollectionModelProcessor.class));
+    }
 
-	@Test
-	void endpointProperties() {
-		assertNotNull(serverProperties);
-		assertFalse(serverProperties.getCompression().getEnabled());
-		assertNotNull(healthEndpointProperties);
-		assertNotNull(webEndpointProperties);
-		assertNotNull(dataWebProperties);
-		assertEquals(9999, dataWebProperties.getPageable().getDefaultPageSize());
-		assertEquals(9999, dataWebProperties.getPageable().getMaxPageSize());
-		assertNotNull(dataRestProperties);
-		assertEquals(9999, dataRestProperties.getDefaultPageSize());
-		assertEquals(9999, dataRestProperties.getMaxPageSize());
-	}
+    @Test
+    void endpointProperties() {
+        assertNotNull(serverProperties);
+        assertFalse(serverProperties.getCompression().getEnabled());
+        assertNotNull(healthEndpointProperties);
+        assertNotNull(webEndpointProperties);
+        assertNotNull(dataWebProperties);
+        assertEquals(9999, dataWebProperties.getPageable().getDefaultPageSize());
+        assertEquals(9999, dataWebProperties.getPageable().getMaxPageSize());
+        assertNotNull(dataRestProperties);
+        assertEquals(9999, dataRestProperties.getDefaultPageSize());
+        assertEquals(9999, dataRestProperties.getMaxPageSize());
+    }
 
-	@Test
-	void databaseProperties() {
-		assertNotNull(liquibaseProperties);
-		assertTrue(liquibaseProperties.isEnabled());
-		assertEquals("PUBLIC", liquibaseProperties.getDefaultSchema());
-		assertEquals("PUBLIC", liquibaseProperties.getLiquibaseSchema());
-		assertEquals("classpath:liquibase/changelog.xml", liquibaseProperties.getChangeLog());
-		assertNotNull(datasourceProperties);
-		assertEquals("jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1", datasourceProperties.getUrl());
-		assertEquals("SA", datasourceProperties.getUsername());
-		assertEquals("", datasourceProperties.getPassword());
-		assertNotNull(hibernateProperties);
-		assertNull(hibernateProperties.getDdlAuto());
-		assertNotNull(jpaProperties);
-		assertEquals(Boolean.FALSE, jpaProperties.getOpenInView());
-	}
+    @Test
+    void databaseProperties() {
+        assertNotNull(liquibaseProperties);
+        assertTrue(liquibaseProperties.isEnabled());
+        assertEquals("PUBLIC", liquibaseProperties.getDefaultSchema());
+        assertEquals("PUBLIC", liquibaseProperties.getLiquibaseSchema());
+        assertEquals("classpath:liquibase/changelog.xml", liquibaseProperties.getChangeLog());
+        assertNotNull(datasourceProperties);
+        assertEquals("jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1", datasourceProperties.getUrl());
+        assertEquals("SA", datasourceProperties.getUsername());
+        assertEquals("", datasourceProperties.getPassword());
+        assertNotNull(hibernateProperties);
+        assertNull(hibernateProperties.getDdlAuto());
+        assertNotNull(jpaProperties);
+        assertEquals(Boolean.FALSE, jpaProperties.getOpenInView());
+    }
 
-	@Test
-	void graphqlProperties() {
-		assertNotNull(graphQlProperties);
-		assertEquals("/api/graphql", graphQlProperties.getHttp().getPath());
-		assertEquals("/api/graphiql", graphQlProperties.getGraphiql().getPath());
-		assertTrue(graphQlProperties.getGraphiql().isEnabled());
-	}
+    @Test
+    void graphqlProperties() {
+        assertNotNull(graphQlProperties);
+        assertEquals("/api/graphql", graphQlProperties.getHttp().getPath());
+        assertEquals("/api/graphiql", graphQlProperties.getGraphiql().getPath());
+        assertTrue(graphQlProperties.getGraphiql().isEnabled());
+    }
 
-	@Test
-	void corsRegsitry() {
-		final var classUnderTest = new EsyEndpointConfiguration();
-		final var corsRegistry = new CorsRegistry();
-		assertDoesNotThrow(() -> classUnderTest.applyCorsConfiguration(corsRegistry));
-	}
+    @Test
+    void corsRegsitry() {
+        final var classUnderTest = new EsyEndpointConfiguration();
+        final var corsRegistry = new CorsRegistry();
+        assertDoesNotThrow(() -> classUnderTest.applyCorsConfiguration(corsRegistry));
+    }
 
-	@ParameterizedTest
-	@CsvSource({
-			"http://localhost,false",
-			"http://localhost:5000,true"
-	})
-	void corsLocalhost(final String url, boolean allowed) {
-		final var corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:*"));
-		assertEquals(allowed, corsConfiguration.checkOrigin(url) != null);
-	}
+    @ParameterizedTest
+    @CsvSource({
+            "http://localhost,false",
+            "http://localhost:5000,true"
+    })
+    void corsLocalhost(final String url, boolean allowed) {
+        final var corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:*"));
+        assertEquals(allowed, corsConfiguration.checkOrigin(url) != null);
+    }
 
-	@ParameterizedTest
-	@CsvSource({
-			"http://127.0.0.1,false",
-			"http://127.0.0.1:5000,true"
-	})
-	void corsLoopback(final String url, boolean allowed) {
-		final var corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOriginPatterns(List.of("http://127.0.0.1:*"));
-		assertEquals(allowed, corsConfiguration.checkOrigin(url) != null);
-	}
+    @ParameterizedTest
+    @CsvSource({
+            "http://127.0.0.1,false",
+            "http://127.0.0.1:5000,true"
+    })
+    void corsLoopback(final String url, boolean allowed) {
+        final var corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOriginPatterns(List.of("http://127.0.0.1:*"));
+        assertEquals(allowed, corsConfiguration.checkOrigin(url) != null);
+    }
 
-	@ParameterizedTest
-	@CsvSource({
-			"https://fuzzy-enigma-97q96w9vjxp2xpxp,false",
-			"https://fuzzy-enigma-97q96w9vjxp2xpxp-5000.app.github.dev,true"
-	})
-	void corsCodespace(final String url, boolean allowed) {
-		final var corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOriginPatterns(List.of("https://*.app.github.dev"));
-		assertEquals(allowed, corsConfiguration.checkOrigin(url) != null);
-	}
+    @ParameterizedTest
+    @CsvSource({
+            "https://fuzzy-enigma-97q96w9vjxp2xpxp,false",
+            "https://fuzzy-enigma-97q96w9vjxp2xpxp-5000.app.github.dev,true"
+    })
+    void corsCodespace(final String url, boolean allowed) {
+        final var corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOriginPatterns(List.of("https://*.app.github.dev"));
+        assertEquals(allowed, corsConfiguration.checkOrigin(url) != null);
+    }
 }
