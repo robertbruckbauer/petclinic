@@ -67,6 +67,18 @@ public class VisitGraphqlController {
         return allVisit;
     }
 
+    @QueryMapping
+    @Transactional
+    public List<Visit> allVisitByText(@Argument @NonNull final String text) {
+        final var query = QVisit.visit.pet.isNotNull()
+                .and(QVisit.visit.pet.name.containsIgnoreCase(text)
+                        .or(QVisit.visit.pet.owner.name.containsIgnoreCase(text)));
+        final var order = QVisit.visit.date.desc();
+        final var allVisit = new ArrayList<Visit>();
+        visitRepository.findAll(query, order).forEach(allVisit::add);
+        return allVisit;
+    }
+
     @BatchMapping
     @Transactional
     public Mono<Map<Visit, Pet>> pet(@NonNull final List<Visit> allVisit) {
