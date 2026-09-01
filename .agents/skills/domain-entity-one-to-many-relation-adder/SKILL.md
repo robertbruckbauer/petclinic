@@ -48,7 +48,7 @@ Add a short description for the new relation with its type, constraints, and a o
 
 ### Update Liquibase changesets
 
-No changes.
+Do not change.
 
 ### Update entity class {Entity}.java
 
@@ -69,7 +69,7 @@ Update existing tests with asserts for the new relation.
 
 ### Update repository interface {Entity}Repository.java
 
-No changes.
+Do not change.
 
 ### Update repository test {Entity}RepositoryTest.java
 
@@ -80,7 +80,7 @@ Do not create a new test for the relation.
 
 ### Update REST API controller class {Entity}RestController.java
 
-No changes.
+Do not change.
 
 ### Update REST API test {Entity}RestApiTest.java
 
@@ -105,7 +105,3 @@ Update tests for new relation as required in the implementation guide.
 If relation is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new relation.
 Do not create a new test for the relation.
-
-### Update Server test set
-
-No changes.
