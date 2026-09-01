@@ -71,7 +71,7 @@ Add `json{Name}Contraints` test if property has constraints.
 
 ### Update repository interface {Entity}Repository.java
 
-No changes.
+Do not change.
 
 ### Update repository test {Entity}RepositoryTest.java
 
@@ -82,7 +82,7 @@ Do not create a new test for the relation.
 
 ### Update REST API controller class {Entity}RestController.java
 
-No changes.
+Do not change.
   
 ### Update REST API test {Entity}RestApiTest.java
 
@@ -99,7 +99,7 @@ Do not add new queries in `Query.gqls`.
 
 ### Update GraphQL controller class {Entity}GraphqlController.java
 
-No changes.
+Do not change.
 
 ### Update GraphQL test {Entity}GraphqlTest.java
 
@@ -107,7 +107,3 @@ Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 If property is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new property.
 Do not create a new test for the relation.
-
-### Update Server test set
-
-If property is mandatory update existing payloads with a default value.

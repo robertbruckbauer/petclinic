@@ -70,7 +70,7 @@ Update existing tests with asserts for the new relation.
 
 ### Update repository interface {Entity}Repository.java
 
-No changes.
+Do not change.
 
 ### Update repository test {Entity}RepositoryTest.java
 
@@ -81,7 +81,7 @@ Do not create a new test for the relation.
   
 ### Update REST API controller class {Entity}RestController.java
 
-No changes.
+Do not change.
 
 ### Update REST API test {Entity}RestApiTest.java
 
@@ -108,7 +108,3 @@ Use doc/concept/spring/endpoint.adoc as the implementation baseline.
 If relation is mandatory update existing test data with a default value.
 Update existing tests with asserts for the new relation.
 Do not create a new test for the relation.
-
-### Update Server test set
-
-If relation is mandatory update existing test data with a default value.
