@@ -1,0 +1,7 @@
+= 10. Quality Requirements
+
+== Quality tree (top scenarios only)
+
+- **Testability** — every generated client ships with Vitest unit/component tests and a Playwright end-to-end suite (`obsidian/Testing/test-pyramid.md`); standalone client repos add Storybook for style verification.
+- **Portability of client stacks** — a client's technology (Angular, Svelte, future React) can change without changing the backend contract, because the contract is expressed once in `openspec/specs/*`.
+- **Maintainability via generated clients** — a client is rebuilt from its spec rather than incrementally patched forever, keeping it from drifting from the contract over time.

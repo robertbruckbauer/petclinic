@@ -1,0 +1,30 @@
+:relrootdir: ../..
+= 2. Constraints
+
+== Documentation
+
+[quote]
+If removing a detail would not change a stakeholder's understanding of the architecture or an architect's fundamental implementation choices, that detail probably belongs in the Obsidian knowledge graph instead.
+
+Five artifacts can describe the same fact: code and tests, this arc42 documentation, `doc/concept`, `openspec`, and `obsidian`.
+When two disagree about a current-state fact, resolve in this order:
+
+1. Code and tests — the code is the truth, tests prove the implementation.
+2. `doc/arc42` (this documentation) — the bird's-eye view.
+3. `doc/concept` — implementation guides.
+4. `openspec` — defines what *must* be true (the contract); it may describe a target ahead of the current implementation only when the gap is tracked via an ADR and a risk entry.
+5. `obsidian` — explains detail; every note is a **hypothesis about the code**, never an independent fact.
+
+A knowledge note that contradicts the code is resolved by following the code, then correcting the note (its `updated:` frontmatter records this).
+If it can't be verified, the note is marked `status: stale` with a one-line reason instead of guessing.
+A note marked `stale` or `superseded` is a historical record, never an instruction to act on.
+`obsidian/` is written only by AI agents through its maintenance skills — never by direct human edit.
+
+== Architecture
+
+- The system is a **Self-Contained System**: one backend server owns the database and business logic; browser clients are thin.
+See xref:{relrootdir}/doc/arc42/adr/0001-self-contained-system.adoc[ADR 0001].
+- The backend exposes both a REST API and a GraphQL API, built with Spring Boot, Spring Data, and Spring GraphQL — see link:../../openspec/specs/rest-conventions/spec.md[] and link:../../openspec/specs/graphql-conventions/spec.md[].
+- The database schema is managed entirely through Liquibase migrations; no manual schema changes are permitted outside them.
+- The build is a single Gradle multi-module project for the backend and its in-repo clients today; standalone clients (`petclinic-angular-ui`, `petclinic-svelte-ui`) are separate repositories with their own build.
+- A generated browser client is disposable: it is expected to be rebuilt from its OpenSpec contract when its technology stack changes significantly, not maintained indefinitely by hand-patching.

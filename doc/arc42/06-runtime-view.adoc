@@ -1,0 +1,15 @@
+= 6. Runtime View
+
+== Create an owner
+
+A client submits `POST /api/owner`.
+The backend validates the payload (per `openspec/specs/rest-conventions`), persists it, and responds `201 Created` with the new `Owner` and its ETag.
+
+== Record a visit
+
+A client resolves a `pet` and a `vet` via their item-selection endpoints, then submits `POST /api/visit` referencing both by id.
+The backend validates both references exist before persisting (see `openspec/specs/visit-management`).
+
+== Rebuild a client from OpenSpec
+
+An AI agent reads `openspec/specs/client-shell` and the relevant per-entity capability's UI/REST requirements, plus the framework-independent patterns in `obsidian/Frontend/`, and regenerates a standalone client's screens and services — see `obsidian/Frontend/client-generation-from-openspec.md`.

@@ -1,0 +1,9 @@
+:relrootdir: ../..
+= 4. Solution Strategy
+
+- **REST for commands and queries, GraphQL for queries only** — REST carries Spring Data REST's built-in ETag/pagination/filtering conventions for writes; GraphQL adds efficient nested reads on top of the same data.
+See xref:{relrootdir}/doc/arc42/adr/0003-rest-and-graphql-duality.adoc[ADR 0003] and link:../../obsidian/Architecture/patterns/cqrs-style-rest-graphql-split.md[the CQRS-flavored pattern note].
+- **OpenSpec-driven client generation, in separate repositories** — every client is generated from the same normative contract (`openspec/specs/*`) rather than hand-copied between stacks, and lives in its own repository so "rebuild from scratch" has an unambiguous meaning.
+See xref:{relrootdir}/doc/arc42/adr/0002-openspec-driven-client-generation.adoc[ADR 0002].
+- **Obsidian vs. arc42 split** — arc42 (this documentation) stays at the level a stakeholder needs to understand the architecture; everything else (patterns, rationale, implementation detail) lives in the Obsidian knowledge graph.
+See chapter 1's guiding rule.
