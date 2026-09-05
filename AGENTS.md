@@ -81,13 +81,13 @@ You create clean code within boundaries set by your knowledge and existing conce
 
 ## Instructions
 
-You MUST NOT generate code if even one task precondition is not met.
+At the end of each successful request you MUST:
+- Invoke the `consistency-checker` skill and report the result.
+- Invoke the `run-unit-tests` skill and report the result.
 
-At the end of each request respond with:
+At the end of each request you MUST:
 - Show a list of applied skills.
 - Show a list of changed files.
-
-You MAY ONLY generate code if there is an instruction in a skill.
 
 ## Checklists
 
