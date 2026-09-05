@@ -1,0 +1,32 @@
+:relrootdir: ../../..
+= ADR 0002: OpenSpec-driven client generation, in separate standalone repositories
+
+== Status
+
+Accepted.
+
+== Context
+
+Two independent browser client stacks (Angular, Svelte — and possibly React later) need to stay behaviorally identical while being free to fully regenerate their implementation when their framework or style guidelines change significantly.
+Keeping generated client code in the same repository/history as the specs that drive it makes "rebuild from scratch" ambiguous (is old code being edited or replaced?).
+
+== Decision
+
+- `openspec/specs/*` (this repository) is the single normative contract every client is generated from — an AI agent should be able to rebuild a client fully from the synced spec subset plus its own framework knowledge.
+- Each client lives in its **own standalone repository** (`petclinic-angular-ui`, `petclinic-svelte-ui`, future `petclinic-react-ui`), not as a module of this repository.
+- Each client repository pulls a **copied, diffable subset** of the relevant OpenSpec capabilities via an explicit sync step — not a live reference into this repository.
+
+== Alternatives considered
+
+- **Monorepo with client packages** (today's `app/client-angular`, `app/client-svelte`) — being phased out, because it couples client release/build tooling to the server's Gradle build and makes "rebuild from scratch" mean "edit in place" rather than "regenerate."
+- **Git submodule pointing at `openspec/`** — rejected: submodules are operationally painful and still couple the client repo's history to the server repo's; a copied, stamped snapshot is simpler to reason about even though it can go stale (staleness is visible via the sync marker, not silent).
+
+== Consequences
+
+- A client repository is self-contained: clone it, and the spec subset needed to regenerate it is right there.
+- Keeping the client repo's spec copy current is a manual/scheduled step, not automatic.
+- The client repo never edits its synced `openspec/` copy directly; changes flow server-repo-first.
+
+== Links
+
+- xref:{relrootdir}/doc/arc42/04-solution-strategy.adoc[arc42 ch. 4: Solution Strategy]

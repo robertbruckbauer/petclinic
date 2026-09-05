@@ -1,0 +1,5 @@
+= 7. Deployment View
+
+Local/dev topology (`app/deploy/compose.yml`): `server` (Spring Boot, HyperSQL by default, PostgreSQL via `compose-pg.yml`), `client-angular`, and `client-svelte` as separate containers, each with its own port, `client-angular`/`client-svelte` depending on `server`'s health check.
+
+Future: once a client is cut over to its standalone repository, it deploys independently of this repository's Compose topology — the backend's deployment does not need to know which clients currently exist.

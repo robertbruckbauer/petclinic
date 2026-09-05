@@ -1,0 +1,14 @@
+= 5. Building Block View
+
+One level deep only — implementation detail inside each module lives in `obsidian/Backend` and `obsidian/Frontend`, not here.
+
+|===
+| Module | Responsibility
+| `lib/backend-api` | Domain entities (Owner, Pet, Vet, Visit), their JPA mapping, and item projections
+| `lib/backend-data` | REST controllers, GraphQL controllers, repositories, error handling — the API surface described by `openspec/specs/rest-conventions` and `graphql-conventions`
+| `app/server` | Runnable Spring Boot application assembling the above, plus demo test-data seeding
+| `app/client-angular`, `app/client-svelte` | Today's in-repo browser clients (being phased out)
+| `app/deploy` | Docker Compose topology for local/dev running of the whole system
+| `app/migrate` | Standalone database migration runner
+| `petclinic-angular-ui`, `petclinic-svelte-ui` (future, separate repositories) | Standalone, OpenSpec-generated browser clients
+|===

@@ -1,0 +1,18 @@
+:relrootdir: ../..
+= 3. Context and Scope
+
+== Business context
+
+Clinic staff use a browser client to manage Owners, Pets, Vets, and Visits.
+There is currently no owner self-service access — see xref:{relrootdir}/doc/arc42/adr/0004-jwt-resource-server-and-roles.adoc[ADR 0004] for whether that changes.
+
+== Technical context
+
+....
+[ Browser client ]  <-- REST / GraphQL over HTTP -->  [ Backend server ]  <-- JDBC -->  [ Database ]
+ (Angular, Svelte,     (openspec/specs/rest-           (Spring Boot,        (HyperSQL dev/test,
+  or a future stack)     conventions, graphql-           Spring Data,          PostgreSQL prod —
+                         conventions)                    Spring GraphQL)       see hsqldb-vs-postgres.md)
+....
+
+Today's in-repo clients (`app/client-angular`, `app/client-svelte`) and their future standalone replacements (`petclinic-angular-ui`, `petclinic-svelte-ui`) all sit in the same position in this diagram — they are interchangeable consumers of the same backend contract.

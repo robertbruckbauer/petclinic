@@ -1,0 +1,59 @@
+:includedir: ../..
+:relrootdir: ../..
+= 12. Glossary
+
+Definitions of every domain entity and its value-object companions, sourced directly from the fact sheet next to each class in `lib/backend-api` — the single place these definitions are written, so they cannot drift from the implementation unnoticed.
+See link:../../obsidian/Domain/glossary.md[Obsidian's `Domain` category] for broader relationship and context notes (ownership rules, open questions, links to specs) that go beyond a term's definition — it does not restate any definition given here.
+
+== Entities
+
+Owner::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Owner.adoc[]
+
+Pet::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/Pet.adoc[]
+
+Vet::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Vet.adoc[]
+
+Visit::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Visit.adoc[]
+
+Enum::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Enum.adoc[]
+
+Ping::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Ping.adoc[]
+
+== Value objects
+
+Sex::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/basis/Sex.adoc[]
+
+OwnerItem::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/OwnerItem.adoc[]
+
+PetItem::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/client/PetItem.adoc[]
+
+VetItem::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/VetItem.adoc[]
+
+Version::
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/Version.adoc[]
+
+== Architecture terms
+
+Self-Contained System:: The architecture style of this repository — one backend owns its data and exposes it through REST/GraphQL to independently deployable browser clients.
+See xref:{relrootdir}/doc/arc42/02-constraints.adoc[chapter 2] and xref:{relrootdir}/doc/arc42/adr/0001-self-contained-system.adoc[ADR 0001].
