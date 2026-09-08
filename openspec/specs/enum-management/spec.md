@@ -30,7 +30,7 @@ Returns every item of one picklist category. There is no per-item query equivale
 
 ### Requirement: Enum lister and editor; no separate viewer
 
-Per `client-shell`, except there is no dedicated viewer: a picklist category is administered entirely through its lister and editor, addressed at a route named after its category — the Clinic menu's "Skill" and "Species" entries navigate to the `skill` and `species` categories of this same generic screen.
+Per `client-shell` and `client-style`, except there is no dedicated viewer: a picklist category is administered entirely through its lister and editor, addressed at a route named after its category — the Clinic menu's "Skill" and "Species" entries navigate to the `skill` and `species` categories of this same generic screen.
 
 ### Requirement: Enum editor presents Code, Name, and Text, in that order
 

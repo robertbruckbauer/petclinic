@@ -13,6 +13,17 @@ Extract the capability name from the request (e.g. `rest-conventions`, `owner-ma
 Check that `openspec/specs/{capability}/spec.md` exists, or that a new capability is explicitly being requested.
 Replace placeholder `{capability}` with the given name.
 
+### Route UI-facing content to `client-shell` vs. `client-style`
+
+A request touching UI behavior lands in exactly one of these two capabilities — never split across both, never left in whichever file happens to be open:
+
+- **`client-shell`**: the per-entity screen inventory (a lister, an editor, a viewer exists) and behavior driven by a backend call or the security posture — REST-conventions-based filtering/pagination, optimistic-concurrency conflicts, validation-error mapping, explicit loading/empty states, error-toast triggering, auth/session handling.
+The test: does the requirement exist *because of* a REST/GraphQL response, an ETag, or an auth rule?
+- **`client-style`**: everything about a screen's concrete composition (header, footer, menus, field order/type, table columns and row-action order, filter widget choice, picklist sourcing) and its visual appearance (color, iconography, control shape, typography, responsive breakpoint, motion).
+The test: Does it exist *regardless* of what the backend does — it's about how the screen is laid out or how it looks? → `client-style`.
+
+If a requirement genuinely doesn't fit either description, put it into the per-entity capability's `## UI Requirements` section which references both `client-shell` and `client-style`.
+
 ### Identify change scope
 
 Determine whether this is a wording fix (edit `specs/{capability}/spec.md` directly) or a behavior change (requires the full propose → apply → merge workflow below).
@@ -44,6 +55,7 @@ If the requested requirement describes a target ahead of what's implemented (lik
 
 - [ ] The capability spec still uses only `### Requirement:` / `#### Scenario:` (Given/When/Then) structure
 - [ ] No Spring/Angular/Svelte implementation detail was added to a requirement
+- [ ] A new/changed UI requirement landed in `client-shell` (REST/service/security-driven behavior) or `client-style` (composition/appearance) per the routing rule, not duplicated across both or left ambiguous unasked
 - [ ] `openspec/changes/{change-id}/` was deleted after merging, not left in the working tree
 - [ ] Any forward-looking (not-yet-implemented) requirement has a tracked ADR + a row in chapter 11's risk table
 - [ ] No file under `plans/` is referenced from the spec, proposal, or tasks

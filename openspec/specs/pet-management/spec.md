@@ -37,7 +37,7 @@ Per `graphql-conventions`. The `owner` relation is resolved via batch loading.
 
 ### Requirement: Pet lister, editor, viewer
 
-Per `client-shell`. Lister identifies rows by `name` (scoped to the current owner when navigated from the owner screens). Editor edits `name`, `born`, `species`, `sex`, and lets the user pick an `owner` from an item-selection list (`owner-management`'s `findAllItem` endpoint), never a free-text owner id.
+Per `client-shell` and `client-style`. Lister identifies rows by `name` (scoped to the current owner when navigated from the owner screens). Editor edits `name`, `born`, `species`, `sex`, and lets the user pick an `owner` from an item-selection list (`owner-management`'s `findAllItem` endpoint), never a free-text owner id.
 
 ### Requirement: Pet editor presents Species, Sex, Name, and Born, in that order
 
@@ -52,7 +52,7 @@ All four are required. `owner` is not edited on this form: a pet created from th
 
 ### Requirement: Pet lister requires an owner to be chosen before listing, and shows Species and Name columns
 
-The lister's filter is a required dropdown of owners (`owner-management`'s item-selection list, placeholder "Choose an owner"), not a free-text criteria box — the exception to `client-shell`'s default filter convention. No pet is requested until an owner is chosen.
+The lister's filter is a required dropdown of owners (`owner-management`'s item-selection list, placeholder "Choose an owner"), not a free-text criteria box — the exception to `client-style`'s default filter convention. No pet is requested until an owner is chosen.
 
 | Order | Column | Title |
 |---|---|---|

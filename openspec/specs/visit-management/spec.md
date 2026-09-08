@@ -37,7 +37,7 @@ Per `graphql-conventions`. The `pet` and `vet` relations are resolved via batch 
 
 ### Requirement: Visit lister, editor, viewer
 
-Per `client-shell`. Lister identifies rows by `date` + `pet` name (scoped to the current pet or vet when navigated from those screens). Editor edits `date`, `time`, `text`, `billable`, `duration`, and lets the user pick `pet` and `vet` from item-selection lists, never free-text ids.
+Per `client-shell` and `client-style`. Lister identifies rows by `date` + `pet` name (scoped to the current pet or vet when navigated from those screens). Editor edits `date`, `time`, `text`, `billable`, `duration`, and lets the user pick `pet` and `vet` from item-selection lists, never free-text ids.
 
 ### Requirement: A visit is created via a Treatment form scheduling the pet's visit, then recorded via a separate Diagnose form
 

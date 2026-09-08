@@ -34,7 +34,7 @@ Per `graphql-conventions`. The `allPet` relation is resolved via batch loading.
 
 ### Requirement: Owner lister, editor, viewer
 
-Per `client-shell`. Lister identifies rows by `name`. Editor edits `name`, `address`, `contact` (not `id`/`version`). A pet's owner is navigable from the pet screens, not re-entered as free text.
+Per `client-shell` and `client-style`. Lister identifies rows by `name`. Editor edits `name`, `address`, `contact` (not `id`/`version`). A pet's owner is navigable from the pet screens, not re-entered as free text.
 
 ### Requirement: Owner editor presents Name, Address, and Contact as plain text fields, in that order
 

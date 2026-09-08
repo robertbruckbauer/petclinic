@@ -30,7 +30,7 @@ Per `graphql-conventions`.
 
 ### Requirement: Vet lister, editor, viewer
 
-Per `client-shell`. Lister identifies rows by `name`. Editor edits `name` and lets the user add/remove entries in `allSkill` and `allSpecies` as tag-style multi-value inputs, not a single free-text field.
+Per `client-shell` and `client-style`. Lister identifies rows by `name`. Editor edits `name` and lets the user add/remove entries in `allSkill` and `allSpecies` as tag-style multi-value inputs, not a single free-text field.
 
 ### Requirement: Vet editor presents Name, Skills, and Species, in that order
 
