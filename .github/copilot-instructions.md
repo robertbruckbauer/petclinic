@@ -16,12 +16,12 @@ Never request changes for WANT findings alone; only block the PR on MUST finding
 
 ## REST API documentation sanity check
 
-Follow the instructions defined in `.agents/skills/rest-api-sanity-checker/SKILL.md`.
+Follow the instructions defined in the `rest-api-sanity-checker` skill.
 Add a single comment to the PR with a short summary of this check.
 
 ## GraphQL API documentation sanity check
 
-Follow the instructions defined in `.agents/skills/graphql-api-sanity-checker/SKILL.md`.
+Follow the instructions defined in the `graphql-api-sanity-checker` skill.
 Add a single comment to the PR with a short summary of this check.
 
 ## Basic code quality sanity check
