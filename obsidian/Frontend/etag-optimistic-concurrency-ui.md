@@ -4,9 +4,11 @@ related:
   - rxjs-service-pattern.md
   - ../../openspec/specs/client-shell/spec.md
 status: current
-updated: 2026-09-05
+updated: 2026-09-08
 ---
 
-# ETag-based optimistic concurrency in the UI
+# ETag-based optimistic concurrency in the UI — required by spec, not actually implemented
 
-Because every entity uses ETag/If-Match concurrency (`openspec/specs/rest-conventions/spec.md`), an entity service must carry the ETag it received on load and send it back as `If-Match` on update/delete. A `412 Precondition Failed` response means someone else changed the entity first — `openspec/specs/client-shell/spec.md`'s requirement is that the editor surfaces this as a conflict message with a reload option, never silently retries with a fresh ETag (that would silently discard the user's intended base state) and never silently overwrites.
+`openspec/specs/rest-conventions/spec.md` requires ETag/If-Match concurrency, and `openspec/specs/client-shell/spec.md` requires the editor to surface a `412` as a conflict message with a reload option. **Neither client does this today.** `BackendService` (`app/client-angular/.../services/backend.service.ts`, mirrored in Svelte) never reads the `ETag` response header on `GET`, and its `restApiPut`/`restApiPatch`/`restApiDelete` never send an `If-Match` header at all — every entity service (`owner.service.ts`, `pet.service.ts`, `vet.service.ts`, `visit.service.ts`) inherits this, so a `412` can never actually occur from either shipped client; a stale write is silently overwritten instead.
+
+This is an untracked gap between the OpenSpec requirement and the code — not yet an ADR-tracked forward-looking target, per `openspec/AGENTS.md`'s rule that an untracked gap is a defect in the spec, not an acceptable target. Flagged here as a pitfall rather than resolved: fixing it means either implementing the header plumbing in `BackendService`, or amending `client-shell` to stop claiming behavior that doesn't exist.
