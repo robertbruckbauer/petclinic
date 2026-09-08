@@ -1,16 +1,54 @@
 # Vet Management
 
-Manage veterinarians and the skills/species they handle. References `rest-conventions`, `graphql-conventions`, `client-shell`, and `security` instead of restating their rules.
+Manage veterinarians and the skills/species they handle. References `rest-conventions`, `graphql-conventions`, `client-shell`, `client-style`, and `security` instead of restating their rules.
 
 ## REST Requirements
 
-### Requirement: Vet exposes name, skills, and species
+### Requirement: Vet model
 
-A `Vet` has `name` (string) and two collections: `allSkill` and `allSpecies` (each a sorted set of non-blank strings; uniqueness within each set is enforced at the application layer).
+A `Vet` has `name` (string, required, unique) and two collections, `allSkill` and `allSpecies` (each a sorted set of non-blank strings; uniqueness within each set is enforced at the application layer, not by a database constraint).
 
-### Requirement: Full CRUD at `/api/vet`
+### Requirement: `POST /api/vet` creates a vet
 
-`POST /api/vet`, `GET /api/vet`, `GET /api/vet/{id}`, `PUT /api/vet/{id}`, `PATCH /api/vet/{id}`, `DELETE /api/vet/{id}` behave per `rest-conventions`.
+Creates a new `Vet` from `name`, `allSkill`, and `allSpecies`.
+
+Reports `201 Created` on success, `400 Bad Request` if validation fails, `409 Conflict` if `name` is already taken.
+
+### Requirement: `GET /api/vet` lists vets
+
+Returns a paginated, sortable, filterable collection of `Vet`, per `rest-conventions`. `name` is filterable as a case-insensitive substring or `LIKE` pattern; `allSkill` and `allSpecies` are filterable the same way, matching a vet that has at least one matching entry.
+
+Reports `200 OK`.
+
+### Requirement: `GET /api/vet/{id}` gets one vet
+
+Returns the `Vet` with the given id.
+
+Reports `200 OK` if found, `404 Not Found` otherwise.
+
+### Requirement: `GET /api/vet/search/findAllItem` lists vets as items
+
+Returns every `Vet` matching the same filters as `GET /api/vet`, as `VetItem` (`value` = id, `text` = `name`), sorted by name, unpaginated.
+
+Reports `200 OK`.
+
+### Requirement: `PUT /api/vet/{id}` replaces a vet
+
+Replaces an existing `Vet`'s `name`, `allSkill`, and `allSpecies` wholesale, or creates one at that id if none exists yet.
+
+Reports `200 OK` if updated, `201 Created` if created, `400 Bad Request` if validation fails, `409 Conflict` if `name` is already taken by another vet, `412 Precondition Failed` on a stale `If-Match`.
+
+### Requirement: `PATCH /api/vet/{id}` partially updates a vet
+
+Updates only the given fields of an existing `Vet`; updating `allSkill` or `allSpecies` replaces that collection wholesale, per `rest-conventions`' JSON Merge Patch rule.
+
+Reports `200 OK` if updated, `404 Not Found` if the vet does not exist, `400`/`409`/`412` as for `PUT`.
+
+### Requirement: `DELETE /api/vet/{id}` deletes a vet
+
+Deletes the `Vet` with the given id.
+
+Reports `200 OK` with the deleted entity if it existed, `404 Not Found` otherwise.
 
 ### Requirement: Authorization
 
@@ -18,9 +56,17 @@ No endpoint under `/api/vet` currently requires authentication — see `security
 
 ## GraphQL Requirements
 
-### Requirement: `allVet`, `vetById` queries
+### Requirement: `allVet` query
 
-Per `graphql-conventions`.
+Returns every `Vet`. Returns `[]`, not an error, if none exist.
+
+### Requirement: `vetById` query
+
+Returns the `Vet` with the given `id`, or `null` if none exists.
+
+### Requirement: `vetByName` query
+
+Returns the `Vet` with the given `name` (exact match, case-sensitive), or `null` if none exists.
 
 ### Requirement: Authorization
 

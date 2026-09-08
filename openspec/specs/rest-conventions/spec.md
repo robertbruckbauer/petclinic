@@ -1,6 +1,6 @@
 # REST Conventions
 
-Cross-cutting contract every REST endpoint in this system follows. Per-entity capabilities (`owner-management`, `pet-management`, `vet-management`, `visit-management`) reference this instead of restating it.
+Cross-cutting contract every REST endpoint in this system follows. Per-entity capabilities (`owner-management`, `pet-management`, `vet-management`, `visit-management`, `enum-management`) reference this instead of restating it — `enum-management` deviates from several of these rules explicitly rather than following them.
 
 ## Requirements
 
@@ -57,7 +57,7 @@ All request/response bodies are `application/json` (or `application/hal+json` fo
 
 ### Requirement: Collection endpoints support filtering by query parameter
 
-Filterable fields accept case-insensitive substring or prefix matching via query parameters named after the field (e.g. `?name=Max`, `?name=Max%` for prefix).
+Filterable fields accept case-insensitive matching via query parameters named after the field: a plain value matches as a substring (e.g. `?name=Max`), while a value containing `%` is matched as a full SQL-style `LIKE` pattern (e.g. `?name=Max%` for prefix, `?name=%Max` for suffix). A date or numeric field instead matches exactly for one value, as a range for two values, or as a set for three or more.
 
 #### Scenario: Filtering is case-insensitive
 - **GIVEN** an entity with a string field
@@ -76,6 +76,15 @@ Collection responses use `page`/`size`/`sort` query parameters and return a HAL-
 ### Requirement: Item-selection endpoints are unpaginated and pre-sorted
 
 A `/search/findAllItem`-style endpoint returns the full filtered result set, always sorted by the entity's natural display name, never paginated.
+
+### Requirement: A relation is written by reference but read back as an embedded item, not the full entity
+
+A to-one or to-many relation field is write-only on its owning entity: a mutating request sets it via the related entity's URI (or a set of URIs, for a to-many relation), but the entity's own JSON never echoes that field back. Instead, every response carries one derived field per relation instead — `<relation>Item` for a to-one relation, `all<Entity>Item` for a to-many collection — each holding the related entity's id and display text (the same `{value, text}` shape as an item-selection endpoint's result), embedded directly in the parent. The full related entity is fetched separately: by id via its own endpoint, or via a dedicated relation sub-resource where one exists.
+
+#### Scenario: A to-one relation is set by reference and read back as an item
+- **GIVEN** an entity with a to-one relation
+- **WHEN** it is created or updated with that relation set to another entity's URI
+- **THEN** a subsequent `GET` never returns the relation field itself, but does return a `<relation>Item` field carrying that related entity's id and display text
 
 ### Requirement: Validation failures return field-level errors
 

@@ -6,7 +6,7 @@ Cross-cutting contract every GraphQL operation in this system follows. Per-entit
 
 ### Requirement: Only queries are exposed today, no mutations
 
-The schema exposes read operations (`all{Entity}`, `{entity}ById`, `{entity}ByName`, and relation fields) and no mutation type. Writes happen through REST.
+The schema exposes read operations — `all{Entity}`, a filtered variant of it (e.g. `all{Entity}By{Criteria}`, or an `all{Entity}` that takes an argument), `{entity}ById`, `{entity}ByName`, and relation fields — and no mutation type. Writes happen through REST.
 
 ### Requirement: Collection queries return an empty list, not an error, when nothing matches
 

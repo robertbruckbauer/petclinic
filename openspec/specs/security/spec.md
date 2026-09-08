@@ -17,7 +17,7 @@ This is a tracked, accepted risk (see the risk table in `doc/arc42/11-risks-and-
 
 ### Requirement: Static resources, health, and version endpoints are always exempt
 
-`/static/**`, the health endpoint(s), and the version endpoint are never subject to authentication, even after the future security plan lands — they must stay reachable for infrastructure/monitoring regardless of the authorization model.
+`/static/**` and every endpoint in `app-info` (the health checks and the version endpoint) are never subject to authentication, even after the future security plan lands — they must stay reachable for infrastructure/monitoring regardless of the authorization model.
 
 ### Requirement: Sessions are stateless
 

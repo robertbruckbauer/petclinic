@@ -24,6 +24,18 @@ The test: Does it exist *regardless* of what the backend does — it's about how
 
 If a requirement genuinely doesn't fit either description, put it into the per-entity capability's `## UI Requirements` section which references both `client-shell` and `client-style`.
 
+### Structure REST endpoint requirements by entity and operation
+
+A capability's `## REST Requirements` gets one `### Requirement:` per HTTP operation, titled with its verb and path (e.g. "`GET /api/owner` lists owners", "`POST /api/owner` creates an owner", "`PATCH /api/owner/{id}` partially updates an owner") — never one blanket "Full CRUD at ..." requirement bundling every verb. Cover every operation the entity actually exposes (collection `GET`, item `GET`, item-selection `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, and any relation sub-resource `GET`), regardless of whether a shipped client currently calls it.
+
+Source from that entity's `*-restapi.adoc` under `doc/service/` as the starting point, and its controller/repository under `lib/backend-data` as the final reference where the two disagree — RESTDocs can lag behind the code (an operation that was added, removed, or changed status codes without a doc update).
+
+### Structure GraphQL operation requirements by entity and operation
+
+A capability's `## GraphQL Requirements` gets one `### Requirement:` per named query operation (e.g. "`allOwner` query", "`ownerById` query", "`ownerByName` query"), not one requirement bundling every query for that entity.
+
+Source from that entity's `*-graphql.adoc` under `doc/service/` as the starting point, and its GraphQL controller and schema (`.gqls`) under `lib/backend-data` as the final reference where the two disagree — RESTDocs can lag behind the code (a documented query that no longer exists, or a real one that was never documented).
+
 ### Identify change scope
 
 Determine whether this is a wording fix (edit `specs/{capability}/spec.md` directly) or a behavior change (requires the full propose → apply → merge workflow below).
@@ -56,6 +68,8 @@ If the requested requirement describes a target ahead of what's implemented (lik
 - [ ] The capability spec still uses only `### Requirement:` / `#### Scenario:` (Given/When/Then) structure
 - [ ] No Spring/Angular/Svelte implementation detail was added to a requirement
 - [ ] A new/changed UI requirement landed in `client-shell` (REST/service/security-driven behavior) or `client-style` (composition/appearance) per the routing rule, not duplicated across both or left ambiguous unasked
+- [ ] `## REST Requirements` has one requirement per HTTP operation (titled by verb + path), not a blanket "Full CRUD" bundle
+- [ ] `## GraphQL Requirements` has one requirement per named query, not a bundle covering every query for that entity
 - [ ] `openspec/changes/{change-id}/` was deleted after merging, not left in the working tree
 - [ ] Any forward-looking (not-yet-implemented) requirement has a tracked ADR + a row in chapter 11's risk table
 - [ ] No file under `plans/` is referenced from the spec, proposal, or tasks

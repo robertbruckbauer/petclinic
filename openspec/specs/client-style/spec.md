@@ -55,7 +55,7 @@ Angular and Svelte apply the exact same color, shape, spacing, and type system �
 - A table's header row sits on a light neutral fill with muted (lower-contrast) header text.
 - Alternating body rows, and a row that has an inline create/update editor open beneath it, use a slightly darker neutral fill than a plain row — purely to aid scanning, not to signal state.
 - A row that is selected, or a row whose editor is currently open, is marked by an accent-colored vertical bar on its left edge (thin for "selected," thicker for "editor open here") — never by recoloring the row itself.
-- Exactly one alert color exists in the whole system, and it is reserved for the error/notification toast (`client-shell`'s "errors surface as a consistent toast/banner" requirement); nothing else uses it.
+- Exactly one alert color exists in the whole system, and it is reserved for the error/notification toast (`client-shell`'s "errors surface as a consistent toast/banner pattern" requirement); nothing else uses it.
 - A hyperlink is always both underlined and rendered in the single accent color used for links everywhere, so it is identifiable without relying on color alone.
 
 #### Scenario: Only the toast uses the alert color
