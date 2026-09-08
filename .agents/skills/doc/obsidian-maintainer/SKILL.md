@@ -7,6 +7,29 @@ description: 'Create or update an Obsidian knowledge note, verifying its claims 
 
 You MUST NOT generate or edit a note if even one of the preconditions is not met.
 
+### Decide whether this task actually warrants a note
+
+Ask explicitly: *Has this task taught me something that a future session would have to rediscover?* A note is owed if any of these triggers applied during the task:
+
+- Reading or searching through several files was needed to answer **a single** question.
+- Documentation, a comment, or an existing note turned out to be incorrect or out of date.
+- A boundary condition, invariant, or limit surfaced that wasn't documented anywhere.
+- One approach was chosen over another, and the reason is worth remembering.
+- A pitfall, unexpected behavior, or a non-obvious dependency was encountered.
+- History had to be reconstructed (why something was removed, renamed, or replaced).
+
+If none of these apply — the task was routine and nothing here would need rediscovering — do not create or edit a note; report "no note warranted" and stop. This applies whether the request explicitly asked for a note or this skill was invoked generically at the end of a task.
+
+### Check the content actually belongs in the graph
+
+Only the following kinds of content belong in `obsidian/` — if what triggered the note above doesn't fit one of these, it belongs in a different artifact (arc42/OpenSpec/ADR/risk/code comment) instead, not here:
+
+- Subject-specific rules, invariants, and lifecycles that do not stem from a single file (i.e. not already stated in a fact sheet or code comment — link to that instead of duplicating it).
+- Technical limitations and constraints: what **must not** be done, and why.
+- Decisions, including **rejected alternatives** and the reasoning behind them (an architecturally significant decision is an ADR instead — see `arc42-adr-maintainer` — this is for smaller, code/pattern-level decisions that don't rise to that level).
+- Non-obvious pitfalls, error scenarios, and special cases.
+- Conventions.
+
 ### Identify target note and category
 
 Extract the note's topic and one of the nine allowed categories (Domain, Architecture, Backend, Frontend, Security, Database, Testing, Building, Context) from the request.
@@ -45,6 +68,8 @@ If this task encounters a note already marked `status: stale` or `status: supers
 
 ## Validation checklist
 
+- [ ] At least one rediscovery trigger actually applied — a note was not written just because this skill was invoked
+- [ ] The note's content is one of: subject rules/invariants/lifecycles not tied to a single file, technical must-not constraints, a decision (incl. rejected alternatives), a non-obvious pitfall/error scenario, or a convention
 - [ ] Frontmatter has `category`, `related`, `status`, and `updated:`
 - [ ] `category` is one of the nine allowed categories
 - [ ] Every link is standard Markdown, no `[[wikilinks]]`
@@ -55,4 +80,4 @@ If this task encounters a note already marked `status: stale` or `status: supers
 
 ## Task output
 
-Report the note's path, its `status`, and — if a contradiction with existing code was found and resolved — a one-line summary of what changed and why.
+If no trigger applied: report "no note warranted" and nothing else. Otherwise report the note's path, its `status`, which trigger(s) prompted it, and — if a contradiction with existing code was found and resolved — a one-line summary of what changed and why.
