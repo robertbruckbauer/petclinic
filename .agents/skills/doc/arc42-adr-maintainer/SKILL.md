@@ -42,6 +42,7 @@ If this ADR supersedes an earlier one, set the earlier ADR's status to `supersed
 - [ ] arc42 chapter 9's index table reflects this ADR's current status
 - [ ] No Obsidian note under `obsidian/` contains a copy of this ADR's content — only links to it
 - [ ] A superseded ADR is marked `superseded`, not deleted, and links to its replacement
+- [ ] No file under `plans/` is referenced from the ADR
 
 ## Task output
 

@@ -16,7 +16,7 @@ Replace placeholder `{capability}` with the given name.
 ### Identify change scope
 
 Determine whether this is a wording fix (edit `specs/{capability}/spec.md` directly) or a behavior change (requires the full propose → apply → merge workflow below).
-Check against `plans/330.plan.md` §1.1: if the request would make `openspec` contradict `doc/arc42` or `doc/concept` about current-state fact, stop and reconcile toward those first — do not let this skill silently override them.
+Precedence when artifacts disagree about a current-state fact: code and tests, then `doc/arc42`, then `doc/concept`, then `openspec`, then `obsidian`. If the request would make `openspec` contradict `doc/arc42` or `doc/concept` about current-state fact, stop and reconcile toward those first — do not let this skill silently override them.
 
 ## Task steps
 
@@ -46,6 +46,7 @@ If the requested requirement describes a target ahead of what's implemented (lik
 - [ ] No Spring/Angular/Svelte implementation detail was added to a requirement
 - [ ] `openspec/changes/{change-id}/` was deleted after merging, not left in the working tree
 - [ ] Any forward-looking (not-yet-implemented) requirement has a tracked ADR + a row in chapter 11's risk table
+- [ ] No file under `plans/` is referenced from the spec, proposal, or tasks
 
 ## Task output
 

@@ -13,41 +13,7 @@ It consists of one backend server and browser-based clients.
 The backend exposes both a REST API and a GraphQL API consumed by the clients.
 The database is managed entirely through Liquibase migrations.
 
-## Documentation systems
-
-This repository has three documentation systems with a clear separation of authority:
-
-- **`doc/arc42`** — bird's-eye architecture facts for stakeholders, product people, and architects/developers new to the project.
-- **`openspec`** — the normative, implementable behavior contract (REST, GraphQL, security, UI) for the backend and every generated client.
-- **`obsidian`** — the knowledge graph: detailed domain/technical knowledge, rationale, and patterns.
-
-**Truth model and precedence.** When two artifacts disagree about a current-state fact, resolve in this order: (1) code and tests, (2) `doc/arc42`, (3) `doc/concept`, (4) `openspec`, (5) `obsidian`. `openspec` defines what *must* be true and may run ahead of the implementation only when the gap is tracked via an ADR and a risk entry. Every Obsidian note is a hypothesis about the code, never an independent fact — a note that contradicts the code is corrected to follow the code (or marked `status: stale` with a one-line reason if it can't be verified), and a note marked `stale`/`superseded` is a historical record, not current guidance. Full rule set: `doc/arc42/01-introduction-and-goals.adoc` and `plans/330.plan.md` §1.1.
-
-**`obsidian/` is agent-only.** It is maintained exclusively by AI agents through the skills under `.agents/skills/doc/` — never by direct human edit. Human contributors review notes and propose changes; agents perform every update, link, and metadata change.
-
-## Agent roles
-
-### Domain expert
-
-You have deep knowledge of the domain.
-You understand the core entities and their relationships.
-
-You are able to read and understand code.
-
-You ensure that naming, terminology, and business rules in code, APIs, and documentation are consistent with the domain.
-
-You raise concerns when an implementation contradicts the domain model or introduces ambiguous terminology.
-
-### Backend developer
-
-You are a lazy senior developer.
-Lazy means efficient, not careless.
-You have solid working knowledge across
-- database schemas with HyperSQL and PostgreSQL
-- database migrations with Liquibase
-- backend data model with Spring Data JPA and QueryDSL
-- REST endpoints with Spring Data REST
-- GraphQL operations with Spring GraphQL
+## Developement
 
 The best code is the code never written.
 Ask the following questions:
@@ -55,35 +21,32 @@ Ask the following questions:
 Skip it (YAGNI principle).
 - **Already in this codebase?**
 Reuse it.
-- +*Native platform feature covers it?**
+- **Native platform feature covers it?**
 Use it.
 - **Already-installed dependency solves it?**
 Use it.
 
-You take responsibility for features from the database to the API, ensuring consistency and high quality across all implementation files.
+## Documentation
 
-You create clean code within boundaries set by your knowledge and existing concepts.
+This repository has six documentation approaches with a clear separation of concerns:
 
-### Frontend developer
+- **`doc/arc42`** — bird's-eye architecture facts for stakeholders, product people, and architects/developers new to the project.
+- **`doc/concept`** — implementation concepts per technology stack.
+- **`doc/manual`** — development guides for setup and environment how-tos.
+- **`doc/service`** — generated-style REST/GraphQL API reference documentation.
+- **`openspec`** — the normative, implementable behavior contract for the backend and every generated client.
+- **`obsidian`** — the knowledge graph maintained exclusively by AI agents — never by direct human edit.
 
-You are a developer with T-shaped skills.
-You have solid working knowledge across 
-- REST endpoints
-- GraphQL operations
-- frontend data model
-- RxJs services
-- Angular components
-- Svelte components
+**Truth model and precedence.** When two artifacts disagree about a current-state fact, resolve in this order: (1) code and tests, (2) `doc/arc42`, (3) `doc/concept`, (4) `openspec`, (5) `obsidian`. `openspec` defines what *must* be true and may run ahead of the implementation only when the gap is tracked via an ADR and a risk entry — that's a documented gap, not a contradiction. Every knowledge graph note is a hypothesis about the code, never an independent fact: a note that contradicts the code is corrected to follow the code and its `updated:` date is set to record the re-check; if it can't be verified, it's marked `status: stale` with a one-line reason instead of guessing. Never let an unverified note drive an implementation decision — surface the contradiction explicitly instead of silently trusting or dropping it. A note marked `stale`/`superseded` is a historical record, not current guidance.
 
-You take responsibility for features from the API to the UI, ensuring consistency and high quality across all implementation files.
-
-You create clean code within boundaries set by your knowledge and existing concepts.
+**Never link to a plan.** No `doc`, `openspec`, or `obsidian` artifact references a file under `plans/` directly — a plan is a transient working document for a single change, not part of the durable documentation graph. A fact from a plan that needs to persist is written directly into the artifact instead.
 
 ## Instructions
 
 At the end of each successful request you MUST:
-- Invoke the `consistency-checker` skill and report the result.
-- Invoke the `run-unit-tests` skill and report the result.
+1. Invoke the `run-unit-tests` skill and report the result.
+2. Invoke the `obsidian-maintainer` skill and update the knowledge graph.
+3. Invoke the `consistency-checker` skill and report the result.
 
 At the end of each request you MUST:
 - Show a list of applied skills.
@@ -140,8 +103,8 @@ For Liquibase script files (*.xml):
 ├── doc                # Documentation
 │   └── arc42          # Bird's-eye architecture view
 │   └── concept        # Implementation concepts
-│   └── manual         # Developer handbook
-│   └── service        # Service handbook   
+│   └── manual         # Development guides
+│   └── service        # Reference documentation 
 ├── obsidian           # Knowledge graph
 ├── openspec           # Normative specifications
 ├── lib/backend-api    # Source for the JPA data model of the backend server

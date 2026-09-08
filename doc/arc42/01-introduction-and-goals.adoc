@@ -24,3 +24,21 @@ For precise definitions of these terms, see xref:{relrootdir}/doc/arc42/12-gloss
 | Backend developer | Implementing within established conventions for backend applications
 | Frontend developer | Implementing within established conventions for frontend applictions
 |===
+
+== Guiding rule
+
+If removing a detail would not change a stakeholder's understanding of the architecture or an architect's fundamental implementation choices, that detail probably belongs in the Obsidian knowledge graph (`obsidian/`) instead.
+
+== Truth model and precedence
+
+This repository has five artifacts that can describe the same current-state fact.
+When two of them disagree, resolve in this order:
+
+1. Code and tests — the ground truth.
+2. `doc/arc42` (this chapter set) — the bird's-eye view.
+3. `doc/concept` — the implementation guides.
+4. `openspec` — the normative contract.
+It may describe a target ahead of the current implementation only when the gap is tracked via an ADR (see xref:{relrootdir}/doc/arc42/09-architecture-decisions.adoc[chapter 9]) and a row in xref:{relrootdir}/doc/arc42/11-risks-and-technical-debt.adoc[chapter 11]'s risk table — that is a documented gap, not a contradiction.
+5. `obsidian` — the explanatory knowledge graph.
+Every note there is a hypothesis about the code, never an independent fact.
+A note that contradicts the code is corrected to follow the code; if it can't be verified, it is marked `status: stale` with a one-line reason instead of guessing, and a note marked `stale`/`superseded` is a historical record, not current guidance.

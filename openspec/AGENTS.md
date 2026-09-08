@@ -13,7 +13,7 @@
 
 Do not skip step 1 for a small typo fix — edit `specs/` directly for those. Reserve the full workflow for changes that alter *what must be true*, not how it's phrased.
 
-## Rules this directory's maintainer (`knowledge-maintainer`'s sibling, `openspec-maintainer`) enforces
+## Rules this directory's maintainer (`obsidian-maintainer`'s sibling, `openspec-maintainer`) enforces
 
 - Specs stay technology-independent where possible — no Spring/Angular/Svelte implementation detail. That belongs in `doc/service/*.adoc` (generated API docs) or `obsidian/Backend|Frontend/` (patterns, rationale).
 - A significant behavior change must not land in code before its `specs/` update — OpenSpec is normative, not descriptive-after-the-fact.

@@ -1,5 +1,5 @@
 ---
-name: knowledge-maintainer
+name: obsidian-maintainer
 description: 'Create or update an Obsidian knowledge note, verifying its claims against the current code first; use for prompts like "Add a knowledge note about ..." or "Update the note explaining ...".'
 ---
 
@@ -9,13 +9,13 @@ You MUST NOT generate or edit a note if even one of the preconditions is not met
 
 ### Identify target note and category
 
-Extract the note's topic and one of the eight allowed categories (Domain, Architecture, Backend, Frontend, Security, Database, Testing, Building, Context) from the request.
-Check that the category is one of those eight — no ninth category may be invented.
+Extract the note's topic and one of the nine allowed categories (Domain, Architecture, Backend, Frontend, Security, Database, Testing, Building, Context) from the request.
+Check that the category is one of those nine — no tenth category may be invented.
 Replace placeholder `{category}` and `{topic}` accordingly; the file is `obsidian/{category}/{topic}.md`. Architecture decisions and risks are **not** created here — decisions live under `doc/arc42/adr/` (see `arc42-adr-maintainer`) and risks live as rows in `doc/arc42/11-risks-and-technical-debt.adoc`'s table (see `arc42-risk-maintainer`); this skill only links to them.
 
 ### Verify the claim against the code
 
-Before writing or editing the note's content, locate the code (or `openspec`/`doc/arc42`/`doc/concept`) it will describe and read it. Per `plans/330.plan.md` §1.1, never write a note's factual claim from memory or assumption.
+Before writing or editing the note's content, locate the code (or `openspec`/`doc/arc42`/`doc/concept`) it will describe and read it. Every note is a hypothesis about the code, never an independent fact — never write a note's factual claim from memory or assumption.
 
 ## Task steps
 
@@ -46,9 +46,10 @@ If this task encounters a note already marked `status: stale` or `status: supers
 ## Validation checklist
 
 - [ ] Frontmatter has `category`, `related`, `status`, and `updated:`
-- [ ] `category` is one of the eight allowed categories
+- [ ] `category` is one of the nine allowed categories
 - [ ] Every link is standard Markdown, no `[[wikilinks]]`
 - [ ] The note does not restate `openspec/`, `doc/arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content
+- [ ] No file under `plans/` is referenced from the note
 - [ ] Every factual claim was checked against the code (or the more authoritative artifact) before writing, per the §1.1 precedence order
 - [ ] A note that couldn't be verified is `status: stale` with a one-line reason, not a guess presented as fact
 

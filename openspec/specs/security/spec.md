@@ -37,7 +37,7 @@ No server-side session state is created; every request is handled independently.
 - **WHEN** it makes a cross-origin request to the backend
 - **THEN** the browser blocks the response based on the missing CORS headers (the server itself still processes the request; CORS is a browser-enforced boundary, not a server-side authorization check)
 
-### Requirement (planned, not yet active): JWT resource server
+### Requirement: JWT resource server (planned, not yet active)
 
 Once the future security plan (ADR 0004) is accepted, this requirement replaces "No endpoint currently requires authentication" above:
 

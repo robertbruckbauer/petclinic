@@ -40,6 +40,8 @@ If the mitigation references a decision not yet made, point at its ADR (`doc/arc
 - [ ] Mitigation is either empty or names a concrete mitigation/ADR, not a vague placeholder
 - [ ] No risk exists as a separate file anywhere in `obsidian/` or elsewhere — the table in chapter 11 is the only copy
 - [ ] Likelihood/impact were grounded in something actually checked, not guessed
+- [ ] The Mitigation cell references no file under `plans/`
+- [ ] No file under `plans/` is referenced from the risk table
 
 ## Task output
 

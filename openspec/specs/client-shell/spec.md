@@ -34,6 +34,6 @@ Every lister/editor/viewer distinguishes "loading," "loaded with zero results," 
 
 A non-2xx response the UI cannot resolve locally (e.g. a 5xx, a network failure) is shown via one consistent error-presentation pattern across every screen, not handled ad hoc per component.
 
-### Requirement (planned, not yet active): Auth/session handling
+### Requirement: Auth/session handling (planned, not yet active)
 
 Once the future security plan lands, this requirement defines: where the token is stored, how it's attached to requests, and what happens on a `401` (redirect to a login flow). Until then, no client performs any auth/session handling, since no endpoint requires it (`security` capability).

@@ -8,7 +8,7 @@ description: 'Structurally and cross-artifact validate arc42, OpenSpec, Obsidian
 ### Check Obsidian structural rules
 
 - Every note under `obsidian/` has frontmatter with `category`, `related`, `status`, `updated:`.
-- `category` is one of the eight allowed categories; no ninth category directory exists.
+- `category` is one of the nine allowed categories; no tenth category directory exists.
 - No `[[wikilink]]` syntax appears anywhere — only standard Markdown links.
 - No orphan notes (nothing links to them and they link to nothing) and no broken relative links.
 - A note with `status: stale` or `status: superseded` carries a one-line explanation and is not cited elsewhere as if it were current guidance.
@@ -30,13 +30,14 @@ description: 'Structurally and cross-artifact validate arc42, OpenSpec, Obsidian
 
 - Every OpenSpec requirement that describes a forward-looking (not-yet-implemented) target has a linked ADR + a row in chapter 11's risk table.
 - Every ADR/risk links back to at least one arc42 chapter or OpenSpec capability it affects.
-- Report, but do not silently resolve, any contradiction found between artifacts — per `plans/330.plan.md` §1.1, report it in precedence order (code/tests, then arc42, then doc/concept, then openspec, then obsidian) rather than picking a side.
+- Report, but do not silently resolve, any contradiction found between artifacts — report it in precedence order (code/tests, then arc42, then doc/concept, then openspec, then obsidian) rather than picking a side.
 
 ## Validation checklist
 
 - [ ] Every check above was actually run, not assumed passing
 - [ ] Findings are grouped by documentation system, each with a file path and a one-line reason
 - [ ] No finding silently "fixes" a contradiction — it's reported for a human or the appropriate maintainer skill to resolve
+- [ ] No file under `plans/` is referenced from any documentation artifact
 
 ## Task output
 
