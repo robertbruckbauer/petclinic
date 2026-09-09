@@ -42,6 +42,10 @@ Before writing or editing the note's content, locate the code (or `openspec`/`do
 
 ## Task steps
 
+### Add the note to its category's MOC in the same change
+
+Every category has a map of contents at `obsidian/{category}/moc.md`, linked from the vault index `obsidian/index.md`. In the same change that creates a note (or substantially changes what it's about), add or update a one-line entry for it in that `moc.md`: a concise link plus a short description — never a copy of the note's content. Do not create a new `moc.md`; the nine already exist, one per allowed category. A note is not done until it is reachable from its category's MOC.
+
 ### Write or update the note body
 
 State the fact/pattern/rationale concisely — one fact per note, small and atomic. Use standard Markdown links only (no `[[wikilinks]]`). Never restate `openspec/`, `doc/arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content — link to it instead.
@@ -72,6 +76,7 @@ If this task encounters a note already marked `status: stale` or `status: supers
 - [ ] The note's content is one of: subject rules/invariants/lifecycles not tied to a single file, technical must-not constraints, a decision (incl. rejected alternatives), a non-obvious pitfall/error scenario, or a convention
 - [ ] Frontmatter has `category`, `related`, `status`, and `updated:`
 - [ ] `category` is one of the nine allowed categories
+- [ ] The note is linked from its category's `moc.md`, added in this same change
 - [ ] Every link is standard Markdown, no `[[wikilinks]]`
 - [ ] The note does not restate `openspec/`, `doc/arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content
 - [ ] No file under `plans/` is referenced from the note
@@ -80,4 +85,4 @@ If this task encounters a note already marked `status: stale` or `status: supers
 
 ## Task output
 
-If no trigger applied: report "no note warranted" and nothing else. Otherwise report the note's path, its `status`, which trigger(s) prompted it, and — if a contradiction with existing code was found and resolved — a one-line summary of what changed and why.
+If no trigger applied: report "no note warranted" and nothing else. Otherwise report the note's path, its `status`, which trigger(s) prompted it, the `moc.md` entry added/updated for it, and — if a contradiction with existing code was found and resolved — a one-line summary of what changed and why.

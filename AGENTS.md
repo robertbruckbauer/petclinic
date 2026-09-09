@@ -134,6 +134,10 @@ For Liquibase script files (*.xml):
 | Artifact | Pattern | Location |
 |---|---|---|
 | Knowledge note | `{topic}.md` | `obsidian/{Category}/` |
+| Category map of contents (MOC) | `moc.md` | `obsidian/{Category}/` |
+| Vault index | `index.md` | `obsidian/` |
+
+Every knowledge note is reachable from its category's `moc.md`, and every `moc.md` is reachable from `obsidian/index.md` — a MOC links and briefly describes its notes, it never duplicates their content. `obsidian-maintainer` adds a note to its category's MOC in the same change that creates or retopics the note.
 
 Risks are **not** an Obsidian artifact — they're rows (`Risk | Score | Mitigation`, no numbering) directly in `doc/arc42/11-risks-and-technical-debt.adoc`'s table, alongside ADRs in the `doc/arc42` table above.
 

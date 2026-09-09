@@ -7,11 +7,13 @@ description: 'Structurally and cross-artifact validate arc42, OpenSpec, Obsidian
 
 ### Check Obsidian structural rules
 
-- Every note under `obsidian/` has frontmatter with `category`, `related`, `status`, `updated:`.
+- Every knowledge note under `obsidian/` has frontmatter with `category`, `related`, `status`, `updated:`.
 - `category` is one of the nine allowed categories; no tenth category directory exists.
+- Every category has exactly one MOC at `obsidian/{category}/moc.md`, with frontmatter `category`, `type: moc`, `related`, `status`, `updated:`.
+- The vault root `obsidian/index.md` exists, with frontmatter `type: index`, `related`, `status`, `updated:`, and links to all nine `moc.md` files.
 - No `[[wikilink]]` syntax appears anywhere — only standard Markdown links.
-- No orphan notes (nothing links to them and they link to nothing) and no broken relative links.
-- A note with `status: stale` or `status: superseded` carries a one-line explanation and is not cited elsewhere as if it were current guidance.
+- No orphan notes: every knowledge note is linked from its category's `moc.md`, and has at least one `related:` entry (frontmatter or body). No broken relative links anywhere, including in `moc.md`/`index.md`.
+- A note with `status: stale` or `status: superseded` carries a one-line explanation and is not cited elsewhere as if it were current guidance; a `superseded` note keeps a link to whatever superseded it, and vice versa.
 
 ### Check OpenSpec structural rules
 
