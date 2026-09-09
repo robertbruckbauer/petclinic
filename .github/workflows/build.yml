@@ -34,20 +34,20 @@ jobs:
     steps:
 
       # https://github.com/actions/checkout
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       # https://github.com/actions/setup-node
       # tag::setup-node[]
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: "24"
       # end::setup-node[]
 
       # https://github.com/actions/setup-java
       # tag::setup-java[]
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: "temurin"
           java-version: "25"
@@ -104,7 +104,7 @@ jobs:
 
       # tag::pages[]
       # https://github.com/actions/upload-artifact
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ failure() }}
         with:
           name: pages
