@@ -1,5 +1,6 @@
 module.exports = {
-  extends: [
+  // https://docs.renovatebot.com/self-hosted-configuration/#globalextends
+  globalExtends: [
     "mergeConfidence:all-badges",
     "config:best-practices",
     "group:allNonMajor",
