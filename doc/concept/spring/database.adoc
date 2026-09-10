@@ -69,5 +69,5 @@ This ensures that Liquibase only creates a table if this table does not exist.
 When running the application or tests with the HyperSQL database in-memory, a full schema migration is executed automatically during application startup.
 This ensures that local development and automated tests always initialize or recreate the schema from the changelog without a separate migration step.
 
-When running the application with the PostgreSQL database, an incremetal schema migration is executed as a dedicated migration step before the backend server starts.
+When running the application with the PostgreSQL database, an incremental schema migration is executed as a dedicated migration step before the backend server starts.
 This keeps startup of the application service independent from schema change execution and avoids coupling operational deployment with migration concerns.

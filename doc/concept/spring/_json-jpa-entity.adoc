@@ -56,7 +56,7 @@ Always use LAZY fetch.
 .Please note
 ****
 Do not use `EAGER` even if the related entity is used in the `isEqual` operation or for serialization in the `extraJson` operation.
-There may be a problem when using `orphanRemoval = true` and `cascade = ALL` in in a bi-driectional mapping when deleting an entity.
+There may be a problem when using `orphanRemoval = true` and `cascade = ALL` in a bidirectional mapping when deleting an entity.
 The in-memory collection of the owner's collection still holds a reference to the entity being deleted.
 On flush, the JPA provider sees the entity is still in the owner's collection and  effectively re-saves it, swallowing a DELETE.
 ****

@@ -15,7 +15,7 @@ Do not skip step 1 for a small typo fix — edit `specs/` directly for those. Re
 
 ## Rules this directory's maintainer (`obsidian-maintainer`'s sibling, `openspec-maintainer`) enforces
 
-- A capability with the `-platform` is technology-specific by design, its whole purpose being to pin that module's current technology stack (framework, build/test tooling, packaging, and similar) as a requirement rather than abstract away from it. 
+- A capability with the `-platform` suffix is technology-specific by design, its whole purpose being to pin that module's current technology stack (framework, build/test tooling, packaging, and similar) as a requirement rather than abstract away from it. 
 - Don't cite a `-platform` capability as precedent for adding framework detail to a non-`-platform` capability. A `-platform` capability doesn't replace the technology-independent contract for its module: `client-shell`/`client-style` still apply unchanged to every client, `-platform` capability or not.
 - A significant behavior change must not land in code before its `specs/` update — OpenSpec is normative, not descriptive-after-the-fact.
 - Never restate what `doc/arc42` or `doc/concept` already say; link to them.
