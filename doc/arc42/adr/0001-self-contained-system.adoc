@@ -1,0 +1,31 @@
+:relrootdir: ../../..
+= ADR 0001: Self-Contained System
+
+== Status
+
+Accepted (reflects the system as already implemented; recorded here for traceability, not proposing a change).
+
+== Context
+
+Pet Clinic needs one or more browser-based clients (today: Angular, Svelte) that present the same domain data without duplicating business logic or owning their own data store.
+
+== Decision
+
+The system is built as a **Self-Contained System**: one backend server owns the database and all business logic, and exposes it through REST and GraphQL APIs.
+Browser clients are thin — they render UI and call the backend's APIs, holding no server-side logic or independent data of their own.
+
+== Alternatives considered
+
+- **Micro-frontends with per-client backends-for-frontend (BFF)** — rejected: adds an extra hop and duplicated data-shaping logic for a system this size.
+- **Shared monolithic server-rendered UI** — rejected: the goal is multiple independently generated/replaceable client stacks (Angular, Svelte, future React), which requires a clean API boundary rather than server-side rendering coupling.
+
+== Consequences
+
+- Every client consumes the same REST/GraphQL contract — defined once in `openspec/specs/*`, not per client.
+- A client can be regenerated from scratch (see ADR 0002) without touching the backend.
+- The backend must keep its API contract stable and versionable independent of any one client's release cycle.
+
+== Links
+
+- xref:{relrootdir}/doc/arc42/02-constraints.adoc[arc42 ch. 2: Constraints], xref:{relrootdir}/doc/arc42/03-context-and-scope.adoc[ch. 3: Context and Scope]
+- link:../../../openspec/project.md[openspec/project.md]

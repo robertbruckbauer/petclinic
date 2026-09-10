@@ -1,0 +1,15 @@
+:relrootdir: ../..
+= 2. Constraints
+
+== Documentation
+
+The guiding rule for what belongs in an arc42 chapter versus the Obsidian knowledge graph, and the truth model and precedence used when artifacts disagree, are process rules for maintaining this chapter set — see `doc/arc42/AGENTS.md`, not this chapter.
+
+== Architecture
+
+- The system is a **Self-Contained System**: one backend server owns the database and business logic; browser based frontends are thin.
+- Frontends are standalone projects with their own build and repository.
+See xref:{relrootdir}/doc/arc42/adr/0001-self-contained-system.adoc[ADR 0001].
+- The backend exposes both a REST API and a GraphQL API, built with Spring Boot, Spring Data, and Spring GraphQL.
+- The database schema is managed entirely through Liquibase migrations; no manual schema changes are permitted outside them.
+- The build is a single Gradle multi-module project for the backend.

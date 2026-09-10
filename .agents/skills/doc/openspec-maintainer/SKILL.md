@@ -1,0 +1,79 @@
+---
+name: openspec-maintainer
+description: 'Maintain openspec/ as the normative behavior contract via the propose-apply-merge workflow; use for prompts like "Add a requirement for ..." or "Update the OpenSpec capability for ...".'
+---
+
+## Task preconditions
+
+You MUST NOT generate a spec change if even one of the preconditions is not met.
+
+### Identify target capability
+
+Extract the capability name from the request (e.g. `rest-conventions`, `owner-management`).
+Check that `openspec/specs/{capability}/spec.md` exists, or that a new capability is explicitly being requested.
+Replace placeholder `{capability}` with the given name.
+
+### Route UI-facing content to `client-shell` vs. `client-style`
+
+A request touching UI behavior lands in exactly one of these two capabilities — never split across both, never left in whichever file happens to be open:
+
+- **`client-shell`**: the per-entity screen inventory (a lister, an editor, a viewer exists) and behavior driven by a backend call or the security posture — REST-conventions-based filtering/pagination, optimistic-concurrency conflicts, validation-error mapping, explicit loading/empty states, error-toast triggering, auth/session handling.
+The test: does the requirement exist *because of* a REST/GraphQL response, an ETag, or an auth rule?
+- **`client-style`**: everything about a screen's concrete composition (header, footer, menus, field order/type, table columns and row-action order, filter widget choice, picklist sourcing) and its visual appearance (color, iconography, control shape, typography, responsive breakpoint, motion).
+The test: Does it exist *regardless* of what the backend does — it's about how the screen is laid out or how it looks? → `client-style`.
+
+If a requirement genuinely doesn't fit either description, put it into the per-entity capability's `## UI Requirements` section which references both `client-shell` and `client-style`.
+
+### Structure REST endpoint requirements by entity and operation
+
+A capability's `## REST Requirements` gets one `### Requirement:` per HTTP operation, titled with its verb and path (e.g. "`GET /api/owner` lists owners", "`POST /api/owner` creates an owner", "`PATCH /api/owner/{id}` partially updates an owner") — never one blanket "Full CRUD at ..." requirement bundling every verb. Cover every operation the entity actually exposes (collection `GET`, item `GET`, item-selection `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, and any relation sub-resource `GET`), regardless of whether a shipped client currently calls it.
+
+Source from that entity's `*-restapi.adoc` under `doc/service/` as the starting point, and its controller/repository under `lib/backend-data` as the final reference where the two disagree — RESTDocs can lag behind the code (an operation that was added, removed, or changed status codes without a doc update).
+
+### Structure GraphQL operation requirements by entity and operation
+
+A capability's `## GraphQL Requirements` gets one `### Requirement:` per named query operation (e.g. "`allOwner` query", "`ownerById` query", "`ownerByName` query"), not one requirement bundling every query for that entity.
+
+Source from that entity's `*-graphql.adoc` under `doc/service/` as the starting point, and its GraphQL controller and schema (`.gqls`) under `lib/backend-data` as the final reference where the two disagree — RESTDocs can lag behind the code (a documented query that no longer exists, or a real one that was never documented).
+
+### Identify change scope
+
+Determine whether this is a wording fix (edit `specs/{capability}/spec.md` directly) or a behavior change (requires the full propose → apply → merge workflow below).
+Precedence when artifacts disagree about a current-state fact: code and tests, then `doc/arc42`, then `doc/concept`, then `openspec`, then `obsidian`. If the request would make `openspec` contradict `doc/arc42` or `doc/concept` about current-state fact, stop and reconcile toward those first — do not let this skill silently override them.
+
+## Task steps
+
+### Draft the change (behavior changes only)
+
+Create the working (gitignored, never committed) folder `openspec/changes/{change-id}/` with `proposal.md` (what and why), `tasks.md` (steps), and a delta `specs/{capability}/spec.md` using `## ADDED Requirements` / `## MODIFIED Requirements` / `## REMOVED Requirements` headers, per `openspec/AGENTS.md`.
+
+### Apply the change
+
+Merge the delta directly into `openspec/specs/{capability}/spec.md`, keeping the `### Requirement:` / `#### Scenario:` format already used in every capability spec.
+
+### Discard the working folder
+
+Delete `openspec/changes/{change-id}/`. Do not leave it committed — there is no `changes/archive/`; the commit that changed `specs/` is the record.
+
+### Keep the capability technology-independent
+
+Do not add technology stack details to a requirement. Add operation-specific scenarios only when requested; do not speculatively cover every edge case a capability could have.
+
+### Flag an untracked forward-looking gap
+
+If the requested requirement describes a target ahead of what's implemented (like `security`'s baseline), only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
+
+## Validation checklist
+
+- [ ] The capability spec still uses only `### Requirement:` / `#### Scenario:` (Given/When/Then) structure
+- [ ] No Spring/Angular/Svelte implementation detail was added to a requirement
+- [ ] A new/changed UI requirement landed in `client-shell` (REST/service/security-driven behavior) or `client-style` (composition/appearance) per the routing rule, not duplicated across both or left ambiguous unasked
+- [ ] `## REST Requirements` has one requirement per HTTP operation (titled by verb + path), not a blanket "Full CRUD" bundle
+- [ ] `## GraphQL Requirements` has one requirement per named query, not a bundle covering every query for that entity
+- [ ] `openspec/changes/{change-id}/` was deleted after merging, not left in the working tree
+- [ ] Any forward-looking (not-yet-implemented) requirement has a tracked ADR + a row in chapter 11's risk table
+- [ ] No file under `plans/` is referenced from the spec, proposal, or tasks
+
+## Task output
+
+Report which capability was changed, whether it was a direct edit or a full propose/apply/merge cycle, and the ADR path / risk table row name if the change was forward-looking.

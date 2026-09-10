@@ -1,0 +1,42 @@
+:relrootdir: ../../..
+= ADR 0004: Roles, permissions, and JWT resource server
+
+== Status
+
+**Proposed / deferred.**
+This is not a decision — it's a placeholder that records the questions a future plan must resolve before `openspec/specs/security/spec.md` can be extended with an authorization model.
+
+== Context
+
+The backend today (`EsySecurityConfiguration`) configures CORS and stateless sessions but enforces no authentication or authorization on any endpoint (tracked as the "No authentication or authorization is currently enforced" risk in xref:{relrootdir}/doc/arc42/11-risks-and-technical-debt.adoc[chapter 11]'s risk table).
+Introducing roles/permissions and a JWT-validating resource server is planned but deliberately out of scope for the OpenSpec/Obsidian/arc42 restructuring.
+
+== Open questions (must be answered before this ADR can be accepted)
+
+. Is the system **staff-only** (roles gate *endpoint/entity type*, e.g. `ROLE_VET`, `ROLE_RECEPTION`), or does **Owner become a logged-in identity** (responses must then be row-level filtered to "their own" data)?
+. If staff-only: the exact role list and the read/write matrix per role × entity (Owner/Pet/Vet/Visit).
+. If owner-as-user: whether a Vet is further scoped to only their own assigned Visits, or any authenticated vet may act on any visit.
+. Which claim shape carries authorization — `roles: [...]` vs. OAuth-style `scope: "..."` — since that decides how `oauth2ResourceServer(...)` and every client's token handling get generated.
+. What triggers picking this ADR up (a specific product need, e.g. an owner self-service portal, vs. a scheduled hardening effort) — so it isn't accepted prematurely or forgotten indefinitely.
+
+== Decision
+
+Not yet made.
+
+== Consequences of staying deferred
+
+- `openspec/specs/security/spec.md` documents an unauthenticated baseline as current truth (not a gap hidden from readers).
+- No client (existing or standalone) implements any login/token-handling UI yet.
+- Every per-entity capability spec's "Authorization" requirement currently reads "none" — accurate today, expected to change only once this ADR is accepted.
+
+== When this ADR is accepted
+
+. Flip status to `accepted` and fill in the Decision section above.
+. Add a `## ADDED Requirements` delta to `openspec/specs/security/spec.md` (via the normal propose → apply → merge workflow, `openspec/AGENTS.md`).
+. Update the risk's Mitigation cell in xref:{relrootdir}/doc/arc42/11-risks-and-technical-debt.adoc[chapter 11]'s table to reflect what's now implemented.
+. Only then implement `oauth2ResourceServer(...)` in `EsySecurityConfiguration`, plus the corresponding UI changes in the `client-shell` capability and both client repos.
+
+== Links
+
+- `openspec/specs/security/spec.md`
+- xref:{relrootdir}/doc/arc42/03-context-and-scope.adoc[arc42 ch. 3], xref:{relrootdir}/doc/arc42/11-risks-and-technical-debt.adoc[ch. 11 risk table]

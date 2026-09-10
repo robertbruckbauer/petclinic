@@ -1,0 +1,36 @@
+:relrootdir: ../../..
+= ADR 0003: Both REST and GraphQL are exposed, REST for writes and reads, GraphQL for reads only
+
+== Status
+
+Accepted (reflects the system as already implemented).
+
+== Context
+
+Spring Data REST gives CRUD endpoints with pagination/filtering/ETag semantics "for free."
+GraphQL gives clients an efficient way to fetch nested/related data (e.g. an owner with its pets) in one round trip.
+Neither alone covers both needs well.
+
+== Decision
+
+- REST (`/api/**`) is the command *and* query API — every entity supports full CRUD, filtering, and pagination through it.
+- GraphQL (`/graphql`) is a **read-only** convenience API layered on top of the same data — queries and relation navigation only, no mutations.
+See `openspec/specs/graphql-conventions/spec.md`.
+- No client is required to use GraphQL; today, neither shipped client (`client-angular`, `client-svelte`) does — both are REST-only.
+
+== Alternatives considered
+
+- **GraphQL mutations too** — deferred: would duplicate the validation/ETag/error-handling contract already built for REST, for no client that currently needs it.
+Revisit if/when a client actually needs GraphQL writes.
+- **GraphQL only, no REST** — rejected: Spring Data REST's built-in ETag/pagination/filtering conventions are exactly the write-side contract this system relies on (see `openspec/specs/rest-conventions/spec.md`); reimplementing that in GraphQL mutations would be pure YAGNI today.
+
+== Consequences
+
+- Two API surfaces to keep behaviorally consistent for reads (same entities, same relations) — `openspec/specs/graphql-conventions/spec.md` explicitly references `rest-conventions` for shared behavior rather than defining read semantics independently.
+- Relation-heavy GraphQL queries need batch loading to stay efficient — see `obsidian/Backend/graphql-batch-loading.md`.
+
+== Links
+
+- xref:{relrootdir}/doc/arc42/08-cross-cutting-concepts.adoc[arc42 ch. 8: Cross-cutting Concepts]
+- `openspec/specs/rest-conventions/spec.md`, `openspec/specs/graphql-conventions/spec.md`
+- `obsidian/Architecture/patterns/cqrs-style-rest-graphql-split.md`

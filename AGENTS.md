@@ -1,41 +1,6 @@
 # Agent Instructions
 
-## Domain story
-
-Pet Clinic is a veterinary clinic management system.
-Clients register as **Owners** and bring their **Pets** to the clinic.
-**Vets** conduct **Visits** with the pets.
-
-## Architecture
-
-The system is implemented as a **Self-Contained System**.
-It consists of one backend server and browser-based clients.
-The backend exposes both a REST API and a GraphQL API consumed by the clients.
-The database is managed entirely through Liquibase migrations.
-
-## Agent roles
-
-### Domain expert
-
-You have deep knowledge of the domain.
-You understand the core entities and their relationships.
-
-You are able to read and understand code.
-
-You ensure that naming, terminology, and business rules in code, APIs, and documentation are consistent with the domain.
-
-You raise concerns when an implementation contradicts the domain model or introduces ambiguous terminology.
-
-### Backend developer
-
-You are a lazy senior developer.
-Lazy means efficient, not careless.
-You have solid working knowledge across
-- database schemas with HyperSQL and PostgreSQL
-- database migrations with Liquibase
-- backend data model with Spring Data JPA and QueryDSL
-- REST endpoints with Spring Data REST
-- GraphQL operations with Spring GraphQL
+## Developement
 
 The best code is the code never written.
 Ask the following questions:
@@ -43,39 +8,44 @@ Ask the following questions:
 Skip it (YAGNI principle).
 - **Already in this codebase?**
 Reuse it.
-- +*Native platform feature covers it?**
+- **Native platform feature covers it?**
 Use it.
 - **Already-installed dependency solves it?**
 Use it.
 
-You take responsibility for features from the database to the API, ensuring consistency and high quality across all implementation files.
+## Documentation
 
-You create clean code within boundaries set by your knowledge and existing concepts.
+This repository has six documentation approaches with a clear separation of concerns:
 
-### Frontend developer
+- **`doc/arc42`** — bird's-eye architecture facts for stakeholders, and staff new to the project.
+- **`doc/concept`** — implementation concepts per technology stack.
+- **`doc/manual`** — development and maintenance guides.
+- **`doc/service`** — API reference documentation.
+- **`openspec`** — the normative, implementable behavior contract for the backend and every generated client.
+- **`obsidian`** — the knowledge graph maintained exclusively by AI agents — never by direct human edit.
 
-You are a developer with T-shaped skills.
-You have solid working knowledge across 
-- REST endpoints
-- GraphQL operations
-- frontend data model
-- RxJs services
-- Angular components
-- Svelte components
+No `doc`, `openspec`, or `obsidian` artifact references a file under `plans/` directly — a plan is a transient working document for a single change, not part of the durable documentation graph. A fact from a plan that needs to persist is written directly into the artifact instead.
 
-You take responsibility for features from the API to the UI, ensuring consistency and high quality across all implementation files.
+## Truth model and precedence
 
-You create clean code within boundaries set by your knowledge and existing concepts.
+This repository has five artifacts that can describe the same current-state fact. When two of them disagree, resolve in this order:
+
+1. Code and tests — the ground truth.
+2. `doc/arc42` — the bird's-eye view.
+3. `doc/concept` — the implementation guides.
+4. `openspec` — the normative contract.
+5. `obsidian` — the explanatory knowledge graph written only by AI agents through its maintenance skills — never by direct human edit.
 
 ## Instructions
 
-You MUST NOT generate code if even one task precondition is not met.
+At the end of each successful request you MUST:
+1. Invoke the `run-unit-tests` skill and report the result.
+2. Invoke the `obsidian-maintainer` skill and update the knowledge graph.
+3. Invoke the `consistency-checker` skill and report the result.
 
-At the end of each request respond with:
+At the end of each request you MUST:
 - Show a list of applied skills.
 - Show a list of changed files.
-
-You MAY ONLY generate code if there is an instruction in a skill.
 
 ## Checklists
 
@@ -84,6 +54,11 @@ For skill files (.agents/skills/**/SKILL.md):
 - [ ] Has non-empty `description` field wrapped in single quotes
 - [ ] Has `name` field matching the skill directory name
 - [ ] Skill directory name is lower case with hyphens
+
+For asciidoc files (*.adoc)
+- [ ] Create a newline after each sentence in a paragraph.
+- [ ] No line breaks within a sentence in a paragraph.
+- [ ] Use the `xref` directive with for linking other asciidoc files, e.g. `xref:{relrootdir}/adr/0001-self-contained-system.adoc[0001]` with `relrootdir` defined in the same file. 
 
 For java files (*.java):
 - [ ] Follow examples from the implementation guides if available.
@@ -121,9 +96,18 @@ For Liquibase script files (*.xml):
 ├── app/server         # Source for backend server with a database
 ├── buildSrc           # Source for build management
 ├── doc                # Documentation
+│   └── arc42          # Bird's-eye architecture view
+│   └── concept        # Implementation concepts
+│   └── manual         # Development guides
+│   └── service        # Reference documentation 
+├── obsidian           # Knowledge graph
+├── openspec           # Normative specifications
 ├── lib/backend-api    # Source for the JPA data model of the backend server
 ├── lib/backend-data   # Source for the REST and GraphQL implementation of the backend server
 ├── pages              # Source for GitHub pages
+├── plans              # Implementation plans
+├── .agents/skills
+│   └── doc            # Documentation-maintenance skills
 ├── AGENTS.md          # Agent settings
 ├── PROMPT.adoc        # Prompt engineering help
 ├── README.adoc        # Build management help
@@ -133,10 +117,27 @@ For Liquibase script files (*.xml):
 
 ## Artifact locations
 
+### `openspec`
+
+| Artifact | Pattern | Location |
+|---|---|---|
+| OpenSpec capability spec | `spec.md` | `openspec/specs/{capability}/` |
+| OpenSpec change proposal (working state, gitignored, never persisted) | `proposal.md`, `tasks.md`, `design.md` | `openspec/changes/{change-id}/` |
+
+### `obsidian`
+
+| Artifact | Pattern | Location |
+|---|---|---|
+| Knowledge note | `{topic}.md` | `obsidian/{Category}/` |
+| Category map of contents | `moc.md` | `obsidian/{Category}/` |
+| Vault index | `index.md` | `obsidian/` |
+
 ### `doc`
 
 | Artifact | Pattern | Location |
 |---|---|---|
+| arc42 | `{NN}-{title}.adoc` | `arc42/` |
+| ADR | `{NNNN}-{title}.adoc` | `arc42/adr/` |
 | REST API documentation | `{entity}-restapi.adoc` | `service/` |
 | REST API documentation template | `service/template/spring-restapi.adoc` |
 | GraphQL API documentation | `{entity}-graphql.adoc` | `service/` |
