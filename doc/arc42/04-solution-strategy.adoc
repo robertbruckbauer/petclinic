@@ -2,8 +2,9 @@
 = 4. Solution Strategy
 
 - **REST for commands and queries, GraphQL for queries only** — REST carries Spring Data REST's built-in ETag/pagination/filtering conventions for writes; GraphQL adds efficient nested reads on top of the same data.
-See xref:{relrootdir}/doc/arc42/adr/0003-rest-and-graphql-duality.adoc[ADR 0003] and link:../../obsidian/Architecture/patterns/cqrs-style-rest-graphql-split.md[the CQRS-flavored pattern note].
+See xref:{relrootdir}/doc/arc42/adr/0003-rest-and-graphql-duality.adoc[ADR 0003].
 - **OpenSpec-driven client generation, in separate repositories** — every client is generated from the same normative contract (`openspec/specs/*`) rather than hand-copied between stacks, and lives in its own repository so "rebuild from scratch" has an unambiguous meaning.
 See xref:{relrootdir}/doc/arc42/adr/0002-openspec-driven-client-generation.adoc[ADR 0002].
-- **Obsidian vs. arc42 split** — arc42 (this documentation) stays at the level a stakeholder needs to understand the architecture; everything else (patterns, rationale, implementation detail) lives in the Obsidian knowledge graph.
-See chapter 1's guiding rule.
+- **AI-agent-driven implementation, via reusable skills** — the system is implemented and maintained by AI agents rather than hand-coded per change; a skill (`.agents/skills/`) operationalizes the detailed patterns in `doc/concept` into a reproducible workflow — which guide to follow, which artifacts to create or update, how to validate the result with tests — so the same kind of change is done the same way every time, by any agent.
+See `AGENTS.md` (repository root) and `doc/concept/AGENTS.md`.
+- **`openspec`, `obsidian`, and `doc/arc42` each own exactly one kind of fact, for documentation that doesn't drift** — `openspec` is the normative contract, `doc/arc42` is the bird's-eye and architecture reference, and `obsidian` is the explanatory knowledge graph; a defined precedence between them, plus the rule that an Obsidian note is a hypothesis about the code and never an independent fact, is what keeps this many documentation artifacts from silently disagreeing as the system evolves.

@@ -4,15 +4,26 @@
 == Business context
 
 Clinic staff use a browser client to manage Owners, Pets, Vets, and Visits.
-There is currently no owner self-service access — see xref:{relrootdir}/doc/arc42/adr/0004-jwt-resource-server-and-roles.adoc[ADR 0004] for whether that changes.
 
 == Technical context
 
-....
-[ Browser client ]  <-- REST / GraphQL over HTTP -->  [ Backend server ]  <-- JDBC -->  [ Database ]
- (Angular, Svelte,     (openspec/specs/rest-           (Spring Boot,        (HyperSQL dev/test,
-  or a future stack)     conventions, graphql-           Spring Data,          PostgreSQL prod —
-                         conventions)                    Spring GraphQL)       see hsqldb-vs-postgres.md)
-....
+[plantuml, target=technical-context, format=svg]
+----
+@startuml
+!include <C4/C4_Context.puml>
 
-Today's in-repo clients (`app/client-angular`, `app/client-svelte`) and their future standalone replacements (`petclinic-angular-ui`, `petclinic-svelte-ui`) all sit in the same position in this diagram — they are interchangeable consumers of the same backend contract.
+LAYOUT_LEFT_RIGHT()
+
+System(client, "Browser client", "Angular, Svelte, or a future stack")
+System(server, "Backend server", "Spring Boot, Spring Data, Spring GraphQL")
+SystemDb(db, "Database", "HyperSQL dev/test, PostgreSQL prod")
+
+Rel(client, server, "REST / GraphQL", "HTTP")
+Rel(server, db, "reads/writes", "JDBC")
+
+SHOW_LEGEND()
+@enduml
+----
+
+REST and GraphQL follow `openspec/specs/rest-conventions` and `openspec/specs/graphql-conventions`.
+The choice between HyperSQL and PostgreSQL is explained in `openspec/specs/database-platform`.
