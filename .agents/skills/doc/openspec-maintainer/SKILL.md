@@ -57,11 +57,11 @@ Delete `openspec/changes/{change-id}/`. Do not leave it committed — there is n
 
 ### Keep the capability technology-independent
 
-Do not add Spring/Angular/Svelte implementation detail to a requirement. Add operation-specific scenarios only when requested; do not speculatively cover every edge case a capability could have.
+Do not add technology stack details to a requirement. Add operation-specific scenarios only when requested; do not speculatively cover every edge case a capability could have.
 
 ### Flag an untracked forward-looking gap
 
-If the requested requirement describes a target ahead of what's implemented (like `security`'s baseline), only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one, per `openspec/AGENTS.md`.
+If the requested requirement describes a target ahead of what's implemented (like `security`'s baseline), only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
 
 ## Validation checklist
 

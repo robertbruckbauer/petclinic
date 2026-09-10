@@ -1,18 +1,5 @@
 # Agent Instructions
 
-## Domain story
-
-Pet Clinic is a veterinary clinic management system.
-Clients register as **Owners** and bring their **Pets** to the clinic.
-**Vets** conduct **Visits** with the pets.
-
-## Architecture
-
-The system is implemented as a **Self-Contained System**.
-It consists of one backend server and browser-based clients.
-The backend exposes both a REST API and a GraphQL API consumed by the clients.
-The database is managed entirely through Liquibase migrations.
-
 ## Developement
 
 The best code is the code never written.
@@ -37,9 +24,17 @@ This repository has six documentation approaches with a clear separation of conc
 - **`openspec`** — the normative, implementable behavior contract for the backend and every generated client.
 - **`obsidian`** — the knowledge graph maintained exclusively by AI agents — never by direct human edit.
 
-**Truth model and precedence.** When two artifacts disagree about a current-state fact, resolve in this order: (1) code and tests, (2) `doc/arc42`, (3) `doc/concept`, (4) `openspec`, (5) `obsidian`. `openspec` defines what *must* be true and may run ahead of the implementation only when the gap is tracked via an ADR and a risk entry — that's a documented gap, not a contradiction. Every knowledge graph note is a hypothesis about the code, never an independent fact: a note that contradicts the code is corrected to follow the code and its `updated:` date is set to record the re-check; if it can't be verified, it's marked `status: stale` with a one-line reason instead of guessing. Never let an unverified note drive an implementation decision — surface the contradiction explicitly instead of silently trusting or dropping it. A note marked `stale`/`superseded` is a historical record, not current guidance.
+No `doc`, `openspec`, or `obsidian` artifact references a file under `plans/` directly — a plan is a transient working document for a single change, not part of the durable documentation graph. A fact from a plan that needs to persist is written directly into the artifact instead.
 
-**Never link to a plan.** No `doc`, `openspec`, or `obsidian` artifact references a file under `plans/` directly — a plan is a transient working document for a single change, not part of the durable documentation graph. A fact from a plan that needs to persist is written directly into the artifact instead.
+## Truth model and precedence
+
+This repository has five artifacts that can describe the same current-state fact. When two of them disagree, resolve in this order:
+
+1. Code and tests — the ground truth.
+2. `doc/arc42` — the bird's-eye view.
+3. `doc/concept` — the implementation guides.
+4. `openspec` — the normative contract.
+5. `obsidian` — the explanatory knowledge graph written only by AI agents through its maintenance skills — never by direct human edit.
 
 ## Instructions
 
@@ -134,14 +129,8 @@ For Liquibase script files (*.xml):
 | Artifact | Pattern | Location |
 |---|---|---|
 | Knowledge note | `{topic}.md` | `obsidian/{Category}/` |
-| Category map of contents (MOC) | `moc.md` | `obsidian/{Category}/` |
+| Category map of contents | `moc.md` | `obsidian/{Category}/` |
 | Vault index | `index.md` | `obsidian/` |
-
-Every knowledge note is reachable from its category's `moc.md`, and every `moc.md` is reachable from `obsidian/index.md` — a MOC links and briefly describes its notes, it never duplicates their content. `obsidian-maintainer` adds a note to its category's MOC in the same change that creates or retopics the note.
-
-Risks are **not** an Obsidian artifact — they're rows (`Risk | Score | Mitigation`, no numbering) directly in `doc/arc42/11-risks-and-technical-debt.adoc`'s table, alongside ADRs in the `doc/arc42` table above.
-
-ADRs are **not** an Obsidian artifact — see `doc/arc42`'s table above. An Obsidian note may only link to one, never restate its content.
 
 ### `doc`
 

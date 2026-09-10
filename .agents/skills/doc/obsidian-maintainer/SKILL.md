@@ -22,6 +22,8 @@ If none of these apply — the task was routine and nothing here would need redi
 
 ### Check the content actually belongs in the graph
 
+`obsidian/AGENTS.md` is a directory-level agent-instructions file, not a knowledge note.
+
 Only the following kinds of content belong in `obsidian/` — if what triggered the note above doesn't fit one of these, it belongs in a different artifact (arc42/OpenSpec/ADR/risk/code comment) instead, not here:
 
 - Subject-specific rules, invariants, and lifecycles that do not stem from a single file (i.e. not already stated in a fact sheet or code comment — link to that instead of duplicating it).
@@ -31,6 +33,8 @@ Only the following kinds of content belong in `obsidian/` — if what triggered 
 - Conventions.
 
 ### Identify target note and category
+
+`obsidian/AGENTS.md` is exempt from the frontmatter, category, and MOC-linkage rules below.
 
 Extract the note's topic and one of the nine allowed categories (Domain, Architecture, Backend, Frontend, Security, Database, Testing, Building, Context) from the request.
 Check that the category is one of those nine — no tenth category may be invented.
@@ -74,7 +78,7 @@ If this task encounters a note already marked `status: stale` or `status: supers
 
 - [ ] At least one rediscovery trigger actually applied — a note was not written just because this skill was invoked
 - [ ] The note's content is one of: subject rules/invariants/lifecycles not tied to a single file, technical must-not constraints, a decision (incl. rejected alternatives), a non-obvious pitfall/error scenario, or a convention
-- [ ] Frontmatter has `category`, `related`, `status`, and `updated:`
+- [ ] Frontmatter has `category`, `related`, `status`, and `updated:` (not applicable to `obsidian/AGENTS.md`, which is exempt)
 - [ ] `category` is one of the nine allowed categories
 - [ ] The note is linked from its category's `moc.md`, added in this same change
 - [ ] Every link is standard Markdown, no `[[wikilinks]]`
