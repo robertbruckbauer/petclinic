@@ -17,10 +17,10 @@ Use it.
 
 This repository has six documentation approaches with a clear separation of concerns:
 
-- **`doc/arc42`** — bird's-eye architecture facts for stakeholders, product people, and architects/developers new to the project.
+- **`doc/arc42`** — bird's-eye architecture facts for stakeholders, and staff new to the project.
 - **`doc/concept`** — implementation concepts per technology stack.
-- **`doc/manual`** — development guides for setup and environment how-tos.
-- **`doc/service`** — generated-style REST/GraphQL API reference documentation.
+- **`doc/manual`** — development and maintenance guides.
+- **`doc/service`** — API reference documentation.
 - **`openspec`** — the normative, implementable behavior contract for the backend and every generated client.
 - **`obsidian`** — the knowledge graph maintained exclusively by AI agents — never by direct human edit.
 
