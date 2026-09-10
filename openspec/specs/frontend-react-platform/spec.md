@@ -1,6 +1,6 @@
 # Frontend React Platform
 
-Technology stack for a planned React client at `app/client-react`, generated from `client-shell`, `client-style`, and the per-entity `## UI Requirements` capabilities — not yet implemented. Per `openspec/AGENTS.md`, any capability suffixed `-platform` is technology-specific by design; like `frontend-svelte-platform` and `frontend-angular-platform`, this capability documents the technology itself rather than abstracting over it. `app/client-react` is REST-only — see `graphql-conventions`.
+Technology stack for a planned React client, generated from `client-shell`, `client-style`, and the per-entity `## UI Requirements` capabilities — not yet implemented. Per `doc/arc42/adr/0002-openspec-driven-client-generation.adoc`, this client's target home is its own standalone repository (`petclinic-react-ui`), not a module of this repository; that repository would share this repository's requirements and scenarios by duplicating — syncing a copied, diffable subset of — this repository's `openspec/` directory into its own, rather than by a live reference (see the ADR for the sync mechanism; this file does not restate it). See the technical-debt row in `doc/arc42/11-risks-and-technical-debt.adoc` for the tracked gap. Per `openspec/AGENTS.md`, any capability suffixed `-platform` is technology-specific by design; like `frontend-svelte-platform` and `frontend-angular-platform`, this capability documents the technology itself rather than abstracting over it. This client is REST-only — see `graphql-conventions`.
 
 ## Building
 
