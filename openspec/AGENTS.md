@@ -15,7 +15,8 @@ Do not skip step 1 for a small typo fix — edit `specs/` directly for those. Re
 
 ## Rules this directory's maintainer (`obsidian-maintainer`'s sibling, `openspec-maintainer`) enforces
 
-- Specs stay technology-independent where possible — no Spring/Angular/Svelte implementation detail. That belongs in `doc/service/*.adoc` (generated API docs) or `obsidian/Backend|Frontend/` (patterns, rationale).
+- A capability with the `-platform` is technology-specific by design, its whole purpose being to pin that module's current technology stack (framework, build/test tooling, packaging, and similar) as a requirement rather than abstract away from it. 
+- Don't cite a `-platform` capability as precedent for adding framework detail to a non-`-platform` capability. A `-platform` capability doesn't replace the technology-independent contract for its module: `client-shell`/`client-style` still apply unchanged to every client, `-platform` capability or not.
 - A significant behavior change must not land in code before its `specs/` update — OpenSpec is normative, not descriptive-after-the-fact.
 - Never restate what `doc/arc42` or `doc/concept` already say; link to them.
 - A capability spec may describe a target ahead of the current implementation only when the gap is tracked via an ADR (`doc/arc42/adr/`) + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table (see `project.md` → "Planned future changes"). An untracked gap is a defect in the spec, not an acceptable target.
