@@ -64,7 +64,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.029s</div>
+<div class="counter">0.037s</div>
 <p>duration</p>
 </div>
 </td>
@@ -86,9 +86,9 @@
 <div class="tab">
 <h2>standard output</h2>
 <span class="code">
-<pre id="root-0-test-stdout-postApiVisit(String)[1]">2026-05-06T12:25:51.482Z  INFO 3389 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-05-06T12:25:51.482Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-05-06T12:25:51.483Z  INFO 3389 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+<pre id="root-0-test-stdout-postApiVisit(String)[1]">2026-09-10T18:31:08.015Z  INFO 3226 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-10T18:31:08.015Z  INFO 3226 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-10T18:31:08.017Z  INFO 3226 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 Hibernate: 
     select
         p1_0.id,
@@ -132,8 +132,8 @@ Hibernate:
             on v1_0.id=as2_0.id 
     where
         v1_0.id=?
-2026-05-06T12:25:51.491Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:4a54f766-be16-4240-bb63-e59a092135a9,date='2021-04-20']; creating ...
-2026-05-06T12:25:51.494Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:4a54f766-be16-4240-bb63-e59a092135a9,date='2021-04-20']
+2026-09-10T18:31:08.027Z  INFO 3226 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : RECEIVED [version:0,id:058c9a28-744a-4b9f-a7fd-627aba947450,date='2021-04-20']; creating ...
+2026-09-10T18:31:08.030Z  INFO 3226 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : ACCEPTED [version:0,id:058c9a28-744a-4b9f-a7fd-627aba947450,date='2021-04-20']
 Hibernate: 
     select
         v1_0.id,
@@ -156,7 +156,7 @@ Hibernate:
         (billable, date, duration, pet_id, text, time, version, vet_id, id) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2026-05-06T12:25:51.498Z  INFO 3389 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:4a54f766-be16-4240-bb63-e59a092135a9,date='2021-04-20']
+2026-09-10T18:31:08.035Z  INFO 3226 --- [    Test worker] esy.rest.JsonJpaRestControllerBase       : CREATED [version:0,id:058c9a28-744a-4b9f-a7fd-627aba947450,date='2021-04-20']
 
 MockHttpServletRequest:
       HTTP Method = POST
@@ -188,13 +188,13 @@ FlashMap:
 MockHttpServletResponse:
            Status = 201
     Error message = null
-          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9&quot;, Content-Type:&quot;application/json&quot;]
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, ETag:&quot;&quot;0&quot;&quot;, Location:&quot;http://localhost:8080/api/visit/058c9a28-744a-4b9f-a7fd-627aba947450&quot;, Content-Type:&quot;application/json&quot;]
      Content type = application/json
              Body = {
   &quot;billable&quot; : false,
   &quot;date&quot; : &quot;2021-04-20&quot;,
   &quot;duration&quot; : &quot;PT0S&quot;,
-  &quot;id&quot; : &quot;4a54f766-be16-4240-bb63-e59a092135a9&quot;,
+  &quot;id&quot; : &quot;058c9a28-744a-4b9f-a7fd-627aba947450&quot;,
   &quot;text&quot; : &quot;Lorem ipsum.&quot;,
   &quot;time&quot; : null,
   &quot;version&quot; : 0,
@@ -213,20 +213,20 @@ MockHttpServletResponse:
   &quot;content&quot; : [ ],
   &quot;links&quot; : [ {
     &quot;rel&quot; : &quot;self&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/058c9a28-744a-4b9f-a7fd-627aba947450&quot;
   }, {
     &quot;rel&quot; : &quot;visit&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9&quot;
-  }, {
-    &quot;rel&quot; : &quot;vet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9/vet&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/058c9a28-744a-4b9f-a7fd-627aba947450&quot;
   }, {
     &quot;rel&quot; : &quot;pet&quot;,
-    &quot;href&quot; : &quot;http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9/pet&quot;
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/058c9a28-744a-4b9f-a7fd-627aba947450/pet&quot;
+  }, {
+    &quot;rel&quot; : &quot;vet&quot;,
+    &quot;href&quot; : &quot;http://localhost:8080/api/visit/058c9a28-744a-4b9f-a7fd-627aba947450/vet&quot;
   } ]
 }
     Forwarded URL = null
-   Redirected URL = http://localhost:8080/api/visit/4a54f766-be16-4240-bb63-e59a092135a9
+   Redirected URL = http://localhost:8080/api/visit/058c9a28-744a-4b9f-a7fd-627aba947450
           Cookies = []
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-postApiVisit(String)[1]">Copy</button>
@@ -242,7 +242,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.4.1</a> at May 6, 2026, 12:25:52 PM</p>
+<a href="https://www.gradle.org">Gradle 9.4.1</a> at Sep 10, 2026, 6:31:08 PM</p>
 </div>
 </div>
 </body>
