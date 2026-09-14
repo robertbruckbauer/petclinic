@@ -43,7 +43,7 @@ Where a lister's filter is free text rather than a required selection, it is one
 
 ### Requirement: A fixed-vocabulary field is populated from the shared enum picklist for its category
 
-Where a property's set of valid values is centrally managed rather than fixed in code (e.g. a species or a skill), its dropdown/multi-select is populated from that category's picklist, per `enum-management`, instead of being hard-coded per screen.
+Where a property's set of valid values is centrally managed rather than fixed in code (e.g. a species or a skill), its dropdown/multi-select is populated from that category's picklist, per `backend-api-enum`, instead of being hard-coded per screen.
 
 ### Requirement: Every screen renders through one shared visual theme
 
@@ -79,7 +79,7 @@ Headings from the most to least prominent level decrease in size and tighten in 
 
 ### Requirement: Layout reflows from stacked to side-by-side at one shared breakpoint
 
-Below one shared width breakpoint, an editor's fields and a lister row's action icons stack in a single column; at and above that same breakpoint, they lay out side by side (a row, or a multi-column grid for a longer run of icons). The breakpoint is the same value everywhere this reflow happens — no screen defines its own. A column judged secondary on a narrow screen (e.g. `enum-management`'s Text column) is hidden below that breakpoint and reappears above it, rather than being squeezed to fit.
+Below one shared width breakpoint, an editor's fields and a lister row's action icons stack in a single column; at and above that same breakpoint, they lay out side by side (a row, or a multi-column grid for a longer run of icons). The breakpoint is the same value everywhere this reflow happens — no screen defines its own. A column judged secondary on a narrow screen (e.g. `client-ui-enum`'s Text column) is hidden below that breakpoint and reappears above it, rather than being squeezed to fit.
 
 ### Requirement: A single shared spinner represents the loading state everywhere
 
@@ -100,4 +100,4 @@ Wherever a control is required to be disabled — by one of this capability's ow
 
 ### Requirement: The app shell is a fixed header and footer around a scrollable content area, with entities grouped under category headings in a collapsible menu
 
-A fixed bar stays pinned to the top of the viewport across every screen, and a second fixed bar stays pinned to the bottom; the content area between them scrolls independently. The top bar's navigation is a collapsible menu (opened/closed by one toggle whose icon itself changes between an "open" and a "close" glyph to reflect the menu's current state) listing every entity's lister under a short category heading (e.g. "Client" groups Owner and Pet; "Clinic" groups Visit, Vet, and the picklist screens from `enum-management`) — not a flat list of every entity.
+A fixed bar stays pinned to the top of the viewport across every screen, and a second fixed bar stays pinned to the bottom; the content area between them scrolls independently. The top bar's navigation is a collapsible menu (opened/closed by one toggle whose icon itself changes between an "open" and a "close" glyph to reflect the menu's current state) listing every entity's lister under a short category heading (e.g. "Client" groups Owner and Pet; "Clinic" groups Visit, Vet, and the picklist screens from `client-ui-enum`) — not a flat list of every entity.

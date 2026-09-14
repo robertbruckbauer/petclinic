@@ -122,14 +122,13 @@ For Liquibase script files (*.xml):
 | Artifact | Pattern | Location |
 |---|---|---|
 | OpenSpec capability spec | `spec.md` | `openspec/specs/{capability}/` |
-| OpenSpec change proposal (working state, gitignored, never persisted) | `proposal.md`, `tasks.md`, `design.md` | `openspec/changes/{change-id}/` |
 
 ### `obsidian`
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| Knowledge note | `{topic}.md` | `obsidian/{Category}/` |
-| Category map of contents | `moc.md` | `obsidian/{Category}/` |
+| Knowledge note | `{topic}.md` | `obsidian/{category}/` |
+| Category map of contents | `moc.md` | `obsidian/{category}/` |
 | Vault index | `index.md` | `obsidian/` |
 
 ### `doc`

@@ -18,7 +18,6 @@ description: 'Structurally and cross-artifact validate arc42, OpenSpec, Obsidian
 ### Check OpenSpec structural rules
 
 - Every `openspec/specs/{capability}/spec.md` uses only `### Requirement:` / `#### Scenario:` structure.
-- No `openspec/changes/` folder is committed to the repository (it must be gitignored working state only).
 - No capability spec restates `doc/arc42` content instead of linking to it.
 - No capability spec restates `doc/concept` content instead of linking to it.
 - No capability spec restates `doc/service` content instead of linking to it.

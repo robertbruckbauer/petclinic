@@ -21,7 +21,7 @@ For each candidate sentence: would removing it change a stakeholder's understand
 
 ### Edit the chapter
 
-Keep the chapter's existing content boundary — each of the 12 standard arc42 chapters is scoped to one facet (introduction/goals, constraints, context and scope, solution strategy, building blocks, runtime view, deployment view, cross-cutting concepts, architecture decisions, quality requirements, risks and technical debt, glossary) and stays within it. Add or update only what's architecturally significant. Do not add Spring/Angular/Svelte/JPA/GraphQL implementation detail — link to `obsidian/Backend/` or `obsidian/Frontend/` for that.
+Keep the chapter's existing content boundary — each of the 12 standard arc42 chapters is scoped to one facet (introduction/goals, constraints, context and scope, solution strategy, building blocks, runtime view, deployment view, cross-cutting concepts, architecture decisions, quality requirements, risks and technical debt, glossary) and stays within it. Add or update only what's architecturally significant. Do not add Spring/Angular/Svelte/JPA/GraphQL implementation detail — link to `obsidian/server/` or `obsidian/client/` for that.
 
 ### Update the ADR index chapters when applicable
 

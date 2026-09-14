@@ -1,6 +1,6 @@
 ---
 name: openspec-maintainer
-description: 'Maintain openspec/ as the normative behavior contract via the propose-apply-merge workflow; use for prompts like "Add a requirement for ..." or "Update the OpenSpec capability for ...".'
+description: 'Maintain openspec/ as the normative behavior contract by editing capability specs directly; use for prompts like "Add a requirement for ..." or "Update the OpenSpec capability for ...".'
 ---
 
 ## Task preconditions
@@ -9,9 +9,11 @@ You MUST NOT generate a spec change if even one of the preconditions is not met.
 
 ### Identify target capability
 
-Extract the capability name from the request (e.g. `rest-conventions`, `owner-management`).
+Extract the capability name from the request (e.g. `backend-api-conventions`, `backend-api-owner`, `client-ui-owner`).
 Check that `openspec/specs/{capability}/spec.md` exists, or that a new capability is explicitly being requested.
 Replace placeholder `{capability}` with the given name.
+
+For Owner/Pet/Vet/Visit/Enum, REST and GraphQL requirements live in `backend-api-<entity>` (e.g. `backend-api-owner` for the owner entity) and UI requirements live in the separate `client-ui-<entity>` capability (e.g. `client-ui-owner` for the owner entity) — pick the one matching the request's concern, don't add a `## UI Requirements` section to a `backend-api-*` spec or a `## REST`/`## GraphQL Requirements` section to a `client-ui-*` spec.
 
 ### Route UI-facing content to `client-shell` vs. `client-style`
 
@@ -36,24 +38,15 @@ A capability's `## GraphQL Requirements` gets one `### Requirement:` per named q
 
 Source from that entity's `*-graphql.adoc` under `doc/service/` as the starting point, and its GraphQL controller and schema (`.gqls`) under `lib/backend-data` as the final reference where the two disagree — RESTDocs can lag behind the code (a documented query that no longer exists, or a real one that was never documented).
 
-### Identify change scope
+### Check precedence before editing
 
-Determine whether this is a wording fix (edit `specs/{capability}/spec.md` directly) or a behavior change (requires the full propose → apply → merge workflow below).
 Precedence when artifacts disagree about a current-state fact: code and tests, then `doc/arc42`, then `doc/concept`, then `openspec`, then `obsidian`. If the request would make `openspec` contradict `doc/arc42` or `doc/concept` about current-state fact, stop and reconcile toward those first — do not let this skill silently override them.
 
 ## Task steps
 
-### Draft the change (behavior changes only)
+### Edit the capability spec directly
 
-Create the working (gitignored, never committed) folder `openspec/changes/{change-id}/` with `proposal.md` (what and why), `tasks.md` (steps), and a delta `specs/{capability}/spec.md` using `## ADDED Requirements` / `## MODIFIED Requirements` / `## REMOVED Requirements` headers, per `openspec/AGENTS.md`.
-
-### Apply the change
-
-Merge the delta directly into `openspec/specs/{capability}/spec.md`, keeping the `### Requirement:` / `#### Scenario:` format already used in every capability spec.
-
-### Discard the working folder
-
-Delete `openspec/changes/{change-id}/`. Do not leave it committed — there is no `changes/archive/`; the commit that changed `specs/` is the record.
+Add, change, or remove `### Requirement:`/`#### Scenario:` entries directly in `openspec/specs/{capability}/spec.md` — a wording fix and a behavior change are both made this way, in place, with no separate draft/staging step. Keep the `### Requirement:` / `#### Scenario:` format already used in every capability spec.
 
 ### Keep the capability technology-independent
 
@@ -61,7 +54,7 @@ Do not add technology stack details to a requirement. Add operation-specific sce
 
 ### Flag an untracked forward-looking gap
 
-If the requested requirement describes a target ahead of what's implemented (like `security`'s baseline), only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
+If the requested requirement describes a target ahead of what's implemented (like `backend-security`'s baseline), only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
 
 ## Validation checklist
 
@@ -70,10 +63,9 @@ If the requested requirement describes a target ahead of what's implemented (lik
 - [ ] A new/changed UI requirement landed in `client-shell` (REST/service/security-driven behavior) or `client-style` (composition/appearance) per the routing rule, not duplicated across both or left ambiguous unasked
 - [ ] `## REST Requirements` has one requirement per HTTP operation (titled by verb + path), not a blanket "Full CRUD" bundle
 - [ ] `## GraphQL Requirements` has one requirement per named query, not a bundle covering every query for that entity
-- [ ] `openspec/changes/{change-id}/` was deleted after merging, not left in the working tree
 - [ ] Any forward-looking (not-yet-implemented) requirement has a tracked ADR + a row in chapter 11's risk table
-- [ ] No file under `plans/` is referenced from the spec, proposal, or tasks
+- [ ] No file under `plans/` is referenced from the spec
 
 ## Task output
 
-Report which capability was changed, whether it was a direct edit or a full propose/apply/merge cycle, and the ADR path / risk table row name if the change was forward-looking.
+Report which capability was changed and a one-line summary of the change, plus the ADR path / risk table row name if the change was forward-looking.

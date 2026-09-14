@@ -36,7 +36,7 @@ Only the following kinds of content belong in `obsidian/` — if what triggered 
 
 `obsidian/AGENTS.md` is exempt from the frontmatter, category, and MOC-linkage rules below.
 
-Extract the note's topic and one of the nine allowed categories (Domain, Architecture, Backend, Frontend, Security, Database, Testing, Building, Context) from the request.
+Extract the note's topic and one of the nine allowed categories (domain, architecture, server, client, security, database, testing, building, context) from the request.
 Check that the category is one of those nine — no tenth category may be invented.
 Replace placeholder `{category}` and `{topic}` accordingly; the file is `obsidian/{category}/{topic}.md`. Architecture decisions and risks are **not** created here — decisions live under `doc/arc42/adr/` (see `arc42-adr-maintainer`) and risks live as rows in `doc/arc42/11-risks-and-technical-debt.adoc`'s table (see `arc42-risk-maintainer`); this skill only links to them.
 

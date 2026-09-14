@@ -1,6 +1,6 @@
 # Client Shell
 
-Every generated screen's high-level inventory (a lister, an editor, a viewer per entity) and the behavioral contract driven by its backend calls and security posture — filtering/pagination via `rest-conventions`, optimistic-concurrency conflicts, validation-error mapping, explicit loading/empty states, error presentation, and (once active) auth/session handling. Independent of framework; per-entity capabilities' `## UI Requirements` sections reference this instead of restating it. A screen's concrete field/table composition and its visual appearance are `client-style` instead.
+Every generated screen's high-level inventory (a lister, an editor, a viewer per entity) and the behavioral contract driven by its backend calls and security posture — filtering/pagination via `backend-api-conventions`, optimistic-concurrency conflicts, validation-error mapping, explicit loading/empty states, error presentation, and (once active) auth/session handling. Independent of framework; per-entity capabilities' `## UI Requirements` sections reference this instead of restating it. A screen's concrete field/table composition and its visual appearance are `client-style` instead.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ Every generated screen's high-level inventory (a lister, an editor, a viewer per
 
 ### Requirement: Lister reflects the REST conventions' filtering and pagination
 
-Filter controls map directly to the query parameters defined in `rest-conventions`; the lister does not invent its own filtering/pagination behavior.
+Filter controls map directly to the query parameters defined in `backend-api-conventions`; the lister does not invent its own filtering/pagination behavior.
 
 ### Requirement: Editor surfaces optimistic-concurrency conflicts to the user
 
@@ -24,7 +24,7 @@ Filter controls map directly to the query parameters defined in `rest-convention
 
 ### Requirement: Validation errors are shown next to the field they belong to
 
-A `400` response's field-level errors (per `rest-conventions`) are mapped to the corresponding form field, not shown only as a generic banner.
+A `400` response's field-level errors (per `backend-api-conventions`) are mapped to the corresponding form field, not shown only as a generic banner.
 
 ### Requirement: Loading and empty states are explicit
 
@@ -36,4 +36,4 @@ A non-2xx response the UI cannot resolve locally (e.g. a 5xx, a network failure)
 
 ### Requirement: Auth/session handling (planned, not yet active)
 
-Once the future security plan lands, this requirement defines: where the token is stored, how it's attached to requests, and what happens on a `401` (redirect to a login flow). Until then, no client performs any auth/session handling, since no endpoint requires it (`security` capability).
+Once the future security plan lands, this requirement defines: where the token is stored, how it's attached to requests, and what happens on a `401` (redirect to a login flow). Until then, no client performs any auth/session handling, since no endpoint requires it (`backend-security` capability).

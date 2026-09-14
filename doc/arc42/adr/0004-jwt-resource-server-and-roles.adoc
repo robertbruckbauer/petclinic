@@ -4,7 +4,7 @@
 == Status
 
 **Proposed / deferred.**
-This is not a decision — it's a placeholder that records the questions a future plan must resolve before `openspec/specs/security/spec.md` can be extended with an authorization model.
+This is not a decision — it's a placeholder that records the questions a future plan must resolve before `openspec/specs/backend-security/spec.md` can be extended with an authorization model.
 
 == Context
 
@@ -25,18 +25,18 @@ Not yet made.
 
 == Consequences of staying deferred
 
-- `openspec/specs/security/spec.md` documents an unauthenticated baseline as current truth (not a gap hidden from readers).
+- `openspec/specs/backend-security/spec.md` documents an unauthenticated baseline as current truth (not a gap hidden from readers).
 - No client (existing or standalone) implements any login/token-handling UI yet.
 - Every per-entity capability spec's "Authorization" requirement currently reads "none" — accurate today, expected to change only once this ADR is accepted.
 
 == When this ADR is accepted
 
 . Flip status to `accepted` and fill in the Decision section above.
-. Add a `## ADDED Requirements` delta to `openspec/specs/security/spec.md` (via the normal propose → apply → merge workflow, `openspec/AGENTS.md`).
+. Add the new requirements directly to `openspec/specs/backend-security/spec.md` (via the `openspec-maintainer` skill).
 . Update the risk's Mitigation cell in xref:{relrootdir}/doc/arc42/11-risks-and-technical-debt.adoc[chapter 11]'s table to reflect what's now implemented.
 . Only then implement `oauth2ResourceServer(...)` in `EsySecurityConfiguration`, plus the corresponding UI changes in the `client-shell` capability and both client repos.
 
 == Links
 
-- `openspec/specs/security/spec.md`
+- `openspec/specs/backend-security/spec.md`
 - xref:{relrootdir}/doc/arc42/03-context-and-scope.adoc[arc42 ch. 3], xref:{relrootdir}/doc/arc42/11-risks-and-technical-debt.adoc[ch. 11 risk table]
