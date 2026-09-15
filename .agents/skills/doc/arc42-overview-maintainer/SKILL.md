@@ -33,20 +33,22 @@ Each of the 12 chapters has its own established format below (headings, table sh
 
 #### 2. Constraints
 
-Each constraint is a terse bullet under `Architecture`, linking an ADR where one exists instead of re-arguing the decision. `Documentation` only points at `doc/arc42/AGENTS.md` for the arc42/Obsidian/OpenSpec precedence rules — it does not restate them.
+Currently an intentional stub (title only) — no runtime scenarios are documented yet.
 
 #### 3. Context and Scope
 
-The PlantUML C4 diagram is the authoritative technical context. Text below it only names which `openspec/specs/*` capability is normative for a choice the diagram shows — it does not restate that capability's content.
+`Business context` shows actors and externl systems in a PlantUML usecase diagram.
+
+`Technical context` shows system context in a PlantUML C4 diagram (level 1).
 
 #### 4. Solution Strategy
 
 A solution strategy is system-wide, hard-to-reverse decision. A decision that isn't strategic doesn't get a place here — apply the removal test.
-Each solution strategy is a bullet point with a very short bird's-eye description without implementation details, and a mandatory ADR xref.
+Each solution strategy is a distribution list element with a very short bird's-eye description without implementation details, and a mandatory ADR xref.
 
 #### 5. Building Block View
 
-Stays exactly one level deep: one `Module | Responsibility` table row per top-level module (`lib/*`, `app/*`), responsibility in a few words — traceability into `doc/concept` is named, not elaborated.
+Stays exactly one level deep: one `Module | Responsibility` table row per top-level module (`lib/*`, `app/*`), responsibility in a few words without implementation details.
 
 #### 6. Runtime View
 

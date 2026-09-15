@@ -1,21 +1,2 @@
 :relrootdir: ../..
 = 2. Constraints
-
-== Documentation
-
-When two documentation locations describe the same current-state fact and disagree, this order resolves it:
-
-. Code and tests — the ground truth.
-. `doc/arc42` — bird's-eye architecture facts for stakeholders and staff new to the project.
-. `doc/concept` — implementation guides, one per technology stack.
-. `openspec` — the normative, implementable behavior contract for the backend and every generated client.
-. `obsidian` — the explanatory knowledge graph, maintained exclusively by AI agents.
-
-== Architecture
-
-- The system is a **Self-Contained System**: one backend server owns the database and business logic; browser based frontends are thin.
-- Frontends are standalone projects with their own build and repository.
-See xref:{relrootdir}/doc/arc42/adr/0001-self-contained-system.adoc[ADR 0001].
-- The backend exposes both a REST API and a GraphQL API, built with Spring Boot, Spring Data, and Spring GraphQL.
-- The database schema is managed entirely through Liquibase migrations; no manual schema changes are permitted outside them.
-- The build is a single Gradle multi-module project for the backend.

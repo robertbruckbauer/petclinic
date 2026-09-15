@@ -3,7 +3,30 @@
 
 == Business context
 
-Clinic staff use a browser client to manage Owners, Pets, Vets, and Visits.
+[plantuml, target=business-context, format=svg]
+----
+@startuml
+left to right direction
+
+actor "Clinic staff" as staff
+
+rectangle "Pet Clinic" {
+  usecase "Manage Owners" as UC1
+  usecase "Manage Pets" as UC2
+  usecase "Manage Vets" as UC3
+  usecase "Manage Skills" as UC31
+  usecase "Manage Species" as UC32
+  usecase "Manage Visits" as UC4
+}
+
+staff --> UC1
+UC1 --> UC2
+staff --> UC3
+UC3 --> UC31
+UC3 --> UC32
+staff --> UC4
+@enduml
+----
 
 == Technical context
 
