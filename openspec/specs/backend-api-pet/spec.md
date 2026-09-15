@@ -1,6 +1,6 @@
 # Backend API: Pet
 
-The REST and GraphQL API for pets belonging to an owner. References `backend-api-conventions`, `backend-api-owner`, and `backend-security` instead of restating their rules. See `client-ui-pet` for the UI built on this API.
+The REST and GraphQL API for pets belonging to an owner. References `backend-api-conventions` and `backend-api-owner` instead of restating their rules. See `client-ui-pet` for the UI built on this API.
 
 ## REST Requirements
 
@@ -63,7 +63,7 @@ Reports `200 OK` with the deleted entity if it existed, `404 Not Found` otherwis
 
 ### Requirement: Authorization
 
-No endpoint under `/api/pet` currently requires authentication — see `backend-security`.
+No endpoint under `/api/pet` currently requires authentication.
 
 ## GraphQL Requirements
 
@@ -81,4 +81,4 @@ A pet's `owner` field is resolved via batch loading (per `backend-api-convention
 
 ### Requirement: Authorization
 
-`/graphql` queries touching `Pet` currently require no authentication — see `backend-security`.
+`/graphql` queries touching `Pet` currently require no authentication.

@@ -1,6 +1,6 @@
 # Backend API: Basis
 
-Report the running application's identity and health over plain HTTP. References `backend-security` instead of restating its rules. No persisted entity, no GraphQL. Unlike every other capability, none of these paths are under `/api`.
+Report the running application's identity and health over plain HTTP. No persisted entity, no GraphQL. Unlike every other capability, none of these paths are under `/api`.
 
 ## REST Requirements
 
@@ -36,4 +36,4 @@ Reports the readiness state: whether the process is ready to serve requests, dis
 
 ### Requirement: Authorization
 
-No endpoint under this capability currently requires authentication — see `backend-security`.
+No endpoint under this capability currently requires authentication.

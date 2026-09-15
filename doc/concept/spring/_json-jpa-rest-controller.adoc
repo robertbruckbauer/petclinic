@@ -46,6 +46,9 @@ _Sorting_ means that the order within a collection resource is determined by a s
 With a _Projection_, a view can be applied to a resource.
 An _Excerpt_ is a _Projection_ that is automatically applied to a _Collection Resource_.
 
+Entity lifecycle events are logged uniformly at INFO through the base class by implementing `@Handle*` event hooks provided by _Spring Data REST.
+A concrete entity's event handler MUST not implement its own logging; it inherits these, so all entity types get the same message shape.
+
 == Properties
 
 === eventPublisher

@@ -2,7 +2,7 @@
 
 ## Role of this directory
 
-`openspec/` contains the normative, implementable behavior contract for the backend (REST, GraphQL, security) and for every generated client (UI structure and behavior).
+`openspec/` contains the normative, implementable behavior contract for the backend (REST, GraphQL) and for every generated client (UI structure and behavior).
 
 ## How a document is produced or updated
 

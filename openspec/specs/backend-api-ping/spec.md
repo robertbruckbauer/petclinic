@@ -1,6 +1,6 @@
 # Backend API: Ping
 
-The REST API for lightweight reachability/heartbeat records — a minimal entity intentionally restricted to only the operations a heartbeat needs. References `backend-security` instead of restating its rules; deviates from `backend-api-conventions` as noted below. No GraphQL API exists for this capability, and there is no UI for it.
+The REST API for lightweight reachability/heartbeat records — a minimal entity intentionally restricted to only the operations a heartbeat needs. Deviates from `backend-api-conventions` as noted below. No GraphQL API exists for this capability, and there is no UI for it.
 
 ## REST Requirements
 
@@ -34,4 +34,4 @@ Deleting a specific ping is unsupported. Every request reports `405 Method Not A
 
 ### Requirement: Authorization
 
-No endpoint under `/api/ping` currently requires authentication — see `backend-security`.
+No endpoint under `/api/ping` currently requires authentication.

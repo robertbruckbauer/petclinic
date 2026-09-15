@@ -1,6 +1,6 @@
 # Backend API: Owner
 
-The REST and GraphQL API for pet owners acting as clients of the clinic. References `backend-api-conventions` and `backend-security` instead of restating their rules. See `client-ui-owner` for the UI built on this API.
+The REST and GraphQL API for pet owners acting as clients of the clinic. References `backend-api-conventions` instead of restating its rules. See `client-ui-owner` for the UI built on this API.
 
 ## REST Requirements
 
@@ -57,7 +57,7 @@ Reports `200 OK` with the deleted entity if it existed, `404 Not Found` otherwis
 
 ### Requirement: Authorization
 
-No endpoint under `/api/owner` currently requires authentication — see `backend-security`.
+No endpoint under `/api/owner` currently requires authentication.
 
 ## GraphQL Requirements
 
@@ -83,4 +83,4 @@ The schema declares `contact: String` (nullable), but the underlying data always
 
 ### Requirement: Authorization
 
-`/graphql` queries touching `Owner` currently require no authentication — see `backend-security`.
+`/graphql` queries touching `Owner` currently require no authentication.

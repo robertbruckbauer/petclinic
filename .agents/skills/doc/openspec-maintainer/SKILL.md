@@ -54,7 +54,7 @@ Do not add technology stack details to a requirement. Add operation-specific sce
 
 ### Flag an untracked forward-looking gap
 
-If the requested requirement describes a target ahead of what's implemented (like `backend-security`'s baseline), only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
+If the requested requirement describes a target ahead of what's implemented, only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
 
 ## Validation checklist
 

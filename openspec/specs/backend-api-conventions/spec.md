@@ -101,7 +101,7 @@ Every error response (400/404/409/412) is produced by a single `RestControllerAd
 
 ### Requirement: Authorization requirements are declared per endpoint
 
-Every REST endpoint's spec (in its per-entity capability) states its current authorization requirement explicitly, even when that requirement is "none" — see the `backend-security` capability for the current baseline.
+Every REST endpoint's spec (in its per-entity capability) states its current authorization requirement explicitly.
 
 ## GraphQL Requirements
 
@@ -133,4 +133,4 @@ A malformed query or an argument that fails validation produces a GraphQL `error
 
 ### Requirement: Authorization requirements are declared per operation
 
-Every GraphQL query's spec (in its per-entity capability) states its current authorization requirement explicitly — see the `backend-security` capability for the current baseline.
+Every GraphQL query's spec (in its per-entity capability) states its current authorization requirement explicitly.

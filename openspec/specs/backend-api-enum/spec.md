@@ -1,6 +1,6 @@
 # Backend API: Enum
 
-The REST and GraphQL API for the shared picklists (e.g. species, skill) that other capabilities' fixed-vocabulary fields are populated from. References `backend-api-conventions` and `backend-security` instead of restating their rules — though it deviates from several of `backend-api-conventions`'s REST rules explicitly, as noted below. Backed by one generic entity discriminated by an `art` (picklist category), not a capability-specific one per category. See `client-ui-enum` for the UI built on this API.
+The REST and GraphQL API for the shared picklists (e.g. species, skill) that other capabilities' fixed-vocabulary fields are populated from. References `backend-api-conventions` instead of restating its rules — though it deviates from several of its REST rules explicitly, as noted below. Backed by one generic entity discriminated by an `art` (picklist category), not a capability-specific one per category. See `client-ui-enum` for the UI built on this API.
 
 ## REST Requirements
 
@@ -34,7 +34,7 @@ Reports `200 OK` with the deleted item if it existed, `404 Not Found` otherwise.
 
 ### Requirement: Authorization
 
-No endpoint under `/api/enum` currently requires authentication — see `backend-security`.
+No endpoint under `/api/enum` currently requires authentication.
 
 ## GraphQL Requirements
 
@@ -48,4 +48,4 @@ Returns every `Enum` item for the given `art`, ordered by `code`. Returns `[]`, 
 
 ### Requirement: Authorization
 
-`/graphql` queries touching `Enum` currently require no authentication — see `backend-security`.
+`/graphql` queries touching `Enum` currently require no authentication.

@@ -1,6 +1,6 @@
 # Client Shell
 
-Every generated screen's high-level inventory (a lister, an editor, a viewer per entity) and the behavioral contract driven by its backend calls and security posture — filtering/pagination via `backend-api-conventions`, optimistic-concurrency conflicts, validation-error mapping, explicit loading/empty states, error presentation, and (once active) auth/session handling. Independent of framework; per-entity capabilities' `## UI Requirements` sections reference this instead of restating it. A screen's concrete field/table composition and its visual appearance are `client-style` instead.
+Every generated screen's high-level inventory (a lister, an editor, a viewer per entity) and the behavioral contract driven by its backend calls — filtering/pagination via `backend-api-conventions`, optimistic-concurrency conflicts, validation-error mapping, explicit loading/empty states, error presentation. Independent of framework; per-entity capabilities' `## UI Requirements` sections reference this instead of restating it. A screen's concrete field/table composition and its visual appearance are `client-style` instead.
 
 ## Requirements
 
@@ -34,6 +34,6 @@ Every lister/editor/viewer distinguishes "loading," "loaded with zero results," 
 
 A non-2xx response the UI cannot resolve locally (e.g. a 5xx, a network failure) is shown via one consistent error-presentation pattern across every screen, not handled ad hoc per component.
 
-### Requirement: Auth/session handling (planned, not yet active)
+### Requirement: No client performs auth/session handling today
 
-Once the future security plan lands, this requirement defines: where the token is stored, how it's attached to requests, and what happens on a `401` (redirect to a login flow). Until then, no client performs any auth/session handling, since no endpoint requires it (`backend-security` capability).
+No endpoint requires authentication, so no client stores a token, attaches one to a request, or reacts to a `401`.

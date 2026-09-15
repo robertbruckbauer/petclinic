@@ -1,6 +1,6 @@
 # Backend API: Vet
 
-The REST and GraphQL API for veterinarians and the skills/species they handle. References `backend-api-conventions` and `backend-security` instead of restating their rules. See `client-ui-vet` for the UI built on this API.
+The REST and GraphQL API for veterinarians and the skills/species they handle. References `backend-api-conventions` instead of restating its rules. See `client-ui-vet` for the UI built on this API.
 
 ## REST Requirements
 
@@ -52,7 +52,7 @@ Reports `200 OK` with the deleted entity if it existed, `404 Not Found` otherwis
 
 ### Requirement: Authorization
 
-No endpoint under `/api/vet` currently requires authentication — see `backend-security`. (The future security plan, `doc/arc42/adr/0004-jwt-resource-server-and-roles.adoc`, is expected to give this capability the tightest read/write restriction of the four, since it's clinic-internal data — not decided yet.)
+No endpoint under `/api/vet` currently requires authentication.
 
 ## GraphQL Requirements
 
@@ -70,4 +70,4 @@ Returns the `Vet` with the given `name` (exact match, case-sensitive), or `null`
 
 ### Requirement: Authorization
 
-`/graphql` queries touching `Vet` currently require no authentication — see `backend-security`.
+`/graphql` queries touching `Vet` currently require no authentication.
