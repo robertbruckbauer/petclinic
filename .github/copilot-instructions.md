@@ -24,6 +24,11 @@ Add a single comment to the PR with a short summary of this check.
 Follow the instructions defined in the `graphql-api-sanity-checker` skill.
 Add a single comment to the PR with a short summary of this check.
 
+## Documentation consistency check
+
+Follow the instructions defined in the `consistency-checker` skill.
+Add a single comment to the PR with a short summary of this check.
+
 ## Basic code quality sanity check
 
 Apply to all changed source files and configuration files.

@@ -1,0 +1,49 @@
+:relrootdir: ../..
+= 3. Context and Scope
+
+== Business context
+
+[plantuml, target=business-context, format=svg]
+----
+@startuml
+left to right direction
+
+actor "Clinic staff" as staff
+
+rectangle "Pet Clinic" {
+  usecase "Manage Owners" as UC1
+  usecase "Manage Pets" as UC2
+  usecase "Manage Vets" as UC3
+  usecase "Manage Skills" as UC31
+  usecase "Manage Species" as UC32
+  usecase "Manage Visits" as UC4
+}
+
+staff --> UC1
+UC1 --> UC2
+staff --> UC3
+UC3 --> UC31
+UC3 --> UC32
+staff --> UC4
+@enduml
+----
+
+== Technical context
+
+[plantuml, target=technical-context, format=svg]
+----
+@startuml
+!include <C4/C4_Context.puml>
+
+LAYOUT_LEFT_RIGHT()
+
+System(client, "Browser client", "Angular, Svelte, or a future stack")
+System(server, "Backend server", "Spring Boot, Spring Data, Spring GraphQL")
+SystemDb(db, "Database", "HyperSQL dev/test, PostgreSQL prod")
+
+Rel(client, server, "REST / GraphQL", "HTTP")
+Rel(server, db, "reads/writes", "JDBC")
+
+SHOW_LEGEND()
+@enduml
+----

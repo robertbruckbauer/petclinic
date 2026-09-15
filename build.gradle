@@ -99,6 +99,12 @@ tasks.register('buildChangelog', BuildChangelogTask.class) {
 }
 // end::buildChangelog[]
 
+asciidoctorj {
+    modules {
+        diagram.use()
+    }
+}
+
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
 tasks.register('pages', AsciidoctorTask) {
     group = 'documentation'

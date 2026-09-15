@@ -3,6 +3,15 @@ name: lint-and-format
 description: 'Lint and format source code using the gradle tasks. Run lint to verify source files are correctly formatted. Run format to apply changes on the source code to automatically fix formatting issues. Java code is processed by Spotless; TypeScript code is processed by Prettier.'
 ---
 
+## Task preconditions
+
+You MUST NOT generate code if even one of the preconditions is not met.
+
+### Implementation request
+
+The request must be an implementation request.
+An implementation request is any request that changed files under `app/`, `lib/`, or `buildSrc`.
+
 ## Task steps
 
 ### Check formatting (lint)

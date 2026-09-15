@@ -6,7 +6,7 @@ An entity editor is a user interface component for managing properties of a sing
 
 == Architecture overview
 
-The lister component is a Svelte component with reactive state management using runes for efficient state management and change detection.
+The editor component is a Svelte component with reactive state management using runes for efficient state management and change detection.
 It consists of the following building blocks:
 
 **Component**::
@@ -38,12 +38,12 @@ A state tracking the visibility of the editor.
 
 ==== `oncreate`
 
-An event callback invoked on successfull creation of the entity.
+An event callback invoked on successful creation of the entity.
 The changed entity is an argument for the callback.
 
 ==== `onupdate`
 
-An event callback invoked on successfull mutation of the entity.
+An event callback invoked on successful mutation of the entity.
 The changed entity is an argument for the callback.
 
 ==== `oncancel`
@@ -85,9 +85,7 @@ include::{includedir}/app/client-svelte/src/main/svelte/pages/client/PetEditor.s
 
 When the service operation fails, a toast with the error message is displayed and the editor remains visible.
 
-Siehe 
-xref:{relrootdir}/doc/concept/svelte/entity-service.adoc[Entity Service]
-für mehr Informationen.
+Siehe xref:{relrootdir}/doc/concept/svelte/entity-service.adoc[Entity Service] für mehr Informationen.
 
 ==== update an entity
 
@@ -105,9 +103,7 @@ include::{includedir}/app/client-svelte/src/main/svelte/pages/client/PetEditor.s
 
 When the service operation fails, a toast with the error message is displayed and the editor remains visible.
 
-Siehe 
-xref:{relrootdir}/doc/concept/svelte/entity-service.adoc[Entity Service]
-für mehr Informationen.
+Siehe xref:{relrootdir}/doc/concept/svelte/entity-service.adoc[Entity Service] für mehr Informationen.
 
 ==== cancel editing
 

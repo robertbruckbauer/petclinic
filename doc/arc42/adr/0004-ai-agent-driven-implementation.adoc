@@ -1,0 +1,32 @@
+:relrootdir: ../../..
+= ADR 0004: AI-agent-driven implementation via reusable skills
+
+== Status
+
+Accepted
+
+== Context
+
+This system is implemented and maintained by AI agents rather than hand-coded per change by a human developer directly. The same kind of change (adding an entity's REST/GraphQL capability, updating a `doc/arc42` chapter, recording an ADR, maintaining the `obsidian` knowledge graph, ...) recurs across many sessions and agents; without a shared, explicit procedure, each agent would have to re-derive the correct approach from scratch, and consistency would depend on chance.
+
+== Decision
+
+- Implementation and maintenance work is carried out by AI agents, guided by reusable skills under `.agents/skills/`.
+- A skill operationalizes a detailed pattern — the concrete how-to lives in `doc/concept` for code, or is the skill's own procedure for a documentation artifact — into a reproducible workflow: which guide to follow, which artifacts to create or update, and how to validate the result.
+- Skills, not ad hoc per-agent judgement, are the mechanism that keeps a given kind of change consistent regardless of which agent or session performs it.
+
+== Alternatives considered
+
+- **Hand-coding each change without a skill layer** — rejected: every new agent/session would have to re-derive conventions by reading the whole codebase, and drift between sessions would go unnoticed.
+- **Conventions documented only as prose** (in `doc/concept`/`AGENTS.md`), relying on the agent to apply them correctly each time — rejected: prose alone doesn't scale as reliably as a skill's explicit task steps and validation checklist, which let a change be checked against a defined standard rather than trusted on faith.
+
+== Consequences
+
+- Every skill under `.agents/skills/` carries task steps and a validation checklist, so an agent's output can be checked against an explicit standard.
+- A recurring kind of change that has no skill yet should get one authored (via the `skill-creator` skill) before being repeated informally, rather than accumulating undocumented practice.
+- Skills reference `doc/concept` implementation guides (for code) and the other documentation artifacts (for docs) instead of duplicating their content.
+
+== Links
+
+- xref:{relrootdir}/doc/arc42/04-solution-strategy.adoc[arc42 ch. 4: Solution Strategy]
+- link:../../../AGENTS.md[AGENTS.md] (repository root)
