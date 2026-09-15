@@ -10,11 +10,6 @@ They run within a transaction and can be aborted with an exception.
 
 TIP: See the https://docs.spring.io/spring-data/rest/reference[Spring Data REST reference guide] and https://docs.spring.io/spring-data/jpa/reference[Spring Data JPA reference guide] for more information.
 
-A _Repository Event Handler_ is a mechanism for intercepting and customizing CRUD operations on entities.
-Callback methods act as flexible extension points without modifying the endpoint behavior.
-They restrict the value range of properties.
-They check dependencies of properties within the record or with records in other tables at controller layer.
-
 A _Collection Resource_ represents a list of elements.
 It is queried with a `GET` operation.
 A new _Item Resource_ is created with a `POST` operation.
@@ -46,8 +41,13 @@ _Sorting_ means that the order within a collection resource is determined by a s
 With a _Projection_, a view can be applied to a resource.
 An _Excerpt_ is a _Projection_ that is automatically applied to a _Collection Resource_.
 
-Entity lifecycle events are logged uniformly at INFO through the base class by implementing `@Handle*` event hooks provided by _Spring Data REST.
-A concrete entity's event handler MUST not implement its own logging; it inherits these, so all entity types get the same message shape.
+A _Repository Event Handler_ is a mechanism for intercepting and customizing CRUD operations on entities.
+Callback methods act as flexible extension points without modifying the endpoint behavior.
+They restrict the value range of properties.
+They check dependencies of properties within the record or with records in other tables at controller layer.
+They log lifecycle events uniformly at INFO through the base class by implementing `@Handle*` event hooks.
+A concrete entity's event handler MUST not implement its own logging.
+It inherits these, so all entity types get the same message shape.
 
 == Properties
 

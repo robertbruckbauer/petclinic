@@ -29,7 +29,7 @@ A `PATCH` request body contains only the fields being changed — never the full
 
 ### Requirement: Optimistic concurrency uses ETag / If-Match
 
-Every entity response carries an `ETag` header derived from its `version`. Every mutating request to a specific entity (`PUT`, `PATCH`, `DELETE`) requires `If-Match`.
+Every versioned entity managed by _Spring Data REST_ carries an `ETag` header derived from its `version`. Every mutating request to a specific versioned entity (`PUT`, `PATCH`, `DELETE`) requires `If-Match`; `Enum` and `Ping` are explicit exceptions.
 
 #### Scenario: Stale write is rejected
 - **GIVEN** a client holds an entity's ETag from an earlier `GET`
