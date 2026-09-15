@@ -1,0 +1,32 @@
+:relrootdir: ../../..
+= ADR 0005: Documentation split and precedence order
+
+== Status
+
+Accepted
+
+== Context
+
+This repository maintains several documentation artifacts that can describe overlapping aspects of the same system: bird's-eye architecture facts (`doc/arc42`), per-technology-stack implementation guides (`doc/concept`), a normative, implementable behavior contract (`openspec`), and an explanatory knowledge graph (`obsidian`), alongside reference documentation (`doc/service`, `doc/manual`). Without a clear division of authority and a defined precedence, these artifacts can silently drift out of sync as the system evolves, and it becomes unclear which one a reader — human or agent — should trust when two disagree.
+
+== Decision
+
+- Each documentation location owns exactly one kind of fact: `doc/arc42` is bird's-eye architecture facts for stakeholders and staff new to the project; `doc/concept` is per-technology-stack implementation guides; `openspec` is the normative, implementable behavior contract for the backend and every generated client; `obsidian` is the explanatory knowledge graph (rationale, patterns), written and maintained exclusively by AI agents through dedicated skills, never by direct human edit.
+- When two locations describe the same current-state fact and disagree, precedence resolves it in this order: code and tests, then `doc/arc42`, then `doc/concept`, then `openspec`, then `obsidian`.
+- An `obsidian` note is a hypothesis about the code, never an independent fact — a claim that can't be verified against the code is marked `stale` rather than trusted.
+
+== Alternatives considered
+
+- **A single combined documentation source** (e.g. everything in `doc/arc42`, or one general wiki) — rejected: bird's-eye architecture facts, an implementable behavior contract, and deep rationale/pattern notes serve different audiences (stakeholders; agents generating code; agents needing deep context) and change at different rates. Combining them either bloats the bird's-eye view with implementation detail or buries architecture facts in exhaustive technical notes.
+- **No defined precedence, resolve conflicts ad hoc** — rejected: leads to silent, undetected disagreement between artifacts as the system evolves, defeating the purpose of splitting documentation by authority in the first place.
+
+== Consequences
+
+- The `consistency-checker` skill can mechanically validate structural rules and flag cross-artifact contradictions in precedence order, rather than requiring a human to notice drift.
+- Every significant behavior has one normative source, documented in `openspec/specs/*` (see ch. 10's Traceability quality goal).
+- Adding a new kind of fact requires deciding which single location owns it, rather than letting it accrete in whichever file an agent happens to be editing.
+
+== Links
+
+- xref:{relrootdir}/doc/arc42/04-solution-strategy.adoc[arc42 ch. 4: Solution Strategy], xref:{relrootdir}/doc/arc42/10-quality-requirements.adoc[ch. 10: Quality Requirements]
+- link:../../../AGENTS.md[AGENTS.md] (repository root)

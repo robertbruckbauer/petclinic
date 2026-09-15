@@ -1,11 +1,23 @@
 = 8. Cross-cutting Concepts
 
-Each concept below is normatively defined in exactly one OpenSpec capability and explained in exactly one Obsidian note — never both places at once.
+Each concept is normatively defined in implementation guids in `doc/concept` and explained in the knowledge graph in `obsidian` for better understanding and traceability.
 
-|===
-| Concept | Normative (OpenSpec) | Detail (Obsidian)
-| REST/GraphQL duality | `openspec/specs/backend-api-conventions/spec.md` | `obsidian/architecture/patterns/cqrs-style-rest-graphql-split.md`
-| Security model | `openspec/specs/backend-security/spec.md` | `obsidian/security/cors-configuration.md`, `doc/arc42/adr/0004-jwt-resource-server-and-roles.adoc`
-| Optimistic concurrency (ETag) | `openspec/specs/backend-api-conventions/spec.md` | `obsidian/client/etag-optimistic-concurrency-ui.md`
-| Pagination and filtering | `openspec/specs/backend-api-conventions/spec.md` | `obsidian/server/querydsl-repository-pattern.md`
-|===
+== CQRS Style REST/GraphQL Split
+
+Reads and writes travel separate paths: REST carries both commands and queries per entity, while GraphQL offers read-only queries for flexible client-side data shaping.
+
+== Optimistic Concurrency
+
+Every entity carries a version-derived ETag, and mutating requests must present it, so a stale write is rejected instead of silently overwriting a concurrent change.
+
+== Pagination and Filtering
+
+Collection endpoints are paginated, sorted, and filterable by query parameter, keeping large result sets bounded and searchable without bespoke per-entity logic.
+
+== Logging
+
+All logging goes through one SLF4J facade and one shared entity-lifecycle base class, giving every entity the same uniform, secret-free log output, with verbosity fixed by configuration rather than adjustable at runtime.
+
+== Monitoring
+
+The running application's identity and health are exposed as plain, unauthenticated HTTP endpoints (version, liveness, readiness), independent of the deeper business functionality.
