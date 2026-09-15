@@ -14,17 +14,17 @@ HyperSQL (in-memory) and PostgreSQL are the only two supported database backends
 - **THEN** the resulting schema serves the same JPA entity mappings in `lib/backend-api` either way
 
 #### Scenario: Development and the test suite default to HyperSQL, with no external database required
-- **GIVEN** `app/server`'s default configuration (`spring.datasource.url=jdbc:hsqldb:mem:db`) and `app/deploy/compose.yml`'s dev topology
+- **GIVEN** `app/server`'s default configuration and `app/deploy/compose.yml`'s dev topology
 - **WHEN** the application is run locally or the test suite is executed
 - **THEN** it runs against an in-memory HyperSQL instance the JVM itself owns — no separate database server needs to be started or reachable first
 
 #### Scenario: A production-like deployment runs against PostgreSQL
-- **GIVEN** `app/deploy/compose-pg.yml`'s topology (`SPRING_DATASOURCE_URL=jdbc:postgresql://postgres18:5432/...`)
+- **GIVEN** `app/deploy/compose-pg.yml`'s topology
 - **WHEN** the production-like stack is started
 - **THEN** `app/server` and `app/migrate` both connect to the PostgreSQL service, not to an in-memory HyperSQL instance
 
 #### Scenario: No third database engine is introduced
-- **GIVEN** the build files of `lib/backend-data` and `app/migrate`, which declare the JDBC driver dependencies
+- **GIVEN** the build files of `app/server` and `app/migrate`, which declare both JDBC driver dependencies
 - **WHEN** a change adds a new database driver dependency
 - **THEN** HyperSQL and PostgreSQL remain the only supported database engines — adding a third (e.g. MySQL, Oracle, H2) is a violation of this requirement, not a matter of preference
 
@@ -44,7 +44,7 @@ Against HyperSQL, `app/server` applies the changelog itself at startup via Sprin
 
 ### Requirement: app/migrate is a standalone runner, not a Spring Boot application
 
-`app/migrate`'s entry point creates no Spring application context. It reads four required environment variables (`DATABASE_SCHEMA`, `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `SPRING_LIQUIBASE_CHANGE_LOG`), creates the target schema if it does not already exist, then applies the changelog directly through the Liquibase Java API.
+`app/migrate`'s entry point creates no Spring application context. It reads five required environment variables (`DATABASE_SCHEMA`, `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `SPRING_LIQUIBASE_CHANGE_LOG`), creates the target schema if it does not already exist, then applies the changelog directly through the Liquibase Java API.
 
 #### Scenario: A missing required variable stops the run before any database connection is attempted
 - **GIVEN** `app/migrate` is started without one of its required environment variables set

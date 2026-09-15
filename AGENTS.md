@@ -1,6 +1,6 @@
 # Agent Instructions
 
-## Developement
+## Development
 
 The best code is the code never written.
 Ask the following questions:
