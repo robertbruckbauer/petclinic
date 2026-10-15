@@ -1,0 +1,100 @@
+:includedir: ../..
+:relrootdir: ../..
+:graphqldir: {includedir}/lib/backend-data/src/main/resources/graphql
+= Invoice GraphQL API
+
+GraphQL API for querying invoices in the pet clinic application.
+It provides query operations to retrieve all invoices and filter invoices by issue date.
+
+== Model
+
+=== Invoice
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/Invoice.adoc[]
+
+The schema type `Invoice` defines properties and a relation to `Visit`.
+
+.Schema
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/Invoice.gqls[]
+----
+
+The property `issued` uses the custom scalar type `LocalDate` which maps to Java's `java.time.LocalDate` type for representing calendar dates with format `yyyy-MM-dd`.
+
+The property `period` is a String in ISO-8601 Duration format (e.g. `PT720H` for 30 days).
+
+The property `status` uses the enum `InvoiceStatus`.
+
+The relation `visit` uses batch loading via `@BatchMapping` to efficiently load visits for multiple invoices.
+
+=== InvoiceStatus
+
+include::{includedir}/lib/backend-api/src/main/java/esy/api/clinic/InvoiceStatus.adoc[]
+
+.Schema
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/InvoiceStatus.gqls[]
+----
+
+== Queries
+
+=== Collection queries
+
+==== `allInvoice`
+
+This query returns all invoices in the system.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allInvoice: [Invoice]
+----
+
+*Returns:*
+
+A list of all `Invoice` objects.
+Returns an empty list if no invoices exist.
+
+==== `allInvoiceAt`
+
+This query returns all invoices issued on a specific date.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+allInvoiceAt(issued: LocalDate!): [Invoice]
+----
+
+*Arguments:*
+
+`issued` (LocalDate, required)::
+The issue date to filter invoices by (e.g., "2024-01-15").
+
+*Returns:*
+
+A list of `Invoice` objects issued on the specified date, ordered by issue date ascending.
+Returns an empty list if no invoices exist for the given date.
+
+=== Object queries
+
+==== `invoiceById`
+
+This query returns a single invoice by its unique identifier.
+
+.Query Definition
+[source,graphql,options="nowrap"]
+----
+invoiceById(id: ID!): Invoice
+----
+
+*Arguments:*
+
+`id` (ID, required)::
+The unique identifier of the invoice.
+
+*Returns:*
+
+A single `Invoice` object if found.
+Returns `null` if no invoice exists for the given ID.

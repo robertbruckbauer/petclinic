@@ -1,0 +1,52 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="robert">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="invoice" /></not>
+        </preConditions>
+        <createTable tableName="invoice">
+            <column name="version" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="issued" type="DATE" defaultValueDate="2001-01-01">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(32)" defaultValue="D">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(512)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="robert">
+        <addColumn tableName="invoice">
+            <column name="visit_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint
+                constraintName="fk_invoice_visit_id"
+                baseTableName="invoice"
+                baseColumnNames="visit_id"
+                referencedTableName="visit"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet id="3" author="robert">
+        <addUniqueConstraint
+                constraintName="uk_invoice"
+                tableName="invoice"
+                columnNames="visit_id"
+        />
+    </changeSet>
+</databaseChangeLog>
