@@ -67,6 +67,20 @@ No endpoint under `/api/pet` currently requires authentication.
 
 ## GraphQL Requirements
 
+### Requirement: Experimental `createOwnerWithPet` mutation
+
+Accepts a new owner's `name`, `address`, and optional `contact` and a new pet's `name`, `born`, `species`, and `sex` in one operation. The mutation returns the created `Pet` with its new `Owner` available through the `owner` relation. If either write fails, neither record remains. No authentication is currently required.
+
+#### Scenario: Creating an owner with a pet
+- **GIVEN** valid details for a new owner and pet
+- **WHEN** `createOwnerWithPet` is executed
+- **THEN** both records are created, the pet belongs to the new owner, and the created pet is returned
+
+#### Scenario: Failed pet write leaves no owner behind
+- **GIVEN** valid details for a new owner and pet details that prevent creation
+- **WHEN** `createOwnerWithPet` is executed
+- **THEN** the operation reports an error and neither record is created
+
 ### Requirement: `allPet` query
 
 Returns every `Pet`. Returns `[]`, not an error, if none exist.

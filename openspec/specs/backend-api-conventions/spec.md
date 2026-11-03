@@ -105,9 +105,9 @@ Every REST endpoint's spec (in its per-entity capability) states its current aut
 
 ## GraphQL Requirements
 
-### Requirement: Only queries are exposed today, no mutations
+### Requirement: GraphQL exposes queries and one experimental composite mutation
 
-The schema exposes read operations — `all{Entity}`, a filtered variant of it (e.g. `all{Entity}By{Criteria}`, or an `all{Entity}` that takes an argument), `{entity}ById`, `{entity}ByName`, and relation fields — and no mutation type. Writes happen through REST.
+The schema exposes read operations — `all{Entity}`, a filtered variant of it (e.g. `all{Entity}By{Criteria}`, or an `all{Entity}` that takes an argument), `{entity}ById`, `{entity}ByName`, and relation fields — plus an experimental `createOwnerWithPet` mutation. Other writes happen through REST. See `doc/arc42/adr/0006-graphql-transactional-mutation-experiment.adoc` for the architectural decision.
 
 ### Requirement: Collection queries return an empty list, not an error, when nothing matches
 
@@ -129,8 +129,8 @@ A field that navigates a one-to-many or many-to-one relation (e.g. an owner's pe
 
 ### Requirement: Validation errors are reported as GraphQL errors with a classification extension
 
-A malformed query or an argument that fails validation produces a GraphQL `errors[]` entry with `extensions.classification` set to a consistent value (e.g. `ValidationError`), not a partial/ambiguous `data` payload.
+For GraphQL read operations, a malformed query or an argument that fails validation produces a GraphQL `errors[]` entry with `extensions.classification` set to a consistent value (e.g. `ValidationError`), not a partial/ambiguous `data` payload.
 
 ### Requirement: Authorization requirements are declared per operation
 
-Every GraphQL query's spec (in its per-entity capability) states its current authorization requirement explicitly.
+Every GraphQL operation's spec (in its per-entity capability) states its current authorization requirement explicitly.
