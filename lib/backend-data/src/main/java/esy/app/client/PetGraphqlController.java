@@ -2,10 +2,12 @@ package esy.app.client;
 
 import esy.api.client.Owner;
 import esy.api.client.Pet;
+import esy.rest.JsonJpaMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +49,19 @@ public class PetGraphqlController {
         return Mono.just(allPet
                 .stream()
                 .collect(Collectors.toMap(p -> p, p -> ownerById.get(p.getOwner().getId()))));
+    }
+
+    @MutationMapping
+    @Transactional
+    public Pet createOwnerWithPet(@Argument @NonNull final Map<String, Object> owner,
+                                  @Argument @NonNull final Map<String, Object> pet) {
+        final var jsonMapper = new JsonJpaMapper();
+        final var newOwner = ownerRepository.saveAndFlush(
+                Owner.fromJson(jsonMapper.writeJson(owner)).verify());
+        final var newPet = Pet.fromJson(jsonMapper.writeJson(pet))
+                .setOwner(newOwner)
+                .verify();
+        return petRepository.saveAndFlush(newPet);
     }
 
 }

@@ -5,6 +5,7 @@
 
 GraphQL API for querying pets in the pet clinic application.
 It provides query operations to retrieve all pets or individual pets by identifier.
+An experimental mutation creates a pet together with a new owner.
 
 == Model
 
@@ -76,3 +77,22 @@ The unique identifier of the pet to retrieve.
 *Returns:*
 
 The `Pet` object with the specified ID, or `null` if no pet with that ID exists.
+
+== Mutations
+
+.Schema
+[source,graphql,options="nowrap"]
+----
+include::{graphqldir}/Mutation.gqls[]
+----
+
+=== `createOwnerWithPet`
+
+This mutation creates an owner and a pet assigned to that owner in one database transaction.
+If the pet cannot be stored, the owner is not stored either.
+
+*Returns:*
+
+The created `Pet`, whose `owner` field provides the new `Owner`.
+
+TIP: The mutation is an experiment and requires no authentication, see xref:{relrootdir}/doc/arc42/adr/0006-graphql-transactional-mutation-experiment.adoc[ADR 0006].

@@ -1,0 +1,39 @@
+:relrootdir: ../../..
+= ADR 0006: REST for writes and reads, GraphQL for reads plus one transactional mutation experiment
+
+== Status
+
+Accepted.
+Supersedes xref:{relrootdir}/doc/arc42/adr/0003-rest-and-graphql-duality.adoc[ADR 0003].
+
+== Context
+
+ADR 0003 exposed GraphQL as a read-only API and deferred GraphQL mutations.
+A narrow proof of concept should show that a GraphQL write spanning the owner and pet tables runs in one database transaction.
+
+== Decision
+
+- REST (`/api/**`) remains the command *and* query API — every entity supports full CRUD, filtering, and pagination through it.
+- GraphQL (`/graphql`) remains a read-oriented convenience API for queries and relation navigation.
+See `openspec/specs/backend-api-conventions/spec.md`'s GraphQL Requirements chapter.
+- As the single exception, the `createOwnerWithPet` mutation creates an owner and a pet in one transaction, so a failed pet write rolls back the owner write.
+- No client is required to use GraphQL; neither `client-angular` nor `client-svelte` does.
+
+== Alternatives considered
+
+- **General GraphQL mutations** — deferred: would duplicate the validation/ETag/error-handling contract already built for REST, for no client that currently needs them.
+Revisit if a client actually needs GraphQL writes.
+- **GraphQL only, no REST** — rejected: Spring Data REST's built-in ETag/pagination/filtering conventions are the write-side contract this system relies on (see `openspec/specs/backend-api-conventions/spec.md`'s REST Requirements chapter); reimplementing them in GraphQL mutations would be YAGNI.
+
+== Consequences
+
+- Two API surfaces to keep behaviorally consistent for reads, documented together in `openspec/specs/backend-api-conventions/spec.md`.
+- The experimental mutation has no ETag and no error-classification contract; it is not a template for further mutations.
+- Relation-heavy GraphQL queries need batch loading to stay efficient — see `obsidian/server/graphql-batch-loading.md`.
+
+== Links
+
+- xref:{relrootdir}/doc/arc42/08-cross-cutting-concepts.adoc[arc42 ch. 8: Cross-cutting Concepts]
+- `openspec/specs/backend-api-conventions/spec.md`
+- `openspec/specs/backend-api-pet/spec.md`
+- `obsidian/architecture/patterns/cqrs-style-rest-graphql-split.md`

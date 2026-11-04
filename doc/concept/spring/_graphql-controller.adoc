@@ -21,6 +21,9 @@ A _Query_ operation retrieves data from the backend.
 It is defined in the GraphQL schema and mapped to a controller method with `@QueryMapping`.
 Queries support arguments for filtering, identification by ID, or custom search criteria.
 
+A _Mutation_ operation changes data in the backend.
+It is defined in the GraphQL `Mutation` type and mapped to a controller method with `@MutationMapping`.
+
 A _Batch Mapping_ operation resolves relationships efficiently by loading associated data in batches.
 It is mapped with `@BatchMapping` and receives a list of parent objects, returning a map that associates each parent with its children.
 This pattern prevents N+1 query problems by fetching related entities in a single database query.
@@ -92,6 +95,14 @@ Lookup by unique field::
 Constructs a QueryDSL `Predicate` using the generated Q-class to match a specific field value.
 The repository's `findOne(Predicate)` method executes the query and returns an `Optional`.
 
+=== Mutation Operation
+
+Mutations are an exception to the read-oriented GraphQL API, see xref:{relrootdir}/doc/arc42/adr/0006-graphql-transactional-mutation-experiment.adoc[ADR 0006].
+
+The method is annotated with `@MutationMapping` and `@Transactional`, so all repository writes of one mutation commit or roll back together.
+
+Input objects are bound as `Map<String, Object>` with `@Argument` and converted into entities through their JSON initialization, followed by `verify`.
+
 === Batch Mapping Operation
 
 A batch mapping operation resolves relationships efficiently by loading associated data in batches.
@@ -125,6 +136,8 @@ Repository dependencies are mocked with `@MockitoBean` to isolate controller log
 Tests can verify QueryDSL predicate construction using argument captors.
 This ensures the controller builds correct queries with proper filtering and ordering.
 The captured predicates are validated by comparing their string representation.
+
+Mutation operations are tested with `@SpringBootTest` against the database instead of mocks, so the transaction boundary is exercised.
 
 The test approach is based on a defined basic structure.
 

@@ -81,6 +81,10 @@ An owner's `allPet` field is resolved via batch loading (per `backend-api-conven
 
 The schema declares `contact: String` (nullable), but the underlying data always has a value — it defaults to an empty string, never `null`. Treat an empty string, not `null`, as "no contact given."
 
+### Requirement: Owners can also be created through `createOwnerWithPet`
+
+The experimental `createOwnerWithPet` mutation, specified in `backend-api-pet`, creates an owner together with its first pet. An omitted `contact` defaults to an empty string.
+
 ### Requirement: Authorization
 
 `/graphql` queries touching `Owner` currently require no authentication.
