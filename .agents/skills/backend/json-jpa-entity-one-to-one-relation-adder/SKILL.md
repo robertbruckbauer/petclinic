@@ -1,6 +1,6 @@
 ---
-name: domain-entity-many-to-one-relation-adder
-description: Add a many-to-one relation between existing entities and update dependent artifacts; use for prompts like "Add a required many-to-one relation ...".
+name: json-jpa-entity-one-to-one-relation-adder
+description: Add a one-to-one relation between existing entities and update dependent artifacts; use for prompts like "Add a required one-to-one relation ...".
 ---
 
 ## Task preconditions

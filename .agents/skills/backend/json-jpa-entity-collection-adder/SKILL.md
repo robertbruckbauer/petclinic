@@ -1,5 +1,5 @@
 ---
-name: domain-entity-collection-adder
+name: json-jpa-entity-collection-adder
 description: Add a collection field to an existing backend entity and update dependent artifacts; use for prompts like "Add collection ... to entity ...".
 ---
 

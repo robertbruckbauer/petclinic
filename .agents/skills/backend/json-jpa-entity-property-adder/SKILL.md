@@ -1,5 +1,5 @@
 ---
-name: domain-entity-property-adder
+name: json-jpa-entity-property-adder
 description: Add or remove a property on an existing backend entity and update dependent artifacts; use for prompts like "Add property ... to entity ...".
 ---
 

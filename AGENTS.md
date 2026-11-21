@@ -107,7 +107,8 @@ For Liquibase script files (*.xml):
 ├── pages              # Source for GitHub pages
 ├── plans              # Implementation plans
 ├── .agents/skills
-│   └── doc            # Documentation-maintenance skills
+│   ├── backend        # Backend implementation skills
+│   └── doc            # Documentation maintenance skills
 ├── AGENTS.md          # Agent settings
 ├── PROMPT.adoc        # Prompt engineering help
 ├── README.adoc        # Build management help

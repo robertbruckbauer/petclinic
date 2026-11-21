@@ -12,7 +12,7 @@ updated: 2026-09-08
 
 Minimum reading order for an agent changing backend code (entities, repositories, REST/GraphQL controllers):
 
-1. The relevant `.agents/skills/*/SKILL.md` for the change shape (`domain-entity-creator`, `domain-entity-property-adder`, relation adders, etc.) — these already encode the concrete implementation baselines (`doc/concept/spring/*.adoc`) to follow.
+1. The relevant `.agents/skills/*/SKILL.md` for the change shape (`json-jpa-entity-creator`, `json-jpa-entity-property-adder`, relation adders, etc.) — these already encode the concrete implementation baselines (`doc/concept/spring/*.adoc`) to follow.
 2. `obsidian/backend/` notes relevant to the change: `spring-data-rest-conventions.md`, `querydsl-repository-pattern.md`, `entity-item-projection-pattern.md`, `controller-advice-error-mapping.md`, `graphql-batch-loading.md` — pick only the ones touching the change, not all five.
 3. `openspec/specs/backend/backend-api-conventions/spec.md` (its REST and GraphQL Requirements chapters) — confirm the change doesn't contradict the normative contract; if it does, that's an OpenSpec change first (`openspec-maintainer`), not a silent behavior drift.
 

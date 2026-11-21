@@ -1,5 +1,5 @@
 ---
-name: domain-entity-creator
+name: json-jpa-entity-creator
 description: Create a new backend domain entity and all required artifacts; use for prompts like "Create an entity ... in package ...".
 ---
 

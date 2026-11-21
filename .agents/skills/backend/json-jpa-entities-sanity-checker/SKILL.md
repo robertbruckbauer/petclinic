@@ -1,5 +1,5 @@
 ---
-name: domain-entities-sanity-checker
+name: json-jpa-entities-sanity-checker
 description: Sanity-check domain entities and related backend artifacts; use for prompts like "Check domain entities" or targeted sanity updates such as adding missing entity tests.
 ---
 
