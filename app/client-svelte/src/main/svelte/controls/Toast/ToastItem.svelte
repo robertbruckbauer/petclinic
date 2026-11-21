@@ -88,9 +88,9 @@
   >
     <span>✕</span>
   </div>
-  <progress class="_toastBar bg-transparent" value={progress.current}
-    >&nbsp;</progress
-  >
+  <progress class="_toastBar bg-transparent" value={progress.current}>
+    &nbsp;
+  </progress>
 </div>
 
 <style>

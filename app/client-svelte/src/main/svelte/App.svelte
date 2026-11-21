@@ -92,14 +92,14 @@
                 <a class="link" onclick={onMenuClose} href="/vet">Vet</a>
               </li>
               <li>
-                <a class="link" onclick={onMenuClose} href="/enum/skill"
-                  >Skill</a
-                >
+                <a class="link" onclick={onMenuClose} href="/enum/skill">
+                  Skill
+                </a>
               </li>
               <li>
-                <a class="link" onclick={onMenuClose} href="/enum/species"
-                  >Species</a
-                >
+                <a class="link" onclick={onMenuClose} href="/enum/species">
+                  Species
+                </a>
               </li>
             </ul>
           </li>
@@ -107,8 +107,8 @@
       </details>
     </div>
     <div class="navbar-center">
-      <a onclick={onMenuClose} href="/home" class="btn btn-ghost text-xl"
-        >Petclinic
+      <a onclick={onMenuClose} href="/home" class="btn btn-ghost text-xl">
+        Petclinic
       </a>
     </div>
     <div class="navbar-end">
@@ -139,8 +139,8 @@
   </main>
 
   <footer class="z-1 fixed bottom-0 left-0 right-0 dock">
-    <a onclick={onMenuClose} href="/help" class="btn btn-ghost text-xl"
-      >Impressum
+    <a onclick={onMenuClose} href="/help" class="btn btn-ghost text-xl">
+      Impressum
     </a>
   </footer>
 </div>
