@@ -111,9 +111,9 @@
         placeholder="Choose skills"
       >
         {#each allSkillEnum as skillEnum}
-          <option value={skillEnum.name} title={skillEnum.text}
-            >{skillEnum.name}</option
-          >
+          <option value={skillEnum.name} title={skillEnum.text}>
+            {skillEnum.name}
+          </option>
         {/each}
       </select>
     </fieldset>
