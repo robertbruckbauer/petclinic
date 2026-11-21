@@ -1,5 +1,5 @@
 ---
-category: server
+category: backend
 type: moc
 related:
   - ../index.md
@@ -7,9 +7,9 @@ status: current
 updated: 2026-09-14
 ---
 
-# Server — map of contents
+# Backend — map of contents
 
-Patterns and conventions behind the Spring-based REST/GraphQL backend (`lib/backend-data`, `app/server`).
+Patterns and conventions behind the Spring-based REST/GraphQL backend (`lib/backend-data`, `app/backend`).
 
 - [spring-data-rest-conventions.md](spring-data-rest-conventions.md) — how Owner/Pet/Vet/Visit's REST CRUD is auto-exposed by Spring Data REST, and how Enum/Ping are the hand-written exception.
 - [querydsl-repository-pattern.md](querydsl-repository-pattern.md) — the shared repository base interfaces behind type-safe QueryDSL filtering.

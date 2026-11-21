@@ -7,7 +7,9 @@ openspec/
 ├── project.md       # this file
 ├── AGENTS.md        # agent instructions for working in this directory
 └── specs/           # current, merged truth — one capability per folder
-    └── <capability>/spec.md
+    ├── backend/               # backend capabilities (optional group)
+    │   └── <capability>/spec.md
+    └── <capability>/spec.md   # ungrouped capabilities (e.g. client-*)
 ```
 
 ## Requirement format

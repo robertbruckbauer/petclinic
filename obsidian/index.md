@@ -2,7 +2,7 @@
 type: index
 related:
   - architecture/moc.md
-  - server/moc.md
+  - backend/moc.md
   - building/moc.md
   - context/moc.md
   - database/moc.md
@@ -20,7 +20,7 @@ Entry point into this vault. Each of the nine categories has its own map of cont
 
 - [domain/moc.md](domain/moc.md) — the clinic's core entities (Owner, Pet, Vet, Visit) and their relationships.
 - [architecture/moc.md](architecture/moc.md) — cross-cutting structural patterns; decisions and risks live in `doc/arc42`, not here.
-- [server/moc.md](server/moc.md) — Spring REST/GraphQL backend patterns and conventions.
+- [backend/moc.md](backend/moc.md) — Spring REST/GraphQL backend patterns and conventions.
 - [client/moc.md](client/moc.md) — framework-independent UI patterns shared by both clients.
 - [security/moc.md](security/moc.md) — access-control-adjacent code as it exists today.
 - [database/moc.md](database/moc.md) — schema, migration, and test-data conventions.

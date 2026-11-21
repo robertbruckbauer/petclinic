@@ -1,6 +1,6 @@
-# Database Platform
+# Backend Database
 
-Database and migration technology for the backend — which engine is used in which environment, how Liquibase migrations execute, and how `app/migrate` performs that migration. Per `openspec/AGENTS.md`, any capability suffixed `-platform` is technology-specific by design: the requirements here are about the technology itself, not an abstraction over it. `app/migrate`'s module boundaries, dependencies, and packaging stay in `backend-platform`; this capability covers only the database engine and migration behavior itself. Liquibase changesets live in `lib/backend-data/src/main/resources/liquibase`.
+Database and migration technology for the backend — which engine is used in which environment, how Liquibase migrations execute, and how `app/migrate` performs that migration. The requirements here are about the technology itself, not an abstraction over it. `app/migrate`'s module boundaries, dependencies, and packaging stay in `backend-platform`; this capability covers only the database engine and migration behavior itself. Liquibase changesets live in `lib/backend-data/src/main/resources/liquibase`.
 
 ## Requirements
 
@@ -14,33 +14,33 @@ HyperSQL (in-memory) and PostgreSQL are the only two supported database backends
 - **THEN** the resulting schema serves the same JPA entity mappings in `lib/backend-api` either way
 
 #### Scenario: Development and the test suite default to HyperSQL, with no external database required
-- **GIVEN** `app/server`'s default configuration and `app/deploy/compose.yml`'s dev topology
+- **GIVEN** `app/backend`'s default configuration and `app/deploy/compose.yml`'s dev topology
 - **WHEN** the application is run locally or the test suite is executed
 - **THEN** it runs against an in-memory HyperSQL instance the JVM itself owns — no separate database server needs to be started or reachable first
 
 #### Scenario: A production-like deployment runs against PostgreSQL
 - **GIVEN** `app/deploy/compose-pg.yml`'s topology
 - **WHEN** the production-like stack is started
-- **THEN** `app/server` and `app/migrate` both connect to the PostgreSQL service, not to an in-memory HyperSQL instance
+- **THEN** `app/backend` and `app/migrate` both connect to the PostgreSQL service, not to an in-memory HyperSQL instance
 
 #### Scenario: No third database engine is introduced
-- **GIVEN** the build files of `app/server` and `app/migrate`, which declare both JDBC driver dependencies
+- **GIVEN** the build files of `app/backend` and `app/migrate`, which declare both JDBC driver dependencies
 - **WHEN** a change adds a new database driver dependency
 - **THEN** HyperSQL and PostgreSQL remain the only supported database engines — adding a third (e.g. MySQL, Oracle, H2) is a violation of this requirement, not a matter of preference
 
 ### Requirement: Migrations run embedded on HyperSQL, standalone on PostgreSQL
 
-Against HyperSQL, `app/server` applies the changelog itself at startup via Spring Boot's Liquibase auto-configuration — no separate step is required. Against PostgreSQL, `app/server`'s own Liquibase auto-run is disabled (`SPRING_LIQUIBASE_ENABLED=false`); a separate `app/migrate` process must run to completion first.
+Against HyperSQL, `app/backend` applies the changelog itself at startup via Spring Boot's Liquibase auto-configuration — no separate step is required. Against PostgreSQL, `app/backend`'s own Liquibase auto-run is disabled (`SPRING_LIQUIBASE_ENABLED=false`); a separate `app/migrate` process must run to completion first.
 
 #### Scenario: Dev startup applies the changelog in-process
-- **GIVEN** `app/server` configured with a HyperSQL datasource and Liquibase auto-configuration enabled (the default)
+- **GIVEN** `app/backend` configured with a HyperSQL datasource and Liquibase auto-configuration enabled (the default)
 - **WHEN** the application starts
 - **THEN** the changelog is applied before the application reports itself healthy, with no external migration step involved
 
 #### Scenario: Production-like startup requires migrate to finish first
-- **GIVEN** `app/server` configured with a PostgreSQL datasource and `SPRING_LIQUIBASE_ENABLED=false`
-- **WHEN** the deployment topology starts `app/server` and `app/migrate` together
-- **THEN** `app/server` does not start serving requests until `app/migrate` has exited successfully against the same database/schema
+- **GIVEN** `app/backend` configured with a PostgreSQL datasource and `SPRING_LIQUIBASE_ENABLED=false`
+- **WHEN** the deployment topology starts `app/backend` and `app/migrate` together
+- **THEN** `app/backend` does not start serving requests until `app/migrate` has exited successfully against the same database/schema
 
 ### Requirement: app/migrate is a standalone runner, not a Spring Boot application
 

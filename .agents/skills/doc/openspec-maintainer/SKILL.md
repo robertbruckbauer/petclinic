@@ -10,7 +10,7 @@ You MUST NOT generate a spec change if even one of the preconditions is not met.
 ### Identify target capability
 
 Extract the capability name from the request (e.g. `backend-api-conventions`, `backend-api-owner`, `client-ui-owner`).
-Check that `openspec/specs/{capability}/spec.md` exists, or that a new capability is explicitly being requested.
+Check that `openspec/specs/{capability}/spec.md` or `openspec/specs/backend/{capability}/spec.md` exists, or that a new capability is explicitly being requested.
 Replace placeholder `{capability}` with the given name.
 
 For Owner/Pet/Vet/Visit/Enum, REST and GraphQL requirements live in `backend-api-<entity>` (e.g. `backend-api-owner` for the owner entity) and UI requirements live in the separate `client-ui-<entity>` capability (e.g. `client-ui-owner` for the owner entity) — pick the one matching the request's concern, don't add a `## UI Requirements` section to a `backend-api-*` spec or a `## REST`/`## GraphQL Requirements` section to a `client-ui-*` spec.
@@ -46,7 +46,7 @@ Precedence when artifacts disagree about a current-state fact: code and tests, t
 
 ### Edit the capability spec directly
 
-Add, change, or remove `### Requirement:`/`#### Scenario:` entries directly in `openspec/specs/{capability}/spec.md` — a wording fix and a behavior change are both made this way, in place, with no separate draft/staging step. Keep the `### Requirement:` / `#### Scenario:` format already used in every capability spec.
+Add, change, or remove `### Requirement:`/`#### Scenario:` entries directly in `openspec/specs/{capability}/spec.md` (or `openspec/specs/backend/{capability}/spec.md` for backend capabilities) — a wording fix and a behavior change are both made this way, in place, with no separate draft/staging step. Keep the `### Requirement:` / `#### Scenario:` format already used in every capability spec.
 
 ### Keep the capability technology-independent
 
