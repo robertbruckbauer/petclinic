@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Vet GraphQL API</h1>
 <div class="details">
-<span id="revnumber">version 1.8</span>
+<span id="revnumber">version 1.9</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -585,7 +585,9 @@ The <code>allSpecies</code> collection is a sorted set of unique strings and may
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The <code>vet_skill</code> and <code>vet_species</code> database tables (see <code>vet_skill.xml</code> and <code>vet_species.xml</code>) do not have a unique constraint on the <code>(id, skill)</code> or <code>(id, species)</code> column pairs. Uniqueness is enforced at the application layer via <code>SortedSet&lt;String&gt;</code> in the Java entity. Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
+The <code>vet_skill</code> and <code>vet_species</code> database tables (see <code>vet_skill.xml</code> and <code>vet_species.xml</code>) do not have a unique constraint on the <code>(id, skill)</code> or <code>(id, species)</code> column pairs.
+Uniqueness is enforced at the application layer via <code>SortedSet&lt;String&gt;</code> in the Java entity.
+Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
 </td>
 </tr>
 </table>
@@ -700,8 +702,8 @@ The query uses exact name matching (case-sensitive).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.8<br>
-Last updated 2026-09-10 18:28:29 UTC
+Version 1.9<br>
+Last updated 2026-11-22 11:52:00 UTC
 </div>
 </div>
 </body>

@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Specification for endpoints</h1>
 <div class="details">
-<span id="revnumber">version 1.8</span>
+<span id="revnumber">version 1.9</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -836,20 +836,10 @@ They run within a transaction and can be aborted with an exception.</p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-See the
-<a href="https://docs.spring.io/spring-data/rest/reference">Spring Data REST reference guide</a>
-and
-<a href="https://docs.spring.io/spring-data/jpa/reference">Spring Data JPA reference guide</a>
-for more information.
+See the <a href="https://docs.spring.io/spring-data/rest/reference">Spring Data REST reference guide</a> and <a href="https://docs.spring.io/spring-data/jpa/reference">Spring Data JPA reference guide</a> for more information.
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>A <em>Repository Event Handler</em> is a mechanism for intercepting and customizing CRUD operations on entities.
-Callback methods act as flexible extension points without modifying the endpoint behavior.
-They restrict the value range of properties.
-They check dependencies of properties within the record or with records in other tables at controller layer.</p>
 </div>
 <div class="paragraph">
 <p>A <em>Collection Resource</em> represents a list of elements.
@@ -890,6 +880,15 @@ The individual subsets are navigably linked together.</p>
 <div class="paragraph">
 <p>With a <em>Projection</em>, a view can be applied to a resource.
 An <em>Excerpt</em> is a <em>Projection</em> that is automatically applied to a <em>Collection Resource</em>.</p>
+</div>
+<div class="paragraph">
+<p>A <em>Repository Event Handler</em> is a mechanism for intercepting and customizing CRUD operations on entities.
+Callback methods act as flexible extension points without modifying the endpoint behavior.
+They restrict the value range of properties.
+They check dependencies of properties within the record or with records in other tables at controller layer.
+They log lifecycle events uniformly at INFO through the base class by implementing <code>@Handle*</code> event hooks.
+A concrete entity&#8217;s event handler MUST not implement its own logging.
+It inherits these, so all entity types get the same message shape.</p>
 </div>
 <div class="sect3">
 <h4 id="_properties"><a class="anchor" href="#_properties"></a><a class="link" href="#_properties">Properties</a></h4>
@@ -1388,7 +1387,7 @@ class PetRestApiTest {
         final var uuid = UUID.fromString(&quot;a1111111-1111-beef-dead-beefdeadbeef&quot;);
         assertTrue(petRepository.findById(uuid).isPresent());
         mockMvc.perform(delete(&quot;/api/pet/&quot; + uuid)
-                        .accept(MediaType.APPLICA9ION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
                         .isOk())
@@ -1425,7 +1424,7 @@ class PetRestApiTest {
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Test for the existance of an empty table with a GET collection operation.
+<td>Test for the existence of an empty table with a GET collection operation.
 The operation expects a status code 200 with an empty list in the response.</td>
 </tr>
 <tr>
@@ -1502,9 +1501,7 @@ Q-classes transform database queries from error-prone strings to strongly-typed 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-See the
-<a href="https://docs.spring.io/spring-data/rest/reference/data-commons/repositories/core-extensions.html">Spring Data Extensions reference guide</a>
-for more information about the QueryDSL extension.
+See the <a href="https://docs.spring.io/spring-data/rest/reference/data-commons/repositories/core-extensions.html">Spring Data Extensions reference guide</a> for more information about the QueryDSL extension.
 </td>
 </tr>
 </table>
@@ -1612,11 +1609,7 @@ Fields marked with <code>!</code> are non-nullable.</p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-See the
-<a href="https://docs.spring.io/spring-graphql/reference">Spring GraphQL reference guide</a>
-and
-<a href="https://graphql.org/learn/">GraphQL specification</a>
-for more information.
+See the <a href="https://docs.spring.io/spring-graphql/reference">Spring GraphQL reference guide</a> and <a href="https://graphql.org/learn/">GraphQL specification</a> for more information.
 </td>
 </tr>
 </table>
@@ -2516,7 +2509,7 @@ Use <code>Objects#equals</code>.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Do not create a test if this properties has no contraints and is nullable.</p>
+<p>Do not create a test if these properties have no constraints and are nullable.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -2860,7 +2853,7 @@ Use <code>Objects#equals</code>.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Do not create a test if this properties has no contraints and is nullable.</p>
+<p>Do not create a test if these properties have no constraints and are nullable.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -3225,7 +3218,7 @@ The date value is provided as a string literal in <code>yyyy-MM-dd</code> format
 <p>invalid values are rejected</p>
 </li>
 <li>
-<p>missing values are rejecte</p>
+<p>missing values are rejected</p>
 </li>
 </ul>
 </div>
@@ -3996,7 +3989,7 @@ This is not scope of this test.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Do not create a test if this properties has no contraints and can be empty.</p>
+<p>Do not create a test if these properties have no constraints and can be empty.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
@@ -4129,7 +4122,7 @@ Always use LAZY fetch.</p>
 <div class="title">Please note</div>
 <div class="paragraph">
 <p>Do not use <code>EAGER</code> even if the related entity is used in the <code>isEqual</code> operation or for serialization in the <code>extraJson</code> operation.
-There may be a problem when using <code>orphanRemoval = true</code> and <code>cascade = ALL</code> in in a bi-driectional mapping when deleting an entity.
+There may be a problem when using <code>orphanRemoval = true</code> and <code>cascade = ALL</code> in a bidirectional mapping when deleting an entity.
 The in-memory collection of the owner&#8217;s collection still holds a reference to the entity being deleted.
 On flush, the JPA provider sees the entity is still in the owner&#8217;s collection and  effectively re-saves it, swallowing a DELETE.</p>
 </div>
@@ -4987,8 +4980,8 @@ class PetTest {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.8<br>
-Last updated 2026-09-10 18:28:29 UTC
+Version 1.9<br>
+Last updated 2026-11-22 11:52:00 UTC
 </div>
 </div>
 </body>

@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Owner GraphQL API</h1>
 <div class="details">
-<span id="revnumber">version 1.8</span>
+<span id="revnumber">version 1.9</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -586,7 +586,10 @@ The <code>allPet</code> relation contains pets and may be empty.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The <code>contact</code> field is declared as <code>contact: String</code> (nullable) in the GraphQL schema, but the underlying database column has <code>nullable=false</code>. The Java entity initializes <code>contact</code> to an empty string and <code>verify()</code> does not enforce a non-empty value. As a result, the API never returns <code>null</code> for <code>contact</code> — at a minimum it returns an empty string. If strict optionality semantics are needed, consider changing the schema to <code>contact: String!</code>.
+The <code>contact</code> field is declared as <code>contact: String</code> (nullable) in the GraphQL schema, but the underlying database column has <code>nullable=false</code>.
+The Java entity initializes <code>contact</code> to an empty string and <code>verify()</code> does not enforce a non-empty value.
+As a result, the API never returns <code>null</code> for <code>contact</code> — at a minimum it returns an empty string.
+If strict optionality semantics are needed, consider changing the schema to <code>contact: String!</code>.
 </td>
 </tr>
 </table>
@@ -703,8 +706,8 @@ Returns an empty list if no owners exist.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.8<br>
-Last updated 2026-09-10 18:28:29 UTC
+Version 1.9<br>
+Last updated 2026-11-22 11:52:00 UTC
 </div>
 </div>
 </body>

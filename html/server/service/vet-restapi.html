@@ -530,7 +530,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Vet REST API</h1>
 <div class="details">
-<span id="revnumber">version 1.8</span>
+<span id="revnumber">version 1.9</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -674,7 +674,9 @@ The <code>allSpecies</code> collection is a sorted set of unique strings and may
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The <code>vet_skill</code> and <code>vet_species</code> tables do not have a unique constraint on the <code>(id, skill)</code> or <code>(id, species)</code> column pairs. Uniqueness is enforced at the application layer via <code>SortedSet&lt;String&gt;</code> in the Java entity. Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
+The <code>vet_skill</code> and <code>vet_species</code> tables do not have a unique constraint on the <code>(id, skill)</code> or <code>(id, species)</code> column pairs.
+Uniqueness is enforced at the application layer via <code>SortedSet&lt;String&gt;</code> in the Java entity.
+Consider adding a database-level unique constraint to prevent duplicate entries if data is ever inserted directly via SQL.
 </td>
 </tr>
 </table>
@@ -774,16 +776,16 @@ Host: localhost:8080
 <pre class="CodeRay highlight nowrap"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">allSkill</span><span class="delimiter">&quot;</span></span> : [ ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">allSpecies</span><span class="delimiter">&quot;</span></span> : [ ],
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span> : <span class="integer">0</span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span> : [ ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">self</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>
   }, {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">vet</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>
   } ]
 }</code></pre>
 </div>
@@ -1180,16 +1182,16 @@ Host: localhost:8080</code></pre>
   }, {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">allSkill</span><span class="delimiter">&quot;</span></span> : [ ],
     <span class="key"><span class="delimiter">&quot;</span><span class="content">allSpecies</span><span class="delimiter">&quot;</span></span> : [ ],
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span> : <span class="integer">0</span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span> : [ ],
     <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">self</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>
     }, {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">rel</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">vet</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">href</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/api/vet/f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>
     } ]
   } ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ {
@@ -1261,7 +1263,7 @@ Host: localhost:8080</code></pre>
     <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">a1111111-1111-beef-dead-beefdeadbeef</span><span class="delimiter">&quot;</span></span>
   }, {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>
   } ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ ]
 }</code></pre>
@@ -1295,7 +1297,7 @@ Host: localhost:8080</code></pre>
 <pre class="CodeRay highlight nowrap"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span> : [ {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Max Mustermann</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">960fe90c-79ab-4e2c-96a1-733a10d92f86</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">f305b6a0-0dba-466b-a181-5f5c118ebe9f</span><span class="delimiter">&quot;</span></span>
   } ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">links</span><span class="delimiter">&quot;</span></span> : [ ]
 }</code></pre>
@@ -1416,8 +1418,8 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.8<br>
-Last updated 2026-09-10 18:28:29 UTC
+Version 1.9<br>
+Last updated 2026-11-22 11:52:00 UTC
 </div>
 </div>
 </body>
