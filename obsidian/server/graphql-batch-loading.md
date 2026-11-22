@@ -1,10 +1,10 @@
 ---
 category: server
 related:
-  - ../../doc/arc42/adr/0003-rest-and-graphql-duality.adoc
+  - ../../doc/arc42/adr/0006-graphql-transactional-mutation-experiment.adoc
   - ../architecture/patterns/cqrs-style-rest-graphql-split.md
 status: current
-updated: 2026-09-05
+updated: 2026-11-04
 ---
 
 # GraphQL batch loading for relations

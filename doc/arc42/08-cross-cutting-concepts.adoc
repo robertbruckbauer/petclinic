@@ -3,12 +3,12 @@
 
 == CQRS Style REST/GraphQL Split
 
-Reads and writes travel separate paths: REST carries both commands and queries per entity, while GraphQL offers read-only queries for flexible client-side data shaping.
+REST carries commands and queries per entity, while GraphQL primarily offers flexible reads.
 See xref:{relrootdir}/doc/concept/spring/_json-jpa-rest-controller.adoc[JsonJpaRestController] and xref:{relrootdir}/doc/concept/spring/_graphql-controller.adoc[GraphqlController].
 
 == Optimistic Concurrency
 
-Every entity carries a version-derived ETag, and mutating requests must present it, so a stale write is rejected instead of silently overwriting a concurrent change.
+Every entity carries a version-derived ETag, and mutating REST requests for existing entities must present it so a stale write is rejected instead of silently overwriting a concurrent change.
 See xref:{relrootdir}/doc/concept/spring/_json-jpa-entity-version-id.adoc[Column for a primary key].
 
 == Pagination and Filtering
