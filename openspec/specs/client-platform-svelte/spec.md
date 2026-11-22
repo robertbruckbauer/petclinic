@@ -23,7 +23,7 @@ Services, stores, the router, and type definitions are TypeScript under `strict`
 
 ### Requirement: The container image is a two-stage Docker build serving prebuilt static files via nginx
 
-Stage one (`node:24-alpine`) runs `npm ci` and `npm run build`. Stage two (`nginx:1.26-alpine`) serves the resulting `build/generated` directory on port 5050 with gzip and ETag enabled, exposes `/healthz` returning a bare `200`, and falls back every other unmatched path to `index.html` so the in-app router can resolve it client-side. Unlike `app/server`/`app/migrate`, this image is built with a plain `docker build`/`docker tag` invocation, not Jib or Cloud Native Buildpacks.
+Stage one (`node:24-alpine`) runs `npm ci` and `npm run build`. Stage two (`nginx:1.26-alpine`) serves the resulting `build/generated` directory on port 5050 with gzip and ETag enabled, exposes `/healthz` returning a bare `200`, and falls back every other unmatched path to `index.html` so the in-app router can resolve it client-side. Unlike `app/backend`/`app/migrate`, this image is built with a plain `docker build`/`docker tag` invocation, not Jib or Cloud Native Buildpacks.
 
 #### Scenario: SPA fallback lets the client-side router own deep links
 - **GIVEN** a request for a path that is not a static asset (e.g. `/owner/42`)

@@ -12,7 +12,7 @@ Read the diff, PR, or description of the change under review. List the implement
 ### Map implementation areas to documentation systems
 
 For each touched area, check whether it's referenced by:
-- An `openspec/specs/<capability>/spec.md` requirement (per `AGENTS.md`'s "Artifact locations" and `openspec/project.md`'s capability list).
+- An `openspec/specs/<capability>/spec.md` or `openspec/specs/backend/<capability>/spec.md` requirement (per `AGENTS.md`'s "Artifact locations" and `openspec/project.md`'s capability list).
 - A `doc/arc42/*.adoc` chapter whose documented content boundary covers the touched area (each of the 12 standard chapters is scoped to one facet — introduction/goals, constraints, context, strategy, building blocks, runtime, deployment, cross-cutting concepts, decisions, quality, risks, glossary).
 - An Obsidian note anywhere under `obsidian/` whose content makes a claim about the changed code.
 - An ADR (`doc/arc42/adr/`) or a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table whose subject references the changed code.

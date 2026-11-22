@@ -93,7 +93,7 @@ For Liquibase script files (*.xml):
 ├── app/client-svelte  # Source for the Svelte based client
 ├── app/deploy         # Source for deployments
 ├── app/migrate        # Source for database migrations
-├── app/server         # Source for backend server with a database
+├── app/backend        # Source for backend server with a database
 ├── buildSrc           # Source for build management
 ├── doc                # Documentation
 │   └── arc42          # Bird's-eye architecture view
@@ -107,7 +107,8 @@ For Liquibase script files (*.xml):
 ├── pages              # Source for GitHub pages
 ├── plans              # Implementation plans
 ├── .agents/skills
-│   └── doc            # Documentation-maintenance skills
+│   ├── backend        # Backend implementation skills
+│   └── doc            # Documentation maintenance skills
 ├── AGENTS.md          # Agent settings
 ├── PROMPT.adoc        # Prompt engineering help
 ├── README.adoc        # Build management help
@@ -121,7 +122,7 @@ For Liquibase script files (*.xml):
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| OpenSpec capability spec | `spec.md` | `openspec/specs/{capability}/` |
+| OpenSpec capability spec | `spec.md` | `openspec/specs/{capability}/` or `openspec/specs/backend/{capability}/` |
 
 ### `obsidian`
 
@@ -166,7 +167,7 @@ For Liquibase script files (*.xml):
 | GraphQL controller class | `{Entity}GraphqlController.java` | `src/main/java/esy/app/{package}/` |
 | GraphQL test | `{Entity}GraphqlTest.java` | `src/test/java/esy/app/{package}/` |
 
-### `app/server`
+### `app/backend`
 
 | Artifact | Pattern | Location |
 |---|---|---|

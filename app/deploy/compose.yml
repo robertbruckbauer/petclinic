@@ -5,7 +5,7 @@ services:
     ports:
       - 5052:5052
     depends_on:
-      server:
+      backend:
         condition: service_healthy
   client-svelte:
     hostname: client-svelte
@@ -13,11 +13,11 @@ services:
     ports:
       - 5050:5050
     depends_on:
-      server:
+      backend:
         condition: service_healthy
-  server:
-    hostname: server
-    image: ${COMPOSE_PROJECT_NAME}/server
+  backend:
+    hostname: backend
+    image: ${COMPOSE_PROJECT_NAME}/backend
     ports:
       - 5005:5005
       - 8080:8080

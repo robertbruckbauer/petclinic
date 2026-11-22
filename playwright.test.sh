@@ -18,7 +18,7 @@ healthz() {
 
 composeUp() {
     cd $dir/app/deploy
-    docker compose --project-name petclinic --file compose.yml up --detach --no-build server $*
+    docker compose --project-name petclinic --file compose.yml up --detach --no-build backend $*
     if [ $? -eq 0 ]; then
         echo "System is starting"
         healthz 8080

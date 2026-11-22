@@ -29,7 +29,7 @@ Use this skill to bump Java {version} based on `doc/manual/setup-java.adoc`.
 - `java.sourceCompatibility = JavaVersion.VERSION_{version}`
 - `java.targetCompatibility = JavaVersion.VERSION_{version}`
 
-### Update `app/server/build.gradle`
+### Update `app/backend/build.gradle`
 
 - In task `bootBuildImage` set `BP_JVM_VERSION` to `{version}.*"`
 - In task `jibDockerBuild` set the base image to `eclipse-temurin:{version}-jdk-alpine@sha256:...`.

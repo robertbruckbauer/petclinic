@@ -1,5 +1,5 @@
 ---
-category: server
+category: backend
 related:
   - spring-data-rest-conventions.md
   - controller-advice-error-mapping.md

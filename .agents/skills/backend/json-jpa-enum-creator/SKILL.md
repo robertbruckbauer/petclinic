@@ -1,5 +1,5 @@
 ---
-name: domain-enum-creator
+name: json-jpa-enum-creator
 description: Create a new backend domain enum and artifacts; use for prompts like "Create an enum ... in package ...".
 ---
 

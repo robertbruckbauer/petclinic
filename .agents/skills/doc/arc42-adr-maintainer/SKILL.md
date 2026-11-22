@@ -21,7 +21,7 @@ One AsciiDoc file per decision, `= ADR {NNNN}: {Title}` as the document title, s
 
 ### Link to affected arc42 chapters and OpenSpec capabilities
 
-In the Links section, reference the arc42 chapter(s) this decision affects (`link:../{NN}-{chapter}.adoc[]`, relative to `doc/arc42/adr/`) and any `openspec/specs/{capability}/spec.md` it constrains.
+In the Links section, reference the arc42 chapter(s) this decision affects (`link:../{NN}-{chapter}.adoc[]`, relative to `doc/arc42/adr/`) and any `openspec/specs/{capability}/spec.md` (or `openspec/specs/backend/{capability}/spec.md`) it constrains.
 
 ### Link from arc42 chapter 9
 

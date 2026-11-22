@@ -1,12 +1,12 @@
 # Backend Platform
 
-Technology stack for the backend modules — `lib/backend-api`, `lib/backend-data`, `app/server`, `app/migrate` — as currently implemented. Per `openspec/AGENTS.md`, any capability suffixed `-platform` is technology-specific by design: the requirements here are about the technology itself (Gradle module boundaries, how each module is packaged), not an abstraction over it. Module responsibilities are defined once in `doc/arc42/05-building-block-view.adoc`; this file does not restate them, only the build/runtime behavior that follows from them. The database engine and migration mechanism are `database-platform`'s job, not this file's.
+Technology stack for the backend modules — `lib/backend-api`, `lib/backend-data`, `app/backend`, `app/migrate` — as currently implemented. Per `openspec/AGENTS.md`, any capability suffixed `-platform` is technology-specific by design: the requirements here are about the technology itself (Gradle module boundaries, how each module is packaged), not an abstraction over it. Module responsibilities are defined once in `doc/arc42/05-building-block-view.adoc`; this file does not restate them, only the build/runtime behavior that follows from them. The database engine and migration mechanism are `backend-database`'s job, not this file's.
 
 ## Requirements
 
 ### Requirement: Module dependency direction is one-way, from platform up to runnable app
 
-`lib/backend-api` depends on no other module in this repository. `lib/backend-data` depends on `lib/backend-api` (a compile-time `api` dependency, so `backend-api`'s types are visible to anything depending on `backend-data`). `app/server` and `app/migrate` each depend on `lib/backend-data` only — neither depends on the other, and neither is depended on by any `lib` module.
+`lib/backend-api` depends on no other module in this repository. `lib/backend-data` depends on `lib/backend-api` (a compile-time `api` dependency, so `backend-api`'s types are visible to anything depending on `backend-data`). `app/backend` and `app/migrate` each depend on `lib/backend-data` only — neither depends on the other, and neither is depended on by any `lib` module.
 
 #### Scenario: backend-api builds without the web/data/security stack
 - **GIVEN** `lib/backend-api`'s build file
@@ -20,7 +20,7 @@ Technology stack for the backend modules — `lib/backend-api`, `lib/backend-dat
 
 ### Requirement: Packaging differs per module by its role
 
-`app/server` is the only module packaged as a Spring Boot executable (`bootJar`) and built into a container image via both Spring Boot Cloud Native Buildpacks and Jib. `app/migrate` builds a container image via Jib only — its `bootJar` and Buildpacks image are disabled, so it ships as a plain Java `main` class (`esy.migrate.MigrateRunner`) despite being built from a Spring Boot Gradle module. `lib/backend-api` and `lib/backend-data` are packaged only as plain library jars (`java-library`) — neither produces a `bootJar`, a Buildpacks image, or a Jib image; neither is ever run standalone.
+`app/backend` is the only module packaged as a Spring Boot executable (`bootJar`) and built into a container image via both Spring Boot Cloud Native Buildpacks and Jib. `app/migrate` builds a container image via Jib only — its `bootJar` and Buildpacks image are disabled, so it ships as a plain Java `main` class (`esy.migrate.MigrateRunner`) despite being built from a Spring Boot Gradle module. `lib/backend-api` and `lib/backend-data` are packaged only as plain library jars (`java-library`) — neither produces a `bootJar`, a Buildpacks image, or a Jib image; neither is ever run standalone.
 
 #### Scenario: migrate's image runs a plain main class, not a Spring Boot application
 - **GIVEN** the `app/migrate` container image
