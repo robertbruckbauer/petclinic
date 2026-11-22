@@ -122,6 +122,8 @@ Visit the [Arc42 online documentation](https://docs.arc42.org/section-9/) for mo
 
 Each decision is its own slug-named `NNNN-*.adoc` with a standard structure.
 
+Create or update risks via `arc42-adr-maintainer`.
+
 Index only in `overview.adoc` in a level 2 section `Decision index`; one `ADR | Decision | Status` table row per decision.
 Add a new file for a new decision and `xref::` it in the table.
 
@@ -144,9 +146,10 @@ A list of identified technical risks or debts, ordered by priority.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-11/) for more information.
 
 - `risks.adoc` — level 2 section `Risks` containing risks as a table: `Risk | Score | Mitigation`, Score = likelihood × impact (each 1–3), Mitigation may be empty when none is planned.
-  If the change adds or changes a risk, edit its row directly (via `arc42-risk-maintainer` when recording risks).
 - `debts.adoc` — level 2 section `Debts` containing any significant debt (not only technical).
   Use a clear heading and short description per debt item.
+
+Create or update risks via `arc42-risk-maintainer`.
 
 Nest under level 1 section `11. Risks and Debt` in `arc42/index.adoc`.
 

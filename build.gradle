@@ -112,13 +112,13 @@ tasks.register('pages', AsciidoctorTask) {
     sourceDir = file('.')
     sources {
         include 'arc42/index.adoc'
-        include 'doc/concept/*.adoc'
+        include 'doc/concept/**/*.adoc'
         include 'doc/manual/*.adoc'
         include 'doc/service/*.adoc'
         exclude '**/_*.adoc'
         exclude '**/template'
     }
-    outputDir = file('pages/html/server')
+    outputDir = file('pages/html')
     baseDirFollowsSourceFile()
     attributes = [
         'includedir': rootProject.projectDir.absolutePath.replace('\\', '/'),
