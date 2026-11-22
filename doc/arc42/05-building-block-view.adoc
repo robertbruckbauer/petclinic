@@ -1,11 +1,46 @@
 :relrootdir: ../..
 = 5. Building Block View
 
-|===
-| Module | Responsibility
-| `lib/backend-api` | Domain entities (Owner, Pet, Vet, Visit), their JPA mapping, and item projections.
-| `lib/backend-data` | REST controllers, GraphQL controllers, repositories, error handling.
-| `app/backend` | Runnable Spring Boot application assembling the above, plus demo test-data seeding
-| `app/deploy` | Docker Compose topology for local/dev running of the whole system
-| `app/migrate` | Standalone database migration runner
-|===
+== Applications
+
+=== app/backend
+
+Backend server of the application with a database.
+
+https://spring.io/projects/spring-boot
+
+http://hsqldb.org
+
+=== app/migrate
+
+Backend database migration tool.
+
+https://docs.liquibase.com
+
+== Libraries
+
+=== lib/backend-api
+
+Data model for the backend server of the application.
+
+https://projectlombok.org/
+
+https://github.com/FasterXML/jackson-docs
+
+=== lib/backend-data
+
+REST and GraphQL implementation for the backend server of the application.
+
+https://spring.io/projects/spring-framework
+
+https://spring.io/projects/spring-restdocs
+
+https://spring.io/projects/spring-data-jpa
+
+https://spring.io/projects/spring-data-rest
+
+https://spring.io/projects/spring-graphql
+
+https://github.com/querydsl/querydsl
+
+https://docs.liquibase.com/
