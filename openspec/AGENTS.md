@@ -2,7 +2,7 @@
 
 ## Role of this directory
 
-`openspec/` contains the normative, implementable behavior contract for the backend (REST, GraphQL) and for every generated client (UI structure and behavior).
+`openspec/` contains the normative, implementable behavior contract for the backend (REST, GraphQL).
 
 ## How a document is produced or updated
 
@@ -12,4 +12,4 @@
 - Never restate what `doc/concept` already say; link to them.
 - Never restate what `doc/service` already say; link to them.
 
-Editing files in `openspec/` is a documentation change. It never includes editing `.java`, `.js`, `.ts`, or Gradle files — those are separate, implementation-scoped changes that a spec update may motivate but does not itself perform.
+Editing files in `openspec/` is a documentation change. It never includes editing `.java` or Gradle files — those are separate, implementation-scoped changes that a spec update may motivate but does not itself perform.

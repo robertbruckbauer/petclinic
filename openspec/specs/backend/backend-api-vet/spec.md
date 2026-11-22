@@ -1,6 +1,6 @@
 # Backend API: Vet
 
-The REST and GraphQL API for veterinarians and the skills/species they handle. References `backend-api-conventions` instead of restating its rules. See `client-ui-vet` for the UI built on this API.
+The REST and GraphQL API for veterinarians and the skills/species they handle. References `backend-api-conventions` instead of restating its rules.
 
 ## REST Requirements
 

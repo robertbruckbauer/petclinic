@@ -6,10 +6,6 @@
 
 `doc/concept/spring/` documents the recurring implementation patterns of the spring based backend.
 
-`doc/concept/angular/` documents the implementation patterns of a browser based angular frontend.
-
-`doc/concept/svelte/` documents the implementation patterns a browser based svelte frontend.
-
 ## How a document is produced or updated
 
 Editing `doc/concept/` is a documentation change primarily by a human with the support of an AI agent.

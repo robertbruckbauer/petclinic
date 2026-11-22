@@ -36,8 +36,8 @@ Only the following kinds of content belong in `obsidian/` — if what triggered 
 
 `obsidian/AGENTS.md` is exempt from the frontmatter, category, and MOC-linkage rules below.
 
-Extract the note's topic and one of the nine allowed categories (domain, architecture, backend, client, security, database, testing, building, context) from the request.
-Check that the category is one of those nine — no tenth category may be invented.
+Extract the note's topic and one of the eight allowed categories (domain, architecture, backend, security, database, testing, building, context) from the request.
+Check that the category is one of those eight — no ninth category may be invented.
 Replace placeholder `{category}` and `{topic}` accordingly; the file is `obsidian/{category}/{topic}.md`. Architecture decisions and risks are **not** created here — decisions live under `doc/arc42/adr/` (see `arc42-adr-maintainer`) and risks live as rows in `doc/arc42/11-risks-and-technical-debt.adoc`'s table (see `arc42-risk-maintainer`); this skill only links to them.
 
 ### Verify the claim against the code
@@ -48,7 +48,7 @@ Before writing or editing the note's content, locate the code (or `openspec`/`do
 
 ### Add the note to its category's MOC in the same change
 
-Every category has a map of contents at `obsidian/{category}/moc.md`, linked from the vault index `obsidian/index.md`. In the same change that creates a note (or substantially changes what it's about), add or update a one-line entry for it in that `moc.md`: a concise link plus a short description — never a copy of the note's content. Do not create a new `moc.md`; the nine already exist, one per allowed category. A note is not done until it is reachable from its category's MOC.
+Every category has a map of contents at `obsidian/{category}/moc.md`, linked from the vault index `obsidian/index.md`. In the same change that creates a note (or substantially changes what it's about), add or update a one-line entry for it in that `moc.md`: a concise link plus a short description — never a copy of the note's content. Do not create a new `moc.md`; the eight already exist, one per allowed category. A note is not done until it is reachable from its category's MOC.
 
 ### Write or update the note body
 
@@ -79,7 +79,7 @@ If this task encounters a note already marked `status: stale` or `status: supers
 - [ ] At least one rediscovery trigger actually applied — a note was not written just because this skill was invoked
 - [ ] The note's content is one of: subject rules/invariants/lifecycles not tied to a single file, technical must-not constraints, a decision (incl. rejected alternatives), a non-obvious pitfall/error scenario, or a convention
 - [ ] Frontmatter has `category`, `related`, `status`, and `updated:` (not applicable to `obsidian/AGENTS.md`, which is exempt)
-- [ ] `category` is one of the nine allowed categories
+- [ ] `category` is one of the eight allowed categories
 - [ ] The note is linked from its category's `moc.md`, added in this same change
 - [ ] Every link is standard Markdown, no `[[wikilinks]]`
 - [ ] The note does not restate `openspec/`, `doc/arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content

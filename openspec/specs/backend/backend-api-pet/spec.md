@@ -1,6 +1,6 @@
 # Backend API: Pet
 
-The REST and GraphQL API for pets belonging to an owner. References `backend-api-conventions` and `backend-api-owner` instead of restating their rules. See `client-ui-pet` for the UI built on this API.
+The REST and GraphQL API for pets belonging to an owner. References `backend-api-conventions` and `backend-api-owner` instead of restating their rules.
 
 ## REST Requirements
 

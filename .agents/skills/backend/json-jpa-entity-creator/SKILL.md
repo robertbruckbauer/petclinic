@@ -10,7 +10,7 @@ You MUST NOT generate code if even one of the preconditions is not met.
 ### Identify target entity
 
 Extract the entity name from the request.
-Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check if name is a valid identifier for the programming languages Java and SQL.
 Check that NO entity class with this name already exists.
 Replace placeholder `{Entity}` with the given name.
 Replace placeholder `{entity}` with kebab case of the the given name.
@@ -19,7 +19,7 @@ Replace placeholder '{table}' with snake case of the the given name.
 ### Identify target domain package
 
 Extract the domain package name from the request.
-Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check if name is a valid identifier for the programming languages Java and SQL.
 Check that a package directory with this name exists.
 Replace placeholder `{package}` with the given name.
 

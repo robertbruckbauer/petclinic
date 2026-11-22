@@ -14,4 +14,4 @@ A **Visit** is a single examination of a [Pet](pet.md) by a [Vet](vet.md) on a g
 
 Only `date` is actually required — a Visit's `pet` and `vet` are both optional relations, so a Visit can exist as a placeholder (e.g. for a vet on duty) before either is known. The shipped UI always sets `pet` at creation (via the pet screens' "Add a treatment" action) but commonly omits `vet` until the Diagnose form assigns one later — so a pet-less Visit is a real backend capability that just isn't exercised by any current screen.
 
-For the exact contract, see the `backend-api-visit` capability in `openspec/specs/backend/backend-api-visit/spec.md` and `doc/service/visit-restapi.adoc` / `doc/service/visit-graphql.adoc` for the generated API reference. The UI built on it is `client-ui-visit`.
+For the exact contract, see the `backend-api-visit` capability in `openspec/specs/backend/backend-api-visit/spec.md` and `doc/service/visit-restapi.adoc` / `doc/service/visit-graphql.adoc` for the generated API reference.

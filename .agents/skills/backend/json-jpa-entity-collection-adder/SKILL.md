@@ -18,7 +18,7 @@ Replace placeholder '{table}' with snake case of the the given name.
 ### Identify collection name
 
 Extract the collection element column name from the request.
-Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check if name is a valid identifier for the programming languages Java and SQL.
 Replace placeholder '{Name}' with the given name.
 Replace placeholder '{name}' with camel case of the the given name.
 Replace placeholder '{column}' with snake case of the the given name.

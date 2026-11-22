@@ -1,6 +1,6 @@
 # Backend API: Visit
 
-The REST and GraphQL API for visits where a vet examines a pet. References `backend-api-conventions` instead of restating its rules. See `client-ui-visit` for the UI built on this API.
+The REST and GraphQL API for visits where a vet examines a pet. References `backend-api-conventions` instead of restating its rules.
 
 ## REST Requirements
 

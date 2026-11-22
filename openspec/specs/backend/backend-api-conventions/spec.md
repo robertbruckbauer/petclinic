@@ -1,6 +1,6 @@
 # Backend API Conventions
 
-Cross-cutting contract every REST endpoint and every GraphQL operation in this system follows. Per-entity capabilities (`backend-api-owner`, `backend-api-pet`, `backend-api-vet`, `backend-api-visit`, `backend-api-ping`, `backend-api-enum`) reference this instead of restating it — `backend-api-enum` and `backend-api-ping` each deviate from several of the REST rules explicitly rather than following them. GraphQL is currently backend-only — no shipped client consumes it yet (both `client-angular` and `client-svelte` are REST-only).
+Cross-cutting contract every REST endpoint and every GraphQL operation in this system follows. Per-entity capabilities (`backend-api-owner`, `backend-api-pet`, `backend-api-vet`, `backend-api-visit`, `backend-api-ping`, `backend-api-enum`) reference this instead of restating it — `backend-api-enum` and `backend-api-ping` each deviate from several of the REST rules explicitly rather than following them. GraphQL is currently backend-only — no shipped client consumes it yet.
 
 ## REST Requirements
 

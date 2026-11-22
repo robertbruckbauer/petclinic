@@ -1,6 +1,6 @@
 ---
 name: run-unit-tests
-description: 'Run all unit tests via the gradle check task, covering Java tests and both Angular/Svelte client test suites; use for prompts like "Run all unit tests" or "Run the test suite".'
+description: 'Run all unit tests via the gradle check task, covering Java tests; use for prompts like "Run all unit tests" or "Run the test suite".'
 ---
 
 ## Task preconditions
@@ -16,7 +16,7 @@ An implementation request is any request that changed files under `app/`, `lib/`
 
 ### Run all unit tests
 
-Run the `check` task to execute all unit tests across backend and frontend modules.
+Run the `check` task to execute all unit tests across backend modules.
 
 ```bash
 gradle check
@@ -29,8 +29,6 @@ This step must not fail before reporting an implementation request as done.
 ## Validation checklist
 
 - [ ] All Java unit tests pass
-- [ ] Angular vitest suite passes
-- [ ] Svelte vitest suite passes
 - [ ] No test failure was suppressed or ignored
 
 ## Task output

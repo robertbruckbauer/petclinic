@@ -18,7 +18,7 @@ Replace placeholder '{table}' with snake case nof the the given nameame.
 ### Identify property name
 
 Extract the property name from the request.
-Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check if name is a valid identifier for the programming languages Java and SQL.
 Replace placeholder '{Name}' with the given name.
 Replace placeholder '{name}' with camel case of the the given name.
 Replace placeholder '{column}' with snake case of the the given name.

@@ -1,6 +1,6 @@
 # Backend API: Owner
 
-The REST and GraphQL API for pet owners acting as clients of the clinic. References `backend-api-conventions` instead of restating its rules. See `client-ui-owner` for the UI built on this API.
+The REST and GraphQL API for pet owners acting as clients of the clinic. References `backend-api-conventions` instead of restating its rules.
 
 ## REST Requirements
 

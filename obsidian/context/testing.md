@@ -2,10 +2,9 @@
 category: context
 related:
   - backend-development.md
-  - client-generation.md
   - security.md
 status: current
-updated: 2026-09-08
+updated: 2026-11-22
 ---
 
 # Entry point: testing
@@ -13,7 +12,5 @@ updated: 2026-09-08
 Minimum reading order for an agent asked to add or fix tests:
 
 1. `obsidian/testing/test-pyramid.md` — which layer the test belongs in before writing it.
-2. The matching layer note: `vitest-conventions.md` (frontend unit/component), `playwright-e2e-conventions.md` (cross-stack E2E), or the backend test-class conventions already encoded in the relevant `.agents/skills/*/SKILL.md`.
-3. `test-data-with-chance.md` / `../database/test-data-initialization.md` only if the test needs fixture data beyond a single hand-written example.
-
-`storybook-visual-testing.md` is relevant only when working in a standalone client repository, never in this repository.
+2. The backend test-class conventions already encoded in the relevant `.agents/skills/*/SKILL.md`.
+3. `../database/test-data-initialization.md` only if the test needs seeded demo data beyond a single hand-written fixture.

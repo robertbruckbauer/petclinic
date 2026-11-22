@@ -9,40 +9,24 @@
       "jdkDistro": "tem",
       "installGradle": "true",
       "gradleVersion": "9.4.1"
-    },
+    }
     // end::setup-gradle[]
     // end::setup-java[]
-    // tag::setup-node[]
-    "ghcr.io/devcontainers/features/node:1": {      
-      "version": "24"
-    }
-    // end::setup-node[]
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "vscjava.vscode-java-pack",
-        "svelte.svelte-vscode",
-        "bradlc.vscode-tailwindcss",
         "ms-vscode.vscode-json",
         "redhat.vscode-yaml"
       ]
     }
   },
-  "forwardPorts": [8080, 5052, 5050],
+  "forwardPorts": [8080],
   "portsAttributes": {
     "8080": {
       "label": "Backend API",
       "onAutoForward": "notify"
-    },
-    "5052": {
-      "label": "Angular",
-      "onAutoForward": "openBrowser"
-    },
-    "5050": {
-      "label": "Svelte",
-      "onAutoForward": "openBrowser"
     }
-  },
-  "postCreateCommand": "npm install --prefix app/client-angular && npm install --prefix app/client-svelte"
+  }
 }

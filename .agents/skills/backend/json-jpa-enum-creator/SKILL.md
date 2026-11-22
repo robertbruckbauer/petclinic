@@ -10,14 +10,14 @@ You MUST NOT generate code if even one of the preconditions is not met.
 ### Identify target enum
 
 Extract the enum name from the request.
-Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check if name is a valid identifier for the programming languages Java and SQL.
 Check that NO enum class with this name already exists.
 Replace placeholder `{Enum}` with the given name.
 
 ### Identify target domain package
 
 Extract the domain package name from the request.
-Check if name is a valid identifier for the programming languages Java, Typescript and SQL.
+Check if name is a valid identifier for the programming languages Java and SQL.
 Check that a package directory with this name exists.
 Replace placeholder `{package}` with the given name.
 

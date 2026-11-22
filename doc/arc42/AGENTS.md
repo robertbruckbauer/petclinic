@@ -6,7 +6,7 @@
 
 ## How a document is produced or updated
 
-Editing files in `doc/arc42/` is a documentation change. It never includes editing `.java`, `.js`, `.ts`, or Gradle files — those are separate, implementation-scoped changes that a spec update may motivate but does not itself perform.
+Editing files in `doc/arc42/` is a documentation change. It never includes editing `.java` or Gradle files — those are separate, implementation-scoped changes that a spec update may motivate but does not itself perform.
 
 Do not add chapters. The structure of `doc/arc42/` is well defined and final.
 

@@ -3,8 +3,6 @@ plugins {
 }
 
 tasks.register('deployUp') {
-    mustRunAfter ':app:client-angular:buildImage'
-    mustRunAfter ':app:client-svelte:buildImage'
     mustRunAfter ':app:migrate:buildImage'
     mustRunAfter ':app:backend:buildImage'
     doLast {
