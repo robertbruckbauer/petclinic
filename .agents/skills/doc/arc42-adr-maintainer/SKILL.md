@@ -91,12 +91,11 @@ If this ADR supersedes an earlier one, set the earlier ADR's status to `supersed
 
 - [ ] Status is one of `proposed`, `accepted`, `deferred`, `superseded`
 - [ ] A `proposed`/`deferred` ADR has no Decision filled in prematurely
-- [ ] `:relrootdir: ../..` is set and Links use `{relrootdir}/arc42/...`
-- [ ] arc42 chapter 9's index table reflects this ADR's current status
-- [ ] New ADR is `include::`-d from `arc42/index.adoc`
-- [ ] No Obsidian note under `obsidian/` contains a copy of this ADR's content — only links to it
 - [ ] A superseded ADR is marked `superseded`, not deleted, and links to its replacement
-- [ ] No file under `plans/` is referenced from the ADR
+- [ ] `arc42/09-architecture-decisions/overview.adoc` reflects current status and `xref` of all ADRs.
+- [ ] `:includedir:` is present and includes use `{includedir}/...`
+- [ ] `:relrootdir:` is present and xrefs use `{relrootdir}/...`
+- [ ] No file under `plans/` is referenced from the chapter
 
 ## Task output
 

@@ -63,8 +63,8 @@ Nest under level 1 section `2. Constraints` in `arc42/index.adoc`.
 System scope and context - as the name suggests - delimits your system (i.e. your scope) from all its communication partners (neighboring systems and users, i.e. the context of your system). It thereby specifies the external interfaces.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-3/) for more information.
 
-- `context.adoc` — `Business context` shows actors and external systems in a PlantUML usecase diagram; `Technical context` shows system context in a PlantUML C4 diagram (level 1).
-- `scope.adoc` — `== Scope` heading; in/out of scope.
+- `context.adoc` — level 2 section `Business context` shows actors and external systems in a PlantUML usecase diagram; level 2 section `Technical context` shows system context in a PlantUML C4 diagram (C4 level 1).
+- `scope.adoc` — level 2 section `Scope`; in/out of scope.
 
 Nest under level 1 section `3. Context and Scope` in `arc42/index.adoc`.
 

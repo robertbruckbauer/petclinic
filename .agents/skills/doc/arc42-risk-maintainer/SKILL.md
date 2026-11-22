@@ -22,7 +22,7 @@ Compute `Score = likelihood × impact`.
 
 ### Add or update the table row
 
-`arc42/11-risks-and-debt/risks.adoc` holds the risks table under `== Risks`, columns `Risk | Score | Mitigation`:
+`arc42/11-risks-and-debt/risks.adoc` holds the risks table under level 2 section `Risks`, columns `Risk | Score | Mitigation`:
 
 - **Risk** — the risk's name, no ID prefix.
 - **Score** — formatted as `{score} ({likelihood} × {impact})`, e.g. `3 (1 × 3)`.
@@ -31,7 +31,7 @@ Compute `Score = likelihood × impact`.
 There is no separate file per risk — everything lives in this one table.
 Do not create a risk note under `obsidian/`.
 
-Debt items (not only technical) belong in `arc42/11-risks-and-debt/debts.adoc` under `== Debts`, not in the risks table — use a clear heading and short description per debt item when recording debt.
+Debt items (not only technical) belong in `arc42/11-risks-and-debt/debts.adoc` under level 2 section `Debts`, not in the risks table — use a clear heading and short description per debt item when recording debt.
 
 ### Cross-link an ADR, if the mitigation is a planned future change
 
@@ -42,10 +42,9 @@ If the mitigation references a decision not yet made, point at its ADR (`arc42/0
 - [ ] The risk has no numeric ID — only a name in the Risk column
 - [ ] Score is written as `{score} ({likelihood} × {impact})` with both factors in 1–3
 - [ ] Mitigation is either empty or names a concrete mitigation/ADR, not a vague placeholder
-- [ ] No risk exists as a separate file anywhere in `obsidian/` or elsewhere — the table in `risks.adoc` is the only copy
 - [ ] Likelihood/impact were grounded in something actually checked, not guessed
-- [ ] The Mitigation cell references no file under `plans/`
-- [ ] No file under `plans/` is referenced from the risk table
+- [ ] No risk exists elsewhere — the table in `risks.adoc` is the only place
+- [ ] No file under `plans/` is referenced from the chapter
 
 ## Task output
 
