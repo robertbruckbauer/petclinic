@@ -97,8 +97,8 @@ For Liquibase script files (*.xml):
 ├── .agents/skills
 │   ├── backend        # Backend implementation skills
 │   └── doc            # Documentation maintenance skills
-├── AGENTS.md          # Agent settings
-├── PROMPT.adoc        # Prompt engineering help
+├── AGENTS.md          # Instructions for agents
+├── HUMANS.md          # Instructions for humans
 ├── README.adoc        # Build management help
 ├── settings.gradle    # Gradle settings
 └── VERSION            # Version of this application
