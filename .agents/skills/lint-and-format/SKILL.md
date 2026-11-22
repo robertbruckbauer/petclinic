@@ -18,7 +18,7 @@ An implementation request is any request that changed files under `app/`, `lib/`
 
 Run the `lint` task to verify all source files are correctly formatted.
 
-```bash
+```sh
 gradle lint
 ```
 
@@ -30,7 +30,7 @@ This step must not fail before committing code.
 
 Run the `format` task to automatically fix formatting issues.
 
-```bash
+```sh
 gradle format
 ```
 
@@ -38,7 +38,7 @@ Run from the repository root to format all modules at once, or scope to a single
 
 After running `format`, run `lint` to confirm no remaining issues:
 
-```bash
+```sh
 gradle lint
 ```
 

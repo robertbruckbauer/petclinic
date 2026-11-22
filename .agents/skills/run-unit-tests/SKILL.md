@@ -18,7 +18,7 @@ An implementation request is any request that changed files under `app/`, `lib/`
 
 Run the `check` task to execute all unit tests across backend modules.
 
-```bash
+```sh
 gradle check
 ```
 

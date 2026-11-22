@@ -47,7 +47,7 @@ Use this skill to bump Gradle `{version}` based on `doc/manual/setup-gradle.adoc
 
 ### Update `gradle/wrapper`
 
-```bash
+```sh
 gradle wrapper --gradle-version {version}
 ```
 
@@ -61,7 +61,7 @@ gradle wrapper --gradle-version {version}
 
 ### Validate changes
 
-```bash
+```sh
 gradle build --parallel
 ```
 

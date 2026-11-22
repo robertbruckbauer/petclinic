@@ -44,7 +44,7 @@ Use this skill to bump Java {version} based on `doc/manual/setup-java.adoc`.
 
 ### Validate changes
 
-```bash
+```sh
 gradle build --parallel
 ```
 
