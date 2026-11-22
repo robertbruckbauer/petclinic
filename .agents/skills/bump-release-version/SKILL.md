@@ -1,6 +1,6 @@
 ---
 name: bump-release-version
-description: Bump the release version of this repository, validate consistency, commit changes with a dedicated message, and create a release tag to trigger the actions workflow.
+description: 'Bump the release version of this repository, validate consistency, commit changes with a dedicated message, and create a release tag to trigger the actions workflow.'
 ---
 
 ## Task preconditions
@@ -31,7 +31,7 @@ Do not add a line break.
 
 ### Update app/client-angular/package.json
 
-```bash
+```sh
 pushd app/client-angular
 npm pkg set version={version}.0
 npm install --package-lock-only
@@ -40,7 +40,7 @@ popd
 
 ### Update app/client-svelte/package.json
 
-```
+```sh
 pushd app/client-svelte
 npm pkg set version={version}.0
 npm install --package-lock-only
@@ -51,9 +51,22 @@ popd
 
 Update version fields in `app/deploy/Chart.yaml` so major and minor match `{version}`.
 
+### Update app/tester/package.json
+
+```sh
+pushd app/tester
+npm pkg set version={version}.0
+npm install --package-lock-only
+popd
+```
+
+### Update app/tester/Chart.yaml
+
+Update version fields in `app/tester/Chart.yaml` so major and minor match `{version}`.
+
 ### Validate version consistency
 
-```bash
+```sh
 gradle versionCheck
 ```
 
@@ -62,7 +75,9 @@ This step must not fail.
 
 ### Commit and push version changes
 
-```bash
+Ask before executing commands.
+
+```sh
 git add .
 git commit -m 'version: {version}'
 git push
@@ -70,7 +85,9 @@ git push
 
 ### Create and push version tag
 
-```bash
+Ask before executing commands.
+
+```sh
 git tag {version}
 git push --tags
 ```
