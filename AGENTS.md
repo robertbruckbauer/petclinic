@@ -80,8 +80,8 @@ For Liquibase script files (*.xml):
 ```
 .
 ├── app/deploy         # Source for deployments
-├── app/migrate        # Source for database migrations
-├── app/backend        # Source for backend server with a database
+├── app/migrate        # Source for database migration job
+├── app/backend        # Source for backend runner
 ├── buildSrc           # Source for build management
 ├── doc                # Documentation
 │   └── arc42          # Bird's-eye architecture view
@@ -90,8 +90,8 @@ For Liquibase script files (*.xml):
 │   └── service        # Reference documentation 
 ├── obsidian           # Knowledge graph
 ├── openspec           # Normative specifications
-├── lib/backend-api    # Source for the JPA data model of the backend server
-├── lib/backend-data   # Source for the REST and GraphQL implementation of the backend server
+├── lib/backend-api    # Source for backend api
+├── lib/backend-data   # Source for backend operations
 ├── pages              # Source for GitHub pages
 ├── plans              # Implementation plans
 ├── .agents/skills
@@ -99,7 +99,7 @@ For Liquibase script files (*.xml):
 │   └── doc            # Documentation maintenance skills
 ├── AGENTS.md          # Instructions for agents
 ├── HUMANS.md          # Instructions for humans
-├── README.adoc        # Build management help
+├── README.md          # Command register
 ├── settings.gradle    # Gradle settings
 └── VERSION            # Version of this application
 ```
