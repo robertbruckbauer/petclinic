@@ -1,36 +1,46 @@
 :relrootdir: ../..
 = ADR 0003: Both REST and GraphQL are exposed, REST for writes and reads, GraphQL for reads only
 
-== Status
+[cols="1,3"]
+|===
+|Status |accepted
+|Created at |2026-09-15
+|Last modified at |2026-11-22
+|Decided by
+a|
+* Robert Bruckbauer
+|===
 
-Accepted (reflects the system as already implemented).
-
-== Context
+== Context and problem statement
 
 Spring Data REST gives CRUD endpoints with pagination/filtering/ETag semantics "for free."
 GraphQL gives clients an efficient way to fetch nested/related data (e.g. an owner with its pets) in one round trip.
 Neither alone covers both needs well.
+See xref:{relrootdir}/arc42/08-cross-cutting-concepts/cqrs-style-rest-graphql-split.adoc[arc42 ch. 8: Cross-cutting Concepts].
+
+== Considered options
+
+=== REST for commands and queries, GraphQL for queries only
+
+REST (`/api/**`) is the command and query API — every entity supports full CRUD, filtering, and pagination through it.
+GraphQL (`/graphql`) is a read-only convenience API layered on top of the same data — queries and relation navigation only, no mutations.
+No client is required to use GraphQL; consumers may use REST only.
+Both surfaces are documented together in `openspec/specs/backend/backend-api-conventions/spec.md`.
+
+=== GraphQL mutations too
+
+Deferred because it would duplicate the validation/ETag/error-handling contract already built for REST, for no client that currently needs it.
+Revisit if or when a client actually needs GraphQL writes.
+
+=== GraphQL only, no REST
+
+Rejected because Spring Data REST's built-in ETag/pagination/filtering conventions are exactly the write-side contract this system relies on; reimplementing that in GraphQL mutations would be pure YAGNI today.
 
 == Decision
 
-- REST (`/api/**`) is the command *and* query API — every entity supports full CRUD, filtering, and pagination through it.
-- GraphQL (`/graphql`) is a **read-only** convenience API layered on top of the same data — queries and relation navigation only, no mutations.
-See `openspec/specs/backend/backend-api-conventions/spec.md`'s GraphQL Requirements chapter.
-- No client is required to use GraphQL; consumers may use REST only.
+Expose both REST and GraphQL: REST for writes and reads, GraphQL for reads only, aligned to the same data and the shared conventions in `openspec/specs/backend/backend-api-conventions/spec.md`.
 
-== Alternatives considered
+=== Consequences
 
-- **GraphQL mutations too** — deferred: would duplicate the validation/ETag/error-handling contract already built for REST, for no client that currently needs it.
-Revisit if/when a client actually needs GraphQL writes.
-- **GraphQL only, no REST** — rejected: Spring Data REST's built-in ETag/pagination/filtering conventions are exactly the write-side contract this system relies on (see `openspec/specs/backend/backend-api-conventions/spec.md`'s REST Requirements chapter); reimplementing that in GraphQL mutations would be pure YAGNI today.
-
-== Consequences
-
-- Two API surfaces to keep behaviorally consistent for reads (same entities, same relations) — both are documented together in `openspec/specs/backend/backend-api-conventions/spec.md`, whose GraphQL Requirements chapter shares the same validation/error-classification behavior as its REST Requirements chapter, rather than each surface defining read semantics independently.
-- Relation-heavy GraphQL queries need batch loading to stay efficient — see `obsidian/backend/graphql-batch-loading.md`.
-
-== Links
-
-- xref:{relrootdir}/arc42/08-cross-cutting-concepts/cqrs-style-rest-graphql-split.adoc[arc42 ch. 8: Cross-cutting Concepts]
-- `openspec/specs/backend/backend-api-conventions/spec.md`
-- `obsidian/architecture/patterns/cqrs-style-rest-graphql-split.md`
+* Two API surfaces must stay behaviorally consistent for reads (same entities, same relations).
+* Relation-heavy GraphQL queries need batch loading to stay efficient — see `obsidian/backend/graphql-batch-loading.md` and `obsidian/architecture/patterns/cqrs-style-rest-graphql-split.md`.

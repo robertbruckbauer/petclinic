@@ -27,8 +27,8 @@ If not, it belongs in `obsidian/` instead — write it there (via `obsidian-main
 Keep the chapter's existing content boundary — each of the 12 standard arc42 chapters is scoped to one facet (introduction/goals, constraints, context and scope, solution strategy, building blocks, runtime view, deployment view, cross-cutting concepts, architecture decisions, quality requirements, risks and debt, glossary) and stays within it.
 Add or update only what's architecturally significant.
 Do not add implementation details.
-Do not link to `openspec`.
-Do not link to `obsidian`.
+Do not link to requirements in `openspec/`.
+Do not link to knowledge in `obsidian/`.
 
 Keep `:relrootdir: ../..` on chapter files under `arc42/{NN}-…/` and use `xref:{relrootdir}/arc42/...` (and `{relrootdir}/doc/concept/...` where ch. 8 allows).
 Do not switch to file-relative-only xrefs.
@@ -71,7 +71,7 @@ Nest under level 1 section `3. Context and Scope` in `arc42/index.adoc`.
 #### 4. Solution Strategy (`arc42/04-solution-strategy/`)
 
 A solution strategy is a system-wide, hard-to-reverse decision.
-A decision that isn't strategic doesn't get a place here — apply the removal test.
+A solution that isn't strategic doesn't get a place here — apply the removal test.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-4/) for more information.
 
 Each strategy is its own slug-named `.adoc` with an level 2 section and a very short bird's-eye description without implementation details.
@@ -112,6 +112,7 @@ Visit the [Arc42 online documentation](https://docs.arc42.org/section-8/) for mo
 
 Each concept is its own slug-named `.adoc` with an level 2 section and a very short bird's-eye description without implementation details.
 Add a new file for a new concept and `include::` it there under that title.
+A concept that isn't strategic doesn't get a place here — apply the removal test.
 
 Nest under level 1 section `8. Cross-cutting Concepts` in `arc42/index.adoc`.
 
@@ -121,11 +122,12 @@ Important, expensive, large scale or risky architecture decisions including rati
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-9/) for more information.
 
 Each decision is its own slug-named `NNNN-*.adoc` with a standard structure.
+A decision that isn't strategic doesn't get a place here — apply the removal test.
 
-Create or update risks via `arc42-adr-maintainer`.
+Create or update decisions via `arc42-adr-maintainer`.
 
-Index only in `overview.adoc` in a level 2 section `Decision index`; one `ADR | Decision | Status` table row per decision.
-Add a new file for a new decision and `xref::` it in the table.
+Index only in `overview.adoc` in a level 2 section `Decision index`; one `ADR | Decision | Status | Created at | Last modified at` table row per decision.
+Add a new file for a new decision and `xref` it in the table.
 
 Nest under level 1 section `9. Architecture Decisions` in `arc42/index.adoc`.
 
@@ -168,7 +170,7 @@ Nest under level 1 section `12. Glossary` in `arc42/index.adoc`.
 - [ ] No sentence added fails the removal test
 - [ ] No implementation-level detail was added directly to the chapter
 - [ ] The chapter's content boundary wasn't widened without reason
-- [ ] `:includedir:` is present and includes use `{includedir}/...`
+- [ ] When the file uses `include::`, `:includedir:` is present and includes use `{includedir}/...`
 - [ ] `:relrootdir:` is present and xrefs use `{relrootdir}/...`
 - [ ] No file under `plans/` is referenced from the chapter
 

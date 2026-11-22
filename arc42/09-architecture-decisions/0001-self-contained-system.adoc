@@ -1,30 +1,43 @@
 :relrootdir: ../..
 = ADR 0001: Self-Contained System
 
-== Status
+[cols="1,3"]
+|===
+|Status |accepted
+|Created at |2026-09-15
+|Last modified at |2026-11-22
+|Decided by
+a|
+* Robert Bruckbauer
+|===
 
-Accepted (reflects the system as already implemented; recorded here for traceability, not proposing a change).
-
-== Context
+== Context and problem statement
 
 Pet Clinic needs HTTP API consumers that present the same domain data without duplicating business logic or owning their own data store.
+See xref:{relrootdir}/arc42/03-context-and-scope/context.adoc[arc42 ch. 3: Context and Scope].
+
+== Considered options
+
+=== Self-Contained System with thin API consumers
+
+One backend server owns the database and all business logic, and exposes it through REST and GraphQL APIs.
+API consumers are thin — they call the backend's APIs, holding no server-side logic or independent data of their own.
+
+=== Micro-frontends with per-client backends-for-frontend (BFF)
+
+Rejected because it adds an extra hop and duplicated data-shaping logic for a system this size.
+
+=== Shared monolithic server-rendered UI
+
+Rejected because a clean API boundary is required rather than server-side rendering coupling.
+See xref:{relrootdir}/arc42/02-constraints/constraints.adoc[arc42 ch. 2: Constraints].
 
 == Decision
 
-The system is built as a **Self-Contained System**: one backend server owns the database and all business logic, and exposes it through REST and GraphQL APIs.
-API consumers are thin — they call the backend's APIs, holding no server-side logic or independent data of their own.
+Build the system as a Self-Contained System: one backend owns the database and business logic and exposes REST and GraphQL; consumers stay thin.
+The shared contract is defined once under `openspec/specs/backend/*` (see link:../../openspec/project.md[openspec/project.md]).
 
-== Alternatives considered
+=== Consequences
 
-- **Micro-frontends with per-client backends-for-frontend (BFF)** — rejected: adds an extra hop and duplicated data-shaping logic for a system this size.
-- **Shared monolithic server-rendered UI** — rejected: a clean API boundary is required rather than server-side rendering coupling.
-
-== Consequences
-
-- Every consumer uses the same REST/GraphQL contract — defined once in `openspec/specs/backend/*`.
-- The backend must keep its API contract stable and versionable independent of any one consumer's release cycle.
-
-== Links
-
-- xref:{relrootdir}/arc42/02-constraints/constraints.adoc[arc42 ch. 2: Constraints], xref:{relrootdir}/arc42/03-context-and-scope/context.adoc[ch. 3: Context and Scope]
-- link:../../openspec/project.md[openspec/project.md]
+* Every consumer uses the same REST/GraphQL contract.
+* The backend must keep its API contract stable and versionable independent of any one consumer's release cycle.

@@ -1,32 +1,44 @@
 :relrootdir: ../..
 = ADR 0002: OpenSpec-driven client generation, in separate standalone repositories
 
-== Status
+[cols="1,3"]
+|===
+|Status |superseded
+|Created at |2026-09-15
+|Last modified at |2026-11-22
+|Decided by
+a|
+* Robert Bruckbauer
+|===
 
-Superseded.
-OpenSpec in this repository covers backend capabilities only.
-
-== Context
+== Context and problem statement
 
 Two independent browser client stacks needed to stay behaviorally identical while being free to fully regenerate their implementation when their framework or style guidelines change significantly.
 Keeping generated client code in the same repository/history as the specs that drive it made "rebuild from scratch" ambiguous.
+See xref:{relrootdir}/arc42/04-solution-strategy/openspec-behavior-contract.adoc[arc42 ch. 4: Solution Strategy].
+
+== Considered options
+
+=== OpenSpec contract with clients in separate standalone repositories
+
+`openspec/specs/*` in this repository was the single normative contract every client was generated from.
+Each client lived in its own standalone repository and pulled a copied, diffable subset of the relevant OpenSpec capabilities via an explicit sync step — not a live reference into this repository.
+
+=== Monorepo with client packages
+
+Rejected because it couples client release/build tooling to the server's Gradle build and makes "rebuild from scratch" mean "edit in place" rather than "regenerate."
+
+=== Git submodule pointing at openspec/
+
+Rejected because submodules are operationally painful and still couple the client repo's history to the server repo's; a copied, stamped snapshot is simpler to reason about even though it can go stale.
 
 == Decision
 
-- `openspec/specs/*` (this repository) was the single normative contract every client was generated from.
-- Each client lived in its **own standalone repository**, not as a module of this repository.
-- Each client repository pulled a **copied, diffable subset** of the relevant OpenSpec capabilities via an explicit sync step — not a live reference into this repository.
+This ADR is superseded.
+OpenSpec in this repository covers backend capabilities only; client generation in separate repositories is no longer the adopted direction.
 
-== Alternatives considered
+=== Consequences
 
-- **Monorepo with client packages** — rejected: couples client release/build tooling to the server's Gradle build and makes "rebuild from scratch" mean "edit in place" rather than "regenerate."
-- **Git submodule pointing at `openspec/`** — rejected: submodules are operationally painful and still couple the client repo's history to the server repo's; a copied, stamped snapshot is simpler to reason about even though it can go stale.
-
-== Consequences
-
-- A client repository was self-contained: clone it, and the spec subset needed to regenerate it was right there.
-- Keeping the client repo's spec copy current was a manual/scheduled step, not automatic.
-
-== Links
-
-- xref:{relrootdir}/arc42/04-solution-strategy/openspec-behavior-contract.adoc[arc42 ch. 4: Solution Strategy]
+* Historical client repositories were self-contained: clone one, and the spec subset needed to regenerate it was right there.
+* Keeping a client repo's spec copy current was a manual/scheduled step, not automatic.
+* No later ADR replaces this decision; backend OpenSpec remains the normative contract for this repository.
