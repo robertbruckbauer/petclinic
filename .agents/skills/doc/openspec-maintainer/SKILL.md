@@ -9,22 +9,11 @@ You MUST NOT generate a spec change if even one of the preconditions is not met.
 
 ### Identify target capability
 
-Extract the capability name from the request (e.g. `backend-api-conventions`, `backend-api-owner`, `client-ui-owner`).
-Check that `openspec/specs/{capability}/spec.md` or `openspec/specs/backend/{capability}/spec.md` exists, or that a new capability is explicitly being requested.
+Extract the capability name from the request (e.g. `backend-api-conventions`, `backend-api-owner`).
+Check that `openspec/specs/backend/{capability}/spec.md` exists, or that a new capability is explicitly being requested.
 Replace placeholder `{capability}` with the given name.
 
-For Owner/Pet/Vet/Visit/Enum, REST and GraphQL requirements live in `backend-api-<entity>` (e.g. `backend-api-owner` for the owner entity) and UI requirements live in the separate `client-ui-<entity>` capability (e.g. `client-ui-owner` for the owner entity) — pick the one matching the request's concern, don't add a `## UI Requirements` section to a `backend-api-*` spec or a `## REST`/`## GraphQL Requirements` section to a `client-ui-*` spec.
-
-### Route UI-facing content to `client-shell` vs. `client-style`
-
-A request touching UI behavior lands in exactly one of these two capabilities — never split across both, never left in whichever file happens to be open:
-
-- **`client-shell`**: the per-entity screen inventory (a lister, an editor, a viewer exists) and behavior driven by a backend call or the security posture — REST-conventions-based filtering/pagination, optimistic-concurrency conflicts, validation-error mapping, explicit loading/empty states, error-toast triggering, auth/session handling.
-The test: does the requirement exist *because of* a REST/GraphQL response, an ETag, or an auth rule?
-- **`client-style`**: everything about a screen's concrete composition (header, footer, menus, field order/type, table columns and row-action order, filter widget choice, picklist sourcing) and its visual appearance (color, iconography, control shape, typography, responsive breakpoint, motion).
-The test: Does it exist *regardless* of what the backend does — it's about how the screen is laid out or how it looks? → `client-style`.
-
-If a requirement genuinely doesn't fit either description, put it into the per-entity capability's `## UI Requirements` section which references both `client-shell` and `client-style`.
+For Owner/Pet/Vet/Visit/Enum, REST and GraphQL requirements live in `backend-api-<entity>` (e.g. `backend-api-owner` for the owner entity).
 
 ### Structure REST endpoint requirements by entity and operation
 
@@ -46,7 +35,7 @@ Precedence when artifacts disagree about a current-state fact: code and tests, t
 
 ### Edit the capability spec directly
 
-Add, change, or remove `### Requirement:`/`#### Scenario:` entries directly in `openspec/specs/{capability}/spec.md` (or `openspec/specs/backend/{capability}/spec.md` for backend capabilities) — a wording fix and a behavior change are both made this way, in place, with no separate draft/staging step. Keep the `### Requirement:` / `#### Scenario:` format already used in every capability spec.
+Add, change, or remove `### Requirement:`/`#### Scenario:` entries directly in `openspec/specs/backend/{capability}/spec.md` — a wording fix and a behavior change are both made this way, in place, with no separate draft/staging step. Keep the `### Requirement:` / `#### Scenario:` format already used in every capability spec.
 
 ### Keep the capability technology-independent
 
@@ -59,8 +48,7 @@ If the requested requirement describes a target ahead of what's implemented, onl
 ## Validation checklist
 
 - [ ] The capability spec still uses only `### Requirement:` / `#### Scenario:` (Given/When/Then) structure
-- [ ] No Spring/Angular/Svelte implementation detail was added to a requirement
-- [ ] A new/changed UI requirement landed in `client-shell` (REST/service/security-driven behavior) or `client-style` (composition/appearance) per the routing rule, not duplicated across both or left ambiguous unasked
+- [ ] No Spring implementation detail was added to a requirement
 - [ ] `## REST Requirements` has one requirement per HTTP operation (titled by verb + path), not a blanket "Full CRUD" bundle
 - [ ] `## GraphQL Requirements` has one requirement per named query, not a bundle covering every query for that entity
 - [ ] Any forward-looking (not-yet-implemented) requirement has a tracked ADR + a row in chapter 11's risk table

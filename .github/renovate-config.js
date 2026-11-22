@@ -32,18 +32,12 @@ module.exports = {
   // https://docs.renovatebot.com/configuration-options/#ignoredeps
   ignoreDeps: [],
   // https://docs.renovatebot.com/modules/manager/
-  enabledManagers: ["gradle", "dockerfile", "docker-compose", "npm"],
+  enabledManagers: ["gradle", "dockerfile", "docker-compose"],
   packageRules: [
-    {
-      groupName: "svelte group",
-      groupSlug: "svelte-group",
-      matchPackageNames: ["svelte", "@sveltejs/vite-plugin-svelte"],
-      matchUpdateTypes: ["patch", "minor", "major"],
-    },
     {
       groupName: "playwright group",
       groupSlug: "playwright-group",
-      matchPackageNames: ["@playwright/test", "com.microsoft.playwright:playwright"],
+      matchPackageNames: ["com.microsoft.playwright:playwright"],
       matchUpdateTypes: ["patch", "minor", "major"],
     },
     // https://docs.renovatebot.com/modules/manager/gradle/

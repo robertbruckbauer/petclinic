@@ -29,40 +29,9 @@ Use this skill to apply a new version for this repository based on the informati
 Set content of `VERSION` file to `{version}`.
 Do not add a line break.
 
-### Update app/client-angular/package.json
-
-```sh
-pushd app/client-angular
-npm pkg set version={version}.0
-npm install --package-lock-only
-popd
-```
-
-### Update app/client-svelte/package.json
-
-```sh
-pushd app/client-svelte
-npm pkg set version={version}.0
-npm install --package-lock-only
-popd
-```
-
 ### Update app/deploy/Chart.yaml
 
 Update version fields in `app/deploy/Chart.yaml` so major and minor match `{version}`.
-
-### Update app/tester/package.json
-
-```sh
-pushd app/tester
-npm pkg set version={version}.0
-npm install --package-lock-only
-popd
-```
-
-### Update app/tester/Chart.yaml
-
-Update version fields in `app/tester/Chart.yaml` so major and minor match `{version}`.
 
 ### Validate version consistency
 

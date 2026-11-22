@@ -1,6 +1,6 @@
 # Backend API: Enum
 
-The REST and GraphQL API for the shared picklists (e.g. species, skill) that other capabilities' fixed-vocabulary fields are populated from. References `backend-api-conventions` instead of restating its rules — though it deviates from several of its REST rules explicitly, as noted below. Backed by one generic entity discriminated by an `art` (picklist category), not a capability-specific one per category. See `client-ui-enum` for the UI built on this API.
+The REST and GraphQL API for the shared picklists (e.g. species, skill) that other capabilities' fixed-vocabulary fields are populated from. References `backend-api-conventions` instead of restating its rules — though it deviates from several of its REST rules explicitly, as noted below. Backed by one generic entity discriminated by an `art` (picklist category), not a capability-specific one per category.
 
 ## REST Requirements
 

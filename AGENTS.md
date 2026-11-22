@@ -21,7 +21,7 @@ This repository has six documentation approaches with a clear separation of conc
 - **`doc/concept`** — implementation concepts per technology stack.
 - **`doc/manual`** — development and maintenance guides.
 - **`doc/service`** — API reference documentation.
-- **`openspec`** — the normative, implementable behavior contract for the backend and every generated client.
+- **`openspec`** — the normative, implementable behavior contract for the backend.
 - **`obsidian`** — the knowledge graph maintained exclusively by AI agents — never by direct human edit.
 
 No `doc`, `openspec`, or `obsidian` artifact references a file under `plans/` directly — a plan is a transient working document for a single change, not part of the durable documentation graph. A fact from a plan that needs to persist is written directly into the artifact instead.
@@ -65,16 +65,6 @@ For java files (*.java):
 - [ ] Keep style consistent with existing code.
 - [ ] Format with spotless.
 
-For javascript files (*.js):
-- [ ] Follow examples from the implementation guides if available.
-- [ ] Keep style consistent with existing code.
-- [ ] Format with prettier.
-
-For typescript files (*.ts):
-- [ ] Follow examples from the implementation guides if available.
-- [ ] Keep style consistent with existing code.
-- [ ] Format with prettier.
-
 For GraphQL schema files (*.gqls):
 - [ ] Follow examples from the implementation guides if available.
 - [ ] Keep style consistent with existing code.
@@ -89,8 +79,6 @@ For Liquibase script files (*.xml):
 
 ```
 .
-├── app/client-angular # Source for the Angular based client
-├── app/client-svelte  # Source for the Svelte based client
 ├── app/deploy         # Source for deployments
 ├── app/migrate        # Source for database migrations
 ├── app/backend        # Source for backend server with a database
@@ -122,7 +110,7 @@ For Liquibase script files (*.xml):
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| OpenSpec capability spec | `spec.md` | `openspec/specs/{capability}/` or `openspec/specs/backend/{capability}/` |
+| OpenSpec capability spec | `spec.md` | `openspec/specs/backend/{capability}/` |
 
 ### `obsidian`
 
@@ -174,28 +162,3 @@ For Liquibase script files (*.xml):
 | Server runner | `ServerRunner.java` | `src/main/java/esy/` |
 | Server runner test | `ServerRunnerTest.java` | `src/test/java/esy/app/` |
 | Server test set | `ServerTestset.java` | `src/main/java/esy/` |
-
-### `app/client-angular`
-
-| Artifact | Pattern | Location |
-|---|---|---|
-| Angular type | `{entity}.type.ts` | `src/main/angular/types`
-| Angular lister component | `{entity}-lister.ts`, `{entity}-lister.html` | `src/main/angular/pages/{package}/{entity}-lister/` |
-| Angular editor component | `{entity}-editor.ts`, `{entity}-editor.html` | `src/main/angular/pages/{package}/{entity}-editor/` |
-| Angular viewer component | `{entity}-viewer.ts`, `{entity}-viewer.html` | `src/main/angular/pages/{package}/{entity}-viewer/` |
-| Angular service class | `{entity}.service.ts` | `src/main/angular/services/` |
-| Angular service test | `{entity}.service.test.ts` | `src/main/angular/services/` |
-| Angular routes | `{entity}.routes.ts` | `src/main/angular/pages/{package}/` |
-| Angular client test | `{entity}.test.ts` | `src/test/playwright/` |
-
-### `app/client-svelte`
-
-| Artifact | Pattern | Location |
-|---|---|---|
-| Svelte type | `{entity}.type.ts` | `src/main/svelte/types`
-| Svelte lister component | `{Entity}Lister.svelte` | `src/main/svelte/pages/{package}/` |
-| Svelte editor component | `{Entity}Editor.svelte` | `src/main/svelte/pages/{package}/` |
-| Svelte viewer component | `{Entity}Viewer.svelte` | `src/main/svelte/pages/{package}/` |
-| Svelte service class | `{entity}.service.ts` | `src/main/svelte/services/` |
-| Svelte service test | `{entity}.service.test.ts` | `src/main/svelte/services/` |
-| Svelte client test | `{entity}.test.ts` | `src/test/playwright/` |

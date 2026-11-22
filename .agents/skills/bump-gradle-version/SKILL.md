@@ -34,7 +34,6 @@ Verify that all plugins listed in `settings.gradle` have versions compatible wit
 - Check [Spotless Gradle Plugin](https://plugins.gradle.org/plugin/com.diffplug.spotless)
 - Check [Jib Gradle Plugin](https://plugins.gradle.org/plugin/com.google.cloud.tools.jib)
 - Check [Git-Version Gradle Plugin](https://plugins.gradle.org/plugin/com.palantir.git-version)
-- Check [Node Gradle Plugin](https://plugins.gradle.org/plugin/com.github.node-gradle.node)
 - Check [AsciidoctorJ Gradle Plugin](https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert)
 
 If any plugin has a breaking change or deprecation that would prevent the build from completing then

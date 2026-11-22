@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Task that parses JUnit XML reports produced by vitest (or any JUnit-compatible runner)
+ * Task that parses JUnit XML reports produced by any JUnit-compatible runner
  * and generates an HTML test report using Gradle's public Test Event Reporting API.
  *
  * <p>Usage:
@@ -256,7 +256,7 @@ public abstract class JUnitXmlToHtmlConverterTask extends DefaultTask {
 
     /**
      * Sanitizes a suite name for use as a file-system path component.
-     * Forward slashes are kept so vitest file-path suite names form a readable directory tree.
+     * Forward slashes are kept so file-path suite names form a readable directory tree.
      * All other Windows-illegal characters and spaces are replaced with {@code _};
      * consecutive underscores are collapsed into one.
      */

@@ -1,20 +1,4 @@
 services:
-  client-angular:
-    hostname: client-angular
-    image: ${COMPOSE_PROJECT_NAME}/client-angular
-    ports:
-      - 5052:5052
-    depends_on:
-      backend:
-        condition: service_healthy
-  client-svelte:
-    hostname: client-svelte
-    image: ${COMPOSE_PROJECT_NAME}/client-svelte
-    ports:
-      - 5050:5050
-    depends_on:
-      backend:
-        condition: service_healthy
   backend:
     hostname: backend
     image: ${COMPOSE_PROJECT_NAME}/backend

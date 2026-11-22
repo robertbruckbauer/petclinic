@@ -1,11 +1,10 @@
 ---
 category: context
 related:
-  - client-generation.md
   - security.md
   - testing.md
 status: current
-updated: 2026-09-08
+updated: 2026-11-22
 ---
 
 # Entry point: backend development
