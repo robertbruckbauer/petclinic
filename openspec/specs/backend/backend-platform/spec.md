@@ -1,6 +1,6 @@
 # Backend Platform
 
-Technology stack for the backend modules — `lib/backend-api`, `lib/backend-data`, `app/backend`, `app/migrate` — as currently implemented. Per `openspec/AGENTS.md`, any capability suffixed `-platform` is technology-specific by design: the requirements here are about the technology itself (Gradle module boundaries, how each module is packaged), not an abstraction over it. Module responsibilities are defined once in `doc/arc42/05-building-block-view.adoc`; this file does not restate them, only the build/runtime behavior that follows from them. The database engine and migration mechanism are `backend-database`'s job, not this file's.
+Technology stack for the backend modules — `lib/backend-api`, `lib/backend-data`, `app/backend`, `app/migrate` — as currently implemented. Per `openspec/AGENTS.md`, any capability suffixed `-platform` is technology-specific by design: the requirements here are about the technology itself (Gradle module boundaries, how each module is packaged), not an abstraction over it. Module responsibilities are defined once in `arc42/05-building-block-view/overview.adoc`; this file does not restate them, only the build/runtime behavior that follows from them. The database engine and migration mechanism are `backend-database`'s job, not this file's.
 
 ## Requirements
 

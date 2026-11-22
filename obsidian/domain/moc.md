@@ -11,7 +11,7 @@ updated: 2026-09-09
 
 Relationship/context notes for the clinic's core entities. Exact field/value-object definitions are not restated here — see `glossary.md`.
 
-- [glossary.md](glossary.md) — where entity/value-object definitions actually live (`doc/arc42` chapter 12).
+- [glossary.md](glossary.md) — where entity/value-object definitions actually live (`arc42` chapter 12).
 - [owner.md](owner.md) — the clinic's client, who brings pets in for treatment.
 - [pet.md](pet.md) — an animal treated at the clinic, belonging to exactly one owner.
 - [vet.md](vet.md) — a clinic veterinarian who conducts visits.

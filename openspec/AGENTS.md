@@ -8,7 +8,7 @@
 
 - A capability with the `-platform` suffix is technology-specific by design, its whole purpose being to pin that module's current technology stack as a requirement rather than abstract away from it. 
 - A significant behavior change must not land in code before its `specs/` update — requirements and scenarios are normative, not descriptive-after-the-fact.
-- Never restate what `doc/arc42` already say; link to them.
+- Never restate what `arc42` already say; link to them.
 - Never restate what `doc/concept` already say; link to them.
 - Never restate what `doc/service` already say; link to them.
 
