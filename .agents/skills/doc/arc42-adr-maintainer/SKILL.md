@@ -26,8 +26,8 @@ Keep this template as the source of truth when creating or updating ADRs.
 | --- | --- |
 | Status | `proposed` \| `rejected` \| `accepted` \| `deprecated` \| `superseded` \| `discarded` \| `deferred` |
 | Created at | `YYYY-MM-DD` |
-| Last modified at | `YYYY-MM-DD` |
-| Decided by | AsciiDoc list of people |
+| Updated at | `YYYY-MM-DD` |
+| Decided by | list of people |
 
 - level 2 section: `Context and problem statement` — why the decision is needed and what problem must be solved
 - level 2 section: `Considered options` — every serious option, including the chosen one; each option is a level 3 section with a plain title (no `Option A:` / `Option B:` prefixes); option-local trade-offs belong here
@@ -52,8 +52,8 @@ Cross-references to chapters, ADRs, openspec, or obsidian may appear inline wher
 ### Metadata rules
 
 - **Status**: exactly one of the values above (lowercase).
-- **Created at** / **Last modified at**: ISO dates (`YYYY-MM-DD`). On create, both are today. On update, set **Last modified at** to today; leave **Created at** unchanged (derive from git history when migrating older files).
-- **Decided by**: AsciiDoc list of people involved (authors / deciders). Derive from context or git history when unknown.
+- **Created at** / **Updated at**: ISO dates (`YYYY-MM-DD`). On create, both are today. On update, set **Updated at** to today; leave **Created at** unchanged (derive from git history when migrating older files).
+- **Decided by**: list of people involved (authors / deciders). Derive from context or git history when unknown.
 
 ## Task steps
 
@@ -65,8 +65,8 @@ For a new ADR, also add `include::09-architecture-decisions/{NNNN}-{title}.adoc[
 ### Link from arc42 chapter 9
 
 Add or update the ADR's row in `arc42/09-architecture-decisions/overview.adoc`'s decision index.
-Columns: `ADR | Decision | Status | Created at | Last modified at` — full content stays in the ADR file itself, never duplicated into the overview.
-Decided by stays in the ADR only.
+Columns: `ADR | Title | Status` — full content (including Created at, Updated at, Decided by) stays in the ADR file itself, never duplicated into the overview.
+Title is the ADR document title (e.g. `ADR 0001: Self-Contained System`).
 ADR column xref: `xref:{relrootdir}/arc42/09-architecture-decisions/{NNNN}-{title}.adoc[{NNNN}]`.
 
 ### Refer the ADR from the Obsidian knowledge graph, do not duplicate it there
@@ -76,17 +76,17 @@ Any Obsidian note that discusses the same decision must **link to** the ADR rath
 
 ### Cross-link a superseding decision
 
-If this ADR supersedes an earlier one, set the earlier ADR's status to `superseded`, update its **Last modified at**, and point to the new ADR in Decision or Consequences — do not delete the old ADR.
+If this ADR supersedes an earlier one, set the earlier ADR's status to `superseded`, update its **Updated at**, and point to the new ADR in Decision or Consequences — do not delete the old ADR.
 
 ## Validation checklist
 
 - [ ] Document starts with `:relrootdir: ../..`, then level 1 section `ADR {NNNN}: {Title}`, then the metadata table
 - [ ] Status is one of `proposed`, `rejected`, `accepted`, `deprecated`, `superseded`, `discarded`, `deferred`
-- [ ] Metadata table has Status, Created at, Last modified at, Decided by in that order
+- [ ] Metadata table has Status, Created at, Updated at, Decided by in that order
 - [ ] Section order is: Context and problem statement → Considered options (with option level 3 sections) → Decision → Consequences
 - [ ] No dedicated Links or Status section; no Advantages / Constraints subheadings under Consequences
 - [ ] Option level 3 titles have no `Option A:` / `Option B:` prefixes
-- [ ] `overview.adoc` index row matches this ADR's Status, Created at, and Last modified at
+- [ ] `overview.adoc` index row matches this ADR's Title and Status
 - [ ] A superseded ADR is marked `superseded`, not deleted, and references its replacement when one exists
 - [ ] New ADR is `include::`-d from `arc42/index.adoc` with `leveloffset=+1`
 - [ ] `:relrootdir:` is present and xrefs use `{relrootdir}/arc42/...`

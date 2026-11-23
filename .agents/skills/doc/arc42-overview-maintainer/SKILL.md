@@ -30,12 +30,9 @@ Do not add implementation details.
 Do not link to requirements in `openspec/`.
 Do not link to knowledge in `obsidian/`.
 
-Keep `:relrootdir: ../..` on chapter files under `arc42/{NN}-…/` and use `xref:{relrootdir}/arc42/...` (and `{relrootdir}/doc/concept/...` where ch. 8 allows).
-Do not switch to file-relative-only xrefs.
-
 ### Apply the chapter-specific format rule
 
-Each of the 12 chapters has its own established format below (headings, table shape, list style, file layout).
+Each of the 12 chapters has its own established format below (sections, table shape, list style, file layout).
 Match it — do not introduce a new structure for a chapter that already has one.
 
 #### 1. Introduction and Goals (`arc42/01-introduction-and-goals/`)
@@ -43,9 +40,11 @@ Match it — do not introduce a new structure for a chapter that already has one
 Describes the relevant requirements and the driving forces that software architects and development team must consider.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-1/) for more information.
 
-- `introduction.adoc` — level 2 section `Domain story` shows a few sentences naming the core entities, linking to chapter 12 glossary definitions rather than restating them.
-- `goals.adoc` — level 2 section `Goals` shows product goals, each with a level 3 title an a management summary.
-- `stakeholder.adoc` — level 2 section `Stakeholder` shows a `Role | Concern` table, one row per stakeholder without process detail.
+`introduction.adoc` has a level 2 section `Domain story` with a few sentences about the main purpose of the system.
+
+`goals.adoc` has a level 2 section `Goals` with product goals, each with a title and a management summary (description list style).
+
+`stakeholder.adoc` has a level 2 section `Stakeholders` with a table with columns `Name | Concern`, one row per stakeholder with a list of concerns.
 
 Nest under level 1 section `1. Introduction and Goals` in `arc42/index.adoc`.
 
@@ -54,7 +53,7 @@ Nest under level 1 section `1. Introduction and Goals` in `arc42/index.adoc`.
 Any requirement that constrains software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-2/) for more information.
 
-- `constraints.adoc` - level 2 section `Constraints` shows constraints, each with a level 3 title an a management summary.;
+`constraints.adoc` has a level 2 section `Constraints` with constraints, each with a title and a management summary (description list style).
 
 Nest under level 1 section `2. Constraints` in `arc42/index.adoc`.
 
@@ -63,8 +62,11 @@ Nest under level 1 section `2. Constraints` in `arc42/index.adoc`.
 System scope and context - as the name suggests - delimits your system (i.e. your scope) from all its communication partners (neighboring systems and users, i.e. the context of your system). It thereby specifies the external interfaces.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-3/) for more information.
 
-- `context.adoc` — level 2 section `Business context` shows actors and external systems in a PlantUML usecase diagram; level 2 section `Technical context` shows system context in a PlantUML C4 diagram (C4 level 1).
-- `scope.adoc` — level 2 section `Scope`; in/out of scope.
+`context.adoc` has a level 2 section `Business context` with actors and external systems in a PlantUML usecase diagram.
+
+`context.adoc` has a level 2 section `Technical context` with the system context in a PlantUML C4 system diagram.
+
+`scope.adoc` has a level 2 section `Scope` with the limits of this system, each with a title and a management summary (description list style).
 
 Nest under level 1 section `3. Context and Scope` in `arc42/index.adoc`.
 
@@ -74,8 +76,7 @@ A solution strategy is a system-wide, hard-to-reverse decision.
 A solution that isn't strategic doesn't get a place here — apply the removal test.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-4/) for more information.
 
-Each strategy is its own slug-named `.adoc` with an level 2 section and a very short bird's-eye description without implementation details.
-Add a new file for a new concept and `include::` it there under that title.
+Each strategy is its own slug-named `.adoc` with an level 2 section and a short bird's-eye description without implementation details.
 
 Nest under level 1 section `4. Solution Strategy` in `arc42/index.adoc`.
 
@@ -84,50 +85,54 @@ Nest under level 1 section `4. Solution Strategy` in `arc42/index.adoc`.
 The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, …) as well as their dependencies (relationships, associations, …).
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-5/) for more information.
 
-`overview.adoc` uses nested module headings under level 2 sections `Applications` and `Libraries` for top-level modules, each with a short responsibility and optional technology links.
+`overview.adoc` has a level 2 section `Applications` with level 3 sections for top-level applications, each with a static decomposition without implementation details and optional technology links.
+
+`overview.adoc` has a level 2 section `Libraries` with level 3 sections for top-level libraries, each with a static decomposition without implementation details and optional technology links.
 
 Nest under level 1 section `5. Building Block View` in `arc42/index.adoc`.
 
 #### 6. Runtime View (`arc42/06-runtime-view/overview.adoc`)
 
-The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios.
+The runtime view describes concrete behavior and interactions of the building blocks in form of scenarios.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-6/) for more information.
 
-`overview.adoc` holds a stub — no runtime scenarios are documented yet.
+`overview.adoc` has a level 2 section `Applications` with level 3 sections for top-level applications, each with a description of behavior and interactions.
 
-Nest under level 1 section `6. Runtime View` lives in `arc42/index.adoc`.
+Nest under level 1 section `6. Runtime View` in `arc42/index.adoc`.
 
 #### 7. Deployment View (`arc42/07-deployment-view/overview.adoc`)
 
-The deployment view describes technical infrastructure and the mapping of (software) building blocks to that infrastructure elements.
-Often systems are executed in different environments, e.g. local development environment, test environment, production environment. In such cases you should document all relevant environments.
+The deployment view describes technical infrastructure and the mapping of building blocks to that infrastructure elements.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-7/) for more information.
 
-Nest under level 1 section `7. Deployment View` lives in `arc42/index.adoc`.
+`overview.adoc` has a level 2 section `Applications` with level 3 sections for top-level applications, each with a description of the technical infrastructure and optional technology links..
+
+Nest under level 1 section `7. Deployment View` in `arc42/index.adoc`.
 
 #### 8. Cross-cutting Concepts (`arc42/08-cross-cutting-concepts/`)
 
 This section describes crosscutting concepts (practices, patterns, regulations or solution ideas).
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-8/) for more information.
-
-Each concept is its own slug-named `.adoc` with an level 2 section and a very short bird's-eye description without implementation details.
-Add a new file for a new concept and `include::` it there under that title.
 A concept that isn't strategic doesn't get a place here — apply the removal test.
+
+Each concept is its own slug-named `.adoc` with an level 2 section and a short bird's-eye description without implementation details.
 
 Nest under level 1 section `8. Cross-cutting Concepts` in `arc42/index.adoc`.
 
 #### 9. Architecture Decisions (`arc42/09-architecture-decisions/`)
 
 Important, expensive, large scale or risky architecture decisions including rationales.
+A decision that isn't strategic doesn't get a place here — apply the removal test.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-9/) for more information.
 
 Each decision is its own slug-named `NNNN-*.adoc` with a standard structure.
-A decision that isn't strategic doesn't get a place here — apply the removal test.
-
 Create or update decisions via `arc42-adr-maintainer`.
 
-Index only in `overview.adoc` in a level 2 section `Decision index`; one `ADR | Decision | Status | Created at | Last modified at` table row per decision.
-Add a new file for a new decision and `xref` it in the table.
+`overview.adoc` holds an index of decisions in a level 2 section `Decision index` in a table with columns `ADR | Title | Status`:
+
+- **ADR** — xref of `NNNN-*.adoc` with label `NNNN`, e.g. `xref:{relrootdir}/arc42/09-architecture-decisions/0001-self-contained-system.adoc[0001]`.
+- **Title** - Title of `NNNN-*.adoc` 
+- **Status** - Status of `NNNN-*.adoc`
 
 Nest under level 1 section `9. Architecture Decisions` in `arc42/index.adoc`.
 
@@ -138,20 +143,20 @@ A quality goal is a system-wide, hard-to-reverse goal.
 A goal that isn't strategic doesn't get a place here — apply the removal test.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-10/) for more information.
 
-Each quality goal is level 2 section with a very short bird's-eye description without implementation details.
+`overview.adoc` has level 2 sections with level 3 sections for quality goals, each with a very short bird's-eye description.
 
-Nest under level 1 section `10. Quality Requirements` lives in `arc42/index.adoc`.
+Nest under level 1 section `10. Quality Requirements` in `arc42/index.adoc`.
 
 #### 11. Risks and Debt (`arc42/11-risks-and-debt/`)
 
 A list of identified technical risks or debts, ordered by priority.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-11/) for more information.
 
-- `risks.adoc` — level 2 section `Risks` containing risks as a table: `Risk | Score | Mitigation`, Score = likelihood × impact (each 1–3), Mitigation may be empty when none is planned.
-- `debts.adoc` — level 2 section `Debts` containing any significant debt (not only technical).
-  Use a clear heading and short description per debt item.
-
+`risks.adoc` has a level 2 section `Risks` containing risks as a table. 
 Create or update risks via `arc42-risk-maintainer`.
+
+`debts.adoc` has a level 2 section `Debts` containing any significant debt (not only technical). 
+Create or update debts via `arc42-risk-maintainer`.
 
 Nest under level 1 section `11. Risks and Debt` in `arc42/index.adoc`.
 
@@ -160,8 +165,9 @@ Nest under level 1 section `11. Risks and Debt` in `arc42/index.adoc`.
 The most important domain and technical terms that your stakeholders use when discussing the system.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-12/) for more information.
 
-- `domain.adoc` — level 2 section `Domain` with included entity fact sheet (definition-list style) — never hand-written.
-- `terms.adoc` — level 2 section `Terms` with architecture terms as a hand-written one- or two-sentence definition each (definition-list style).
+`domain.adoc` has a level 2 section `Domain` with included entity fact sheets (description list style), e.g. `Owner::` followed by an `include::` of the entity fact sheet.
+
+`terms.adoc` has a level 2 section `Terms` with architecture terms, each with a unique name and a hand-written one- or two-sentence summary(description list style).
 
 Nest under level 1 section `12. Glossary` in `arc42/index.adoc`.
 
@@ -170,8 +176,8 @@ Nest under level 1 section `12. Glossary` in `arc42/index.adoc`.
 - [ ] No sentence added fails the removal test
 - [ ] No implementation-level detail was added directly to the chapter
 - [ ] The chapter's content boundary wasn't widened without reason
-- [ ] When the file uses `include::`, `:includedir:` is present and includes use `{includedir}/...`
-- [ ] `:relrootdir:` is present and xrefs use `{relrootdir}/...`
+- [ ] When the file uses `include::`, `:includedir:` is present and includes use `{includedir}` as base path.
+- [ ] When the file uses `xref`, `:relrootdir:` is present and includes use `{relrootdir}` as base path.
 - [ ] No file under `plans/` is referenced from the chapter
 
 ## Task output

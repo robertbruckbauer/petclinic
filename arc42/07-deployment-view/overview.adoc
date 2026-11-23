@@ -1,7 +1,11 @@
 :relrootdir: ../..
 
-== Local deployment
+== Applications
 
-https://www.docker.com/
+=== app/backend
 
-https://rancherdesktop.io/
+Long-lived process exposing the HTTP API and connecting to the configured database (HyperSQL locally, PostgreSQL in production-shaped setups).
+
+=== app/migrate
+
+One-shot job that updates the database schema; run as part of deployment before or with application upgrades.
