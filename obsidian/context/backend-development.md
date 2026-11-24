@@ -15,4 +15,4 @@ Minimum reading order for an agent changing backend code (entities, repositories
 2. `obsidian/backend/` notes relevant to the change: `spring-data-rest-conventions.md`, `querydsl-repository-pattern.md`, `entity-item-projection-pattern.md`, `controller-advice-error-mapping.md`, `graphql-batch-loading.md` — pick only the ones touching the change, not all five.
 3. `openspec/specs/backend/backend-api-conventions/spec.md` (its REST and GraphQL Requirements chapters) — confirm the change doesn't contradict the normative contract; if it does, that's an OpenSpec change first (`openspec-maintainer`), not a silent behavior drift.
 
-Do not start from `doc/arc42` for this task — it's bird's-eye and won't have the detail needed to write code.
+Do not start from `arc42` for this task — it's bird's-eye and won't have the detail needed to write code.

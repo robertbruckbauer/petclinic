@@ -109,14 +109,17 @@ import org.asciidoctor.gradle.jvm.AsciidoctorTask
 tasks.register('pages', AsciidoctorTask) {
     group = 'documentation'
     description = 'Builds api documentation'
-    sourceDir = file('doc')
-    sources { 
-        include '**/*.adoc'
+    sourceDir = file('.')
+    sources {
+        include 'arc42/index.adoc'
+        include 'doc/concept/**/*.adoc'
+        include 'doc/manual/*.adoc'
+        include 'doc/service/*.adoc'
         exclude '**/_*.adoc'
         exclude '**/template'
     }
-    outputDir = file('pages/html/server')
-    baseDir = file('.') // == includedir
+    outputDir = file('pages/html')
+    baseDirFollowsSourceFile()
     attributes = [
         'includedir': rootProject.projectDir.absolutePath.replace('\\', '/'),
         'source-highlighter': 'coderay',
@@ -126,7 +129,7 @@ tasks.register('pages', AsciidoctorTask) {
         'sectlinks': true,
         'linkattrs': true,
         'allow-uri-read': true,
-        'icons': 'font'             
+        'icons': 'font'
     ]
 }
 

@@ -54,6 +54,20 @@ Check that major/minor versions match across `VERSION` and other files (e.g. `Ch
 
 ```
 
+Copy JUnit HTML test reports into `pages/html/{module}/test` (run after `test`).
+
+```sh
+./gradlew testReport
+
+```
+
+Copy JaCoCo HTML coverage reports into `pages/html/{module}/coverage` (run after `test`).
+
+```sh
+./gradlew coverageReport
+
+```
+
 ## Formatting
 
 Check formatting rules without changing source (`spotlessCheck` for Java).

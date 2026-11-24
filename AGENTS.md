@@ -17,7 +17,7 @@ Use it.
 
 This repository has six documentation approaches with a clear separation of concerns:
 
-- **`doc/arc42`** — bird's-eye architecture facts for stakeholders, and staff new to the project.
+- **`arc42`** — bird's-eye architecture facts for stakeholders, and staff new to the project.
 - **`doc/concept`** — implementation concepts per technology stack.
 - **`doc/manual`** — development and maintenance guides.
 - **`doc/service`** — API reference documentation.
@@ -31,7 +31,7 @@ No `doc`, `openspec`, or `obsidian` artifact references a file under `plans/` di
 This repository has five artifacts that can describe the same current-state fact. When two of them disagree, resolve in this order:
 
 1. Code and tests — the ground truth.
-2. `doc/arc42` — the bird's-eye view.
+2. `arc42` — the bird's-eye view.
 3. `doc/concept` — the implementation guides.
 4. `openspec` — the normative contract.
 5. `obsidian` — the explanatory knowledge graph written only by AI agents through its maintenance skills — never by direct human edit.
@@ -58,7 +58,7 @@ For skill files (.agents/skills/**/SKILL.md):
 For asciidoc files (*.adoc)
 - [ ] Create a newline after each sentence in a paragraph.
 - [ ] No line breaks within a sentence in a paragraph.
-- [ ] Use the `xref` directive with for linking other asciidoc files, e.g. `xref:{relrootdir}/adr/0001-self-contained-system.adoc[0001]` with `relrootdir` defined in the same file. 
+- [ ] Use the `xref` directive with for linking other asciidoc files, e.g. `xref:{relrootdir}/arc42/09-architecture-decisions/0001-self-contained-system.adoc[0001]` with `relrootdir` defined in the same file.
 
 For java files (*.java):
 - [ ] Follow examples from the implementation guides if available.
@@ -82,9 +82,9 @@ For Liquibase script files (*.xml):
 ├── app/deploy         # Source for deployments
 ├── app/migrate        # Source for database migration job
 ├── app/backend        # Source for backend runner
+├── arc42              # Bird's-eye architecture view
 ├── buildSrc           # Source for build management
 ├── doc                # Documentation
-│   └── arc42          # Bird's-eye architecture view
 │   └── concept        # Implementation concepts
 │   └── manual         # Development guides
 │   └── service        # Reference documentation 
@@ -120,12 +120,20 @@ For Liquibase script files (*.xml):
 | Category map of contents | `moc.md` | `obsidian/{category}/` |
 | Vault index | `index.md` | `obsidian/` |
 
+### `arc42`
+
+| Artifact | Pattern | Location |
+|---|---|---|
+| Assemble document | `index.adoc` | `arc42/` |
+| Chapter folder | `{NN}-{title}/` | `arc42/` |
+| ADR | `{NNNN}-{title}.adoc` | `arc42/09-architecture-decisions/` |
+| ADR index | `overview.adoc` | `arc42/09-architecture-decisions/` |
+| Risks table | `risks.adoc` | `arc42/11-risks-and-debt/` |
+
 ### `doc`
 
 | Artifact | Pattern | Location |
 |---|---|---|
-| arc42 | `{NN}-{title}.adoc` | `arc42/` |
-| ADR | `{NNNN}-{title}.adoc` | `arc42/adr/` |
 | REST API documentation | `{entity}-restapi.adoc` | `service/` |
 | REST API documentation template | `service/template/spring-restapi.adoc` |
 | GraphQL API documentation | `{entity}-graphql.adoc` | `service/` |

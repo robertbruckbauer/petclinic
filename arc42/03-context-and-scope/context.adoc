@@ -1,5 +1,4 @@
 :relrootdir: ../..
-= 3. Context and Scope
 
 == Business context
 
@@ -39,7 +38,7 @@ LAYOUT_LEFT_RIGHT()
 
 System_Ext(client, "API consumer", "External browser clients or other HTTP clients")
 System(server, "Backend server", "Spring Boot, Spring Data, Spring GraphQL")
-SystemDb(db, "Database", "HyperSQL dev/test, PostgreSQL prod")
+SystemDb(db, "Database", "HyperSQL or PostgreSQL")
 
 Rel(client, server, "REST / GraphQL", "HTTP")
 Rel(server, db, "reads/writes", "JDBC")

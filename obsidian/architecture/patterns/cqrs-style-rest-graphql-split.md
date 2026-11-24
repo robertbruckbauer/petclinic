@@ -1,10 +1,10 @@
 ---
 category: architecture
 related:
-  - ../../../doc/arc42/adr/0003-rest-and-graphql-duality.adoc
+  - ../../../arc42/09-architecture-decisions/0003-rest-and-graphql-duality.adoc
   - ../../backend/graphql-batch-loading.md
 status: current
-updated: 2026-09-05
+updated: 2026-11-22
 ---
 
 # Pattern: CQRS-flavored REST/GraphQL split
@@ -14,4 +14,4 @@ This system is not a textbook CQRS implementation (there's one database, one wri
 - **Commands** (create/update/delete) always go through REST (`POST`/`PUT`/`PATCH`/`DELETE`), per `openspec/specs/backend/backend-api-conventions/spec.md`'s REST Requirements chapter.
 - **Queries** can go through either REST `GET` or GraphQL — GraphQL exists specifically because it lets a query shape its own response (e.g. an owner with only the pet fields it needs), which a fixed REST representation can't do without extra endpoints.
 
-The two query paths are kept behaviorally consistent by documenting REST and GraphQL together in one capability, `openspec/specs/backend/backend-api-conventions/spec.md`, whose GraphQL Requirements chapter builds on the same validation/error-classification behavior as its REST Requirements chapter rather than defining it a second time — see `doc/arc42/adr/0003-rest-and-graphql-duality.adoc` for why this split exists at all.
+The two query paths are kept behaviorally consistent by documenting REST and GraphQL together in one capability, `openspec/specs/backend/backend-api-conventions/spec.md`, whose GraphQL Requirements chapter builds on the same validation/error-classification behavior as its REST Requirements chapter rather than defining it a second time — see `arc42/09-architecture-decisions/0003-rest-and-graphql-duality.adoc` for why this split exists at all.

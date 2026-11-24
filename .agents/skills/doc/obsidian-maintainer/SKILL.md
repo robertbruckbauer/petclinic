@@ -38,11 +38,11 @@ Only the following kinds of content belong in `obsidian/` — if what triggered 
 
 Extract the note's topic and one of the eight allowed categories (domain, architecture, backend, security, database, testing, building, context) from the request.
 Check that the category is one of those eight — no ninth category may be invented.
-Replace placeholder `{category}` and `{topic}` accordingly; the file is `obsidian/{category}/{topic}.md`. Architecture decisions and risks are **not** created here — decisions live under `doc/arc42/adr/` (see `arc42-adr-maintainer`) and risks live as rows in `doc/arc42/11-risks-and-technical-debt.adoc`'s table (see `arc42-risk-maintainer`); this skill only links to them.
+Replace placeholder `{category}` and `{topic}` accordingly; the file is `obsidian/{category}/{topic}.md`. Architecture decisions and risks are **not** created here — decisions live under `arc42/09-architecture-decisions/` (see `arc42-adr-maintainer`) and risks live as rows in `arc42/11-risks-and-debt/risks.adoc`'s table (see `arc42-risk-maintainer`); this skill only links to them.
 
 ### Verify the claim against the code
 
-Before writing or editing the note's content, locate the code (or `openspec`/`doc/arc42`/`doc/concept`) it will describe and read it. Every note is a hypothesis about the code, never an independent fact — never write a note's factual claim from memory or assumption.
+Before writing or editing the note's content, locate the code (or `openspec`/`arc42`/`doc/concept`) it will describe and read it. Every note is a hypothesis about the code, never an independent fact — never write a note's factual claim from memory or assumption.
 
 ## Task steps
 
@@ -52,7 +52,7 @@ Every category has a map of contents at `obsidian/{category}/moc.md`, linked fro
 
 ### Write or update the note body
 
-State the fact/pattern/rationale concisely — one fact per note, small and atomic. Use standard Markdown links only (no `[[wikilinks]]`). Never restate `openspec/`, `doc/arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content — link to it instead.
+State the fact/pattern/rationale concisely — one fact per note, small and atomic. Use standard Markdown links only (no `[[wikilinks]]`). Never restate `openspec/`, `arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content — link to it instead.
 
 ### Set frontmatter
 
@@ -82,7 +82,7 @@ If this task encounters a note already marked `status: stale` or `status: supers
 - [ ] `category` is one of the eight allowed categories
 - [ ] The note is linked from its category's `moc.md`, added in this same change
 - [ ] Every link is standard Markdown, no `[[wikilinks]]`
-- [ ] The note does not restate `openspec/`, `doc/arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content
+- [ ] The note does not restate `openspec/`, `arc42/`, `doc/concept/`, `doc/manual/`, or `doc/service/` content
 - [ ] No file under `plans/` is referenced from the note
 - [ ] Every factual claim was checked against the code (or the more authoritative artifact) before writing, per the §1.1 precedence order
 - [ ] A note that couldn't be verified is `status: stale` with a one-line reason, not a guess presented as fact

@@ -18,16 +18,16 @@ description: 'Structurally and cross-artifact validate arc42, OpenSpec, Obsidian
 ### Check OpenSpec structural rules
 
 - Every `openspec/specs/**/spec.md` (including grouped paths such as `openspec/specs/backend/{capability}/spec.md`) uses only `### Requirement:` / `#### Scenario:` structure.
-- No capability spec restates `doc/arc42` content instead of linking to it.
+- No capability spec restates `arc42` content instead of linking to it.
 - No capability spec restates `doc/concept` content instead of linking to it.
 - No capability spec restates `doc/service` content instead of linking to it.
 
 ### Check arc42 structural rules
 
-- All 12 standard chapters exist under `doc/arc42/`.
-- Chapter 9's index table lists every ADR actually present under `doc/arc42/adr/`, and vice versa — no ADR missing from the index, no index row pointing at a missing file.
-- Chapter 11's risk table has no numbered risks, every row has a `Score` formatted as `{score} ({likelihood} × {impact})` with both factors in 1–3, and no risk exists as a duplicate file anywhere under `obsidian/`.
-- No Obsidian note under `obsidian/` duplicates an ADR's content — a note discussing a decision links to `doc/arc42/adr/{NNNN}-{title}.adoc` rather than restating it.
+- All 12 standard chapter folders exist under `arc42/`, and `arc42/index.adoc` includes their fragments.
+- Chapter 9's index table in `arc42/09-architecture-decisions/overview.adoc` lists every ADR actually present as `NNNN-*.adoc` beside it, and vice versa — no ADR missing from the index, no index row pointing at a missing file.
+- Chapter 11's risk table in `arc42/11-risks-and-debt/risks.adoc` has no numbered risks, every row has a `Score` formatted as `{score} ({likelihood} × {impact})` with both factors in 1–3, and no risk exists as a duplicate file anywhere under `obsidian/`.
+- No Obsidian note under `obsidian/` duplicates an ADR's content — a note discussing a decision links to `arc42/09-architecture-decisions/{NNNN}-{title}.adoc` rather than restating it.
 
 ### Check cross-artifact traceability
 

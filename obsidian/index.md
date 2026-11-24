@@ -15,10 +15,10 @@ updated: 2026-11-22
 
 # Obsidian knowledge graph — vault index
 
-Entry point into this vault. Each of the eight categories has its own map of contents (MOC) linking and briefly describing its notes — this page only links the eight MOCs, it does not duplicate their content. See `AGENTS.md`'s "Documentation" section for how this graph relates to `doc/arc42`, `openspec`, and the other documentation systems, and for the truth-model precedence order.
+Entry point into this vault. Each of the eight categories has its own map of contents (MOC) linking and briefly describing its notes — this page only links the eight MOCs, it does not duplicate their content. See `AGENTS.md`'s "Documentation" section for how this graph relates to `arc42`, `openspec`, and the other documentation systems, and for the truth-model precedence order.
 
 - [domain/moc.md](domain/moc.md) — the clinic's core entities (Owner, Pet, Vet, Visit) and their relationships.
-- [architecture/moc.md](architecture/moc.md) — cross-cutting structural patterns; decisions and risks live in `doc/arc42`, not here.
+- [architecture/moc.md](architecture/moc.md) — cross-cutting structural patterns; decisions and risks live in `arc42`, not here.
 - [backend/moc.md](backend/moc.md) — Spring REST/GraphQL backend patterns and conventions.
 - [security/moc.md](security/moc.md) — access-control-adjacent code as it exists today.
 - [database/moc.md](database/moc.md) — schema, migration, and test-data conventions.

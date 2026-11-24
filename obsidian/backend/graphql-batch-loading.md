@@ -1,10 +1,10 @@
 ---
 category: backend
 related:
-  - ../../doc/arc42/adr/0003-rest-and-graphql-duality.adoc
+  - ../../arc42/09-architecture-decisions/0003-rest-and-graphql-duality.adoc
   - ../architecture/patterns/cqrs-style-rest-graphql-split.md
 status: current
-updated: 2026-09-05
+updated: 2026-11-22
 ---
 
 # GraphQL batch loading for relations

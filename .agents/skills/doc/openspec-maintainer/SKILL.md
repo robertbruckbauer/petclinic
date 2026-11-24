@@ -29,7 +29,7 @@ Source from that entity's `*-graphql.adoc` under `doc/service/` as the starting 
 
 ### Check precedence before editing
 
-Precedence when artifacts disagree about a current-state fact: code and tests, then `doc/arc42`, then `doc/concept`, then `openspec`, then `obsidian`. If the request would make `openspec` contradict `doc/arc42` or `doc/concept` about current-state fact, stop and reconcile toward those first — do not let this skill silently override them.
+Precedence when artifacts disagree about a current-state fact: code and tests, then `arc42`, then `doc/concept`, then `openspec`, then `obsidian`. If the request would make `openspec` contradict `arc42` or `doc/concept` about current-state fact, stop and reconcile toward those first — do not let this skill silently override them.
 
 ## Task steps
 
@@ -43,7 +43,7 @@ Do not add technology stack details to a requirement. Add operation-specific sce
 
 ### Flag an untracked forward-looking gap
 
-If the requested requirement describes a target ahead of what's implemented, only accept it when the request also points to (or creates) an ADR under `doc/arc42/adr/` + a row in `doc/arc42/11-risks-and-technical-debt.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
+If the requested requirement describes a target ahead of what's implemented, only accept it when the request also points to (or creates) an ADR under `arc42/09-architecture-decisions/` + a row in `arc42/11-risks-and-debt/risks.adoc`'s risk table tracking the gap — otherwise stop and ask for one.
 
 ## Validation checklist
 

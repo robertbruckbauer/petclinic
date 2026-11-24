@@ -1,0 +1,40 @@
+:relrootdir: ../..
+= ADR 0001: Self-Contained System
+
+[cols="1,3"]
+|===
+|Status |accepted
+|Created at |2026-09-15
+|Updated at |2026-11-22
+|Decided by
+a|
+* Robert Bruckbauer
+|===
+
+== Context and problem statement
+
+Pet Clinic needs HTTP API consumers that present the same domain data without duplicating business logic or owning their own data store.
+
+== Considered options
+
+=== Self-Contained System with thin API consumers
+
+One backend server owns the database and all business logic, and exposes it through REST and GraphQL APIs.
+API consumers are thin — they call the backend's APIs, holding no server-side logic or independent data of their own.
+
+=== Micro-frontends with per-client backends-for-frontend (BFF)
+
+Rejected because it adds an extra hop and duplicated data-shaping logic for a system this size.
+
+=== Shared monolithic server-rendered UI
+
+Rejected because a clean API boundary is required rather than server-side rendering coupling.
+
+== Decision
+
+Build the system as a Self-Contained System: one backend owns the database and business logic and exposes REST and GraphQL; consumers stay thin.
+
+=== Consequences
+
+* Every consumer uses the same REST/GraphQL contract.
+* The backend must keep its API contract stable and versionable independent of any one consumer's release cycle.

@@ -1,0 +1,12 @@
+:relrootdir: ../..
+
+== Applications
+
+=== app/backend
+
+Long-lived process exposing the HTTP API and connecting to the configured database (HyperSQL locally, PostgreSQL in production-shaped setups).
+
+=== app/migrate
+
+One-shot job for updating the database schema.
+The PostgreSQL Compose deployment starts it before the backend.

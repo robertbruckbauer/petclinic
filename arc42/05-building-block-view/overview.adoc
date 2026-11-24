@@ -1,11 +1,10 @@
 :relrootdir: ../..
-= 5. Building Block View
 
 == Applications
 
 === app/backend
 
-Backend server of the application with a database.
+Backend server that uses the backend libraries to expose APIs and access a database.
 
 https://spring.io/projects/spring-boot
 
@@ -13,9 +12,13 @@ http://hsqldb.org
 
 === app/migrate
 
-Backend database migration tool.
+Standalone tool that applies the backend database schema changes.
 
 https://docs.liquibase.com
+
+=== app/deploy
+
+Deployment definitions for the backend and its database.
 
 == Libraries
 
