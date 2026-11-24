@@ -29,12 +29,10 @@ Rejected because it adds an extra hop and duplicated data-shaping logic for a sy
 === Shared monolithic server-rendered UI
 
 Rejected because a clean API boundary is required rather than server-side rendering coupling.
-See xref:{relrootdir}/arc42/02-constraints/constraints.adoc[arc42 ch. 2: Constraints].
 
 == Decision
 
 Build the system as a Self-Contained System: one backend owns the database and business logic and exposes REST and GraphQL; consumers stay thin.
-The shared contract is defined once under `openspec/specs/backend/*` (see link:../../openspec/project.md[openspec/project.md]).
 
 === Consequences
 

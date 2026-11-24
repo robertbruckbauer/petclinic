@@ -2,5 +2,5 @@
 
 == Optimistic Concurrency
 
-Every entity carries a version-derived ETag, and mutating requests must present it, so a stale write is rejected instead of silently overwriting a concurrent change.
-See xref:{relrootdir}/doc/concept/spring/_json-jpa-entity-version-id.adoc[Column for a primary key].
+Entities use versioning for optimistic concurrency.
+REST exposes version-derived ETags for supported resources, allowing clients to make conditional updates.

@@ -27,6 +27,7 @@ If not, it belongs in `obsidian/` instead — write it there (via `obsidian-main
 Keep the chapter's existing content boundary — each of the 12 standard arc42 chapters is scoped to one facet (introduction/goals, constraints, context and scope, solution strategy, building blocks, runtime view, deployment view, cross-cutting concepts, architecture decisions, quality requirements, risks and debt, glossary) and stays within it.
 Add or update only what's architecturally significant.
 Do not add implementation details.
+Do not link to implementation guides in `doc/`.
 Do not link to requirements in `openspec/`.
 Do not link to knowledge in `obsidian/`.
 
@@ -42,18 +43,18 @@ Visit the [Arc42 online documentation](https://docs.arc42.org/section-1/) for mo
 
 `introduction.adoc` has a level 2 section `Domain story` with a few sentences about the main purpose of the system.
 
-`goals.adoc` has a level 2 section `Goals` with product goals, each with a title and a management summary (description list style).
+`goals.adoc` has a level 2 section `Product Goals` with product goals, each with a title and a management summary (description list style).
 
 `stakeholder.adoc` has a level 2 section `Stakeholders` with a table with columns `Name | Concern`, one row per stakeholder with a list of concerns.
 
 Nest under level 1 section `1. Introduction and Goals` in `arc42/index.adoc`.
 
-#### 2. Constraints (`arc42/02-constraints/constraints.adoc`)
+#### 2. Constraints (`arc42/02-constraints/overview.adoc`)
 
 Any requirement that constrains software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-2/) for more information.
 
-`constraints.adoc` has a level 2 section `Constraints` with constraints, each with a title and a management summary (description list style).
+`overview.adoc` has a level 2 section `Constraints` with constraints, each with a title and a management summary (description list style).
 
 Nest under level 1 section `2. Constraints` in `arc42/index.adoc`.
 
@@ -143,7 +144,7 @@ A quality goal is a system-wide, hard-to-reverse goal.
 A goal that isn't strategic doesn't get a place here — apply the removal test.
 Visit the [Arc42 online documentation](https://docs.arc42.org/section-10/) for more information.
 
-`overview.adoc` has level 2 sections with level 3 sections for quality goals, each with a very short bird's-eye description.
+`goals.adoc` has a level 2 section `Quality Goals` with quality goals, each with a title and a management summary (description list style).
 
 Nest under level 1 section `10. Quality Requirements` in `arc42/index.adoc`.
 
